@@ -64,11 +64,11 @@ const ExpertiseInformation = ({
 }: Props) => {
   const { id } = useParams();
   const [btnLoader, setBtnLoader] = useState(false);
-xx  const [active, setActive] = useState(0);
+  const [active, setActive] = useState(0);
   const [skillData, setSkillData] = useState<Skill[] | []>([]);
   const [language, setLanguage] = useState<Language[] | []>([]);
   const [certificate, setCertificate] = useState<Certificate[] | []>([]);
-
+  //for husky
   const onSubmit = async () => {
     setBtnLoader(true);
     const userData = {

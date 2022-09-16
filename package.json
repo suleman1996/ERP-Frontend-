@@ -51,7 +51,9 @@
     "build": "CI=false && react-scripts build",
     "build-dev": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "prettier --check .",
+    "prepare": "husky install"
   },
   "eslintConfig": {
     "extends": [
@@ -78,7 +80,19 @@
     "@types/react-datepicker": "^4.3.2",
     "@types/react-router-dom": "^5.3.2",
     "@types/uuid": "^8.3.3",
-    "autoprefixer": "^10.4.0"
+    "@typescript-eslint/eslint-plugin": "^5.37.0",
+    "@typescript-eslint/parser": "^5.37.0",
+    "autoprefixer": "^10.4.0",
+    "eslint": "^8.23.1",
+    "eslint-plugin-react": "^7.31.8",
+    "husky": "^8.0.1",
+    "lint-staged": "^13.0.3",
+    "prettier": "^2.7.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint && npm run format"
+    }
   },
   "keywords": [],
   "author": "",
