@@ -1,0 +1,71 @@
+@import 'styles/_breakpoints.scss';
+@import 'styles/_colors.scss';
+@import 'styles/_mixin.scss';
+
+.main {
+  margin-bottom: calc(12px + (44 - 12) * (100vw - 280px) / (2560 - 280));
+
+  .headerFlex {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    button {
+      max-width: 240px;
+      padding: 15px;
+    }
+
+    .img {
+      margin-right: calc(6px + (19 - 6) * (100vw - 280px) / (2560 - 280));
+      height: calc(30px + (55 - 30) * (100vw - 280px) / (2560 - 280));
+      height: calc(30px + (55 - 30) * (100vw - 280px) / (2560 - 280));
+    }
+  }
+
+  .cardSection {
+    @include gridFive(15, 15);
+    margin-top: calc(12px + (44 - 12) * (100vw - 280px) / (2560 - 280));
+    @media (max-width: $xl) {
+      grid-template-columns: repeat(4, 1fr);
+    }
+    @media (max-width: 1500px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    @media (max-width: 1024px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    @media (max-width: 500px) {
+      grid-template-columns: repeat(1, 1fr);
+    }
+  }
+}
+
+.absoluteClass {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 190;
+}
+
+.position {
+  position: fixed;
+  bottom: 7px;
+  left: 418px;
+  right: 7px;
+  background-color: #ffffff;
+  @media (max-width: $xl) {
+    left: 315px;
+  }
+  @media (max-width: $lg) {
+    left: 300px;
+  }
+  @media (max-width: $md) {
+    left: 220px;
+  }
+  @media (max-width: $tab) {
+    left: 0px;
+    right: 0px;
+  }
+}

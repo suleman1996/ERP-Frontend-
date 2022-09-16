@@ -1,0 +1,54 @@
+@use 'styles/_colors.scss' as c;
+@import 'styles/_mixin.scss';
+@import 'styles/_breakpoints.scss';
+
+.main {
+  .innerContent {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+
+    .left {
+      width: 250px;
+      @media (max-width: $tab) {
+        width: 160px;
+      }
+
+      p {
+        @include font24;
+      }
+    }
+
+    .right {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex: 1;
+
+      p {
+        @include font24;
+        font-weight: 500;
+      }
+
+      img {
+        height: 25px;
+        width: 25px;
+        cursor: pointer;
+        @media (max-width: $tab) {
+          display: none;
+        }
+      }
+    }
+  }
+}
+
+.card {
+  margin-top: 20px;
+}
+
+.p {
+  @include font29;
+  font-weight: 600;
+  margin-bottom: 15px;
+  color: #2d2d32;
+}

@@ -1,0 +1,9 @@
+@import 'styles/_breakpoints.scss';
+
+.container {
+  margin: 0 auto;
+  padding: 0px 14px;
+  @media (max-width: $md) {
+    padding: 0px 0px;
+  }
+}

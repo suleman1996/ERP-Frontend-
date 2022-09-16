@@ -1,0 +1,22 @@
+@import 'styles/_breakpoints.scss';
+@import 'styles/_colors.scss';
+@import 'styles/_mixin.scss';
+
+.mainContainer {
+  background: #ffffff;
+  border: 1.19506px solid #e2e2ea;
+  border-radius: 7.93819px;
+  display: flex;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  position: relative;
+  flex-direction: column;
+  padding-top: calc(12px + (25 - 12) * (100vw - 280px) / (2560 - 280));
+  padding-bottom: calc(12px + (25 - 12) * (100vw - 280px) / (2560 - 280));
+  padding-left: calc(15px + (45 - 15) * (100vw - 280px) / (2560 - 280));
+  padding-right: calc(15px + (45 - 15) * (100vw - 280px) / (2560 - 280));
+
+  &::-webkit-scrollbar:vertical {
+    display: none;
+  }
+}

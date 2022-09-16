@@ -1,0 +1,262 @@
+import { useEffect, useRef, useState } from 'react';
+import moment from 'moment';
+import * as yup from 'yup';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useParams } from 'react-router-dom';
+
+import EmployeeService from 'services/employee-service';
+import { convertBase64Image } from 'main-helper';
+import { removeKeys } from 'helper';
+import AddressService from 'services/address-service';
+
+interface Props {
+  formData: any;
+  setFormData: any;
+  employeeId: string;
+  handleBack: (data?: string) => void;
+  handleNext: (data?: string) => void;
+}
+
+export interface Experince {
+  company: string;
+  country: string;
+  city: string;
+  jobTitle?: string;
+  tenure?: string;
+  letter: string;
+  jobStartDate?: string;
+  jobEndDate?: string;
+}
+
+export const useExperience = ({
+  formData,
+  setFormData,
+  employeeId,
+  handleBack,
+  handleNext,
+}: Props) => {
+  const { id } = useParams();
+  const educationIndex = useRef(-1);
+  const [btnLoader, setBtnLoader] = useState(false);
+  const [openTenure, setOpenTenure] = useState(false);
+  const [onGoing, setOnGoing] = useState(false);
+  const [cities, setCities] = useState([]);
+  const [educations, setEducations] = useState<Experince[] | []>([]);
+  const [updateEdu, setUpdateEdu] = useState({
+    update: false,
+    editInd: -1,
+  });
+
+  const { register, handleSubmit, errors, control, reset, watch } = useForm({
+    resolver: yupResolver(schema),
+  });
+
+  const onSubmit = async () => {
+    setBtnLoader(true);
+    setFormData({ ...formData, educationDetails: [...educations] });
+
+    if (educations?.length) {
+      const res = await EmployeeService.addEmployee({
+        type: 5,
+        experienceDetails: [...educations],
+        employeeId: 'SPX010',
+      });
+      if (res.status === 201) {
+        handleNext && handleNext('Expertise');
+      }
+    }
+    setBtnLoader(false);
+  };
+
+  const handleAddEduction = async (data: Experince) => {
+    const newEducations: any = [...educations];
+    const tempObj = {
+      ...data,
+      jobStartDate: moment(data?.jobStartDate).format('YYYY-MM-DD'),
+      jobEndDate: moment(data?.jobEndDate).format('YYYY-MM-DD'),
+      ongoing: onGoing,
+      experienceLetter: await convertBase64Image(data?.letter[0]),
+    };
+    removeKeys(tempObj, ['letter']);
+    onGoing && removeKeys(tempObj, ['jobEndDate']);
+    if (educationIndex.current < 0) {
+      newEducations.push(tempObj);
+    } else {
+      newEducations[educationIndex.current] = { ...tempObj };
+      setUpdateEdu({ update: false, editInd: -1 });
+    }
+    setEducations([...newEducations]);
+    setFormData({ ...formData, experienceDetails: [...newEducations] });
+    reset({});
+    educationIndex.current = -1;
+  };
+
+  const handleEducation = (index: number) => {
+    educationIndex.current = index;
+    const data = educations.find((data, i) => i === index);
+    reset({
+      company: data?.company,
+      country: data?.country,
+      city: data?.city,
+      jobTitle: data?.jobTitle,
+    });
+  };
+
+  const handleDeleteIndex = (index: number) => {
+    const delEdu = [...educations];
+    delEdu.splice(index, 1);
+    setEducations([...delEdu]);
+  };
+
+  const getUser = async () => {
+    const res = await EmployeeService.getEmployee(id);
+  };
+
+  const getData = async (data: { country?: string }) => {
+    if (data?.country) {
+      const res = await AddressService.getCountryStateCityData(data);
+      if (res.status === 200) {
+        const { states } = res.data.address[0];
+        const cities = states.reduce(
+          (acc: any[], data: any) => [...acc, ...data.cities.map((e: any) => e.name)],
+          [],
+        );
+        setCities(cities);
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (
+      formData?.experienceDetails !== undefined &&
+      Object.keys(formData?.experienceDetails)?.length
+    ) {
+      setEducations([...formData.experienceDetails]);
+    }
+  }, []);
+
+  useEffect(() => {
+    id && getUser();
+  }, [id]);
+
+  return {
+    handleAddEduction,
+    onSubmit,
+    register,
+    control,
+    reset,
+    handleSubmit,
+    errors,
+    educations,
+    openTenure,
+    setOpenTenure,
+    setOnGoing,
+    onGoing,
+    handleEducation,
+    handleDeleteIndex,
+    btnLoader,
+    getData,
+    watch,
+    cities,
+  };
+};
+
+export const schema = yup.object().shape({
+  company: yup.string().required('Company name is a required field'),
+  country: yup.string().required('Country name is a required field'),
+  city: yup.string().required('City is a required field'),
+  jobTitle: yup.string().required('Job title is a required field'),
+  jobStartDate: yup.string().required('Start date is a required field'),
+  jobEndDate: yup.string().when('ongoing', {
+    is: 'false',
+    then: yup.string().required('Working time is required.'),
+  }),
+
+  letter: yup
+    .mixed()
+    .test('required', 'You need to provide a file', (file) => {
+      if (file[0]) return true;
+      return false;
+    })
+    .test('fileSize', 'The file is too large', (file) => {
+      return file[0] && file[0].size <= 2000000;
+    }),
+});
+
+export const selectCountry = [
+  {
+    value: 'hr',
+    description: 'Hr',
+  },
+  {
+    value: 'employee',
+    description: 'Employee',
+  },
+  {
+    value: 'admin',
+    description: 'Admin',
+  },
+];
+
+export const department = [
+  {
+    value: 'Front-end Developer',
+    description: 'Front-end Developer',
+  },
+  {
+    value: 'Backend-developer',
+    description: 'Backend-developer',
+  },
+];
+
+export const columns = [
+  {
+    key: 'company',
+    name: 'Company',
+    alignText: 'center',
+    width: '150px',
+  },
+  {
+    key: 'country',
+    name: 'Country',
+    alignText: 'center',
+    width: '150px',
+  },
+  {
+    key: 'city',
+    name: 'City',
+    alignText: 'center',
+    width: '150px',
+  },
+  {
+    key: 'jobTitle',
+    name: 'Job Title',
+    alignText: 'center',
+    width: '150px',
+  },
+  {
+    key: 'tenure',
+    name: 'Tenure',
+    alignText: 'center',
+    width: '250px',
+  },
+  { key: 'actions', name: 'Actions', alignText: 'center', width: '200px' },
+];
+
+export const rows = [
+  {
+    company: 'SprintX',
+    country: 'Pakistan',
+    city: 'Lahore',
+    jobTitle: 'Designer',
+    tenure: '10 Jun, 2021-10 Jun, 2022',
+  },
+  {
+    company: 'SprintX',
+    country: 'Pakistan',
+    city: 'Lahore',
+    jobTitle: 'Designer',
+    tenure: '10 Jun, 2021-10 Jun, 2022',
+  },
+];

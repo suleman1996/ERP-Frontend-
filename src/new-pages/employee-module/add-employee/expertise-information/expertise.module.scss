@@ -1,0 +1,83 @@
+@use 'styles/_colors.scss' as c;
+@import 'styles/_mixin.scss';
+@import 'styles/_breakpoints.scss';
+
+.mainForm {
+  margin-top: calc(20px + (50 - 20) * (100vw - 280px) / (2560 - 280));
+
+  .btnContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+
+    button {
+      max-width: 130px;
+    }
+
+    .btn {
+      background-color: transparent;
+      border: 1px solid c.$btn;
+
+      span {
+        color: c.$btn;
+      }
+    }
+  }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  width: 100%;
+
+  .innerDiv {
+    border: 1.5px solid #cacaca;
+    border-radius: 4px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    img {
+      position: absolute;
+      left: -10px;
+      width: 20px;
+      height: 20px;
+    }
+
+    p {
+      @include font16;
+      cursor: pointer;
+      color: #2d2d32;
+      display: flex;
+      padding: 10px;
+      margin-left: calc(5px + (20 - 5) * (100vw - 280px) / (2560 - 280));
+      margin-right: calc(2px + (10 - 2) * (100vw - 280px) / (2560 - 280));
+      align-items: center;
+      @media (max-width: 480px) {
+        padding: 10px 5px;
+      }
+      @media (max-width: 375px) {
+        font-size: 7px;
+      }
+
+      svg {
+        margin-right: calc(2px + (10 - 2) * (100vw - 280px) / (2560 - 280));
+        width: calc(6px + (30 - 6) * (100vw - 280px) / (2560 - 280));
+        height: calc(6px + (30 - 6) * (100vw - 280px) / (2560 - 280));
+      }
+    }
+  }
+}
+
+.borderInner {
+  border: 1px solid #cacaca;
+  height: 1px;
+  width: 30px;
+  margin-left: calc(5px + (20 - 5) * (100vw - 280px) / (2560 - 280));
+  margin-right: calc(5px + (20 - 5) * (100vw - 280px) / (2560 - 280));
+  @media (max-width: 410px) {
+    width: 15px;
+  }
+}

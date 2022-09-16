@@ -1,0 +1,39 @@
+@use 'styles/_colors.scss' as c;
+@import 'styles/_mixin.scss';
+@import 'styles/_breakpoints.scss';
+
+.grid {
+  @include gridTwo(20, 20);
+  margin-top: 25px;
+}
+
+.btnContainer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 20px;
+
+  .btn {
+    background-color: transparent;
+    border: 1px solid c.$btn;
+
+    span {
+      color: c.$btn;
+    }
+  }
+}
+
+.label {
+  @include font29;
+  font-family: 'Poppins';
+  font-style: normal;
+  color: #2d2d32;
+  text-transform: capitalize;
+}
+
+.errorMessage {
+  display: block;
+  margin-left: 5px;
+  color: #ff5050;
+  @include font14;
+}

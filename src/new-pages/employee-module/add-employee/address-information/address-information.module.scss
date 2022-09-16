@@ -1,0 +1,57 @@
+@use 'styles/_colors.scss' as c;
+@import 'styles/_mixin.scss';
+@import 'styles/_breakpoints.scss';
+
+.mainForm {
+  margin-top: calc(20px + (50 - 20) * (100vw - 280px) / (2560 - 280));
+
+  .grid {
+    @include gridTwo(20, 20);
+    margin-top: 25px;
+  }
+
+  h1 {
+    @include font29;
+  }
+
+  .field {
+    margin-top: 20px;
+  }
+
+  .btnContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+
+    button {
+      max-width: 130px;
+    }
+
+    .btn {
+      background-color: transparent;
+      border: 1px solid c.$btn;
+
+      span {
+        color: c.$btn;
+      }
+    }
+  }
+}
+
+.flexClass {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  @media (max-width: 430px) {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  h1 {
+    @include font29;
+    @media (max-width: 430px) {
+      margin-bottom: 10px;
+    }
+  }
+}

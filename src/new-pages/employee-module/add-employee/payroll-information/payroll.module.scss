@@ -1,0 +1,59 @@
+@use 'styles/_colors.scss' as c;
+@import 'styles/_mixin.scss';
+@import 'styles/_breakpoints.scss';
+
+.mainForm {
+  margin-top: calc(20px + (50 - 20) * (100vw - 280px) / (2560 - 280));
+
+  .grid {
+    @include gridTwo(20, 20);
+    margin-top: 25px;
+  }
+
+  .field {
+    grid-column: 1/-1;
+  }
+
+  .btnContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+
+    button {
+      max-width: 130px;
+    }
+
+    .btn {
+      background-color: transparent;
+      border: 1px solid c.$btn;
+      span {
+        color: c.$btn;
+      }
+    }
+  }
+}
+
+.label {
+  @include font29;
+  font-family: 'Poppins';
+  font-style: normal;
+  color: #2d2d32;
+  text-transform: capitalize;
+}
+
+.radio {
+  margin-top: 10px;
+}
+
+.flexClass {
+  .flexClassInner {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+
+    .sec {
+      margin-left: 20px;
+    }
+  }
+}

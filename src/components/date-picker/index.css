@@ -1,0 +1,4 @@
+.react-datepicker__day--outside-month {
+  color: #ccc;
+  pointer-events: none;
+}

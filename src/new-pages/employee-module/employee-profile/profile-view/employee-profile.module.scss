@@ -1,0 +1,110 @@
+@import 'styles/_breakpoints.scss';
+@import 'styles/_colors.scss';
+@import 'styles/_mixin.scss';
+
+.wraper {
+  h1 {
+    font-size: 26px;
+  }
+
+  p {
+    color: $title;
+  }
+
+  .header {
+    border-bottom: 1px solid;
+  }
+
+  .container {
+    padding: 25px !important;
+  }
+
+  .datePrint {
+    color: $title;
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  .userInfo {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+
+    .imgSection {
+      padding: 80px;
+      border-radius: 50%;
+      background-color: red;
+    }
+
+    .userData {
+      margin-left: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+
+      .emailText {
+        text-decoration: underline;
+      }
+
+      .leadDiv {
+        margin-top: 10px;
+        padding: 6px 20px;
+        border: 1px solid $secondary;
+        color: $secondary;
+        background-color: $white;
+        border-radius: 6px;
+      }
+    }
+  }
+
+  .btnClass {
+    height: 50px !important;
+    margin-top: 50px;
+    margin-bottom: 25px;
+    padding: 0px 14px !important;
+    cursor: pointer;
+  }
+
+  .tb1 {
+    @include gridTwo();
+    border: 1px solid $subtile;
+    border-right: none;
+    border-bottom: none;
+
+    .gridElement {
+      border-right: 1px solid $subtile;
+      border-bottom: 1px solid $subtile;
+      padding: 8px 15px;
+    }
+
+    .fullRow {
+      grid-column: 1/-1;
+    }
+  }
+
+  .tb2 {
+    @include gridFive();
+    border: 1px solid $subtile;
+    border-right: none;
+    border-bottom: none;
+
+    .gridElement2 {
+      border-right: 1px solid $subtile;
+      border-bottom: 1px solid $subtile;
+      padding: 8px 15px;
+    }
+  }
+
+  .tb3 {
+    @include gridSix();
+    border: 1px solid $subtile;
+    border-right: none;
+    border-bottom: none;
+
+    .gridElement3 {
+      border-right: 1px solid $subtile;
+      border-bottom: 1px solid $subtile;
+      padding: 8px 15px;
+    }
+  }
+}

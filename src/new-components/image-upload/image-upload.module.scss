@@ -1,0 +1,88 @@
+@import 'styles/_breakpoints.scss';
+@import 'styles/_colors.scss';
+@import 'styles/_mixin.scss';
+
+.wraper {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  position: relative;
+  border: 1.19506px dashed #e2e2ea;
+  border-radius: 8.36544px;
+  background-color: #ffffff;
+  cursor: pointer;
+  margin-top: calc(10px + (30 - 10) * (100vw - 280px) / (2560 - 280));
+  padding: 20px;
+  @media (max-width: $xxs) {
+    display: none;
+  }
+
+  .profileImg {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .imgSection {
+    height: calc(90px + (130 - 90) * (100vw - 280px) / (2560 - 280));
+    width: calc(90px + (130 - 90) * (100vw - 280px) / (2560 - 280));
+    border-radius: 50%;
+    background-color: #bce3d4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .camIcon {
+    width: 40px;
+    height: 40px;
+    background-color: #ffffff;
+    border-radius: 50%;
+    position: relative;
+    right: 41px;
+    top: 43px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    @media (max-width: $md) {
+      width: 15px;
+      right: 20px;
+      top: 30px;
+      height: 15px;
+    }
+  }
+
+  .selectFile {
+    color: #57b894;
+    font-weight: 600;
+  }
+}
+
+.smallImg {
+  display: none;
+  margin: 10px;
+  @media (max-width: $xxs) {
+    display: block;
+  }
+}
+
+.heading {
+  @include font29;
+}
+
+.para {
+  @include font24;
+  span {
+    font-weight: 600;
+  }
+}
+
+label {
+  @include font24;
+  font-family: 'Poppins';
+  font-style: normal;
+  color: #2d2d32;
+  text-transform: capitalize;
+}

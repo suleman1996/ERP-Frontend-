@@ -1,0 +1,59 @@
+@import 'styles/_colors.scss';
+@import 'styles/_mixin.scss';
+@import 'styles/_breakpoints.scss';
+
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .leftFlex {
+    display: flex;
+    align-items: center;
+
+    p {
+      font-weight: 400;
+      @include font16;
+      color: #2d2d32;
+      margin-left: 14px;
+    }
+
+    select {
+      margin: 0px 6px;
+      height: 29px;
+      padding: 0px 7px;
+      background-size: 10px;
+      background-position: 83% 47%;
+    }
+  }
+
+  .rightFlex {
+    display: flex;
+    align-items: center;
+
+    p {
+      font-weight: 400;
+      @include font16;
+      color: #2d2d32;
+      margin-left: 10px;
+    }
+
+    img {
+      margin-left: 10px;
+      height: 12px;
+      width: 12px;
+      cursor: pointer;
+      @media (max-width: 840px) {
+        height: 9px;
+        width: 9px;
+        margin-left: 6px;
+      }
+    }
+
+    .p {
+      @media (max-width: $xs) {
+        display: none;
+      }
+    }
+  }
+}

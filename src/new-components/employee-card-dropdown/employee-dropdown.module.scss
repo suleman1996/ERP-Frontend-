@@ -1,0 +1,48 @@
+@import 'styles/_breakpoints.scss';
+@import 'styles/_colors.scss';
+@import 'styles/_mixin.scss';
+
+.mainDiv {
+  border: 1px solid #e2e2ea;
+  border-radius: 9px;
+  background-color: white;
+  width: 100%;
+  max-width: calc(150px + (250 - 150) * (100vw - 280px) / (2560 - 280));
+  min-height: calc(76px + (171 - 76) * (100vw - 280px) / (2560 - 280));
+  z-index: 3000;
+  position: relative;
+
+  .innerDiv {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: calc(7px + (18 - 7) * (100vw - 280px) / (2560 - 280));
+    padding-bottom: calc(7px + (18 - 7) * (100vw - 280px) / (2560 - 280));
+    padding-left: calc(13px + (28 - 13) * (100vw - 280px) / (2560 - 280));
+    padding-right: calc(10px + (20 - 10) * (100vw - 280px) / (2560 - 280));
+    border-bottom: 1.2px solid #e2e2ea;
+    cursor: pointer;
+
+    p {
+      font-family: 'Poppins';
+      font-style: normal;
+      @include font16;
+      line-height: 22px;
+      color: #2d2d32;
+    }
+
+    img {
+      width: 6px;
+      height: 11px;
+      cursor: pointer;
+      @media (max-width: $lg) {
+        width: 5px;
+        height: 9px;
+      }
+    }
+  }
+}
+
+.link {
+  text-decoration: none;
+}

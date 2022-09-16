@@ -1,0 +1,124 @@
+import { MouseEventHandler, useEffect, useState } from 'react';
+import { useController } from 'react-hook-form';
+
+import TextField from 'new-components/textfield';
+import Checkbox from 'new-components/checkbox';
+
+import edit from 'new-assets/edit.svg';
+import delIcon from 'new-assets/delete.svg';
+import arrow from 'new-assets/arrow-left.svg';
+import arrowDown from 'new-assets/opposite-icon.svg';
+import style from './search-select.module.scss';
+
+interface Props {
+  label?: string;
+  className?: string;
+  icons?: string;
+  placeholder?: string;
+  handleEdit?: MouseEventHandler<HTMLImageElement>;
+  handleDelete?: MouseEventHandler<HTMLImageElement>;
+  options?: string[];
+  name?: string;
+  errorMessage?: string;
+  control?: any;
+  register?: any;
+  value?: string;
+}
+
+const SearchSelect = ({
+  label,
+  placeholder,
+  className,
+  handleDelete,
+  handleEdit,
+  icons,
+  options,
+  value,
+  name,
+  errorMessage,
+  control,
+  register,
+}: Props) => {
+  const {
+    field: { onChange },
+  } = useController({ control, name: name || '' });
+
+  const [open, setOpen] = useState(false);
+  const [list, setList] = useState(options);
+  const [selectValue, setSelectValue] = useState('');
+
+  useEffect(() => {
+    if (value) {
+      setSelectValue(value);
+    }
+  }, [value]);
+
+  useEffect(() => {
+    onChange(selectValue);
+  }, [selectValue]);
+
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectValue(e.target.value);
+  };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (selectValue === '') {
+        setOpen(false);
+      } else {
+        setOpen(true);
+        setList(
+          options?.filter((ele: string) => ele.toLowerCase().includes(selectValue.toLowerCase())),
+        );
+      }
+    }, 1000);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [selectValue]);
+
+  return (
+    <div className={`${style.searchSelect} ${className}`}>
+      <TextField
+        label={label}
+        name={name}
+        errorMessage={errorMessage}
+        placeholder={placeholder}
+        value={selectValue}
+        type="text"
+        icon={open ? arrow : arrowDown}
+        onChange={(e) => handleSearch(e)}
+        onClick={() => setOpen(!open)}
+        className={style.field}
+      />
+      {open && (
+        <div className={style.searchDropdown}>
+          {list?.map((ele: string, index: number) => (
+            <div className={style.innerDiv} key={index}>
+              <p
+                onClick={(e: any) => {
+                  setOpen(false);
+                  setSelectValue(e.target.innerHTML);
+                }}
+              >
+                {ele}
+              </p>
+              {icons && (
+                <div className={style.icons}>
+                  <div>
+                    <Checkbox />
+                  </div>
+                  <img src={edit} alt="" onClick={handleEdit && handleEdit} />
+                  <img src={delIcon} alt="" onClick={handleDelete && handleDelete} />
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default SearchSelect;

@@ -1,0 +1,40 @@
+.parent {
+  .innerSec1 {
+    padding-top: 25px;
+    display: grid;
+    grid-template-columns: repeat(2, 18% 82%);
+
+    .left {
+      max-width: 400px;
+
+      .p1 {
+        font-size: 18px;
+      }
+
+      .p2 {
+        font-size: 18px;
+        font-weight: 300;
+        margin-top: 10px;
+      }
+    }
+
+    .right {
+      margin-left: 50px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      h5 {
+        font-size: 18px;
+      }
+
+      p {
+        margin-top: 10px;
+        text-align: justify;
+        font-size: 20px;
+        line-height: 1.5;
+        font-weight: 300;
+      }
+    }
+  }
+}

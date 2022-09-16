@@ -1,0 +1,85 @@
+@import 'styles/_breakpoints.scss';
+@import 'styles/_colors.scss';
+@import 'styles/_mixin.scss';
+
+.heightDiv {
+  min-height: calc(100vh - 179px);
+  overflow-y: auto;
+  @media (max-width: $xl) {
+    min-height: calc(100vh - 168px);
+  }
+  @media (max-width: $lg) {
+    margin: 0px;
+    min-height: calc(100vh - 133px);
+  }
+  @media (max-width: $md) {
+    min-height: calc(100vh - 90px);
+  }
+  @media (max-width: $tab) {
+    min-height: 100vh;
+  }
+}
+
+h1 {
+  @include font40;
+}
+
+h2 {
+  @include font36;
+}
+
+h3 {
+  @include font32;
+}
+
+h4 {
+  @include font29;
+}
+
+h5 {
+  @include font24;
+}
+
+h6 {
+  @include font20;
+}
+
+.p1 {
+  @include font18;
+}
+
+.p2 {
+  @include font16;
+}
+
+.p3 {
+  @include font14;
+}
+
+p {
+  font-size: 20px;
+  margin-top: 10px;
+}
+
+.rightDiv {
+  position: relative;
+  padding: 1px;
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+  left: 0px;
+
+  .content {
+    margin-left: 20%;
+  }
+  &::before {
+    content: '';
+    position: absolute;
+    width: 3%;
+    height: 0px;
+    margin-top: 25px;
+    right: 0px;
+    border-top: 2px dashed rgba(46, 68, 45, 0.6);
+    left: 0px;
+  }
+}

@@ -1,0 +1,54 @@
+@use 'styles/_colors.scss' as c;
+@import 'styles/_mixin.scss';
+@import 'styles/_breakpoints.scss';
+
+.mainForm {
+  margin-top: calc(20px + (50 - 20) * (100vw - 280px) / (2560 - 280));
+
+  .grid {
+    @include gridTwo(20, 20);
+    margin-top: 25px;
+
+    .flexClass {
+      .label {
+        @include font24;
+        font-family: 'Poppins';
+        font-style: normal;
+        color: #2d2d32;
+        margin-bottom: calc(5px + (12 - 5) * (100vw - 280px) / (2560 - 280));
+        text-transform: capitalize;
+      }
+
+      .flexClassInner {
+        display: flex;
+        align-items: center;
+        margin-top: 20px;
+        position: relative;
+
+        .errorMessage {
+          position: absolute;
+          top: 100%;
+          display: block;
+          margin-left: 5px;
+          color: #ff5050;
+          @include font14;
+        }
+
+        .sec {
+          margin-left: 20px;
+        }
+      }
+    }
+  }
+
+  .btnContainer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 20px;
+
+    button {
+      max-width: 130px;
+    }
+  }
+}

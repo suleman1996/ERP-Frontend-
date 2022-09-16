@@ -1,0 +1,21 @@
+@use 'styles/_colors.scss' as c;
+@import 'styles/_mixin.scss';
+@import 'styles/_breakpoints.scss';
+
+.card {
+  margin-bottom: 20px;
+
+  .p {
+    @include font29;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: #2d2d32;
+  }
+}
+
+.btnContainer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 20px;
+}

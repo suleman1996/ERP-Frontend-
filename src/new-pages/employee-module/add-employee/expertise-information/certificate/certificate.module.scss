@@ -1,0 +1,56 @@
+@use 'styles/_colors.scss' as c;
+@import 'styles/_mixin.scss';
+@import 'styles/_breakpoints.scss';
+
+.grid {
+  @include gridTwo(20, 20);
+  margin-top: 25px;
+}
+
+.btnContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+  .btn {
+    background-color: transparent;
+    border: 1px solid c.$btn;
+    span {
+      color: c.$btn;
+    }
+  }
+}
+
+.label {
+  @include font29;
+  font-family: 'Poppins';
+  font-style: normal;
+  color: #2d2d32;
+  text-transform: capitalize;
+}
+
+.skillLevel {
+  margin-top: 20px;
+
+  .innerDiv {
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+
+    .borderDiv {
+      border: 1px solid c.$btn;
+      padding: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-right: 10px;
+      margin-top: 5px;
+
+      p {
+        color: c.$btn;
+        @include font16;
+      }
+    }
+  }
+}
