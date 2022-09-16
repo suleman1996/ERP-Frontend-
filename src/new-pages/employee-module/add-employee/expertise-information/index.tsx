@@ -68,7 +68,7 @@ const ExpertiseInformation = ({
   const [skillData, setSkillData] = useState<Skill[] | []>([]);
   const [language, setLanguage] = useState<Language[] | []>([]);
   const [certificate, setCertificate] = useState<Certificate[] | []>([]);
-
+  //for husky
   const onSubmit = async () => {
     setBtnLoader(true);
     const userData = {
