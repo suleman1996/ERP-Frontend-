@@ -18,11 +18,11 @@ jobs:
           echo "${{ secrets.REACT_APP_API_BASE_URL_DEV }}" >> .env
           echo "${{ secrets.REACT_APP_API_IS_DEV }}" >> .env
           cat .env
-      - run: npm i --legacy-peer-deps
-      - run: npm run build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_ERP_CLIENT_A065F }}'
           channelId: live
           projectId: erp-client-a065f
+      - run: npm i --legacy-peer-deps
+      - run: npm run build
