@@ -85,7 +85,6 @@ export const usePersonalInfo = ({
       email: res?.data?.personalInformation?.email,
       dob: new Date(res?.data?.personalInformation?.dob),
       cnic: res?.data?.personalInformation?.cnic,
-      // frontPic: res?.data?.personalInformation?.cnic,
       gender: res?.data?.personalInformation?.gender,
     });
   };
