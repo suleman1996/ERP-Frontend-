@@ -94,7 +94,7 @@
   },
   "husky": {
     "hooks": {
-      "precommit": "npm run lint && npm run format"
+      "pre-commit": "yarn run lint && yarn run format"
     }
   },
   "lint-staged": {
