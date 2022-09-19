@@ -11,10 +11,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: create env file
       - run: npm i --legacy-peer-deps
       - run: npm run build
-      - name: Generating .env files
         env: 
           SKIP_PREFLIGHT_CHECK: ${{ secrets.SKIP_PREFLIGHT_CHECK }}
           REACT_APP_API_BASE_URL_DEV: ${{ secrets.REACT_APP_API_BASE_URL_DEV }}
