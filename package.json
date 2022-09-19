@@ -96,6 +96,13 @@
       "pre-commit": "npm run lint && npm run format"
     }
   },
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix",
+      "prettier --write",
+      "git add"
+    ]
+  },
   "keywords": [],
   "author": "",
   "license": "ISC"

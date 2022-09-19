@@ -69,7 +69,6 @@ export const usePayrollDetail = () => {
       const res = await EmployeeService.addEmployee({ ...userData });
     }
     setBtnLoader(false);
-
   };
 
   const getUser = async () => {
