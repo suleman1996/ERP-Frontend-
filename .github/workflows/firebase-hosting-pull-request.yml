@@ -19,5 +19,4 @@ jobs:
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_ERP_CLIENT_A065F }}'
-          channelId: live
           projectId: erp-client-a065f
