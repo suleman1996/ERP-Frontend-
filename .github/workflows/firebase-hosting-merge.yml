@@ -20,7 +20,6 @@ jobs:
           cat .env
       - run: npm i --legacy-peer-deps
       - run: npm run build
-        env:
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
