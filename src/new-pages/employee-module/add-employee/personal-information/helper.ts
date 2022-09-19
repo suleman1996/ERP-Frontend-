@@ -62,6 +62,7 @@ export const usePersonalInfo = ({
         dob: new Date(temp?.personalInformation?.dob),
         cnic: temp?.personalInformation?.cnic,
         gender: temp?.personalInformation?.gender,
+        cnicBack: temp?.personalInformation?.cnicBack,
       });
       setImg(temp?.personalInformation?.img);
     }
@@ -90,7 +91,6 @@ export const usePersonalInfo = ({
 
   const onSubmit = async (data: Data) => {
     setBtnLoader(true);
-
     const { dob, cnic, frontPic, backPic, employeeId } = data;
     const temp = {
       ...data,
@@ -107,13 +107,14 @@ export const usePersonalInfo = ({
       employeeId: obj.employeeId,
       type: 1,
     };
-    setFormData({ ...formData, personalInformation: { ...userData } });
 
     if (id) {
       removeKeys(userData.personalInformation, ['backPic', 'frontPic']);
       const res = await EmployeeService.updateAddedEmployee(userData, id);
+
       if (res.status === 200) {
         handleNext('Address');
+        setFormData({ ...formData, personalInformation: { ...userData } });
       }
     } else {
       removeKeys(userData.personalInformation, ['employeeId', 'backPic', 'frontPic']);
@@ -122,6 +123,7 @@ export const usePersonalInfo = ({
         setEmployeeDocId(res?.data?.newEmployeeDocId);
         setEmployeeId(res?.data?.newEmployeeId);
         handleNext('Address');
+        setFormData({ ...formData, personalInformation: { ...userData } });
       }
     }
     setBtnLoader(false);
@@ -149,7 +151,7 @@ export const schema = yup.object().shape({
     .required('Last name is a required field')
     .matches(/^[A-Za-z ]*$/, 'Only alphabets are allowed'),
   employeeId: yup.string().required('Employee id must be a number'),
-  phoneNumber: yup.string().required('Phone number is a required field').min(9).max(13),
+  phoneNumber: yup.string().required('Phone number is a required field').min(10).max(13),
   email: yup.string().email().required('email is a required field'),
   cnic: yup
     .number()
