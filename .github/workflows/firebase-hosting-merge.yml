@@ -14,12 +14,13 @@ jobs:
       - name: create env file
         run: |
           touch .env
-          echo "${{ secrets.SKIP_PREFLIGHT_CHECK }}" >> .env
-          echo "${{ secrets.REACT_APP_API_BASE_URL_DEV }}" >> .env
-          echo "${{ secrets.REACT_APP_API_IS_DEV }}" >> .env
+          echo SKIP_PREFLIGHT_CHECK="${{ secrets.SKIP_PREFLIGHT_CHECK }}" >> .env
+          echo REACT_APP_API_BASE_URL_DEV="${{ secrets.REACT_APP_API_BASE_URL_DEV }}" >> .env
+          echo REACT_APP_API_IS_DEV="${{ secrets.REACT_APP_API_IS_DEV }}" >> .env
           cat .env
       - run: npm i --legacy-peer-deps
       - run: npm run build
+        env:
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
