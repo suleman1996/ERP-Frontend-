@@ -1,12 +1,12 @@
-import { Dispatch, SetStateAction, useState, useEffect, useRef } from 'react';
-import * as yup from 'yup';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useLocation, useParams } from 'react-router-dom';
-import EmployeeService from 'services/employee-service';
+import { Dispatch, SetStateAction, useState, useEffect, useRef } from "react";
+import * as yup from "yup";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { useParams } from "react-router-dom";
 
-import { convertBase64Image } from 'main-helper';
-import { removeKeys } from 'helper';
+import EmployeeService from "services/employee-service";
+import { convertBase64Image } from "main-helper";
+import { removeKeys } from "helper";
 
 interface Props {
   formData: any;
@@ -45,7 +45,7 @@ export const useSkill = ({ formData, setFormData, employeeId, setSkillData }: Pr
       skillLevel: data?.skills,
       file: `${fileBase64}`,
     };
-    removeKeys(skillData, ['skills']);
+    removeKeys(skillData, ["skills"]);
     setSkillData((current) => [...current, skillData]);
     const newEducations: Skill[] = [...educations];
     const tempObj = {
@@ -86,7 +86,7 @@ export const useSkill = ({ formData, setFormData, employeeId, setSkillData }: Pr
     setEducations(res?.data?.skills);
 
     const data = res?.data?.skills.map((item: any) => {
-      removeKeys(item, ['_id']);
+      removeKeys(item, ["_id"]);
       return item;
     });
 
@@ -97,6 +97,7 @@ export const useSkill = ({ formData, setFormData, employeeId, setSkillData }: Pr
     id && getUser();
     if (formData?.setSkillData !== undefined && Object.keys(formData?.setSkillData)?.length) {
       setEducations([...formData?.setSkillData]);
+      setSkillData((current) => [...current, ...formData?.setSkillData]);
     }
   }, []);
 
@@ -114,70 +115,49 @@ export const useSkill = ({ formData, setFormData, employeeId, setSkillData }: Pr
 };
 
 export const schema = yup.object().shape({
-  skillName: yup.string().required('Skill  is a required field'),
-  experince: yup.number().typeError('Experience is a required & should be a number').required(),
+  skillName: yup.string().required("Skill  is a required field"),
+  experince: yup.number().typeError("Experience is a required & should be a number").required(),
   year: yup
     .number()
-    .required('Year is a required field')
-    .typeError('Year is required & should be a number'),
+    .required("Year is a required field")
+    .typeError("Year is required & should be a number"),
   file: yup
     .mixed()
-    .test('required', 'You need to provide a file', (file) => {
+    .test("required", "You need to provide a file", (file) => {
       if (file[0]) return true;
       return false;
     })
-    .test('fileSize', 'The file is too large', (file) => {
+    .test("fileSize", "The file is too large", (file) => {
       return file[0] && file[0].size <= 2000000;
     }),
-  skills: yup.string().required('Skills is a required field'),
+  skills: yup.string().required("Skills is a required field"),
 });
 
 export const columns = [
   {
-    key: 'skillName',
-    name: 'Skill',
-    alignText: 'center',
-    width: '150px',
+    key: "skillName",
+    name: "Skill",
+    alignText: "center",
+    width: "150px",
   },
   {
-    key: 'experince',
-    name: 'Experience',
-    alignText: 'center',
-    width: '150px',
+    key: "experince",
+    name: "Experience",
+    alignText: "center",
+    width: "150px",
   },
   {
-    key: 'year',
-    name: 'Year',
-    alignText: 'center',
-    width: '150px',
+    key: "year",
+    name: "Year",
+    alignText: "center",
+    width: "150px",
   },
   {
-    key: 'skillLevel',
-    name: 'Skill Level',
-    alignText: 'center',
-    width: '150px',
+    key: "skillLevel",
+    name: "Skill Level",
+    alignText: "center",
+    width: "150px",
   },
 
-  { key: 'actions', name: 'Actions', alignText: 'center', width: '200px' },
-];
-
-export const rows = [
-  {
-    skill: 'SprintX',
-    experience: '2 years',
-    year: '2002',
-    skillLevel: 'Designer',
-  },
-  {
-    skill: 'SprintX',
-    experience: '2 years',
-    year: '2002',
-    skillLevel: 'Designer',
-  },
-  {
-    skill: 'SprintX',
-    experience: '2 years',
-    year: '2002',
-    skillLevel: 'Designer',
-  },
+  { key: "actions", name: "Actions", alignText: "center", width: "200px" },
 ];

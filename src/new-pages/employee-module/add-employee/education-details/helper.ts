@@ -1,13 +1,13 @@
-import { useState, useEffect, useRef } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
-import moment from 'moment';
-import * as yup from 'yup';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
+import { useState, useEffect, useRef } from "react";
+import { useLocation, useParams } from "react-router-dom";
+import moment from "moment";
+import * as yup from "yup";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 
-import EmployeeService from 'services/employee-service';
-import { convertBase64Image } from 'main-helper';
-import { removeKeys } from 'helper';
+import EmployeeService from "services/employee-service";
+import { convertBase64Image } from "main-helper";
+import { removeKeys } from "helper";
 
 export interface Education {
   degree: string;
@@ -60,11 +60,11 @@ export const useEducationDetail = ({
         const userData = {
           type: 4,
           educationDetails: [...educations],
-          employeeId: 'SPX010',
+          employeeId: "SPX010",
         };
         const res = await EmployeeService.updateAddedEmployee(userData, id);
         if (res.status === 201) {
-          handleNext && handleNext('Experience');
+          handleNext && handleNext("Experience");
         }
       }
     } else {
@@ -72,10 +72,10 @@ export const useEducationDetail = ({
         const res = await EmployeeService.addEmployee({
           type: 4,
           educationDetails: [...educations],
-          employeeId: 'SPX010',
+          employeeId: employeeId.toUpperCase(),
         });
         if (res.status === 201) {
-          handleNext && handleNext('Experience');
+          handleNext && handleNext("Experience");
         }
       }
     }
@@ -87,12 +87,12 @@ export const useEducationDetail = ({
     const { startDate, endDate, transcript } = data;
     const tempObj = {
       ...data,
-      endDate: moment(endDate).format('YYYY-MM-DD'),
-      startDate: moment(startDate).format('YYYY-MM-DD'),
+      endDate: moment(endDate).format("YYYY-MM-DD"),
+      startDate: moment(startDate).format("YYYY-MM-DD"),
       ongoing: ongiong,
       transcript: await convertBase64Image(transcript[0]),
     };
-    ongiong && removeKeys(tempObj, ['endDate']);
+    ongiong && removeKeys(tempObj, ["endDate"]);
     if (educationIndex.current < 0) {
       newEducations.push(tempObj);
     } else {
@@ -122,8 +122,8 @@ export const useEducationDetail = ({
     const data = res.data.educationDetails.map((item: any, index: number) => {
       return {
         ...item,
-        startDate: moment(item.startDate).format('YYYY-MM-DD'),
-        endDate: moment(item.endDate).format('YYYY-MM-DD'),
+        startDate: moment(item.startDate).format("YYYY-MM-DD"),
+        endDate: moment(item.endDate).format("YYYY-MM-DD"),
         percentageCgpa: item.percentageCgpa.toString(),
       };
     });
@@ -149,7 +149,7 @@ export const useEducationDetail = ({
     }
   }, []);
 
-  const startDate = watch('startDate');
+  const startDate = watch("startDate");
   return {
     handleAddEduction,
     onSubmit,
@@ -171,85 +171,85 @@ export const useEducationDetail = ({
 };
 
 export const schema = yup.object().shape({
-  institute: yup.string().required('Institute is a required field'),
-  degree: yup.string().required('Degree is a required field'),
-  description: yup.string().required('Description is a required field'),
-  startDate: yup.string().required('Start date is a required field'),
+  institute: yup.string().required("Institute is a required field"),
+  degree: yup.string().required("Degree is a required field"),
+  description: yup.string().required("Description is a required field"),
+  startDate: yup.string().required("Start date is a required field"),
   percentageCgpa: yup
     .number()
-    .required('Percentage CGPA is a required field')
-    .typeError('Percentage CGPA is a required field'),
-  endDate: yup.string().when('ongoing', {
-    is: 'false',
-    then: yup.string().required('End date is required.'),
+    .required("Percentage CGPA is a required field")
+    .typeError("Percentage CGPA is a required field"),
+  endDate: yup.string().when("ongoing", {
+    is: "false",
+    then: yup.string().required("End date is required."),
   }),
   transcript: yup
     .mixed()
-    .test('required', 'You need to provide a file', (file) => {
+    .test("required", "You need to provide a file", (file) => {
       if (file[0]) return true;
       return false;
     })
-    .test('fileSize', 'The file is too large', (file) => {
+    .test("fileSize", "The file is too large", (file) => {
       return file[0] && file[0].size <= 2000000;
     }),
 });
 
 export const selectCountry = [
   {
-    value: 'hr',
-    description: 'Hr',
+    value: "hr",
+    description: "Hr",
   },
   {
-    value: 'employee',
-    description: 'Employee',
+    value: "employee",
+    description: "Employee",
   },
   {
-    value: 'admin',
-    description: 'Admin',
+    value: "admin",
+    description: "Admin",
   },
 ];
 
 export const department = [
   {
-    value: 'Front-end Developer',
-    description: 'Front-end Developer',
+    value: "Front-end Developer",
+    description: "Front-end Developer",
   },
   {
-    value: 'Backend-developer',
-    description: 'Backend-developer',
+    value: "Backend-developer",
+    description: "Backend-developer",
   },
 ];
 
 export const columns = [
   {
-    key: 'degree',
-    name: 'Degree',
-    alignText: 'center',
-    width: '150px',
+    key: "degree",
+    name: "Degree",
+    alignText: "center",
+    width: "150px",
   },
   {
-    key: 'institute',
-    name: 'Institute',
-    alignText: 'center',
-    width: '150px',
+    key: "institute",
+    name: "Institute",
+    alignText: "center",
+    width: "150px",
   },
   {
-    key: 'startDate',
-    name: 'Start Date',
-    alignText: 'center',
-    width: '150px',
+    key: "startDate",
+    name: "Start Date",
+    alignText: "center",
+    width: "150px",
   },
   {
-    key: 'endDate',
-    name: 'End Date',
-    alignText: 'center',
-    width: '150px',
+    key: "endDate",
+    name: "End Date",
+    alignText: "center",
+    width: "150px",
   },
   {
-    key: 'percentageCgpa',
-    name: 'Percentage',
-    alignText: 'center',
-    width: '150px',
+    key: "percentageCgpa",
+    name: "Percentage",
+    alignText: "center",
+    width: "150px",
   },
-  { key: 'actions', name: 'Actions', alignText: 'center', width: '200px' },
+  { key: "actions", name: "Actions", alignText: "center", width: "200px" },
 ];
