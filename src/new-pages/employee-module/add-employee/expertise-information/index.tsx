@@ -1,5 +1,4 @@
 import { useParams } from "react-router";
-import { getSuggestedQuery } from "@testing-library/react";
 import { useEffect, useState } from "react";
 
 import Button from "new-components/button";
@@ -77,7 +76,7 @@ const ExpertiseInformation = ({
         languages: language,
         certificates: certificate,
       },
-      employeeId: "SPX010",
+      employeeId: employeeId.toUpperCase(),
       type: 6,
     };
     if (id) {
@@ -190,6 +189,11 @@ const ExpertiseInformation = ({
           text="Next"
           iconEnd={arrowRight}
           handleClick={onSubmit}
+          btnClass={
+            skillData.length < 1 || language.length < 1 || certificate.length < 1
+              ? style.disableBtn
+              : ""
+          }
           disabled={skillData.length < 1 || language.length < 1 || certificate.length < 1}
         />
       </div>

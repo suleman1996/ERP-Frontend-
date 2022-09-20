@@ -2,9 +2,9 @@ import { Dispatch, SetStateAction, useState, useEffect, useRef } from "react";
 import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useLocation, useParams } from "react-router-dom";
-import EmployeeService from "services/employee-service";
+import { useParams } from "react-router-dom";
 
+import EmployeeService from "services/employee-service";
 import { convertBase64Image } from "main-helper";
 import { removeKeys } from "helper";
 
@@ -160,25 +160,4 @@ export const columns = [
   },
 
   { key: "actions", name: "Actions", alignText: "center", width: "200px" },
-];
-
-export const rows = [
-  {
-    skill: "SprintX",
-    experience: "2 years",
-    year: "2002",
-    skillLevel: "Designer",
-  },
-  {
-    skill: "SprintX",
-    experience: "2 years",
-    year: "2002",
-    skillLevel: "Designer",
-  },
-  {
-    skill: "SprintX",
-    experience: "2 years",
-    year: "2002",
-    skillLevel: "Designer",
-  },
 ];

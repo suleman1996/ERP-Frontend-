@@ -21,7 +21,11 @@ interface Data {
   roaster: string;
 }
 
-export const usePayrollDetail = () => {
+interface Props {
+  employeeId?: string;
+}
+
+export const usePayrollDetail = ({ employeeId }: Props) => {
   const { id } = useParams();
   const [btnLoader, setBtnLoader] = useState(false);
 
@@ -46,7 +50,7 @@ export const usePayrollDetail = () => {
     setBtnLoader(true);
     const userData = {
       type: 7,
-      employeeId: "SPX010",
+      employeeId: employeeId?.toUpperCase(),
       payrollDetail: {
         basicSalary,
         houseRentAllowance: houseRent,

@@ -11,10 +11,11 @@ import style from "./payroll.module.scss";
 
 interface Props {
   handleBack: (data?: string) => void;
+  employeeId?: string;
 }
 
-const PayrollInformation = ({ handleBack }: Props) => {
-  const { onSubmit, register, handleSubmit, errors, control } = usePayrollDetail();
+const PayrollInformation = ({ handleBack, employeeId }: Props) => {
+  const { onSubmit, register, handleSubmit, errors, control } = usePayrollDetail({ employeeId });
 
   return (
     <div className={style.mainForm}>

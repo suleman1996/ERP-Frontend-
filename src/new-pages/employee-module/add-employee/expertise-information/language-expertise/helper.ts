@@ -161,27 +161,6 @@ export const columns = [
   { key: "actions", name: "Actions", alignText: "center", width: "200px" },
 ];
 
-export const rows = [
-  {
-    language: "Urdu",
-    rate: "2 %",
-    year: "2002",
-    skillLevel: "Designer",
-  },
-  {
-    skill: "SprintX",
-    experience: "2 years",
-    year: "2002",
-    skillLevel: "Designer",
-  },
-  {
-    skill: "SprintX",
-    experience: "2 years",
-    year: "2002",
-    skillLevel: "Designer",
-  },
-];
-
 export const selectRates = [
   {
     value: "50 Percent",

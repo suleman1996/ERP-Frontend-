@@ -59,14 +59,6 @@ const LanguageExpertise = ({ formData, setFormData, employeeId, setLanguage }: P
             options={languageArray}
             label="Language"
           />
-          {/* <TextField
-            name="language"
-            label="Language"
-            type="text"
-            register={register}
-            errorMessage={errors?.language?.message}
-            placeholder="Language"
-          /> */}
           <Select label="Rate" register={register} errorMessage={errors?.rate?.message} name="rate">
             <option value="">50 Percent</option>
             <>

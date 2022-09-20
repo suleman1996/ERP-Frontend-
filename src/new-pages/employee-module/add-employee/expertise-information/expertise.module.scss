@@ -1,6 +1,6 @@
-@use 'styles/_colors.scss' as c;
-@import 'styles/_mixin.scss';
-@import 'styles/_breakpoints.scss';
+@use "styles/_colors.scss" as c;
+@import "styles/_mixin.scss";
+@import "styles/_breakpoints.scss";
 
 .mainForm {
   margin-top: calc(20px + (50 - 20) * (100vw - 280px) / (2560 - 280));
@@ -79,5 +79,12 @@
   margin-right: calc(5px + (20 - 5) * (100vw - 280px) / (2560 - 280));
   @media (max-width: 410px) {
     width: 15px;
+  }
+}
+
+.disableBtn {
+  background-color: #b9b9b9;
+  span {
+    color: c.$btn;
   }
 }

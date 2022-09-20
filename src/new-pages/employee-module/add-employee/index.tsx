@@ -119,7 +119,9 @@ const AddEmployee = () => {
             setFormData={setFormData}
           />
         )}
-        {active === "Payroll" && <PayrollInformation handleBack={handleBack} />}
+        {active === "Payroll" && (
+          <PayrollInformation employeeId={employeeId} handleBack={handleBack} />
+        )}
       </div>
     </CardContainer>
   );
