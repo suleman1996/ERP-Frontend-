@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDatePicker from 'react-datepicker';
 import { Controller } from 'react-hook-form';
+import moment from 'moment';
 
 import doubleArrowRight from 'new-assets/1.svg';
 import singleArrowRight from 'new-assets/2.svg';
@@ -26,9 +27,13 @@ interface Props {
   defaultVal?: string;
   isDisable?: boolean;
   handleClick?: () => void;
+  maxDate?: any;
+  minDate?: any;
+  readOnly?: boolean;
 }
 
 const DatePicker = ({
+  readOnly,
   name,
   control,
   label,
@@ -39,6 +44,9 @@ const DatePicker = ({
   handleChange,
   isDisable,
   handleClick,
+  maxDate,
+  minDate,
+  placeholder,
 }: Props) => {
   const handleChangeDate = (
     event: Date | [Date | null, Date | null] | null,
@@ -65,11 +73,14 @@ const DatePicker = ({
             render={({ onChange, value, name }) => (
               <ReactDatePicker
                 selected={value}
+                maxDate={maxDate && maxDate}
+                minDate={minDate && minDate}
+                readOnly={readOnly}
                 onChange={(event) => {
                   handleChangeDate(event, onChange, name);
                 }}
                 className={errorMessage ? style.borderClass : style.inpDiv}
-                placeholderText="22/03/2022"
+                placeholderText={placeholder ? placeholder : '22/03/2022'}
                 id={id}
                 disabled={isDisable}
                 renderCustomHeader={({

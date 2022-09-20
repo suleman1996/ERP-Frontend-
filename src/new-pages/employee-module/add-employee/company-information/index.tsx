@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 import Button from 'new-components/button';
 import TextField from 'new-components/textfield';
 import Select from 'new-components/select';
@@ -5,6 +7,7 @@ import TextArea from 'new-components/textarea';
 import DatePicker from 'new-components/date-picker';
 import Radio from 'new-components/radio';
 import TimePicker from 'new-components/time-picker';
+import Checkbox from 'new-components/checkbox';
 
 import { selectCountry, employmentType, department, schema, useCompanyInfo } from './helper';
 
@@ -27,7 +30,17 @@ const CompanyInformation = ({
   setFormData,
   employeeId,
 }: Props) => {
-  const { onSubmit, register, handleSubmit, errors, control, watch, btnLoader } = useCompanyInfo({
+  const {
+    onSubmit,
+    register,
+    handleSubmit,
+    errors,
+    control,
+    watch,
+    btnLoader,
+    setProbation,
+    probation,
+  } = useCompanyInfo({
     handleBack,
     handleNext,
     formData,
@@ -53,7 +66,7 @@ const CompanyInformation = ({
             register={register}
             name="department"
           >
-            <option value="">UI/UX Designer</option>
+            <option value="">Department</option>
             <>
               {department &&
                 department.map(({ value, description }) => (
@@ -106,48 +119,53 @@ const CompanyInformation = ({
         </div>
         <div style={{ marginTop: '20px' }}>
           <label className={style.label}>Status</label>
-          <Radio
-            name="probation"
-            label="Probation "
-            radioValue={'Probation'}
-            radioRef={register}
-            className={style.radio}
-          />
-        </div>
-        <div className={style.grid1}>
-          <Select
-            label="Probation Duration"
+          <Checkbox
+            label="Probation"
+            handleChange={(e) => setProbation(e.target.checked)}
+            name={'probation'}
             register={register}
-            errorMessage={errors?.probationDurationDays?.message}
-            name="probationDurationDays"
-          >
-            <option value="">2 Months</option>
-            <>
-              {selectCountry &&
-                selectCountry.map(({ value, description }) => (
-                  <option key={value} value={value}>
-                    {description}
-                  </option>
-                ))}
-            </>
-          </Select>
-          <DatePicker
-            label="Start Date"
-            name="startDate"
-            id="1"
-            placeholder="Enter Start Date"
-            control={control}
-            errorMessage={errors?.startDate?.message}
-          />
-          <DatePicker
-            label="End Date"
-            name="endDate"
-            id="1"
-            placeholder="Enter Joining Date"
-            control={control}
-            errorMessage={errors?.endDate?.message}
+            containerClass={style.containerClass}
           />
         </div>
+        {probation && (
+          <div className={style.grid1}>
+            <Select
+              label="Probation Duration"
+              register={register}
+              errorMessage={errors?.probationDurationDays?.message}
+              name="probationDurationDays"
+            >
+              <option value="60">2 Months</option>
+              <option value="90">3 Months</option>
+              <option value="120">4 Months</option>
+              <option value="150">5 Months</option>
+              <option value="180">6 Months</option>
+            </Select>
+            <DatePicker
+              label="Start Date"
+              name="startDate"
+              id="10"
+              placeholder={watch().joiningDate && moment(watch().joiningDate).format('MM/DD/YYYY')}
+              control={control}
+              errorMessage={errors?.startDate?.message}
+              readOnly
+            />
+            <DatePicker
+              label="End Date"
+              name="endDate"
+              id="100"
+              placeholder={
+                watch().joiningDate &&
+                moment(watch().joiningDate)
+                  .add(watch().probationDurationDays / 30, 'M')
+                  .format('MM/DD/YYYY')
+              }
+              control={control}
+              errorMessage={errors?.endDate?.message}
+              readOnly
+            />
+          </div>
+        )}
         <div className={style.grid}>
           <Select
             label="Employee Type"

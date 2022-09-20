@@ -91,6 +91,7 @@ const PersonalInformation = ({
             id="1"
             control={control}
             errorMessage={errors?.dob?.message}
+            maxDate={new Date()}
           />
           <TextField
             name="cnic"

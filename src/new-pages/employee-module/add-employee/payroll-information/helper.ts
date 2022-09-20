@@ -69,7 +69,6 @@ export const usePayrollDetail = () => {
       const res = await EmployeeService.addEmployee({ ...userData });
     }
     setBtnLoader(false);
-
   };
 
   const getUser = async () => {
@@ -117,7 +116,12 @@ export const schema = yup.object().shape({
   specialAllowance: yup.string().required('Special allowance is a required field'),
   bankName: yup.string().required('Bank name is a required field'),
   accountHolderName: yup.string().required('Account holder name is a required field'),
-  accountNumber: yup.string().required('Account number is a required field'),
+  accountNumber: yup
+    .number()
+    .required()
+    .typeError('Account number is a required field')
+    .min(1111111111, 'Minimun 10 digits are required')
+    .max(99999999999999999999, 'Maximum 20 digits are required'),
   payrolltype: yup.string().required('Payroll type is a required field'),
   paytype: yup.string().required('Paytype is a required field'),
   yes: yup.string().required(),

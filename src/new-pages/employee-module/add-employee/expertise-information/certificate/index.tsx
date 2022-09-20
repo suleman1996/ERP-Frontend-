@@ -60,22 +60,14 @@ const Certificate = ({ formData, setFormData, employeeId, setCertificate }: Prop
             errorMessage={errors?.certificateName?.message}
             placeholder="Name"
           />
-          <Select
+          <TextField
             label="Platform"
+            name="platform"
+            type="text"
             register={register}
             errorMessage={errors?.platform?.message}
-            name="platform"
-          >
-            <option value="">SprintX</option>
-            <>
-              {selectRates &&
-                selectRates.map(({ value, description }) => (
-                  <option key={value} value={value}>
-                    {description}
-                  </option>
-                ))}
-            </>
-          </Select>
+            placeholder="Platform"
+          />
           <TextField
             name="year"
             label="Year"

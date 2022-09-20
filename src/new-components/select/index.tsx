@@ -10,6 +10,7 @@ interface Props {
   onChange?: (event: ChangeEvent<HTMLSelectElement>) => void;
   register?: any;
   errorMessage?: string;
+  placeholder?: string;
   disable?: boolean;
 }
 
@@ -22,6 +23,7 @@ const Select = ({
   errorMessage,
   disable,
   children,
+  placeholder,
 }: Props) => {
   return (
     <div style={{ position: 'relative' }}>
@@ -31,6 +33,7 @@ const Select = ({
         value={value}
         ref={register}
         className={style.select}
+        placeholder={placeholder}
         onChange={onChange}
         style={{
           border: errorMessage ? '1.2px solid #ff5050' : ' 1.2px solid #e2e2ea',

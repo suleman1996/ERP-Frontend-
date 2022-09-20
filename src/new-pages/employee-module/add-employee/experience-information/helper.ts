@@ -140,6 +140,8 @@ export const useExperience = ({
     id && getUser();
   }, [id]);
 
+  const startDate = watch('jobStartDate');
+
   return {
     handleAddEduction,
     onSubmit,
@@ -159,6 +161,7 @@ export const useExperience = ({
     getData,
     watch,
     cities,
+    startDate,
   };
 };
 

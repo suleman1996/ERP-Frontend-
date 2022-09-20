@@ -33,6 +33,7 @@ export const useCompanyInfo = ({
   employeeId,
 }: Props) => {
   const { id } = useParams();
+  const [probation, setProbation] = useState(false);
   const [btnLoader, setBtnLoader] = useState(false);
   const { register, handleSubmit, errors, control, reset, watch } = useForm({
     resolver: yupResolver(schema),
@@ -157,6 +158,8 @@ export const useCompanyInfo = ({
     control,
     watch,
     btnLoader,
+    setProbation,
+    probation,
   };
 };
 
@@ -167,8 +170,6 @@ export const schema = yup.object().shape({
   casualLeaves: yup.string().required('Casual leaves are a required field'),
   department: yup.string().required('Department is a required field'),
   designation: yup.string().required('Designation is a required field'),
-  startDate: yup.string().required('Start date is a required field'),
-  endDate: yup.string().required('End date is a required field'),
   note: yup.string().required('Note is a required field'),
   employmentType: yup.string().required('employmentType is a required field'),
   workingHours: yup.string().when('employmentType', {
