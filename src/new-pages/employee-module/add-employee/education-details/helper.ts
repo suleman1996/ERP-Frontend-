@@ -38,6 +38,7 @@ export const useEducationDetail = ({
 }: Props) => {
   const { id } = useParams();
   const [btnLoader, setBtnLoader] = useState(false);
+  const [startDateHandle, setStartDateHandle] = useState<string | any>();
   const [educations, setEducations] = useState<Education[] | []>([]);
   const educationIndex = useRef(-1);
   const [ongiong, setOngoing] = useState(false);
@@ -47,7 +48,7 @@ export const useEducationDetail = ({
     update: false,
     editInd: -1,
   });
-  const { register, handleSubmit, errors, control, reset } = useForm({
+  const { register, handleSubmit, errors, control, reset, watch } = useForm({
     resolver: yupResolver(schema),
   });
 
@@ -148,6 +149,7 @@ export const useEducationDetail = ({
     }
   }, []);
 
+  const startDate = watch('startDate');
   return {
     handleAddEduction,
     onSubmit,
@@ -162,6 +164,9 @@ export const useEducationDetail = ({
     setOngoing,
     ongiong,
     handleDeleteIndex,
+    setStartDateHandle,
+    startDateHandle,
+    startDate,
   };
 };
 
@@ -170,7 +175,10 @@ export const schema = yup.object().shape({
   degree: yup.string().required('Degree is a required field'),
   description: yup.string().required('Description is a required field'),
   startDate: yup.string().required('Start date is a required field'),
-  percentageCgpa: yup.string().required('Percentage CGPA is a required field'),
+  percentageCgpa: yup
+    .number()
+    .required('Percentage CGPA is a required field')
+    .typeError('Percentage CGPA is a required field'),
   endDate: yup.string().when('ongoing', {
     is: 'false',
     then: yup.string().required('End date is required.'),
@@ -244,21 +252,4 @@ export const columns = [
     width: '150px',
   },
   { key: 'actions', name: 'Actions', alignText: 'center', width: '200px' },
-];
-
-export const rows = [
-  {
-    degree: 'Masters',
-    institute: 'SprintX',
-    startDate: '20/20/2022',
-    endDate: '20/20/2022',
-    percentage: '22%',
-  },
-  {
-    degree: 'Masters',
-    institute: 'SprintX',
-    startDate: '20/20/2022',
-    endDate: '20/20/2022',
-    percentage: '22%',
-  },
 ];

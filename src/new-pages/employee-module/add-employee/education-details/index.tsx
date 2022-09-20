@@ -44,6 +44,9 @@ const EducationalDetails = ({
     setOngoing,
     ongiong,
     handleDeleteIndex,
+    setStartDateHandle,
+    startDateHandle,
+    startDate,
   } = useEducationDetail({
     handleBack,
     handleNext,
@@ -88,6 +91,7 @@ const EducationalDetails = ({
             placeholder="Start Date"
             control={control}
             errorMessage={errors?.startDate?.message}
+            minDate={'1900-01-01'}
           />
           <div className={style.onGoingSection}>
             {!ongiong && (
@@ -98,6 +102,7 @@ const EducationalDetails = ({
                 control={control}
                 errorMessage={errors?.endDate?.message}
                 placeholder="End Date"
+                minDate={startDate}
               />
             )}
             <Checkbox
@@ -111,7 +116,7 @@ const EducationalDetails = ({
           <TextField
             name="percentageCgpa"
             label="Percentage/CGPA"
-            type="number"
+            type="text"
             register={register}
             errorMessage={errors?.percentageCgpa?.message}
             placeholder="Percentage/CGPA"
@@ -138,7 +143,10 @@ const EducationalDetails = ({
         </div>
         <div style={{ marginTop: '30px' }}>
           <Table
-            rows={educations}
+            rows={educations.map((education) => ({
+              ...education,
+              endDate: education.endDate || '---',
+            }))}
             columns={columns}
             minWidth="950px"
             handleEducation={handleEducation}

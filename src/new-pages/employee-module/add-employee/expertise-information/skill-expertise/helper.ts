@@ -115,8 +115,11 @@ export const useSkill = ({ formData, setFormData, employeeId, setSkillData }: Pr
 
 export const schema = yup.object().shape({
   skillName: yup.string().required('Skill  is a required field'),
-  experince: yup.number().typeError("'Experience is a required field'").required(),
-  year: yup.string().required('Year is a required field'),
+  experince: yup.number().typeError('Experience is a required & should be a number').required(),
+  year: yup
+    .number()
+    .required('Year is a required field')
+    .typeError('Year is required & should be a number'),
   file: yup
     .mixed()
     .test('required', 'You need to provide a file', (file) => {

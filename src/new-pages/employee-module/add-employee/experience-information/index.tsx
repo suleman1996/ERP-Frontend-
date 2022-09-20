@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 import Button from 'new-components/button';
 import TextField from 'new-components/textfield';
 import DatePicker from 'new-components/date-picker';
@@ -49,6 +51,7 @@ const ExperienceDetails = ({
     getData,
     watch,
     cities,
+    startDate,
   } = useExperience({
     handleBack,
     handleNext,
@@ -133,6 +136,7 @@ const ExperienceDetails = ({
                   placeholder="Enter End Date"
                   control={control}
                   errorMessage={errors?.jobEndDate?.message}
+                  minDate={startDate}
                 />
               )}
 
@@ -151,7 +155,13 @@ const ExperienceDetails = ({
           </div>
           <div style={{ marginTop: '30px' }}>
             <Table
-              rows={educations}
+              rows={educations.map((education) => ({
+                ...education,
+                tenure:
+                  education.jobStartDate && education.jobEndDate
+                    ? `${moment(watch().jobEndDate).diff(watch().jobStartDate, 'days')} Days`
+                    : 'On Going',
+              }))}
               columns={columns}
               minWidth="1000px"
               handleEducation={handleEducation}

@@ -116,7 +116,10 @@ export const useCerificate = ({ formData, setFormData, employeeId, setCertificat
 export const schema = yup.object().shape({
   certificateName: yup.string().required('Name  is a required field'),
   platform: yup.string().required('Platform is a required field'),
-  year: yup.number().typeError('Year is a required field').required(),
+  year: yup
+    .number()
+    .required('Year is a required field')
+    .typeError('Year is required & should be a number'),
   file: yup
     .mixed()
     .test('required', 'You need to provide a file', (file) => {
@@ -146,7 +149,7 @@ export const selectRates = [
 
 export const columns = [
   {
-    key: 'name',
+    key: 'certificateName',
     name: 'Name',
     alignText: 'center',
     width: '150px',
