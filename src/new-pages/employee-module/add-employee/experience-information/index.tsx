@@ -1,21 +1,21 @@
-import moment from 'moment';
+import moment from "moment";
 
-import Button from 'new-components/button';
-import TextField from 'new-components/textfield';
-import DatePicker from 'new-components/date-picker';
-import Table from 'new-components/table';
-import ProfileUpload from 'new-components/profile-upload';
-import Select from 'new-components/select';
-import SearchSelect from 'new-components/search-select';
-import Checkbox from 'new-components/checkbox';
+import Button from "new-components/button";
+import TextField from "new-components/textfield";
+import DatePicker from "new-components/date-picker";
+import Table from "new-components/table";
+import ProfileUpload from "new-components/profile-upload";
+import Select from "new-components/select";
+import SearchSelect from "new-components/search-select";
+import Checkbox from "new-components/checkbox";
 
-import { selectCountry, rows, columns, schema, useExperience } from './helper';
-import countries from 'new-assets/countries.json';
+import { selectCountry, rows, columns, schema, useExperience } from "./helper";
+import countries from "new-assets/countries.json";
 
-import tick from 'new-assets/tick.svg';
-import arrowRight from 'new-assets/arrowBtnRight.svg';
-import arrowLeft from 'new-assets/backBtn.svg';
-import style from './experience.module.scss';
+import tick from "new-assets/tick.svg";
+import arrowRight from "new-assets/arrowBtnRight.svg";
+import arrowLeft from "new-assets/backBtn.svg";
+import style from "./experience.module.scss";
 
 interface Props {
   formData: any;
@@ -75,7 +75,7 @@ const ExperienceDetails = ({
             />
             <Select
               label="Country"
-              name={'country'}
+              name={"country"}
               errorMessage={errors?.country?.message}
               register={register}
               onChange={() => {
@@ -95,7 +95,7 @@ const ExperienceDetails = ({
               </>
             </Select>
             <SearchSelect
-              name={'city'}
+              name={"city"}
               register={register}
               control={control}
               errorMessage={errors?.city?.message}
@@ -112,11 +112,11 @@ const ExperienceDetails = ({
             <div>
               <label className={style.label}>Experience Letter</label>
               <ProfileUpload
-                name={'letter'}
+                name={"letter"}
                 register={register}
-                id={'letter'}
+                id={"letter"}
                 errorMessage={errors?.letter?.message}
-                type={'application/pdf'}
+                type={"application/pdf"}
               />
             </div>
             <DatePicker
@@ -132,7 +132,7 @@ const ExperienceDetails = ({
                 <DatePicker
                   label="Job End Date"
                   name="jobEndDate"
-                  id="4"
+                  id="11"
                   placeholder="Enter End Date"
                   control={control}
                   errorMessage={errors?.jobEndDate?.message}
@@ -143,7 +143,7 @@ const ExperienceDetails = ({
               <Checkbox
                 label="On Going"
                 handleChange={(e) => setOnGoing(e.target.checked)}
-                name={'ongoing'}
+                name={"ongoing"}
                 register={register}
                 containerClass={style.containerClass}
               />
@@ -153,14 +153,14 @@ const ExperienceDetails = ({
             <p></p>
             <Button type="submit" text="Add" iconEnd={tick} />
           </div>
-          <div style={{ marginTop: '30px' }}>
+          <div style={{ marginTop: "30px" }}>
             <Table
               rows={educations.map((education) => ({
                 ...education,
                 tenure:
                   education.jobStartDate && education.jobEndDate
-                    ? `${moment(watch().jobEndDate).diff(watch().jobStartDate, 'days')} Days`
-                    : 'On Going',
+                    ? `${moment(watch().jobEndDate).diff(watch().jobStartDate, "days")} Days`
+                    : "On Going",
               }))}
               columns={columns}
               minWidth="1000px"
@@ -174,12 +174,12 @@ const ExperienceDetails = ({
               type="button"
               btnClass={style.btn}
               iconStart={arrowLeft}
-              handleClick={() => handleBack('Education')}
+              handleClick={() => handleBack("Education")}
             />
             <Button
               isLoading={btnLoader}
               text="Next"
-              type={'button'}
+              type={"button"}
               handleClick={onSubmit}
               iconEnd={arrowRight}
             />

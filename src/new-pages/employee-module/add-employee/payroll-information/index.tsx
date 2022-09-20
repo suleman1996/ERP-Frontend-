@@ -1,13 +1,13 @@
-import Button from 'new-components/button';
-import TextField from 'new-components/textfield';
-import Select from 'new-components/select';
-import Radio from 'new-components/radio';
+import Button from "new-components/button";
+import TextField from "new-components/textfield";
+import Select from "new-components/select";
+import Radio from "new-components/radio";
 
-import { selectCountry, schema, usePayrollDetail, payrollType, payType, roster } from './helper';
+import { selectCountry, schema, usePayrollDetail, payrollType, payType, roster } from "./helper";
 
-import tick from 'new-assets/tick.svg';
-import arrowLeft from 'new-assets/backBtn.svg';
-import style from './payroll.module.scss';
+import tick from "new-assets/tick.svg";
+import arrowLeft from "new-assets/backBtn.svg";
+import style from "./payroll.module.scss";
 
 interface Props {
   handleBack: (data?: string) => void;
@@ -86,11 +86,11 @@ const PayrollInformation = ({ handleBack }: Props) => {
           />
           <Select
             label="Pay Type"
-            name={'paytype'}
+            name={"paytype"}
             errorMessage={errors?.paytype?.message}
             register={register}
           >
-            <option value="">Monthly</option>
+            <option value="">Pay Type</option>
             <>
               {payType &&
                 payType.map((ele: any) => (
@@ -102,7 +102,7 @@ const PayrollInformation = ({ handleBack }: Props) => {
           </Select>
           <Select
             label="Payroll Type"
-            name={'payrolltype'}
+            name={"payrolltype"}
             errorMessage={errors?.payrolltype?.message}
             register={register}
           >
@@ -119,15 +119,15 @@ const PayrollInformation = ({ handleBack }: Props) => {
           <div className={style.flexClass}>
             <label className={style.label}>Overtime Applicable</label>
             <div className={style.flexClassInner}>
-              <Radio name="yes" label="Yes " radioValue={'yes'} radioRef={register} />
+              <Radio name="yes" label="Yes " radioValue={"yes"} radioRef={register} />
               <div className={style.sec}>
-                <Radio name="yes" label="No " radioValue={'no'} radioRef={register} />
+                <Radio name="yes" label="No " radioValue={"no"} radioRef={register} />
               </div>
             </div>
           </div>
           <Select
             label="Roaster"
-            name={'roaster'}
+            name={"roaster"}
             errorMessage={errors?.roaster?.message}
             register={register}
           >
@@ -149,9 +149,9 @@ const PayrollInformation = ({ handleBack }: Props) => {
             type="button"
             btnClass={style.btn}
             iconStart={arrowLeft}
-            handleClick={() => handleBack('Expertise')}
+            handleClick={() => handleBack("Expertise")}
           />
-          <Button text="Done" iconEnd={tick} type={'submit'} />
+          <Button text="Done" iconEnd={tick} type={"submit"} />
         </div>
       </form>
     </div>
