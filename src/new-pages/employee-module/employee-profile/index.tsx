@@ -52,7 +52,6 @@ const EmployeeProfileDetails = () => {
   const getEmployeesData = async () => {
     const res = await EmployeeService.getAllEmployees({ pageSize: 20, page: 0 });
     if (res?.status === 200) {
-      console.log("res", res);
       setEmployees(res.data.employees);
     }
   };
