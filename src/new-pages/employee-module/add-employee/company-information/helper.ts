@@ -141,7 +141,7 @@ export const useCompanyInfo = ({
 
           probation: probation === "true" ? true : false,
         },
-        employeeId: "SPX010",
+        employeeId: employeeId,
       });
       if (res.status === 201) {
         handleNext("Education");

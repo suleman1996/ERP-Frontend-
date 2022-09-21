@@ -1,16 +1,16 @@
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction } from "react";
 
-import Button from 'new-components/button';
-import DatePicker from 'new-components/date-picker';
-import ImageUpload from 'new-components/image-upload';
-import TextField from 'new-components/textfield';
-import Radio from 'new-components/radio';
-import ProfileUpload from 'new-components/profile-upload';
+import Button from "new-components/button";
+import DatePicker from "new-components/date-picker";
+import ImageUpload from "new-components/image-upload";
+import TextField from "new-components/textfield";
+import Radio from "new-components/radio";
+import ProfileUpload from "new-components/profile-upload";
 
-import { usePersonalInfo } from './helper';
+import { usePersonalInfo } from "./helper";
 
-import arrowRight from 'new-assets/arrowBtnRight.svg';
-import style from './personal-information.module.scss';
+import arrowRight from "new-assets/arrowBtnRight.svg";
+import style from "./personal-information.module.scss";
 
 interface Props {
   handleNext: (data?: string) => void;
@@ -42,7 +42,7 @@ const PersonalInformation = ({
   return (
     <div className={style.mainForm}>
       <form className={style.form} onSubmit={handleSubmit(onSubmit)}>
-        <ImageUpload name={'userimage'} img={img} setImg={setImg} />
+        <ImageUpload name={"userimage"} img={img} setImg={setImg} />
         <div className={style.grid}>
           <TextField
             name="firstName"
@@ -51,6 +51,7 @@ const PersonalInformation = ({
             register={register}
             errorMessage={errors?.firstName?.message}
             placeholder="Enter First Name"
+            star={"*"}
           />
           <TextField
             name="lastName"
@@ -59,6 +60,7 @@ const PersonalInformation = ({
             register={register}
             errorMessage={errors?.lastName?.message}
             placeholder="Enter Last Name"
+            star={"*"}
           />
           <TextField
             name="employeeId"
@@ -67,6 +69,7 @@ const PersonalInformation = ({
             placeholder="Enter Employee ID"
             errorMessage={errors?.employeeId?.message}
             register={register}
+            star={"*"}
           />
           <TextField
             name="phoneNumber"
@@ -75,6 +78,7 @@ const PersonalInformation = ({
             register={register}
             errorMessage={errors?.phoneNumber?.message}
             placeholder="Phone Number"
+            star={"*"}
           />
           <TextField
             name="email"
@@ -83,6 +87,7 @@ const PersonalInformation = ({
             placeholder="Enter Email"
             errorMessage={errors?.email?.message}
             register={register}
+            star={"*"}
           />
           <DatePicker
             label="Date of Birth "
@@ -105,7 +110,7 @@ const PersonalInformation = ({
           <div className={style.flexClass}>
             <label
               className={style.label}
-              style={{ color: errors?.gender?.message ? '#ff5050' : '#2d2d32' }}
+              style={{ color: errors?.gender?.message ? "#ff5050" : "#2d2d32" }}
             >
               Gender
             </label>
@@ -113,33 +118,33 @@ const PersonalInformation = ({
               <Radio
                 name="gender"
                 label="Male "
-                radioValue={'Male'}
+                radioValue={"Male"}
                 radioRef={register}
                 errorMessage={errors?.gender?.message}
               />
               <div className={style.sec}>
-                <Radio name="gender" label="Female " radioValue={'Female'} radioRef={register} />
+                <Radio name="gender" label="Female " radioValue={"Female"} radioRef={register} />
               </div>
               <div className={style.sec}>
-                <Radio name="gender" label="Other" radioValue={'Other'} radioRef={register} />
+                <Radio name="gender" label="Other" radioValue={"Other"} radioRef={register} />
               </div>
             </div>
           </div>
           <div>
             <label className={style.label}>CNIC Front Side</label>
             <ProfileUpload
-              name={'frontPic'}
+              name={"frontPic"}
               register={register}
-              id={'frontPic'}
+              id={"frontPic"}
               errorMessage={errors?.frontPic?.message}
             />
           </div>
           <div>
             <label className={style.label}>CNIC Back Side</label>
             <ProfileUpload
-              name={'backPic'}
+              name={"backPic"}
               register={register}
-              id={'backPic'}
+              id={"backPic"}
               errorMessage={errors?.backPic?.message}
             />
           </div>
