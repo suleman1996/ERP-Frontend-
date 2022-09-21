@@ -1,6 +1,6 @@
-import { ChangeEvent } from 'react';
+import { ChangeEvent } from "react";
 
-import style from './input.module.scss';
+import style from "./input.module.scss";
 
 interface Props {
   label?: string;
@@ -17,6 +17,7 @@ interface Props {
   readOnly?: boolean;
   isDisable?: boolean;
   id?: string;
+  star?: string;
 }
 
 const TextField = ({
@@ -34,17 +35,23 @@ const TextField = ({
   icon,
   readOnly,
   isDisable,
+  star,
   ...restOfProps
 }: Props) => {
   return (
     <>
       <div className={style.inputContainer}>
-        {label && <label style={{ color: errorMessage ? '#ff5050' : '#2d2d32' }}>{label}</label>}
-        <div style={{ position: 'relative' }} className={className}>
+        {label && (
+          <label style={{ color: errorMessage ? "#ff5050" : "#2d2d32" }}>
+            {label}
+            <b style={{ color: "red" }}>{star}</b>
+          </label>
+        )}
+        <div style={{ position: "relative" }} className={className}>
           <input
             style={{
-              border: errorMessage ? '1.2px solid #ff5050' : ' 1.2px solid #e2e2ea',
-              backgroundColor: readOnly || isDisable ? '#ddd' : '#fff',
+              border: errorMessage ? "1.2px solid #ff5050" : " 1.2px solid #e2e2ea",
+              backgroundColor: readOnly || isDisable ? "#ddd" : "#fff",
             }}
             id={id}
             name={name}
@@ -60,7 +67,7 @@ const TextField = ({
           {icon && (
             <img
               className={style.icon}
-              style={{ cursor: 'pointer' }}
+              style={{ cursor: "pointer" }}
               src={icon}
               alt=""
               onClick={onClick}
