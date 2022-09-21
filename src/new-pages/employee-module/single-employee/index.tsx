@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 
 import Overview from "./overview";
 import Documents from "./documents";
@@ -17,7 +17,6 @@ import edit from "new-assets/edit-employee.svg";
 import profile from "new-assets/user-img.svg";
 import pencil from "new-assets/pencil.svg";
 import style from "./single-employee.module.scss";
-import { Link } from "react-router-dom";
 
 const SingleEmployee = () => {
   const navigate = useNavigate();
