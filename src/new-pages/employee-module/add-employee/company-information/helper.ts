@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
-import * as yup from "yup";
-import { useParams } from "react-router-dom";
-import moment from "moment";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
+import { useEffect, useState } from 'react';
+import * as yup from 'yup';
+import { useParams } from 'react-router-dom';
+import moment from 'moment';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 
-import EmployeeService from "services/employee-service";
-import { removeKeys } from "helper";
+import EmployeeService from 'services/employee-service';
+import { removeKeys } from 'helper';
 
 interface Props {
   handleBack: (data?: string) => void;
@@ -19,10 +19,11 @@ interface Data {
   startDate: string;
   endDate: string;
   joiningDate: string;
-  loginTime: string;
-  logoutTime: string;
+  checkOut: string;
+  checkIn: string;
   workingTime?: string;
   probation: string;
+  workingHours?: any;
 }
 
 export const useCompanyInfo = ({
@@ -57,15 +58,15 @@ export const useCompanyInfo = ({
         probation: formData?.companyInformation?.probation,
         note: formData?.companyInformation?.note,
         workingHours: formData?.companyInformation?.workingHours,
-        loginTime: formData?.companyInformation?.loginTime,
-        logoutTime: formData?.companyInformation?.logoutTime,
+        checkIn: formData?.companyInformation?.loginTime,
+        checkOut: formData?.companyInformation?.logoutTime,
         startDate: formData?.companyInformation
           ? new Date(formData?.companyInformation?.startDate)
-          : "",
+          : '',
         endDate: formData?.companyInformation
           ? new Date(formData?.companyInformation?.endDate)
-          : "",
-        probationEndDate: temp?.probationEndDate ? new Date(temp?.probationEndDate) : "",
+          : '',
+        probationEndDate: temp?.probationEndDate ? new Date(temp?.probationEndDate) : '',
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -109,42 +110,48 @@ export const useCompanyInfo = ({
   const onSubmit = async (data: Data) => {
     setBtnLoader(true);
     setFormData({ ...formData, companyInformation: { ...data } });
-    removeKeys(data, ["startDate", "endDate"]);
-    const { joiningDate, loginTime, probation, workingTime, logoutTime } = data;
+    removeKeys(data, ['startDate', 'endDate']);
+    const { joiningDate, checkIn, probation, workingTime, checkOut, workingHours } = data;
     if (id) {
       const userData = {
         type: 3,
         companyInformation: {
           ...data,
-          joiningDate: moment(joiningDate).format("YYYY-MM-DD"),
-          workingHours: workingTime && moment(workingTime, "HH:mm").format("hh:mm a"),
-          loginTime: loginTime && moment(loginTime, "HH:mm").format("hh:mm a"),
-          logoutTime: logoutTime && moment(logoutTime, "HH:mm").format("hh:mm a"),
+          joiningDate: moment(joiningDate).format('YYYY-MM-DD'),
+          employeeInfo: {
+            checkIn: checkIn && moment(checkIn, 'HH:mm').format('hh:mm a'),
+            checkOut: checkOut && moment(checkOut, 'HH:mm').format('hh:mm a'),
+            workingHours: workingHours && moment(workingHours, 'HH:mm').format('hh:mm a'),
+          },
 
-          probation: probation === "true" ? true : false,
+          probation: probation === 'true' ? true : false,
         },
         employeeId: employeeId.toUpperCase(),
       };
       const res = await EmployeeService.updateAddedEmployee(userData, id);
       if (res.status === 200) {
-        handleNext("Education");
+        handleNext('Education');
       }
     } else {
+      const user = {
+        ...data,
+        joiningDate: moment(joiningDate).format('YYYY-MM-DD'),
+        employmentInfo: {
+          checkIn: checkIn && moment(checkIn, 'HH:mm').format('hh:mm a'),
+          checkOut: checkOut && moment(checkOut, 'HH:mm').format('hh:mm a'),
+          workingHours: workingHours && moment(workingHours, 'HH:mm').format('hh:mm a'),
+        },
+        probation: probation === 'true' ? true : false,
+      };
+      removeKeys(user, ['workingHours', 'checkIn', 'checkOut']);
+
       const res = await EmployeeService.addEmployee({
         type: 3,
-        companyInformation: {
-          ...data,
-          joiningDate: moment(joiningDate).format("YYYY-MM-DD"),
-          workingHours: workingTime && moment(workingTime, "HH:mm").format("hh:mm a"),
-          loginTime: loginTime && moment(loginTime, "HH:mm").format("hh:mm a"),
-          logoutTime: logoutTime && moment(logoutTime, "HH:mm").format("hh:mm a"),
-
-          probation: probation === "true" ? true : false,
-        },
+        companyInformation: { ...user },
         employeeId: employeeId,
       });
       if (res.status === 201) {
-        handleNext("Education");
+        handleNext('Education');
       }
     }
     setBtnLoader(false);
@@ -164,61 +171,68 @@ export const useCompanyInfo = ({
 };
 
 export const schema = yup.object().shape({
-  joiningDate: yup.string().required("Joining date is a required field"),
-  annualLeaves: yup.string().required("Annual leaves are a required field"),
-  medicalLeaves: yup.string().required("Medical leaves are a required field"),
-  casualLeaves: yup.string().required("Casual leaves are a required field"),
-  department: yup.string().required("Department is a required field"),
-  designation: yup.string().required("Designation is a required field"),
-  note: yup.string().required("Note is a required field"),
-  employmentType: yup.string().required("employmentType is a required field"),
-  workingHours: yup.string().when("employmentType", {
-    is: "Part-Time",
-    then: yup.string().required("Working time is required."),
+  joiningDate: yup.string().required('Joining date is a required field'),
+  annualLeaves: yup.string().required('Annual leaves are a required field'),
+  medicalLeaves: yup.string().required('Medical leaves are a required field'),
+  casualLeaves: yup.string().required('Casual leaves are a required field'),
+  department: yup.string().required('Department is a required field'),
+  designation: yup.string().required('Designation is a required field'),
+  employmentType: yup.string().required('employmentType is a required field'),
+  workingHours: yup.string().when('employmentType', {
+    is: 'Part-Time',
+    then: yup.string().required('Working time is required.'),
   }),
-  loginTime: yup.string().when("employmentType", {
-    is: "Full-Time",
-    then: yup.string().required("login time is required."),
+  checkIn: yup.string().when('employmentType', {
+    is: 'Full-Time',
+    then: yup.string().required('login time is required.'),
   }),
-  logoutTime: yup.string().when("employmentType", {
-    is: "Full-Time",
-    then: yup.string().required("Logout time is required."),
+  checkOut: yup.string().when('employmentType', {
+    is: 'Full-Time',
+    then: yup.string().required('Logout time is required.'),
   }),
 });
 
 export const selectCountry = [
   {
-    value: "hr",
-    description: "Hr",
+    value: 'hr',
+    description: 'Hr',
   },
   {
-    value: "employee",
-    description: "Employee",
+    value: 'employee',
+    description: 'Employee',
   },
   {
-    value: "admin",
-    description: "Admin",
+    value: 'admin',
+    description: 'Admin',
   },
 ];
 
 export const employmentType = [
   {
-    value: "Part-Time",
-    description: "Part-Time",
+    value: 'Part-Time',
+    description: 'Part-Time',
   },
   {
-    value: "Full-Time",
-    description: "Full-Time",
+    value: 'Full-Time',
+    description: 'Full-Time',
   },
 ];
 
 export const department = [
   {
-    value: "Front-end Developer",
-    description: "Front-end Developer",
+    value: 'Front-end Developer',
+    description: 'Front-end Developer',
   },
   {
-    value: "Backend-developer",
-    description: "Backend-developer",
+    value: 'Backend-developer',
+    description: 'Backend-developer',
+  },
+  {
+    value: 'management',
+    description: 'Management',
+  },
+  {
+    value: 'quality-control',
+    description: 'Quality-Control',
   },
 ];

@@ -55,6 +55,7 @@ const Certificate = ({ formData, setFormData, employeeId, setCertificate }: Prop
           <TextField
             name="certificateName"
             label="Name"
+            star={' *'}
             type="text"
             register={register}
             errorMessage={errors?.certificateName?.message}
@@ -63,6 +64,7 @@ const Certificate = ({ formData, setFormData, employeeId, setCertificate }: Prop
           <TextField
             label="Platform"
             name="platform"
+            star={' *'}
             type="text"
             register={register}
             errorMessage={errors?.platform?.message}
@@ -71,6 +73,7 @@ const Certificate = ({ formData, setFormData, employeeId, setCertificate }: Prop
           <TextField
             name="year"
             label="Year"
+            star={' *'}
             register={register}
             errorMessage={errors?.year?.message}
             placeholder="Year"
@@ -89,6 +92,7 @@ const Certificate = ({ formData, setFormData, employeeId, setCertificate }: Prop
         <SkillLevel
           errors={errors?.skills?.message}
           control={control}
+          star={' *'}
           name="skills"
           activeEdit={activeEdit}
         />

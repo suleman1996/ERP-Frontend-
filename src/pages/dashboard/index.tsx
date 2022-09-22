@@ -18,18 +18,31 @@ import ImageUpload from 'new-components/image-upload';
 import ProfileUpload from 'new-components/profile-upload';
 import ProfileView from 'new-pages/employee-module/employee-profile/profile-view';
 
-import { rows, columns } from './helper';
+import { rows, columns, selectCountryOptions } from './helper';
 
 import done from 'new-assets/done.svg';
 import style from './dashboard.module.scss';
+import flagImg from 'new-assets/flag/pakFlag.svg';
+
+import CountryTextField from 'components/country-textfield';
 
 const DashBoard = () => {
-  const { control } = useForm();
+  const { control, register } = useForm();
 
   const [open, setOpen] = useState(false);
 
   return (
     <>
+      <CountryTextField register={register} label="Phone Number">
+        {selectCountryOptions &&
+          selectCountryOptions.map((ele: any) => (
+            <option key={ele.value} value={ele.value}>
+              {/* <img src={flagImg} alt="" />
+               */}
+              jh
+            </option>
+          ))}
+      </CountryTextField>
       <DatePicker label="Date" name="date" id="1" placeholder="Date" control={control} />
       <div style={{ marginTop: '20px' }}>
         <ImageUpload />

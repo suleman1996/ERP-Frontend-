@@ -1,4 +1,4 @@
-import { MouseEventHandler, useEffect, useState } from 'react';
+import { MouseEventHandler, useEffect, useRef, useState } from 'react';
 import { useController } from 'react-hook-form';
 
 import TextField from 'new-components/textfield';
@@ -23,6 +23,7 @@ interface Props {
   control?: any;
   register?: any;
   value?: string;
+  star?: string;
 }
 
 const SearchSelect = ({
@@ -38,6 +39,7 @@ const SearchSelect = ({
   errorMessage,
   control,
   register,
+  star,
 }: Props) => {
   const {
     field: { onChange },
@@ -46,6 +48,7 @@ const SearchSelect = ({
   const [open, setOpen] = useState(false);
   const [list, setList] = useState(options);
   const [selectValue, setSelectValue] = useState('');
+  const timerRef = useRef<NodeJS.Timeout>();
 
   useEffect(() => {
     if (value) {
@@ -59,35 +62,31 @@ const SearchSelect = ({
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSelectValue(e.target.value);
-  };
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      if (selectValue === '') {
+    timerRef.current && clearTimeout(timerRef.current);
+    timerRef.current = setTimeout(() => {
+      if (e.target.value === '') {
         setOpen(false);
       } else {
         setOpen(true);
         setList(
-          options?.filter((ele: string) => ele.toLowerCase().includes(selectValue.toLowerCase())),
+          options?.filter((ele: string) =>
+            ele.toLowerCase().includes(e.target.value.toLowerCase()),
+          ),
         );
       }
-    }, 1000);
-
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [selectValue]);
+    }, 100);
+  };
 
   return (
     <div className={`${style.searchSelect} ${className}`}>
       <TextField
         label={label}
+        star={star}
         name={name}
         errorMessage={errorMessage}
         placeholder={placeholder}
         value={selectValue}
         type="text"
-        icon={open ? arrow : arrowDown}
         onChange={(e) => handleSearch(e)}
         onClick={() => setOpen(!open)}
         className={style.field}

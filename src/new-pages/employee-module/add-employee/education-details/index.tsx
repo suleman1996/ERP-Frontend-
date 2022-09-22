@@ -47,6 +47,8 @@ const EducationalDetails = ({
     setStartDateHandle,
     startDateHandle,
     startDate,
+    setValue,
+    filename,
   } = useEducationDetail({
     handleBack,
     handleNext,
@@ -63,6 +65,7 @@ const EducationalDetails = ({
           <TextField
             name="institute"
             label="Institute"
+            star={' *'}
             type="text"
             register={register}
             errorMessage={errors?.institute?.message}
@@ -71,6 +74,7 @@ const EducationalDetails = ({
           <TextField
             name="degree"
             label="Degree"
+            star={' *'}
             type="text"
             register={register}
             errorMessage={errors?.degree?.message}
@@ -87,6 +91,7 @@ const EducationalDetails = ({
           <DatePicker
             label="Start Date"
             name="startDate"
+            star={' *'}
             id="4"
             placeholder="Start Date"
             control={control}
@@ -98,6 +103,7 @@ const EducationalDetails = ({
               <DatePicker
                 label="End Date"
                 name="endDate"
+                star={' *'}
                 id="5"
                 control={control}
                 errorMessage={errors?.endDate?.message}
@@ -116,6 +122,7 @@ const EducationalDetails = ({
           <TextField
             name="percentageCgpa"
             label="Percentage/CGPA"
+            star={' *'}
             type="text"
             register={register}
             errorMessage={errors?.percentageCgpa?.message}
@@ -132,6 +139,8 @@ const EducationalDetails = ({
               name={'transcript'}
               register={register}
               id={'transcript'}
+              defaultFileName={filename ? filename : ''}
+              setFileName={(value: string) => setValue('filename', value)}
               errorMessage={errors?.transcript?.message}
               type={'application/pdf'}
             />

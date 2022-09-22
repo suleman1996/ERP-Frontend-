@@ -1,17 +1,17 @@
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction } from 'react';
 
-import Button from "new-components/button";
-import TextField from "new-components/textfield";
-import Table from "new-components/table";
-import ProfileUpload from "new-components/profile-upload";
-import Select from "new-components/select";
-import SkillLevel from "new-components/skill-level";
-import SearchSelect from "new-components/search-select";
+import Button from 'new-components/button';
+import TextField from 'new-components/textfield';
+import Table from 'new-components/table';
+import ProfileUpload from 'new-components/profile-upload';
+import Select from 'new-components/select';
+import SkillLevel from 'new-components/skill-level';
+import SearchSelect from 'new-components/search-select';
 
-import { columns, selectRates, useLanguage, languageArray } from "./helper";
+import { columns, selectRates, useLanguage, languageArray } from './helper';
 
-import tick from "new-assets/tick.svg";
-import style from "./language.module.scss";
+import tick from 'new-assets/tick.svg';
+import style from './language.module.scss';
 
 interface Props {
   formData: any;
@@ -52,14 +52,21 @@ const LanguageExpertise = ({ formData, setFormData, employeeId, setLanguage }: P
       <form onSubmit={handleSubmit(handleAddEduction)}>
         <div className={style.grid}>
           <SearchSelect
-            name={"language"}
+            name={'language'}
+            star={' *'}
             register={register}
             control={control}
             errorMessage={errors?.language?.message}
             options={languageArray}
             label="Language"
           />
-          <Select label="Rate" register={register} errorMessage={errors?.rate?.message} name="rate">
+          <Select
+            label="Rate"
+            register={register}
+            errorMessage={errors?.rate?.message}
+            star={' *'}
+            name="rate"
+          >
             <option value="">50 Percent</option>
             <>
               {selectRates &&
@@ -73,6 +80,7 @@ const LanguageExpertise = ({ formData, setFormData, employeeId, setLanguage }: P
           <TextField
             name="year"
             label="Year"
+            star={' *'}
             register={register}
             errorMessage={errors?.year?.message}
             placeholder="Year"
@@ -80,17 +88,18 @@ const LanguageExpertise = ({ formData, setFormData, employeeId, setLanguage }: P
           <div>
             <label className={style.label}>Attach File</label>
             <ProfileUpload
-              name={"file"}
+              name={'file'}
               register={register}
-              id={"letter"}
+              id={'letter'}
               errorMessage={errors?.file?.message}
-              type={"application/pdf"}
+              type={'application/pdf'}
             />
           </div>
         </div>
         <SkillLevel
           errors={errors?.skills?.message}
           control={control}
+          star={' *'}
           name="skills"
           activeEdit={activeEdit}
         />
@@ -98,7 +107,7 @@ const LanguageExpertise = ({ formData, setFormData, employeeId, setLanguage }: P
           <p></p>
           <Button type="submit" text="Add" iconEnd={tick} />
         </div>
-        <div style={{ marginTop: "30px" }}>
+        <div style={{ marginTop: '30px' }}>
           <Table
             rows={educations}
             columns={columns}
@@ -114,4 +123,4 @@ const LanguageExpertise = ({ formData, setFormData, employeeId, setLanguage }: P
 
 export default LanguageExpertise;
 
-const skills = ["Novice", "Intermediate", "Proficient", "Expert"];
+const skills = ['Novice', 'Intermediate', 'Proficient', 'Expert'];

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import profileUploadIcon from 'new-assets/profileUploadImg.svg';
 import style from './profile-upload.module.scss';
@@ -7,12 +7,30 @@ interface Props {
   id?: string;
   type?: string;
   name?: string;
+  defaultFileName?: any;
+  setFileName?: (value: string) => any;
   register?: any;
   errorMessage?: string;
 }
 
-const ProfileUpload = ({ name, errorMessage, register, id, type }: Props) => {
-  const [filename, setFileName] = useState('');
+const ProfileUpload = ({
+  name,
+  errorMessage,
+  register,
+  id,
+  type,
+  defaultFileName,
+  setFileName,
+}: Props) => {
+  const [selectedFileName, setSelectedFileName] = useState(defaultFileName || '');
+
+  useEffect(() => {
+    selectedFileName && setFileName && setFileName(selectedFileName);
+  }, [selectedFileName]);
+
+  useEffect(() => {
+    setSelectedFileName(defaultFileName);
+  }, [defaultFileName]);
 
   return (
     <div>
@@ -23,7 +41,7 @@ const ProfileUpload = ({ name, errorMessage, register, id, type }: Props) => {
         <input
           type={'file'}
           name={name}
-          onChange={(e) => setFileName(e.target.value.split('').splice(12, 100).join(''))}
+          onChange={(e) => setSelectedFileName(e.target.value.split('').splice(12, 100).join(''))}
           accept={type ? type : 'image/png '}
           ref={register}
           hidden
@@ -31,7 +49,7 @@ const ProfileUpload = ({ name, errorMessage, register, id, type }: Props) => {
           data-testid={id}
         />
         <label htmlFor={id} className={style.labelTag}>
-          {filename ? `${filename}` : 'Attach Transcript'}
+          {selectedFileName ? `${selectedFileName}` : 'Attach Transcript'}
         </label>
         <img src={profileUploadIcon} alt="" className={style.fileIcon} />
       </div>

@@ -54,6 +54,7 @@ const SkillExpertise = ({ formData, setFormData, employeeId, setSkillData }: Pro
             name="skillName"
             label="Skill"
             type="text"
+            star={' *'}
             register={register}
             errorMessage={errors?.skillName?.message}
             placeholder="Skill"
@@ -61,6 +62,7 @@ const SkillExpertise = ({ formData, setFormData, employeeId, setSkillData }: Pro
           <TextField
             name="experince"
             label="Experience"
+            star={' *'}
             type="text"
             register={register}
             errorMessage={errors?.experince?.message}
@@ -69,6 +71,7 @@ const SkillExpertise = ({ formData, setFormData, employeeId, setSkillData }: Pro
           <TextField
             name="year"
             label="Year"
+            star={' *'}
             register={register}
             errorMessage={errors?.year?.message}
             placeholder="Year"
@@ -87,6 +90,7 @@ const SkillExpertise = ({ formData, setFormData, employeeId, setSkillData }: Pro
         <SkillLevel
           errors={errors?.skills?.message}
           control={control}
+          star={' *'}
           name="skills"
           activeEdit={activeEdit}
         />

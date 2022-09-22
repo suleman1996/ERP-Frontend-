@@ -11,15 +11,17 @@ interface Props {
   inputRef?: string;
   register?: any;
   errorMessage?: string;
+  star?: string;
 }
 
-const TimePicker = ({ placeholder, label, name, register, errorMessage }: Props) => {
+const TimePicker = ({ placeholder, label, name, register, errorMessage, star }: Props) => {
   return (
     <>
       <div className={style.main}>
         <div className={style.inpDiv}>
           <Input
             label={label}
+            star={star}
             type="time"
             id="time"
             register={register}

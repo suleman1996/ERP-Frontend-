@@ -63,6 +63,7 @@ const AddressInformation = ({
           <Select
             label="Country"
             name={'currentCountry'}
+            star={'*'}
             errorMessage={errors?.currentCountry?.message}
             register={register}
             onChange={() => {
@@ -83,6 +84,7 @@ const AddressInformation = ({
           </Select>
           <Select
             label="State"
+            star={'*'}
             register={register}
             errorMessage={errors?.currentState?.message}
             name="currentState"
@@ -103,6 +105,7 @@ const AddressInformation = ({
           </Select>
           <SearchSelect
             name={'currentCity'}
+            star={' *'}
             control={control}
             value={watch('currentCity')}
             errorMessage={errors?.currentCity?.message}
@@ -116,10 +119,12 @@ const AddressInformation = ({
             register={register}
             errorMessage={errors?.currentCode?.message}
             placeholder="Postal Code"
+            star={'*'}
           />
         </div>
         <TextArea
           name="currentAddress"
+          star={'*'}
           label="Address "
           register={register}
           errorMessage={errors?.currentAddress?.message}
@@ -137,6 +142,7 @@ const AddressInformation = ({
         <div className={style.grid}>
           <Select
             label="Country"
+            star={'*'}
             name={'permanentCountry'}
             errorMessage={errors?.permanentCountry?.message}
             register={register}
@@ -158,6 +164,7 @@ const AddressInformation = ({
           </Select>
           <Select
             label="State"
+            star={'*'}
             register={register}
             errorMessage={errors?.permanentState?.message}
             name="permanentState"
@@ -177,6 +184,7 @@ const AddressInformation = ({
           </Select>
           <SearchSelect
             label="City"
+            star={' *'}
             name={'permanentCity'}
             value={watch('permanentCity')}
             control={control}
@@ -185,6 +193,7 @@ const AddressInformation = ({
           />
           <TextField
             name="permanentCode"
+            star={'*'}
             label="Postal Code "
             type="number"
             register={register}
@@ -194,6 +203,7 @@ const AddressInformation = ({
         </div>
         <TextArea
           name="permanentAddress"
+          star={'*'}
           label="Address "
           register={register}
           errorMessage={errors?.permanentAddress?.message}

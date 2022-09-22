@@ -1,3 +1,4 @@
+import flagImg from 'new-assets/flag/pakFlag.svg';
 export const columns = [
   {
     key: 'date',
@@ -46,5 +47,11 @@ export const rows = [
     hours: '3.3',
     days: '22',
     fatherName: 'Baig Family',
+  },
+];
+
+export const selectCountryOptions = [
+  {
+    value: 'hr',
   },
 ];

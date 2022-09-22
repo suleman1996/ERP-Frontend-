@@ -1,22 +1,22 @@
-import { useParams } from "react-router";
-import { useEffect, useState } from "react";
+import { useParams } from 'react-router';
+import { useEffect, useState } from 'react';
 
-import Button from "new-components/button";
-import SkillExpertise from "./skill-expertise";
-import Certificate from "./certificate";
-import LanguageExpertise from "./language-expertise";
+import Button from 'new-components/button';
+import SkillExpertise from './skill-expertise';
+import Certificate from './certificate';
+import LanguageExpertise from './language-expertise';
 
-import EmployeeService from "services/employee-service";
-import { removeKeys } from "helper";
+import EmployeeService from 'services/employee-service';
+import { removeKeys } from 'helper';
 
-import SvgImg from "./svg-img";
-import arrowLeft from "new-assets/backBtn.svg";
-import tickArrow from "new-assets/expertise-tick.svg";
-import numImg from "new-assets/1.png";
-import numImg1 from "new-assets/2.png";
-import numImg2 from "new-assets/3.png";
-import arrowRight from "new-assets/arrowBtnRight.svg";
-import style from "./expertise.module.scss";
+import SvgImg from './svg-img';
+import arrowLeft from 'new-assets/backBtn.svg';
+import tickArrow from 'new-assets/expertise-tick.svg';
+import numImg from 'new-assets/1.png';
+import numImg1 from 'new-assets/2.png';
+import numImg2 from 'new-assets/3.png';
+import arrowRight from 'new-assets/arrowBtnRight.svg';
+import style from './expertise.module.scss';
 
 interface Props {
   handleBack: (data?: string) => void;
@@ -82,12 +82,12 @@ const ExpertiseInformation = ({
     if (id) {
       const res = await EmployeeService.updateAddedEmployee(userData, id);
       if (res.status === 200) {
-        handleNext("Payroll");
+        handleNext('Payroll');
       }
     } else {
       const res = await EmployeeService.addEmployee({ ...userData });
       if (res.status === 201) {
-        handleNext("Payroll");
+        handleNext('Payroll');
       }
     }
     setBtnLoader(false);
@@ -96,12 +96,12 @@ const ExpertiseInformation = ({
   const getUser = async () => {
     const res = await EmployeeService.getEmployee(id);
     const data = res?.data?.languages.map((item: any) => {
-      removeKeys(item, ["_id"]);
+      removeKeys(item, ['_id']);
       return item;
     });
     setLanguage((current) => [...current, ...data]);
     const dataa = res?.data?.certificates.map((item: any) => {
-      removeKeys(item, ["_id"]);
+      removeKeys(item, ['_id']);
       return item;
     });
     setCertificate((current) => [...current, ...dataa]);
@@ -117,10 +117,10 @@ const ExpertiseInformation = ({
         <div
           onClick={() => setActive(0)}
           className={style.innerDiv}
-          style={{ border: active === 0 ? "1.5px solid #57B894" : "" }}
+          style={{ border: active === 0 ? '1.5px solid #57B894' : '' }}
         >
           <img src={active === 0 ? tickArrow : numImg} alt="" />
-          <p style={{ color: active === 0 ? "#57B894" : "#CACACA" }}>
+          <p style={{ color: active === 0 ? '#57B894' : '#CACACA' }}>
             <SvgImg active={active === 0} />
             Add Skill
           </p>
@@ -129,11 +129,11 @@ const ExpertiseInformation = ({
         <div
           className={style.innerDiv}
           onClick={() => setActive(1)}
-          style={{ border: active === 1 ? "1.5px solid #57B894" : "" }}
+          style={{ border: active === 1 ? '1.5px solid #57B894' : '' }}
         >
           <img src={active === 1 ? tickArrow : numImg1} alt="" />
-          <p style={{ color: active === 1 ? "#57B894" : "#CACACA" }}>
-            {" "}
+          <p style={{ color: active === 1 ? '#57B894' : '#CACACA' }}>
+            {' '}
             <SvgImg active={active === 1} />
             Add Language
           </p>
@@ -141,12 +141,12 @@ const ExpertiseInformation = ({
         <div className={style.borderInner}></div>
         <div
           className={style.innerDiv}
-          style={{ border: active === 2 ? "1.5px solid #57B894" : "" }}
+          style={{ border: active === 2 ? '1.5px solid #57B894' : '' }}
           onClick={() => setActive(2)}
         >
           <img src={active === 2 ? tickArrow : numImg2} alt="" />
-          <p style={{ color: active === 2 ? "#57B894" : "#CACACA" }}>
-            {" "}
+          <p style={{ color: active === 2 ? '#57B894' : '#CACACA' }}>
+            {' '}
             <SvgImg active={active === 2} />
             Add Certificate
           </p>
@@ -182,7 +182,7 @@ const ExpertiseInformation = ({
           type="button"
           btnClass={style.btn}
           iconStart={arrowLeft}
-          handleClick={() => handleBack("Experience")}
+          handleClick={() => handleBack('Experience')}
         />
         <Button
           isLoading={btnLoader}
@@ -192,7 +192,7 @@ const ExpertiseInformation = ({
           btnClass={
             skillData.length < 1 || language.length < 1 || certificate.length < 1
               ? style.disableBtn
-              : ""
+              : ''
           }
           disabled={skillData.length < 1 || language.length < 1 || certificate.length < 1}
         />

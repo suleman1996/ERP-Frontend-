@@ -1,6 +1,6 @@
-@use "styles/_colors.scss" as c;
-@import "styles/_mixin.scss";
-@import "styles/_breakpoints.scss";
+@use 'styles/_colors.scss' as c;
+@import 'styles/_mixin.scss';
+@import 'styles/_breakpoints.scss';
 
 .mainForm {
   margin-top: calc(20px + (50 - 20) * (100vw - 280px) / (2560 - 280));

@@ -16,6 +16,7 @@ interface Props {
   readOnly?: boolean;
   isDisable?: boolean;
   className?: string;
+  star?: string;
 }
 
 const TextArea = ({
@@ -26,11 +27,16 @@ const TextArea = ({
   errorMessage,
   isDisable,
   className,
+  star,
 }: Props) => {
   return (
     <>
       <div className={`${style.note} ${className}`}>
-        {label && <label style={{ color: errorMessage ? '#ff5050' : '#2d2d32' }}>{label}</label>}
+        {label && (
+          <label style={{ color: errorMessage ? '#ff5050' : '#2d2d32' }}>
+            {label} <b style={{ color: 'red' }}>{star}</b>{' '}
+          </label>
+        )}
         <textarea
           style={{
             border: errorMessage ? '1.2px solid #ff5050' : ' 1.2px solid #e2e2ea',
