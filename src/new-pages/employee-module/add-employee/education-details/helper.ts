@@ -1,13 +1,13 @@
-import { useState, useEffect, useRef } from "react";
-import { useLocation, useParams } from "react-router-dom";
-import moment from "moment";
-import * as yup from "yup";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
+import { useState, useEffect, useRef } from 'react';
+import { useLocation, useParams } from 'react-router-dom';
+import moment from 'moment';
+import * as yup from 'yup';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 
-import EmployeeService from "services/employee-service";
-import { convertBase64Image } from "main-helper";
-import { removeKeys } from "helper";
+import EmployeeService from 'services/employee-service';
+import { convertBase64Image } from 'main-helper';
+import { removeKeys } from 'helper';
 
 export interface Education {
   degree: string;
@@ -15,8 +15,11 @@ export interface Education {
   startDate?: string;
   endDate?: string;
   percentageCgpa: string;
-  transcript: string;
+  transcript: string | any;
   description: string;
+  ongoing?: boolean;
+  filename?: string;
+  prevTranscript?: string;
 }
 
 interface Props {
@@ -38,6 +41,7 @@ export const useEducationDetail = ({
 }: Props) => {
   const { id } = useParams();
   const [btnLoader, setBtnLoader] = useState(false);
+  const [filename, setFilename] = useState<string | any>('');
   const [startDateHandle, setStartDateHandle] = useState<string | any>();
   const [educations, setEducations] = useState<Education[] | []>([]);
   const educationIndex = useRef(-1);
@@ -48,7 +52,7 @@ export const useEducationDetail = ({
     update: false,
     editInd: -1,
   });
-  const { register, handleSubmit, errors, control, reset, watch } = useForm({
+  const { register, handleSubmit, errors, control, reset, watch, setValue } = useForm({
     resolver: yupResolver(schema),
   });
 
@@ -60,11 +64,11 @@ export const useEducationDetail = ({
         const userData = {
           type: 4,
           educationDetails: [...educations],
-          employeeId: "SPX010",
+          employeeId: 'SPX010',
         };
         const res = await EmployeeService.updateAddedEmployee(userData, id);
         if (res.status === 201) {
-          handleNext && handleNext("Experience");
+          handleNext && handleNext('Experience');
         }
       }
     } else {
@@ -75,7 +79,7 @@ export const useEducationDetail = ({
           employeeId: employeeId.toUpperCase(),
         });
         if (res.status === 201) {
-          handleNext && handleNext("Experience");
+          handleNext && handleNext('Experience');
         }
       }
     }
@@ -84,15 +88,19 @@ export const useEducationDetail = ({
 
   const handleAddEduction = async (data: Education) => {
     const newEducations: any = [...educations];
-    const { startDate, endDate, transcript } = data;
+    const { startDate, endDate, transcript, prevTranscript, filename: prevFileName } = data;
     const tempObj = {
       ...data,
-      endDate: moment(endDate).format("YYYY-MM-DD"),
-      startDate: moment(startDate).format("YYYY-MM-DD"),
+      endDate: moment(endDate).format('YYYY-MM-DD'),
+      startDate: moment(startDate).format('YYYY-MM-DD'),
+      percentageCgpa: data?.percentageCgpa.toString(),
       ongoing: ongiong,
-      transcript: await convertBase64Image(transcript[0]),
+      filename: transcript[0]?.name || prevFileName,
+      transcript:
+        transcript && (transcript[0] ? await convertBase64Image(transcript[0]) : prevTranscript),
     };
-    ongiong && removeKeys(tempObj, ["endDate"]);
+    !transcript && removeKeys(tempObj, ['transcript']);
+    ongiong && removeKeys(tempObj, ['endDate']);
     if (educationIndex.current < 0) {
       newEducations.push(tempObj);
     } else {
@@ -101,8 +109,9 @@ export const useEducationDetail = ({
     }
     setEducations([...newEducations]);
     setFormData({ ...formData, educationDetails: [...newEducations] });
-    reset({});
     educationIndex.current = -1;
+    reset({});
+    setFilename('');
   };
 
   const handleEducation = (index: number) => {
@@ -113,7 +122,13 @@ export const useEducationDetail = ({
       degree: data?.degree,
       description: data?.description,
       percentageCgpa: data?.percentageCgpa,
+      startDate: moment(data?.startDate, 'YYYY-MM-DD').toDate(),
+      endDate: moment(data?.endDate, 'YYYY-MM-DD').toDate(),
+      ongoing: data?.ongoing,
+      prevTranscript: data?.transcript,
     });
+    setOngoing(!!data?.ongoing);
+    setFilename(data?.filename);
   };
 
   const getUser = async () => {
@@ -122,14 +137,12 @@ export const useEducationDetail = ({
     const data = res.data.educationDetails.map((item: any, index: number) => {
       return {
         ...item,
-        startDate: moment(item.startDate).format("YYYY-MM-DD"),
-        endDate: moment(item.endDate).format("YYYY-MM-DD"),
+        startDate: moment(item.startDate).format('YYYY-MM-DD'),
+        endDate: moment(item.endDate).format('YYYY-MM-DD'),
         percentageCgpa: item.percentageCgpa.toString(),
       };
     });
 
-    delete data[0].ongoing;
-    delete data[1].ongoing;
     setEducations(data);
   };
 
@@ -149,7 +162,7 @@ export const useEducationDetail = ({
     }
   }, []);
 
-  const startDate = watch("startDate");
+  const startDate = watch('startDate');
   return {
     handleAddEduction,
     onSubmit,
@@ -167,89 +180,92 @@ export const useEducationDetail = ({
     setStartDateHandle,
     startDateHandle,
     startDate,
+    setValue,
+    filename,
   };
 };
 
 export const schema = yup.object().shape({
-  institute: yup.string().required("Institute is a required field"),
-  degree: yup.string().required("Degree is a required field"),
-  description: yup.string().required("Description is a required field"),
-  startDate: yup.string().required("Start date is a required field"),
+  institute: yup.string().required('Institute is a required field'),
+  degree: yup.string().required('Degree is a required field'),
+  startDate: yup.string().required('Start date is a required field'),
   percentageCgpa: yup
     .number()
-    .required("Percentage CGPA is a required field")
-    .typeError("Percentage CGPA is a required field"),
-  endDate: yup.string().when("ongoing", {
-    is: "false",
-    then: yup.string().required("End date is required."),
+    .required('Percentage CGPA is a required field')
+    .typeError('Percentage CGPA is a required field')
+    .min(1, 'Minimum value is 1')
+    .max(99, 'Maximum value is 99'),
+  endDate: yup.string().when('ongoing', {
+    is: 'false',
+    then: yup.string().required('End date is required.'),
   }),
-  transcript: yup
-    .mixed()
-    .test("required", "You need to provide a file", (file) => {
-      if (file[0]) return true;
-      return false;
-    })
-    .test("fileSize", "The file is too large", (file) => {
-      return file[0] && file[0].size <= 2000000;
-    }),
+  // transcript: yup
+  //   .mixed()
+  //   .test("required", "You need to provide a file", (file) => {
+  //     if (file[0]) return true;
+  //     return false;
+  //   })
+  //   .test("fileSize", "The file is too large", (file) => {
+  //     return file[0] && file[0].size <= 2000000;
+  //   }),
 });
 
 export const selectCountry = [
   {
-    value: "hr",
-    description: "Hr",
+    value: 'hr',
+    description: 'Hr',
   },
   {
-    value: "employee",
-    description: "Employee",
+    value: 'employee',
+    description: 'Employee',
   },
   {
-    value: "admin",
-    description: "Admin",
+    value: 'admin',
+    description: 'Admin',
   },
 ];
 
 export const department = [
   {
-    value: "Front-end Developer",
-    description: "Front-end Developer",
+    value: 'Front-end Developer',
+    description: 'Front-end Developer',
   },
   {
-    value: "Backend-developer",
-    description: "Backend-developer",
+    value: 'Backend-developer',
+    description: 'Backend-developer',
   },
 ];
 
 export const columns = [
   {
-    key: "degree",
-    name: "Degree",
-    alignText: "center",
-    width: "150px",
+    key: 'degree',
+    name: 'Degree',
+    alignText: 'center',
+    width: '150px',
   },
   {
-    key: "institute",
-    name: "Institute",
-    alignText: "center",
-    width: "150px",
+    key: 'institute',
+    name: 'Institute',
+    alignText: 'center',
+    width: '150px',
   },
   {
-    key: "startDate",
-    name: "Start Date",
-    alignText: "center",
-    width: "150px",
+    key: 'startDate',
+    name: 'Start Date',
+    alignText: 'center',
+    width: '150px',
   },
   {
-    key: "endDate",
-    name: "End Date",
-    alignText: "center",
-    width: "150px",
+    key: 'endDate',
+    name: 'End Date',
+    alignText: 'center',
+    width: '150px',
   },
   {
-    key: "percentageCgpa",
-    name: "Percentage",
-    alignText: "center",
-    width: "150px",
+    key: 'percentageCgpa',
+    name: 'Percentage',
+    alignText: 'center',
+    width: '150px',
   },
-  { key: "actions", name: "Actions", alignText: "center", width: "200px" },
+  { key: 'actions', name: 'Actions', alignText: 'center', width: '200px' },
 ];

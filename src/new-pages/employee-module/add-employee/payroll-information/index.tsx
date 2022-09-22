@@ -1,13 +1,13 @@
-import Button from "new-components/button";
-import TextField from "new-components/textfield";
-import Select from "new-components/select";
-import Radio from "new-components/radio";
+import Button from 'new-components/button';
+import TextField from 'new-components/textfield';
+import Select from 'new-components/select';
+import Radio from 'new-components/radio';
 
-import { selectCountry, schema, usePayrollDetail, payrollType, payType, roster } from "./helper";
+import { selectCountry, schema, usePayrollDetail, payrollType, payType, roster } from './helper';
 
-import tick from "new-assets/tick.svg";
-import arrowLeft from "new-assets/backBtn.svg";
-import style from "./payroll.module.scss";
+import tick from 'new-assets/tick.svg';
+import arrowLeft from 'new-assets/backBtn.svg';
+import style from './payroll.module.scss';
 
 interface Props {
   handleBack: (data?: string) => void;
@@ -25,6 +25,7 @@ const PayrollInformation = ({ handleBack, employeeId }: Props) => {
             name="basicSalary"
             label="Basic Salary"
             type="number"
+            star={' *'}
             register={register}
             errorMessage={errors?.basicSalary?.message}
             placeholder="Basic Salary"
@@ -32,6 +33,7 @@ const PayrollInformation = ({ handleBack, employeeId }: Props) => {
           <TextField
             name="houseRent"
             label="House Rent"
+            star={' *'}
             type="number"
             register={register}
             errorMessage={errors?.houseRent?.message}
@@ -40,6 +42,7 @@ const PayrollInformation = ({ handleBack, employeeId }: Props) => {
           <TextField
             name="conveyanceAllowance"
             label="Conveyance Allowance"
+            star={' *'}
             type="number"
             register={register}
             errorMessage={errors?.conveyanceAllowance?.message}
@@ -48,6 +51,7 @@ const PayrollInformation = ({ handleBack, employeeId }: Props) => {
           <TextField
             name="medicalAllowance"
             label="Medical Allowance"
+            star={' *'}
             type="number"
             register={register}
             errorMessage={errors?.medicalAllowance?.message}
@@ -56,6 +60,7 @@ const PayrollInformation = ({ handleBack, employeeId }: Props) => {
           <TextField
             name="specialAllowance"
             label="Special Allowance"
+            star={' *'}
             type="number"
             register={register}
             errorMessage={errors?.specialAllowance?.message}
@@ -64,6 +69,7 @@ const PayrollInformation = ({ handleBack, employeeId }: Props) => {
           <TextField
             name="bankName"
             label="Bank Name"
+            star={' *'}
             type="text"
             register={register}
             errorMessage={errors?.bankName?.message}
@@ -72,6 +78,7 @@ const PayrollInformation = ({ handleBack, employeeId }: Props) => {
           <TextField
             name="accountHolderName"
             label="Account Holder Name"
+            star={' *'}
             type="text"
             register={register}
             errorMessage={errors?.accountHolderName?.message}
@@ -80,6 +87,7 @@ const PayrollInformation = ({ handleBack, employeeId }: Props) => {
           <TextField
             name="accountNumber"
             label="Account Number"
+            star={' *'}
             type="number"
             register={register}
             errorMessage={errors?.accountNumber?.message}
@@ -87,7 +95,8 @@ const PayrollInformation = ({ handleBack, employeeId }: Props) => {
           />
           <Select
             label="Pay Type"
-            name={"paytype"}
+            name={'paytype'}
+            star={' *'}
             errorMessage={errors?.paytype?.message}
             register={register}
           >
@@ -103,7 +112,8 @@ const PayrollInformation = ({ handleBack, employeeId }: Props) => {
           </Select>
           <Select
             label="Payroll Type"
-            name={"payrolltype"}
+            name={'payrolltype'}
+            star={' *'}
             errorMessage={errors?.payrolltype?.message}
             register={register}
           >
@@ -118,17 +128,19 @@ const PayrollInformation = ({ handleBack, employeeId }: Props) => {
             </>
           </Select>
           <div className={style.flexClass}>
-            <label className={style.label}>Overtime Applicable</label>
+            <label className={style.label}>
+              Overtime Applicable <b style={{ color: 'red' }}>{' *'}</b>{' '}
+            </label>
             <div className={style.flexClassInner}>
-              <Radio name="yes" label="Yes " radioValue={"yes"} radioRef={register} />
+              <Radio name="yes" label="Yes " radioValue={'yes'} radioRef={register} />
               <div className={style.sec}>
-                <Radio name="yes" label="No " radioValue={"no"} radioRef={register} />
+                <Radio name="yes" label="No " radioValue={'no'} radioRef={register} />
               </div>
             </div>
           </div>
           <Select
             label="Roaster"
-            name={"roaster"}
+            name={'roaster'}
             errorMessage={errors?.roaster?.message}
             register={register}
           >
@@ -150,9 +162,9 @@ const PayrollInformation = ({ handleBack, employeeId }: Props) => {
             type="button"
             btnClass={style.btn}
             iconStart={arrowLeft}
-            handleClick={() => handleBack("Expertise")}
+            handleClick={() => handleBack('Expertise')}
           />
-          <Button text="Done" iconEnd={tick} type={"submit"} />
+          <Button text="Done" iconEnd={tick} type={'submit'} />
         </div>
       </form>
     </div>

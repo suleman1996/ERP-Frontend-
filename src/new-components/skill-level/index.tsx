@@ -8,9 +8,10 @@ interface Props {
   control?: any;
   name: string;
   activeEdit?: number | string;
+  star?: string;
 }
 
-const SkillLevel = ({ errors, control, name, activeEdit }: Props) => {
+const SkillLevel = ({ errors, control, name, activeEdit, star }: Props) => {
   const [toggle, setToggle] = useState<number>();
   const { field } = useController({
     control,
@@ -21,6 +22,7 @@ const SkillLevel = ({ errors, control, name, activeEdit }: Props) => {
     <div className={style.skillLevel}>
       <label className={style.label} style={{ color: errors ? '#ff5050' : '#2d2d32' }}>
         Skill Level
+        <b style={{ color: 'red' }}>{star}</b>
       </label>
       <div className={style.innerDiv}>
         {skills.map((ele, index) => (

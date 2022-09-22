@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Dispatch, Fragment, SetStateAction } from 'react';
 
 import { employeeStepBar } from './helper';
 
@@ -6,10 +6,12 @@ import style from './stepbar.module.scss';
 
 interface Props {
   activeTab: any;
+  setStepBarActive: Dispatch<SetStateAction<string[]>>;
+  setActive: any;
   controlWidth: number;
 }
 
-const StepBar = ({ activeTab, controlWidth }: Props) => {
+const StepBar = ({ activeTab, controlWidth, setStepBarActive, setActive }: Props) => {
   return (
     <div className={style.wrapper}>
       <ul className={style.ul}>
@@ -21,6 +23,13 @@ const StepBar = ({ activeTab, controlWidth }: Props) => {
                 className={style.round}
                 style={{
                   background: activeTab.includes(ele) ? '#57B894' : '#EBEBEB',
+                  cursor: 'pointer',
+                }}
+                onClick={() => {
+                  if (activeTab.includes(ele)) {
+                    // setStepBarActive([ele]);
+                    setActive(ele);
+                  }
                 }}
               >
                 <span

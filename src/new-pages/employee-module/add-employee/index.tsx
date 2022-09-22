@@ -1,20 +1,20 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import StepBar from "new-components/stepbar";
-import EducationalDetails from "./education-details";
-import AddressInformation from "./address-information";
-import CompanyInformation from "./company-information";
-import PayrollInformation from "./payroll-information";
-import PersonalInformation from "./personal-information";
-import ExperienceDetails from "./experience-information";
-import CardContainer from "new-components/card-container";
-import ExpertiseInformation from "./expertise-information";
+import StepBar from 'new-components/stepbar';
+import EducationalDetails from './education-details';
+import AddressInformation from './address-information';
+import CompanyInformation from './company-information';
+import PayrollInformation from './payroll-information';
+import PersonalInformation from './personal-information';
+import ExperienceDetails from './experience-information';
+import CardContainer from 'new-components/card-container';
+import ExpertiseInformation from './expertise-information';
 
-import { useAddEmployee } from "../add-employee/helper";
+import { useAddEmployee } from '../add-employee/helper';
 
-import cross from "new-assets/cross.svg";
-import style from "./add-employee.module.scss";
+import cross from 'new-assets/cross.svg';
+import style from './add-employee.module.scss';
 
 interface Data {
   name: string;
@@ -26,8 +26,8 @@ const AddEmployee = () => {
   const { employeeId, formData, setFormData, setEmployeeId, employeeDocId, setEmployeeDocId } =
     useAddEmployee();
 
-  const [stepBarActive, setStepBarActive] = useState(["Personal"]);
-  const [active, setActive] = useState("Personal");
+  const [stepBarActive, setStepBarActive] = useState(['Personal']);
+  const [active, setActive] = useState('Personal');
   const [controlWidth, setControlWidth] = useState(0);
 
   const handleNext = (val?: string) => {
@@ -57,13 +57,18 @@ const AddEmployee = () => {
             <div key={name}>{active === activeName && <h6>{name}</h6>}</div>
           ))}
         </div>
-        <img src={cross} alt="" onClick={() => navigate("/employee")} />
+        <img src={cross} alt="" onClick={() => navigate('/employee')} />
       </div>
       <div className={style.stepper}>
         <div className={style.displayMd}>
-          <StepBar activeTab={stepBarActive} controlWidth={controlWidth} />
+          <StepBar
+            setStepBarActive={setStepBarActive}
+            setActive={setActive}
+            activeTab={stepBarActive}
+            controlWidth={controlWidth}
+          />
         </div>
-        {active === "Personal" && (
+        {active === 'Personal' && (
           <PersonalInformation
             handleNext={handleNext}
             formData={formData}
@@ -73,7 +78,7 @@ const AddEmployee = () => {
             setFormData={setFormData}
           />
         )}
-        {active === "Address" && (
+        {active === 'Address' && (
           <AddressInformation
             handleNext={handleNext}
             handleBack={handleBack}
@@ -82,7 +87,7 @@ const AddEmployee = () => {
             setFormData={setFormData}
           />
         )}
-        {active === "Company" && (
+        {active === 'Company' && (
           <CompanyInformation
             handleNext={handleNext}
             handleBack={handleBack}
@@ -91,7 +96,7 @@ const AddEmployee = () => {
             setFormData={setFormData}
           />
         )}
-        {active === "Education" && (
+        {active === 'Education' && (
           <EducationalDetails
             handleNext={handleNext}
             handleBack={handleBack}
@@ -101,7 +106,7 @@ const AddEmployee = () => {
             setFormData={setFormData}
           />
         )}
-        {active === "Experience" && (
+        {active === 'Experience' && (
           <ExperienceDetails
             handleNext={handleNext}
             handleBack={handleBack}
@@ -110,7 +115,7 @@ const AddEmployee = () => {
             setFormData={setFormData}
           />
         )}
-        {active === "Expertise" && (
+        {active === 'Expertise' && (
           <ExpertiseInformation
             handleNext={handleNext}
             handleBack={handleBack}
@@ -119,7 +124,7 @@ const AddEmployee = () => {
             setFormData={setFormData}
           />
         )}
-        {active === "Payroll" && (
+        {active === 'Payroll' && (
           <PayrollInformation employeeId={employeeId} handleBack={handleBack} />
         )}
       </div>
@@ -131,31 +136,31 @@ export default AddEmployee;
 
 const activeSteps = [
   {
-    name: "Personal Information",
-    activeName: "Personal",
+    name: 'Personal Information',
+    activeName: 'Personal',
   },
   {
-    name: "Address Information",
-    activeName: "Address",
+    name: 'Address Information',
+    activeName: 'Address',
   },
   {
-    name: "Company Information",
-    activeName: "Company",
+    name: 'Company Information',
+    activeName: 'Company',
   },
   {
-    name: "Education Information",
-    activeName: "Education",
+    name: 'Education Information',
+    activeName: 'Education',
   },
   {
-    name: "Experience Information",
-    activeName: "Experience",
+    name: 'Experience Information',
+    activeName: 'Experience',
   },
   {
-    name: "Expertise Information",
-    activeName: "Expertise",
+    name: 'Expertise Information',
+    activeName: 'Expertise',
   },
   {
-    name: "Payroll Information",
-    activeName: "Payroll",
+    name: 'Payroll Information',
+    activeName: 'Payroll',
   },
 ];

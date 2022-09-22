@@ -17,9 +17,7 @@ interface Props {
 const AddDocument = ({ open, setOpen }: Props) => {
   const { register, handleSubmit, errors, control } = useForm();
 
-  const onSubmit = (data: any) => {
-    // console.log(data);
-  };
+  const onSubmit = (data: any) => {};
 
   return (
     <>

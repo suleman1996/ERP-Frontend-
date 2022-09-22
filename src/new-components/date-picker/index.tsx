@@ -30,6 +30,7 @@ interface Props {
   maxDate?: any;
   minDate?: any;
   readOnly?: boolean;
+  star?: string;
 }
 
 const DatePicker = ({
@@ -47,6 +48,7 @@ const DatePicker = ({
   maxDate,
   minDate,
   placeholder,
+  star,
 }: Props) => {
   const handleChangeDate = (
     event: Date | [Date | null, Date | null] | null,
@@ -63,6 +65,7 @@ const DatePicker = ({
         {label && (
           <label style={{ color: errorMessage && '#ff5050' }} className={style.label}>
             {label}
+            <b style={{ color: 'red' }}>{star}</b>
           </label>
         )}
         <div onClick={handleClick}>

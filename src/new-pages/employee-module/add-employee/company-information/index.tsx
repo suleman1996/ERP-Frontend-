@@ -57,11 +57,14 @@ const CompanyInformation = ({
             placeholder="Enter Joining Date"
             name="joiningDate"
             id="1"
+            star={' *'}
             control={control}
             errorMessage={errors?.joiningDate?.message}
+            maxDate={moment(new Date()).add(3, 'M').toDate()}
           />
           <Select
             label="Department"
+            star={' *'}
             errorMessage={errors?.department?.message}
             register={register}
             name="department"
@@ -78,6 +81,7 @@ const CompanyInformation = ({
           </Select>
           <Select
             label="Designation"
+            star={' *'}
             register={register}
             name="designation"
             errorMessage={errors?.designation?.message}
@@ -94,6 +98,7 @@ const CompanyInformation = ({
           </Select>
           <TextField
             name="annualLeaves"
+            star={' *'}
             label="Annual Leaves"
             type="number"
             register={register}
@@ -103,6 +108,7 @@ const CompanyInformation = ({
           <TextField
             name="medicalLeaves"
             label="Medical Leaves"
+            star={' *'}
             type="number"
             register={register}
             errorMessage={errors?.medicalLeaves?.message}
@@ -110,6 +116,7 @@ const CompanyInformation = ({
           />
           <TextField
             name="casualLeaves"
+            star={' *'}
             label="Casual Leaves"
             type="number"
             register={register}
@@ -131,6 +138,7 @@ const CompanyInformation = ({
           <div className={style.grid1}>
             <Select
               label="Probation Duration"
+              star={' *'}
               register={register}
               errorMessage={errors?.probationDurationDays?.message}
               name="probationDurationDays"
@@ -144,6 +152,7 @@ const CompanyInformation = ({
             <DatePicker
               label="Start Date"
               name="startDate"
+              star={' *'}
               id="10"
               placeholder={watch().joiningDate && moment(watch().joiningDate).format('MM/DD/YYYY')}
               control={control}
@@ -153,6 +162,7 @@ const CompanyInformation = ({
             <DatePicker
               label="End Date"
               name="endDate"
+              star={' *'}
               id="100"
               placeholder={
                 watch().joiningDate &&
@@ -170,6 +180,7 @@ const CompanyInformation = ({
           <Select
             label="Employee Type"
             name="employmentType"
+            star={' *'}
             register={register}
             errorMessage={errors?.employmentType?.message}
           >
@@ -186,21 +197,22 @@ const CompanyInformation = ({
             <>
               <TimePicker
                 label="Login Time"
-                name={'loginTime'}
+                name={'checkIn'}
                 register={register}
-                errorMessage={errors?.loginTime?.message}
+                errorMessage={errors?.checkIn?.message}
               />
               <TimePicker
                 label="Logout Time"
-                name={'logoutTime'}
+                name={'checkOut'}
                 register={register}
-                errorMessage={errors?.logoutTime?.message}
+                errorMessage={errors?.checkOut?.message}
               />
             </>
           ) : (
             <TimePicker
               label="Working Hours"
               name={'workingHours'}
+              star={' *'}
               register={register}
               errorMessage={errors?.workingTime?.message}
             />

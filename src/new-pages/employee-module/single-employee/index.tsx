@@ -1,22 +1,22 @@
-import { useState, useEffect } from "react";
-import { useNavigate, useParams, Link } from "react-router-dom";
+import { useState, useEffect } from 'react';
+import { useNavigate, useParams, Link } from 'react-router-dom';
 
-import Overview from "./overview";
-import Documents from "./documents";
-import Attendance from "./attendance";
-import Button from "new-components/button";
-import AddDocument from "./documents/add-document";
-import SalaryInformation from "./salary-information";
-import CardContainer from "new-components/card-container";
+import Overview from './overview';
+import Documents from './documents';
+import Attendance from './attendance';
+import Button from 'new-components/button';
+import AddDocument from './documents/add-document';
+import SalaryInformation from './salary-information';
+import CardContainer from 'new-components/card-container';
 
-import EmployeeService from "services/employee-service";
+import EmployeeService from 'services/employee-service';
 
-import cross from "new-assets/cross.svg";
-import add from "new-assets/add.svg";
-import edit from "new-assets/edit-employee.svg";
-import profile from "new-assets/user-img.svg";
-import pencil from "new-assets/pencil.svg";
-import style from "./single-employee.module.scss";
+import cross from 'new-assets/cross.svg';
+import add from 'new-assets/add.svg';
+import edit from 'new-assets/edit-employee.svg';
+import profile from 'new-assets/user-img.svg';
+import pencil from 'new-assets/pencil.svg';
+import style from './single-employee.module.scss';
 
 const SingleEmployee = () => {
   const navigate = useNavigate();
@@ -37,7 +37,7 @@ const SingleEmployee = () => {
     <CardContainer className={style.card}>
       <div className={style.header}>
         <h6>Employee Details</h6>
-        <img src={cross} alt="" onClick={() => navigate("/employee")} />
+        <img src={cross} alt="" onClick={() => navigate('/employee')} />
       </div>
       <div className={style.stepper}>
         <div className={style.employeeDetails}>
@@ -67,16 +67,16 @@ const SingleEmployee = () => {
         </div>
         <div className={style.flexBetween}>
           <div className={style.tabs}>
-            <p onClick={() => setActive(0)} style={{ color: active === 0 ? "#2D2D32" : "" }}>
+            <p onClick={() => setActive(0)} style={{ color: active === 0 ? '#2D2D32' : '' }}>
               Overview
             </p>
-            <p onClick={() => setActive(1)} style={{ color: active === 1 ? "#2D2D32" : "" }}>
+            <p onClick={() => setActive(1)} style={{ color: active === 1 ? '#2D2D32' : '' }}>
               Attendance
             </p>
-            <p onClick={() => setActive(2)} style={{ color: active === 2 ? "#2D2D32" : "" }}>
+            <p onClick={() => setActive(2)} style={{ color: active === 2 ? '#2D2D32' : '' }}>
               Salary Information
             </p>
-            <p onClick={() => setActive(3)} style={{ color: active === 3 ? "#2D2D32" : "" }}>
+            <p onClick={() => setActive(3)} style={{ color: active === 3 ? '#2D2D32' : '' }}>
               Documents
             </p>
           </div>
@@ -87,7 +87,7 @@ const SingleEmployee = () => {
           )}
         </div>
       </div>
-      <div style={{ padding: "10px 20px" }}>
+      <div style={{ padding: '10px 20px' }}>
         {active === 0 && <Overview />}
         {active === 1 && <Attendance />}
         {active === 2 && <SalaryInformation />}
@@ -102,18 +102,18 @@ export default SingleEmployee;
 
 const positions = [
   {
-    title: "Position",
-    subtitle: "Designer",
+    title: 'Position',
+    subtitle: 'Designer',
     class: style.b1,
   },
   {
-    title: "Age",
-    subtitle: "25",
+    title: 'Age',
+    subtitle: '25',
     class: style.b2,
   },
   {
-    title: "Experience",
-    subtitle: "2 Years",
+    title: 'Experience',
+    subtitle: '2 Years',
     class: style.b3,
   },
 ];

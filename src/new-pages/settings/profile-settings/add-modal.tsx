@@ -24,9 +24,7 @@ interface Data {
 const AddProfileTag = ({ open, setOpen }: Props) => {
   const { register, handleSubmit, errors } = useForm();
 
-  const onSubmit = (data: any) => {
-    console.log(data);
-  };
+  const onSubmit = (data: any) => {};
 
   return (
     <>

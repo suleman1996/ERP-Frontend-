@@ -12,6 +12,7 @@ interface Props {
   errorMessage?: string;
   placeholder?: string;
   disable?: boolean;
+  star?: string;
 }
 
 const Select = ({
@@ -24,10 +25,15 @@ const Select = ({
   disable,
   children,
   placeholder,
+  star,
 }: Props) => {
   return (
     <div style={{ position: 'relative' }}>
-      {label && <label style={{ color: errorMessage ? '#ff5050' : '#2d2d32' }}>{label}</label>}
+      {label && (
+        <label style={{ color: errorMessage ? '#ff5050' : '#2d2d32' }}>
+          {label} <b style={{ color: 'red' }}>{star}</b>{' '}
+        </label>
+      )}
       <select
         name={name}
         value={value}

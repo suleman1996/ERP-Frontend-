@@ -1,14 +1,15 @@
-import { useEffect, useRef, useState } from "react";
-import moment from "moment";
-import * as yup from "yup";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { useParams } from "react-router-dom";
+import { useEffect, useRef, useState } from 'react';
+import moment from 'moment';
+import * as yup from 'yup';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useParams } from 'react-router-dom';
 
-import EmployeeService from "services/employee-service";
-import { convertBase64Image } from "main-helper";
-import { removeKeys } from "helper";
-import AddressService from "services/address-service";
+import EmployeeService from 'services/employee-service';
+import { convertBase64Image } from 'main-helper';
+import { removeKeys } from 'helper';
+import AddressService from 'services/address-service';
+import { legacy_createStore } from '@reduxjs/toolkit';
 
 interface Props {
   formData: any;
@@ -27,6 +28,7 @@ export interface Experince {
   letter: string;
   jobStartDate?: string;
   jobEndDate?: string;
+  ongoing?: boolean;
 }
 
 export const useExperience = ({
@@ -63,7 +65,7 @@ export const useExperience = ({
         employeeId: employeeId.toUpperCase(),
       });
       if (res.status === 201) {
-        handleNext && handleNext("Expertise");
+        handleNext && handleNext('Expertise');
       }
     }
     setBtnLoader(false);
@@ -71,15 +73,18 @@ export const useExperience = ({
 
   const handleAddEduction = async (data: Experince) => {
     const newEducations: any = [...educations];
+    const fileBase64 =
+      data?.letter && data?.letter?.length > 0 && (await convertBase64Image(data.letter[0]));
     const tempObj = {
       ...data,
-      jobStartDate: moment(data?.jobStartDate).format("YYYY-MM-DD"),
-      jobEndDate: moment(data?.jobEndDate).format("YYYY-MM-DD"),
+      jobStartDate: moment(data?.jobStartDate).format('YYYY-MM-DD'),
+      jobEndDate: moment(data?.jobEndDate).format('YYYY-MM-DD'),
       ongoing: onGoing,
-      experienceLetter: await convertBase64Image(data?.letter[0]),
+      ...(fileBase64 ? { experienceLetter: `${fileBase64}` } : {}),
     };
-    removeKeys(tempObj, ["letter"]);
-    onGoing && removeKeys(tempObj, ["jobEndDate"]);
+    !watch().letter && removeKeys(tempObj, ['experienceLetter']);
+    removeKeys(tempObj, ['letter']);
+    onGoing && removeKeys(tempObj, ['jobEndDate']);
     if (educationIndex.current < 0) {
       newEducations.push(tempObj);
     } else {
@@ -100,7 +105,9 @@ export const useExperience = ({
       country: data?.country,
       city: data?.city,
       jobTitle: data?.jobTitle,
+      ongoing: data?.ongoing,
     });
+    setOnGoing(!!data?.ongoing);
   };
 
   const handleDeleteIndex = (index: number) => {
@@ -140,7 +147,7 @@ export const useExperience = ({
     id && getUser();
   }, [id]);
 
-  const startDate = watch("jobStartDate");
+  const startDate = watch('jobStartDate');
 
   return {
     handleAddEduction,
@@ -166,100 +173,100 @@ export const useExperience = ({
 };
 
 export const schema = yup.object().shape({
-  company: yup.string().required("Company name is a required field"),
-  country: yup.string().required("Country name is a required field"),
-  city: yup.string().required("City is a required field"),
-  jobTitle: yup.string().required("Job title is a required field"),
-  jobStartDate: yup.string().required("Start date is a required field"),
-  jobEndDate: yup.string().when("ongoing", {
-    is: "false",
-    then: yup.string().required("Working time is required."),
+  company: yup.string().required('Company name is a required field'),
+  country: yup.string().required('Country name is a required field'),
+  city: yup.string().required('City is a required field'),
+  jobTitle: yup.string().required('Job title is a required field'),
+  jobStartDate: yup.string().required('Start date is a required field'),
+  jobEndDate: yup.string().when('ongoing', {
+    is: 'false',
+    then: yup.string().required('Working time is required.'),
   }),
 
-  letter: yup
-    .mixed()
-    .test("required", "You need to provide a file", (file) => {
-      if (file[0]) return true;
-      return false;
-    })
-    .test("fileSize", "The file is too large", (file) => {
-      return file[0] && file[0].size <= 2000000;
-    }),
+  // letter: yup
+  //   .mixed()
+  //   .test("required", "You need to provide a file", (file) => {
+  //     if (file[0]) return true;
+  //     return false;
+  //   })
+  //   .test("fileSize", "The file is too large", (file) => {
+  //     return file[0] && file[0].size <= 2000000;
+  //   }),
 });
 
 export const selectCountry = [
   {
-    value: "hr",
-    description: "Hr",
+    value: 'hr',
+    description: 'Hr',
   },
   {
-    value: "employee",
-    description: "Employee",
+    value: 'employee',
+    description: 'Employee',
   },
   {
-    value: "admin",
-    description: "Admin",
+    value: 'admin',
+    description: 'Admin',
   },
 ];
 
 export const department = [
   {
-    value: "Front-end Developer",
-    description: "Front-end Developer",
+    value: 'Front-end Developer',
+    description: 'Front-end Developer',
   },
   {
-    value: "Backend-developer",
-    description: "Backend-developer",
+    value: 'Backend-developer',
+    description: 'Backend-developer',
   },
 ];
 
 export const columns = [
   {
-    key: "company",
-    name: "Company",
-    alignText: "center",
-    width: "150px",
+    key: 'company',
+    name: 'Company',
+    alignText: 'center',
+    width: '150px',
   },
   {
-    key: "country",
-    name: "Country",
-    alignText: "center",
-    width: "150px",
+    key: 'country',
+    name: 'Country',
+    alignText: 'center',
+    width: '150px',
   },
   {
-    key: "city",
-    name: "City",
-    alignText: "center",
-    width: "150px",
+    key: 'city',
+    name: 'City',
+    alignText: 'center',
+    width: '150px',
   },
   {
-    key: "jobTitle",
-    name: "Job Title",
-    alignText: "center",
-    width: "150px",
+    key: 'jobTitle',
+    name: 'Job Title',
+    alignText: 'center',
+    width: '150px',
   },
   {
-    key: "tenure",
-    name: "Tenure",
-    alignText: "center",
-    width: "250px",
+    key: 'tenure',
+    name: 'Tenure',
+    alignText: 'center',
+    width: '250px',
   },
-  { key: "actions", name: "Actions", alignText: "center", width: "200px" },
+  { key: 'actions', name: 'Actions', alignText: 'center', width: '200px' },
 ];
 
 export const rows = [
   {
-    company: "SprintX",
-    country: "Pakistan",
-    city: "Lahore",
-    jobTitle: "Designer",
-    tenure: "10 Jun, 2021-10 Jun, 2022",
+    company: 'SprintX',
+    country: 'Pakistan',
+    city: 'Lahore',
+    jobTitle: 'Designer',
+    tenure: '10 Jun, 2021-10 Jun, 2022',
   },
   {
-    company: "SprintX",
-    country: "Pakistan",
-    city: "Lahore",
-    jobTitle: "Designer",
-    tenure: "10 Jun, 2021-10 Jun, 2022",
+    company: 'SprintX',
+    country: 'Pakistan',
+    city: 'Lahore',
+    jobTitle: 'Designer',
+    tenure: '10 Jun, 2021-10 Jun, 2022',
   },
 ];

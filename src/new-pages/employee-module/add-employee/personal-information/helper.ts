@@ -43,7 +43,7 @@ export const usePersonalInfo = ({
   const { id } = useParams();
   const [btnLoader, setBtnLoader] = useState(false);
   const [img, setImg] = useState<unknown>('');
-  const { register, handleSubmit, errors, control, reset } = useForm({
+  const { register, handleSubmit, errors, control, reset, setValue } = useForm({
     resolver: yupResolver(schema),
   });
 
@@ -91,42 +91,46 @@ export const usePersonalInfo = ({
 
   const onSubmit = async (data: Data) => {
     setBtnLoader(true);
-    const { dob, cnic, frontPic, backPic, employeeId } = data;
-    const temp = {
-      ...data,
-      img,
-      dob: moment(dob).format('YYYY-MM-DD'),
-      cnic: cnic.toString(),
-      employeeId: employeeId.toUpperCase(),
-      cnicFront: await convertBase64Image(frontPic[0]),
-      cnicBack: await convertBase64Image(backPic[0]),
-    };
-    const obj = removeKey(temp);
-    const userData = {
-      personalInformation: { ...obj },
-      employeeId: obj.employeeId,
-      type: 1,
-    };
+    try {
+      const { dob, cnic, frontPic, backPic, employeeId } = data;
+      const temp = {
+        ...data,
+        img,
+        dob: moment(dob).format('YYYY-MM-DD'),
+        cnic: cnic.toString(),
+        employeeId: employeeId.toUpperCase(),
+        cnicFront: frontPic && frontPic.length && (await convertBase64Image(frontPic[0])),
+        cnicBack: backPic && backPic.length && (await convertBase64Image(backPic[0])),
+      };
+      const obj = removeKey(temp);
+      const userData = {
+        personalInformation: { ...obj },
+        employeeId: obj.employeeId,
+        type: 1,
+      };
 
-    if (id) {
-      removeKeys(userData.personalInformation, ['backPic', 'frontPic']);
-      const res = await EmployeeService.updateAddedEmployee(userData, id);
+      if (id) {
+        removeKeys(userData.personalInformation, ['backPic', 'frontPic']);
+        const res = await EmployeeService.updateAddedEmployee(userData, id);
 
-      if (res.status === 200) {
-        handleNext('Address');
-        setFormData({ ...formData, personalInformation: { ...userData } });
+        if (res.status === 200) {
+          handleNext('Address');
+          setFormData({ ...formData, personalInformation: { ...userData } });
+        }
+      } else {
+        removeKeys(userData.personalInformation, ['employeeId', 'backPic', 'frontPic']);
+        const res = await EmployeeService.addEmployee({ ...userData });
+        if (res.status === 201) {
+          setEmployeeDocId(res?.data?.newEmployeeDocId);
+          setEmployeeId(res?.data?.newEmployeeId);
+          handleNext('Address');
+          setFormData({ ...formData, personalInformation: { ...userData } });
+        }
       }
-    } else {
-      removeKeys(userData.personalInformation, ['employeeId', 'backPic', 'frontPic']);
-      const res = await EmployeeService.addEmployee({ ...userData });
-      if (res.status === 201) {
-        setEmployeeDocId(res?.data?.newEmployeeDocId);
-        setEmployeeId(res?.data?.newEmployeeId);
-        handleNext('Address');
-        setFormData({ ...formData, personalInformation: { ...userData } });
-      }
+      setBtnLoader(false);
+    } catch (err) {
+      setBtnLoader(false);
     }
-    setBtnLoader(false);
   };
 
   return {
@@ -138,6 +142,8 @@ export const usePersonalInfo = ({
     img,
     setImg,
     btnLoader,
+    setValue,
+    // filename,
   };
 };
 
@@ -160,22 +166,24 @@ export const schema = yup.object().shape({
     .max(9999999999999, 'only 13 digits required'),
   gender: yup.string().required(),
   dob: yup.string().required('Date of birth is  required field'),
-  frontPic: yup
-    .mixed()
-    .test('required', 'You need to provide a file', (file) => {
-      if (file[0]) return true;
-      return false;
-    })
-    .test('fileSize', 'The file is too large', (file) => {
-      return file[0] && file[0].size <= 2000000;
-    }),
-  backPic: yup
-    .mixed()
-    .test('required', 'You need to provide a file', (file) => {
-      if (file[0]) return true;
-      return false;
-    })
-    .test('fileSize', 'The file is too large', (file) => {
-      return file[0] && file[0].size <= 2000000;
-    }),
+
+  //////////////////////////   may be helpfull in future   ///////////////////////////////////////
+  // frontPic: yup
+  //   .mixed()
+  //   .test('required', 'You need to provide a file', (file) => {
+  //     if (file[0]) return true;
+  //     return false;
+  //   })
+  //   .test('fileSize', 'The file is too large', (file) => {
+  //     return file[0] && file[0].size <= 2000000;
+  //   }),
+  // backPic: yup
+  //   .mixed()
+  //   .test('required', 'You need to provide a file', (file) => {
+  //     if (file[0]) return true;
+  //     return false;
+  //   })
+  //   .test('fileSize', 'The file is too large', (file) => {
+  //     return file[0] && file[0].size <= 2000000;
+  //   }),
 });
