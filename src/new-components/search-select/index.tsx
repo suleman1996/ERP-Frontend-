@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { MouseEventHandler, useEffect, useRef, useState } from 'react';
 import { useController } from 'react-hook-form';
 
