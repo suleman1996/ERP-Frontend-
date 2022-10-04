@@ -70,7 +70,8 @@ const Select = ({
       )}
       <div className={wraperSelect}>
         <select
-          value={value}
+          value={marksType || value}
+
           name={name}
           className={`${style.select}  ${selectContainer}  `}
           placeholder={placeholder}

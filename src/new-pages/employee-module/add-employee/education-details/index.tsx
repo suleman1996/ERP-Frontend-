@@ -124,7 +124,6 @@ const EducationalDetails = ({
               containerClass={style.containerClass}
             />
           </div>
-          {console.log('err', errors)}
           <Select
             label="Percentage/CGPA"
             name={'percentageCgpa'}
@@ -171,7 +170,12 @@ const EducationalDetails = ({
         </div>
         <div className={style.btnContainer}>
           <p></p>
-          <Button type="submit" text="Add" iconEnd={tick} />
+          <Button
+            type="submit"
+            text="Add"
+            iconEnd={tick}
+            // disabled={marksType === 'percentage' && marksVal ? marksVal > 101 : true}
+          />
         </div>
         <div style={{ marginTop: '30px' }}>
           <Table
