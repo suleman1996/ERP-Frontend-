@@ -128,11 +128,12 @@ const EducationalDetails = ({
           <Select
             label="Percentage/CGPA"
             name={'percentageCgpa'}
+            name1={'percentageCgpa'}
             selectContainer={style.selectContainer}
             wraperSelect={style.wraperSelect}
             withInput
             star={' *'}
-            errorMessage={errors?.employeeId?.message}
+            errorMessage={errors?.percentageCgpa?.message}
             register={register}
             onChange={(e) => setMarksType(e.target.value)}
             marksType={marksType}

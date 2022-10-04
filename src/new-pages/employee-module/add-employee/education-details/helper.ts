@@ -123,7 +123,7 @@ export const useEducationDetail = ({
       institute: data?.institute,
       degree: data?.degree,
       description: data?.description,
-      percentageCgpa: data?.percentageCgpa,
+      percentageCgpa: marksVal,
       startDate: moment(data?.startDate, 'YYYY-MM-DD').toDate(),
       endDate: moment(data?.endDate, 'YYYY-MM-DD').toDate(),
       ongoing: data?.ongoing,
@@ -195,6 +195,10 @@ export const schema = yup.object().shape({
   institute: yup.string().required('Institute is a required field'),
   degree: yup.string().required('Degree is a required field'),
   startDate: yup.string().required('Start date is a required field'),
+  percentageCgpa: yup
+    .string()
+    .required('PercentageCgpa is a required field')
+    .typeError('Percentage is a required field'),
 
   endDate: yup.string().when('ongoing', {
     is: 'false',
