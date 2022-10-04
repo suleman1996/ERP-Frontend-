@@ -1,15 +1,44 @@
+import { useState, useEffect } from 'react';
 import Select from 'new-components/select';
 import { useController } from 'react-hook-form';
 
 import style from './time.module.scss';
 
 const CustomTimePicker = ({ control, name, errorMessage }) => {
-  const { field } = useController({ control, name, defaultValue: '00:00' });
+  const [type, setType] = useState('per-day');
+  const [customErr, setCustomErr] = useState();
+  const { field } = useController({ control, name, defaultValue: 'HH:MM' });
+
+  useEffect(() => {
+    if (type === 'per-day') {
+      if (field.value.split(':')[0] > 24) {
+        setCustomErr('Hours should be less or equal to 24');
+      } else {
+        setCustomErr('');
+      }
+    } else if (type === 'per-week') {
+      if (field.value.split(':')[0] > 168) {
+        setCustomErr('Hours should be less or equal to 168');
+      } else {
+        setCustomErr('');
+      }
+    } else if (type === 'per-month') {
+      if (field.value.split(':')[0] > 999) {
+        setCustomErr('Hours should be less or equal to 999');
+      } else {
+        setCustomErr('');
+      }
+    }
+  }, [field.value, type]);
   return (
     <div>
       <label>Time</label>
       <div className={style.wraper} style={{ border: ' 1.2px solid #e2e2ea' }}>
-        <Select selectContainer={style.selectContainer}>
+        <Select
+          selectContainer={style.selectContainer}
+          name={'selectHours'}
+          onChange={(e) => setType(e.target.value)}
+        >
           <>
             {selectCountry &&
               selectCountry.map(({ value, description }) => (
@@ -33,8 +62,8 @@ const CustomTimePicker = ({ control, name, errorMessage }) => {
           onChange={(e) => field.onChange(field.value.split(':')[0] + ':' + e.target.value)}
         />
       </div>
-      {/* // will be use in future */}
-      {/* {errorMessage && <p>{errorMessage}</p>} */}
+      {errorMessage && <p>{errorMessage}</p>}
+      {customErr && <p>{customErr}</p>}
     </div>
   );
 };
@@ -51,7 +80,7 @@ export const selectCountry = [
     description: 'Per Week',
   },
   {
-    value: 'per-Month',
+    value: 'per-month',
     description: 'Per Month ',
   },
 ];

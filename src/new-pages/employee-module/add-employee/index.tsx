@@ -26,8 +26,8 @@ const AddEmployee = () => {
   const { employeeId, formData, setFormData, setEmployeeId, employeeDocId, setEmployeeDocId } =
     useAddEmployee();
 
-  const [stepBarActive, setStepBarActive] = useState(['Personal']);
-  const [active, setActive] = useState('Personal');
+  const [stepBarActive, setStepBarActive] = useState(['Company']);
+  const [active, setActive] = useState('Company');
   const [controlWidth, setControlWidth] = useState(0);
 
   const handleNext = (val?: string) => {

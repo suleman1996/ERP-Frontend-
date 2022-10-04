@@ -199,11 +199,13 @@ const CompanyInformation = ({
               <TimePicker
                 label="Check in"
                 name={'checkIn'}
+                star={' *'}
                 register={register}
                 errorMessage={errors?.checkIn?.message}
               />
               <TimePicker
                 label="Check out"
+                star={' *'}
                 name={'checkOut'}
                 register={register}
                 errorMessage={errors?.checkOut?.message}
