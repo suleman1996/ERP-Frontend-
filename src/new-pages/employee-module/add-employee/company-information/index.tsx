@@ -181,6 +181,7 @@ const CompanyInformation = ({
           <Select
             label="Employee Type"
             name="employmentType"
+            name1="type"
             star={' *'}
             register={register}
             errorMessage={errors?.employmentType?.message}

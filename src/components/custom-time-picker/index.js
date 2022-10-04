@@ -12,7 +12,7 @@ const CustomTimePicker = ({ control, name, errorMessage }) => {
 
   useEffect(() => {
     if (type === 'per-day') {
-      if (field.value.split(':')[0] > 24) {
+      if (field.value.split(':')[0] > 23) {
         setCustomErr('Hours should be less or equal to 24');
       } else {
         setCustomErr('');
