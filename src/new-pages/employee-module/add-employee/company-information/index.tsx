@@ -14,6 +14,7 @@ import { selectCountry, employmentType, department, schema, useCompanyInfo } fro
 import arrowRight from 'new-assets/arrowBtnRight.svg';
 import arrowLeft from 'new-assets/backBtn.svg';
 import style from './company-information.module.scss';
+import CustomTimePicker from 'components/custom-time-picker';
 
 interface Props {
   handleBack: (data?: string) => void;
@@ -196,27 +197,33 @@ const CompanyInformation = ({
           {watch().employmentType === 'Full-Time' ? (
             <>
               <TimePicker
-                label="Login Time"
+                label="Check in"
                 name={'checkIn'}
                 register={register}
                 errorMessage={errors?.checkIn?.message}
               />
               <TimePicker
-                label="Logout Time"
+                label="Check out"
                 name={'checkOut'}
                 register={register}
                 errorMessage={errors?.checkOut?.message}
               />
             </>
           ) : (
-            <TimePicker
-              label="Working Hours"
+            <CustomTimePicker
               name={'workingHours'}
-              star={' *'}
-              register={register}
-              errorMessage={errors?.workingTime?.message}
+              control={control}
+              errorMessage={errors?.workingHours?.message}
             />
+            // <TimePicker
+            //   label="Working Hours"
+            //   name={'workingHours'}
+            //   star={' *'}
+            //   register={register}
+            //   errorMessage={errors?.workingTime?.message}
+            // />
           )}
+          {console.log('errr', errors)}
         </div>
         <TextArea
           name="note"

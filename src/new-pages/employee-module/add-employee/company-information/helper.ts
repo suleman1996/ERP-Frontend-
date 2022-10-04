@@ -178,10 +178,19 @@ export const schema = yup.object().shape({
   department: yup.string().required('Department is a required field'),
   designation: yup.string().required('Designation is a required field'),
   employmentType: yup.string().required('employmentType is a required field'),
-  workingHours: yup.string().when('employmentType', {
-    is: 'Part-Time',
-    then: yup.string().required('Working time is required.'),
-  }),
+  workingHours: yup
+    .string()
+    .when('employmentType', {
+      is: 'Part-Time',
+      then: yup.string().required('Working time is required.'),
+    })
+    .test('ss', 'Working Hours are not correct', (value) => {
+      const [hours, mins] = value?.split(':') || [];
+      const total = +hours + 60 * +mins;
+      console.log({ total });
+      return false;
+      return total <= 999 && total > 0;
+    }),
   checkIn: yup.string().when('employmentType', {
     is: 'Full-Time',
     then: yup.string().required('login time is required.'),

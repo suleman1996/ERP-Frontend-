@@ -72,7 +72,7 @@ const AddEmployee = () => {
           <PersonalInformation
             handleNext={handleNext}
             formData={formData}
-            employeeId={employeeId}
+            employeeDocId={employeeDocId}
             setEmployeeId={setEmployeeId}
             setEmployeeDocId={setEmployeeDocId}
             setFormData={setFormData}

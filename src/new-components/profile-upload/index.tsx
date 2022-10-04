@@ -50,8 +50,8 @@ const ProfileUpload = ({
         />
         <label htmlFor={id} className={style.labelTag}>
           {selectedFileName ? `${selectedFileName}` : 'Attach Transcript'}
+          <img src={profileUploadIcon} alt="" className={style.fileIcon} />
         </label>
-        <img src={profileUploadIcon} alt="" className={style.fileIcon} />
       </div>
       {errorMessage && (
         <span style={{ color: ' rgb(255, 80, 80)' }} className={style.errorMessage}>

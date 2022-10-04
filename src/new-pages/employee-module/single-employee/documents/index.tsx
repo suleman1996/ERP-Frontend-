@@ -5,7 +5,7 @@ import { rows, columns } from './helper';
 
 import style from './document.module.scss';
 
-const Documents = () => {
+const Documents = ({ user }: any) => {
   return (
     <>
       <CardContainer className={style.card}>

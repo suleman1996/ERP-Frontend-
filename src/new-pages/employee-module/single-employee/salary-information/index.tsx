@@ -5,7 +5,26 @@ import { rows, columns } from './helper';
 
 import style from './salary.module.scss';
 
-const SalaryInformation = () => {
+const SalaryInformation = ({ user }: any) => {
+  const SalaryInformationDetails = [
+    {
+      title: 'Basic Salary:',
+      subtitle: `${user?.payrollDetail?.basicSalary}`,
+    },
+    {
+      title: 'Bank Name:',
+      subtitle: `${user?.payrollDetail?.bankName}`,
+    },
+    {
+      title: 'Account Holder Name:',
+      subtitle: `${user?.payrollDetail?.accountHolderName}`,
+    },
+    {
+      title: 'Account Number:',
+      subtitle: `${user?.payrollDetail?.accountNumber}`,
+    },
+  ];
+
   return (
     <>
       <CardContainer>
@@ -34,22 +53,3 @@ const SalaryInformation = () => {
 };
 
 export default SalaryInformation;
-
-const SalaryInformationDetails = [
-  {
-    title: 'Basic Salary:',
-    subtitle: '234',
-  },
-  {
-    title: 'Bank Name:',
-    subtitle: 'John Wicked',
-  },
-  {
-    title: 'Account Holder Name:',
-    subtitle: 'johnwicked@gmail.com',
-  },
-  {
-    title: 'Account Number:',
-    subtitle: '02-12-2000',
-  },
-];

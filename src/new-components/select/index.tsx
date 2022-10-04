@@ -1,5 +1,7 @@
 import { ChangeEvent } from 'react';
 
+import TextField from 'new-components/textfield';
+
 import style from './select.module.scss';
 
 interface Props {
@@ -13,6 +15,11 @@ interface Props {
   placeholder?: string;
   disable?: boolean;
   star?: string;
+  selectContainer?: string;
+  wraperSelect?: string;
+  newSelect?: boolean;
+  withInput?: boolean;
+  userId?: any;
 }
 
 const Select = ({
@@ -26,6 +33,11 @@ const Select = ({
   children,
   placeholder,
   star,
+  selectContainer,
+  wraperSelect,
+  newSelect,
+  userId,
+  withInput,
 }: Props) => {
   return (
     <div style={{ position: 'relative' }}>
@@ -34,20 +46,35 @@ const Select = ({
           {label} <b style={{ color: 'red' }}>{star}</b>{' '}
         </label>
       )}
-      <select
-        name={name}
-        value={value}
-        ref={register}
-        className={style.select}
-        placeholder={placeholder}
-        onChange={onChange}
-        style={{
-          border: errorMessage ? '1.2px solid #ff5050' : ' 1.2px solid #e2e2ea',
-        }}
-        disabled={disable || false}
-      >
-        {children}
-      </select>
+      <div className={wraperSelect}>
+        <select
+          name={name}
+          value={value}
+          ref={register}
+          className={`${style.select}  ${selectContainer}  `}
+          placeholder={placeholder}
+          onChange={onChange}
+          style={{
+            border: errorMessage ? '1.2px solid #ff5050' : ' 1.2px solid #e2e2ea',
+          }}
+          disabled={disable || false}
+        >
+          {children}
+        </select>
+        {newSelect && <p>{userId}</p>}
+        {withInput && (
+          <TextField
+            name="degree"
+            // label="Degree"
+            star={' *'}
+            type="text"
+            register={register}
+            className={style.inputClass}
+            // errorMessage={errors?.degree?.message}
+            placeholder="Marks"
+          />
+        )}
+      </div>
       {errorMessage && <span className={style.errorMessage}>{errorMessage}</span>}
     </div>
   );

@@ -1,0 +1,23 @@
+.wraper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  height: 43px;
+  margin-top: 7px;
+  border-radius: 6px;
+  input {
+    padding: 10px;
+    border: none;
+    border-radius: 9px;
+    width: 50px;
+  }
+
+  .centerDiv {
+    margin: 0px 10px;
+  }
+}
+
+.selectContainer {
+  margin-top: 0px;
+  margin-right: 50px;
+}

@@ -24,20 +24,18 @@ interface Employee {
   department: string;
   phone: string;
   id: string;
+  employeeId: string;
 }
 
 const EmployeeProfileDetails = () => {
   const navigate = useNavigate();
 
   const [open, setOpen] = useState(null);
+  const [userId, setUserId] = useState<string>();
   const [employees, setEmployees] = useState([]);
   const [openModal, setOpenModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [openModalProfile, setOpenModalProfile] = useState(false);
-
-  useEffect(() => {
-    getEmployeesData();
-  }, []);
 
   useEffect(() => {
     getEmployeesData();
@@ -78,124 +76,56 @@ const EmployeeProfileDetails = () => {
           />
         </div>
         <div className={style.cardSection}>
-          {employees?.map(({ img, name, designation, phone, id, department }: Employee, index) => (
-            <>
-              <div key={index} style={{ position: 'relative' }}>
-                <EmployeeProfileCard
-                  img={img}
-                  name={name}
-                  designation={designation}
-                  phone={phone}
-                  id={id}
-                  department={department}
-                  handleClick={() => handleClick(index)}
-                />
-                {open === index && (
-                  <div
-                    style={{
-                      position: 'absolute',
-                      top: '85%',
-                      padding: '15px',
-                      zIndex: 2000,
-                    }}
-                  >
-                    <div onClick={() => setOpen(null)} className={style.absoluteClass}></div>
-                    <div style={{ zIndex: 2600, width: '145px' }}>
-                      <EmployeeDropdown
-                        setOpenModal={setOpenModal}
-                        setOpenModalProfile={setOpenModalProfile}
-                        id={id}
-                      />
+          {employees?.map(
+            ({ img, name, designation, phone, id, employeeId, department }: Employee, index) => (
+              <>
+                <div key={index} style={{ position: 'relative' }}>
+                  <EmployeeProfileCard
+                    img={img}
+                    name={name}
+                    designation={designation}
+                    phone={phone}
+                    id={employeeId}
+                    department={department}
+                    handleClick={() => handleClick(index)}
+                  />
+                  {open === index && (
+                    <div
+                      style={{
+                        position: 'absolute',
+                        top: '85%',
+                        padding: '15px',
+                        zIndex: 2000,
+                      }}
+                    >
+                      <div onClick={() => setOpen(null)} className={style.absoluteClass}></div>
+                      <div style={{ zIndex: 2600, width: '145px' }}>
+                        <EmployeeDropdown
+                          setOpenModal={setOpenModal}
+                          setOpenModalProfile={setOpenModalProfile}
+                          id={id}
+                          handleClick={() => setUserId(id)}
+                        />
+                      </div>
                     </div>
-                  </div>
-                )}
-              </div>
-            </>
-          ))}
+                  )}
+                </div>
+              </>
+            ),
+          )}
         </div>
       </div>
       <div className={style.position}>
         <Pagination />
       </div>
-      <CvView openModal={openModal} setOpenModal={setOpenModal} />
-      <ProfileView openModalProfile={openModalProfile} setOpenModalProfile={setOpenModalProfile} />
+      <CvView openModal={openModal} setOpenModal={setOpenModal} id={userId} />
+      <ProfileView
+        openModalProfile={openModalProfile}
+        setOpenModalProfile={setOpenModalProfile}
+        id={userId}
+      />
     </>
   );
 };
 
 export default EmployeeProfileDetails;
-
-const cardData = [
-  {
-    name: 'John Virked',
-    designation: 'UI Designer',
-    department: 'Design',
-    phone: '+92 333 8494808',
-    id: 'SPX001',
-    img: user,
-  },
-  {
-    name: 'John Virked',
-    designation: 'UI Designer',
-    department: 'Design',
-    phone: '+92 333 8494808',
-    id: 'SPX001',
-    img: user,
-  },
-  {
-    name: 'John Virked',
-    designation: 'UI Designer',
-    department: 'Design',
-    phone: '+92 333 8494808',
-    id: 'SPX001',
-    img: user,
-  },
-  {
-    name: 'John Virked',
-    designation: 'UI Designer',
-    department: 'Design',
-    phone: '+92 333 8494808',
-    id: 'SPX001',
-    img: user,
-  },
-  {
-    name: 'John Virked',
-    designation: 'UI Designer',
-    department: 'Design',
-    phone: '+92 333 8494808',
-    id: 'SPX001',
-    img: user,
-  },
-  {
-    name: 'John Virked',
-    designation: 'UI Designer',
-    department: 'Design',
-    phone: '+92 333 8494808',
-    id: 'SPX001',
-    img: user,
-  },
-  {
-    name: 'John Virked',
-    designation: 'UI Designer',
-    department: 'Design',
-    phone: '+92 333 8494808',
-    id: 'SPX001',
-    img: user,
-  },
-  {
-    name: 'John Virked',
-    designation: 'UI Designer',
-    department: 'Design',
-    phone: '+92 333 8494808',
-    id: 'SPX001',
-    img: user,
-  },
-  {
-    name: 'John Virked',
-    designation: 'UI Designer',
-    department: 'Design',
-    phone: '+92 333 8494808',
-    id: 'SPX001',
-    img: user,
-  },
-];

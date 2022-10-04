@@ -24,6 +24,7 @@ interface Props {
   register?: any;
   value?: string;
   star?: string;
+  onChange?: (value: any) => void;
 }
 
 const SearchSelect = ({
@@ -40,6 +41,7 @@ const SearchSelect = ({
   control,
   register,
   star,
+  onChange: changeHandler,
 }: Props) => {
   const {
     field: { onChange },
@@ -57,6 +59,7 @@ const SearchSelect = ({
   }, [value]);
 
   useEffect(() => {
+    changeHandler && changeHandler(selectValue);
     onChange(selectValue);
   }, [selectValue]);
 
@@ -98,7 +101,7 @@ const SearchSelect = ({
               <p
                 onClick={(e: any) => {
                   setOpen(false);
-                  setSelectValue(e.target.innerHTML);
+                  setSelectValue(ele);
                 }}
               >
                 {ele}

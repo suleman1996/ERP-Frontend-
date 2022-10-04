@@ -60,49 +60,32 @@ const AddressInformation = ({
           <h1>Current Address</h1>
         </div>
         <div className={style.grid}>
-          <Select
-            label="Country"
+          <SearchSelect
             name={'currentCountry'}
-            star={'*'}
+            star={' *'}
+            control={control}
+            value={watch('currentCountry')}
             errorMessage={errors?.currentCountry?.message}
-            register={register}
-            onChange={() => {
+            options={countries?.map(({ name }) => name)}
+            label="Country"
+            onChange={(value) => {
               getData('currentCountryData', {
-                country: watch().currentCountry,
+                country: value,
               });
             }}
-          >
-            <option value="">Country</option>
-            <>
-              {countries &&
-                countries.map(({ name }) => (
-                  <option key={name} value={name}>
-                    {name}
-                  </option>
-                ))}
-            </>
-          </Select>
-          <Select
-            label="State"
-            star={'*'}
-            register={register}
-            errorMessage={errors?.currentState?.message}
-            name="currentState"
+          />
+          <SearchSelect
+            name={'currentState'}
+            star={' *'}
+            control={control}
             value={watch('currentState')}
-            onChange={() => {
-              getCities('currentCitiesData', currentCountryData, watch().currentState);
+            errorMessage={errors?.currentState?.message}
+            options={currentCountryData?.map(({ name }) => name)}
+            label="State"
+            onChange={(value) => {
+              getCities('currentCitiesData', currentCountryData, value);
             }}
-          >
-            <option value="">State</option>
-            <>
-              {currentCountryData &&
-                currentCountryData.map(({ name }) => (
-                  <option key={name} value={name}>
-                    {name}
-                  </option>
-                ))}
-            </>
-          </Select>
+          />
           <SearchSelect
             name={'currentCity'}
             star={' *'}
@@ -140,48 +123,32 @@ const AddressInformation = ({
           />
         </div>
         <div className={style.grid}>
-          <Select
-            label="Country"
-            star={'*'}
+          <SearchSelect
             name={'permanentCountry'}
+            star={' *'}
+            control={control}
+            value={watch('permanentCountry')}
             errorMessage={errors?.permanentCountry?.message}
-            register={register}
-            onChange={() => {
+            options={countries?.map(({ name }) => name)}
+            label="Country"
+            onChange={(value) => {
               getData('permanentCountryData', {
-                country: watch().permanentCountry,
+                country: value,
               });
             }}
-          >
-            <option value="">Country</option>
-            <>
-              {countries &&
-                countries.map(({ name }) => (
-                  <option key={name} value={name}>
-                    {name}
-                  </option>
-                ))}
-            </>
-          </Select>
-          <Select
-            label="State"
-            star={'*'}
-            register={register}
+          />
+          <SearchSelect
+            name={'permanentState'}
+            star={' *'}
+            control={control}
+            value={watch('permanentState')}
             errorMessage={errors?.permanentState?.message}
-            name="permanentState"
-            onChange={() => {
-              getCities('permanentCitiesData', permanentCountryData, watch().permanentState);
+            options={permanentCountryData?.map(({ name }) => name)}
+            label="State"
+            onChange={(value) => {
+              getCities('permanentCitiesData', permanentCountryData, value);
             }}
-          >
-            <option value="">State</option>
-            <>
-              {permanentCountryData &&
-                permanentCountryData.map(({ name }) => (
-                  <option key={name} value={name}>
-                    {name}
-                  </option>
-                ))}
-            </>
-          </Select>
+          />
           <SearchSelect
             label="City"
             star={' *'}

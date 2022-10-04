@@ -17,9 +17,14 @@ import edit from 'new-assets/edit-employee.svg';
 import profile from 'new-assets/user-img.svg';
 import pencil from 'new-assets/pencil.svg';
 import style from './single-employee.module.scss';
+import { designation } from './../../settings/profile-settings/helper';
 
+type User = {
+  [key: string]: any;
+};
 const SingleEmployee = () => {
   const navigate = useNavigate();
+  const [user, setUser] = useState<User>();
   const { id } = useParams();
 
   const [active, setActive] = useState(0);
@@ -27,11 +32,32 @@ const SingleEmployee = () => {
 
   const getSingleEmployeeData = async () => {
     const res = await EmployeeService.getEmployee(id);
+    if (res.status === 200) {
+      setUser(res?.data);
+    }
   };
 
   useEffect(() => {
     getSingleEmployeeData();
   }, []);
+
+  const positions = [
+    {
+      title: 'Position',
+      subtitle: user?.companyInformation.department,
+      class: style.b1,
+    },
+    {
+      title: 'Age',
+      subtitle: '25',
+      class: style.b2,
+    },
+    {
+      title: 'Experience',
+      subtitle: '2 Years',
+      class: style.b3,
+    },
+  ];
 
   return (
     <CardContainer className={style.card}>
@@ -43,17 +69,21 @@ const SingleEmployee = () => {
         <div className={style.employeeDetails}>
           <div className={style.leftDiv}>
             <div className={style.imgDiv}>
-              <img src={profile} alt="" className={style.proDiv} />
+              <img
+                src={user?.personalInformation?.img ? user?.personalInformation?.img : profile}
+                alt=""
+                className={style.proDiv}
+              />
               <img src={edit} alt="" className={style.edit} />
             </div>
             <div className={style.content}>
               <div>
-                <h6>John Virked</h6>
+                <h6>{`${user?.personalInformation.firstName}  ${user?.personalInformation.lastName}`}</h6>
                 <Link to={`/employee/edit/${id}`}>
                   <img src={pencil} alt="" />
                 </Link>
               </div>
-              <p>UI/UX Designer</p>
+              <p>{user?.companyInformation.department}</p>
             </div>
           </div>
           <div className={style.rightDiv}>
@@ -88,10 +118,10 @@ const SingleEmployee = () => {
         </div>
       </div>
       <div style={{ padding: '10px 20px' }}>
-        {active === 0 && <Overview />}
-        {active === 1 && <Attendance />}
-        {active === 2 && <SalaryInformation />}
-        {active === 3 && <Documents />}
+        {active === 0 && <Overview user={user} />}
+        {active === 1 && <Attendance user={user} />}
+        {active === 2 && <SalaryInformation user={user} />}
+        {active === 3 && <Documents user={user} />}
       </div>
       <AddDocument open={open} setOpen={setOpen} />
     </CardContainer>
@@ -99,21 +129,3 @@ const SingleEmployee = () => {
 };
 
 export default SingleEmployee;
-
-const positions = [
-  {
-    title: 'Position',
-    subtitle: 'Designer',
-    class: style.b1,
-  },
-  {
-    title: 'Age',
-    subtitle: '25',
-    class: style.b2,
-  },
-  {
-    title: 'Experience',
-    subtitle: '2 Years',
-    class: style.b3,
-  },
-];

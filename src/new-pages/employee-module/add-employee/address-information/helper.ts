@@ -191,10 +191,12 @@ export const useAddressInfo = ({ handleNext, setFormData, formData, employeeId }
       }
       const res = await AddressService.getCountryStateCityData(data);
       if (res.status === 200) {
-        const { states } = res.data.address[0];
-        stateData = [...states];
-        type === 'currentCountryData' && setCurrentCountryData(states || []);
-        type === 'permanentCountryData' && setPermanentCountryData(states || []);
+        if (res.data.address[0]) {
+          const { states } = res.data.address[0];
+          stateData = [...states];
+          type === 'currentCountryData' && setCurrentCountryData(states || []);
+          type === 'permanentCountryData' && setPermanentCountryData(states || []);
+        }
       }
       currentState &&
         getCities('permanentCitiesData', res.data.address[0].states || [], currentState);

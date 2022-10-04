@@ -5,6 +5,7 @@ import DatePicker from 'new-components/date-picker';
 import Table from 'new-components/table';
 import ProfileUpload from 'new-components/profile-upload';
 import Checkbox from 'new-components/checkbox';
+import Select from 'new-components/select';
 
 import { columns, useEducationDetail } from './helper';
 
@@ -119,15 +120,28 @@ const EducationalDetails = ({
               containerClass={style.containerClass}
             />
           </div>
-          <TextField
-            name="percentageCgpa"
-            label="Percentage/CGPA"
+          <Select
+            label="ID"
+            name={'employeeId'}
+            selectContainer={style.selectContainer}
+            wraperSelect={style.wraperSelect}
+            withInput
             star={' *'}
-            type="text"
+            errorMessage={errors?.employeeId?.message}
             register={register}
-            errorMessage={errors?.percentageCgpa?.message}
-            placeholder="Percentage/CGPA"
-          />
+          >
+            {/* <option value="">ID</option> */}
+            <>
+              {selectOptions &&
+                selectOptions.map((ele) => (
+                  <>
+                    <option key={ele.value} value={ele.value}>
+                      {ele.description}
+                    </option>
+                  </>
+                ))}
+            </>
+          </Select>
           <div>
             <label
               style={{ color: errors?.transcript?.message && '#ff5050' }}
@@ -184,3 +198,14 @@ const EducationalDetails = ({
 };
 
 export default EducationalDetails;
+
+export const selectOptions = [
+  {
+    value: 'percentage',
+    description: 'Percentage',
+  },
+  {
+    value: 'cgpa',
+    description: 'CGPA',
+  },
+];

@@ -1,4 +1,7 @@
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useState, useEffect } from 'react';
+import moment from 'moment-timezone';
+
+import EmployeeService from 'services/employee-service';
 
 import Button from 'new-components/button';
 import Container from 'new-components/container';
@@ -9,9 +12,26 @@ import style from './employee-profile.module.scss';
 interface Props {
   setOpenModalProfile: Dispatch<SetStateAction<boolean>>;
   openModalProfile: boolean;
+  id?: string;
 }
 
-const ProfileView = ({ openModalProfile, setOpenModalProfile }: Props) => {
+type User = {
+  [key: string]: any;
+};
+
+const ProfileView = ({ openModalProfile, setOpenModalProfile, id }: Props) => {
+  const [user, setUser] = useState<User>();
+
+  const getSingleEmployeeData = async () => {
+    const res = await EmployeeService.getEmployee(id);
+    if (res.status === 200) {
+      setUser(res?.data);
+    }
+  };
+
+  useEffect(() => {
+    if (id) getSingleEmployeeData();
+  }, [id]);
   return (
     <>
       <Modal
@@ -31,54 +51,73 @@ const ProfileView = ({ openModalProfile, setOpenModalProfile }: Props) => {
           <div>
             <Container container={style.container}>
               <div className={style.userInfo}>
-                <div className={style.imgSection}>img</div>
+                <div className={style.imgSection}>
+                  <img src={user?.personalInformation?.img} />
+                </div>
                 <div className={style.userData}>
-                  <p>#SPX001</p>
-                  <h3>jonithen jorge</h3>
-                  <span className={style.emailText}>jonithenjorge@gmail.com</span>
+                  <p>{user?.personalInformation?.employeeId}</p>
+                  <h3>
+                    {user?.personalInformation?.firstName} {user?.personalInformation?.lastName}
+                  </h3>
+                  <span className={style.emailText}>{user?.personalInformation?.email}</span>
                   <div className={style.leadDiv}>
-                    <span>UI / UX Designer | Design Lead</span>
+                    <span>{user?.companyInformation?.department}</span>
                   </div>
                 </div>
               </div>
               <Button text={'PERSONAL INFORMATION'} btnClass={style.btnClass} />
               <div className={style.tb1}>
                 <div className={style.gridElement}>
-                  <span>Title: jonithen jorge</span>
+                  <span>
+                    Title: {user?.personalInformation?.firstName}{' '}
+                    {user?.personalInformation?.lastName}
+                  </span>
                 </div>
-                <div className={style.gridElement}>Country : Pakistan</div>
-                <div className={style.gridElement}>Designation : Team Lead</div>
-                <div className={style.gridElement}>Department : UI UX Designer</div>
+                <div className={style.gridElement}>
+                  Country : {user?.addressInformation?.currentAddress.country}
+                </div>
+                <div className={style.gridElement}>
+                  Designation : {user?.companyInformation.designation}
+                </div>
+                <div className={style.gridElement}>
+                  Department : {user?.companyInformation.department}
+                </div>
                 <div className={`${style.gridElement} ${style.fullRow} `}>
-                  Address : Wapda Town, Street no 9, House no 98, Lahore Punjab
+                  Address : {user?.addressInformation?.currentAddress?.address}
                 </div>
-                <div className={style.gridElement}>Joining Date : 10 jan 2022</div>
-                <div className={style.gridElement}>Phone Number: +923328494808</div>
-                <div className={style.gridElement}>Date of Birth: 02 Dec,2000</div>
+                <div className={style.gridElement}>
+                  Joining Date :{' '}
+                  {moment(user?.companyInformation?.joiningDate).format('DD-MM-YYYY')}
+                </div>
+                <div className={style.gridElement}>
+                  Phone Number: {user?.personalInformation?.phoneNumber}
+                </div>
+                <div className={style.gridElement}>
+                  Date of Birth: {moment(user?.companyInformation?.dob).format('DD-MM-YYYY')}
+                </div>
                 <div className={style.gridElement}>Job Type: Permanent</div>
                 <div className={style.gridElement}>Contract Type: Attendance</div>
                 <div className={style.gridElement}>Pay Type: Monthly</div>
               </div>
               <Button text={'EDUCATIONAL INFORMATION'} btnClass={style.btnClass} />
               <div className={style.tb2}>
-                <div className={style.gridElement2}>
-                  <span>Degree</span>
-                </div>
-                <div className={style.gridElement2}>Institute</div>
-                <div className={style.gridElement2}>Start Date</div>
-                <div className={style.gridElement2}>End Date</div>
-                <div className={style.gridElement2}>% | GPA</div>
-                {tableTwoData.map(({ degree, institute, startDate, endDate, gpa }) => {
-                  return (
-                    <>
-                      <div className={style.gridElement2}>{degree}</div>
-                      <div className={style.gridElement2}>{institute}</div>
-                      <div className={style.gridElement2}>{startDate}</div>
-                      <div className={style.gridElement2}>{endDate}</div>
-                      <div className={style.gridElement2}>{gpa}</div>
-                    </>
-                  );
-                })}
+                {user?.educationDetails?.map(
+                  ({ degree, institute, startDate, endDate, percentageCgpa }: any) => {
+                    return (
+                      <>
+                        <div className={style.gridElement2}>{degree}</div>
+                        <div className={style.gridElement2}>{institute}</div>
+                        <div className={style.gridElement2}>
+                          {moment(startDate).format('DD-MM-YYYY')}
+                        </div>
+                        <div className={style.gridElement2}>
+                          {moment(endDate).format('DD-MM-YYYY')}
+                        </div>
+                        <div className={style.gridElement2}>{percentageCgpa}</div>
+                      </>
+                    );
+                  },
+                )}
               </div>
               <Button text={'SALARY INFORMATION'} btnClass={style.btnClass} />
               <div className={style.tb3}>
@@ -115,6 +154,7 @@ export default ProfileView;
 
 const tableTwoData = [
   {
+    percentage: 'percentage/Cgpa',
     degree: 'Masters in Computer Science',
     institute: 'Fast',
     startDate: '10 jan,2020',
@@ -122,6 +162,7 @@ const tableTwoData = [
     gpa: 3.95,
   },
   {
+    percentage: 'percentage/Cgpa',
     degree: 'Masters in Computer Science',
     institute: 'Fast',
     startDate: '10 jan,2020',

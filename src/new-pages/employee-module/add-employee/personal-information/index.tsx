@@ -6,6 +6,8 @@ import ImageUpload from 'new-components/image-upload';
 import TextField from 'new-components/textfield';
 import Radio from 'new-components/radio';
 import ProfileUpload from 'new-components/profile-upload';
+import CountryInput from 'components/country-input';
+import Select from 'new-components/select';
 
 import { usePersonalInfo } from './helper';
 
@@ -16,7 +18,7 @@ interface Props {
   handleNext: (data?: string) => void;
   formData: any;
   setFormData: any;
-  employeeId: string;
+  employeeDocId: string;
   setEmployeeId: Dispatch<SetStateAction<string>>;
   setEmployeeDocId: Dispatch<SetStateAction<string>>;
 }
@@ -24,16 +26,16 @@ interface Props {
 const PersonalInformation = ({
   handleNext,
   setFormData,
-  employeeId,
+  employeeDocId,
   formData,
   setEmployeeId,
   setEmployeeDocId,
 }: Props) => {
-  const { onSubmit, register, handleSubmit, errors, control, img, setImg, btnLoader } =
+  const { onSubmit, register, handleSubmit, errors, control, img, setImg, btnLoader, userId } =
     usePersonalInfo({
       handleNext,
       setFormData,
-      employeeId,
+      employeeDocId,
       formData,
       setEmployeeId,
       setEmployeeDocId,
@@ -62,24 +64,43 @@ const PersonalInformation = ({
             placeholder="Enter Last Name"
             star={'*'}
           />
-          <TextField
-            name="employeeId"
-            label="Employee ID "
-            type="text"
-            placeholder="Enter Employee ID"
+          <Select
+            label="ID"
+            name={'employeeId'}
+            userId={userId}
+            selectContainer={style.selectContainer}
+            wraperSelect={style.wraperSelect}
+            newSelect
+            star={' *'}
             errorMessage={errors?.employeeId?.message}
             register={register}
-            star={'*'}
-          />
-          <TextField
-            name="phoneNumber"
-            label="Phone Number "
-            type="number"
-            register={register}
-            errorMessage={errors?.phoneNumber?.message}
-            placeholder="Phone Number"
-            star={'*'}
-          />
+          >
+            <>
+              {selectOptions &&
+                selectOptions.map((ele) => (
+                  <>
+                    <option key={ele.value} value={ele.value}>
+                      {ele.description}
+                    </option>
+                  </>
+                ))}
+            </>
+          </Select>
+          <div>
+            <label
+              className={style.label}
+              style={{ color: errors?.phoneNumber?.message ? '#ff5050' : '#2d2d32' }}
+            >
+              Page Number
+              <b style={{ color: 'red' }}>{' *'}</b>
+            </label>
+            <CountryInput
+              name={'phoneNumber'}
+              placeholder={'Enter phone number'}
+              control={control}
+              errorMessage={errors?.phoneNumber?.message}
+            />
+          </div>
           <TextField
             name="email"
             label="Email "
@@ -161,3 +182,18 @@ const PersonalInformation = ({
 };
 
 export default PersonalInformation;
+
+export const selectOptions = [
+  {
+    value: 'SPX',
+    description: 'SPX',
+  },
+  {
+    value: 'YYY',
+    description: 'YYY',
+  },
+  {
+    value: 'ZZZ',
+    description: 'ZZZ',
+  },
+];
