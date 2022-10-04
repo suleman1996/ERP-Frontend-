@@ -85,9 +85,18 @@ const ExpertiseInformation = ({
         handleNext('Payroll');
       }
     } else {
-      const res = await EmployeeService.addEmployee({ ...userData });
-      if (res.status === 201) {
-        handleNext('Payroll');
+      if (skillData.length > 0) {
+        setActive(1);
+      }
+      if (language.length > 0) {
+        setActive(2);
+      }
+
+      if (skillData.length > 0 && language.length > 0 && certificate.length > 0) {
+        const res = await EmployeeService.addEmployee({ ...userData });
+        if (res.status === 201) {
+          handleNext('Payroll');
+        }
       }
     }
     setBtnLoader(false);
@@ -184,18 +193,7 @@ const ExpertiseInformation = ({
           iconStart={arrowLeft}
           handleClick={() => handleBack('Experience')}
         />
-        <Button
-          isLoading={btnLoader}
-          text="Next"
-          iconEnd={arrowRight}
-          handleClick={onSubmit}
-          btnClass={
-            skillData.length < 1 || language.length < 1 || certificate.length < 1
-              ? style.disableBtn
-              : ''
-          }
-          disabled={skillData.length < 1 || language.length < 1 || certificate.length < 1}
-        />
+        <Button isLoading={btnLoader} text="Next" iconEnd={arrowRight} handleClick={onSubmit} />
       </div>
     </div>
   );

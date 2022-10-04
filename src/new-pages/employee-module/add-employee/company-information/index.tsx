@@ -8,13 +8,13 @@ import DatePicker from 'new-components/date-picker';
 import Radio from 'new-components/radio';
 import TimePicker from 'new-components/time-picker';
 import Checkbox from 'new-components/checkbox';
+import CustomTimePicker from 'components/custom-time-picker';
 
 import { selectCountry, employmentType, department, schema, useCompanyInfo } from './helper';
 
 import arrowRight from 'new-assets/arrowBtnRight.svg';
 import arrowLeft from 'new-assets/backBtn.svg';
 import style from './company-information.module.scss';
-import CustomTimePicker from 'components/custom-time-picker';
 
 interface Props {
   handleBack: (data?: string) => void;
@@ -217,13 +217,6 @@ const CompanyInformation = ({
               control={control}
               errorMessage={errors?.workingHours?.message}
             />
-            // <TimePicker
-            //   label="Working Hours"
-            //   name={'workingHours'}
-            //   star={' *'}
-            //   register={register}
-            //   errorMessage={errors?.workingTime?.message}
-            // />
           )}
           {console.log('errr', errors)}
         </div>

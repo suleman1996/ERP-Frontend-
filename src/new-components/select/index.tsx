@@ -1,4 +1,4 @@
-import { ChangeEvent } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 
 import TextField from 'new-components/textfield';
 
@@ -20,6 +20,9 @@ interface Props {
   newSelect?: boolean;
   withInput?: boolean;
   userId?: any;
+  marksType?: string;
+  setMarkVal?: any;
+  marksVal?: any;
 }
 
 const Select = ({
@@ -38,7 +41,24 @@ const Select = ({
   newSelect,
   userId,
   withInput,
+  marksType,
+  marksVal,
+  setMarkVal,
 }: Props) => {
+  const [customErr, setCustomErr] = useState<string | undefined>();
+
+  useEffect(() => {
+    if (marksType === 'percentage') {
+      if (marksVal >= 100) {
+        setCustomErr('Percentage should be less than 100%');
+      } else setCustomErr('');
+    } else if (marksType === 'cgpa') {
+      if (marksVal > 4) {
+        setCustomErr('CGPA should be less than or equal to 4');
+      } else setCustomErr('');
+    }
+  }, [marksType, marksVal]);
+
   return (
     <div style={{ position: 'relative' }}>
       {label && (
@@ -64,18 +84,17 @@ const Select = ({
         {newSelect && <p>{userId}</p>}
         {withInput && (
           <TextField
-            name="degree"
-            // label="Degree"
             star={' *'}
-            type="text"
+            type="number"
             register={register}
             className={style.inputClass}
-            // errorMessage={errors?.degree?.message}
             placeholder="Marks"
+            onChange={(e) => setMarkVal(parseFloat(e.target.value))}
           />
         )}
       </div>
       {errorMessage && <span className={style.errorMessage}>{errorMessage}</span>}
+      {customErr && <span className={style.errorMessage}>{customErr}</span>}
     </div>
   );
 };

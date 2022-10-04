@@ -62,26 +62,6 @@ export const usePersonalInfo = ({
     }
   }, [watch().employeeId]);
 
-  // useEffect(() => {
-  //   if (employeeDocId) {
-  //     const temp = { ...formData?.personalInformation };
-  //     reset({
-  //       firstName: temp?.personalInformation?.firstName,
-  //       lastName: temp?.personalInformation?.lastName,
-  //       employeeId: temp?.employeeId,
-  //       phoneNumber: temp?.personalInformation?.phoneNumber,
-  //       email: temp?.personalInformation?.email,
-  //       dob: new Date(temp?.personalInformation?.dob),
-  //       cnic: temp?.personalInformation?.cnic,
-  //       gender: temp?.personalInformation?.gender,
-  //       cnicBack: temp?.personalInformation?.cnicBack,
-  //     });
-  //     setImg(temp?.personalInformation?.img);
-  //   }
-
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [formData]);
-
   useEffect(() => {
     employeeDocId && getSingleEmployeeData();
   }, [employeeDocId]);
@@ -90,7 +70,6 @@ export const usePersonalInfo = ({
     const res = await EmployeeService.getEmployee(employeeDocId);
     console.log('res', res.data);
     setUserId(res?.data?.personalInformation?.employeeId?.split('').splice(3, 3).join(''));
-    // setImg(res?.data?.personalInformation?.img);
     reset({
       firstName: res?.data?.personalInformation?.firstName,
       lastName: res?.data?.personalInformation?.lastName,
@@ -113,7 +92,6 @@ export const usePersonalInfo = ({
         dob: moment(dob).format('YYYY-MM-DD'),
         cnic: cnic.toString(),
         employeeId: watch().employeeId + userId,
-        // employeeId: `${watch().employeeId}`,
         cnicFront: frontPic && frontPic.length && (await convertBase64Image(frontPic[0])),
         cnicBack: backPic && backPic.length && (await convertBase64Image(backPic[0])),
       };
@@ -206,3 +184,24 @@ export const schema = yup.object().shape({
   //     return file[0] && file[0].size <= 2000000;
   //   }),
 });
+
+/////////////////////////    may be usefull in future       /////////////////////////////////////////////
+// useEffect(() => {
+//   if (employeeDocId) {
+//     const temp = { ...formData?.personalInformation };
+//     reset({
+//       firstName: temp?.personalInformation?.firstName,
+//       lastName: temp?.personalInformation?.lastName,
+//       employeeId: temp?.employeeId,
+//       phoneNumber: temp?.personalInformation?.phoneNumber,
+//       email: temp?.personalInformation?.email,
+//       dob: new Date(temp?.personalInformation?.dob),
+//       cnic: temp?.personalInformation?.cnic,
+//       gender: temp?.personalInformation?.gender,
+//       cnicBack: temp?.personalInformation?.cnicBack,
+//     });
+//     setImg(temp?.personalInformation?.img);
+//   }
+
+//   // eslint-disable-next-line react-hooks/exhaustive-deps
+// }, [formData]);

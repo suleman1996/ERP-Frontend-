@@ -41,6 +41,8 @@ export const useEducationDetail = ({
 }: Props) => {
   const { id } = useParams();
   const [btnLoader, setBtnLoader] = useState(false);
+  const [marksType, setMarksType] = useState('percentage');
+  const [marksVal, setMarkVal] = useState<number>();
   const [filename, setFilename] = useState<string | any>('');
   const [startDateHandle, setStartDateHandle] = useState<string | any>();
   const [educations, setEducations] = useState<Education[] | []>([]);
@@ -93,7 +95,7 @@ export const useEducationDetail = ({
       ...data,
       endDate: moment(endDate).format('YYYY-MM-DD'),
       startDate: moment(startDate).format('YYYY-MM-DD'),
-      percentageCgpa: data?.percentageCgpa.toString(),
+      percentageCgpa: marksVal,
       ongoing: ongiong,
       filename: transcript[0]?.name || prevFileName,
       transcript:
@@ -182,6 +184,10 @@ export const useEducationDetail = ({
     startDate,
     setValue,
     filename,
+    setMarksType,
+    marksType,
+    setMarkVal,
+    marksVal,
   };
 };
 
@@ -189,25 +195,11 @@ export const schema = yup.object().shape({
   institute: yup.string().required('Institute is a required field'),
   degree: yup.string().required('Degree is a required field'),
   startDate: yup.string().required('Start date is a required field'),
-  percentageCgpa: yup
-    .number()
-    .required('Percentage CGPA is a required field')
-    .typeError('Percentage CGPA is a required field')
-    .min(1, 'Minimum value is 1')
-    .max(99, 'Maximum value is 99'),
+
   endDate: yup.string().when('ongoing', {
     is: 'false',
     then: yup.string().required('End date is required.'),
   }),
-  // transcript: yup
-  //   .mixed()
-  //   .test("required", "You need to provide a file", (file) => {
-  //     if (file[0]) return true;
-  //     return false;
-  //   })
-  //   .test("fileSize", "The file is too large", (file) => {
-  //     return file[0] && file[0].size <= 2000000;
-  //   }),
 });
 
 export const selectCountry = [

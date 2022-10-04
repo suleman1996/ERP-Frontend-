@@ -50,6 +50,10 @@ const EducationalDetails = ({
     startDate,
     setValue,
     filename,
+    setMarksType,
+    marksType,
+    setMarkVal,
+    marksVal,
   } = useEducationDetail({
     handleBack,
     handleNext,
@@ -120,17 +124,21 @@ const EducationalDetails = ({
               containerClass={style.containerClass}
             />
           </div>
+          {console.log('err', errors)}
           <Select
-            label="ID"
-            name={'employeeId'}
+            label="Percentage/CGPA"
+            name={'percentageCgpa'}
             selectContainer={style.selectContainer}
             wraperSelect={style.wraperSelect}
             withInput
             star={' *'}
             errorMessage={errors?.employeeId?.message}
             register={register}
+            onChange={(e) => setMarksType(e.target.value)}
+            marksType={marksType}
+            setMarkVal={setMarkVal}
+            marksVal={marksVal}
           >
-            {/* <option value="">ID</option> */}
             <>
               {selectOptions &&
                 selectOptions.map((ele) => (

@@ -72,7 +72,7 @@ export const usePayrollDetail = ({ employeeId }: Props) => {
       const res = await EmployeeService.updateAddedEmployee(userData, id);
     } else {
       const res = await EmployeeService.addEmployee({ ...userData });
-      if (res.status === 200) {
+      if (res.status === 201) {
         navigate('/employee');
       }
     }
