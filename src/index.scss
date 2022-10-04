@@ -49,6 +49,14 @@ input[type='number'] {
   -o-border-radius: 100vw;
 }
 
+::-webkit-scrollbar:vertical {
+  width: 5px; /* Remove scrollbar space */
+  background: #e6e7e8; /* Optional: just make scrollbar invisible */
+  height: 5px;
+  border-radius: 8px;
+  display: none;
+}
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;

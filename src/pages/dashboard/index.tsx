@@ -17,14 +17,14 @@ import TimePicker from 'new-components/time-picker';
 import ImageUpload from 'new-components/image-upload';
 import ProfileUpload from 'new-components/profile-upload';
 import ProfileView from 'new-pages/employee-module/employee-profile/profile-view';
+import CustomTimePicker from './../../components/custom-time-picker/index';
+import CountryInput from 'components/country-input';
 
 import { rows, columns, selectCountryOptions } from './helper';
 
 import done from 'new-assets/done.svg';
 import style from './dashboard.module.scss';
 import flagImg from 'new-assets/flag/pakFlag.svg';
-
-import CountryTextField from 'components/country-textfield';
 
 const DashBoard = () => {
   const { control, register } = useForm();
@@ -33,66 +33,7 @@ const DashBoard = () => {
 
   return (
     <>
-      <CountryTextField register={register} label="Phone Number">
-        {selectCountryOptions &&
-          selectCountryOptions.map((ele: any) => (
-            <option key={ele.value} value={ele.value}>
-              {/* <img src={flagImg} alt="" />
-               */}
-              jh
-            </option>
-          ))}
-      </CountryTextField>
-      <DatePicker label="Date" name="date" id="1" placeholder="Date" control={control} />
-      <div style={{ marginTop: '20px' }}>
-        <ImageUpload />
-      </div>
-      <div style={{ marginTop: '20px' }}>
-        <Button text="Done" handleClick={() => setOpen(true)} iconEnd={done} />
-      </div>
-      <div style={{ marginTop: '20px' }}>
-        <Checkbox label="Checkbox" />
-      </div>
-      <div style={{ marginTop: '20px' }}>
-        <ProfileUpload />
-      </div>
-      <div style={{ marginTop: '20px' }}>
-        <Pagination />
-      </div>
-      <div style={{ marginTop: '20px' }}>
-        <Radio label="radio" />
-      </div>
-      <div style={{ marginTop: '20px' }}></div>
-      <div style={{ marginTop: '20px' }}>
-        <TimePicker label="Time Picker" />
-      </div>
-      <div style={{ marginTop: '20px' }}>
-        <Select label="Options">
-          <option value="">Status</option>
-          <>
-            {selectOptions &&
-              selectOptions.map((ele) => (
-                <>
-                  <option key={ele.value} value={ele.value}>
-                    {ele.description}
-                  </option>
-                </>
-              ))}
-          </>
-        </Select>
-      </div>
-      <div style={{ marginTop: '20px' }}>
-        <Tags tagsTextArr={tagsArr} />
-      </div>
-      <div style={{ marginTop: '20px' }}>
-        <TextArea label="TextArea" />
-      </div>
-      <div style={{ marginTop: '20px' }}>
-        <TextField label="TextField" />
-      </div>
-      <div style={{ marginTop: '20px' }}>
-        <Table rows={rows} columns={columns} minWidth="1100px" />
-      </div>
+      <h1>dashboard</h1>
     </>
   );
 };
@@ -101,16 +42,16 @@ export default DashBoard;
 
 export const selectOptions = [
   {
-    value: 'hr',
-    description: 'Hr',
+    value: 'SPX',
+    description: 'SPX',
   },
   {
-    value: 'employee',
-    description: 'Employee',
+    value: 'SPX',
+    description: 'YYY',
   },
   {
-    value: 'admin',
-    description: 'Admin',
+    value: 'SPX',
+    description: 'ZZZ',
   },
 ];
 

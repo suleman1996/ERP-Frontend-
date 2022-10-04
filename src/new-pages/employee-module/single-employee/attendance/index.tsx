@@ -7,7 +7,7 @@ import { rows, columns, rows1, columns1, rows2, columns2 } from './helper';
 import printIcon from 'new-assets/print.svg';
 import style from './attendance.module.scss';
 
-const Attendance = () => {
+const Attendance = ({ user }: any) => {
   return (
     <>
       <CardContainer className={style.card}>

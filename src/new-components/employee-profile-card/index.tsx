@@ -9,7 +9,7 @@ interface Props {
   designation: string;
   department: string;
   phone: string;
-  id: string;
+  id: string | undefined;
 }
 
 const EmployeeProfileCard = ({

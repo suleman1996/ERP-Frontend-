@@ -8,6 +8,7 @@ import DatePicker from 'new-components/date-picker';
 import Radio from 'new-components/radio';
 import TimePicker from 'new-components/time-picker';
 import Checkbox from 'new-components/checkbox';
+import CustomTimePicker from 'components/custom-time-picker';
 
 import { selectCountry, employmentType, department, schema, useCompanyInfo } from './helper';
 
@@ -196,27 +197,28 @@ const CompanyInformation = ({
           {watch().employmentType === 'Full-Time' ? (
             <>
               <TimePicker
-                label="Login Time"
+                label="Check in"
                 name={'checkIn'}
+                star={' *'}
                 register={register}
                 errorMessage={errors?.checkIn?.message}
               />
               <TimePicker
-                label="Logout Time"
+                label="Check out"
+                star={' *'}
                 name={'checkOut'}
                 register={register}
                 errorMessage={errors?.checkOut?.message}
               />
             </>
           ) : (
-            <TimePicker
-              label="Working Hours"
+            <CustomTimePicker
               name={'workingHours'}
-              star={' *'}
-              register={register}
-              errorMessage={errors?.workingTime?.message}
+              control={control}
+              errorMessage={errors?.workingHours?.message}
             />
           )}
+          {console.log('errr', errors)}
         </div>
         <TextArea
           name="note"

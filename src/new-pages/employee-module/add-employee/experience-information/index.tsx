@@ -52,6 +52,7 @@ const ExperienceDetails = ({
     watch,
     cities,
     startDate,
+    currentCountryData,
   } = useExperience({
     handleBack,
     handleNext,
@@ -74,28 +75,20 @@ const ExperienceDetails = ({
               errorMessage={errors?.company?.message}
               placeholder="company"
             />
-            <Select
-              label="Country"
+            <SearchSelect
               name={'country'}
               star={' *'}
+              control={control}
+              value={watch('country')}
               errorMessage={errors?.country?.message}
-              register={register}
-              onChange={() => {
+              options={countries?.map(({ name }) => name)}
+              label="Country"
+              onChange={(value) => {
                 getData({
-                  country: watch().country,
+                  country: value,
                 });
               }}
-            >
-              <option value="">Country</option>
-              <>
-                {countries &&
-                  countries.map(({ name }) => (
-                    <option key={name} value={name}>
-                      {name}
-                    </option>
-                  ))}
-              </>
-            </Select>
+            />
             <SearchSelect
               name={'city'}
               star={' *'}

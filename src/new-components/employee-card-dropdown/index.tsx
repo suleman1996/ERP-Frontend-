@@ -7,10 +7,11 @@ import style from './employee-dropdown.module.scss';
 interface Props {
   setOpenModal: Dispatch<SetStateAction<boolean>>;
   setOpenModalProfile: Dispatch<SetStateAction<boolean>>;
+  handleClick?: () => any;
   id: string;
 }
 
-const EmployeeDropdown = ({ setOpenModal, setOpenModalProfile, id }: Props) => {
+const EmployeeDropdown = ({ setOpenModal, setOpenModalProfile, id, handleClick }: Props) => {
   const navigate = useNavigate();
 
   const profile = [
@@ -23,8 +24,8 @@ const EmployeeDropdown = ({ setOpenModal, setOpenModalProfile, id }: Props) => {
   ];
 
   return (
-    <>
-      <div className={style.mainDiv}>
+    <div>
+      <div className={style.mainDiv} onClick={() => handleClick && handleClick()}>
         {profile.map((ele, index) => (
           <div className={style.innerDiv} key={index} onClick={ele.click}>
             <p>{ele.text}</p>
@@ -32,7 +33,7 @@ const EmployeeDropdown = ({ setOpenModal, setOpenModalProfile, id }: Props) => {
           </div>
         ))}
       </div>
-    </>
+    </div>
   );
 };
 

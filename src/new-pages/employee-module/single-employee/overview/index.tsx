@@ -1,12 +1,51 @@
+import moment from 'moment';
+
 import CardContainer from 'new-components/card-container';
 import Table from 'new-components/table';
 
-import { rows, columns } from './helper';
+import { columns } from './helper';
 
 import over from 'new-assets/overview.svg';
 import style from './overview.module.scss';
 
-const Overview = () => {
+const Overview = ({ user }: any) => {
+  const overviewDetails = [
+    {
+      title: 'Employee ID:',
+      subtitle: user?.personalInformation?.employeeId,
+      img: over,
+    },
+    {
+      title: 'Name:',
+      subtitle: `${user?.personalInformation?.firstName} ${user?.personalInformation?.lastName}`,
+      img: over,
+    },
+    {
+      title: 'Email:',
+      subtitle: `${user?.personalInformation?.email}`,
+    },
+    {
+      title: 'Date of birth:',
+      subtitle: `${moment(user?.personalInformation?.dob).format('MM-DD-YYYY')}`,
+    },
+    {
+      title: 'Gender:',
+      subtitle: `${user?.personalInformation?.gender}`,
+    },
+    {
+      title: 'Phone No:',
+      subtitle: `${user?.personalInformation?.phoneNumber}`,
+    },
+    {
+      title: 'Current Address:',
+      subtitle: `${user?.addressInformation?.currentAddress?.address}`,
+    },
+    {
+      title: 'Permanent Address:',
+      subtitle: `${user?.addressInformation?.permanentAddress?.address}`,
+    },
+  ];
+
   return (
     <>
       <CardContainer>
@@ -28,47 +67,10 @@ const Overview = () => {
         </div>
       </CardContainer>
       <CardContainer className={style.card}>
-        <Table rows={rows} columns={columns} minWidth="800px" />
+        <Table rows={user?.educationDetails} columns={columns} minWidth="800px" />
       </CardContainer>
     </>
   );
 };
 
 export default Overview;
-
-const overviewDetails = [
-  {
-    title: 'Employee ID:',
-    subtitle: 'SPX001',
-    img: over,
-  },
-  {
-    title: 'Name:',
-    subtitle: 'John Wicked',
-    img: over,
-  },
-  {
-    title: 'Email:',
-    subtitle: 'johnwicked@gmail.com',
-  },
-  {
-    title: 'Date of birth:',
-    subtitle: '02-12-2000',
-  },
-  {
-    title: 'Gender:',
-    subtitle: 'Male',
-  },
-  {
-    title: 'Phone No:',
-    subtitle: '+92 347 7690346',
-  },
-  {
-    title: 'Current Address:',
-    subtitle: 'Wapda Town, House no 98, Lahore',
-  },
-  {
-    title: 'Permanent Address:',
-    subtitle: 'Wapda Town, House no 98, Lahore',
-  },
-];

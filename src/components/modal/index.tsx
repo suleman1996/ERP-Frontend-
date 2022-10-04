@@ -1,37 +1,63 @@
-import style from './modal.module.scss';
+import Button from 'new-components/button';
 
+import cross from 'new-assets/cross.svg';
+import style from './modal.module.scss';
 interface Props {
-  children?: any;
-  open?: any;
-  className?: any;
-  handleClose?: () => void;
-  fullScreen?: boolean;
+  open?: boolean;
+  children: JSX.Element[] | JSX.Element;
+  className?: string;
+  title?: string;
+  btnClass?: string;
+  handleClose: () => void;
+  text?: string;
+  type?: 'button' | 'submit' | 'reset' | undefined;
+  iconStart?: string;
+  iconEnd?: string;
+  handleClick?: () => void;
 }
 
-const Modal = ({ open, children, className, handleClose, fullScreen = false }: Props) => {
+const Modal = ({
+  open,
+  children,
+  className,
+  handleClose,
+  title,
+  text,
+  iconStart,
+  iconEnd,
+  handleClick,
+  type,
+  btnClass,
+}: Props) => {
+  const handleClickWrapper = (event: React.MouseEvent<HTMLElement>): void => {
+    event.nativeEvent.stopImmediatePropagation();
+    handleClose?.();
+  };
+
   return (
     <>
       {open && (
-        <div
-          className={style.modalWrapper}
-          style={{ padding: fullScreen ? '0' : '20px 20px' }}
-          onClick={(e) => {
-            e.nativeEvent.stopImmediatePropagation();
-            handleClose?.();
-          }}
-        >
+        <div className={style.modalWrapper} onClick={(e) => handleClickWrapper(e)}>
           <div
             className={`${style.modalContentWrapper} ${className}`}
-            style={{
-              ...(fullScreen && {
-                maxWidth: '100vw',
-                height: '100vh',
-                padding: 0,
-              }),
-            }}
             onClick={(e) => e.stopPropagation()}
           >
-            {children}
+            <div className={style.header}>
+              <p>{title}</p>
+              <img src={cross} alt="close icon" onClick={handleClose} />
+            </div>
+            <div className={style.body}>
+              {children}
+              <div className={`${style.btnClass}  ${btnClass}  `}>
+                <Button
+                  text={text}
+                  iconStart={iconStart}
+                  iconEnd={iconEnd}
+                  type={type}
+                  handleClick={handleClick}
+                />
+              </div>
+            </div>
           </div>
         </div>
       )}

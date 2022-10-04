@@ -1,9 +1,12 @@
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import moment from 'moment-timezone';
 
 import Skills from './level';
 import CvSideBar from './cv-side-bar';
 import Modal from 'new-components/modal';
 import Experience from './experience/index';
+
+import EmployeeService from 'services/employee-service';
 
 import image3 from 'new-assets/imgs/3.svg';
 import image4 from 'new-assets/imgs/2.svg';
@@ -12,9 +15,27 @@ import style from './cv-view.module.scss';
 interface Props {
   setOpenModal: Dispatch<SetStateAction<boolean>>;
   openModal: boolean;
+  id?: string;
 }
 
-const CvView = ({ openModal, setOpenModal }: Props) => {
+type User = {
+  [key: string]: any;
+};
+
+const CvView = ({ openModal, setOpenModal, id }: Props) => {
+  const [user, setUser] = useState<User>();
+
+  const getSingleEmployeeData = async () => {
+    const res = await EmployeeService.getEmployee(id);
+    if (res.status === 200) {
+      setUser(res?.data);
+    }
+  };
+
+  useEffect(() => {
+    if (id) getSingleEmployeeData();
+  }, [id]);
+
   return (
     <Modal
       open={openModal}
@@ -24,7 +45,7 @@ const CvView = ({ openModal, setOpenModal }: Props) => {
       text="Print"
     >
       <div style={{ display: 'flex' }}>
-        <CvSideBar />
+        <CvSideBar user={user} />
         <div className={style.wraper}>
           <div className={style.mainDiv}>
             <div className={style.topSec}>
@@ -41,8 +62,14 @@ const CvView = ({ openModal, setOpenModal }: Props) => {
               <h2>EDUCATION</h2>
             </div>
             <div>
-              {EducationData.map(({ date, company, job, intro }, index) => (
-                <Experience date={date} company={company} job={job} intro={intro} />
+              {user?.educationDetails.map((data: any) => (
+                <Experience
+                  date={`${moment(data.startDate).format('YYYY')}-${moment(data.endDate).format(
+                    'YYYY',
+                  )}`}
+                  company={data.institute}
+                  job={data?.degree}
+                />
               ))}
               <div className={style.topSec}>
                 <img src={image3} alt="" />
@@ -53,17 +80,6 @@ const CvView = ({ openModal, setOpenModal }: Props) => {
                 <li>2020 - Security management certificates(CISM)</li>
                 <li>2021 - Information Technology Certification(PMP)</li>
               </ul>
-              <div className={style.topSec}>
-                <img src={image4} alt="" />
-                <h2>PRO SKILLS</h2>
-              </div>
-              <div className={style.skillsSec}>
-                {SkillsData.map(({ name, val }, index) => (
-                  <div key={index}>
-                    <Skills name={name} val={val} />
-                  </div>
-                ))}
-              </div>
             </div>
           </div>
         </div>

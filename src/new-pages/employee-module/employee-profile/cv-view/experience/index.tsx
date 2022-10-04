@@ -1,10 +1,10 @@
 import style from './exp.module.scss';
 
 interface Props {
-  date: string;
-  company: string;
-  job: string;
-  intro: string;
+  date?: string;
+  company?: string;
+  job?: string;
+  intro?: string;
 }
 
 const Experience = ({ date, company, job, intro }: Props) => {

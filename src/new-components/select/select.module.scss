@@ -49,3 +49,11 @@ select option:checked {
   background: #57b894 -webkit-linear-gradient(bottom, #57b894 0%, #57b894 100%);
   color: #ffffff;
 }
+
+.inputClass {
+  border: none !important;
+  input {
+    border: none !important;
+    width: 100%;
+  }
+}

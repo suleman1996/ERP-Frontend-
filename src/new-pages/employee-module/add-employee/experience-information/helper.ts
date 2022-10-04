@@ -10,6 +10,7 @@ import { convertBase64Image } from 'main-helper';
 import { removeKeys } from 'helper';
 import AddressService from 'services/address-service';
 import { legacy_createStore } from '@reduxjs/toolkit';
+import { LoginCredentials } from './../../../../interfaces/login-credentials';
 
 interface Props {
   formData: any;
@@ -41,6 +42,7 @@ export const useExperience = ({
   const { id } = useParams();
   const educationIndex = useRef(-1);
   const [btnLoader, setBtnLoader] = useState(false);
+  const [currentCountryData, setCurrentCountryData] = useState([]);
   const [openTenure, setOpenTenure] = useState(false);
   const [onGoing, setOnGoing] = useState(false);
   const [cities, setCities] = useState([]);
@@ -124,7 +126,8 @@ export const useExperience = ({
     if (data?.country) {
       const res = await AddressService.getCountryStateCityData(data);
       if (res.status === 200) {
-        const { states } = res.data.address[0];
+        if (res.data.address.length == 0) return;
+        const { states } = res.data?.address[0];
         const cities = states.reduce(
           (acc: any[], data: any) => [...acc, ...data.cities.map((e: any) => e.name)],
           [],
@@ -169,6 +172,7 @@ export const useExperience = ({
     watch,
     cities,
     startDate,
+    currentCountryData,
   };
 };
 

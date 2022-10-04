@@ -121,7 +121,7 @@ export const useCompanyInfo = ({
           employeeInfo: {
             checkIn: checkIn && moment(checkIn, 'HH:mm').format('hh:mm a'),
             checkOut: checkOut && moment(checkOut, 'HH:mm').format('hh:mm a'),
-            workingHours: workingHours && moment(workingHours, 'HH:mm').format('hh:mm a'),
+            workingHours: workingHours,
           },
 
           probation: probation === 'true' ? true : false,
@@ -139,7 +139,7 @@ export const useCompanyInfo = ({
         employmentInfo: {
           checkIn: checkIn && moment(checkIn, 'HH:mm').format('hh:mm a'),
           checkOut: checkOut && moment(checkOut, 'HH:mm').format('hh:mm a'),
-          workingHours: workingHours && moment(workingHours, 'HH:mm').format('hh:mm a'),
+          workingHours: workingHours,
         },
         probation: probation === 'true' ? true : false,
       };
@@ -178,10 +178,19 @@ export const schema = yup.object().shape({
   department: yup.string().required('Department is a required field'),
   designation: yup.string().required('Designation is a required field'),
   employmentType: yup.string().required('employmentType is a required field'),
-  workingHours: yup.string().when('employmentType', {
-    is: 'Part-Time',
-    then: yup.string().required('Working time is required.'),
-  }),
+  workingHours: yup
+    .string()
+    .when('employmentType', {
+      is: 'Part-Time',
+      then: yup.string().required('Working time is required.'),
+    })
+    .test('ss', 'Working Hours are not correct', (value) => {
+      const [hours, mins] = value?.split(':') || [];
+      if (+mins >= 60) return false;
+      const total = +hours + +mins / 60;
+      console.log({ value, total });
+      return total <= 999 && total > 0;
+    }),
   checkIn: yup.string().when('employmentType', {
     is: 'Full-Time',
     then: yup.string().required('login time is required.'),
