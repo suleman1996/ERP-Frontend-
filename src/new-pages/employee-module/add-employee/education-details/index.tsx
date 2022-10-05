@@ -124,15 +124,15 @@ const EducationalDetails = ({
               containerClass={style.containerClass}
             />
           </div>
-          {console.log('err', errors)}
           <Select
             label="Percentage/CGPA"
             name={'percentageCgpa'}
+            name1={'percentageCgpa'}
             selectContainer={style.selectContainer}
             wraperSelect={style.wraperSelect}
             withInput
             star={' *'}
-            errorMessage={errors?.employeeId?.message}
+            errorMessage={errors?.percentageCgpa?.message}
             register={register}
             onChange={(e) => setMarksType(e.target.value)}
             marksType={marksType}
@@ -170,7 +170,12 @@ const EducationalDetails = ({
         </div>
         <div className={style.btnContainer}>
           <p></p>
-          <Button type="submit" text="Add" iconEnd={tick} />
+          <Button
+            type="submit"
+            text="Add"
+            iconEnd={tick}
+            // disabled={marksType === 'percentage' && marksVal ? marksVal > 101 : true}
+          />
         </div>
         <div style={{ marginTop: '30px' }}>
           <Table

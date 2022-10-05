@@ -8,6 +8,7 @@ interface Props {
   label?: string;
   value?: string;
   name?: string;
+  name1?: string;
   children?: JSX.Element[] | JSX.Element;
   onChange?: (event: ChangeEvent<HTMLSelectElement>) => void;
   register?: any;
@@ -29,6 +30,7 @@ const Select = ({
   label,
   value,
   name,
+  name1,
   onChange,
   register,
   errorMessage,
@@ -49,7 +51,7 @@ const Select = ({
 
   useEffect(() => {
     if (marksType === 'percentage') {
-      if (marksVal >= 100) {
+      if (marksVal > 100) {
         setCustomErr('Percentage should be less than 100%');
       } else setCustomErr('');
     } else if (marksType === 'cgpa') {
@@ -68,16 +70,17 @@ const Select = ({
       )}
       <div className={wraperSelect}>
         <select
+          value={marksType || value}
+
           name={name}
-          value={value}
-          ref={register}
           className={`${style.select}  ${selectContainer}  `}
           placeholder={placeholder}
-          onChange={onChange}
           style={{
             border: errorMessage ? '1.2px solid #ff5050' : ' 1.2px solid #e2e2ea',
           }}
           disabled={disable || false}
+          ref={register}
+          onChange={onChange}
         >
           {children}
         </select>
@@ -85,7 +88,8 @@ const Select = ({
         {withInput && (
           <TextField
             star={' *'}
-            type="number"
+            type="text"
+            name={name1}
             register={register}
             className={style.inputClass}
             placeholder="Marks"

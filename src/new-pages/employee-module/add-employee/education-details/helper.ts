@@ -20,6 +20,7 @@ export interface Education {
   ongoing?: boolean;
   filename?: string;
   prevTranscript?: string;
+  marksType?: any;
 }
 
 interface Props {
@@ -100,6 +101,7 @@ export const useEducationDetail = ({
       filename: transcript[0]?.name || prevFileName,
       transcript:
         transcript && (transcript[0] ? await convertBase64Image(transcript[0]) : prevTranscript),
+      marksType,
     };
     !transcript && removeKeys(tempObj, ['transcript']);
     ongiong && removeKeys(tempObj, ['endDate']);
@@ -119,16 +121,19 @@ export const useEducationDetail = ({
   const handleEducation = (index: number) => {
     educationIndex.current = index;
     const data = educations.find((data, i) => i === index);
+    console.log('data', data);
     reset({
       institute: data?.institute,
       degree: data?.degree,
       description: data?.description,
-      percentageCgpa: data?.percentageCgpa,
+      percentageCgpa: marksVal,
       startDate: moment(data?.startDate, 'YYYY-MM-DD').toDate(),
       endDate: moment(data?.endDate, 'YYYY-MM-DD').toDate(),
       ongoing: data?.ongoing,
       prevTranscript: data?.transcript,
     });
+    console.log('type', marksType.toString());
+    setMarksType(data?.marksType.toString());
     setOngoing(!!data?.ongoing);
     setFilename(data?.filename);
   };
@@ -195,6 +200,10 @@ export const schema = yup.object().shape({
   institute: yup.string().required('Institute is a required field'),
   degree: yup.string().required('Degree is a required field'),
   startDate: yup.string().required('Start date is a required field'),
+  percentageCgpa: yup
+    .string()
+    .required('PercentageCgpa is a required field')
+    .typeError('Percentage is a required field'),
 
   endDate: yup.string().when('ongoing', {
     is: 'false',

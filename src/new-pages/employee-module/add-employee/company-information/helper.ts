@@ -180,11 +180,13 @@ export const schema = yup.object().shape({
   employmentType: yup.string().required('employmentType is a required field'),
   workingHours: yup
     .string()
+    .nullable()
     .when('employmentType', {
       is: 'Part-Time',
       then: yup.string().required('Working time is required.'),
     })
     .test('ss', 'Working Hours are not correct', (value) => {
+      if (!value) return true;
       const [hours, mins] = value?.split(':') || [];
       if (+mins >= 60) return false;
       const total = +hours + +mins / 60;
