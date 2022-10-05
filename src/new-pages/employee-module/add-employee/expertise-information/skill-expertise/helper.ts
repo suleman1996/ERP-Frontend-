@@ -30,6 +30,8 @@ export const useSkill = ({ formData, setFormData, employeeId, setSkillData }: Pr
   const { id } = useParams();
   const [educations, setEducations] = useState<Skill[] | []>([]);
   const skillIndex = useRef(-1);
+  const [toggle, setToggle] = useState<number>();
+
   const [updateEdu, setUpdateEdu] = useState({
     update: false,
     editInd: -1,
@@ -39,7 +41,6 @@ export const useSkill = ({ formData, setFormData, employeeId, setSkillData }: Pr
   });
 
   const handleAddEduction = async (data: any) => {
-    console.log('file length', data?.file?.length);
     const fileBase64 =
       data?.file && data?.file?.length > 0 && (await convertBase64Image(data.file[0]));
     const skillData = {
@@ -67,6 +68,7 @@ export const useSkill = ({ formData, setFormData, employeeId, setSkillData }: Pr
     setEducations([...newEducations]);
     setFormData({ ...formData, setSkillData: [...newEducations] });
     reset({});
+    setToggle(-1);
     skillIndex.current = -1;
   };
 
@@ -117,6 +119,8 @@ export const useSkill = ({ formData, setFormData, employeeId, setSkillData }: Pr
     handleEducation,
     activeEdit: skillIndex.current,
     handleDeleteIndex,
+    toggle,
+    setToggle,
   };
 };
 

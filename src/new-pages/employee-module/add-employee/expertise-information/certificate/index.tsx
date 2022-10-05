@@ -41,6 +41,8 @@ const Certificate = ({ formData, setFormData, employeeId, setCertificate }: Prop
     control,
     activeEdit,
     handleDeleteIndex,
+    toggle,
+    setToggle,
   } = useCerificate({
     formData,
     setFormData,
@@ -95,6 +97,8 @@ const Certificate = ({ formData, setFormData, employeeId, setCertificate }: Prop
           star={' *'}
           name="skills"
           activeEdit={activeEdit}
+          setToggle={setToggle}
+          toggle={toggle}
         />
         <div className={style.btnContainer}>
           <p></p>

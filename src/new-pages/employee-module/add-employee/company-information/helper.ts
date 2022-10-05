@@ -34,6 +34,7 @@ export const useCompanyInfo = ({
   employeeId,
 }: Props) => {
   const { id } = useParams();
+  const [type, setType] = useState('per-day');
   const [probation, setProbation] = useState(false);
   const [btnLoader, setBtnLoader] = useState(false);
   const { register, handleSubmit, errors, control, reset, watch } = useForm({
@@ -78,33 +79,30 @@ export const useCompanyInfo = ({
 
   const getSingleEmployeeData = async () => {
     const res = await EmployeeService.getEmployee(id);
-
-    // it is helpfull for put api integration //
-
-    // reset({
-    //   joiningDate: new Date(res?.data?.companyInformation?.joiningDate),
-    //   department: res?.data?.companyInformation?.department,
-    //   designation: res?.data?.companyInformation?.designation,
-    //   annualLeaves: res?.data?.companyInformation?.annualLeaves,
-    //   medicalLeaves: res?.data?.companyInformation?.medicalLeaves,
-    //   casualLeaves: res?.data?.companyInformation?.casualLeaves,
-    //   probationDurationDays: res?.data?.companyInformation?.probationDurationDays,
-    //   employmentType: res?.data?.companyInformation?.employmentType,
-    //   probation: res?.data?.companyInformation?.probation,
-    //   note: res?.data?.companyInformation?.note,
-    //   workingTime: res?.data?.companyInformation?.workingTime,
-    //   loginTime: res?.data?.companyInformation?.loginTime,
-    //   logoutTime: res?.data?.companyInformation?.logoutTime,
-    //   startDate: res?.data?.companyInformation
-    //     ? new Date(res?.data?.companyInformation?.startDate)
-    //     : '',
-    //   endDate: res?.data?.companyInformation
-    //     ? new Date(res?.data?.companyInformation?.endDate)
-    //     : '',
-    //   probationEndDate: res?.data?.companyInformation?.probationEndDate
-    //     ? new Date(res?.data?.companyInformation?.probationEndDate)
-    //     : '',
-    // });
+    reset({
+      joiningDate: new Date(res?.data?.companyInformation?.joiningDate),
+      department: res?.data?.companyInformation?.department.toString(),
+      designation: res?.data?.companyInformation?.designation,
+      annualLeaves: res?.data?.companyInformation?.annualLeaves,
+      medicalLeaves: res?.data?.companyInformation?.medicalLeaves,
+      casualLeaves: res?.data?.companyInformation?.casualLeaves,
+      probationDurationDays: res?.data?.companyInformation?.probationDurationDays,
+      employmentType: res?.data?.companyInformation?.employmentType,
+      probation: res?.data?.companyInformation?.probation,
+      note: res?.data?.companyInformation?.note,
+      workingTime: res?.data?.companyInformation?.workingTime,
+      loginTime: res?.data?.companyInformation?.loginTime,
+      logoutTime: res?.data?.companyInformation?.logoutTime,
+      startDate: res?.data?.companyInformation
+        ? new Date(res?.data?.companyInformation?.startDate)
+        : '',
+      endDate: res?.data?.companyInformation
+        ? new Date(res?.data?.companyInformation?.endDate)
+        : '',
+      probationEndDate: res?.data?.companyInformation?.probationEndDate
+        ? new Date(res?.data?.companyInformation?.probationEndDate)
+        : '',
+    });
   };
 
   const onSubmit = async (data: Data) => {
@@ -140,6 +138,7 @@ export const useCompanyInfo = ({
           checkIn: checkIn && moment(checkIn, 'HH:mm').format('hh:mm a'),
           checkOut: checkOut && moment(checkOut, 'HH:mm').format('hh:mm a'),
           workingHours: workingHours,
+          timeType: type,
         },
         probation: probation === 'true' ? true : false,
       };
@@ -167,6 +166,8 @@ export const useCompanyInfo = ({
     btnLoader,
     setProbation,
     probation,
+    type,
+    setType,
   };
 };
 

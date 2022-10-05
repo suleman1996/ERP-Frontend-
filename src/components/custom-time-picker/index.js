@@ -5,8 +5,7 @@ import Select from 'new-components/select';
 
 import style from './time.module.scss';
 
-const CustomTimePicker = ({ control, name, errorMessage }) => {
-  const [type, setType] = useState('per-day');
+const CustomTimePicker = ({ control, name, errorMessage, setType, type }) => {
   const [customErr, setCustomErr] = useState();
   const { field } = useController({ control, name, defaultValue: 'HH:MM' });
 

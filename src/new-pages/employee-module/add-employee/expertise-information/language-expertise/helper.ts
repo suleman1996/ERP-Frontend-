@@ -28,6 +28,7 @@ export interface Language {
 export const useLanguage = ({ formData, setFormData, employeeId, setLanguage }: Props) => {
   const languageIndex = useRef(-1);
   const { id } = useParams();
+  const [toggle, setToggle] = useState<number>();
   const [educations, setEducations] = useState<Language[] | []>([]);
   const [updateEducation, setUpdateEducation] = useState({
     update: false,
@@ -64,6 +65,7 @@ export const useLanguage = ({ formData, setFormData, employeeId, setLanguage }: 
     setEducations([...newEducations]);
     setFormData({ ...formData, languageData: [...newEducations] });
     reset({});
+    setToggle(-1);
     languageIndex.current = -1;
   };
 
@@ -114,6 +116,8 @@ export const useLanguage = ({ formData, setFormData, employeeId, setLanguage }: 
     handleEducation,
     activeEdit: languageIndex.current,
     handleDeleteIndex,
+    toggle,
+    setToggle,
   };
 };
 

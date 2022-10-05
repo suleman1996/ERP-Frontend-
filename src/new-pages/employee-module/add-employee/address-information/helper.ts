@@ -136,7 +136,7 @@ export const useAddressInfo = ({ handleNext, setFormData, formData, employeeId }
     if (id) {
       const res = await EmployeeService.updateAddedEmployee(userData, id);
       if (res.status === 200) {
-        handleNext('Expertise');
+        handleNext('Education');
       }
     } else {
       setFormData({ ...formData, addressInformation: { ...userData } });

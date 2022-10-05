@@ -67,7 +67,7 @@ export const useEducationDetail = ({
         const userData = {
           type: 4,
           educationDetails: [...educations],
-          employeeId: 'SPX010',
+          employeeId: employeeId.toUpperCase(),
         };
         const res = await EmployeeService.updateAddedEmployee(userData, id);
         if (res.status === 201) {
@@ -80,6 +80,7 @@ export const useEducationDetail = ({
           type: 4,
           educationDetails: [...educations],
           employeeId: employeeId.toUpperCase(),
+          // employeeId: 'SPX920',
         });
         if (res.status === 201) {
           handleNext && handleNext('Experience');
@@ -101,8 +102,11 @@ export const useEducationDetail = ({
       filename: transcript[0]?.name || prevFileName,
       transcript:
         transcript && (transcript[0] ? await convertBase64Image(transcript[0]) : prevTranscript),
-      marksType,
+      // percentage: marksType === 'percentage' && marksVal,
+      ...(marksType === 'percentage' && { percentage: marksVal?.toString() }),
+      ...(marksType === 'cgpa' && { cgpa: marksType === 'cgpa' && marksVal?.toString() }),
     };
+    removeKeys(tempObj, ['percentageCgpa']);
     !transcript && removeKeys(tempObj, ['transcript']);
     ongiong && removeKeys(tempObj, ['endDate']);
     if (educationIndex.current < 0) {
@@ -133,13 +137,14 @@ export const useEducationDetail = ({
       prevTranscript: data?.transcript,
     });
     console.log('type', marksType.toString());
-    setMarksType(data?.marksType.toString());
+    // setMarksType(marksType);
     setOngoing(!!data?.ongoing);
     setFilename(data?.filename);
   };
 
   const getUser = async () => {
     const res = await EmployeeService.getEmployee(id);
+    console.log('res', res.data);
 
     const data = res.data.educationDetails.map((item: any, index: number) => {
       return {
@@ -263,8 +268,8 @@ export const columns = [
     width: '150px',
   },
   {
-    key: 'percentageCgpa',
-    name: 'Percentage',
+    key: 'percentage',
+    name: 'Percentage/CGPA',
     alignText: 'center',
     width: '150px',
   },

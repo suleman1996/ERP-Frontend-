@@ -22,6 +22,7 @@ interface Data {
   dob: string;
   frontPic: string;
   backPic: string;
+  id?: any;
 }
 
 interface Props {
@@ -42,6 +43,7 @@ export const usePersonalInfo = ({
   setEmployeeDocId,
 }: Props) => {
   const { id } = useParams();
+  console.log(id);
   const [btnLoader, setBtnLoader] = useState(false);
   const [userId, setUserId] = useState();
   const [img, setImg] = useState<unknown>('');
@@ -63,23 +65,41 @@ export const usePersonalInfo = ({
   }, [watch().employeeId]);
 
   useEffect(() => {
-    employeeDocId && getSingleEmployeeData();
+    (employeeDocId || id) && getSingleEmployeeData();
   }, [employeeDocId]);
 
   const getSingleEmployeeData = async () => {
-    const res = await EmployeeService.getEmployee(employeeDocId);
-    console.log('res', res.data);
-    setUserId(res?.data?.personalInformation?.employeeId?.split('').splice(3, 3).join(''));
-    reset({
-      firstName: res?.data?.personalInformation?.firstName,
-      lastName: res?.data?.personalInformation?.lastName,
-      employeeId: res?.data?.personalInformation?.employeeId?.split('').splice(0, 3).join(''),
-      phoneNumber: res?.data?.personalInformation?.phoneNumber.toString(),
-      email: res?.data?.personalInformation?.email,
-      dob: new Date(res?.data?.personalInformation?.dob),
-      cnic: res?.data?.personalInformation?.cnic,
-      gender: res?.data?.personalInformation?.gender,
-    });
+    if (employeeDocId) {
+      const res = await EmployeeService.getEmployee(employeeDocId);
+      setImg(res?.data?.personalInformation?.img);
+      setUserId(res?.data?.personalInformation?.employeeId?.split('').splice(3, 3).join(''));
+      reset({
+        firstName: res?.data?.personalInformation?.firstName,
+        lastName: res?.data?.personalInformation?.lastName,
+        employeeId: res?.data?.personalInformation?.employeeId?.split('').splice(0, 3).join(''),
+        phoneNumber: res?.data?.personalInformation?.phoneNumber.toString(),
+        email: res?.data?.personalInformation?.email,
+        dob: new Date(res?.data?.personalInformation?.dob),
+        cnic: res?.data?.personalInformation?.cnic,
+        gender: res?.data?.personalInformation?.gender,
+      });
+    } else if (id) {
+      const res = await EmployeeService.getEmployee(id);
+      setEmployeeId(res?.data?.personalInformation?.employeeId);
+      console.log('res', res.data);
+      setImg(res?.data?.personalInformation?.img);
+      setUserId(res?.data?.personalInformation?.employeeId?.split('').splice(3, 3).join(''));
+      reset({
+        firstName: res?.data?.personalInformation?.firstName,
+        lastName: res?.data?.personalInformation?.lastName,
+        employeeId: res?.data?.personalInformation?.employeeId?.split('').splice(0, 3).join(''),
+        phoneNumber: res?.data?.personalInformation?.phoneNumber.toString(),
+        email: res?.data?.personalInformation?.email,
+        dob: new Date(res?.data?.personalInformation?.dob),
+        cnic: res?.data?.personalInformation?.cnic,
+        gender: res?.data?.personalInformation?.gender,
+      });
+    }
   };
 
   const onSubmit = async (data: Data) => {
@@ -102,9 +122,9 @@ export const usePersonalInfo = ({
         type: 1,
       };
 
-      if (employeeDocId) {
+      if (employeeDocId || id) {
         removeKeys(userData.personalInformation, ['backPic', 'frontPic']);
-        const res = await EmployeeService.updateAddedEmployee(userData, employeeDocId);
+        const res = await EmployeeService.updateAddedEmployee(userData, id ? id : employeeDocId);
 
         if (res.status === 200) {
           handleNext('Address');

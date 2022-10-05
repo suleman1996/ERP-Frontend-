@@ -41,6 +41,8 @@ const CompanyInformation = ({
     btnLoader,
     setProbation,
     probation,
+    type,
+    setType,
   } = useCompanyInfo({
     handleBack,
     handleNext,
@@ -217,6 +219,8 @@ const CompanyInformation = ({
               name={'workingHours'}
               control={control}
               errorMessage={errors?.workingHours?.message}
+              type={type}
+              setType={setType}
             />
           )}
           {console.log('errr', errors)}

@@ -39,6 +39,8 @@ const SkillExpertise = ({ formData, setFormData, employeeId, setSkillData }: Pro
     handleEducation,
     activeEdit,
     handleDeleteIndex,
+    toggle,
+    setToggle,
   } = useSkill({
     formData,
     setFormData,
@@ -93,6 +95,8 @@ const SkillExpertise = ({ formData, setFormData, employeeId, setSkillData }: Pro
           star={' *'}
           name="skills"
           activeEdit={activeEdit}
+          setToggle={setToggle}
+          toggle={toggle}
         />
         <div className={style.btnContainer}>
           <Button type="submit" text="Add" iconEnd={tick} />
