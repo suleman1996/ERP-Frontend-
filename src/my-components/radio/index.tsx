@@ -5,7 +5,7 @@ interface Props {
   id?: string;
   name?: string;
   handleClick?: () => void;
-  handleChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleChange?: () => void;
   checked?: boolean;
   radioRef?: any;
   radioValue?: number | string;
