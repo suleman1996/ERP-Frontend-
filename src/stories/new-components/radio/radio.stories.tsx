@@ -13,7 +13,12 @@ const Template = (args: any) => {
   const [gender, setGender] = React.useState();
   return (
     <>
-      <Radio {...args} handleChange={(e) => setGender(e.target.value)} />
+      <Radio
+        {...args}
+        handleChange={(e: { target: { value: React.SetStateAction<undefined> } }) =>
+          setGender(e.target.value)
+        }
+      />
     </>
   );
 };
