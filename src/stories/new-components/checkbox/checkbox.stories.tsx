@@ -1,21 +1,20 @@
-import Checkbox from 'components/checkbox';
+import Checkbox from 'my-components/check-box';
 
 import style from './checkbox.stories.module.scss';
 
 export default {
   title: 'Checkbox',
   component: Checkbox,
-  argTypes: { handleChange: { action: 'Please Check Me' } },
+  argTypes: {
+    handleChange: { action: 'true' },
+  },
 };
 
-const Template = (args) => <Checkbox {...args} />;
+const Template = (args: any) => <Checkbox {...args} />;
 
-export const CheckBox = Template.bind({});
+export const CheckBox: any = Template.bind({});
 CheckBox.args = {
   label: 'check me',
-  checked: '',
   containerClass: style.containerClass,
-  name: 'hiiii',
-  labelClass: style.labelClass,
-  labelColor: style.labelColor,
+  textColor: '',
 };

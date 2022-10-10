@@ -1,5 +1,5 @@
-import Modal from 'new-components/modal';
-import React from 'react';
+import Modal from 'my-components/modal';
+import React, { useState } from 'react';
 import eye from '../../../new-assets/add.svg';
 
 import style from './modal.stories.module.scss';
@@ -11,21 +11,24 @@ export default {
 };
 
 const Template = (args: any) => {
+  const [open, setOpen] = useState(false);
   return (
     <>
-      <Modal {...args} handleClose={() => alert('Are you sure you close the modal')} />
+      <Modal
+        {...args}
+        handleClose={() => setOpen(!open)}
+        open={open}
+        openModal={() => setOpen(true)}
+      />
     </>
   );
 };
 
-export const Modall = Template.bind({});
+export const Modall: any = Template.bind({});
 Modall.args = {
-  open: false,
   title: 'Hey Man',
   text: 'Next',
   type: 'button',
-  iconStart: eye,
   children: 'Hey are you okay?',
-  btnClass: style.button,
-  className: style.containerClass,
+  modalButtonText: 'Open',
 };

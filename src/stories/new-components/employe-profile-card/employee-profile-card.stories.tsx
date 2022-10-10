@@ -1,16 +1,25 @@
-import EmployeeProfileCard from 'new-components/employee-profile-card';
-import image from 'assets/logo3.png';
+import EmployeeProfileCard from 'my-components/employe-profile-card';
+import image from 'assets/img2.svg';
+import logo from 'assets/img1.svg';
+import logo2 from 'assets/logo10.svg';
+
 // import style from './delete-modal.stories.module.scss';
 
 export default {
   title: 'EmployeeProfileCard',
   component: EmployeeProfileCard,
-  argTypes: { handleClick: { action: 'Please Click Me' } },
+  argTypes: {
+    handleClick: { action: 'Please Click Me' },
+    img: {
+      options: [image, logo, logo2],
+      control: { type: 'select' },
+    },
+  },
 };
 
 const Template = (args: any) => <EmployeeProfileCard {...args} />;
 
-export const Employeeprofilecard = Template.bind({});
+export const Employeeprofilecard: any = Template.bind({});
 Employeeprofilecard.args = {
   img: image,
   name: 'Anya',
@@ -18,5 +27,10 @@ Employeeprofilecard.args = {
   department: 'fashion',
   phone: '0322-0001010',
   id: '1',
-  mainstyle: {},
+  fontSize: 26,
+  // fontWeight: '',
+  designationColor: '',
+  desigFont: 20,
+  fontSizeForm: 12,
+  fontWeightForm: 233,
 };

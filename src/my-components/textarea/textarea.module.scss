@@ -1,0 +1,42 @@
+@import 'styles/_breakpoints.scss';
+@import 'styles/_colors.scss';
+@import 'styles/_mixin.scss';
+
+.note {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+
+  label {
+    @include font24;
+    font-family: 'Poppins';
+    font-style: normal;
+    color: #2d2d32;
+    margin-bottom: calc(5px + (12 - 5) * (100vw - 280px) / (2560 - 280));
+    text-transform: capitalize;
+  }
+
+  textarea {
+    background: #ffffff;
+    box-shadow: none;
+    outline: none;
+    border-radius: 6px;
+    width: 100%;
+    padding: 20px;
+    resize: none;
+    @include font20;
+    &::placeholder {
+      color: #cacaca;
+      text-transform: capitalize;
+      @include font18;
+    }
+  }
+}
+
+.errorMessage {
+  position: absolute;
+  display: block;
+  margin-left: 5px;
+  color: #ff5050;
+  @include font14;
+}

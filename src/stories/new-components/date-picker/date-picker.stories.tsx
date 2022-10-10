@@ -1,6 +1,5 @@
-import DatePicker from 'new-components/date-picker';
+import DatePicker from 'my-components/date-picker';
 import { useForm } from 'react-hook-form';
-
 // import style from './app-loader.stories.module.scss';
 
 export default {
@@ -9,16 +8,17 @@ export default {
   argTypes: { handleClick: { action: 'Please Check Me' } },
 };
 
-const Template = (args) => {
+const Template = (args: any) => {
   const { control } = useForm();
 
   return <DatePicker {...args} control={control} />;
 };
 
-export const Datepicker = Template.bind({});
+export const Datepicker: any = Template.bind({});
 Datepicker.args = {
   label: 'Date Picker',
   name: 'Select',
   errorMessage: '',
   placeholder: 'Please Date Picker',
+  id: 'hello',
 };

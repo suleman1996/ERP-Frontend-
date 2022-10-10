@@ -1,4 +1,5 @@
-import Radio from 'new-components/radio';
+import Radio from 'my-components/radio';
+import React from 'react';
 
 import style from './radio.stories.module.scss';
 
@@ -9,20 +10,19 @@ export default {
 };
 
 const Template = (args: any) => {
+  const [gender, setGender] = React.useState();
   return (
     <>
-      <Radio {...args} />
+      <Radio {...args} handleChange={(e) => setGender(e.target.value)} />
     </>
   );
 };
 
-export const Radioo = Template.bind({});
+export const Radioo: any = Template.bind({});
 Radioo.args = {
-  label: 'Radio',
-  name: 'Enter Your Name',
-  checked: false,
-  radioValue: 'number' || 'string',
-  error: false,
-  className: style.labelContainer,
-  handleChange: () => alert('handle change'),
+  Firstname: 'Male',
+  Secondname: 'Female',
+  name: 'gender',
+  radioValue: 'Male',
+  radioValue2: 'Female',
 };

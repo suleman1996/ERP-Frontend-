@@ -7,7 +7,7 @@ export default {
   component: AppLoader,
 };
 
-const Template = (args) => <AppLoader {...args} />;
+const Template = (args: any) => <AppLoader {...args} />;
 
 export const Apploader = Template.bind({});
-Apploader.args = {};
+// Apploader.args = {};

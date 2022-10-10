@@ -1,0 +1,82 @@
+@import 'styles/_breakpoints.scss';
+@import 'styles/_colors.scss';
+@import 'styles/_mixin.scss';
+
+.mainDiv {
+  background: #ffffff;
+  border: 1.58613px solid #e2e2ea;
+  border-radius: 11.1029px;
+  display: flex;
+  width: 100%;
+  position: relative;
+
+  .leftGrid {
+    border-right: 1.5px dashed #d9d9d9;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: calc(11px + (24 - 11) * (100vw - 280px) / (2560 - 280));
+    padding-right: calc(11px + (24 - 11) * (100vw - 280px) / (2560 - 280));
+    padding-top: calc(13px + (29 - 13) * (100vw - 280px) / (2560 - 280));
+    padding-bottom: calc(13px + (29 - 13) * (100vw - 280px) / (2560 - 280));
+    width: 32%;
+    @media (max-width: $tab) {
+      width: 25%;
+      padding: 13px 11px;
+    }
+
+    img {
+      height: calc(40px + (110 - 40) * (100vw - 280px) / (2560 - 280));
+      width: calc(40px + (110 - 40) * (100vw - 280px) / (2560 - 280));
+    }
+
+    button {
+      height: 37px;
+      max-width: 130px;
+      width: 100%;
+      margin-top: 15px;
+      span {
+        @include font16;
+      }
+      @media (max-width: $tab) {
+        height: 30px;
+      }
+    }
+  }
+
+  .rightGrid {
+    // flex: 1;
+    padding-left: calc(11px + (24 - 11) * (100vw - 280px) / (2560 - 280));
+    padding-right: calc(11px + (24 - 11) * (100vw - 280px) / (2560 - 280));
+    padding-top: calc(13px + (29 - 13) * (100vw - 280px) / (2560 - 280));
+    padding-bottom: calc(13px + (29 - 13) * (100vw - 280px) / (2560 - 280));
+
+    .innerPara {
+      margin-top: 30px;
+      .form {
+        font-family: 'Poppins';
+        font-style: normal;
+        font-weight: 600;
+        font-size: 17px;
+        margin: 0;
+        color: #2d2d32;
+      }
+
+      p {
+        font-style: normal;
+        @include font16;
+        color: #2d2d32;
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        margin-top: 5px;
+
+        span {
+          font-weight: 400;
+          margin-left: 5px;
+        }
+      }
+    }
+  }
+}

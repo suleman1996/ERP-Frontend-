@@ -1,4 +1,4 @@
-import Tags from 'new-components/tags';
+import Tags from 'my-components/tags';
 
 import style from './tags.stories.module.scss';
 
@@ -20,7 +20,7 @@ const Template = (args: any) => {
 
 const options = ['tag1', 'tag2', 'tag3', 'tag4'];
 
-export const Tagss = Template.bind({});
+export const Tagss: any = Template.bind({});
 Tagss.args = {
   tagsTextArr: options,
   textStyle: style.text,

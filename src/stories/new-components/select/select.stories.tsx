@@ -1,37 +1,37 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import Select from 'new-components/select';
+import Selection from 'my-components/select';
+import React from 'react';
 
 import style from './select.stories.module.scss';
 
 export default {
   title: 'Select',
-  component: Select,
+  component: Selection,
   argTypes: {
     onChange: { action: 'Please Click Me' },
   },
 };
 
 const Template = (args: any) => {
+  const [selectedOption, setSelectedOption] = React.useState(null);
+
+  const options = [
+    { value: 'chocolate', label: 'Chocolate' },
+    { value: 'strawberry', label: 'Strawberry' },
+    { value: 'vanilla', label: 'Vanilla' },
+    { value: 'Smoke', label: 'Smoke' },
+    { value: 'Dazy', label: 'Dazy' },
+  ];
   return (
     <>
-      <Select {...args} />
+      <Selection {...args} options={options} value={selectedOption} onChange={setSelectedOption} />
     </>
   );
 };
 
-const options = ['option 1', 'option 2', 'option 3'];
-
-export const Selectt = Template.bind({});
-Selectt.args = {
+export const Select_Option: any = Template.bind({});
+Select_Option.args = {
   label: 'Please Select',
-  children: (
-    <>
-      {options.map((ele, index) => (
-        <option key={index}>{ele}</option>
-      ))}
-    </>
-  ),
-  name: 'jahdadkank',
   disable: false,
   errorMessage: '',
 };

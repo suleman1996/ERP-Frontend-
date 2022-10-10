@@ -15,5 +15,5 @@ const Template = (args: any) => {
     </>
   );
 };
-export const Paginationn = Template.bind({});
+export const Paginationn: any = Template.bind({});
 Paginationn.args = {};

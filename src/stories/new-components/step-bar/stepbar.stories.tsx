@@ -1,4 +1,4 @@
-import StepBar from 'new-components/stepbar';
+import StepBar from 'my-components/step-bar';
 
 // import style from './timepicker.stories.module.scss';
 
@@ -16,8 +16,9 @@ const Template = (args: any) => {
   );
 };
 
-export const StepBarr = Template.bind({});
+export const StepBarr: any = Template.bind({});
 StepBarr.args = {
   controlWidth: '10',
-  activeTab: 'Personal',
+  activeTab: 'Personal,Address',
+  setActive: () => alert('activeTab'),
 };

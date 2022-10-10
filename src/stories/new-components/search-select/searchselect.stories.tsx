@@ -1,4 +1,4 @@
-import SearchSelect from 'new-components/search-select';
+import SearchSelect from 'my-components/search-select';
 import { useForm } from 'react-hook-form';
 import arrow from 'new-assets/arrow-left.svg';
 
@@ -25,7 +25,7 @@ const Template = (args: any) => {
 
 const options = ['search 1', 'search 2', 'search 3'];
 
-export const Search_Select = Template.bind({});
+export const Search_Select: any = Template.bind({});
 Search_Select.args = {
   label: 'Seacrh Select',
   placeholder: 'Please Select',

@@ -18,7 +18,7 @@ const Template = (args: any) => {
   );
 };
 
-export const TimePickerr = Template.bind({});
+export const TimePickerr: any = Template.bind({});
 TimePickerr.args = {
   label: 'Time Picker',
   placeholder: '00/00/00',

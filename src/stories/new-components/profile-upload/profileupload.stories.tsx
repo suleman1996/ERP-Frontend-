@@ -15,7 +15,7 @@ const Template = (args: any) => {
     </>
   );
 };
-export const Profile_Upload = Template.bind({});
+export const Profile_Upload: any = Template.bind({});
 Profile_Upload.args = {
   errorMessage: '',
   onClick: () => alert('Please Attach'),

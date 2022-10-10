@@ -1,4 +1,4 @@
-import TextArea from 'new-components/textarea';
+import TextArea from 'my-components/textarea';
 
 import style from './textarea.stories.module.scss';
 
@@ -18,7 +18,7 @@ const Template = (args: any) => {
   );
 };
 
-export const TextAreaa = Template.bind({});
+export const TextAreaa: any = Template.bind({});
 TextAreaa.args = {
   label: 'Please Enter',
   placeholder: 'Type Something...',

@@ -1,16 +1,14 @@
-import CardContainer from 'new-components/card-container';
-
-import style from './card-container.stories.module.scss';
+import CardContainer from 'my-components/card-container';
 
 export default {
   title: 'CardContainer',
   component: CardContainer,
 };
 
-const Template = (args) => <CardContainer {...args} />;
+const Template = (args: any) => <CardContainer {...args} />;
 
-export const Cardcontainer = Template.bind({});
+export const Cardcontainer: any = Template.bind({});
 Cardcontainer.args = {
-  className: style.containerClass,
-  children: 'hello',
+  backgroundColor: 'red',
+  children: '',
 };

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import SkillLevel from 'new-components/skill-level';
+import SkillLevel from 'my-components/skill-level';
 import { useForm } from 'react-hook-form';
 
 import style from './select.stories.module.scss';
@@ -21,7 +21,7 @@ const Template = (args: any) => {
   );
 };
 
-export const Skill_Level = Template.bind({});
+export const Skill_Level: any = Template.bind({});
 Skill_Level.args = {
   name: 'Select',
   errors: '',

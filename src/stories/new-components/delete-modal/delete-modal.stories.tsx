@@ -11,7 +11,7 @@ export default {
 
 const Template = (args: any) => <DeletePopup {...args} />;
 
-export const Deletepopup = Template.bind({});
+export const Deletepopup: any = Template.bind({});
 Deletepopup.args = {
   open: false,
   btnLoader: false,

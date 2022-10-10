@@ -1,59 +1,38 @@
-import Button from 'new-components/button';
+import Button from 'my-components/button';
 import eye from '../../../new-assets/add.svg';
+import leftAroow from '../../../new-assets/arrow-left.svg';
+import edit from '../../../new-assets/edit.svg';
 
 import style from './button.stories.module.scss';
 
 export default {
   title: 'Button',
   component: Button,
-  argTypes: { handleClick: { action: 'Please Click Me' } },
+  argTypes: {
+    size: {
+      options: ['sm', 'md', 'lg', 'xl'],
+      control: { type: 'select' },
+    },
+    iconStart: {
+      options: ['', eye, leftAroow, edit],
+      control: { type: 'select' },
+    },
+    iconEnd: {
+      options: ['', eye, leftAroow, edit],
+      control: { type: 'select' },
+    },
+    handleClick: { action: 'Please Click Me' },
+  },
 };
 
-const Template = (args) => <Button {...args} />;
+const Template = (args: any) => <Button {...args} />;
 
-export const SimpleButton = Template.bind({});
+export const SimpleButton: any = Template.bind({});
 SimpleButton.args = {
   text: 'Button',
   type: 'button' || 'submit' || 'reset' || undefined,
   isLoading: false,
-  btnClass: style.button,
-  disabled: false,
-  backgroundColor: '#57B894',
-  className: style.className,
-};
-
-export const LeftIconButton = Template.bind({});
-LeftIconButton.args = {
-  text: 'Left Icon Button',
-  type: 'button' || 'submit' || 'reset' || undefined,
-  isLoading: false,
-  iconStart: eye,
-  btnClass: style.button,
-  disabled: false,
-  backgroundColor: '#57B894',
-  className: style.className,
-};
-
-export const RightIconButton = Template.bind({});
-RightIconButton.args = {
-  text: 'Right Icon Button',
-  type: 'button' || 'submit' || 'reset' || undefined,
-  isLoading: false,
-  iconEnd: eye,
-  btnClass: style.button,
-  disabled: false,
-  backgroundColor: '#57B894',
-  className: style.className,
-};
-
-export const ButtonWithBorder = Template.bind({});
-ButtonWithBorder.args = {
-  text: 'Back',
-  type: 'button' || 'submit' || 'reset' || undefined,
-  isLoading: false,
-  btnClass: style.button,
-  disabled: false,
-  backgroundColor: '#727272',
-  border: '2px solid #57B894',
-  className: style.text,
+  backgroundColor: '',
+  textColor: 'red',
+  borderColor: '',
 };
