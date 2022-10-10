@@ -1,5 +1,5 @@
 export const SelectionStyle = {
-  control: (styles) => ({
+  control: (styles: any) => ({
     ...styles,
     backgroundColor: 'bg-dark-gray',
     borderRadius: 5,
@@ -9,7 +9,7 @@ export const SelectionStyle = {
     fontFamily: 'SF-regular',
     height: 45,
   }),
-  option: (styles, { data, isDisabled, isFocused, isSelected }) => {
+  option: (styles: any, { data, isDisabled, isFocused, isSelected }: any) => {
     return {
       ...styles,
       backgroundColor: isDisabled ? 'black' : isSelected ? '#57B894' : isFocused ? 'white' : null,
@@ -17,7 +17,7 @@ export const SelectionStyle = {
       cursor: isDisabled ? 'not-allowed' : 'default',
     };
   },
-  placeholder: (styles) => ({
+  placeholder: (styles: any) => ({
     ...styles,
     fontSize: 19,
     fontFamily: 'SF-regular',
