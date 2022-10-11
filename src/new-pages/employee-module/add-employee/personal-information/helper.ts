@@ -5,11 +5,13 @@ import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-import { removeKeys } from 'helper';
+import { removeKeys, setFormError } from 'helper';
 import { removeKey, convertBase64Image } from 'main-helper';
 
 import EmployeeService from 'services/employee-service';
 import PersonalInformation from './../../../../pages/employee-details/add-employee/personal-information/index';
+import { AxiosError } from 'axios';
+import { setErrors } from './../../../../helper/index';
 
 interface Data {
   firstName: string;
@@ -43,13 +45,14 @@ export const usePersonalInfo = ({
   setEmployeeDocId,
 }: Props) => {
   const { id } = useParams();
-  console.log(id);
   const [btnLoader, setBtnLoader] = useState(false);
+  const [genderData, setGenderData] = useState<any>();
+  const [selectedFileName, setSelectedFileName] = useState('');
+  const [selectedFileNameBack, setSelectedFileNameBack] = useState('');
   const [userId, setUserId] = useState();
   const [img, setImg] = useState<unknown>('');
-  const { register, handleSubmit, errors, control, reset, setValue, watch } = useForm({
-    resolver: yupResolver(schema),
-  });
+  const { register, handleSubmit, errors, control, reset, setValue, watch, setError, clearErrors } =
+    useForm();
 
   const getEmployeeID = async () => {
     const res = await EmployeeService.getAllEmployeesID(watch().employeeId);
@@ -57,6 +60,15 @@ export const usePersonalInfo = ({
       setUserId(res?.data?.newEmployeeId);
     }
   };
+
+  const getAllGenders = async () => {
+    const res = await EmployeeService.getGenders();
+    setGenderData(res?.data?.profileSetting?.gender);
+  };
+
+  useEffect(() => {
+    getAllGenders();
+  }, []);
 
   useEffect(() => {
     if (!employeeDocId) {
@@ -71,33 +83,48 @@ export const usePersonalInfo = ({
   const getSingleEmployeeData = async () => {
     if (employeeDocId) {
       const res = await EmployeeService.getEmployee(employeeDocId);
-      setImg(res?.data?.personalInformation?.img);
-      setUserId(res?.data?.personalInformation?.employeeId?.split('').splice(3, 3).join(''));
+      console.log('res let ', res?.data?.employeePersonalInformation?.gender);
+      setSelectedFileName(res.data?.employeePersonalInformation?.cnicFront?.name.toString());
+      setSelectedFileNameBack(res.data?.employeePersonalInformation?.cnicBack?.name.toString());
+      setImg(res?.data?.employeePersonalInformation?.profilePicture);
+      setUserId(
+        res?.data?.employeePersonalInformation?.employeeId?.split('').splice(3, 3).join(''),
+      );
       reset({
-        firstName: res?.data?.personalInformation?.firstName,
-        lastName: res?.data?.personalInformation?.lastName,
-        employeeId: res?.data?.personalInformation?.employeeId?.split('').splice(0, 3).join(''),
-        phoneNumber: res?.data?.personalInformation?.phoneNumber.toString(),
-        email: res?.data?.personalInformation?.email,
-        dob: new Date(res?.data?.personalInformation?.dob),
-        cnic: res?.data?.personalInformation?.cnic,
-        gender: res?.data?.personalInformation?.gender,
+        firstName: res?.data?.employeePersonalInformation?.firstName,
+        lastName: res?.data?.employeePersonalInformation?.lastName,
+        fullName: res?.data?.employeePersonalInformation?.fullName,
+        employeeId: res?.data?.employeePersonalInformation?.employeeId
+          ?.split('')
+          .splice(0, 3)
+          .join(''),
+        phone: res?.data?.employeePersonalInformation?.phone.toString(),
+        email: res?.data?.employeePersonalInformation?.email,
+        dob: new Date(res?.data?.employeePersonalInformation?.dob),
+        cnic: res?.data?.employeePersonalInformation?.cnic,
+        gender: res?.data?.employeePersonalInformation?.gender,
       });
     } else if (id) {
       const res = await EmployeeService.getEmployee(id);
-      setEmployeeId(res?.data?.personalInformation?.employeeId);
-      console.log('res', res.data);
-      setImg(res?.data?.personalInformation?.img);
-      setUserId(res?.data?.personalInformation?.employeeId?.split('').splice(3, 3).join(''));
+      setSelectedFileName(res.data?.employeePersonalInformation?.cnicFront?.name.toString());
+      setSelectedFileNameBack(res.data?.employeePersonalInformation?.cnicBack?.name.toString());
+      setImg(res?.data?.employeePersonalInformation?.profilePicture);
+      setUserId(
+        res?.data?.employeePersonalInformation?.employeeId?.split('').splice(3, 3).join(''),
+      );
       reset({
-        firstName: res?.data?.personalInformation?.firstName,
-        lastName: res?.data?.personalInformation?.lastName,
-        employeeId: res?.data?.personalInformation?.employeeId?.split('').splice(0, 3).join(''),
-        phoneNumber: res?.data?.personalInformation?.phoneNumber.toString(),
-        email: res?.data?.personalInformation?.email,
-        dob: new Date(res?.data?.personalInformation?.dob),
-        cnic: res?.data?.personalInformation?.cnic,
-        gender: res?.data?.personalInformation?.gender,
+        firstName: res?.data?.employeePersonalInformation?.firstName,
+        lastName: res?.data?.employeePersonalInformation?.lastName,
+        fullName: res?.data?.employeePersonalInformation?.fullName,
+        employeeId: res?.data?.employeePersonalInformation?.employeeId
+          ?.split('')
+          .splice(0, 3)
+          .join(''),
+        phone: res?.data?.employeePersonalInformation?.phone.toString(),
+        email: res?.data?.employeePersonalInformation?.email,
+        dob: new Date(res?.data?.employeePersonalInformation?.dob),
+        cnic: res?.data?.employeePersonalInformation?.cnic,
+        gender: res?.data?.employeePersonalInformation?.gender,
       });
     }
   };
@@ -108,7 +135,7 @@ export const usePersonalInfo = ({
       const { dob, cnic, frontPic, backPic, employeeId } = data;
       const temp = {
         ...data,
-        img,
+        profilePicture: img,
         dob: moment(dob).format('YYYY-MM-DD'),
         cnic: cnic.toString(),
         employeeId: watch().employeeId + userId,
@@ -123,27 +150,27 @@ export const usePersonalInfo = ({
       };
 
       if (employeeDocId || id) {
-        removeKeys(userData.personalInformation, ['backPic', 'frontPic']);
-        const res = await EmployeeService.updateAddedEmployee(userData, id ? id : employeeDocId);
-
+        removeKeys(temp, ['backPic', 'frontPic']);
+        const res = await EmployeeService.updateAddedEmployee(temp, id ? id : employeeDocId);
         if (res.status === 200) {
           handleNext('Address');
           setFormData({ ...formData, personalInformation: { ...userData } });
         }
       } else {
-        removeKeys(userData.personalInformation, ['employeeId', 'backPic', 'frontPic']);
-        const res = await EmployeeService.addEmployee({ ...userData });
-        if (res.status === 201) {
+        removeKeys(temp, ['backPic', 'frontPic']);
+        const res = await EmployeeService.addEmployee({ ...temp });
+        if (res.status === 200) {
           setTimeout(() => {
-            setEmployeeDocId(res?.data?.newEmployeeDocId);
+            setEmployeeDocId(res?.data?.updatedEmployeeId);
           }, 100);
-          setEmployeeId(res?.data?.newEmployeeId);
+          setEmployeeId(res?.data?.updatedEmployeeId);
           handleNext('Address');
           setFormData({ ...formData, personalInformation: { ...userData } });
         }
       }
       setBtnLoader(false);
-    } catch (err) {
+    } catch (err: any) {
+      setErrors(err.response.data.error, setError);
       setBtnLoader(false);
     }
   };
@@ -155,73 +182,16 @@ export const usePersonalInfo = ({
     errors,
     control,
     img,
+    clearErrors,
     setImg,
     btnLoader,
     setValue,
     userId,
-    // filename,
+    setError,
+    selectedFileName,
+    setSelectedFileName,
+    selectedFileNameBack,
+    setSelectedFileNameBack,
+    genderData,
   };
 };
-
-export const schema = yup.object().shape({
-  firstName: yup
-    .string()
-    .required('First name is a required field')
-    .matches(/^[A-Za-z ]*$/, 'Only alphabets are allowed'),
-  lastName: yup
-    .string()
-    .required('Last name is a required field')
-    .matches(/^[A-Za-z ]*$/, 'Only alphabets are allowed'),
-  employeeId: yup.string().required('Employee id must be a number'),
-  phoneNumber: yup.string().required('Phone number is a required field').min(12).max(13),
-  email: yup.string().email().required('email is a required field'),
-  cnic: yup
-    .number()
-    .typeError('CNIC is must be a number  ')
-    .min(1000000000000, 'only 13 digits required')
-    .max(9999999999999, 'only 13 digits required'),
-  gender: yup.string().required(),
-  dob: yup.string().required('Date of birth is  required field'),
-
-  //////////////////////////   may be helpfull in future   ///////////////////////////////////////
-  // frontPic: yup
-  //   .mixed()
-  //   .optional()
-  //   .test('required', 'You need to provide a file', (file: any) => {
-  //     if (file[0]) return true;
-  //     return false;
-  //   })
-  //   .test('fileSize', 'The file is too large', (file: any) => {
-  //     return file[0] && file[0].size <= 3000000;
-  //   }),
-  // backPic: yup
-  //   .mixed()
-  //   .test('required', 'You need to provide a file', (file) => {
-  //     if (file[0]) return true;
-  //     return false;
-  //   })
-  //   .test('fileSize', 'The file is too large', (file) => {
-  //     return file[0] && file[0].size <= 2000000;
-  //   }),
-});
-
-/////////////////////////    may be usefull in future       /////////////////////////////////////////////
-// useEffect(() => {
-//   if (employeeDocId) {
-//     const temp = { ...formData?.personalInformation };
-//     reset({
-//       firstName: temp?.personalInformation?.firstName,
-//       lastName: temp?.personalInformation?.lastName,
-//       employeeId: temp?.employeeId,
-//       phoneNumber: temp?.personalInformation?.phoneNumber,
-//       email: temp?.personalInformation?.email,
-//       dob: new Date(temp?.personalInformation?.dob),
-//       cnic: temp?.personalInformation?.cnic,
-//       gender: temp?.personalInformation?.gender,
-//       cnicBack: temp?.personalInformation?.cnicBack,
-//     });
-//     setImg(temp?.personalInformation?.img);
-//   }
-
-//   // eslint-disable-next-line react-hooks/exhaustive-deps
-// }, [formData]);

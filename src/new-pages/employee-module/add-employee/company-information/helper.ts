@@ -7,6 +7,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 import EmployeeService from 'services/employee-service';
 import { removeKeys } from 'helper';
+import { setErrors } from './../../../../helper/index';
 
 interface Props {
   handleBack: (data?: string) => void;
@@ -14,6 +15,13 @@ interface Props {
   formData: any;
   setFormData: any;
   employeeId: string;
+  employeeDocId?: string | any;
+}
+interface Leave {
+  _id: string;
+  name: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 interface Data {
   startDate: string;
@@ -24,6 +32,9 @@ interface Data {
   workingTime?: string;
   probation: string;
   workingHours?: any;
+  department?: any;
+  designation?: any;
+  [key: string]: any;
 }
 
 export const useCompanyInfo = ({
@@ -32,14 +43,37 @@ export const useCompanyInfo = ({
   formData,
   setFormData,
   employeeId,
+  employeeDocId,
 }: Props) => {
   const { id } = useParams();
   const [type, setType] = useState('per-day');
   const [probation, setProbation] = useState(false);
+  const [departments, setDepartments] = useState<any>();
+  const [designation, setDesignation] = useState<any>();
+  const [leaves, setLeaves] = useState<any>();
   const [btnLoader, setBtnLoader] = useState(false);
-  const { register, handleSubmit, errors, control, reset, watch } = useForm({
-    resolver: yupResolver(schema),
-  });
+  const { register, handleSubmit, errors, control, reset, watch, setError } = useForm();
+
+  const getAllDepartments = async () => {
+    const res = await EmployeeService.getDepartments();
+    setDepartments(res?.data?.department);
+  };
+
+  const getAllDesignations = async () => {
+    const res = await EmployeeService.getDesignation();
+    setDesignation(res?.data?.Designation);
+  };
+
+  const getAllLeaves = async () => {
+    const res = await EmployeeService.getLeaves();
+    setLeaves(res?.data?.Leave);
+  };
+
+  useEffect(() => {
+    getAllDepartments();
+    getAllDesignations();
+    getAllLeaves();
+  }, []);
 
   useEffect(() => {
     if (
@@ -107,13 +141,27 @@ export const useCompanyInfo = ({
 
   const onSubmit = async (data: Data) => {
     setBtnLoader(true);
-    setFormData({ ...formData, companyInformation: { ...data } });
-    removeKeys(data, ['startDate', 'endDate']);
-    const { joiningDate, checkIn, probation, workingTime, checkOut, workingHours } = data;
-    if (id) {
-      const userData = {
-        type: 3,
-        companyInformation: {
+    try {
+      setFormData({ ...formData, companyInformation: { ...data } });
+      removeKeys(data, ['startDate', 'endDate']);
+      const { joiningDate, checkIn, probation, workingTime, checkOut, workingHours } = data;
+      if (id) {
+        // const userData = {
+        //   type: 3,
+        //   companyInformation: {
+        //     ...data,
+        //     joiningDate: moment(joiningDate).format('YYYY-MM-DD'),
+        //     employeeInfo: {
+        //       checkIn: checkIn && moment(checkIn, 'HH:mm').format('hh:mm a'),
+        //       checkOut: checkOut && moment(checkOut, 'HH:mm').format('hh:mm a'),
+        //       workingHours: workingHours,
+        //     },
+
+        //     probation: probation === 'true' ? true : false,
+        //   },
+        //   employeeId: employeeId.toUpperCase(),
+        // };
+        const userData = {
           ...data,
           joiningDate: moment(joiningDate).format('YYYY-MM-DD'),
           employeeInfo: {
@@ -121,37 +169,54 @@ export const useCompanyInfo = ({
             checkOut: checkOut && moment(checkOut, 'HH:mm').format('hh:mm a'),
             workingHours: workingHours,
           },
+          probation: probation === 'true' ? true : false,
+        };
+        // const res = await EmployeeService.addPostCompany(userData, employeeDocId);
+        const res = await EmployeeService.addPostCompany(userData, '634505209601f4773bdcf3e8');
+        if (res.status === 200) {
+          handleNext('Education');
+        }
+      } else {
+        const user = {
+          ...data,
+          joiningDate: moment(joiningDate).format('YYYY-MM-DD'),
+          departmentId: data?.department,
+          designationId: data?.designation,
+          leaves: leaves.map((leave: Leave) => {
+            return { leaveId: leave?._id, quantity: data[leave?.name] };
+          }),
+          employmentInfo: {
+            checkIn: checkIn && moment(checkIn, 'HH:mm').format('hh:mm a'),
+            checkOut: checkOut && moment(checkOut, 'HH:mm').format('hh:mm a'),
+            workingHours: workingHours,
+            workingHoursType: type,
+          },
+
+          employeeId: '634505209601f4773bdcf3e8',
 
           probation: probation === 'true' ? true : false,
-        },
-        employeeId: employeeId.toUpperCase(),
-      };
-      const res = await EmployeeService.updateAddedEmployee(userData, id);
-      if (res.status === 200) {
-        handleNext('Education');
-      }
-    } else {
-      const user = {
-        ...data,
-        joiningDate: moment(joiningDate).format('YYYY-MM-DD'),
-        employmentInfo: {
-          checkIn: checkIn && moment(checkIn, 'HH:mm').format('hh:mm a'),
-          checkOut: checkOut && moment(checkOut, 'HH:mm').format('hh:mm a'),
-          workingHours: workingHours,
-          timeType: type,
-        },
-        probation: probation === 'true' ? true : false,
-      };
-      removeKeys(user, ['workingHours', 'checkIn', 'checkOut']);
+        };
+        removeKeys(user, ['department', 'designation']);
 
-      const res = await EmployeeService.addEmployee({
-        type: 3,
-        companyInformation: { ...user },
-        employeeId: employeeId,
-      });
-      if (res.status === 201) {
-        handleNext('Education');
+        console.log('users', user);
+
+        // const res = await EmployeeService.addEmployee({
+        //   type: 3,
+        //   companyInformation: { ...user },
+        //   employeeId: employeeId,
+        // });
+        // const res = await EmployeeService.addPostCompany(user, employeeDocId);
+        const res = await EmployeeService.addCompany(user);
+        if (res.status === 200) {
+          handleNext('Education');
+        }
+
+        if (res?.response?.data?.error && res.response.status === 422) {
+          setErrors(res.response.data.error, setError);
+        }
       }
+    } catch (err) {
+      console.log(err);
     }
     setBtnLoader(false);
   };
@@ -168,56 +233,11 @@ export const useCompanyInfo = ({
     probation,
     type,
     setType,
+    departments,
+    designation,
+    leaves,
   };
 };
-
-export const schema = yup.object().shape({
-  joiningDate: yup.string().required('Joining date is a required field'),
-  annualLeaves: yup.string().required('Annual leaves are a required field'),
-  medicalLeaves: yup.string().required('Medical leaves are a required field'),
-  casualLeaves: yup.string().required('Casual leaves are a required field'),
-  department: yup.string().required('Department is a required field'),
-  designation: yup.string().required('Designation is a required field'),
-  employmentType: yup.string().required('employmentType is a required field'),
-  workingHours: yup
-    .string()
-    .nullable()
-    .when('employmentType', {
-      is: 'Part-Time',
-      then: yup.string().required('Working time is required.'),
-    })
-    .test('ss', 'Working Hours are not correct', (value) => {
-      if (!value) return true;
-      const [hours, mins] = value?.split(':') || [];
-      if (+mins >= 60) return false;
-      const total = +hours + +mins / 60;
-      console.log({ value, total });
-      return total <= 999 && total > 0;
-    }),
-  checkIn: yup.string().when('employmentType', {
-    is: 'Full-Time',
-    then: yup.string().required('login time is required.'),
-  }),
-  checkOut: yup.string().when('employmentType', {
-    is: 'Full-Time',
-    then: yup.string().required('Logout time is required.'),
-  }),
-});
-
-export const selectCountry = [
-  {
-    value: 'hr',
-    description: 'Hr',
-  },
-  {
-    value: 'employee',
-    description: 'Employee',
-  },
-  {
-    value: 'admin',
-    description: 'Admin',
-  },
-];
 
 export const employmentType = [
   {

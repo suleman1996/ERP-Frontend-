@@ -26,8 +26,8 @@ const AddEmployee = () => {
   const { employeeId, formData, setFormData, setEmployeeId, employeeDocId, setEmployeeDocId } =
     useAddEmployee();
 
-  const [stepBarActive, setStepBarActive] = useState(['Education']);
-  const [active, setActive] = useState('Education');
+  const [stepBarActive, setStepBarActive] = useState(['Company']);
+  const [active, setActive] = useState('Company');
   const [controlWidth, setControlWidth] = useState(0);
 
   const handleNext = (val?: string) => {
@@ -73,8 +73,8 @@ const AddEmployee = () => {
             handleNext={handleNext}
             formData={formData}
             employeeDocId={employeeDocId}
-            setEmployeeId={setEmployeeId}
             setEmployeeDocId={setEmployeeDocId}
+            setEmployeeId={setEmployeeId}
             setFormData={setFormData}
           />
         )}
@@ -85,6 +85,8 @@ const AddEmployee = () => {
             formData={formData}
             employeeId={employeeId}
             setFormData={setFormData}
+            employeeDocId={employeeDocId}
+            setEmployeeDocId={setEmployeeDocId}
           />
         )}
         {active === 'Company' && (
@@ -93,6 +95,7 @@ const AddEmployee = () => {
             handleBack={handleBack}
             formData={formData}
             employeeId={employeeId}
+            employeeDocId={employeeDocId}
             setFormData={setFormData}
           />
         )}

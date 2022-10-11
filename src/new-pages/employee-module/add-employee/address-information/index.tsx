@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction } from 'react';
 import Button from 'new-components/button';
 import TextField from 'new-components/textfield';
 import Select from 'new-components/select';
@@ -18,6 +19,8 @@ interface Props {
   employeeId: string;
   handleBack: (data?: string) => void;
   handleNext: (data?: string) => void;
+  employeeDocId?: string;
+  setEmployeeDocId?: Dispatch<SetStateAction<string>>;
 }
 
 countries.sort((a, b) => (a.name < b.name ? -1 : 1));
@@ -28,6 +31,8 @@ const AddressInformation = ({
   setFormData,
   formData,
   employeeId,
+  employeeDocId,
+  setEmployeeDocId,
 }: Props) => {
   const {
     btnLoader,
@@ -51,6 +56,8 @@ const AddressInformation = ({
     setFormData,
     formData,
     employeeId,
+    employeeDocId,
+    setEmployeeDocId,
   });
 
   return (
@@ -61,11 +68,11 @@ const AddressInformation = ({
         </div>
         <div className={style.grid}>
           <SearchSelect
-            name={'currentCountry'}
+            name={'currentAddress.country'}
             star={' *'}
             control={control}
-            value={watch('currentCountry')}
-            errorMessage={errors?.currentCountry?.message}
+            value={watch('currentAddress.country')}
+            errorMessage={errors?.currentAddress?.country?.message}
             options={countries?.map(({ name }) => name)}
             label="Country"
             onChange={(value) => {
@@ -75,11 +82,11 @@ const AddressInformation = ({
             }}
           />
           <SearchSelect
-            name={'currentState'}
+            name={'currentAddress.state'}
             star={' *'}
             control={control}
-            value={watch('currentState')}
-            errorMessage={errors?.currentState?.message}
+            value={watch('currentAddress.state')}
+            errorMessage={errors?.currentAddress?.state?.message}
             options={currentCountryData?.map(({ name }) => name)}
             label="State"
             onChange={(value) => {
@@ -87,30 +94,30 @@ const AddressInformation = ({
             }}
           />
           <SearchSelect
-            name={'currentCity'}
+            name={'currentAddress.city'}
             star={' *'}
             control={control}
-            value={watch('currentCity')}
-            errorMessage={errors?.currentCity?.message}
+            value={watch('currentAddress.city')}
+            errorMessage={errors?.currentAddress?.city?.message}
             options={currentCitiesData?.map(({ name }) => name)}
             label="City"
           />
           <TextField
-            name="currentCode"
+            name="currentAddress.postalCode"
             label="Postal Code "
             type="number"
             register={register}
-            errorMessage={errors?.currentCode?.message}
+            errorMessage={errors?.currentAddress?.postalCode?.message}
             placeholder="Postal Code"
             star={'*'}
           />
         </div>
         <TextArea
-          name="currentAddress"
+          name="currentAddress.address"
           star={'*'}
           label="Address "
           register={register}
-          errorMessage={errors?.currentAddress?.message}
+          errorMessage={errors?.currentAddress?.address?.message}
           placeholder="Address"
           className={style.field}
         />
@@ -124,11 +131,11 @@ const AddressInformation = ({
         </div>
         <div className={style.grid}>
           <SearchSelect
-            name={'permanentCountry'}
+            name={'permanentAddress.country'}
             star={' *'}
             control={control}
-            value={watch('permanentCountry')}
-            errorMessage={errors?.permanentCountry?.message}
+            value={watch('permanentAddress.country')}
+            errorMessage={errors?.permanentAddress?.country?.message}
             options={countries?.map(({ name }) => name)}
             label="Country"
             onChange={(value) => {
@@ -138,11 +145,11 @@ const AddressInformation = ({
             }}
           />
           <SearchSelect
-            name={'permanentState'}
+            name={'permanentAddress.state'}
             star={' *'}
             control={control}
-            value={watch('permanentState')}
-            errorMessage={errors?.permanentState?.message}
+            value={watch('permanentAddress.state')}
+            errorMessage={errors?.permanentAddress?.state?.message}
             options={permanentCountryData?.map(({ name }) => name)}
             label="State"
             onChange={(value) => {
@@ -152,28 +159,28 @@ const AddressInformation = ({
           <SearchSelect
             label="City"
             star={' *'}
-            name={'permanentCity'}
-            value={watch('permanentCity')}
+            name={'permanentAddress.city'}
+            value={watch('permanentAddress.city')}
             control={control}
-            errorMessage={errors?.permanentCity?.message}
+            errorMessage={errors?.permanentAddress?.city?.message}
             options={permanentCitiesData.map(({ name }) => name)}
           />
           <TextField
-            name="permanentCode"
+            name="permanentAddress.postalCode"
             star={'*'}
             label="Postal Code "
             type="number"
             register={register}
-            errorMessage={errors?.permanentCode?.message}
+            errorMessage={errors?.permanentAddress?.postalCode?.message}
             placeholder="Postal Code"
           />
         </div>
         <TextArea
-          name="permanentAddress"
+          name="permanentAddress.address"
           star={'*'}
           label="Address "
           register={register}
-          errorMessage={errors?.permanentAddress?.message}
+          errorMessage={errors?.permanentAddress?.address?.message}
           placeholder="Address"
           className={style.field}
         />

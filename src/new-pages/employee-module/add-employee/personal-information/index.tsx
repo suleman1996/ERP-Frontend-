@@ -31,19 +31,40 @@ const PersonalInformation = ({
   setEmployeeId,
   setEmployeeDocId,
 }: Props) => {
-  const { onSubmit, register, handleSubmit, errors, control, img, setImg, btnLoader, userId } =
-    usePersonalInfo({
-      handleNext,
-      setFormData,
-      employeeDocId,
-      formData,
-      setEmployeeId,
-      setEmployeeDocId,
-    });
+  const {
+    onSubmit,
+    register,
+    handleSubmit,
+    errors,
+    control,
+    img,
+    setImg,
+    btnLoader,
+    userId,
+    clearErrors,
+    selectedFileName,
+    setSelectedFileName,
+    selectedFileNameBack,
+    setSelectedFileNameBack,
+    genderData,
+  } = usePersonalInfo({
+    handleNext,
+    setFormData,
+    employeeDocId,
+    formData,
+    setEmployeeId,
+    setEmployeeDocId,
+  });
 
   return (
     <div className={style.mainForm}>
-      <form className={style.form} onSubmit={handleSubmit(onSubmit)}>
+      <form
+        className={style.form}
+        onSubmit={(e) => {
+          clearErrors();
+          handleSubmit(onSubmit)(e);
+        }}
+      >
         <ImageUpload name={'userimage'} img={img} setImg={setImg} />
         <div className={style.grid}>
           <TextField
@@ -64,8 +85,17 @@ const PersonalInformation = ({
             placeholder="Enter Last Name"
             star={'*'}
           />
+          <TextField
+            name="fullName"
+            label="Full Name "
+            type="text"
+            register={register}
+            errorMessage={errors?.fullName?.message}
+            placeholder="Enter Full Name"
+            star={'*'}
+          />
           <Select
-            label="ID"
+            label="Employee ID"
             name={'employeeId'}
             userId={userId}
             selectContainer={style.selectContainer}
@@ -91,14 +121,14 @@ const PersonalInformation = ({
               className={style.label}
               style={{ color: errors?.phoneNumber?.message ? '#ff5050' : '#2d2d32' }}
             >
-              Page Number
+              Phone Number
               <b style={{ color: 'red' }}>{' *'}</b>
             </label>
             <CountryInput
-              name={'phoneNumber'}
+              name={'phone'}
               placeholder={'Enter phone number'}
               control={control}
-              errorMessage={errors?.phoneNumber?.message}
+              errorMessage={errors?.phone?.message}
             />
           </div>
           <TextField
@@ -130,30 +160,6 @@ const PersonalInformation = ({
             star={'*'}
           />
 
-          <div className={style.flexClass}>
-            <label
-              className={style.label}
-              style={{ color: errors?.gender?.message ? '#ff5050' : '#2d2d32' }}
-            >
-              Gender
-              <b style={{ color: 'red' }}>{' *'}</b>
-            </label>
-            <div className={style.flexClassInner}>
-              <Radio
-                name="gender"
-                label="Male "
-                radioValue={'Male'}
-                radioRef={register}
-                errorMessage={errors?.gender?.message}
-              />
-              <div className={style.sec}>
-                <Radio name="gender" label="Female " radioValue={'Female'} radioRef={register} />
-              </div>
-              <div className={style.sec}>
-                <Radio name="gender" label="Other" radioValue={'Other'} radioRef={register} />
-              </div>
-            </div>
-          </div>
           <div>
             <label className={style.label}>CNIC Front Side</label>
             <ProfileUpload
@@ -161,6 +167,8 @@ const PersonalInformation = ({
               register={register}
               id={'frontPic'}
               errorMessage={errors?.frontPic?.message}
+              selectedFileName={selectedFileName}
+              setSelectedFileName={setSelectedFileName}
             />
           </div>
           <div>
@@ -170,8 +178,27 @@ const PersonalInformation = ({
               register={register}
               id={'backPic'}
               errorMessage={errors?.backPic?.message}
+              selectedFileName={selectedFileNameBack}
+              setSelectedFileName={setSelectedFileNameBack}
             />
           </div>
+          <Select
+            label="Gender"
+            star={' *'}
+            register={register}
+            name="gender"
+            errorMessage={errors?.gender?.message}
+          >
+            <option value="">--Gender--</option>
+            <>
+              {genderData &&
+                genderData.map((data: any) => (
+                  <option key={data?._id} value={data?._id}>
+                    {data.name}
+                  </option>
+                ))}
+            </>
+          </Select>
         </div>
         <div className={style.btnContainer}>
           <Button text="Next" iconEnd={arrowRight} type="submit" isLoading={btnLoader} />

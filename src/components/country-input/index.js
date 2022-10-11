@@ -18,7 +18,7 @@ const CountryInput = ({ name, placeholder, control, errorMessage }) => {
               style={{ border: errorMessage && ' 0.5px solid  #ff5050' }}
             >
               <ReactPhoneInput
-                inputStyle={{ height: '48px', width: '100%' }}
+                inputStyle={{ height: '48px', width: '100%', marginLeft: '10px' }}
                 buttonClass={style.buttonStyle}
                 country={'pk'}
                 value={value}

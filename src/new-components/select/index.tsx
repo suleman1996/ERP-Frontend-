@@ -68,7 +68,7 @@ const Select = ({
           {label} <b style={{ color: 'red' }}>{star}</b>{' '}
         </label>
       )}
-      <div className={wraperSelect}>
+      <div className={`${wraperSelect}  ${style.containerWraper} `}>
         <select
           value={marksType || value}
           name={name}
