@@ -1,0 +1,34 @@
+@import 'styles/_breakpoints.scss';
+@import 'styles/_colors.scss';
+@import 'styles/_mixin.scss';
+
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: calc(5px + (15 - 5) * (100vw - 280px) / (2560 - 280));
+  padding-bottom: calc(5px + (15 - 5) * (100vw - 280px) / (2560 - 280));
+  background-color: $btn;
+  border-radius: calc(2px + (6 - 2) * (100vw - 280px) / (2560 - 280));
+  cursor: pointer;
+  border: none;
+  box-shadow: none;
+  &:hover {
+    background-color: $btn;
+  }
+  .img {
+    margin-left: calc(6px + (19 - 6) * (100vw - 280px) / (2560 - 280));
+    width: calc(9px + (24 - 9) * (100vw - 280px) / (2560 - 280));
+    height: calc(8px + (20 - 8) * (100vw - 280px) / (2560 - 280));
+  }
+  .img1 {
+    margin-right: calc(6px + (19 - 6) * (100vw - 280px) / (2560 - 280));
+    width: calc(9px + (24 - 9) * (100vw - 280px) / (2560 - 280));
+    height: calc(8px + (20 - 8) * (100vw - 280px) / (2560 - 280));
+  }
+  .btnTitle {
+    color: white;
+    @include font29;
+    font-family: 'Poppins';
+  }
+}
