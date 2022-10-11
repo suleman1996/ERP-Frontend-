@@ -9,7 +9,6 @@
   display: flex;
   width: 100%;
   position: relative;
-
   .leftGrid {
     border-right: 1.5px dashed #d9d9d9;
     display: flex;
@@ -25,7 +24,6 @@
       width: 25%;
       padding: 13px 11px;
     }
-
     img {
       height: calc(40px + (110 - 40) * (100vw - 280px) / (2560 - 280));
       width: calc(40px + (110 - 40) * (100vw - 280px) / (2560 - 280));
@@ -44,9 +42,7 @@
       }
     }
   }
-
   .rightGrid {
-    // flex: 1;
     padding-left: calc(11px + (24 - 11) * (100vw - 280px) / (2560 - 280));
     padding-right: calc(11px + (24 - 11) * (100vw - 280px) / (2560 - 280));
     padding-top: calc(13px + (29 - 13) * (100vw - 280px) / (2560 - 280));

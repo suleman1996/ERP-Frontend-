@@ -1,17 +1,19 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
-import ReactDatePicker from 'react-datepicker';
 import { Controller } from 'react-hook-form';
-import moment from 'moment';
+
+import ReactDatePicker from 'react-datepicker';
 
 import doubleArrowRight from 'new-assets/1.svg';
 import singleArrowRight from 'new-assets/2.svg';
 import singleArrowLeft from 'new-assets/3.svg';
 import doubleArrowLeft from 'new-assets/4.svg';
 import date from 'new-assets/date-icon.svg';
-import style from './date.module.scss';
+
 import 'react-datepicker/dist/react-datepicker.css';
 import './index.css';
+
+import style from './date.module.scss';
 
 interface Props {
   label?: string;

@@ -1,9 +1,8 @@
 import Button from 'my-components/button';
+
 import eye from '../../../new-assets/add.svg';
 import leftAroow from '../../../new-assets/arrow-left.svg';
 import edit from '../../../new-assets/edit.svg';
-
-import style from './button.stories.module.scss';
 
 export default {
   title: 'Button',

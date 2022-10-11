@@ -1,8 +1,8 @@
-import SearchSelect from 'my-components/search-select';
 import { useForm } from 'react-hook-form';
-import arrow from 'new-assets/arrow-left.svg';
 
-// import style from './timepicker.stories.module.scss';
+import SearchSelect from 'my-components/search-select';
+
+import arrow from 'new-assets/arrow-left.svg';
 
 export default {
   title: 'SearchSelect',

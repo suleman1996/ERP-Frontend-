@@ -1,7 +1,5 @@
 import StepBar from 'my-components/step-bar';
 
-// import style from './timepicker.stories.module.scss';
-
 export default {
   title: 'StepBar',
   component: StepBar,

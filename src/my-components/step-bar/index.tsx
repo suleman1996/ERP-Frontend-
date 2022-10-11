@@ -27,7 +27,6 @@ const StepBar = ({ activeTab, controlWidth, setStepBarActive, setActive }: Props
                 }}
                 onClick={() => {
                   if (activeTab.includes(ele)) {
-                    // setStepBarActive([ele]);
                     setActive(ele);
                   }
                 }}

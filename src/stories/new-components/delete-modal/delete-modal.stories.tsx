@@ -1,6 +1,5 @@
 import DeletePopup from 'new-components/delete-modal';
 import Button from 'new-components/button';
-// import style from './delete-modal.stories.module.scss';
 
 export default {
   title: 'DeletePopup',

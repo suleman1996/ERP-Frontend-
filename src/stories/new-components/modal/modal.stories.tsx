@@ -1,8 +1,6 @@
-import Modal from 'my-components/modal';
 import React, { useState } from 'react';
-import eye from '../../../new-assets/add.svg';
 
-import style from './modal.stories.module.scss';
+import Modal from 'my-components/modal';
 
 export default {
   title: 'Modal',

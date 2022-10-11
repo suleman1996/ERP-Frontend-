@@ -1,7 +1,5 @@
 import AppLoader from 'new-components/app-loader';
 
-// import style from './app-loader.stories.module.scss';
-
 export default {
   title: 'AppLoader',
   component: AppLoader,
@@ -9,5 +7,5 @@ export default {
 
 const Template = (args: any) => <AppLoader {...args} />;
 
-export const Apploader = Template.bind({});
-// Apploader.args = {};
+export const Apploader: any = Template.bind({});
+Apploader.args = {};

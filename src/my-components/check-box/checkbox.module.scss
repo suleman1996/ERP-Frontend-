@@ -32,7 +32,6 @@
 
 /* Create a custom checkbox */
 .checkMark {
-  // position: absolute;
   height: calc(12px + (20 - 12) * (100vw - 280px) / (2560 - 280));
   width: calc(12px + (20 - 12) * (100vw - 280px) / (2560 - 280));
   border: 1.2px solid #e2e2ea;

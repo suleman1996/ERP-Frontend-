@@ -7,11 +7,7 @@
   pointer-events: none !important;
 }
 
-.react-datepicker-popper {
-  /* inset: 18px auto auto 35px !important; */
-  /* padding: 10px !important; */
-}
-
+.react-datepicker-popper,
 .react-datepicker-popper[data-placement^='bottom'] .react-datepicker__triangle::before,
 .react-datepicker-popper[data-placement^='bottom'] .react-datepicker__triangle::after {
   display: none !important;
@@ -21,13 +17,11 @@
   background: #ffffff !important;
   border: 1px solid #e2e2ea !important;
   border-radius: 8px !important;
-  /* margin-top: 30px !important; */
 }
 
 .react-datepicker__day-name,
 .react-datepicker__day,
 .react-datepicker__time-name {
-  /* margin: 10px !important; */
   font-family: 'Poppins';
   font-style: normal;
   font-weight: 600;

@@ -4,7 +4,6 @@
 
 .searchSelect {
   position: relative;
-
   .field {
     img {
       width: 15px;
@@ -12,7 +11,6 @@
       transform: rotate(90deg);
     }
   }
-
   .searchDropdown {
     margin-top: 10px;
     background: #ffffff;
@@ -25,15 +23,6 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      // &:hover {
-      //   background-color: $btn;
-      //   color: white;
-      //   p {
-      //     color: #ffffff;
-      //     text-transform: capitalize;
-      //   }
-      // }
-
       p {
         font-family: 'Poppins';
         font-style: normal;

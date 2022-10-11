@@ -1,7 +1,5 @@
 import ProfileUpload from 'new-components/profile-upload';
 
-// import style from './timepicker.stories.module.scss';
-
 export default {
   title: 'ProfileUpload',
   component: ProfileUpload,

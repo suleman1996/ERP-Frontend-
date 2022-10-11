@@ -1,5 +1,4 @@
 import { useState } from 'react';
-
 import { useController } from 'react-hook-form';
 
 import style from './skill-level.module.scss';

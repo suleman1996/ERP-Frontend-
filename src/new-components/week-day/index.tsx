@@ -1,7 +1,7 @@
-// import { useState } from 'react';
-import Checkbox from 'new-components/checkbox';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+
+import Checkbox from 'new-components/checkbox';
 
 import style from './week-day.module.scss';
 

@@ -1,6 +1,6 @@
-import DatePicker from 'my-components/date-picker';
 import { useForm } from 'react-hook-form';
-// import style from './app-loader.stories.module.scss';
+
+import DatePicker from 'my-components/date-picker';
 
 export default {
   title: 'DatePicker',
