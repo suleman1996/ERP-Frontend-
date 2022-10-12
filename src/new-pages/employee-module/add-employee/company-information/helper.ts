@@ -59,13 +59,15 @@ export const useCompanyInfo = ({
 
   useEffect(() => {
     console.log('formdata', formData);
-    (id || employeeDocId) && getSingleEmployeeData();
+    // (id || employeeDocId) && getSingleEmployeeData();
+    id && getSingleEmployeeData();
   }, []);
 
   useEffect(() => {
-    reset({
-      ...formData?.companyInformation,
-    });
+    formData?.companyInformation &&
+      reset({
+        ...formData?.companyInformation,
+      });
   }, []);
 
   const getSingleEmployeeData = async () => {
@@ -86,6 +88,7 @@ export const useCompanyInfo = ({
       setFormData({ ...formData, companyInformation: { ...data } });
       removeKeys(data, ['startDate', 'endDate']);
       const { joiningDate, checkIn, probation, workingTime, checkOut, workingHours } = data;
+      console.log('id', data);
       let user: any = {
         ...data,
         joiningDate: moment(joiningDate).format('YYYY-MM-DD'),
@@ -132,11 +135,13 @@ export const useCompanyInfo = ({
   const getAllDepartments = async () => {
     const res = await EmployeeService.getDepartments();
     setDepartments(res?.data?.department);
+    console.log('department', res?.data?.department);
   };
 
   const getAllDesignations = async () => {
     const res = await EmployeeService.getDesignation();
     setDesignation(res?.data?.Designation);
+    console.log('department', res?.data?.Designation);
   };
 
   const getAllLeaves = async () => {

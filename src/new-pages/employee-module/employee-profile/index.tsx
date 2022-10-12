@@ -37,12 +37,16 @@ const EmployeeProfileDetails = () => {
   const [employees, setEmployees] = useState([]);
   const [openModal, setOpenModal] = useState(false);
   const [openFilter, setOpenFilter] = useState(false);
+  const [count, setCount] = useState(10);
+  const [totalCount, setTotalCount] = useState();
+  const [page, setPage] = useState(0);
+
   const [loading, setLoading] = useState(false);
   const [openModalProfile, setOpenModalProfile] = useState(false);
 
   useEffect(() => {
     getEmployeesData();
-  }, []);
+  }, [count, page]);
 
   const handleClick = (index: any) => {
     if (index === open) {
@@ -54,11 +58,12 @@ const EmployeeProfileDetails = () => {
 
   const getEmployeesData = async () => {
     setLoading(true);
-    const res = await EmployeeService.getAllEmployees({ pageSize: 20, page: 0 });
+    const res = await EmployeeService.getAllEmployees({ pageSize: count, page });
     console.log('res', res?.data?.employees);
     if (res?.status === 200) {
-      // setEmployees(res?.data?.employees[0].data);
-      setEmployees([]);
+      setEmployees(res?.data?.employees[0].data);
+      setTotalCount(res.data?.employees[0].count);
+      console.log('count', res.data?.employees[0].count);
     }
     setLoading(false);
   };
@@ -136,7 +141,7 @@ const EmployeeProfileDetails = () => {
         </div>
       </div>
       <div className={style.position}>
-        <Pagination />
+        <Pagination setCount={setCount} count={count} totalCount={totalCount} />
       </div>
       <CvView openModal={openModal} setOpenModal={setOpenModal} id={userId} />
       <ProfileView
