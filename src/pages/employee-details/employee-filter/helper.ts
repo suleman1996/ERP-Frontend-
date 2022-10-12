@@ -8,11 +8,11 @@ import { EmployeeFilterData } from '../employee-cards-helper';
 import { Employee } from 'interfaces/employee';
 
 export interface Props {
-  setOpen: (value: boolean) => void;
-  setEmployees: Dispatch<SetStateAction<Employee[]>>;
+  setOpen?: (value: boolean) => void;
+  setEmployees?: Dispatch<SetStateAction<Employee[]>>;
   open?: boolean;
-  setCount: (value: number) => void;
-  getData: () => void;
+  setCount?: (value: number) => void;
+  getData?: () => void;
 }
 
 export const useEmployeeFilter = ({ setOpen, setEmployees, setCount, getData }: Props) => {
@@ -21,16 +21,17 @@ export const useEmployeeFilter = ({ setOpen, setEmployees, setCount, getData }: 
   });
 
   const onSubmit = async (data: EmployeeFilterData) => {
+    console.log('data', data);
     const res = await EmployeeService.getSearchedEmployees(data);
     if (res?.status === 200) {
-      setEmployees(res?.data.employees);
-      setCount(res?.data.count);
+      setEmployees && setEmployees(res?.data.employees);
+      setCount && setCount(res?.data.count);
     }
   };
 
   const cancelHandler = () => {
-    setOpen(false);
-    getData();
+    setOpen && setOpen(false);
+    getData && getData();
     reset({});
   };
   return { options, register, handleSubmit, onSubmit, cancelHandler };

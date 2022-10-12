@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
 import ReactDatePicker from 'react-datepicker';
 import { Controller } from 'react-hook-form';
@@ -73,71 +74,73 @@ const DatePicker = ({
             name={name}
             control={control}
             defaultValue={defaultVal || null}
-            render={({ onChange, value, name }) => (
-              <ReactDatePicker
-                selected={value}
-                maxDate={maxDate && maxDate}
-                minDate={minDate && minDate}
-                readOnly={readOnly}
-                onChange={(event) => {
-                  handleChangeDate(event, onChange, name);
-                }}
-                className={errorMessage ? style.borderClass : style.inpDiv}
-                placeholderText={placeholder ? placeholder : '22/03/2022'}
-                id={id}
-                disabled={isDisable}
-                renderCustomHeader={({
-                  date,
-                  decreaseMonth,
-                  increaseMonth,
-                  prevMonthButtonDisabled,
-                  nextMonthButtonDisabled,
-                  prevYearButtonDisabled,
-                  nextYearButtonDisabled,
-                  increaseYear,
-                  decreaseYear,
-                }) => (
-                  <div className={style.iconsDiv}>
-                    <div>
-                      <button
-                        type="button"
-                        onClick={decreaseYear}
-                        disabled={prevYearButtonDisabled}
-                      >
-                        <img src={doubleArrowLeft} alt="" />
-                      </button>
-                      <button
-                        type={'button'}
-                        onClick={decreaseMonth}
-                        disabled={prevMonthButtonDisabled}
-                      >
-                        <img src={singleArrowLeft} alt="" />
-                      </button>
+            render={({ onChange, value, name }) => {
+              return (
+                <ReactDatePicker
+                  selected={value == 'Invalid Date' ? null : value || null}
+                  maxDate={maxDate && maxDate}
+                  minDate={minDate && minDate}
+                  readOnly={readOnly}
+                  onChange={(event) => {
+                    handleChangeDate(event, onChange, name);
+                  }}
+                  className={errorMessage ? style.borderClass : style.inpDiv}
+                  placeholderText={placeholder ? placeholder : '22/03/2022'}
+                  id={id}
+                  disabled={isDisable}
+                  renderCustomHeader={({
+                    date,
+                    decreaseMonth,
+                    increaseMonth,
+                    prevMonthButtonDisabled,
+                    nextMonthButtonDisabled,
+                    prevYearButtonDisabled,
+                    nextYearButtonDisabled,
+                    increaseYear,
+                    decreaseYear,
+                  }) => (
+                    <div className={style.iconsDiv}>
+                      <div>
+                        <button
+                          type="button"
+                          onClick={decreaseYear}
+                          disabled={prevYearButtonDisabled}
+                        >
+                          <img src={doubleArrowLeft} alt="" />
+                        </button>
+                        <button
+                          type={'button'}
+                          onClick={decreaseMonth}
+                          disabled={prevMonthButtonDisabled}
+                        >
+                          <img src={singleArrowLeft} alt="" />
+                        </button>
+                      </div>
+                      <p>
+                        {months[date.getMonth()]} {date.getFullYear()}
+                      </p>
+                      <div>
+                        <button
+                          type={'button'}
+                          onClick={increaseMonth}
+                          disabled={nextMonthButtonDisabled}
+                        >
+                          <img src={singleArrowRight} alt="" />
+                        </button>
+                        <button
+                          type={'button'}
+                          onClick={increaseYear}
+                          disabled={nextYearButtonDisabled}
+                          style={{ marginRight: '8px' }}
+                        >
+                          <img src={doubleArrowRight} alt="" />
+                        </button>
+                      </div>
                     </div>
-                    <p>
-                      {months[date.getMonth()]} {date.getFullYear()}
-                    </p>
-                    <div>
-                      <button
-                        type={'button'}
-                        onClick={increaseMonth}
-                        disabled={nextMonthButtonDisabled}
-                      >
-                        <img src={singleArrowRight} alt="" />
-                      </button>
-                      <button
-                        type={'button'}
-                        onClick={increaseYear}
-                        disabled={nextYearButtonDisabled}
-                        style={{ marginRight: '8px' }}
-                      >
-                        <img src={doubleArrowRight} alt="" />
-                      </button>
-                    </div>
-                  </div>
-                )}
-              />
-            )}
+                  )}
+                />
+              );
+            }}
           />
         </div>
         <label htmlFor={id}>

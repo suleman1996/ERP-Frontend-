@@ -15,15 +15,17 @@ import plus from 'new-assets/add.svg';
 import user from 'new-assets/user-img.svg';
 import style from './employee-profile.module.scss';
 import Loading from 'new-components/loading';
+import EmployeeFilter from 'pages/employee-details/employee-filter';
 
 interface Employee {
   handleClick?: any;
-  img: string;
-  name: string;
-  designation: string;
+  profilePicture: string;
+  fullName: string;
+  companyInformation: any;
   department: string;
   phone: string;
   id: string;
+  _id: string;
   employeeId: string;
 }
 
@@ -34,6 +36,7 @@ const EmployeeProfileDetails = () => {
   const [userId, setUserId] = useState<string>();
   const [employees, setEmployees] = useState([]);
   const [openModal, setOpenModal] = useState(false);
+  const [openFilter, setOpenFilter] = useState(false);
   const [loading, setLoading] = useState(false);
   const [openModalProfile, setOpenModalProfile] = useState(false);
 
@@ -52,8 +55,10 @@ const EmployeeProfileDetails = () => {
   const getEmployeesData = async () => {
     setLoading(true);
     const res = await EmployeeService.getAllEmployees({ pageSize: 20, page: 0 });
+    console.log('res', res?.data?.employees);
     if (res?.status === 200) {
-      setEmployees(res.data.employees);
+      // setEmployees(res?.data?.employees[0].data);
+      setEmployees([]);
     }
     setLoading(false);
   };
@@ -67,7 +72,8 @@ const EmployeeProfileDetails = () => {
       )}
       <div className={style.main}>
         <div className={style.headerFlex}>
-          <img src={filter} alt="" className={style.img} />
+          <img src={filter} alt="" className={style.img} onClick={() => setOpenFilter(true)} />
+
           <Button
             text="Add Account"
             type="button"
@@ -75,18 +81,32 @@ const EmployeeProfileDetails = () => {
             iconStart={plus}
           />
         </div>
+        <EmployeeFilter open={openFilter} setOpen={setOpenFilter} />
+
         <div className={style.cardSection}>
           {employees?.map(
-            ({ img, name, designation, phone, id, employeeId, department }: Employee, index) => (
+            (
+              {
+                profilePicture,
+                fullName,
+                companyInformation,
+                phone,
+                id,
+                employeeId,
+                department,
+                _id,
+              }: Employee,
+              index,
+            ) => (
               <>
                 <div key={index} style={{ position: 'relative' }}>
                   <EmployeeProfileCard
-                    img={img}
-                    name={name}
-                    designation={designation}
+                    img={profilePicture}
+                    name={fullName}
+                    designation={companyInformation?.designationInformation?.name}
+                    department={companyInformation?.departmentInformation?.name}
                     phone={phone}
                     id={employeeId}
-                    department={department}
                     handleClick={() => handleClick(index)}
                   />
                   {open === index && (
@@ -103,7 +123,7 @@ const EmployeeProfileDetails = () => {
                         <EmployeeDropdown
                           setOpenModal={setOpenModal}
                           setOpenModalProfile={setOpenModalProfile}
-                          id={id}
+                          id={_id}
                           handleClick={() => setUserId(id)}
                         />
                       </div>

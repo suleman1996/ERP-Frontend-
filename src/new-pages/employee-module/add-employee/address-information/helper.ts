@@ -49,12 +49,6 @@ export const useAddressInfo = ({
   let stateData: any = [];
 
   const { register, control, handleSubmit, errors, reset, watch, setError } = useForm();
-  console.log('doc id', employeeDocId);
-
-  useEffect(() => {
-    fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [formData]);
 
   useEffect(() => {
     (id || employeeDocId) && getSingleEmployeeData();
@@ -62,7 +56,6 @@ export const useAddressInfo = ({
 
   const getSingleEmployeeData = async () => {
     const res = await EmployeeService.getAddressEmployee(id || employeeDocId);
-    console.log('res', res.data?.employeeAddressInformation?.addresses);
     reset({
       currentAddress: {
         ...res.data?.employeeAddressInformation?.addresses?.currentAddress,
@@ -122,7 +115,6 @@ export const useAddressInfo = ({
         }
       } else {
         const res = await EmployeeService.addressAddPost(userData, employeeDocId);
-        // const res = await EmployeeService.addressAddPost(userData, '634402d6bf2dfe149d2830d0');
         if (res.status === 200) {
           setTimeout(() => {
             console.log('time out');
@@ -140,37 +132,6 @@ export const useAddressInfo = ({
     }
 
     setBtnLoader(false);
-  };
-
-  const fetchData = async () => {
-    if (
-      formData?.addressInformation !== undefined &&
-      Object.keys(formData?.addressInformation)?.length
-    ) {
-      const temp = { ...formData?.addressInformation };
-      await getData('currentCountryData', {
-        country: temp?.addressInformation?.currentAddress?.country,
-      });
-      getCities('currentCitiesData', stateData, temp.addressInformation?.currentAddress?.state);
-      await getData('permanentCountryData', {
-        country: temp?.addressInformation?.permanentAddress?.country,
-      });
-      getCities('permanentCitiesData', stateData, temp.addressInformation?.permanentAddress?.state);
-      setTimeout(() => {
-        reset({
-          currentCountry: temp?.addressInformation?.currentAddress?.country,
-          currentState: temp?.addressInformation?.currentAddress?.state,
-          currentCity: temp?.addressInformation?.currentAddress?.city,
-          currentCode: temp?.addressInformation?.currentAddress?.postalCode,
-          currentAddress: temp?.addressInformation?.currentAddress?.address,
-          permanentCountry: temp?.addressInformation?.permanentAddress?.country,
-          permanentState: temp?.addressInformation?.permanentAddress?.state,
-          permanentCity: temp?.addressInformation?.permanentAddress?.city,
-          permanentCode: temp?.addressInformation?.permanentAddress?.postalCode,
-          permanentAddress: temp?.addressInformation?.permanentAddress?.address,
-        });
-      }, 40);
-    }
   };
 
   const getData = async (type: string, data: { country?: string }, currentState?: string) => {

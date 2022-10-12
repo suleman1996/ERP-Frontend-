@@ -26,8 +26,8 @@ const AddEmployee = () => {
   const { employeeId, formData, setFormData, setEmployeeId, employeeDocId, setEmployeeDocId } =
     useAddEmployee();
 
-  const [stepBarActive, setStepBarActive] = useState(['Company']);
-  const [active, setActive] = useState('Company');
+  const [stepBarActive, setStepBarActive] = useState(['Personal']);
+  const [active, setActive] = useState('Personal');
   const [controlWidth, setControlWidth] = useState(0);
 
   const handleNext = (val?: string) => {
@@ -47,19 +47,19 @@ const AddEmployee = () => {
   };
 
   return (
-    <CardContainer className={style.card}>
-      <div className={style.header}>
-        <div className={style.innerStepper}>
-          <div className={style.border}>
-            <p>1 of 7</p>
+    <>
+      <CardContainer className={style.card}>
+        <div className={style.header}>
+          <div className={style.innerStepper}>
+            <div className={style.border}>
+              <p>1 of 7</p>
+            </div>
+            {activeSteps.map(({ name, activeName }: Data) => (
+              <div key={name}>{active === activeName && <h6>{name}</h6>}</div>
+            ))}
           </div>
-          {activeSteps.map(({ name, activeName }: Data) => (
-            <div key={name}>{active === activeName && <h6>{name}</h6>}</div>
-          ))}
+          <img src={cross} alt="" onClick={() => navigate('/employee')} />
         </div>
-        <img src={cross} alt="" onClick={() => navigate('/employee')} />
-      </div>
-      <div className={style.stepper}>
         <div className={style.displayMd}>
           <StepBar
             setStepBarActive={setStepBarActive}
@@ -68,70 +68,78 @@ const AddEmployee = () => {
             controlWidth={controlWidth}
           />
         </div>
-        {active === 'Personal' && (
-          <PersonalInformation
-            handleNext={handleNext}
-            formData={formData}
-            employeeDocId={employeeDocId}
-            setEmployeeDocId={setEmployeeDocId}
-            setEmployeeId={setEmployeeId}
-            setFormData={setFormData}
-          />
-        )}
-        {active === 'Address' && (
-          <AddressInformation
-            handleNext={handleNext}
-            handleBack={handleBack}
-            formData={formData}
-            employeeId={employeeId}
-            setFormData={setFormData}
-            employeeDocId={employeeDocId}
-            setEmployeeDocId={setEmployeeDocId}
-          />
-        )}
-        {active === 'Company' && (
-          <CompanyInformation
-            handleNext={handleNext}
-            handleBack={handleBack}
-            formData={formData}
-            employeeId={employeeId}
-            employeeDocId={employeeDocId}
-            setFormData={setFormData}
-          />
-        )}
-        {active === 'Education' && (
-          <EducationalDetails
-            handleNext={handleNext}
-            handleBack={handleBack}
-            formData={formData}
-            employeeId={employeeId}
-            employeeDocId={employeeDocId}
-            setFormData={setFormData}
-          />
-        )}
-        {active === 'Experience' && (
-          <ExperienceDetails
-            handleNext={handleNext}
-            handleBack={handleBack}
-            formData={formData}
-            employeeId={employeeId}
-            setFormData={setFormData}
-          />
-        )}
-        {active === 'Expertise' && (
-          <ExpertiseInformation
-            handleNext={handleNext}
-            handleBack={handleBack}
-            formData={formData}
-            employeeId={employeeId}
-            setFormData={setFormData}
-          />
-        )}
-        {active === 'Payroll' && (
-          <PayrollInformation employeeId={employeeId} handleBack={handleBack} />
-        )}
-      </div>
-    </CardContainer>
+        <div>
+          {active === 'Personal' && (
+            <PersonalInformation
+              handleNext={handleNext}
+              formData={formData}
+              employeeDocId={employeeDocId}
+              setEmployeeDocId={setEmployeeDocId}
+              setEmployeeId={setEmployeeId}
+              setFormData={setFormData}
+            />
+          )}
+          {active === 'Address' && (
+            <AddressInformation
+              handleNext={handleNext}
+              handleBack={handleBack}
+              formData={formData}
+              employeeId={employeeId}
+              setFormData={setFormData}
+              employeeDocId={employeeDocId}
+              setEmployeeDocId={setEmployeeDocId}
+            />
+          )}
+          {active === 'Company' && (
+            <CompanyInformation
+              handleNext={handleNext}
+              handleBack={handleBack}
+              formData={formData}
+              employeeId={employeeId}
+              employeeDocId={employeeDocId}
+              setFormData={setFormData}
+            />
+          )}
+          {active === 'Education' && (
+            <EducationalDetails
+              handleNext={handleNext}
+              handleBack={handleBack}
+              formData={formData}
+              employeeId={employeeId}
+              employeeDocId={employeeDocId}
+              setFormData={setFormData}
+            />
+          )}
+          {active === 'Experience' && (
+            <ExperienceDetails
+              handleNext={handleNext}
+              handleBack={handleBack}
+              formData={formData}
+              employeeId={employeeId}
+              employeeDocId={employeeDocId}
+              setFormData={setFormData}
+            />
+          )}
+          {active === 'Expertise' && (
+            <ExpertiseInformation
+              handleNext={handleNext}
+              handleBack={handleBack}
+              formData={formData}
+              employeeId={employeeId}
+              employeeDocId={employeeDocId}
+              setFormData={setFormData}
+            />
+          )}
+          {active === 'Payroll' && (
+            <PayrollInformation
+              employeeId={employeeId}
+              handleBack={handleBack}
+              employeeDocId={employeeDocId}
+            />
+          )}
+        </div>
+      </CardContainer>
+    </>
   );
 };
 

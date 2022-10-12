@@ -12,6 +12,7 @@ import EmployeeService from 'services/employee-service';
 import PersonalInformation from './../../../../pages/employee-details/add-employee/personal-information/index';
 import { AxiosError } from 'axios';
 import { setErrors } from './../../../../helper/index';
+import { createNotification } from 'common/create-notification';
 
 interface Data {
   firstName: string;
@@ -138,7 +139,7 @@ export const usePersonalInfo = ({
         profilePicture: img,
         dob: moment(dob).format('YYYY-MM-DD'),
         cnic: cnic.toString(),
-        employeeId: watch().employeeId + userId,
+        employeeId: employeeId + userId,
         cnicFront: frontPic && frontPic.length && (await convertBase64Image(frontPic[0])),
         cnicBack: backPic && backPic.length && (await convertBase64Image(backPic[0])),
       };
@@ -170,7 +171,11 @@ export const usePersonalInfo = ({
       }
       setBtnLoader(false);
     } catch (err: any) {
-      setErrors(err.response.data.error, setError);
+      if (err.response.data.error) {
+        setErrors(err.response.data.error, setError);
+      } else {
+        createNotification('error', 'Error', err.response.data.message);
+      }
       setBtnLoader(false);
     }
   };

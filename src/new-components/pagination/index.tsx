@@ -8,6 +8,12 @@ import leftArrow from 'new-assets/single-arrow-left.svg';
 import rightArrow from 'new-assets/single-arrow-right.svg';
 import style from './pagination.module.scss';
 
+// interface Props{
+//   count?:any;
+//   setCount?:()=>void
+
+// }
+
 const Pagination = () => {
   const [count, setCount] = useState(1);
 

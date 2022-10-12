@@ -62,7 +62,7 @@ const LanguageExpertise = ({ formData, setFormData, employeeId, setLanguage }: P
             options={languageArray}
             label="Language"
           />
-          <Select
+          {/* <Select
             label="Rate"
             register={register}
             errorMessage={errors?.rate?.message}
@@ -78,7 +78,7 @@ const LanguageExpertise = ({ formData, setFormData, employeeId, setLanguage }: P
                   </option>
                 ))}
             </>
-          </Select>
+          </Select> */}
           <TextField
             name="year"
             label="Year"

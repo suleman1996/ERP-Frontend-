@@ -8,6 +8,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import EmployeeService from 'services/employee-service';
 import { convertBase64Image } from 'main-helper';
 import { removeKeys } from 'helper';
+import { setErrors } from './../../../../helper/index';
 
 export interface Education {
   degree: string;
@@ -55,37 +56,42 @@ export const useEducationDetail = ({
     update: false,
     editInd: -1,
   });
-  const { register, handleSubmit, errors, control, reset, watch, setValue } = useForm({
-    resolver: yupResolver(schema),
-  });
+  const { register, handleSubmit, errors, control, reset, watch, setValue, setError } = useForm();
 
   const onSubmit = async () => {
     setBtnLoader(true);
-    setFormData({ ...formData, educationDetails: [...educations] });
-    if (id) {
-      if (educations?.length) {
-        const userData = {
-          type: 4,
-          educationDetails: [...educations],
-          employeeId: employeeId.toUpperCase(),
-        };
-        const res = await EmployeeService.updateAddedEmployee(userData, id);
-        if (res.status === 201) {
-          handleNext && handleNext('Experience');
+    try {
+      setFormData({ ...formData, educationDetails: [...educations] });
+      if (id) {
+        if (educations?.length) {
+          const userData = {
+            type: 4,
+            educationDetails: [...educations],
+            employeeId: employeeId.toUpperCase(),
+          };
+          const res = await EmployeeService.addPostEducation(userData, id);
+          if (res.status === 201) {
+            handleNext && handleNext('Experience');
+          }
+        }
+      } else {
+        if (educations?.length) {
+          const res = await EmployeeService.addPostEducation(
+            {
+              educationDetails: [...educations],
+            },
+            employeeDocId,
+          );
+          if (res.status === 200) {
+            handleNext && handleNext('Experience');
+          }
+          // if (res?.response?.data?.error && res.response.status === 422) {
+          //   setErrors(res.response.data.error, setError);
+          // }
         }
       }
-    } else {
-      if (educations?.length) {
-        const res = await EmployeeService.addEmployee({
-          type: 4,
-          educationDetails: [...educations],
-          employeeId: employeeId.toUpperCase(),
-          // employeeId: 'SPX920',
-        });
-        if (res.status === 201) {
-          handleNext && handleNext('Experience');
-        }
-      }
+    } catch (err) {
+      console.log(err);
     }
     setBtnLoader(false);
   };
@@ -143,15 +149,15 @@ export const useEducationDetail = ({
   };
 
   const getUser = async () => {
-    const res = await EmployeeService.getEmployee(id);
-    console.log('res', res.data);
+    const res = await EmployeeService.getEducationEmployee(employeeDocId);
+    console.log('res asasasas', res?.data?.education);
 
-    const data = res.data.educationDetails.map((item: any, index: number) => {
+    const data = res.data.education.map((item: any, index: number) => {
       return {
         ...item,
         startDate: moment(item.startDate).format('YYYY-MM-DD'),
         endDate: moment(item.endDate).format('YYYY-MM-DD'),
-        percentageCgpa: item.percentageCgpa.toString(),
+        // ...(item.percentage && { percentageCgpa: item.percentage.toString() }),
       };
     });
 
@@ -165,13 +171,7 @@ export const useEducationDetail = ({
   };
 
   useEffect(() => {
-    id && getUser();
-    if (
-      formData?.educationDetails !== undefined &&
-      Object.keys(formData?.educationDetails)?.length
-    ) {
-      setEducations([...formData?.educationDetails]);
-    }
+    (id || employeeDocId) && getUser();
   }, []);
 
   const startDate = watch('startDate');
@@ -200,21 +200,6 @@ export const useEducationDetail = ({
     marksVal,
   };
 };
-
-export const schema = yup.object().shape({
-  institute: yup.string().required('Institute is a required field'),
-  degree: yup.string().required('Degree is a required field'),
-  startDate: yup.string().required('Start date is a required field'),
-  percentageCgpa: yup
-    .string()
-    .required('PercentageCgpa is a required field')
-    .typeError('Percentage is a required field'),
-
-  endDate: yup.string().when('ongoing', {
-    is: 'false',
-    then: yup.string().required('End date is required.'),
-  }),
-});
 
 export const selectCountry = [
   {

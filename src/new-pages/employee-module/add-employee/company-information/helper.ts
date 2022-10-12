@@ -45,14 +45,89 @@ export const useCompanyInfo = ({
   employeeId,
   employeeDocId,
 }: Props) => {
+  console.log('eid', employeeId);
+  console.log('doc', employeeDocId);
   const { id } = useParams();
   const [type, setType] = useState('per-day');
   const [probation, setProbation] = useState(false);
   const [departments, setDepartments] = useState<any>();
   const [designation, setDesignation] = useState<any>();
+  const [check, setCheck] = useState<number[]>([]);
   const [leaves, setLeaves] = useState<any>();
   const [btnLoader, setBtnLoader] = useState(false);
   const { register, handleSubmit, errors, control, reset, watch, setError } = useForm();
+
+  useEffect(() => {
+    console.log('formdata', formData);
+    (id || employeeDocId) && getSingleEmployeeData();
+  }, []);
+
+  useEffect(() => {
+    reset({
+      ...formData?.companyInformation,
+    });
+  }, []);
+
+  const getSingleEmployeeData = async () => {
+    const res = await EmployeeService.getCompanyEmployee(id || employeeDocId);
+    /////////  will be used is future////////////
+    // console.log('doc id', employeeDocId);
+    // console.log('res data', res.data.company);
+    // reset({
+    //   ...res?.data?.company,
+    //   joiningDate: moment(res?.data?.company?.joiningDate).format('YYYY-DD-MM'),
+    // });
+    // setCheck(res?.data?.company?.workingDaysInWeek);
+  };
+
+  const onSubmit = async (data: Data) => {
+    setBtnLoader(true);
+    try {
+      setFormData({ ...formData, companyInformation: { ...data } });
+      removeKeys(data, ['startDate', 'endDate']);
+      const { joiningDate, checkIn, probation, workingTime, checkOut, workingHours } = data;
+      let user: any = {
+        ...data,
+        joiningDate: moment(joiningDate).format('YYYY-MM-DD'),
+        departmentId: data?.departmentId,
+        designationId: data?.designationId,
+        leaves: leaves.map((leave: Leave) => {
+          return { leaveId: leave?._id, quantity: data[leave?.name] };
+        }),
+        employmentInfo: {
+          checkIn: checkIn && moment(checkIn, 'HH:mm').format('hh:mm a'),
+          checkOut: checkOut && moment(checkOut, 'HH:mm').format('hh:mm a'),
+          workingHours: parseInt(workingHours),
+          workingHoursType: type,
+        },
+
+        employeeId: '634505209601f4773bdcf3e8',
+        workingDaysInWeek: check,
+
+        probation: probation === 'true' ? true : false,
+      };
+      removeKeys(user, ['department', 'designation', ...leaves.map((leave: Leave) => leave.name)]);
+      if (id) {
+        const res = await EmployeeService.addPostCompany(user, employeeDocId);
+        if (res.status === 200) {
+          handleNext('Education');
+        }
+      } else {
+        // const res = await EmployeeService.addPostCompany(user, employeeDocId);
+        const res = await EmployeeService.addPostCompany(user, employeeDocId);
+        if (res.status === 200) {
+          handleNext('Education');
+        }
+
+        if (res?.response?.data?.error && res.response.status === 422) {
+          setErrors(res.response.data.error, setError);
+        }
+      }
+    } catch (err) {
+      console.log(err);
+    }
+    setBtnLoader(false);
+  };
 
   const getAllDepartments = async () => {
     const res = await EmployeeService.getDepartments();
@@ -75,152 +150,6 @@ export const useCompanyInfo = ({
     getAllLeaves();
   }, []);
 
-  useEffect(() => {
-    if (
-      formData?.companyInformation !== undefined &&
-      Object.keys(formData?.companyInformation)?.length
-    ) {
-      const temp = { ...formData?.companyInformation };
-      reset({
-        joiningDate: new Date(formData?.companyInformation?.joiningDate),
-        department: formData?.companyInformation?.department,
-        designation: formData?.companyInformation?.designation,
-        annualLeaves: formData?.companyInformation?.annualLeaves,
-        medicalLeaves: formData?.companyInformation?.medicalLeaves,
-        casualLeaves: formData?.companyInformation?.casualLeaves,
-        probationDurationDays: formData?.companyInformation?.probationDurationDays,
-        employmentType: formData?.companyInformation?.employmentType,
-        probation: formData?.companyInformation?.probation,
-        note: formData?.companyInformation?.note,
-        workingHours: formData?.companyInformation?.workingHours,
-        checkIn: formData?.companyInformation?.loginTime,
-        checkOut: formData?.companyInformation?.logoutTime,
-        startDate: formData?.companyInformation
-          ? new Date(formData?.companyInformation?.startDate)
-          : '',
-        endDate: formData?.companyInformation
-          ? new Date(formData?.companyInformation?.endDate)
-          : '',
-        probationEndDate: temp?.probationEndDate ? new Date(temp?.probationEndDate) : '',
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [formData]);
-
-  useEffect(() => {
-    id && getSingleEmployeeData();
-  }, []);
-
-  const getSingleEmployeeData = async () => {
-    const res = await EmployeeService.getEmployee(id);
-    reset({
-      joiningDate: new Date(res?.data?.companyInformation?.joiningDate),
-      department: res?.data?.companyInformation?.department.toString(),
-      designation: res?.data?.companyInformation?.designation,
-      annualLeaves: res?.data?.companyInformation?.annualLeaves,
-      medicalLeaves: res?.data?.companyInformation?.medicalLeaves,
-      casualLeaves: res?.data?.companyInformation?.casualLeaves,
-      probationDurationDays: res?.data?.companyInformation?.probationDurationDays,
-      employmentType: res?.data?.companyInformation?.employmentType,
-      probation: res?.data?.companyInformation?.probation,
-      note: res?.data?.companyInformation?.note,
-      workingTime: res?.data?.companyInformation?.workingTime,
-      loginTime: res?.data?.companyInformation?.loginTime,
-      logoutTime: res?.data?.companyInformation?.logoutTime,
-      startDate: res?.data?.companyInformation
-        ? new Date(res?.data?.companyInformation?.startDate)
-        : '',
-      endDate: res?.data?.companyInformation
-        ? new Date(res?.data?.companyInformation?.endDate)
-        : '',
-      probationEndDate: res?.data?.companyInformation?.probationEndDate
-        ? new Date(res?.data?.companyInformation?.probationEndDate)
-        : '',
-    });
-  };
-
-  const onSubmit = async (data: Data) => {
-    setBtnLoader(true);
-    try {
-      setFormData({ ...formData, companyInformation: { ...data } });
-      removeKeys(data, ['startDate', 'endDate']);
-      const { joiningDate, checkIn, probation, workingTime, checkOut, workingHours } = data;
-      if (id) {
-        // const userData = {
-        //   type: 3,
-        //   companyInformation: {
-        //     ...data,
-        //     joiningDate: moment(joiningDate).format('YYYY-MM-DD'),
-        //     employeeInfo: {
-        //       checkIn: checkIn && moment(checkIn, 'HH:mm').format('hh:mm a'),
-        //       checkOut: checkOut && moment(checkOut, 'HH:mm').format('hh:mm a'),
-        //       workingHours: workingHours,
-        //     },
-
-        //     probation: probation === 'true' ? true : false,
-        //   },
-        //   employeeId: employeeId.toUpperCase(),
-        // };
-        const userData = {
-          ...data,
-          joiningDate: moment(joiningDate).format('YYYY-MM-DD'),
-          employeeInfo: {
-            checkIn: checkIn && moment(checkIn, 'HH:mm').format('hh:mm a'),
-            checkOut: checkOut && moment(checkOut, 'HH:mm').format('hh:mm a'),
-            workingHours: workingHours,
-          },
-          probation: probation === 'true' ? true : false,
-        };
-        // const res = await EmployeeService.addPostCompany(userData, employeeDocId);
-        const res = await EmployeeService.addPostCompany(userData, '634505209601f4773bdcf3e8');
-        if (res.status === 200) {
-          handleNext('Education');
-        }
-      } else {
-        const user = {
-          ...data,
-          joiningDate: moment(joiningDate).format('YYYY-MM-DD'),
-          departmentId: data?.department,
-          designationId: data?.designation,
-          leaves: leaves.map((leave: Leave) => {
-            return { leaveId: leave?._id, quantity: data[leave?.name] };
-          }),
-          employmentInfo: {
-            checkIn: checkIn && moment(checkIn, 'HH:mm').format('hh:mm a'),
-            checkOut: checkOut && moment(checkOut, 'HH:mm').format('hh:mm a'),
-            workingHours: workingHours,
-            workingHoursType: type,
-          },
-
-          employeeId: '634505209601f4773bdcf3e8',
-
-          probation: probation === 'true' ? true : false,
-        };
-        removeKeys(user, ['department', 'designation']);
-
-        console.log('users', user);
-
-        // const res = await EmployeeService.addEmployee({
-        //   type: 3,
-        //   companyInformation: { ...user },
-        //   employeeId: employeeId,
-        // });
-        // const res = await EmployeeService.addPostCompany(user, employeeDocId);
-        const res = await EmployeeService.addCompany(user);
-        if (res.status === 200) {
-          handleNext('Education');
-        }
-
-        if (res?.response?.data?.error && res.response.status === 422) {
-          setErrors(res.response.data.error, setError);
-        }
-      }
-    } catch (err) {
-      console.log(err);
-    }
-    setBtnLoader(false);
-  };
-
   return {
     onSubmit,
     register,
@@ -236,6 +165,8 @@ export const useCompanyInfo = ({
     departments,
     designation,
     leaves,
+    check,
+    setCheck,
   };
 };
 

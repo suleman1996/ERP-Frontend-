@@ -123,7 +123,7 @@ export const useLanguage = ({ formData, setFormData, employeeId, setLanguage }: 
 
 export const schema = yup.object().shape({
   language: yup.string().required('Language  is a required field'),
-  rate: yup.string().required('Rate is a required field'),
+  // rate: yup.string().required('Rate is a required field'),
   year: yup
     .number()
     .required('Year is a required field')

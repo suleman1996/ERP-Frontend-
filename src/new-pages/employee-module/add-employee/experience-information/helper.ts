@@ -18,6 +18,7 @@ interface Props {
   employeeId: string;
   handleBack: (data?: string) => void;
   handleNext: (data?: string) => void;
+  employeeDocId: string;
 }
 
 export interface Experince {
@@ -38,6 +39,7 @@ export const useExperience = ({
   employeeId,
   handleBack,
   handleNext,
+  employeeDocId,
 }: Props) => {
   const { id } = useParams();
   const educationIndex = useRef(-1);
@@ -52,23 +54,40 @@ export const useExperience = ({
     editInd: -1,
   });
 
-  const { register, handleSubmit, errors, control, reset, watch } = useForm({
-    resolver: yupResolver(schema),
-  });
+  const { register, handleSubmit, errors, control, reset, watch } = useForm();
 
   const onSubmit = async () => {
     setBtnLoader(true);
-    setFormData({ ...formData, educationDetails: [...educations] });
+    try {
+      setFormData({ ...formData, educationDetails: [...educations] });
 
-    if (educations?.length) {
-      const res = await EmployeeService.addEmployee({
-        type: 5,
-        experienceDetails: [...educations],
-        employeeId: employeeId.toUpperCase(),
-      });
-      if (res.status === 201) {
-        handleNext && handleNext('Expertise');
+      if (id) {
+        if (educations?.length) {
+          const res = await EmployeeService.addPostExperience(
+            {
+              experienceDetails: [...educations],
+            },
+            employeeDocId,
+          );
+          if (res.status === 200) {
+            handleNext && handleNext('Expertise');
+          }
+        }
       }
+
+      if (educations?.length) {
+        const res = await EmployeeService.addPostExperience(
+          {
+            experienceDetails: [...educations],
+          },
+          employeeDocId,
+        );
+        if (res.status === 200) {
+          handleNext && handleNext('Expertise');
+        }
+      }
+    } catch (err) {
+      console.log('err', err);
     }
     setBtnLoader(false);
   };
@@ -118,10 +137,6 @@ export const useExperience = ({
     setEducations([...delEdu]);
   };
 
-  const getUser = async () => {
-    const res = await EmployeeService.getEmployee(id);
-  };
-
   const getData = async (data: { country?: string }) => {
     if (data?.country) {
       const res = await AddressService.getCountryStateCityData(data);
@@ -138,17 +153,19 @@ export const useExperience = ({
   };
 
   useEffect(() => {
-    if (
-      formData?.experienceDetails !== undefined &&
-      Object.keys(formData?.experienceDetails)?.length
-    ) {
-      setEducations([...formData.experienceDetails]);
-    }
-  }, []);
-
-  useEffect(() => {
-    id && getUser();
+    (id || employeeDocId) && getUser();
   }, [id]);
+
+  const getUser = async () => {
+    const res = await EmployeeService.getExperienceEmployee(employeeDocId);
+    const newArr = res?.data?.Experience.map((item: any) => {
+      return {
+        ...item,
+        jobStartDate: moment(item?.jobStartDate).format('YYYY-MM-DD'),
+      };
+    });
+    setEducations([...newArr]);
+  };
 
   const startDate = watch('jobStartDate');
 
@@ -175,28 +192,6 @@ export const useExperience = ({
     currentCountryData,
   };
 };
-
-export const schema = yup.object().shape({
-  company: yup.string().required('Company name is a required field'),
-  country: yup.string().required('Country name is a required field'),
-  city: yup.string().required('City is a required field'),
-  jobTitle: yup.string().required('Job title is a required field'),
-  jobStartDate: yup.string().required('Start date is a required field'),
-  jobEndDate: yup.string().when('ongoing', {
-    is: 'false',
-    then: yup.string().required('Working time is required.'),
-  }),
-
-  // letter: yup
-  //   .mixed()
-  //   .test("required", "You need to provide a file", (file) => {
-  //     if (file[0]) return true;
-  //     return false;
-  //   })
-  //   .test("fileSize", "The file is too large", (file) => {
-  //     return file[0] && file[0].size <= 2000000;
-  //   }),
-});
 
 export const selectCountry = [
   {

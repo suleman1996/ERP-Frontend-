@@ -9,7 +9,7 @@ import Select from 'new-components/select';
 import SearchSelect from 'new-components/search-select';
 import Checkbox from 'new-components/checkbox';
 
-import { selectCountry, rows, columns, schema, useExperience } from './helper';
+import { selectCountry, rows, columns, useExperience } from './helper';
 import countries from 'new-assets/countries.json';
 
 import tick from 'new-assets/tick.svg';
@@ -23,6 +23,7 @@ interface Props {
   employeeId: string;
   handleBack: (data?: string) => void;
   handleNext: (data?: string) => void;
+  employeeDocId?: any;
 }
 
 const ExperienceDetails = ({
@@ -31,6 +32,7 @@ const ExperienceDetails = ({
   formData,
   setFormData,
   employeeId,
+  employeeDocId,
 }: Props) => {
   const {
     handleAddEduction,
@@ -59,6 +61,7 @@ const ExperienceDetails = ({
     formData,
     setFormData,
     employeeId,
+    employeeDocId,
   });
 
   return (

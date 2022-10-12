@@ -15,6 +15,7 @@ import { employmentType, department, useCompanyInfo } from './helper';
 import arrowRight from 'new-assets/arrowBtnRight.svg';
 import arrowLeft from 'new-assets/backBtn.svg';
 import style from './company-information.module.scss';
+import WeekDay from 'new-components/week-day';
 
 interface Props {
   handleBack: (data?: string) => void;
@@ -48,6 +49,8 @@ const CompanyInformation = ({
     departments,
     designation,
     leaves,
+    check,
+    setCheck,
   } = useCompanyInfo({
     handleBack,
     handleNext,
@@ -74,9 +77,9 @@ const CompanyInformation = ({
           <Select
             label="Department"
             star={' *'}
-            errorMessage={errors?.department?.message}
+            errorMessage={errors?.departmentId?.message}
             register={register}
-            name="department"
+            name="departmentId"
           >
             <option value="">Department</option>
             <>
@@ -92,8 +95,8 @@ const CompanyInformation = ({
             label="Designation"
             star={' *'}
             register={register}
-            name="designation"
-            errorMessage={errors?.designation?.message}
+            name="designationId"
+            errorMessage={errors?.designationId?.message}
           >
             <option value="">Designation</option>
             <>
@@ -219,14 +222,15 @@ const CompanyInformation = ({
             />
           )}
         </div>
-        <TextArea
+        <WeekDay check={check} setCheck={setCheck} />
+        {/* <TextArea
           name="note"
           label="Note "
           register={register}
           errorMessage={errors?.note?.message}
           placeholder="Note"
           className={style.field}
-        />
+        /> */}
         <div className={style.btnContainer}>
           <Button
             text="Back"

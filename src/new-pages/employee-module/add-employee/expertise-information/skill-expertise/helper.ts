@@ -43,10 +43,12 @@ export const useSkill = ({ formData, setFormData, employeeId, setSkillData }: Pr
   const handleAddEduction = async (data: any) => {
     const fileBase64 =
       data?.file && data?.file?.length > 0 && (await convertBase64Image(data.file[0]));
+
     const skillData = {
       ...data,
       skillLevel: data?.skills,
-      ...(fileBase64 ? { file: `${fileBase64}` } : {}),
+      // ...(fileBase64 && { file: `${fileBase64}` }),
+      file: data.file && (data.file[0] ? fileBase64 : data.file),
     };
     if (!skillData.file || Object.keys(skillData.file).length === 0) {
       removeKeys(skillData, ['file']);

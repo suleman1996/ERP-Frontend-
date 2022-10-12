@@ -53,6 +53,10 @@ export default class EmployeeService {
     const res = await ApiService.get(`${EmployeeService.baseUrl[1]}/leave-setting`);
     return res;
   }
+  static async getAllowence(id?: string | number) {
+    const res = await ApiService.get(`${EmployeeService.baseUrl[1]}/allownce-setting/`);
+    return res;
+  }
   static async getAddressEmployee(id?: string | number) {
     const res = await ApiService.get(`${EmployeeService.baseUrl[0]}/address-information/${id}`);
     return res;
@@ -83,6 +87,56 @@ export default class EmployeeService {
       `${EmployeeService.baseUrl[0]}/company-information/${id}`,
       data,
     );
+    return res;
+  }
+
+  static async getCompanyEmployee(id?: string | number) {
+    const res = await ApiService.get(`${EmployeeService.baseUrl[0]}/company-information/${id}`);
+    return res;
+  }
+  static async addPostEducation(data: any, id: string | Number) {
+    const res = await ApiService.put(
+      `${EmployeeService.baseUrl[0]}/education-information/${id}`,
+      data,
+    );
+    return res;
+  }
+  static async getEducationEmployee(id?: string | number) {
+    const res = await ApiService.get(`${EmployeeService.baseUrl[0]}/education-information/${id}`);
+    return res;
+  }
+  static async addPostExperience(data: any, id: string | Number) {
+    const res = await ApiService.put(
+      `${EmployeeService.baseUrl[0]}/experience-information/${id}`,
+      data,
+    );
+    return res;
+  }
+  static async getExperienceEmployee(id?: string | number) {
+    const res = await ApiService.get(`${EmployeeService.baseUrl[0]}/experience-information/${id}`);
+    return res;
+  }
+  static async addPostExperties(data: any, id: string | Number) {
+    const res = await ApiService.put(
+      `${EmployeeService.baseUrl[0]}/expertise-information/${id}`,
+      data,
+    );
+    return res;
+  }
+  static async getExpertiesEmployee(id?: string | number) {
+    const res = await ApiService.get(`${EmployeeService.baseUrl[0]}/expertise-information/${id}`);
+    return res;
+  }
+  static async addPostPayroll(data: any, id: string | Number) {
+    const res = await ApiService.put(
+      `${EmployeeService.baseUrl[0]}/payroll-information/${id}`,
+      data,
+    );
+    return res;
+  }
+
+  static async getPayrollEmployee(id?: string | number) {
+    const res = await ApiService.get(`${EmployeeService.baseUrl[0]}/payroll-information/${id}`);
     return res;
   }
   static async addressAddPost(data: any, id: string | Number) {

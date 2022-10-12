@@ -31,10 +31,10 @@ const SingleEmployee = () => {
   const [open, setOpen] = useState(false);
 
   const getSingleEmployeeData = async () => {
-    const res = await EmployeeService.getEmployee(id);
-    if (res.status === 200) {
-      setUser(res?.data);
-    }
+    // const res = await EmployeeService.getEmployee(id);
+    // if (res.status === 200) {
+    //   setUser(res?.data);
+    // }
   };
 
   useEffect(() => {

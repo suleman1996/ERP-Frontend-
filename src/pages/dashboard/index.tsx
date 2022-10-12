@@ -25,6 +25,7 @@ import { rows, columns, selectCountryOptions } from './helper';
 import done from 'new-assets/done.svg';
 import style from './dashboard.module.scss';
 import flagImg from 'new-assets/flag/pakFlag.svg';
+import WeekDay from 'new-components/week-day';
 
 const DashBoard = () => {
   const { control, register } = useForm();
