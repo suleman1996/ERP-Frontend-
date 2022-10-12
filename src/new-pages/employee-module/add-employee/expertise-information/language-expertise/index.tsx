@@ -40,6 +40,8 @@ const LanguageExpertise = ({ formData, setFormData, employeeId, setLanguage }: P
     handleEducation,
     activeEdit,
     handleDeleteIndex,
+    toggle,
+    setToggle,
   } = useLanguage({
     formData,
     setFormData,
@@ -60,7 +62,7 @@ const LanguageExpertise = ({ formData, setFormData, employeeId, setLanguage }: P
             options={languageArray}
             label="Language"
           />
-          <Select
+          {/* <Select
             label="Rate"
             register={register}
             errorMessage={errors?.rate?.message}
@@ -76,7 +78,7 @@ const LanguageExpertise = ({ formData, setFormData, employeeId, setLanguage }: P
                   </option>
                 ))}
             </>
-          </Select>
+          </Select> */}
           <TextField
             name="year"
             label="Year"
@@ -102,6 +104,8 @@ const LanguageExpertise = ({ formData, setFormData, employeeId, setLanguage }: P
           star={' *'}
           name="skills"
           activeEdit={activeEdit}
+          setToggle={setToggle}
+          toggle={toggle}
         />
         <div className={style.btnContainer}>
           <p></p>

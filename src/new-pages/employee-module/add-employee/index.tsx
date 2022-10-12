@@ -26,8 +26,8 @@ const AddEmployee = () => {
   const { employeeId, formData, setFormData, setEmployeeId, employeeDocId, setEmployeeDocId } =
     useAddEmployee();
 
-  const [stepBarActive, setStepBarActive] = useState(['Address']);
-  const [active, setActive] = useState('Address');
+  const [stepBarActive, setStepBarActive] = useState(['Personal']);
+  const [active, setActive] = useState('Personal');
   const [controlWidth, setControlWidth] = useState(0);
 
   const handleNext = (val?: string) => {
@@ -68,14 +68,14 @@ const AddEmployee = () => {
             controlWidth={controlWidth}
           />
         </div>
-        <div className={style.stepper}>
+        <div>
           {active === 'Personal' && (
             <PersonalInformation
               handleNext={handleNext}
               formData={formData}
               employeeDocId={employeeDocId}
-              setEmployeeId={setEmployeeId}
               setEmployeeDocId={setEmployeeDocId}
+              setEmployeeId={setEmployeeId}
               setFormData={setFormData}
             />
           )}
@@ -86,6 +86,8 @@ const AddEmployee = () => {
               formData={formData}
               employeeId={employeeId}
               setFormData={setFormData}
+              employeeDocId={employeeDocId}
+              setEmployeeDocId={setEmployeeDocId}
             />
           )}
           {active === 'Company' && (
@@ -94,6 +96,7 @@ const AddEmployee = () => {
               handleBack={handleBack}
               formData={formData}
               employeeId={employeeId}
+              employeeDocId={employeeDocId}
               setFormData={setFormData}
             />
           )}
@@ -113,6 +116,7 @@ const AddEmployee = () => {
               handleBack={handleBack}
               formData={formData}
               employeeId={employeeId}
+              employeeDocId={employeeDocId}
               setFormData={setFormData}
             />
           )}
@@ -122,11 +126,16 @@ const AddEmployee = () => {
               handleBack={handleBack}
               formData={formData}
               employeeId={employeeId}
+              employeeDocId={employeeDocId}
               setFormData={setFormData}
             />
           )}
           {active === 'Payroll' && (
-            <PayrollInformation employeeId={employeeId} handleBack={handleBack} />
+            <PayrollInformation
+              employeeId={employeeId}
+              handleBack={handleBack}
+              employeeDocId={employeeDocId}
+            />
           )}
         </div>
       </CardContainer>

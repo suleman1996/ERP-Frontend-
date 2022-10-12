@@ -3,7 +3,7 @@ import TextField from 'new-components/textfield';
 import Select from 'new-components/select';
 import Radio from 'new-components/radio';
 
-import { selectCountry, schema, usePayrollDetail, payrollType, payType, roster } from './helper';
+import { selectCountry, usePayrollDetail, payrollType, payType, roster } from './helper';
 
 import tick from 'new-assets/tick.svg';
 import arrowLeft from 'new-assets/backBtn.svg';
@@ -12,10 +12,14 @@ import style from './payroll.module.scss';
 interface Props {
   handleBack: (data?: string) => void;
   employeeId?: string;
+  employeeDocId: string;
 }
 
-const PayrollInformation = ({ handleBack, employeeId }: Props) => {
-  const { onSubmit, register, handleSubmit, errors, control } = usePayrollDetail({ employeeId });
+const PayrollInformation = ({ handleBack, employeeId, employeeDocId }: Props) => {
+  const { onSubmit, register, handleSubmit, errors, control, allowence } = usePayrollDetail({
+    employeeId,
+    employeeDocId,
+  });
 
   return (
     <div className={style.mainForm}>
@@ -39,16 +43,23 @@ const PayrollInformation = ({ handleBack, employeeId }: Props) => {
             errorMessage={errors?.houseRent?.message}
             placeholder="House Rent"
           />
-          <TextField
-            name="conveyanceAllowance"
-            label="Conveyance Allowance"
-            star={' *'}
-            type="number"
-            register={register}
-            errorMessage={errors?.conveyanceAllowance?.message}
-            placeholder="Conveyance Allowance"
-          />
-          <TextField
+          {allowence &&
+            allowence.map((data: any) => {
+              return (
+                <div>
+                  <TextField
+                    name={data.name}
+                    label={`${data.name} Allowence`}
+                    star={' *'}
+                    type="number"
+                    register={register}
+                    errorMessage={errors?.data?.name.message}
+                    placeholder={data.name}
+                  />
+                </div>
+              );
+            })}
+          {/* <TextField
             name="medicalAllowance"
             label="Medical Allowance"
             star={' *'}
@@ -65,7 +76,7 @@ const PayrollInformation = ({ handleBack, employeeId }: Props) => {
             register={register}
             errorMessage={errors?.specialAllowance?.message}
             placeholder="Special Allowance"
-          />
+          /> */}
           <TextField
             name="bankName"
             label="Bank Name"
