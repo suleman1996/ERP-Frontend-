@@ -1,7 +1,7 @@
 import Card from 'components/card';
 import Input from 'components/input';
-import Select from 'components/select';
 import Button from 'components/button';
+import Select from 'new-components/select';
 
 import { Props, useEmployeeFilter } from './helper';
 
@@ -9,12 +9,13 @@ import style from '../employee.module.scss';
 import cross from 'assets/employee-page/Path 307.svg';
 
 const EmployeeFilter = ({ setOpen, setEmployees, open, setCount, getData }: Props) => {
-  const { options, register, handleSubmit, onSubmit, cancelHandler } = useEmployeeFilter({
-    setOpen,
-    setEmployees,
-    setCount,
-    getData,
-  });
+  const { options, register, handleSubmit, onSubmit, cancelHandler, departments, designation } =
+    useEmployeeFilter({
+      setOpen,
+      setEmployees,
+      setCount,
+      getData,
+    });
 
   return (
     <form
@@ -34,28 +35,63 @@ const EmployeeFilter = ({ setOpen, setEmployees, open, setCount, getData }: Prop
         <div className={style.grid1}>
           <Input
             name="name"
+            label="Search By All"
             containerClass={style.order2}
             inputClass={style.input}
             type="text"
             placeholder="Search by Name"
             inputRef={register}
           />
-          <Input
+          {/* <Input
             name="employeeId"
             containerClass={style.order2}
             inputClass={style.input}
             type="text"
             placeholder="Search by Employee ID"
             inputRef={register}
-          />
+          /> */}
           <Select
+            label="Department"
+            // errorMessage={errors?.departmentId?.message}
+            register={register}
+            name="department"
+          >
+            <option value="">Department</option>
+            <>
+              {departments &&
+                departments.map((data: any) => (
+                  <option key={data?._id} value={data?._id}>
+                    {data.name}
+                  </option>
+                ))}
+            </>
+          </Select>
+
+          <Select
+            label="Designation"
+            star={' *'}
+            register={register}
+            name="designation"
+            // errorMessage={errors?.designationId?.message}
+          >
+            <option value="">Designation</option>
+            <>
+              {designation &&
+                designation.map((data: any) => (
+                  <option key={data?.departmentSettingId} value={data?._id}>
+                    {data.name}
+                  </option>
+                ))}
+            </>
+          </Select>
+          {/* <Select
             name="department"
             selectClass={style.select1}
             className={style.selectContainer}
             placeHolder="Select Department"
             options={options}
             inputRef={register}
-          />
+          /> */}
           <Button text="Search" btnClass={style.btn} />
         </div>
       </Card>

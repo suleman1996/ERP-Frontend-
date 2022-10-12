@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -20,7 +20,10 @@ export const useEmployeeFilter = ({ setOpen, setEmployees, setCount, getData }: 
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = async (data: EmployeeFilterData) => {
+  const [departments, setDepartments] = useState<any>();
+  const [designation, setDesignation] = useState<any>();
+
+  const onSubmit = async (data: any) => {
     console.log('data', data);
     const res = await EmployeeService.getSearchedEmployees(data);
     if (res?.status === 200) {
@@ -34,7 +37,25 @@ export const useEmployeeFilter = ({ setOpen, setEmployees, setCount, getData }: 
     getData && getData();
     reset({});
   };
-  return { options, register, handleSubmit, onSubmit, cancelHandler };
+
+  const getAllDepartments = async () => {
+    const res = await EmployeeService.getDepartments();
+    setDepartments(res?.data?.department);
+    console.log('department', res?.data?.department);
+  };
+
+  const getAllDesignations = async () => {
+    const res = await EmployeeService.getDesignation();
+    setDesignation(res?.data?.Designation);
+    console.log('department', res?.data?.Designation);
+  };
+
+  useEffect(() => {
+    getAllDepartments();
+    getAllDesignations();
+  }, []);
+
+  return { options, register, handleSubmit, onSubmit, cancelHandler, departments, designation };
 };
 
 const options = ['Management', 'Development', 'HR', 'QA'];
@@ -43,7 +64,7 @@ const schema = yup
   .object()
   .shape({
     name: yup.string().optional(),
-    employeeId: yup.string().optional(),
+    // employeeId: yup.string().optional(),
     department: yup.string().optional(),
   })
   .required();

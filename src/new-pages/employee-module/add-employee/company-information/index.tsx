@@ -102,7 +102,7 @@ const CompanyInformation = ({
             <>
               {designation &&
                 designation.map((data: any) => (
-                  <option key={data?.departmentSettingId} value={data?.departmentSettingId}>
+                  <option key={data?.departmentSettingId} value={data?._id}>
                     {data.name}
                   </option>
                 ))}
