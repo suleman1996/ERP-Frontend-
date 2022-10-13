@@ -38,5 +38,4 @@ const DeletePopup = ({ open, setOpen, handleDelete, btnLoader }: Props) => {
     </>
   );
 };
-
 export default memo(DeletePopup);

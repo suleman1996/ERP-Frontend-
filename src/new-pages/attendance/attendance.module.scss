@@ -1,0 +1,62 @@
+@import 'styles/_colors.scss';
+@import 'styles/_mixin.scss';
+@import 'styles/_breakpoints.scss';
+
+.btnClass {
+  background-color: $white;
+  border: 1.58382px solid $btn;
+  color: red;
+  margin-right: 10px;
+  &:hover {
+    background-color: $white;
+    border: 1.58382px solid $btn;
+  }
+}
+.className {
+  color: $btn !important;
+}
+.topDiv {
+  display: flex;
+  justify-content: flex-end;
+}
+.p {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  color: #cacaca;
+  padding-left: 10px;
+  margin-bottom: 30px;
+  cursor: pointer;
+}
+.container {
+  margin-top: 14px;
+  margin-bottom: 14px;
+}
+.columnText {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 25px;
+  color: #2d2d32 !important;
+}
+.statusText {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 400;
+}
+.div {
+  display: flex;
+  align-items: center;
+  margin-top: 30px;
+}
+.attendance {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  color: #2d2d32;
+  padding-left: 50px;
+  margin-bottom: 30px;
+  cursor: pointer;
+}

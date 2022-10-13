@@ -70,5 +70,4 @@ const EmployeeProfileCard = ({
     </>
   );
 };
-
 export default EmployeeProfileCard;

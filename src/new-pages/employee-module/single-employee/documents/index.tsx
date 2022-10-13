@@ -40,7 +40,7 @@ const Documents = ({ setOpen, setDocId, setDocument, document, getAllDocuments }
                   }}
                   style={{ marginRight: '10px' }}
                 >
-                  <img src={editIcon} />
+                  <img src={editIcon} width={30} />
                 </div>
                 <div
                   onClick={async () => {
@@ -51,7 +51,7 @@ const Documents = ({ setOpen, setDocId, setDocument, document, getAllDocuments }
                   }}
                   style={{ marginRight: '10px' }}
                 >
-                  <img src={deleteIcon} />
+                  <img src={deleteIcon} width={30} />
                 </div>
                 <div
                   onClick={() => {
@@ -59,7 +59,7 @@ const Documents = ({ setOpen, setDocId, setDocument, document, getAllDocuments }
                   }}
                   style={{ marginRight: '10px' }}
                 >
-                  <img src={pdf} width={40} />
+                  <img src={pdf} width={25} />
                 </div>
               </div>
             ),

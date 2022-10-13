@@ -1,7 +1,7 @@
 import { ReactElement } from 'react';
 
 import Applications from 'pages/applications';
-import Attendance from 'pages/attendance';
+import Attendance from 'new-pages/attendance';
 import Calender from 'pages/calender';
 import Policy from 'new-pages/policy';
 import ClientInfo from 'pages/client-info';
