@@ -11,16 +11,16 @@ import filter from 'assets/filter.svg';
 import style from './request.module.scss';
 import RenderPolicy from 'components/policy-card';
 import TextField from 'new-components/textfield';
-import { Control, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 
 import DeletePopup from 'new-components/delete-modal';
 import DatePicker from 'new-components/date-picker';
-import { DropDownSelect } from 'new-components/drop-down-select';
 
 import Modal from 'new-components/modal';
 import TextArea from 'new-components/textarea';
 import ProfileUpload from 'new-components/profile-upload';
 import Selection from 'my-components/select';
+import RenderPolicySearchView from './policies-search';
 
 const Policy = () => {
   const [selectedTab, setSelectedTab] = useState(0);
@@ -76,6 +76,7 @@ const Policy = () => {
             setOpenAddPolice={setOpenAddPolice}
             setShowFilterView={setShowFilterView}
             showFilterView={showFilterView}
+            options={options}
           />
         ) : (
           <RenderObsolete
@@ -86,6 +87,7 @@ const Policy = () => {
             setSelectedTab={setSelectedTab}
             setShowFilterView={setShowFilterView}
             showFilterView={showFilterView}
+            options={options}
           />
         )}
       </CardContainer>
@@ -160,15 +162,6 @@ const Policy = () => {
     </>
   );
 };
-const RenderPolicySearchView = ({ control }: { control: Control }) => (
-  <div className={style.policySearchView}>
-    <TextField placeholder="Job Title" />
-    <DropDownSelect />
-
-    <DatePicker control={control} name="gg" />
-    <Button text="Search" />
-  </div>
-);
 
 const RenderPoliciesTab = ({
   selectedTab,
@@ -177,6 +170,7 @@ const RenderPoliciesTab = ({
   showFilterView,
   control,
   setOpenAddPolice,
+  options,
 }: {
   selectedTab: any;
   setSelectedTab: any;
@@ -184,6 +178,7 @@ const RenderPoliciesTab = ({
   showFilterView: any;
   control: any;
   setOpenAddPolice: any;
+  options: any;
 }) => (
   <>
     <div className={style.policyHeaderView}>
@@ -222,7 +217,7 @@ const RenderPoliciesTab = ({
         <img style={{ cursor: 'pointer' }} src={del} alt="" className={style.img} />
       </div>
     </div>
-    {showFilterView && <RenderPolicySearchView control={control} />}
+    {showFilterView && <RenderPolicySearchView options={options} control={control} />}
   </>
 );
 
@@ -234,6 +229,7 @@ const RenderAllPolicies = ({
   setSelectedTab,
   setShowFilterView,
   showFilterView,
+  options,
 }: {
   setOpen: any;
   setSelectedTab: any;
@@ -247,6 +243,7 @@ const RenderAllPolicies = ({
       setSelectedTab={setSelectedTab}
       setShowFilterView={setShowFilterView}
       showFilterView={showFilterView}
+      options={options}
     />
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4 , 1fr )' }}>
       {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((item) => (
@@ -264,6 +261,7 @@ const RenderObsolete = ({
   setSelectedTab,
   setShowFilterView,
   showFilterView,
+  options,
 }: {
   [key: string]: any;
 }) => (
@@ -275,6 +273,7 @@ const RenderObsolete = ({
       setSelectedTab={setSelectedTab}
       setShowFilterView={setShowFilterView}
       showFilterView={showFilterView}
+      options={options}
     />
   </div>
 );
