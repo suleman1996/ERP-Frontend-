@@ -219,10 +219,11 @@ const CompanyInformation = ({
               errorMessage={errors?.workingHours?.message}
               type={type}
               setType={setType}
+              star={' *'}
             />
           )}
         </div>
-        <WeekDay check={check} setCheck={setCheck} />
+        <WeekDay check={check} setCheck={setCheck} star={' *'} />
         {/* <TextArea
           name="note"
           label="Note "
