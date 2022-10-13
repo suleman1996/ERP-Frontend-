@@ -106,9 +106,9 @@ const PayrollInformation = ({ handleBack, employeeId, employeeDocId }: Props) =>
           />
           <Select
             label="Pay Type"
-            name={'paytype'}
+            name={'payType'}
             star={' *'}
-            errorMessage={errors?.paytype?.message}
+            errorMessage={errors?.payType?.message}
             register={register}
           >
             <option value="">Pay Type</option>
@@ -123,9 +123,9 @@ const PayrollInformation = ({ handleBack, employeeId, employeeDocId }: Props) =>
           </Select>
           <Select
             label="Payroll Type"
-            name={'payrolltype'}
+            name={'payRollType'}
             star={' *'}
-            errorMessage={errors?.payrolltype?.message}
+            errorMessage={errors?.payRollType?.message}
             register={register}
           >
             <option value="">Attendance</option>

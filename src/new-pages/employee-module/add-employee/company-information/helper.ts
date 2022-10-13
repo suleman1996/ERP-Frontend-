@@ -58,10 +58,8 @@ export const useCompanyInfo = ({
   const { register, handleSubmit, errors, control, reset, watch, setError } = useForm();
 
   useEffect(() => {
-    console.log('formdata', formData);
-    // (id || employeeDocId) && getSingleEmployeeData();
-    id && getSingleEmployeeData();
-  }, []);
+    id && leaves && getSingleEmployeeData();
+  }, [leaves]);
 
   useEffect(() => {
     formData?.companyInformation &&
@@ -72,14 +70,16 @@ export const useCompanyInfo = ({
 
   const getSingleEmployeeData = async () => {
     const res = await EmployeeService.getCompanyEmployee(id || employeeDocId);
-    /////////  will be used is future////////////
-    // console.log('doc id', employeeDocId);
-    // console.log('res data', res.data.company);
-    // reset({
-    //   ...res?.data?.company,
-    //   joiningDate: moment(res?.data?.company?.joiningDate).format('YYYY-DD-MM'),
-    // });
-    // setCheck(res?.data?.company?.workingDaysInWeek);
+    reset({
+      ...res?.data?.company,
+      joiningDate: moment(res?.data?.company?.joiningDate).toDate(),
+      probation: res?.data?.company?.active,
+      ...leaves?.reduce((acc: { [key: string]: any }, leave: any) => {
+        const leaveData = res?.data?.company?.leaves?.find((e: any) => e.leaveId === leave._id);
+        return { ...acc, [leave.name]: leaveData?.quantity };
+      }, {}),
+    });
+    setCheck(res?.data?.company?.workingDaysInWeek);
   };
 
   const onSubmit = async (data: Data) => {
@@ -88,7 +88,6 @@ export const useCompanyInfo = ({
       setFormData({ ...formData, companyInformation: { ...data } });
       removeKeys(data, ['startDate', 'endDate']);
       const { joiningDate, checkIn, probation, workingTime, checkOut, workingHours } = data;
-      console.log('id', data);
       let user: any = {
         ...data,
         joiningDate: moment(joiningDate).format('YYYY-MM-DD'),
@@ -111,7 +110,7 @@ export const useCompanyInfo = ({
       };
       removeKeys(user, ['department', 'designation', ...leaves.map((leave: Leave) => leave.name)]);
       if (id) {
-        const res = await EmployeeService.addPostCompany(user, employeeDocId);
+        const res = await EmployeeService.addPostCompany(user, id);
         if (res.status === 200) {
           handleNext('Education');
         }

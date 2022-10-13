@@ -83,19 +83,23 @@ export const usePayrollDetail = ({ employeeId, employeeDocId }: Props) => {
   };
 
   const getUser = async () => {
-    const res = await EmployeeService.getPayrollEmployee(employeeDocId);
-    const { accountHolderName, accountNumber, bankName, basicSalary } = res?.data?.payrollDetail;
+    const res = await EmployeeService.getPayrollEmployee(id ? id : employeeDocId);
+    console.log('res payroll', res.data);
     reset({
-      basicSalary,
-      bankName,
-      accountHolderName,
-      accountNumber,
+      ...res?.data?.Payroll,
+      ...allowence?.reduce((acc: { [key: string]: any }, data: any) => {
+        const allowanceData = res?.data?.Payroll?.allownce?.find(
+          (e: any) => e.allowanceId === data._id,
+        );
+        console.log('123123123123', { data: res.data, dataAll: data, allowanceData });
+        return { ...acc, [data.name]: allowanceData?.amount };
+      }, {}),
     });
   };
 
   useEffect(() => {
     id && getUser();
-  }, []);
+  }, [allowence, id]);
 
   useEffect(() => {
     getAllAllowence();

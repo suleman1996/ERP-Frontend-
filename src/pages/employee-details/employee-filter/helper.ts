@@ -25,10 +25,11 @@ export const useEmployeeFilter = ({ setOpen, setEmployees, setCount, getData }: 
 
   const onSubmit = async (data: any) => {
     console.log('data', data);
-    const res = await EmployeeService.getSearchedEmployees(data);
+    const res = await EmployeeService.getAllEmployees(data);
+    console.log('filter', res.data?.employees);
     if (res?.status === 200) {
       setEmployees && setEmployees(res?.data.employees);
-      setCount && setCount(res?.data.count);
+      setCount && setCount(res?.data.employees[0].count);
     }
   };
 

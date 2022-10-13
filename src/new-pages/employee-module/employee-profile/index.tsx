@@ -86,7 +86,7 @@ const EmployeeProfileDetails = () => {
             iconStart={plus}
           />
         </div>
-        <EmployeeFilter open={openFilter} setOpen={setOpenFilter} />
+        <EmployeeFilter open={openFilter} setOpen={setOpenFilter} setCount={setCount} />
 
         <div className={style.cardSection}>
           {employees?.map(

@@ -65,12 +65,10 @@ export const useEducationDetail = ({
       if (id) {
         if (educations?.length) {
           const userData = {
-            type: 4,
             educationDetails: [...educations],
-            employeeId: employeeId.toUpperCase(),
           };
           const res = await EmployeeService.addPostEducation(userData, id);
-          if (res.status === 201) {
+          if (res.status === 200) {
             handleNext && handleNext('Experience');
           }
         }
@@ -149,8 +147,7 @@ export const useEducationDetail = ({
   };
 
   const getUser = async () => {
-    const res = await EmployeeService.getEducationEmployee(employeeDocId);
-    console.log('res asasasas', res?.data?.education);
+    const res = await EmployeeService.getEducationEmployee(employeeDocId || id);
 
     const data = res.data.education.map((item: any, index: number) => {
       return {
