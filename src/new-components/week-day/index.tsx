@@ -7,9 +7,10 @@ import style from './week-day.module.scss';
 interface Props {
   check?: any;
   setCheck: (data?: any) => void;
+  star?: string;
 }
 
-const WeekDay = ({ check, setCheck }: Props) => {
+const WeekDay = ({ check, setCheck, star }: Props) => {
   const handleCheckboxChange = (index: number) => {
     setCheck((prevState: any) =>
       prevState.includes(index) ? prevState.filter((e: any) => e !== index) : [...prevState, index],
@@ -18,7 +19,10 @@ const WeekDay = ({ check, setCheck }: Props) => {
 
   return (
     <div className={style.wraper}>
-      <label>Working Days</label>
+      <label>
+        Working Days
+        <b style={{ color: 'red' }}>{star}</b>
+      </label>
       <table style={{ marginTop: '10px' }}>
         <tr>
           {days.map((ele, index) => {
