@@ -57,3 +57,12 @@ select option:checked {
     width: 100%;
   }
 }
+
+.containerWraper {
+  p {
+    display: flex;
+    align-items: center;
+    border-left: 1px solid lightgray;
+    padding-left: 10px;
+  }
+}

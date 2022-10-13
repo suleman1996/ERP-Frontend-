@@ -24,6 +24,7 @@ interface Props {
   formData: any;
   setFormData: any;
   employeeId: string;
+  employeeDocId: string;
 }
 
 export interface Skill {
@@ -60,6 +61,7 @@ const ExpertiseInformation = ({
   setFormData,
   handleNext,
   handleBack,
+  employeeDocId,
 }: Props) => {
   const { id } = useParams();
   const [btnLoader, setBtnLoader] = useState(false);
@@ -70,54 +72,57 @@ const ExpertiseInformation = ({
   //for husky
   const onSubmit = async () => {
     setBtnLoader(true);
-    const userData = {
-      expertiseDetails: {
-        skills: skillData,
-        languages: language,
-        certificates: certificate,
-      },
-      employeeId: employeeId.toUpperCase(),
-      type: 6,
-    };
-    if (id) {
-      const res = await EmployeeService.updateAddedEmployee(userData, id);
-      if (res.status === 200) {
-        handleNext('Payroll');
-      }
-    } else {
-      if (skillData.length > 0) {
-        setActive(1);
-      }
-      if (language.length > 0) {
-        setActive(2);
-      }
-
-      if (skillData.length > 0 && language.length > 0 && certificate.length > 0) {
-        const res = await EmployeeService.addEmployee({ ...userData });
-        if (res.status === 201) {
+    try {
+      const userData = {
+        expertiseDetails: {
+          skills: skillData,
+          languages: language,
+          certificates: certificate,
+        },
+      };
+      if (id) {
+        const res = await EmployeeService.addPostExperties(userData, id);
+        if (res.status === 200) {
           handleNext('Payroll');
         }
+      } else {
+        if (skillData.length > 0) {
+          setActive(1);
+        }
+        if (language.length > 0) {
+          setActive(2);
+        }
+
+        if (skillData.length > 0 && language.length > 0 && certificate.length > 0) {
+          const res = await EmployeeService.addPostExperties({ ...userData }, employeeDocId);
+          if (res.status === 200) {
+            handleNext('Payroll');
+          }
+        }
       }
+    } catch (err) {
+      console.log(err);
     }
     setBtnLoader(false);
   };
 
   const getUser = async () => {
-    const res = await EmployeeService.getEmployee(id);
-    const data = res?.data?.languages.map((item: any) => {
-      removeKeys(item, ['_id']);
-      return item;
-    });
-    setLanguage((current) => [...current, ...data]);
-    const dataa = res?.data?.certificates.map((item: any) => {
-      removeKeys(item, ['_id']);
-      return item;
-    });
-    setCertificate((current) => [...current, ...dataa]);
+    const res = await EmployeeService.getExpertiesEmployee(employeeDocId);
+    console.log('res pes ', res.data);
+    // const data = res?.data?.languages.map((item: any) => {
+    //   removeKeys(item, ['_id']);
+    //   return item;
+    // });
+    // setLanguage((current) => [...current, ...data]);
+    // const dataa = res?.data?.certificates.map((item: any) => {
+    //   removeKeys(item, ['_id']);
+    //   return item;
+    // });
+    // setCertificate((current) => [...current, ...dataa]);
   };
 
   useEffect(() => {
-    id && getUser();
+    (id || employeeDocId) && getUser();
   }, [id]);
 
   return (

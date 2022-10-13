@@ -17,7 +17,6 @@ const Experience = ({ date, company, job, intro }: Props) => {
         </div>
         <div className={style.right}>
           <h5>{job}</h5>
-          <p>{intro}</p>
         </div>
       </div>
     </div>

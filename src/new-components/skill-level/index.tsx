@@ -9,10 +9,11 @@ interface Props {
   name: string;
   activeEdit?: number | string;
   star?: string;
+  setToggle?: any;
+  toggle?: number;
 }
 
-const SkillLevel = ({ errors, control, name, activeEdit, star }: Props) => {
-  const [toggle, setToggle] = useState<number>();
+const SkillLevel = ({ errors, control, name, activeEdit, star, setToggle, toggle }: Props) => {
   const { field } = useController({
     control,
     name,

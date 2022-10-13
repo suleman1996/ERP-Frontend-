@@ -5,10 +5,10 @@ import arrow from 'new-assets/arrow-left.svg';
 import style from './employee-dropdown.module.scss';
 
 interface Props {
-  setOpenModal: Dispatch<SetStateAction<boolean>>;
-  setOpenModalProfile: Dispatch<SetStateAction<boolean>>;
+  setOpenModal?: Dispatch<SetStateAction<boolean>>;
+  setOpenModalProfile?: Dispatch<SetStateAction<boolean>>;
   handleClick?: () => any;
-  id: string;
+  id?: string;
 }
 
 const EmployeeDropdown = ({ setOpenModal, setOpenModalProfile, id, handleClick }: Props) => {
@@ -17,9 +17,9 @@ const EmployeeDropdown = ({ setOpenModal, setOpenModalProfile, id, handleClick }
   const profile = [
     {
       text: 'Profile View ',
-      click: () => setOpenModalProfile(true),
+      click: () => setOpenModalProfile && setOpenModalProfile(true),
     },
-    { text: 'CV View', click: () => setOpenModal(true) },
+    { text: 'CV View', click: () => setOpenModal && setOpenModal(true) },
     { text: 'More Details', icon: arrow, click: () => navigate(`/employee/${id}`) },
   ];
 

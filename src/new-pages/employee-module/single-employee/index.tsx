@@ -24,37 +24,43 @@ type User = {
 };
 const SingleEmployee = () => {
   const navigate = useNavigate();
-  const [user, setUser] = useState<User>();
+  const [user, setUser] = useState<any>();
   const { id } = useParams();
-
+  const [document, setDocument] = useState<any>();
+  const [docId, setDocId] = useState<any>();
   const [active, setActive] = useState(0);
   const [open, setOpen] = useState(false);
+  const [userData, setUserData] = useState<any>();
 
-  const getSingleEmployeeData = async () => {
-    const res = await EmployeeService.getEmployee(id);
-    if (res.status === 200) {
-      setUser(res?.data);
-    }
+  const getSingleEmployee = async () => {
+    const res = await EmployeeService.getOverView(id);
+    setUserData(res?.data);
+  };
+
+  const getAllDocuments = async () => {
+    const res = await EmployeeService.getAllDocuments(id);
+    setDocument(res?.data);
   };
 
   useEffect(() => {
-    getSingleEmployeeData();
+    getSingleEmployee();
+    getAllDocuments();
   }, []);
 
   const positions = [
     {
       title: 'Position',
-      subtitle: user?.companyInformation.department,
+      subtitle: userData?.designation,
       class: style.b1,
     },
     {
       title: 'Age',
-      subtitle: '25',
+      subtitle: userData?.ageInYear,
       class: style.b2,
     },
     {
       title: 'Experience',
-      subtitle: '2 Years',
+      subtitle: +userData?.totalExperince,
       class: style.b3,
     },
   ];
@@ -70,15 +76,15 @@ const SingleEmployee = () => {
           <div className={style.leftDiv}>
             <div className={style.imgDiv}>
               <img
-                src={user?.personalInformation?.img ? user?.personalInformation?.img : profile}
-                alt=""
+                src={userData?.profilePicture ? userData?.profilePicture : profile}
+                alt="asda"
                 className={style.proDiv}
               />
               <img src={edit} alt="" className={style.edit} />
             </div>
             <div className={style.content}>
               <div>
-                <h6>{`${user?.personalInformation.firstName}  ${user?.personalInformation.lastName}`}</h6>
+                <h6>{`${userData?.fullName}`}</h6>
                 <Link to={`/employee/edit/${id}`}>
                   <img src={pencil} alt="" />
                 </Link>
@@ -118,12 +124,32 @@ const SingleEmployee = () => {
         </div>
       </div>
       <div style={{ padding: '10px 20px' }}>
-        {active === 0 && <Overview user={user} />}
+        {active === 0 && <Overview user={userData} />}
         {active === 1 && <Attendance user={user} />}
-        {active === 2 && <SalaryInformation user={user} />}
-        {active === 3 && <Documents user={user} />}
+        {active === 2 && <SalaryInformation />}
+        {active === 3 && (
+          <Documents
+            setOpen={setOpen}
+            setDocId={setDocId}
+            setDocument={setDocument}
+            document={document}
+            getAllDocuments={getAllDocuments}
+          />
+        )}
       </div>
-      <AddDocument open={open} setOpen={setOpen} />
+      {open ? (
+        <AddDocument
+          open={open}
+          setOpen={() => {
+            setOpen(false);
+            setDocId(false);
+          }}
+          docId={docId}
+          getAllDocuments={getAllDocuments}
+        />
+      ) : (
+        <></>
+      )}
     </CardContainer>
   );
 };

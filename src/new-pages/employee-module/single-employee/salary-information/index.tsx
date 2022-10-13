@@ -2,28 +2,42 @@ import CardContainer from 'new-components/card-container';
 import Table from 'new-components/table';
 
 import { rows, columns } from './helper';
+import EmployeeService from 'services/employee-service';
 
 import style from './salary.module.scss';
+import { useParams } from 'react-router';
+import { useEffect, useState } from 'react';
 
-const SalaryInformation = ({ user }: any) => {
+const SalaryInformation = () => {
+  const { id } = useParams();
+  const [user, setUser] = useState<any>();
   const SalaryInformationDetails = [
     {
       title: 'Basic Salary:',
-      subtitle: `${user?.payrollDetail?.basicSalary}`,
+      subtitle: user?.basicSalary,
     },
     {
       title: 'Bank Name:',
-      subtitle: `${user?.payrollDetail?.bankName}`,
+      subtitle: user?.bankName,
     },
     {
       title: 'Account Holder Name:',
-      subtitle: `${user?.payrollDetail?.accountHolderName}`,
+      subtitle: user?.accountTitle,
     },
     {
       title: 'Account Number:',
-      subtitle: `${user?.payrollDetail?.accountNumber}`,
+      subtitle: user?.accountNumber,
     },
   ];
+
+  const getSalaryInfo = async () => {
+    const res = await EmployeeService.getSalary(id);
+    setUser(res?.data);
+  };
+
+  useEffect(() => {
+    getSalaryInfo();
+  }, []);
 
   return (
     <>
@@ -46,7 +60,7 @@ const SalaryInformation = ({ user }: any) => {
       </CardContainer>
       <CardContainer className={style.card}>
         <p className={style.p}>Salary Information</p>
-        <Table rows={rows} columns={columns} minWidth="800px" />
+        <Table rows={user?.salarySummary} columns={columns} minWidth="800px" />
       </CardContainer>
     </>
   );

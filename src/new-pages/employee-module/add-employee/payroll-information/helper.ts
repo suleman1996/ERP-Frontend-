@@ -23,89 +23,92 @@ interface Data {
 
 interface Props {
   employeeId?: string;
+  employeeDocId: string;
 }
 
-export const usePayrollDetail = ({ employeeId }: Props) => {
+export const usePayrollDetail = ({ employeeId, employeeDocId }: Props) => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const [allowence, setAllowence] = useState<any>();
   const [btnLoader, setBtnLoader] = useState(false);
 
-  const { register, handleSubmit, errors, control, reset } = useForm({
-    resolver: yupResolver(schema),
-  });
+  const { register, handleSubmit, errors, control, reset } = useForm();
 
-  const onSubmit = async ({
-    basicSalary,
-    houseRent,
-    conveyanceAllowance,
-    medicalAllowance,
-    specialAllowance,
-    bankName,
-    accountNumber,
-    accountHolderName,
-    paytype,
-    payrolltype,
-    yes,
-    roaster,
-  }: Data) => {
+  const onSubmit = async (data: any) => {
+    const {
+      basicSalary,
+      houseRent,
+      bankName,
+      accountNumber,
+      accountHolderName,
+      paytype,
+      payrolltype,
+      yes,
+      roaster,
+    } = data;
     setBtnLoader(true);
-    const userData = {
-      type: 7,
-      employeeId: employeeId?.toUpperCase(),
-      payrollDetail: {
-        basicSalary,
-        houseRentAllowance: houseRent,
-        conveyanceAllowance,
-        medicalAllowance,
-        spacialAllowance: specialAllowance,
-        bankName,
-        accountHolderName,
-        accountNumber: accountNumber.toString(),
-        payType: paytype,
-        payRollType: payrolltype,
-        overtimeApplicable: yes,
-        roaster,
-      },
-    };
+    try {
+      const userData = {
+        payrollDetails: {
+          basicSalary,
+          houseRentAllowance: houseRent,
+          bankName,
+          accountHolderName,
+          accountNumber: accountNumber.toString(),
+          payType: paytype,
+          payRollType: payrolltype,
+          overtimeApplicable: yes,
+          roaster,
+          allownce: allowence.map((item: any) => {
+            return {
+              allowanceId: item?._id,
+              amount: data[item.name],
+            };
+          }),
+        },
+      };
 
-    if (id) {
-      const res = await EmployeeService.updateAddedEmployee(userData, id);
-    } else {
-      const res = await EmployeeService.addEmployee({ ...userData });
-      if (res.status === 201) {
-        navigate('/employee');
+      if (id) {
+        const res = await EmployeeService.addPostPayroll(userData, id);
+      } else {
+        const res = await EmployeeService.addPostPayroll({ ...userData }, employeeDocId);
+        if (res.status === 200) {
+          navigate('/employee');
+        }
       }
+    } catch (err) {
+      console.log(err);
     }
     setBtnLoader(false);
   };
 
   const getUser = async () => {
-    const res = await EmployeeService.getEmployee(id);
-    const {
-      accountHolderName,
-      accountNumber,
-      bankName,
-      basicSalary,
-      conveyanceAllowance,
-      houseRentAllowance,
-      medicalAllowance,
-      spacialAllowance,
-    } = res?.data?.payrollDetail;
+    const res = await EmployeeService.getPayrollEmployee(id ? id : employeeDocId);
+    console.log('res payroll', res.data);
     reset({
-      basicSalary,
-      houseRent: houseRentAllowance,
-      conveyanceAllowance,
-      medicalAllowance,
-      specialAllowance: spacialAllowance,
-      bankName,
-      accountHolderName,
-      accountNumber,
+      ...res?.data?.Payroll,
+      ...allowence?.reduce((acc: { [key: string]: any }, data: any) => {
+        const allowanceData = res?.data?.Payroll?.allownce?.find(
+          (e: any) => e.allowanceId === data._id,
+        );
+        console.log('123123123123', { data: res.data, dataAll: data, allowanceData });
+        return { ...acc, [data.name]: allowanceData?.amount };
+      }, {}),
     });
   };
 
   useEffect(() => {
     id && getUser();
+  }, [allowence, id]);
+
+  useEffect(() => {
+    getAllAllowence();
   }, []);
+
+  const getAllAllowence = async () => {
+    const res = await EmployeeService.getAllowence();
+    setAllowence(res?.data?.Allownce);
+  };
 
   return {
     onSubmit,
@@ -113,28 +116,9 @@ export const usePayrollDetail = ({ employeeId }: Props) => {
     handleSubmit,
     errors,
     control,
+    allowence,
   };
 };
-
-export const schema = yup.object().shape({
-  basicSalary: yup.string().required('Basic salary is a required field'),
-  houseRent: yup.string().required('House rent is a required field'),
-  conveyanceAllowance: yup.string().required('Convance allowance is a required field'),
-  medicalAllowance: yup.string().required('Medical allowance is a required field'),
-  specialAllowance: yup.string().required('Special allowance is a required field'),
-  bankName: yup.string().required('Bank name is a required field'),
-  accountHolderName: yup.string().required('Account holder name is a required field'),
-  accountNumber: yup
-    .number()
-    .required()
-    .typeError('Account number is a required field')
-    .min(1111111111, 'Minimun 10 digits are required')
-    .max(99999999999999999999, 'Maximum 20 digits are required'),
-  payrolltype: yup.string().required('Payroll type is a required field'),
-  paytype: yup.string().required('Paytype is a required field'),
-  roaster: yup.string().required('Roster is a required field'),
-  yes: yup.string().required(),
-});
 
 export const selectCountry = [
   {

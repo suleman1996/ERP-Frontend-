@@ -1,6 +1,6 @@
 export const columns = [
   {
-    key: 'documentName',
+    key: 'name',
     name: 'Document Name',
     alignText: 'center',
     width: '50px',
@@ -12,12 +12,12 @@ export const columns = [
     width: '150px',
   },
   {
-    key: 'status',
+    key: 'fileRefType',
     name: 'Status',
     alignText: 'center',
     width: '150px',
   },
-  { key: 'actions', name: 'Actions', alignText: 'center', width: '200px' },
+  { key: 'documentActions', name: 'Actions', alignText: 'center', width: '200px' },
 ];
 
 export const rows = [
