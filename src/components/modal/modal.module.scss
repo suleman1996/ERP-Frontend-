@@ -52,10 +52,10 @@
     }
 
     .body {
-      padding-top: calc(12px + (89 - 12) * (100vw - 280px) / (2560 - 280));
-      padding-bottom: calc(12px + (67 - 12) * (100vw - 280px) / (2560 - 280));
-      padding-right: calc(18px + (65 - 18) * (100vw - 280px) / (2560 - 280));
-      padding-left: calc(18px + (61 - 18) * (100vw - 280px) / (2560 - 280));
+      // padding-top: calc(12px + (89 - 12) * (100vw - 280px) / (2560 - 280));
+      // padding-bottom: calc(12px + (67 - 12) * (100vw - 280px) / (2560 - 280));
+      // padding-right: calc(18px + (65 - 18) * (100vw - 280px) / (2560 - 280));
+      // padding-left: calc(18px + (61 - 18) * (100vw - 280px) / (2560 - 280));
 
       .btnClass {
         display: flex;

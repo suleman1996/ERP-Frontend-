@@ -43,6 +43,7 @@ interface Props {
   setFilters?: boolean;
   sorts?: boolean;
   setSorts?: boolean;
+  headingText?: string;
 }
 
 const Table = ({
@@ -65,6 +66,7 @@ const Table = ({
   apiCall,
   filters,
   sorts,
+  headingText,
 }: Props) => {
   const [isFilter, setIsFilter] = useState<string | number>('');
   const [isFilterSelected, setIsFilterSelected] = useState<string | number>('');
@@ -112,15 +114,15 @@ const Table = ({
                   }}
                 >
                   <p>
-                    <span className={style.headingTitle}>{column.name}</span>
+                    <span className={`${style.headingTitle} ${headingText}`}>{column.name}</span>
                     {column.icon && (
                       <img
                         src={isFilterSelected === index ? column.selectedIcon : column.icon}
                         className={style.sortIcon}
-                        alt="sortIcon"
-                        onClick={() => {
-                          toggleFilter(index);
-                        }}
+                        alt=""
+                        // onClick={() => {
+                        //   toggleFilter(index);
+                        // }}
                         style={{
                           position: 'relative',
                           top: '3px',
@@ -160,7 +162,7 @@ const Table = ({
                     style={{
                       minWidth: column?.width ? column?.width : '250px',
                       textAlign: column?.alignText,
-                      padding: '14px 10px',
+                      padding: '12px 10px',
                       width: '100%',
                     }}
                     className={`${style.td}  ${className}`}
@@ -171,17 +173,17 @@ const Table = ({
                       (row?.isActive !== false ? (
                         <>
                           <img
+                            onClick={() => handleDeleteIcon({ id: row.id, index })}
+                            className={style.pencilIcon}
+                            src={deleteIcon}
+                            alt="deleteIcon"
+                          />
+                          <img
                             className={style.pencilIcon}
                             data-testid="edit-element"
                             onClick={() => handlePencilIcon({ id: row.id, index })}
                             src={editIcon}
                             alt="editIcon"
-                          />
-                          <img
-                            onClick={() => handleDeleteIcon({ id: row.id, index })}
-                            className={style.pencilIcon}
-                            src={deleteIcon}
-                            alt="deleteIcon"
                           />
                         </>
                       ) : (
