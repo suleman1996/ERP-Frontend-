@@ -412,3 +412,17 @@ ul {
   background-color: #265828;
   // border-radius: 5px;
 }
+
+.gridView {
+  // display: flex;
+  @include gridTwo(50, 50);
+  margin-bottom: 20px;
+}
+
+.gridView1 {
+  margin-bottom: 20px;
+}
+
+.wraperSelect {
+  margin-top: 10px;
+}

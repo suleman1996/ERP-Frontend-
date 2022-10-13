@@ -4,10 +4,11 @@ export const SelectionStyle = {
     backgroundColor: 'bg-dark-gray',
     borderRadius: 5,
     boxShadow: 'none',
-    border: '1px solid grey',
+    border: '1px solid #E2E2EA',
     fontSize: '12px',
     fontFamily: 'SF-regular',
-    height: 45,
+    // height: 45,
+    padding: '2px',
   }),
   option: (styles: any, { data, isDisabled, isFocused, isSelected }: any) => {
     return {
@@ -19,8 +20,8 @@ export const SelectionStyle = {
   },
   placeholder: (styles: any) => ({
     ...styles,
-    fontSize: 19,
-    fontFamily: 'SF-regular',
-    color: '#fffff',
+    fontSize: '13px',
+    // fontFamily: 'SF-regular',
+    color: '#CACACA',
   }),
 };

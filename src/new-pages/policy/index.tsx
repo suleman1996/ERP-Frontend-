@@ -12,15 +12,55 @@ import style from './request.module.scss';
 import RenderPolicy from 'components/policy-card';
 import TextField from 'new-components/textfield';
 import { useForm } from 'react-hook-form';
-import DeletePolicie from './delete-policy';
+
+import DeletePopup from 'new-components/delete-modal';
 import DatePicker from 'new-components/date-picker';
 import { DropDownSelect } from 'new-components/drop-down-select';
+
+import Modal from 'new-components/modal';
+import TextArea from 'new-components/textarea';
+import ProfileUpload from 'new-components/profile-upload';
+import Selection from 'my-components/select';
 
 const Policy = () => {
   const [selectedTab, setSelectedTab] = useState(0);
   const [showFilterView, setShowFilterView] = useState(false);
 
   const [open, setOpen] = useState(false);
+  const [openAddPolice, setOpenAddPolice] = useState(false);
+
+  const options = [
+    { value: 'Ali', label: 'Ali' },
+    { value: 'Umair', label: 'Umair' },
+    { value: 'Faizan', label: 'Faizan' },
+  ];
+
+  const multiOptions = [
+    {
+      options: [
+        { value: '1', label: 'Ali' },
+        { value: '2', label: 'Umair' },
+        { value: '3', label: 'Faizan' },
+      ],
+      label: 'HR',
+    },
+    {
+      options: [
+        { value: '4', label: 'Ibtassam' },
+        { value: '5', label: 'Suleman' },
+        { value: '6', label: 'Haseeb' },
+      ],
+      label: 'IT',
+    },
+    {
+      options: [
+        { value: '7', label: 'Maira' },
+        { value: '8', label: 'Huda' },
+        { value: '9', label: 'Fatima' },
+      ],
+      label: 'SE',
+    },
+  ];
 
   const { control } = useForm();
 
@@ -69,7 +109,7 @@ const Policy = () => {
             className={style.img}
           />
           <Button
-            handleClick={() => console.log('clicked')}
+            handleClick={() => setOpenAddPolice(true)}
             iconStart={plusIcon}
             text="Add Policy"
           />
@@ -100,7 +140,74 @@ const Policy = () => {
   return (
     <>
       <CardContainer>{selectedTab == 0 ? <RenderAllPolicies /> : <RenderObsolete />}</CardContainer>
-      <DeletePolicie setOpen={setOpen} visible={open} />
+
+      <DeletePopup setOpen={setOpen} open={open} />
+      {/* <AddPolicy /> */}
+      <Modal
+        open={openAddPolice}
+        text="Done"
+        iconEnd={undefined}
+        title="Add Policy"
+        handleClose={() => setOpenAddPolice(false)}
+      >
+        <div className={style.gridView}>
+          <TextField label="Name" placeholder="Enter Policy Name" star=" *" />
+          <TextField label="Policy Number" placeholder="Enter Policy Name" star=" *" />
+        </div>
+        <div className={style.gridView}>
+          <TextField label="Version" placeholder="Enter Policy Version" star=" *" />
+          <TextField label="Category" placeholder="Enter Policy Category" star=" *" />
+        </div>
+        <div className={style.gridView}>
+          <DatePicker label="Effective Date" control={control} name="Effective Date" star=" *" />
+          <Selection
+            wraperSelect={style.wraperSelect}
+            label="Prepared By"
+            placeholder="Prepared By"
+            options={options}
+            star=" *"
+            onChange={(item) => console.log(item)}
+          />
+        </div>
+        <div className={style.gridView}>
+          <Selection
+            wraperSelect={style.wraperSelect}
+            label="Reviewed By"
+            placeholder="Reviewed By"
+            options={options}
+            star=" *"
+            onChange={(item) => console.log(item)}
+          />
+
+          <Selection
+            wraperSelect={style.wraperSelect}
+            label="Approved By"
+            placeholder="Approved By"
+            options={options}
+            star=" *"
+            onChange={(item) => console.log(item)}
+          />
+        </div>
+
+        <div className={style.gridView}>
+          {/* <TextField label="Applies to" placeholder="MSDD  Applies to" star=" *" /> */}
+
+          <Selection
+            wraperSelect={style.wraperSelect}
+            label="Applies to"
+            placeholder="Applies to"
+            options={multiOptions}
+            star=" *"
+            onChange={(item) => console.log(item)}
+            closeMenuOnSelect={false}
+            isMulti={true}
+          />
+          <ProfileUpload />
+        </div>
+        <div className={style.gridView1}>
+          <TextArea label="Discription" placeholder="Enter Discription" star=" *" />
+        </div>
+      </Modal>
     </>
   );
 };
