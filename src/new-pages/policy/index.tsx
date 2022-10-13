@@ -11,7 +11,7 @@ import filter from 'assets/filter.svg';
 import style from './request.module.scss';
 import RenderPolicy from 'components/policy-card';
 import TextField from 'new-components/textfield';
-import { useForm } from 'react-hook-form';
+import { Control, useForm } from 'react-hook-form';
 
 import DeletePopup from 'new-components/delete-modal';
 import DatePicker from 'new-components/date-picker';
@@ -64,82 +64,31 @@ const Policy = () => {
 
   const { control } = useForm();
 
-  const RenderPolicySearchView = () => (
-    <div className={style.policySearchView}>
-      <TextField placeholder="Job Title" />
-      <DropDownSelect />
-
-      <DatePicker control={control} name="gg" />
-      <Button text="Search" />
-    </div>
-  );
-
-  const RenderPoliciesTab = () => (
-    <>
-      <div className={style.policyHeaderView}>
-        <div className={style.headerTitleView}>
-          <p
-            onClick={() => setSelectedTab(0)}
-            style={{
-              fontSize: '16px',
-              fontWeight: 600,
-              color: selectedTab == 0 ? '#2D2D32' : '#CACACA',
-            }}
-          >
-            All Policies
-          </p>
-          <p
-            onClick={() => setSelectedTab(1)}
-            style={{
-              fontSize: '16px',
-              fontWeight: 600,
-              color: selectedTab == 1 ? '#2D2D32' : '#CACACA',
-              marginLeft: 20,
-            }}
-          >
-            Obsolete
-          </p>
-        </div>
-        <div className={style.addPolicyView}>
-          <img
-            onClick={() => setShowFilterView(!showFilterView)}
-            style={{ cursor: 'pointer' }}
-            src={filter}
-            alt=""
-            className={style.img}
-          />
-          <Button
-            handleClick={() => setOpenAddPolice(true)}
-            iconStart={plusIcon}
-            text="Add Policy"
-          />
-          <img style={{ cursor: 'pointer' }} src={del} alt="" className={style.img} />
-        </div>
-      </div>
-      {showFilterView && <RenderPolicySearchView />}
-    </>
-  );
-
-  const RenderAllPolicies = () => (
-    <div className={style.policyMainView}>
-      <RenderPoliciesTab />
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4 , 1fr )' }}>
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((item) => (
-          <RenderPolicy setOpen={setOpen} setSelectedTab={setSelectedTab} />
-        ))}
-      </div>
-    </div>
-  );
-
-  const RenderObsolete = () => (
-    <div className={style.policyMainView}>
-      <RenderPoliciesTab />
-    </div>
-  );
-
   return (
     <>
-      <CardContainer>{selectedTab == 0 ? <RenderAllPolicies /> : <RenderObsolete />}</CardContainer>
+      <CardContainer>
+        {selectedTab == 0 ? (
+          <RenderAllPolicies
+            setOpen={setOpen}
+            setSelectedTab={setSelectedTab}
+            control={control}
+            selectedTab={selectedTab}
+            setOpenAddPolice={setOpenAddPolice}
+            setShowFilterView={setShowFilterView}
+            showFilterView={showFilterView}
+          />
+        ) : (
+          <RenderObsolete
+            setOpen={setOpen}
+            control={control}
+            selectedTab={selectedTab}
+            setOpenAddPolice={setOpenAddPolice}
+            setSelectedTab={setSelectedTab}
+            setShowFilterView={setShowFilterView}
+            showFilterView={showFilterView}
+          />
+        )}
+      </CardContainer>
 
       <DeletePopup setOpen={setOpen} open={open} />
       {/* <AddPolicy /> */}
@@ -211,5 +160,123 @@ const Policy = () => {
     </>
   );
 };
+const RenderPolicySearchView = ({ control }: { control: Control }) => (
+  <div className={style.policySearchView}>
+    <TextField placeholder="Job Title" />
+    <DropDownSelect />
+
+    <DatePicker control={control} name="gg" />
+    <Button text="Search" />
+  </div>
+);
+
+const RenderPoliciesTab = ({
+  selectedTab,
+  setSelectedTab,
+  setShowFilterView,
+  showFilterView,
+  control,
+  setOpenAddPolice,
+}: {
+  selectedTab: any;
+  setSelectedTab: any;
+  setShowFilterView: any;
+  showFilterView: any;
+  control: any;
+  setOpenAddPolice: any;
+}) => (
+  <>
+    <div className={style.policyHeaderView}>
+      <div className={style.headerTitleView}>
+        <p
+          onClick={() => setSelectedTab(0)}
+          style={{
+            fontSize: '16px',
+            fontWeight: 600,
+            color: selectedTab == 0 ? '#2D2D32' : '#CACACA',
+          }}
+        >
+          All Policies
+        </p>
+        <p
+          onClick={() => setSelectedTab(1)}
+          style={{
+            fontSize: '16px',
+            fontWeight: 600,
+            color: selectedTab == 1 ? '#2D2D32' : '#CACACA',
+            marginLeft: 20,
+          }}
+        >
+          Obsolete
+        </p>
+      </div>
+      <div className={style.addPolicyView}>
+        <img
+          onClick={() => setShowFilterView(!showFilterView)}
+          style={{ cursor: 'pointer' }}
+          src={filter}
+          alt=""
+          className={style.img}
+        />
+        <Button handleClick={() => setOpenAddPolice(true)} iconStart={plusIcon} text="Add Policy" />
+        <img style={{ cursor: 'pointer' }} src={del} alt="" className={style.img} />
+      </div>
+    </div>
+    {showFilterView && <RenderPolicySearchView control={control} />}
+  </>
+);
+
+const RenderAllPolicies = ({
+  setOpen,
+  control,
+  selectedTab,
+  setOpenAddPolice,
+  setSelectedTab,
+  setShowFilterView,
+  showFilterView,
+}: {
+  setOpen: any;
+  setSelectedTab: any;
+  [key: string]: any;
+}) => (
+  <div className={style.policyMainView}>
+    <RenderPoliciesTab
+      control={control}
+      selectedTab={selectedTab}
+      setOpenAddPolice={setOpenAddPolice}
+      setSelectedTab={setSelectedTab}
+      setShowFilterView={setShowFilterView}
+      showFilterView={showFilterView}
+    />
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4 , 1fr )' }}>
+      {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((item) => (
+        <RenderPolicy setOpen={setOpen} setSelectedTab={setSelectedTab} />
+      ))}
+    </div>
+  </div>
+);
+
+const RenderObsolete = ({
+  setOpen,
+  control,
+  selectedTab,
+  setOpenAddPolice,
+  setSelectedTab,
+  setShowFilterView,
+  showFilterView,
+}: {
+  [key: string]: any;
+}) => (
+  <div className={style.policyMainView}>
+    <RenderPoliciesTab
+      control={control}
+      selectedTab={selectedTab}
+      setOpenAddPolice={setOpenAddPolice}
+      setSelectedTab={setSelectedTab}
+      setShowFilterView={setShowFilterView}
+      showFilterView={showFilterView}
+    />
+  </div>
+);
 
 export default Policy;
