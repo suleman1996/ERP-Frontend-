@@ -118,7 +118,7 @@ const CompanyInformation = ({
                     label={`${data.name} Leave`}
                     type="number"
                     register={register}
-                    errorMessage={errors?.data?.name?.message}
+                    errorMessage={errors[data?.name]?.message}
                     placeholder={`${data?.name} Leave`}
                   />
                 </div>

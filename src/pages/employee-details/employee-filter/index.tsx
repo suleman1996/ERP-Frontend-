@@ -39,7 +39,7 @@ const EmployeeFilter = ({ setOpen, setEmployees, open, setCount, getData }: Prop
             containerClass={style.order2}
             inputClass={style.input}
             type="text"
-            placeholder="Search by Name"
+            placeholder="Search by All"
             inputRef={register}
           />
           {/* <Input
@@ -60,7 +60,7 @@ const EmployeeFilter = ({ setOpen, setEmployees, open, setCount, getData }: Prop
             <>
               {departments &&
                 departments.map((data: any) => (
-                  <option key={data?._id} value={data?._id}>
+                  <option key={data?._id} value={data?.name}>
                     {data.name}
                   </option>
                 ))}
@@ -78,7 +78,7 @@ const EmployeeFilter = ({ setOpen, setEmployees, open, setCount, getData }: Prop
             <>
               {designation &&
                 designation.map((data: any) => (
-                  <option key={data?.departmentSettingId} value={data?._id}>
+                  <option key={data?.departmentSettingId} value={data?.name}>
                     {data.name}
                   </option>
                 ))}

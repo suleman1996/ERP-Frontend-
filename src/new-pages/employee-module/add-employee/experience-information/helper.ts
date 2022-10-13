@@ -67,15 +67,13 @@ export const useExperience = ({
             {
               experienceDetails: [...educations],
             },
-            employeeDocId,
+            id,
           );
           if (res.status === 200) {
             handleNext && handleNext('Expertise');
           }
         }
-      }
-
-      if (educations?.length) {
+      } else if (educations?.length) {
         const res = await EmployeeService.addPostExperience(
           {
             experienceDetails: [...educations],
@@ -157,7 +155,7 @@ export const useExperience = ({
   }, [id]);
 
   const getUser = async () => {
-    const res = await EmployeeService.getExperienceEmployee(employeeDocId);
+    const res = await EmployeeService.getExperienceEmployee(id ? id : employeeDocId);
     const newArr = res?.data?.Experience.map((item: any) => {
       return {
         ...item,

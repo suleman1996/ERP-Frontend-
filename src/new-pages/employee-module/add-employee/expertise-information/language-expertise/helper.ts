@@ -99,7 +99,7 @@ export const useLanguage = ({ formData, setFormData, employeeId, setLanguage }: 
   };
 
   useEffect(() => {
-    id && getUser();
+    // id && getUser();
     if (formData?.languageData !== undefined && Object.keys(formData?.languageData)?.length) {
       setEducations([...formData?.languageData]);
       setLanguage((current) => [...current, ...formData?.languageData]);

@@ -12,7 +12,7 @@ export const columns = [
     width: '150px',
   },
   {
-    key: 'incrementper',
+    key: 'incrementPercentage',
     name: 'Increment%',
     alignText: 'center',
     width: '150px',

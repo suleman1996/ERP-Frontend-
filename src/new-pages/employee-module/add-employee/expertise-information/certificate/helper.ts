@@ -100,7 +100,7 @@ export const useCerificate = ({ formData, setFormData, employeeId, setCertificat
   };
 
   useEffect(() => {
-    id && getUser();
+    // id && getUser();
     if (formData?.certificateData !== undefined && Object.keys(formData?.certificateData)?.length) {
       setEducations([...formData?.certificateData]);
       setCertificate((current) => [...current, ...formData?.certificateData]);

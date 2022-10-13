@@ -37,6 +37,18 @@ export default class EmployeeService {
     const res = await ApiService.get(`${EmployeeService.baseUrl[0]}/personal-information/${id}`);
     return res;
   }
+  static async getOverView(id?: string | number) {
+    const res = await ApiService.get(`${EmployeeService.baseUrl[0]}/overview/${id}`);
+    return res;
+  }
+  static async getAllDocuments(id?: string | number) {
+    const res = await ApiService.get(`${EmployeeService.baseUrl[0]}/documents/all/${id}`);
+    return res;
+  }
+  static async getSalary(id?: string | number) {
+    const res = await ApiService.get(`${EmployeeService.baseUrl[0]}/salary-information/${id}`);
+    return res;
+  }
   static async getGenders(id?: string | number) {
     const res = await ApiService.get(`${EmployeeService.baseUrl[1]}/profile-setting/`);
     return res;
@@ -150,6 +162,26 @@ export default class EmployeeService {
     const res = await ApiService.delete(`${EmployeeService.baseUrl[0]}/${id}`);
     return res;
   }
+  static async deleteDocument(id: string | number) {
+    const res = await ApiService.delete(`${EmployeeService.baseUrl[0]}/documents/${id}`);
+    return res;
+  }
+
+  static async getByIdDocument(id: string | number) {
+    const res = await ApiService.get(`${EmployeeService.baseUrl[0]}/documents/${id}`);
+    return res;
+  }
+
+  static async addDocument(data: any) {
+    const res = await ApiService.post(`${EmployeeService.baseUrl[0]}/documents`, data);
+    return res;
+  }
+
+  static async updateDocument(data: any, id: string | Number) {
+    const res = await ApiService.put(`${EmployeeService.baseUrl[0]}/documents/${id}`, data);
+    return res;
+  }
+
   static async getEmployeePayroll(id: string | number) {
     const res = await ApiService.get(`${EmployeeService.baseUrl[0]}/${id}/payroll`);
     return res;

@@ -92,7 +92,9 @@ export const useSkill = ({ formData, setFormData, employeeId, setSkillData }: Pr
   };
 
   const getUser = async () => {
-    const res = await EmployeeService.getEmployee(id);
+    // const res = await EmployeeService.getEmployee(id);
+    const res = await EmployeeService.getExpertiesEmployee(id);
+    console.log('res', res.data);
     setEducations(res?.data?.skills);
 
     const data = res?.data?.skills.map((item: any) => {
@@ -104,7 +106,7 @@ export const useSkill = ({ formData, setFormData, employeeId, setSkillData }: Pr
   };
 
   useEffect(() => {
-    id && getUser();
+    // id && getUser();
     if (formData?.setSkillData !== undefined && Object.keys(formData?.setSkillData)?.length) {
       setEducations([...formData?.setSkillData]);
       setSkillData((current) => [...current, ...formData?.setSkillData]);

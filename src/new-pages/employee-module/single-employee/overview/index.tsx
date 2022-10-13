@@ -4,45 +4,48 @@ import CardContainer from 'new-components/card-container';
 import Table from 'new-components/table';
 
 import { columns } from './helper';
+import EmployeeService from 'services/employee-service';
 
 import over from 'new-assets/overview.svg';
 import style from './overview.module.scss';
+import { useParams } from 'react-router';
+import { useEffect, useState } from 'react';
 
 const Overview = ({ user }: any) => {
   const overviewDetails = [
     {
       title: 'Employee ID:',
-      subtitle: user?.personalInformation?.employeeId,
+      subtitle: user?.employeeId,
       img: over,
     },
     {
       title: 'Name:',
-      subtitle: `${user?.personalInformation?.firstName} ${user?.personalInformation?.lastName}`,
+      subtitle: user?.fullName,
       img: over,
     },
     {
       title: 'Email:',
-      subtitle: `${user?.personalInformation?.email}`,
+      subtitle: user?.email,
     },
     {
       title: 'Date of birth:',
-      subtitle: `${moment(user?.personalInformation?.dob).format('MM-DD-YYYY')}`,
+      subtitle: `${moment(user?.dob).format('MM-DD-YYYY')}`,
     },
     {
       title: 'Gender:',
-      subtitle: `${user?.personalInformation?.gender}`,
+      subtitle: user?.gender[0]?.gender?.name,
     },
     {
       title: 'Phone No:',
-      subtitle: `${user?.personalInformation?.phoneNumber}`,
+      subtitle: user?.phone,
     },
     {
       title: 'Current Address:',
-      subtitle: `${user?.addressInformation?.currentAddress?.address}`,
+      subtitle: user?.addresses?.currentAddress?.address,
     },
     {
       title: 'Permanent Address:',
-      subtitle: `${user?.addressInformation?.permanentAddress?.address}`,
+      subtitle: user?.addresses?.permanentAddress?.address,
     },
   ];
 
@@ -67,7 +70,11 @@ const Overview = ({ user }: any) => {
         </div>
       </CardContainer>
       <CardContainer className={style.card}>
-        <Table rows={user?.educationDetails} columns={columns} minWidth="800px" />
+        <Table
+          rows={user?.education.length > 0 && user?.education}
+          columns={columns}
+          minWidth="800px"
+        />
       </CardContainer>
     </>
   );
