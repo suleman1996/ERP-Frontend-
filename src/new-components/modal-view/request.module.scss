@@ -1,0 +1,13 @@
+@import 'styles/_colors.scss';
+@import 'styles/_mixin.scss';
+@import 'styles/_breakpoints.scss';
+
+.deletePopup {
+  position: fixed;
+  z-index: 1001;
+  inset: 0;
+  display: flex;
+  background-color: #00000066;
+  align-items: center;
+  justify-content: center;
+}

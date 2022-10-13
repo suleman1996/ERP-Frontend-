@@ -27,7 +27,7 @@ const DayPicker = ({ dayRef, name, selectDay, error, defaultValues }: Props) => 
                 ref={dayRef}
                 value={ele.value}
                 id={`checkbox-button-opt-${ele.value}`}
-                defaultChecked={defaultValues.includes(+ele.value)}
+                defaultChecked={defaultValues?.includes(+ele.value)}
               />
               <label
                 htmlFor={`checkbox-button-opt-${ele.value}`}

@@ -267,12 +267,9 @@ p {
 }
 .policySearchView {
   width: 100%;
-  // height: 25%;
   border-bottom: 1px solid #e2e2ea;
-  display: flex;
-  padding-left: 20px;
+  @include gridFour(10, 10);
   padding: 10px;
-  justify-content: space-around;
 }
 .policyHeaderTitleView {
   width: 80%;
@@ -360,4 +357,58 @@ ul {
     font-weight: 300;
     color: #2d2d32;
   }
+}
+
+.delView {
+  // height: 40%;
+  width: 30%;
+  background-color: #ffffff;
+  border-radius: 5px;
+  // padding: 40px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  padding: 40px 0px;
+}
+.delLogoView {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.btnView {
+  display: flex;
+}
+.delTitle {
+  width: 40%;
+  text-align: center;
+  color: #2d2d32;
+  font-weight: 900px;
+  @include font29;
+  margin: 10px 0px;
+}
+.delSubTitle {
+  width: 40%;
+  text-align: center;
+  color: #2d2d32;
+  @include font14;
+  margin-bottom: 10px;
+}
+
+.cancelBtn {
+  background-color: #ffffff;
+  border: 1px solid #57b894;
+  &:hover {
+    background-color: #ffffff;
+    border: 1px solid #57b894;
+  }
+}
+.textColor {
+  color: #57b894 !important;
+}
+
+.datePicker {
+  // padding-top: 0px;
+  background-color: #265828;
+  // border-radius: 5px;
 }

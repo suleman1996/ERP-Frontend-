@@ -5,7 +5,7 @@ import menu from 'assets/menu.svg';
 
 import style from './request.module.scss';
 
-const RenderPolicy = ({ setSelectedTab }: any) => {
+const RenderPolicy = ({ setSelectedTab, setOpen }: any) => {
   const [isMenuVisible, setIsMenuVisible] = React.useState(false);
   return (
     <div className={style.policyView}>
@@ -15,7 +15,7 @@ const RenderPolicy = ({ setSelectedTab }: any) => {
             <p style={{ fontSize: '8px', fontWeight: '500', color: '#2D2D32' }}>Edit</p>
             <img src={arrowRight} alt="" className={style.img} />
           </div>
-          <div className={style.menuViewBox}>
+          <div onClick={() => setOpen(true)} className={style.menuViewBox}>
             <p style={{ fontSize: '8px', fontWeight: '500', color: '#2D2D32' }}>Delete</p>
             <img src={arrowRight} alt="" className={style.img} />
           </div>

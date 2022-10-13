@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import Button from 'new-components/button';
 
@@ -11,27 +11,25 @@ import filter from 'assets/filter.svg';
 import style from './request.module.scss';
 import RenderPolicy from 'components/policy-card';
 import TextField from 'new-components/textfield';
+import { useForm } from 'react-hook-form';
+import DeletePolicie from './delete-policy';
+import DatePicker from 'new-components/date-picker';
+import { DropDownSelect } from 'new-components/drop-down-select';
 
 const Policy = () => {
-  const [selectedTab, setSelectedTab] = React.useState(0);
-  const [showFilterView, setShowFilterView] = React.useState(false);
+  const [selectedTab, setSelectedTab] = useState(0);
+  const [showFilterView, setShowFilterView] = useState(false);
+
+  const [open, setOpen] = useState(false);
+
+  const { control } = useForm();
 
   const RenderPolicySearchView = () => (
     <div className={style.policySearchView}>
-      {/* <p
-        style={{
-          fontSize: '16px',
-          fontWeight: '600',
-          color: '#2D2D32',
-        }}
-      >
-        Search Policy
-      </p> */}
-
-      {/* <Button text="dubaoo" /> */}
       <TextField placeholder="Job Title" />
-      <Button text="dubaoo" />
+      <DropDownSelect />
 
+      <DatePicker control={control} name="gg" />
       <Button text="Search" />
     </div>
   );
@@ -87,7 +85,7 @@ const Policy = () => {
       <RenderPoliciesTab />
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4 , 1fr )' }}>
         {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((item) => (
-          <RenderPolicy setSelectedTab={setSelectedTab} />
+          <RenderPolicy setOpen={setOpen} setSelectedTab={setSelectedTab} />
         ))}
       </div>
     </div>
@@ -100,7 +98,10 @@ const Policy = () => {
   );
 
   return (
-    <CardContainer>{selectedTab == 0 ? <RenderAllPolicies /> : <RenderObsolete />}</CardContainer>
+    <>
+      <CardContainer>{selectedTab == 0 ? <RenderAllPolicies /> : <RenderObsolete />}</CardContainer>
+      <DeletePolicie setOpen={setOpen} visible={open} />
+    </>
   );
 };
 
