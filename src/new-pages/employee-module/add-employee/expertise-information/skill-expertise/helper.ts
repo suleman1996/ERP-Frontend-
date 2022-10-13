@@ -30,6 +30,8 @@ export const useSkill = ({ formData, setFormData, employeeId, setSkillData }: Pr
   const { id } = useParams();
   const [educations, setEducations] = useState<Skill[] | []>([]);
   const skillIndex = useRef(-1);
+  const [toggle, setToggle] = useState<number>();
+
   const [updateEdu, setUpdateEdu] = useState({
     update: false,
     editInd: -1,
@@ -39,13 +41,14 @@ export const useSkill = ({ formData, setFormData, employeeId, setSkillData }: Pr
   });
 
   const handleAddEduction = async (data: any) => {
-    console.log('file length', data?.file?.length);
     const fileBase64 =
       data?.file && data?.file?.length > 0 && (await convertBase64Image(data.file[0]));
+
     const skillData = {
       ...data,
       skillLevel: data?.skills,
-      ...(fileBase64 ? { file: `${fileBase64}` } : {}),
+      // ...(fileBase64 && { file: `${fileBase64}` }),
+      file: data.file && (data.file[0] ? fileBase64 : data.file),
     };
     if (!skillData.file || Object.keys(skillData.file).length === 0) {
       removeKeys(skillData, ['file']);
@@ -67,6 +70,7 @@ export const useSkill = ({ formData, setFormData, employeeId, setSkillData }: Pr
     setEducations([...newEducations]);
     setFormData({ ...formData, setSkillData: [...newEducations] });
     reset({});
+    setToggle(-1);
     skillIndex.current = -1;
   };
 
@@ -88,7 +92,9 @@ export const useSkill = ({ formData, setFormData, employeeId, setSkillData }: Pr
   };
 
   const getUser = async () => {
-    const res = await EmployeeService.getEmployee(id);
+    // const res = await EmployeeService.getEmployee(id);
+    const res = await EmployeeService.getExpertiesEmployee(id);
+    console.log('res', res.data);
     setEducations(res?.data?.skills);
 
     const data = res?.data?.skills.map((item: any) => {
@@ -100,7 +106,7 @@ export const useSkill = ({ formData, setFormData, employeeId, setSkillData }: Pr
   };
 
   useEffect(() => {
-    id && getUser();
+    // id && getUser();
     if (formData?.setSkillData !== undefined && Object.keys(formData?.setSkillData)?.length) {
       setEducations([...formData?.setSkillData]);
       setSkillData((current) => [...current, ...formData?.setSkillData]);
@@ -117,6 +123,8 @@ export const useSkill = ({ formData, setFormData, employeeId, setSkillData }: Pr
     handleEducation,
     activeEdit: skillIndex.current,
     handleDeleteIndex,
+    toggle,
+    setToggle,
   };
 };
 

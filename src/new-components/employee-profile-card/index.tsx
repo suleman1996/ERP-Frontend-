@@ -4,12 +4,12 @@ import style from './employee-card.module.scss';
 
 interface Props {
   handleClick?: any;
-  img: string;
-  name: string;
-  designation: string;
-  department: string;
-  phone: string;
-  id: string | undefined;
+  img?: string;
+  name?: string;
+  designation?: string;
+  department?: string;
+  phone?: string;
+  id?: string | undefined;
 }
 
 const EmployeeProfileCard = ({

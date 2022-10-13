@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { SetStateAction, useState } from 'react';
 
 import Select from 'new-components/select';
 
@@ -8,16 +8,20 @@ import leftArrow from 'new-assets/single-arrow-left.svg';
 import rightArrow from 'new-assets/single-arrow-right.svg';
 import style from './pagination.module.scss';
 
-const Pagination = () => {
-  const [count, setCount] = useState(1);
+interface Props {
+  count: any;
+  setCount: React.Dispatch<SetStateAction<number>>;
+  totalCount: any;
+}
 
+const Pagination = ({ setCount, count, totalCount }: Props) => {
   return (
     <>
       <div className={style.pagination}>
         <div className={style.leftFlex}>
           <p>View</p>
           <div style={{ maxWidth: '80px' }}>
-            <Select>
+            <Select onChange={(e) => setCount(Number(e.target.value))}>
               {selectOptions?.map(({ value, label }) => (
                 <option key={value} value={value}>
                   {label}
@@ -28,7 +32,7 @@ const Pagination = () => {
           <p>user per page</p>
         </div>
         <div className={style.rightFlex}>
-          <p className={style.p}> Showing 1 to 20 of 3,129 entries</p>
+          <p className={style.p}>{` Showing 1 to ${count} of ${totalCount}`} </p>
           <img src={left} alt="" />
           <img
             src={leftArrow}
@@ -50,15 +54,15 @@ export default Pagination;
 
 export const selectOptions = [
   {
+    value: '10',
+    label: '10',
+  },
+  {
     value: '20',
     label: '20',
   },
   {
     value: '30',
     label: '30',
-  },
-  {
-    value: '40',
-    label: '40',
   },
 ];

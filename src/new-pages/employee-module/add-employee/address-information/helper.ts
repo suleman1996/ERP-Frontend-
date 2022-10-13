@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Dispatch, SetStateAction } from 'react';
 import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom';
 
 import EmployeeService from 'services/employee-service';
 import AddressService from 'services/address-service';
+import { setErrors } from './../../../../helper/index';
 
 interface Data {
   currentCountry: string;
@@ -26,9 +27,18 @@ interface Props {
   employeeId: string;
   handleBack: (data?: string) => void;
   handleNext: (data?: string) => void;
+  employeeDocId?: string | any;
+  setEmployeeDocId?: Dispatch<SetStateAction<string>>;
 }
 
-export const useAddressInfo = ({ handleNext, setFormData, formData, employeeId }: Props) => {
+export const useAddressInfo = ({
+  handleNext,
+  setFormData,
+  formData,
+  employeeId,
+  setEmployeeDocId,
+  employeeDocId,
+}: Props) => {
   const { id } = useParams();
   const [btnLoader, setBtnLoader] = useState(false);
   const [currentCountryData, setCurrentCountryData] = useState([]);
@@ -38,32 +48,19 @@ export const useAddressInfo = ({ handleNext, setFormData, formData, employeeId }
   const [checkboxChecked, setCheckboxChecked] = useState(false);
   let stateData: any = [];
 
-  const { register, control, handleSubmit, errors, reset, watch } = useForm({
-    resolver: yupResolver(schema),
-  });
+  const { register, control, handleSubmit, errors, reset, watch, setError } = useForm();
 
   useEffect(() => {
-    fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [formData]);
-
-  useEffect(() => {
-    id && getSingleEmployeeData();
+    (id || employeeDocId) && getSingleEmployeeData();
   }, []);
 
   const getSingleEmployeeData = async () => {
-    const res = await EmployeeService.getEmployee(id);
+    const res = await EmployeeService.getAddressEmployee(id || employeeDocId);
     reset({
-      currentCountry: res?.data?.addressInformation?.currentAddress?.country,
-      currentState: res?.data?.addressInformation?.currentAddress?.state,
-      currentCity: res?.data?.addressInformation?.currentAddress?.city,
-      currentCode: res?.data?.addressInformation?.currentAddress?.postalCode,
-      currentAddress: res?.data?.addressInformation?.currentAddress?.address,
-      permanentCountry: res?.data?.addressInformation?.permanentAddress?.country,
-      permanentState: res?.data?.addressInformation?.permanentAddress?.state,
-      permanentCity: res?.data?.addressInformation?.permanentAddress?.city,
-      permanentCode: res?.data?.addressInformation?.permanentAddress?.postalCode,
-      permanentAddress: res?.data?.addressInformation?.permanentAddress?.address,
+      currentAddress: {
+        ...res.data?.employeeAddressInformation?.addresses?.currentAddress,
+      },
+      permanentAddress: { ...res.data?.employeeAddressInformation?.addresses?.permanentAddress },
     });
   };
 
@@ -71,21 +68,19 @@ export const useAddressInfo = ({ handleNext, setFormData, formData, employeeId }
     setCheckboxChecked(e.target.checked);
     const data = watch();
     if (e.target.checked) {
-      const { currentAddress, currentCity, currentCode, currentCountry, currentState } = data;
+      const { currentAddress } = data;
       await getData(
         'permanentCountryData',
         {
-          country: currentCountry,
+          country: currentAddress.country,
         },
-        currentState,
+        currentAddress.state,
       );
       reset({
         ...data,
-        permanentCountry: currentCountry,
-        permanentState: currentState,
-        permanentCity: currentCity,
-        permanentCode: currentCode,
-        permanentAddress: currentAddress,
+        permanentAddress: {
+          ...currentAddress,
+        },
       });
     } else {
       reset({
@@ -101,86 +96,46 @@ export const useAddressInfo = ({ handleNext, setFormData, formData, employeeId }
 
   const onSubmit = async (data: Data) => {
     setBtnLoader(true);
-    const {
-      currentCountry,
-      currentState,
-      currentCity,
-      currentCode,
-      currentAddress,
-      permanentCountry,
-      permanentState,
-      permanentCity,
-      permanentCode,
-      permanentAddress,
-    } = data;
-    const userData = {
-      type: 2,
-      employeeId: employeeId.toUpperCase(),
-      addressInformation: {
-        currentAddress: {
-          country: currentCountry,
-          state: currentState,
-          city: currentCity,
-          postalCode: currentCode,
-          address: currentAddress,
-        },
-        permanentAddress: {
-          country: permanentCountry,
-          state: permanentState,
-          city: permanentCity,
-          postalCode: permanentCode,
-          address: permanentAddress,
-        },
-      },
-    };
-    if (id) {
-      const res = await EmployeeService.updateAddedEmployee(userData, id);
-      if (res.status === 200) {
-        handleNext('Expertise');
+    try {
+      const userData = {
+        ...data,
+      };
+      if (id) {
+        const res = await EmployeeService.addressAddPost(userData, id);
+        if (res.status === 200) {
+          handleNext('Company');
+        }
+      } else if (employeeDocId) {
+        const res = await EmployeeService.addressAddPost(userData, employeeDocId);
+        if (res.status === 200) {
+          handleNext('Company');
+        }
+        if (res?.response?.data?.error && res.status === 422) {
+          setErrors(res.response.data.error, setError);
+        }
+      } else {
+        const res = await EmployeeService.addressAddPost(userData, employeeDocId);
+        if (res.status === 200) {
+          setTimeout(() => {
+            console.log('time out');
+            setEmployeeDocId && setEmployeeDocId(res?.data?.updatedEmployee?._id);
+          }, 500);
+          handleNext('Company');
+        }
+        if (res?.response?.data?.error && res.response.status === 422) {
+          setErrors(res.response.data.error, setError);
+        }
       }
-    } else {
-      setFormData({ ...formData, addressInformation: { ...userData } });
-      const res = await EmployeeService.addEmployee({ ...userData });
-      if (res.status === 201) {
-        handleNext('Company');
-      }
+    } catch (err: any) {
+      setErrors(err?.response.data.error, setError);
+      setBtnLoader(false);
     }
 
     setBtnLoader(false);
   };
 
-  const fetchData = async () => {
-    if (
-      formData?.addressInformation !== undefined &&
-      Object.keys(formData?.addressInformation)?.length
-    ) {
-      const temp = { ...formData?.addressInformation };
-      await getData('currentCountryData', {
-        country: temp?.addressInformation?.currentAddress?.country,
-      });
-      getCities('currentCitiesData', stateData, temp.addressInformation?.currentAddress?.state);
-      await getData('permanentCountryData', {
-        country: temp?.addressInformation?.permanentAddress?.country,
-      });
-      getCities('permanentCitiesData', stateData, temp.addressInformation?.permanentAddress?.state);
-      setTimeout(() => {
-        reset({
-          currentCountry: temp?.addressInformation?.currentAddress?.country,
-          currentState: temp?.addressInformation?.currentAddress?.state,
-          currentCity: temp?.addressInformation?.currentAddress?.city,
-          currentCode: temp?.addressInformation?.currentAddress?.postalCode,
-          currentAddress: temp?.addressInformation?.currentAddress?.address,
-          permanentCountry: temp?.addressInformation?.permanentAddress?.country,
-          permanentState: temp?.addressInformation?.permanentAddress?.state,
-          permanentCity: temp?.addressInformation?.permanentAddress?.city,
-          permanentCode: temp?.addressInformation?.permanentAddress?.postalCode,
-          permanentAddress: temp?.addressInformation?.permanentAddress?.address,
-        });
-      }, 40);
-    }
-  };
-
   const getData = async (type: string, data: { country?: string }, currentState?: string) => {
+    console.log({ type, data, currentState });
     if (data?.country) {
       if (type === 'currentCountryData') {
         setCurrentCountryData([]);
@@ -190,6 +145,7 @@ export const useAddressInfo = ({ handleNext, setFormData, formData, employeeId }
         setPermanentCitiesData([]);
       }
       const res = await AddressService.getCountryStateCityData(data);
+      console.log('res', res.data);
       if (res.status === 200) {
         if (res.data.address[0]) {
           const { states } = res.data.address[0];
@@ -231,27 +187,3 @@ export const useAddressInfo = ({ handleNext, setFormData, formData, employeeId }
     control,
   };
 };
-
-const schema = yup
-  .object()
-  .shape({
-    currentCity: yup.string().required(),
-    currentCode: yup
-      .string()
-      .required()
-      .min(4, 'minimum 4 digits are required')
-      .max(10, 'maximum 10 digits are required'),
-    currentState: yup.string().required(),
-    currentCountry: yup.string().required(),
-    currentAddress: yup.string().required(),
-    permanentCity: yup.string().required(),
-    permanentCode: yup
-      .string()
-      .required()
-      .min(4, 'minimum 4 digits are required')
-      .max(10, 'maximum 10 digits are required'),
-    permanentState: yup.string().required(),
-    permanentCountry: yup.string().required(),
-    permanentAddress: yup.string().required(),
-  })
-  .required();

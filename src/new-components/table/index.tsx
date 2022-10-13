@@ -181,7 +181,7 @@ const Table = ({
                           <img
                             className={style.pencilIcon}
                             data-testid="edit-element"
-                            onClick={() => handlePencilIcon({ id: row.id, index })}
+                            onClick={() => handlePencilIcon({ id: row._id, index })}
                             src={editIcon}
                             alt="editIcon"
                           />

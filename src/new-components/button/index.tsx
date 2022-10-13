@@ -13,6 +13,7 @@ interface Props {
   disabled?: boolean;
   btnLoaderClass?: string;
   className?: string;
+  form?: string;
 }
 
 const Button = ({
@@ -26,12 +27,14 @@ const Button = ({
   btnClass,
   disabled,
   btnLoaderClass,
+  form,
 }: Props) => {
   return (
     <>
       <button
         className={`${style.btn} ${btnClass}`}
         type={type}
+        form={form}
         onClick={handleClick}
         disabled={isLoading || disabled ? true : false}
         style={{

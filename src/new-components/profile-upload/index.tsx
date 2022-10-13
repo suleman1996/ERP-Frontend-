@@ -12,6 +12,8 @@ interface Props {
   setFileName?: (value: string) => any;
   register?: any;
   errorMessage?: string;
+  selectedFileName?: any;
+  setSelectedFileName?: (value: string) => any;
 }
 
 const ProfileUpload = ({
@@ -22,15 +24,15 @@ const ProfileUpload = ({
   type,
   defaultFileName,
   setFileName,
+  selectedFileName,
+  setSelectedFileName,
 }: Props) => {
-  const [selectedFileName, setSelectedFileName] = useState(defaultFileName || '');
-
   useEffect(() => {
     selectedFileName && setFileName && setFileName(selectedFileName);
   }, [selectedFileName]);
 
   useEffect(() => {
-    setSelectedFileName(defaultFileName);
+    setSelectedFileName && setSelectedFileName(defaultFileName);
   }, [defaultFileName]);
 
   return (
@@ -42,7 +44,10 @@ const ProfileUpload = ({
         <input
           type={'file'}
           name={name}
-          onChange={(e) => setSelectedFileName(e.target.value.split('').splice(12, 100).join(''))}
+          onChange={(e) =>
+            setSelectedFileName &&
+            setSelectedFileName(e.target.value.split('').splice(12, 100).join(''))
+          }
           accept={type ? type : 'image/png '}
           ref={register}
           hidden

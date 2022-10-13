@@ -28,6 +28,7 @@ export interface Language {
 export const useLanguage = ({ formData, setFormData, employeeId, setLanguage }: Props) => {
   const languageIndex = useRef(-1);
   const { id } = useParams();
+  const [toggle, setToggle] = useState<number>();
   const [educations, setEducations] = useState<Language[] | []>([]);
   const [updateEducation, setUpdateEducation] = useState({
     update: false,
@@ -64,6 +65,7 @@ export const useLanguage = ({ formData, setFormData, employeeId, setLanguage }: 
     setEducations([...newEducations]);
     setFormData({ ...formData, languageData: [...newEducations] });
     reset({});
+    setToggle(-1);
     languageIndex.current = -1;
   };
 
@@ -97,7 +99,7 @@ export const useLanguage = ({ formData, setFormData, employeeId, setLanguage }: 
   };
 
   useEffect(() => {
-    id && getUser();
+    // id && getUser();
     if (formData?.languageData !== undefined && Object.keys(formData?.languageData)?.length) {
       setEducations([...formData?.languageData]);
       setLanguage((current) => [...current, ...formData?.languageData]);
@@ -114,12 +116,14 @@ export const useLanguage = ({ formData, setFormData, employeeId, setLanguage }: 
     handleEducation,
     activeEdit: languageIndex.current,
     handleDeleteIndex,
+    toggle,
+    setToggle,
   };
 };
 
 export const schema = yup.object().shape({
   language: yup.string().required('Language  is a required field'),
-  rate: yup.string().required('Rate is a required field'),
+  // rate: yup.string().required('Rate is a required field'),
   year: yup
     .number()
     .required('Year is a required field')

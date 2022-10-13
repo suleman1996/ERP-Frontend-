@@ -28,6 +28,7 @@ export interface Certificate {
 
 export const useCerificate = ({ formData, setFormData, employeeId, setCertificate }: Props) => {
   const { id } = useParams();
+  const [toggle, setToggle] = useState<number>();
   const [educations, setEducations] = useState<Certificate[] | []>([]);
   const certificateIndex = useRef(-1);
   const [updateEdu, setUpdateEdu] = useState({
@@ -65,6 +66,7 @@ export const useCerificate = ({ formData, setFormData, employeeId, setCertificat
     setEducations([...newEducations]);
     setFormData({ ...formData, certificateData: [...newEducations] });
     reset({});
+    setToggle(-1);
     certificateIndex.current = -1;
   };
 
@@ -98,7 +100,7 @@ export const useCerificate = ({ formData, setFormData, employeeId, setCertificat
   };
 
   useEffect(() => {
-    id && getUser();
+    // id && getUser();
     if (formData?.certificateData !== undefined && Object.keys(formData?.certificateData)?.length) {
       setEducations([...formData?.certificateData]);
       setCertificate((current) => [...current, ...formData?.certificateData]);
@@ -115,6 +117,8 @@ export const useCerificate = ({ formData, setFormData, employeeId, setCertificat
     handleEducation,
     activeEdit: certificateIndex.current,
     handleDeleteIndex,
+    toggle,
+    setToggle,
   };
 };
 
