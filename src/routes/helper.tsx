@@ -3,7 +3,7 @@ import { ReactElement } from 'react';
 import Applications from 'pages/applications';
 import Attendance from 'new-pages/attendance';
 import Calender from 'pages/calender';
-import Policy from 'pages/policy';
+import Policy from 'new-pages/policy';
 import ClientInfo from 'pages/client-info';
 import DashBoard from 'pages/dashboard';
 import ExpenseManagement from 'pages/expense-management';

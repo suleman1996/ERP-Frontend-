@@ -24,8 +24,10 @@ interface Props {
   marksType?: string;
   setMarkVal?: any;
   marksVal?: any;
-  options?: [];
+  options?: any;
   value?: any;
+  closeMenuOnSelect?: boolean;
+  isMulti?: boolean;
 }
 
 const Selection = ({
@@ -36,6 +38,9 @@ const Selection = ({
   wraperSelect,
   value,
   onChange,
+  placeholder,
+  closeMenuOnSelect,
+  isMulti,
 }: Props) => {
   const [customErr, setCustomErr] = useState<string | undefined>();
 
@@ -45,11 +50,20 @@ const Selection = ({
     <div style={{ position: 'relative' }}>
       {label && (
         <label style={{ color: errorMessage ? '#ff5050' : '#2d2d32' }}>
-          {label} <b style={{ color: 'red' }}>{star}</b>{' '}
+          {label}
+          <b style={{ color: 'red' }}>{star}</b>
         </label>
       )}
       <div className={wraperSelect}>
-        <Select value={value} onChange={onChange} options={options} styles={CustomStyle} />
+        <Select
+          closeMenuOnSelect={closeMenuOnSelect}
+          isMulti={isMulti}
+          value={value}
+          onChange={onChange}
+          options={options}
+          styles={CustomStyle}
+          placeholder={placeholder}
+        />
       </div>
       {errorMessage && <span className={style.errorMessage}>{errorMessage}</span>}
       {customErr && <span className={style.errorMessage}>{customErr}</span>}
