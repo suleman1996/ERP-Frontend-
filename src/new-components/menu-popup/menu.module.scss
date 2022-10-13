@@ -1,0 +1,22 @@
+.mainDiv {
+  background-color: #ffffff;
+  width: 180px;
+  align-self: 'flex-end';
+  position: absolute;
+  border-radius: 5px;
+  border: 1px solid #e2e2ea;
+  z-index: 1000;
+  margin-top: 5px;
+}
+.p {
+  font-size: '15px';
+  padding-left: 15px;
+  padding-top: 10px;
+  padding-bottom: 8px;
+  font-weight: 600;
+  color: '#2D2D32';
+  cursor: pointer;
+}
+.borderLine {
+  border-bottom: 1px solid #e2e2ea;
+}
