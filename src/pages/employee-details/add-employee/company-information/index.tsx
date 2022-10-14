@@ -26,7 +26,7 @@ const CompanyInformation = ({
 }: Props) => {
   const { isLoading, prob, options, errors, control, register, handleSubmit, onSubmit } =
     useCompanyInfo({ handleNext, setFormData, formData, employeeId });
-
+  console.log('hello');
   return (
     <div className={style.padding}>
       <form onSubmit={handleSubmit(onSubmit)} className={style.companyForm}>

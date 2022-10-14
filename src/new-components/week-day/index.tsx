@@ -8,12 +8,17 @@ interface Props {
   check?: any;
   setCheck: (data?: any) => void;
   star?: string;
+  errorMessage?: string;
 }
 
-const WeekDay = ({ check, setCheck, star }: Props) => {
+const WeekDay = ({ check, setCheck, star, errorMessage }: Props) => {
   const handleCheckboxChange = (index: number) => {
     setCheck((prevState: any) =>
-      prevState.includes(index) ? prevState.filter((e: any) => e !== index) : [...prevState, index],
+      prevState?.includes(index)
+        ? prevState?.filter((e: any) => e !== index)
+        : prevState
+        ? [...prevState, index]
+        : [index],
     );
   };
 
@@ -35,7 +40,7 @@ const WeekDay = ({ check, setCheck, star }: Props) => {
             return (
               <td className={style.checkBox}>
                 <Checkbox
-                  checked={check.includes(index)}
+                  checked={check?.includes(index)}
                   handleChange={() => handleCheckboxChange(index)}
                   containerClass={style.checkBoxContainer}
                 />
@@ -44,6 +49,7 @@ const WeekDay = ({ check, setCheck, star }: Props) => {
           })}
         </tr>
       </table>
+      {errorMessage && <span className={style.errorMessage}>{errorMessage}</span>}
     </div>
   );
 };

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import * as yup from 'yup';
+import { AxiosError } from 'axios';
 import { useParams } from 'react-router-dom';
 import moment from 'moment';
 import { useForm } from 'react-hook-form';
@@ -87,9 +88,10 @@ export const useCompanyInfo = ({
     try {
       setFormData({ ...formData, companyInformation: { ...data } });
       removeKeys(data, ['startDate', 'endDate']);
-      const { joiningDate, checkIn, probation, workingTime, checkOut, workingHours } = data;
+      const { joiningDate, checkIn, probation, checkOut, workingHours } = data;
       let user: any = {
         ...data,
+        workingHours: undefined,
         joiningDate: moment(joiningDate).format('YYYY-MM-DD'),
         departmentId: data?.departmentId,
         designationId: data?.designationId,
@@ -99,7 +101,10 @@ export const useCompanyInfo = ({
         employmentInfo: {
           checkIn: checkIn && moment(checkIn, 'HH:mm').format('hh:mm a'),
           checkOut: checkOut && moment(checkOut, 'HH:mm').format('hh:mm a'),
-          workingHours: parseInt(workingHours),
+          workingHours: workingHours
+            .split(':')
+            .map((e: string) => String(e).padStart(2, '0'))
+            .join(':'),
           workingHoursType: type,
         },
 
@@ -114,19 +119,22 @@ export const useCompanyInfo = ({
         if (res.status === 200) {
           handleNext('Education');
         }
+        console.log(res, 'resresres');
+        if (res?.response?.data?.error && res.response.status === 422) {
+          setErrors(res.response.data.error, setError);
+        }
       } else {
         // const res = await EmployeeService.addPostCompany(user, employeeDocId);
         const res = await EmployeeService.addPostCompany(user, employeeDocId);
         if (res.status === 200) {
           handleNext('Education');
         }
-
-        if (res?.response?.data?.error && res.response.status === 422) {
-          setErrors(res.response.data.error, setError);
-        }
       }
-    } catch (err) {
-      console.log(err);
+    } catch (err: any) {
+      if (err.response?.data?.error) {
+        setErrors(err.response.data.error, setError);
+      }
+      console.log(err?.response?.data?.error);
     }
     setBtnLoader(false);
   };
