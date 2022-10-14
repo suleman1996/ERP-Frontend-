@@ -64,7 +64,7 @@ export const useLanguage = ({ formData, setFormData, employeeId, setLanguage }: 
     }
     setEducations([...newEducations]);
     setFormData({ ...formData, languageData: [...newEducations] });
-    reset({});
+    reset({ language: '' });
     setToggle(-1);
     languageIndex.current = -1;
   };
@@ -84,6 +84,7 @@ export const useLanguage = ({ formData, setFormData, employeeId, setLanguage }: 
     const delLang = [...educations];
     delLang.splice(index, 1);
     setEducations([...delLang]);
+    setFormData({ ...formData, languageData: [...delLang] });
   };
 
   const getUser = async () => {
@@ -118,6 +119,7 @@ export const useLanguage = ({ formData, setFormData, employeeId, setLanguage }: 
     handleDeleteIndex,
     toggle,
     setToggle,
+    watch,
   };
 };
 

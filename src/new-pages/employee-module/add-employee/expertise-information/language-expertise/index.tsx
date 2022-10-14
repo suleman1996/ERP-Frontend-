@@ -42,6 +42,7 @@ const LanguageExpertise = ({ formData, setFormData, employeeId, setLanguage }: P
     handleDeleteIndex,
     toggle,
     setToggle,
+    watch,
   } = useLanguage({
     formData,
     setFormData,
@@ -58,6 +59,7 @@ const LanguageExpertise = ({ formData, setFormData, employeeId, setLanguage }: P
             star={' *'}
             register={register}
             control={control}
+            value={watch('language')}
             errorMessage={errors?.language?.message}
             options={languageArray}
             label="Language"
@@ -80,6 +82,14 @@ const LanguageExpertise = ({ formData, setFormData, employeeId, setLanguage }: P
             </>
           </Select> */}
           <TextField
+            name="experince"
+            label="Experince"
+            star={' *'}
+            register={register}
+            errorMessage={errors?.experince?.message}
+            placeholder="Experince"
+          />
+          <TextField
             name="year"
             label="Year"
             star={' *'}
@@ -87,6 +97,7 @@ const LanguageExpertise = ({ formData, setFormData, employeeId, setLanguage }: P
             errorMessage={errors?.year?.message}
             placeholder="Year"
           />
+
           <div>
             <label className={style.label}>Attach File</label>
             <ProfileUpload

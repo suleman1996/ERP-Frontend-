@@ -97,6 +97,7 @@ const ExperienceDetails = ({
               star={' *'}
               register={register}
               control={control}
+              value={watch('city')}
               errorMessage={errors?.city?.message}
               options={cities}
               label="City"
@@ -161,7 +162,10 @@ const ExperienceDetails = ({
                 ...education,
                 tenure:
                   education.jobStartDate && education.jobEndDate
-                    ? `${moment(watch().jobEndDate).diff(watch().jobStartDate, 'days')} Days`
+                    ? `${moment(education.jobEndDate).diff(
+                        education.jobStartDate,
+                        'months',
+                      )} Months`
                     : 'On Going',
               }))}
               columns={columns}
