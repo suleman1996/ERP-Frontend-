@@ -126,18 +126,14 @@ const EducationalDetails = ({
           </div>
           <Select
             label="Percentage/CGPA"
-            name={'percentageCgpa'}
-            name1={'percentageCgpa'}
+            name={'marksType'}
+            name1={'marks'}
             selectContainer={style.selectContainer}
             wraperSelect={style.wraperSelect}
             withInput
             star={' *'}
-            errorMessage={errors?.percentageCgpa?.message}
+            errorMessage={errors?.marksType?.message}
             register={register}
-            onChange={(e) => setMarksType(e.target.value)}
-            marksType={marksType}
-            setMarkVal={setMarkVal}
-            marksVal={marksVal}
           >
             <>
               {selectOptions &&

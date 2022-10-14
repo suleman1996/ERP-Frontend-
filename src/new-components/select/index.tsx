@@ -70,7 +70,7 @@ const Select = ({
       )}
       <div className={`${wraperSelect}  ${style.containerWraper} `}>
         <select
-          value={marksType || value}
+          // value={marksType || value}
           name={name}
           className={`${style.select}  ${selectContainer}  `}
           placeholder={placeholder}
@@ -79,7 +79,7 @@ const Select = ({
           }}
           disabled={disable || false}
           ref={register}
-          onChange={onChange}
+          // onChange={onChange}
         >
           {children}
         </select>
@@ -92,7 +92,7 @@ const Select = ({
             register={register}
             className={style.inputClass}
             placeholder="Marks"
-            onChange={(e) => setMarkVal(parseFloat(e.target.value))}
+            // onChange={(e) => setMarkVal(parseFloat(e.target.value))}
           />
         )}
       </div>
