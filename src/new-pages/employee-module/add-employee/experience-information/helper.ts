@@ -54,7 +54,7 @@ export const useExperience = ({
     editInd: -1,
   });
 
-  const { register, handleSubmit, errors, control, reset, watch } = useForm();
+  const { register, handleSubmit, errors, control, reset, watch, setValue } = useForm();
 
   const onSubmit = async () => {
     setBtnLoader(true);
@@ -112,19 +112,22 @@ export const useExperience = ({
     }
     setEducations([...newEducations]);
     setFormData({ ...formData, experienceDetails: [...newEducations] });
-    reset({});
+    reset({ country: '', city: '' });
     educationIndex.current = -1;
   };
 
   const handleEducation = (index: number) => {
     educationIndex.current = index;
     const data = educations.find((data, i) => i === index);
+    console.log(data, 'hamza');
     reset({
       company: data?.company,
       country: data?.country,
       city: data?.city,
       jobTitle: data?.jobTitle,
       ongoing: data?.ongoing,
+      jobStartDate: data?.jobStartDate && new Date(data?.jobStartDate),
+      jobEndDate: data?.jobEndDate && new Date(data?.jobEndDate),
     });
     setOnGoing(!!data?.ongoing);
   };
@@ -160,6 +163,7 @@ export const useExperience = ({
       return {
         ...item,
         jobStartDate: moment(item?.jobStartDate).format('YYYY-MM-DD'),
+        jobEndDate: item?.jobEndDate && moment(item?.jobEndDate).format('YYYY-MM-DD'),
       };
     });
     setEducations([...newArr]);

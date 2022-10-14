@@ -89,6 +89,7 @@ export const useSkill = ({ formData, setFormData, employeeId, setSkillData }: Pr
     const delEdu = [...educations];
     delEdu.splice(index, 1);
     setEducations([...delEdu]);
+    setFormData({ ...formData, setSkillData: [...delEdu] });
   };
 
   const getUser = async () => {
