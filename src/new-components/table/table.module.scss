@@ -31,7 +31,7 @@
         padding: 15px 10px;
 
         .headingTitle {
-          @include font24;
+          @include font20;
           color: #6e6d6d;
         }
 
@@ -46,10 +46,11 @@
 
 .tr {
   width: 100%;
+  border-bottom: 1px solid #f2f4f3;
 }
 
 .td {
-  @include font20;
+  @include font18;
   font-weight: 400;
   text-transform: capitalize;
 }

@@ -16,6 +16,10 @@ export const navbarTitleList = [
     title: 'PayRoll',
   },
   {
+    path: '/policy',
+    title: 'Policies',
+  },
+  {
     path: '/tax',
     title: 'Tax',
   },

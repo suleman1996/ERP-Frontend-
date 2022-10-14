@@ -1,6 +1,7 @@
 import Button from 'new-components/button';
 
 import cross from 'new-assets/cross.svg';
+
 import style from './modal.module.scss';
 interface Props {
   open: boolean;
