@@ -9,13 +9,21 @@ import style from '../employee.module.scss';
 import cross from 'assets/employee-page/Path 307.svg';
 
 const EmployeeFilter = ({ setOpen, setEmployees, open, setCount, getData }: Props) => {
-  const { options, register, handleSubmit, onSubmit, cancelHandler, departments, designation } =
-    useEmployeeFilter({
-      setOpen,
-      setEmployees,
-      setCount,
-      getData,
-    });
+  const {
+    options,
+    register,
+    handleSubmit,
+    onSubmit,
+    cancelHandler,
+    departments,
+    designation,
+    departmentChangeHandler,
+  } = useEmployeeFilter({
+    setOpen,
+    setEmployees,
+    setCount,
+    getData,
+  });
 
   return (
     <form
@@ -55,12 +63,13 @@ const EmployeeFilter = ({ setOpen, setEmployees, open, setCount, getData }: Prop
             // errorMessage={errors?.departmentId?.message}
             register={register}
             name="department"
+            onChange={departmentChangeHandler}
           >
             <option value="">Department</option>
             <>
               {departments &&
                 departments.map((data: any) => (
-                  <option key={data?._id} value={data?.name}>
+                  <option key={data?._id} value={data._id}>
                     {data.name}
                   </option>
                 ))}

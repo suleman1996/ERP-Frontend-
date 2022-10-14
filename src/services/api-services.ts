@@ -31,7 +31,6 @@ export class ApiService {
 
     const res = await axios.post(url, body, config);
     if (!res.config.url?.includes('login')) ApiService.handleSuccess(res);
-    console.log(res, 'asdasdasd');
 
     return res;
 
