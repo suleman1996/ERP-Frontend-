@@ -46,8 +46,6 @@ export const useCompanyInfo = ({
   employeeId,
   employeeDocId,
 }: Props) => {
-  console.log('eid', employeeId);
-  console.log('doc', employeeDocId);
   const { id } = useParams();
   const [type, setType] = useState('per-day');
   const [probation, setProbation] = useState(false);
@@ -57,6 +55,10 @@ export const useCompanyInfo = ({
   const [leaves, setLeaves] = useState<any>();
   const [btnLoader, setBtnLoader] = useState(false);
   const { register, handleSubmit, errors, control, reset, watch, setError } = useForm();
+
+  const departmentChangeHandler = async (e: any) => {
+    await getAllDesignations(e.target.value);
+  };
 
   useEffect(() => {
     id && leaves && getSingleEmployeeData();
@@ -71,6 +73,7 @@ export const useCompanyInfo = ({
 
   const getSingleEmployeeData = async () => {
     const res = await EmployeeService.getCompanyEmployee(id || employeeDocId);
+    await getAllDesignations(res.data.company.departmentId);
     reset({
       ...res?.data?.company,
       joiningDate: moment(res?.data?.company?.joiningDate).toDate(),
@@ -80,6 +83,7 @@ export const useCompanyInfo = ({
         return { ...acc, [leave.name]: leaveData?.quantity };
       }, {}),
     });
+
     setCheck(res?.data?.company?.workingDaysInWeek);
   };
 
@@ -101,10 +105,12 @@ export const useCompanyInfo = ({
         employmentInfo: {
           checkIn: checkIn && moment(checkIn, 'HH:mm').format('hh:mm a'),
           checkOut: checkOut && moment(checkOut, 'HH:mm').format('hh:mm a'),
-          workingHours: workingHours
-            .split(':')
-            .map((e: string) => String(e).padStart(2, '0'))
-            .join(':'),
+          workingHours:
+            workingHours &&
+            workingHours
+              .split(':')
+              .map((e: string) => String(e).padStart(2, '0'))
+              .join(':'),
           workingHoursType: type,
         },
 
@@ -129,6 +135,9 @@ export const useCompanyInfo = ({
         if (res.status === 200) {
           handleNext('Education');
         }
+        if (res?.response?.data?.error && res.response.status === 422) {
+          setErrors(res.response.data.error, setError);
+        }
       }
     } catch (err: any) {
       if (err.response?.data?.error) {
@@ -145,8 +154,8 @@ export const useCompanyInfo = ({
     console.log('department', res?.data?.department);
   };
 
-  const getAllDesignations = async () => {
-    const res = await EmployeeService.getDesignation();
+  const getAllDesignations = async (id: string) => {
+    const res = await EmployeeService.getDesignation(id);
     setDesignation(res?.data?.Designation);
     console.log('department', res?.data?.Designation);
   };
@@ -158,7 +167,7 @@ export const useCompanyInfo = ({
 
   useEffect(() => {
     getAllDepartments();
-    getAllDesignations();
+    // getAllDesignations();
     getAllLeaves();
   }, []);
 
@@ -179,6 +188,7 @@ export const useCompanyInfo = ({
     leaves,
     check,
     setCheck,
+    departmentChangeHandler,
   };
 };
 

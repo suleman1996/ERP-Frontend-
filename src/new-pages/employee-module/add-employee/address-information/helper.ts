@@ -105,12 +105,15 @@ export const useAddressInfo = ({
         if (res.status === 200) {
           handleNext('Company');
         }
+        if (res?.response?.data?.error && res?.response?.status === 422) {
+          setErrors(res.response.data.error, setError);
+        }
       } else if (employeeDocId) {
         const res = await EmployeeService.addressAddPost(userData, employeeDocId);
         if (res.status === 200) {
           handleNext('Company');
         }
-        if (res?.response?.data?.error && res.status === 422) {
+        if (res?.response?.data?.error && res?.response?.status === 422) {
           setErrors(res.response.data.error, setError);
         }
       } else {
@@ -122,12 +125,12 @@ export const useAddressInfo = ({
           }, 500);
           handleNext('Company');
         }
-        if (res?.response?.data?.error && res.response.status === 422) {
-          setErrors(res.response.data.error, setError);
+        if (res?.response?.data?.error && res?.response?.status === 422) {
+          setErrors(res.response?.data?.error, setError);
         }
       }
     } catch (err: any) {
-      setErrors(err?.response.data.error, setError);
+      setErrors(err?.response?.data?.error, setError);
       setBtnLoader(false);
     }
 

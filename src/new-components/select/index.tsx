@@ -79,7 +79,7 @@ const Select = ({
           }}
           disabled={disable || false}
           ref={register}
-          // onChange={onChange}
+          onChange={onChange}
         >
           {children}
         </select>

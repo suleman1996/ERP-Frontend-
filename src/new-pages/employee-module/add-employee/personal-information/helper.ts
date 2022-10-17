@@ -1,16 +1,12 @@
 import { useState, useEffect, Dispatch, SetStateAction } from 'react';
-import * as yup from 'yup';
 import moment from 'moment';
 import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router';
-import { yupResolver } from '@hookform/resolvers/yup';
 
-import { removeKeys, setFormError } from 'helper';
+import { removeKeys } from 'helper';
 import { removeKey, convertBase64Image } from 'main-helper';
 
 import EmployeeService from 'services/employee-service';
-import PersonalInformation from './../../../../pages/employee-details/add-employee/personal-information/index';
-import { AxiosError } from 'axios';
 import { setErrors } from './../../../../helper/index';
 import { createNotification } from 'common/create-notification';
 
@@ -82,6 +78,8 @@ export const usePersonalInfo = ({
   }, [employeeDocId]);
 
   const getSingleEmployeeData = async () => {
+    await getAllGenders();
+
     if (employeeDocId) {
       const res = await EmployeeService.getEmployee(employeeDocId);
       console.log('res let ', res?.data?.employeePersonalInformation?.gender);

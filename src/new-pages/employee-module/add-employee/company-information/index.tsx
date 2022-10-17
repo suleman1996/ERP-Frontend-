@@ -51,6 +51,7 @@ const CompanyInformation = ({
     leaves,
     check,
     setCheck,
+    departmentChangeHandler,
   } = useCompanyInfo({
     handleBack,
     handleNext,
@@ -80,6 +81,7 @@ const CompanyInformation = ({
             errorMessage={errors?.departmentId?.message}
             register={register}
             name="departmentId"
+            onChange={departmentChangeHandler}
           >
             <option value="">Department</option>
             <>
