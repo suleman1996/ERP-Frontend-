@@ -21,10 +21,12 @@ import TextArea from 'new-components/textarea';
 import ProfileUpload from 'new-components/profile-upload';
 import Selection from 'my-components/select';
 import RenderPolicySearchView from './policies-search';
+import ViewPolicy from './view-policy';
 
 const Policy = () => {
   const [selectedTab, setSelectedTab] = useState(0);
   const [showFilterView, setShowFilterView] = useState(false);
+  const [editPoplicy, setEditPolicy] = useState(false);
 
   const [open, setOpen] = useState(false);
   const [openAddPolice, setOpenAddPolice] = useState(false);
@@ -77,6 +79,7 @@ const Policy = () => {
             setShowFilterView={setShowFilterView}
             showFilterView={showFilterView}
             options={options}
+            setEditPolicy={setEditPolicy}
           />
         ) : (
           <RenderObsolete
@@ -88,6 +91,7 @@ const Policy = () => {
             setShowFilterView={setShowFilterView}
             showFilterView={showFilterView}
             options={options}
+            setEditPolicy={setEditPolicy}
           />
         )}
       </CardContainer>
@@ -98,7 +102,7 @@ const Policy = () => {
         open={openAddPolice}
         text="Done"
         iconEnd={undefined}
-        title="Add Policy"
+        title={editPoplicy ? 'Update Policy' : 'Add Policy'}
         handleClose={() => setOpenAddPolice(false)}
       >
         <div className={style.gridView}>
@@ -107,7 +111,15 @@ const Policy = () => {
         </div>
         <div className={style.gridView}>
           <TextField label="Version" placeholder="Enter Policy Version" star=" *" />
-          <TextField label="Category" placeholder="Enter Policy Category" star=" *" />
+          {/* <TextField label="Category" placeholder="Enter Policy Category" star=" *" /> */}
+          <Selection
+            wraperSelect={style.wraperSelect}
+            label="Category"
+            placeholder="Category"
+            options={options}
+            star=" *"
+            onChange={(item) => console.log(item)}
+          />
         </div>
         <div className={style.gridView}>
           <DatePicker label="Effective Date" control={control} name="Effective Date" star=" *" />
@@ -141,8 +153,6 @@ const Policy = () => {
         </div>
 
         <div className={style.gridView}>
-          {/* <TextField label="Applies to" placeholder="MSDD  Applies to" star=" *" /> */}
-
           <Selection
             wraperSelect={style.wraperSelect}
             label="Applies to"
@@ -153,15 +163,107 @@ const Policy = () => {
             closeMenuOnSelect={false}
             isMulti={true}
           />
-          <ProfileUpload />
+          <ProfileUpload
+            name={'frontPic'}
+            // register={register}
+            id={'frontPic'}
+            // errorMessage={'errors?.frontPic?.message'}
+            // selectedFileName={selectedFileName}
+            // setSelectedFileName={setSelectedFileName}
+          />
         </div>
         <div className={style.gridView1}>
           <TextArea label="Discription" placeholder="Enter Discription" star=" *" />
         </div>
       </Modal>
+      {/* <Modal
+        open={true}
+        text="Done"
+        iconEnd={undefined}
+        title="Add Policy"
+        handleClose={() => setOpenAddPolice(false)}
+      >
+        <p>x f gh</p>
+      </Modal> */}
     </>
   );
 };
+
+const RenderAllPolicies = ({
+  setOpen,
+  control,
+  selectedTab,
+  setOpenAddPolice,
+  setSelectedTab,
+  setShowFilterView,
+  showFilterView,
+  options,
+  setEditPolicy,
+}: {
+  setOpen: any;
+  setSelectedTab: any;
+  [key: string]: any;
+}) => (
+  <div className={style.policyMainView}>
+    <RenderPoliciesTab
+      control={control}
+      selectedTab={selectedTab}
+      setOpenAddPolice={setOpenAddPolice}
+      setSelectedTab={setSelectedTab}
+      setShowFilterView={setShowFilterView}
+      showFilterView={showFilterView}
+      options={options}
+      setEditPolicy={setEditPolicy}
+    />
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4 , 1fr )' }}>
+      {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((item) => (
+        <RenderPolicy
+          setOpenAddPolice={setOpenAddPolice}
+          setOpen={setOpen}
+          setSelectedTab={setSelectedTab}
+          setEditPolicy={setEditPolicy}
+        />
+      ))}
+    </div>
+  </div>
+);
+
+const RenderObsolete = ({
+  setOpen,
+  control,
+  selectedTab,
+  setOpenAddPolice,
+  setSelectedTab,
+  setShowFilterView,
+  showFilterView,
+  options,
+  setEditPolicy,
+}: {
+  [key: string]: any;
+}) => (
+  <div className={style.policyMainView}>
+    <RenderPoliciesTab
+      control={control}
+      selectedTab={selectedTab}
+      setOpenAddPolice={setOpenAddPolice}
+      setSelectedTab={setSelectedTab}
+      setShowFilterView={setShowFilterView}
+      showFilterView={showFilterView}
+      options={options}
+      setEditPolicy={setEditPolicy}
+    />
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4 , 1fr )' }}>
+      {[1, 2, 3, 4, 5].map((item) => (
+        <RenderPolicy
+          setOpenAddPolice={setOpenAddPolice}
+          setOpen={setOpen}
+          setSelectedTab={setSelectedTab}
+          setEditPolicy={setEditPolicy}
+        />
+      ))}
+    </div>
+  </div>
+);
 
 const RenderPoliciesTab = ({
   selectedTab,
@@ -171,6 +273,7 @@ const RenderPoliciesTab = ({
   control,
   setOpenAddPolice,
   options,
+  setEditPolicy,
 }: {
   selectedTab: any;
   setSelectedTab: any;
@@ -179,6 +282,7 @@ const RenderPoliciesTab = ({
   control: any;
   setOpenAddPolice: any;
   options: any;
+  setEditPolicy: any;
 }) => (
   <>
     <div className={style.policyHeaderView}>
@@ -208,74 +312,23 @@ const RenderPoliciesTab = ({
       <div className={style.addPolicyView}>
         <img
           onClick={() => setShowFilterView(!showFilterView)}
-          style={{ cursor: 'pointer' }}
+          style={{ cursor: 'pointer', height: 35, width: 35 }}
           src={filter}
           alt=""
           className={style.img}
         />
-        <Button handleClick={() => setOpenAddPolice(true)} iconStart={plusIcon} text="Add Policy" />
-        <img style={{ cursor: 'pointer' }} src={del} alt="" className={style.img} />
+        <Button
+          handleClick={() => {
+            setOpenAddPolice(true);
+            setEditPolicy(false);
+          }}
+          iconStart={plusIcon}
+          text="Add Policy"
+        />
       </div>
     </div>
     {showFilterView && <RenderPolicySearchView options={options} control={control} />}
   </>
-);
-
-const RenderAllPolicies = ({
-  setOpen,
-  control,
-  selectedTab,
-  setOpenAddPolice,
-  setSelectedTab,
-  setShowFilterView,
-  showFilterView,
-  options,
-}: {
-  setOpen: any;
-  setSelectedTab: any;
-  [key: string]: any;
-}) => (
-  <div className={style.policyMainView}>
-    <RenderPoliciesTab
-      control={control}
-      selectedTab={selectedTab}
-      setOpenAddPolice={setOpenAddPolice}
-      setSelectedTab={setSelectedTab}
-      setShowFilterView={setShowFilterView}
-      showFilterView={showFilterView}
-      options={options}
-    />
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4 , 1fr )' }}>
-      {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((item) => (
-        <RenderPolicy setOpen={setOpen} setSelectedTab={setSelectedTab} />
-      ))}
-    </div>
-  </div>
-);
-
-const RenderObsolete = ({
-  setOpen,
-  control,
-  selectedTab,
-  setOpenAddPolice,
-  setSelectedTab,
-  setShowFilterView,
-  showFilterView,
-  options,
-}: {
-  [key: string]: any;
-}) => (
-  <div className={style.policyMainView}>
-    <RenderPoliciesTab
-      control={control}
-      selectedTab={selectedTab}
-      setOpenAddPolice={setOpenAddPolice}
-      setSelectedTab={setSelectedTab}
-      setShowFilterView={setShowFilterView}
-      showFilterView={showFilterView}
-      options={options}
-    />
-  </div>
 );
 
 export default Policy;

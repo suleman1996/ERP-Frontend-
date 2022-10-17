@@ -1,21 +1,36 @@
-import React from 'react';
+import React, { useRef } from 'react';
 
 import arrowRight from 'assets/arrowRight.svg';
 import menu from 'assets/menu.svg';
 
 import style from './request.module.scss';
+import { useOutsideAlerter } from 'hooks/useOutsideClick';
 
-const RenderPolicy = ({ setSelectedTab, setOpen }: any) => {
+const RenderPolicy = ({ setSelectedTab, setOpen, setOpenAddPolice, setEditPolicy }: any) => {
   const [isMenuVisible, setIsMenuVisible] = React.useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+  useOutsideAlerter(ref, () => setIsMenuVisible(false));
   return (
     <div className={style.policyView}>
       {isMenuVisible && (
-        <div className={style.menuBox}>
-          <div className={style.menuViewBox}>
+        <div className={style.menuBox} ref={ref}>
+          <div
+            onClick={() => {
+              setOpenAddPolice(true);
+              setIsMenuVisible(false);
+              setEditPolicy(true);
+            }}
+            className={style.menuViewBox}
+          >
             <p style={{ fontSize: '8px', fontWeight: '500', color: '#2D2D32' }}>Edit</p>
             <img src={arrowRight} alt="" className={style.img} />
           </div>
-          <div onClick={() => setOpen(true)} className={style.menuViewBox}>
+          <div
+            onClick={() => {
+              setOpen(true);
+            }}
+            className={style.menuViewBox}
+          >
             <p style={{ fontSize: '8px', fontWeight: '500', color: '#2D2D32' }}>Delete</p>
             <img src={arrowRight} alt="" className={style.img} />
           </div>
@@ -59,12 +74,6 @@ const RenderPolicy = ({ setSelectedTab, setOpen }: any) => {
         </div>
       </div>
       <div className={style.policyDescriptionView}>
-        {/* <p style={{ fontSize: '9px', fontWeight: 300, color: '#2D2D32', textAlign: 'justify' }}>
-            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
-            invidunt ut labore et dolore magna Lorem ipsum dolor sit amet, consetetur sadipscing
-            elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna onsetetur
-            sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore{' '}
-          </p> */}
         <ul>
           {[
             { q: 'Policy Number', v: 'BFFF334r' },
