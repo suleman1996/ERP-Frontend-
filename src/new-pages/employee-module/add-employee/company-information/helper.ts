@@ -1,10 +1,7 @@
 import { useEffect, useState } from 'react';
-import * as yup from 'yup';
-import { AxiosError } from 'axios';
 import { useParams } from 'react-router-dom';
 import moment from 'moment';
 import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 
 import EmployeeService from 'services/employee-service';
 import { removeKeys } from 'helper';
@@ -38,14 +35,7 @@ interface Data {
   [key: string]: any;
 }
 
-export const useCompanyInfo = ({
-  handleBack,
-  handleNext,
-  formData,
-  setFormData,
-  employeeId,
-  employeeDocId,
-}: Props) => {
+export const useCompanyInfo = ({ handleNext, formData, setFormData, employeeDocId }: Props) => {
   const { id } = useParams();
   const [type, setType] = useState('per-day');
   const [probation, setProbation] = useState(false);
@@ -54,7 +44,8 @@ export const useCompanyInfo = ({
   const [check, setCheck] = useState<number[]>([]);
   const [leaves, setLeaves] = useState<any>();
   const [btnLoader, setBtnLoader] = useState(false);
-  const { register, handleSubmit, errors, control, reset, watch, setError } = useForm();
+  const { register, handleSubmit, errors, control, reset, watch, setError, clearErrors } =
+    useForm();
 
   const departmentChangeHandler = async (e: any) => {
     await getAllDesignations(e.target.value);
@@ -73,11 +64,12 @@ export const useCompanyInfo = ({
 
   const getSingleEmployeeData = async () => {
     const res = await EmployeeService.getCompanyEmployee(id || employeeDocId);
-    await getAllDesignations(res.data.company.departmentId);
+    if (res?.data?.company?.departmentId)
+      await getAllDesignations(res?.data?.company?.departmentId);
     reset({
       ...res?.data?.company,
       joiningDate: moment(res?.data?.company?.joiningDate).toDate(),
-      probation: res?.data?.company?.active,
+      probation: Boolean(res?.data?.company?.probation?.employeeId),
       ...leaves?.reduce((acc: { [key: string]: any }, leave: any) => {
         const leaveData = res?.data?.company?.leaves?.find((e: any) => e.leaveId === leave._id);
         return { ...acc, [leave.name]: leaveData?.quantity };
@@ -92,7 +84,7 @@ export const useCompanyInfo = ({
     try {
       setFormData({ ...formData, companyInformation: { ...data } });
       removeKeys(data, ['startDate', 'endDate']);
-      const { joiningDate, checkIn, probation, checkOut, workingHours } = data;
+      const { joiningDate, checkIn, probation, checkOut } = data;
       let user: any = {
         ...data,
         workingHours: undefined,
@@ -106,18 +98,15 @@ export const useCompanyInfo = ({
           checkIn: checkIn && moment(checkIn, 'HH:mm').format('hh:mm a'),
           checkOut: checkOut && moment(checkOut, 'HH:mm').format('hh:mm a'),
           workingHours:
-            workingHours &&
-            workingHours
+            data['employmentInfo.workingHours'] &&
+            data['employmentInfo.workingHours']
               .split(':')
               .map((e: string) => String(e).padStart(2, '0'))
               .join(':'),
           workingHoursType: type,
         },
-
-        employeeId: '634505209601f4773bdcf3e8',
         workingDaysInWeek: check,
-
-        probation: probation === 'true' ? true : false,
+        probation: probation ? Boolean(probation) : false,
       };
       removeKeys(user, ['department', 'designation', ...leaves.map((leave: Leave) => leave.name)]);
       if (id) {
@@ -125,25 +114,22 @@ export const useCompanyInfo = ({
         if (res.status === 200) {
           handleNext('Education');
         }
-        console.log(res, 'resresres');
         if (res?.response?.data?.error && res.response.status === 422) {
-          setErrors(res.response.data.error, setError);
+          setErrors(res?.response?.data?.error, setError);
         }
       } else {
-        // const res = await EmployeeService.addPostCompany(user, employeeDocId);
         const res = await EmployeeService.addPostCompany(user, employeeDocId);
         if (res.status === 200) {
           handleNext('Education');
         }
         if (res?.response?.data?.error && res.response.status === 422) {
-          setErrors(res.response.data.error, setError);
+          setErrors(res?.response?.data?.error, setError);
         }
       }
     } catch (err: any) {
       if (err.response?.data?.error) {
         setErrors(err.response.data.error, setError);
       }
-      console.log(err?.response?.data?.error);
     }
     setBtnLoader(false);
   };
@@ -151,13 +137,15 @@ export const useCompanyInfo = ({
   const getAllDepartments = async () => {
     const res = await EmployeeService.getDepartments();
     setDepartments(res?.data?.department);
-    console.log('department', res?.data?.department);
   };
 
   const getAllDesignations = async (id: string) => {
-    const res = await EmployeeService.getDesignation(id);
-    setDesignation(res?.data?.Designation);
-    console.log('department', res?.data?.Designation);
+    try {
+      const res = await EmployeeService.getDesignation(id);
+      setDesignation(res?.data?.Designation);
+    } catch (e) {
+      console.log('designation not get yet');
+    }
   };
 
   const getAllLeaves = async () => {
@@ -167,7 +155,6 @@ export const useCompanyInfo = ({
 
   useEffect(() => {
     getAllDepartments();
-    // getAllDesignations();
     getAllLeaves();
   }, []);
 
@@ -189,6 +176,7 @@ export const useCompanyInfo = ({
     check,
     setCheck,
     departmentChangeHandler,
+    clearErrors,
   };
 };
 
