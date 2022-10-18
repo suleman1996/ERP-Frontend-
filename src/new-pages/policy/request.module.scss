@@ -426,3 +426,9 @@ ul {
 .wraperSelect {
   margin-top: 10px;
 }
+
+.policyGridView {
+  // display: grid;
+  // grid-template-columns: repeat(4, 1fr);
+  @include gridFour(15, 30);
+}

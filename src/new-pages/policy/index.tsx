@@ -215,7 +215,7 @@ const RenderAllPolicies = ({
       options={options}
       setEditPolicy={setEditPolicy}
     />
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4 , 1fr )' }}>
+    <div className={style.policyGridView}>
       {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((item) => (
         <RenderPolicy
           setOpenAddPolice={setOpenAddPolice}
@@ -252,7 +252,7 @@ const RenderObsolete = ({
       options={options}
       setEditPolicy={setEditPolicy}
     />
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4 , 1fr )' }}>
+    <div className={style.policyGridView}>
       {[1, 2, 3, 4, 5].map((item) => (
         <RenderPolicy
           setOpenAddPolice={setOpenAddPolice}

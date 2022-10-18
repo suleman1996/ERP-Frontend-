@@ -21,7 +21,9 @@ const RenderPolicySearchView = ({ control, options }: { control: Control; option
       star=" *"
       onChange={(item) => console.log(item)}
     />
-    <DatePicker control={control} name="gg" />
+
+    <DatePicker control={control} name="Date" />
+
     <Button text="Search" />
   </div>
 );
