@@ -3,19 +3,18 @@ import moment from 'moment';
 import Button from 'new-components/button';
 import TextField from 'new-components/textfield';
 import Select from 'new-components/select';
-import TextArea from 'new-components/textarea';
 import DatePicker from 'new-components/date-picker';
-import Radio from 'new-components/radio';
 import TimePicker from 'new-components/time-picker';
 import Checkbox from 'new-components/checkbox';
 import CustomTimePicker from 'components/custom-time-picker';
 
-import { employmentType, department, useCompanyInfo } from './helper';
+import { employmentType, useCompanyInfo } from './helper';
 
 import arrowRight from 'new-assets/arrowBtnRight.svg';
 import arrowLeft from 'new-assets/backBtn.svg';
 import style from './company-information.module.scss';
 import WeekDay from 'new-components/week-day';
+import { useEffect } from 'react';
 
 interface Props {
   handleBack: (data?: string) => void;
@@ -39,6 +38,7 @@ const CompanyInformation = ({
     register,
     handleSubmit,
     errors,
+    clearErrors,
     control,
     watch,
     btnLoader,
@@ -111,16 +111,16 @@ const CompanyInformation = ({
             </>
           </Select>
           {leaves &&
-            leaves.map((data: any) => {
+            leaves.map((data: any, index: number) => {
               return (
                 <div key={data.name}>
                   <TextField
-                    name={`${data?.name}`}
+                    name={`leaves.${index}.quantity`}
                     star={' *'}
                     label={`${data.name} Leave`}
                     type="number"
                     register={register}
-                    errorMessage={errors[data?.name]?.message}
+                    errorMessage={errors.leaves && errors.leaves[index]?.quantity?.message}
                     placeholder={`${data?.name} Leave`}
                   />
                 </div>
@@ -175,7 +175,6 @@ const CompanyInformation = ({
               }
               control={control}
               errorMessage={errors?.endDate?.message}
-              // readOnly
             />
           </div>
         )}
@@ -201,24 +200,24 @@ const CompanyInformation = ({
             <>
               <TimePicker
                 label="Check in"
-                name={'checkIn'}
+                name={'employmentInfo.checkIn'}
                 star={' *'}
                 register={register}
-                errorMessage={errors?.checkIn?.message}
+                errorMessage={errors?.employmentInfo?.checkIn?.message}
               />
               <TimePicker
                 label="Check out"
                 star={' *'}
-                name={'checkOut'}
+                name={'employmentInfo.checkOut'}
                 register={register}
-                errorMessage={errors?.checkOut?.message}
+                errorMessage={errors?.employmentInfo?.checkOut?.message}
               />
             </>
           ) : (
             <CustomTimePicker
-              name={'workingHours'}
+              name={'employmentInfo.workingHours'}
               control={control}
-              errorMessage={errors?.workingHours?.message}
+              errorMessage={errors?.employmentInfo?.workingHours?.message}
               type={type}
               setType={setType}
               star={' *'}
@@ -229,16 +228,9 @@ const CompanyInformation = ({
           check={check}
           setCheck={setCheck}
           star={' *'}
+          clearErrors={clearErrors}
           errorMessage={errors?.workingDaysInWeek?.message}
         />
-        {/* <TextArea
-          name="note"
-          label="Note "
-          register={register}
-          errorMessage={errors?.note?.message}
-          placeholder="Note"
-          className={style.field}
-        /> */}
         <div className={style.btnContainer}>
           <Button
             text="Back"

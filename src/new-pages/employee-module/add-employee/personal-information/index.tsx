@@ -4,7 +4,6 @@ import Button from 'new-components/button';
 import DatePicker from 'new-components/date-picker';
 import ImageUpload from 'new-components/image-upload';
 import TextField from 'new-components/textfield';
-import Radio from 'new-components/radio';
 import ProfileUpload from 'new-components/profile-upload';
 import CountryInput from 'components/country-input';
 import Select from 'new-components/select';
@@ -65,7 +64,7 @@ const PersonalInformation = ({
           handleSubmit(onSubmit)(e);
         }}
       >
-        <ImageUpload name={'userimage'} img={img} setImg={setImg} />
+        <ImageUpload name={'profilePicture'} img={img} setImg={setImg} />
         <div className={style.grid}>
           <TextField
             name="firstName"

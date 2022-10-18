@@ -127,11 +127,12 @@ export const usePersonalInfo = ({
       });
     }
   };
-
+  console.log(img);
   const onSubmit = async (data: Data) => {
     setBtnLoader(true);
     try {
       const { dob, cnic, frontPic, backPic, employeeId } = data;
+
       const temp = {
         ...data,
         profilePicture: img,

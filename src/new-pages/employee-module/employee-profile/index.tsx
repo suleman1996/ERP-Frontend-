@@ -12,7 +12,6 @@ import EmployeeService from 'services/employee-service';
 
 import filter from 'new-assets/filter-icon.svg';
 import plus from 'new-assets/add.svg';
-import user from 'new-assets/user-img.svg';
 import style from './employee-profile.module.scss';
 import Loading from 'new-components/loading';
 import EmployeeFilter from 'pages/employee-details/employee-filter';
@@ -61,9 +60,9 @@ const EmployeeProfileDetails = () => {
     const res = await EmployeeService.getAllEmployees({ pageSize: count, page });
     console.log('res', res?.data?.employees);
     if (res?.status === 200) {
-      setEmployees(res?.data?.employees[0].data);
-      setTotalCount(res.data?.employees[0].count);
-      console.log('count', res.data?.employees[0].count);
+      setEmployees(res?.data?.employees[0]?.data);
+      setTotalCount(res.data?.employees[0]?.count);
+      console.log('count', res.data?.employees[0]?.count);
     }
     setLoading(false);
   };

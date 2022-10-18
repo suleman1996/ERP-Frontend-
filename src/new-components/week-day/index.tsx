@@ -1,7 +1,5 @@
-import { useState, useEffect } from 'react';
-
+import { setErrors } from 'helper';
 import Checkbox from 'new-components/checkbox';
-
 import style from './week-day.module.scss';
 
 interface Props {
@@ -9,10 +7,12 @@ interface Props {
   setCheck: (data?: any) => void;
   star?: string;
   errorMessage?: string;
+  clearErrors: any;
 }
 
-const WeekDay = ({ check, setCheck, star, errorMessage }: Props) => {
+const WeekDay = ({ check, setCheck, star, errorMessage, clearErrors }: Props) => {
   const handleCheckboxChange = (index: number) => {
+    clearErrors('workingDaysInWeek');
     setCheck((prevState: any) =>
       prevState?.includes(index)
         ? prevState?.filter((e: any) => e !== index)

@@ -65,26 +65,22 @@ export const useEducationDetail = ({
     try {
       setFormData({ ...formData, educationDetails: [...educations] });
       if (id) {
-        if (educations?.length) {
-          const userData = {
-            educationDetails: [...educations],
-          };
-          const res = await EmployeeService.addPostEducation(userData, id);
-          if (res.status === 200) {
-            handleNext && handleNext('Experience');
-          }
+        const userData = {
+          educationDetails: [...educations],
+        };
+        const res = await EmployeeService.addPostEducation(userData, id);
+        if (res.status === 200) {
+          handleNext && handleNext('Experience');
         }
       } else {
-        if (educations?.length) {
-          const res = await EmployeeService.addPostEducation(
-            {
-              educationDetails: [...educations],
-            },
-            employeeDocId,
-          );
-          if (res.status === 200) {
-            handleNext && handleNext('Experience');
-          }
+        const res = await EmployeeService.addPostEducation(
+          {
+            educationDetails: [...educations],
+          },
+          employeeDocId,
+        );
+        if (res.status === 200) {
+          handleNext && handleNext('Experience');
         }
       }
     } catch (err) {

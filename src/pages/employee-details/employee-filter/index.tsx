@@ -10,7 +10,6 @@ import cross from 'assets/employee-page/Path 307.svg';
 
 const EmployeeFilter = ({ setOpen, setEmployees, open, setCount, getData }: Props) => {
   const {
-    options,
     register,
     handleSubmit,
     onSubmit,

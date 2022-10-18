@@ -78,7 +78,7 @@ const AddEvent = ({
   const getDay = (value: string) => {
     // let temp: string[] = [...dayArr];
     let temp: string[] = [...['3']];
-    let tempIndex = temp.findIndex((e: string) => e === value);
+    // let tempIndex = temp.findIndex((e: string) => e === value);
     // if (tempIndex < 0) {
     //   temp.push(value);
     // } else {
