@@ -132,7 +132,7 @@ const EducationalDetails = ({
             wraperSelect={style.wraperSelect}
             withInput
             star={' *'}
-            errorMessage={errors?.marksType?.message}
+            errorMessage={errors?.marks?.message}
             register={register}
           >
             <>

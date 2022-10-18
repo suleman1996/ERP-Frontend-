@@ -93,12 +93,12 @@ const ExpertiseInformation = ({
           setActive(2);
         }
 
-        if (skillData.length > 0 && language.length > 0 && certificate.length > 0) {
-          const res = await EmployeeService.addPostExperties({ ...userData }, employeeDocId);
-          if (res.status === 200) {
-            handleNext('Payroll');
-          }
+        // if (skillData.length > 0 && language.length > 0 && certificate.length > 0) {
+        const res = await EmployeeService.addPostExperties({ ...userData }, employeeDocId);
+        if (res.status === 200) {
+          handleNext('Payroll');
         }
+        // }
       }
     } catch (err) {
       console.log(err);
