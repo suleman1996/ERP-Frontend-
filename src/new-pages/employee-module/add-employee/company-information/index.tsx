@@ -111,16 +111,16 @@ const CompanyInformation = ({
             </>
           </Select>
           {leaves &&
-            leaves.map((data: any) => {
+            leaves.map((data: any, index: number) => {
               return (
                 <div key={data.name}>
                   <TextField
-                    name={`${data?.name}`}
+                    name={`leaves.${index}.quantity`}
                     star={' *'}
                     label={`${data.name} Leave`}
                     type="number"
                     register={register}
-                    errorMessage={errors[data?.name]?.message}
+                    errorMessage={errors.leaves && errors.leaves[index]?.quantity?.message}
                     placeholder={`${data?.name} Leave`}
                   />
                 </div>
@@ -200,24 +200,24 @@ const CompanyInformation = ({
             <>
               <TimePicker
                 label="Check in"
-                name={'checkIn'}
+                name={'employmentInfo.checkIn'}
                 star={' *'}
                 register={register}
-                errorMessage={errors?.checkIn?.message}
+                errorMessage={errors?.employmentInfo?.checkIn?.message}
               />
               <TimePicker
                 label="Check out"
                 star={' *'}
-                name={'checkOut'}
+                name={'employmentInfo.checkOut'}
                 register={register}
-                errorMessage={errors?.checkOut?.message}
+                errorMessage={errors?.employmentInfo?.checkOut?.message}
               />
             </>
           ) : (
             <CustomTimePicker
-              name={'workingHours'}
+              name={'employmentInfo.workingHours'}
               control={control}
-              errorMessage={errors?.workingHours?.message}
+              errorMessage={errors?.employmentInfo?.workingHours?.message}
               type={type}
               setType={setType}
               star={' *'}

@@ -59,7 +59,6 @@ const AddressInformation = ({
     employeeDocId,
     setEmployeeDocId,
   });
-  console.log(errors, 'errrors');
   return (
     <div className={style.mainForm}>
       <form onSubmit={handleSubmit(onSubmit)}>

@@ -70,6 +70,11 @@ export const useCompanyInfo = ({ handleNext, formData, setFormData, employeeDocI
       ...res?.data?.company,
       joiningDate: moment(res?.data?.company?.joiningDate).toDate(),
       probation: Boolean(res?.data?.company?.probation?.employeeId),
+      employmentInfo: {
+        workingHours: res?.data?.company?.workingHours,
+        checkIn: moment(res?.data?.company?.checkIn, 'hh:mm a').format('HH:mm'),
+        checkOut: moment(res?.data?.company?.checkOut, 'hh:mm a').format('HH:mm'),
+      },
       ...leaves?.reduce((acc: { [key: string]: any }, leave: any) => {
         const leaveData = res?.data?.company?.leaves?.find((e: any) => e.leaveId === leave._id);
         return { ...acc, [leave.name]: leaveData?.quantity };
@@ -91,15 +96,19 @@ export const useCompanyInfo = ({ handleNext, formData, setFormData, employeeDocI
         joiningDate: moment(joiningDate).format('YYYY-MM-DD'),
         departmentId: data?.departmentId,
         designationId: data?.designationId,
-        leaves: leaves.map((leave: Leave) => {
-          return { leaveId: leave?._id, quantity: data[leave?.name] };
+        leaves: leaves.map((leave: Leave, index: number) => {
+          return { leaveId: leave?._id, quantity: data.leaves[index].quantity };
         }),
         employmentInfo: {
-          checkIn: checkIn && moment(checkIn, 'HH:mm').format('hh:mm a'),
-          checkOut: checkOut && moment(checkOut, 'HH:mm').format('hh:mm a'),
+          checkIn:
+            data?.employmentInfo?.checkIn &&
+            moment(data?.employmentInfo?.checkIn, 'HH:mm').format('hh:mm a'),
+          checkOut:
+            data?.employmentInfo?.checkOut &&
+            moment(data?.employmentInfo?.checkOut, 'HH:mm').format('hh:mm a'),
           workingHours:
-            data['employmentInfo.workingHours'] &&
-            data['employmentInfo.workingHours']
+            data?.employmentInfo?.workingHours &&
+            data?.employmentInfo?.workingHours
               .split(':')
               .map((e: string) => String(e).padStart(2, '0'))
               .join(':'),

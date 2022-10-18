@@ -65,7 +65,6 @@ const CustomTimePicker = ({ control, name, errorMessage, setType, type, star }) 
         />
       </div>
       {errorMessage && <p className={style.error}>{errorMessage}</p>}
-      {customErr && <p className={style.error}>{customErr}</p>}
     </div>
   );
 };

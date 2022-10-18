@@ -20,7 +20,7 @@ const PayrollInformation = ({ handleBack, employeeId, employeeDocId }: Props) =>
     employeeId,
     employeeDocId,
   });
-
+  console.log(errors);
   return (
     <div className={style.mainForm}>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -31,7 +31,7 @@ const PayrollInformation = ({ handleBack, employeeId, employeeDocId }: Props) =>
             type="number"
             star={' *'}
             register={register}
-            errorMessage={errors?.basicSalary?.message}
+            errorMessage={errors?.payrollDetails?.basicSalary?.message}
             placeholder="Basic Salary"
           />
           <TextField
@@ -40,7 +40,7 @@ const PayrollInformation = ({ handleBack, employeeId, employeeDocId }: Props) =>
             star={' *'}
             type="number"
             register={register}
-            errorMessage={errors?.houseRent?.message}
+            errorMessage={errors?.payrollDetails?.houseRent?.message}
             placeholder="House Rent"
           />
           {allowence &&
@@ -59,24 +59,6 @@ const PayrollInformation = ({ handleBack, employeeId, employeeDocId }: Props) =>
                 </div>
               );
             })}
-          {/* <TextField
-            name="medicalAllowance"
-            label="Medical Allowance"
-            star={' *'}
-            type="number"
-            register={register}
-            errorMessage={errors?.medicalAllowance?.message}
-            placeholder="Medical Allowance"
-          />
-          <TextField
-            name="specialAllowance"
-            label="Special Allowance"
-            star={' *'}
-            type="number"
-            register={register}
-            errorMessage={errors?.specialAllowance?.message}
-            placeholder="Special Allowance"
-          /> */}
           <TextField
             name="bankName"
             label="Bank Name"
@@ -108,7 +90,7 @@ const PayrollInformation = ({ handleBack, employeeId, employeeDocId }: Props) =>
             label="Pay Type"
             name={'payType'}
             star={' *'}
-            errorMessage={errors?.payType?.message}
+            errorMessage={errors?.payrollDetails?.payType?.message}
             register={register}
           >
             <option value="">Pay Type</option>
@@ -125,7 +107,7 @@ const PayrollInformation = ({ handleBack, employeeId, employeeDocId }: Props) =>
             label="Payroll Type"
             name={'payRollType'}
             star={' *'}
-            errorMessage={errors?.payRollType?.message}
+            errorMessage={errors?.payrollDetails?.payRollType?.message}
             register={register}
           >
             <option value="">Attendance</option>
@@ -148,11 +130,19 @@ const PayrollInformation = ({ handleBack, employeeId, employeeDocId }: Props) =>
                 <Radio name="yes" label="No " radioValue={'no'} radioRef={register} />
               </div>
             </div>
+            {errors?.payrollDetails?.overtimeApplicable?.message && (
+              <p
+                style={{ fontSize: '10px', color: 'red', lineHeight: '10px' }}
+                className={style.errorMessage}
+              >
+                {errors?.payrollDetails?.overtimeApplicable?.message}
+              </p>
+            )}
           </div>
           <Select
             label="Roaster"
             name={'roaster'}
-            errorMessage={errors?.roaster?.message}
+            errorMessage={errors?.payrollDetails?.roaster?.message}
             register={register}
           >
             <option value="">Select</option>

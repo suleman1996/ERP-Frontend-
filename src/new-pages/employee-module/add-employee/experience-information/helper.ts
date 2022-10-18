@@ -62,18 +62,16 @@ export const useExperience = ({
       setFormData({ ...formData, educationDetails: [...educations] });
 
       if (id) {
-        if (educations?.length) {
-          const res = await EmployeeService.addPostExperience(
-            {
-              experienceDetails: [...educations],
-            },
-            id,
-          );
-          if (res.status === 200) {
-            handleNext && handleNext('Expertise');
-          }
+        const res = await EmployeeService.addPostExperience(
+          {
+            experienceDetails: [...educations],
+          },
+          id,
+        );
+        if (res.status === 200) {
+          handleNext && handleNext('Expertise');
         }
-      } else if (educations?.length) {
+      } else {
         const res = await EmployeeService.addPostExperience(
           {
             experienceDetails: [...educations],

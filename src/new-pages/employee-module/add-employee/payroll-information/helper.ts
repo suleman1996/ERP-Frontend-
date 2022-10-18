@@ -5,6 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import EmployeeService from 'services/employee-service';
+import { setErrors } from 'helper';
 
 interface Data {
   basicSalary: string;
@@ -32,7 +33,7 @@ export const usePayrollDetail = ({ employeeId, employeeDocId }: Props) => {
   const [allowence, setAllowence] = useState<any>();
   const [btnLoader, setBtnLoader] = useState(false);
 
-  const { register, handleSubmit, errors, control, reset } = useForm();
+  const { register, handleSubmit, errors, control, reset, setError } = useForm();
 
   const onSubmit = async (data: any) => {
     const {
@@ -70,13 +71,20 @@ export const usePayrollDetail = ({ employeeId, employeeDocId }: Props) => {
 
       if (id) {
         const res = await EmployeeService.addPostPayroll(userData, id);
+        if (res?.response?.data?.error && res?.response?.status === 422) {
+          setErrors(res.response.data.error, setError);
+        }
       } else {
         const res = await EmployeeService.addPostPayroll({ ...userData }, employeeDocId);
+        if (res?.response?.data?.error && res?.response?.status === 422) {
+          setErrors(res.response.data.error, setError);
+        }
         if (res.status === 200) {
           navigate('/employee');
         }
       }
-    } catch (err) {
+    } catch (err: any) {
+      setErrors(err?.response?.data?.error, setError);
       console.log(err);
     }
     setBtnLoader(false);
