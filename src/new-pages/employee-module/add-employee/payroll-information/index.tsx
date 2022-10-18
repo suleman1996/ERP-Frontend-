@@ -26,7 +26,7 @@ const PayrollInformation = ({ handleBack, employeeId, employeeDocId }: Props) =>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className={style.grid}>
           <TextField
-            name="basicSalary"
+            name="payrollDetails.basicSalary"
             label="Basic Salary"
             type="number"
             star={' *'}
@@ -88,7 +88,7 @@ const PayrollInformation = ({ handleBack, employeeId, employeeDocId }: Props) =>
           />
           <Select
             label="Pay Type"
-            name={'payType'}
+            name={'payrollDetails.payType'}
             star={' *'}
             errorMessage={errors?.payrollDetails?.payType?.message}
             register={register}
@@ -105,7 +105,7 @@ const PayrollInformation = ({ handleBack, employeeId, employeeDocId }: Props) =>
           </Select>
           <Select
             label="Payroll Type"
-            name={'payRollType'}
+            name={'payrollDetails.payRollType'}
             star={' *'}
             errorMessage={errors?.payrollDetails?.payRollType?.message}
             register={register}
@@ -125,9 +125,19 @@ const PayrollInformation = ({ handleBack, employeeId, employeeDocId }: Props) =>
               Overtime Applicable <b style={{ color: 'red' }}>{' *'}</b>{' '}
             </label>
             <div className={style.flexClassInner}>
-              <Radio name="yes" label="Yes " radioValue={'yes'} radioRef={register} />
+              <Radio
+                name="payrollDetails.overtimeApplicable"
+                label="Yes "
+                radioValue={'yes'}
+                radioRef={register}
+              />
               <div className={style.sec}>
-                <Radio name="yes" label="No " radioValue={'no'} radioRef={register} />
+                <Radio
+                  name="payrollDetails.overtimeApplicable"
+                  label="No "
+                  radioValue={'no'}
+                  radioRef={register}
+                />
               </div>
             </div>
             {errors?.payrollDetails?.overtimeApplicable?.message && (
@@ -141,7 +151,7 @@ const PayrollInformation = ({ handleBack, employeeId, employeeDocId }: Props) =>
           </div>
           <Select
             label="Roaster"
-            name={'roaster'}
+            name={'payrollDetails.roaster'}
             errorMessage={errors?.payrollDetails?.roaster?.message}
             register={register}
           >

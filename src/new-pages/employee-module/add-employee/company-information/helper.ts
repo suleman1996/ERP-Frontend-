@@ -55,11 +55,18 @@ export const useCompanyInfo = ({ handleNext, formData, setFormData, employeeDocI
     id && leaves && getSingleEmployeeData();
   }, [leaves]);
 
-  useEffect(() => {
+  const init = async () => {
+    if (!formData?.companyInformation) return;
+    await getAllDepartments();
+    await getAllDesignations(formData?.companyInformation.departmentId);
     formData?.companyInformation &&
       reset({
         ...formData?.companyInformation,
       });
+    setCheck(formData?.companyInformation.workingDaysInWeek);
+  };
+  useEffect(() => {
+    init();
   }, []);
 
   const getSingleEmployeeData = async () => {
@@ -85,9 +92,10 @@ export const useCompanyInfo = ({ handleNext, formData, setFormData, employeeDocI
   };
 
   const onSubmit = async (data: Data) => {
+    console.log(data, 'data hai ye hamara aur hamza ka pyara');
     setBtnLoader(true);
     try {
-      setFormData({ ...formData, companyInformation: { ...data } });
+      setFormData({ ...formData, companyInformation: { ...data, workingDaysInWeek: check } });
       removeKeys(data, ['startDate', 'endDate']);
       const { joiningDate, checkIn, probation, checkOut } = data;
       let user: any = {
@@ -191,12 +199,12 @@ export const useCompanyInfo = ({ handleNext, formData, setFormData, employeeDocI
 
 export const employmentType = [
   {
-    value: 'Part-Time',
-    description: 'Part-Time',
-  },
-  {
     value: 'Full-Time',
     description: 'Full-Time',
+  },
+  {
+    value: 'Part-Time',
+    description: 'Part-Time',
   },
 ];
 

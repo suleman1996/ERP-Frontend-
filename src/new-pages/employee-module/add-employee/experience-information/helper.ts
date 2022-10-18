@@ -54,7 +54,9 @@ export const useExperience = ({
     editInd: -1,
   });
 
-  const { register, handleSubmit, errors, control, reset, watch, setValue } = useForm();
+  const { register, handleSubmit, errors, control, reset, watch, setValue } = useForm({
+    resolver: yupResolver(schema),
+  });
 
   const onSubmit = async () => {
     setBtnLoader(true);
@@ -269,3 +271,13 @@ export const rows = [
     tenure: '10 Jun, 2021-10 Jun, 2022',
   },
 ];
+
+export const schema = yup.object().shape({
+  company: yup.string().required('Required field'),
+  country: yup.string().required('Required field'),
+  city: yup.string().required('Required field'),
+  jobTitle: yup.string().required('Required field'),
+  jobStartDate: yup.string().required('Required field'),
+  jobEndDate: yup.string().optional(),
+  ongoing: yup.boolean().optional(),
+});

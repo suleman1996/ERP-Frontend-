@@ -252,7 +252,19 @@ export const schema = yup.object().shape({
   institute: yup.string().required('Institute Name is a required field'),
   degree: yup.string().required('Degree is a required field'),
   marksType: yup.string().required(),
-  marks: yup.string().required(),
+  marks: yup.number().when('marksType', {
+    is: 'percentage',
+    then: yup
+      .number()
+      .max(100, 'Percentage must be less than or equal to 100')
+      .required()
+      .typeError('Required Filed'),
+    otherwise: yup
+      .number()
+      .max(4, 'CGPA must be less than or equal to 4')
+      .required()
+      .typeError('Required Filed'),
+  }),
   startDate: yup.string().required(),
   endDate: yup.string().optional(),
   ongoing: yup.boolean().required(),

@@ -170,10 +170,10 @@ export const usePersonalInfo = ({
       }
       setBtnLoader(false);
     } catch (err: any) {
-      if (err.response.data.error) {
-        setErrors(err.response.data.error, setError);
+      if (err?.response?.data?.error) {
+        setErrors(err?.response?.data?.error, setError);
       } else {
-        createNotification('error', 'Error', err.response.data.message);
+        createNotification('error', 'Error', err?.response?.data?.message);
       }
       setBtnLoader(false);
     }

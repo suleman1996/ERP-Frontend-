@@ -16,7 +16,7 @@ interface Data {
   bankName: string;
   accountHolderName: string;
   accountNumber: string;
-  yes: string;
+  overtimeApplicable: string;
   paytype: string;
   payrolltype: string;
   roaster: string;
@@ -37,15 +37,11 @@ export const usePayrollDetail = ({ employeeId, employeeDocId }: Props) => {
 
   const onSubmit = async (data: any) => {
     const {
-      basicSalary,
       houseRent,
       bankName,
       accountNumber,
       accountHolderName,
-      paytype,
-      payrolltype,
-      yes,
-      roaster,
+      payrollDetails: { basicSalary, payType, payRollType, overtimeApplicable, roaster },
     } = data;
     setBtnLoader(true);
     try {
@@ -56,9 +52,9 @@ export const usePayrollDetail = ({ employeeId, employeeDocId }: Props) => {
           bankName,
           accountHolderName,
           accountNumber: accountNumber.toString(),
-          payType: paytype,
-          payRollType: payrolltype,
-          overtimeApplicable: yes,
+          payType: payType,
+          payRollType: payRollType,
+          overtimeApplicable: overtimeApplicable,
           roaster,
           allownce: allowence.map((item: any) => {
             return {
@@ -102,6 +98,13 @@ export const usePayrollDetail = ({ employeeId, employeeDocId }: Props) => {
         console.log('123123123123', { data: res.data, dataAll: data, allowanceData });
         return { ...acc, [data.name]: allowanceData?.amount };
       }, {}),
+      payrollDetails: {
+        basicSalary: res?.data?.Payroll?.basicSalary,
+        payType: res?.data?.Payroll?.payType,
+        payRollType: res?.data?.Payroll?.payRollType,
+        overtimeApplicable: res?.data?.Payroll?.overtimeApplicable,
+        roaster: res?.data?.Payroll?.roaster,
+      },
     });
   };
 
