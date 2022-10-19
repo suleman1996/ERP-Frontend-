@@ -3,6 +3,7 @@ import { ChangeEvent, useState } from 'react';
 import Select from 'react-select';
 
 import { SelectionStyle } from './custom-styles';
+
 import style from './select.module.scss';
 
 interface Props {

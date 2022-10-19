@@ -43,8 +43,7 @@
   position: absolute;
   right: 15px;
   cursor: pointer;
-  top: 56%;
-
+  top: 40%;
   img {
     height: calc(18px + (25 - 18) * (100vw - 280px) / (2560 - 280));
     width: calc(18px + (25 - 18) * (100vw - 280px) / (2560 - 280));
@@ -64,13 +63,11 @@
   justify-content: space-between;
   align-items: center;
   margin: 10px 0;
-
   button {
     border: none;
     background-color: transparent;
     outline: none;
     margin-left: 8px;
-
     img {
       height: 30px;
       width: 30px;

@@ -1,0 +1,47 @@
+.checkBox {
+  height: 50px;
+}
+.checkBoxContainer {
+  background-color: red;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.wraper {
+  margin-top: 30px;
+}
+.save {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.filterIcon {
+  align-items: center;
+  display: flex;
+}
+.filterImage {
+  padding-left: 10px;
+  height: 20px;
+  cursor: pointer;
+}
+.tableHeader {
+  border: 1px solid #e2e2ea;
+  background-color: #fafafa;
+
+  th:nth-child(1) {
+    border-radius: 200px 0px 0px 0px !important;
+  }
+
+  th:nth-last-child(1) {
+    border-radius: 0px 5px 0px 0px;
+  }
+}
+.columnText {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 600 !important;
+  font-size: 14px;
+  color: #2d2d32 !important;
+}

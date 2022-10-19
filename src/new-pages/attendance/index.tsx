@@ -3,21 +3,15 @@ import React, { useState } from 'react';
 
 import Button from 'new-components/button';
 import CardContainer from 'components/card-container';
-import Table from 'new-components/table';
 import MenuPopup from 'new-components/menu-popup';
-import Tags from 'new-components/tags';
-import DeletePopup from 'new-components/delete-modal';
-import Modal from 'new-components/modal';
+import Pagination from 'new-components/pagination';
 
-import { ColumnsData } from './columns-data';
-import { Colors } from './columns-data';
-import { RowsData } from './columns-data';
-
-import plusIcon from 'assets/mobile-view/plusIcon.svg';
 import exportIcon from 'assets/export.svg';
 
-import style from './attendance.module.scss';
+import AttendanceDetail from './attendance-detail';
+import AddAttendance from './add-attendance';
 
+import style from './attendance.module.scss';
 export interface AttendanceInt {
   id: string;
   date: string;
@@ -30,94 +24,75 @@ export interface AttendanceInt {
 }
 const Attendance = () => {
   const [openMenu, setOpenMenu] = useState(false);
-  const [deletePopUp, setDeletePopUp] = useState(false);
-  const [attendanceModal, setAttendanceModal] = useState(false);
+  const [active, setActive] = useState(1);
 
-  const AttendanceForm = () => {
-    return (
-      <>
-        <p>Form</p>
-      </>
-    );
+  const handleTab = (index: number) => {
+    setActive(index);
+  };
+
+  const ActiveView = () => {
+    switch (active) {
+      case 1:
+        return <p>Summary</p>;
+      case 2:
+        return <AttendanceDetail setActive={setActive} />;
+      case 3:
+        return <AddAttendance />;
+      default:
+        return null;
+    }
   };
 
   return (
     <>
-      <div className={style.topDiv}>
-        <div style={{ position: 'relative' }}>
-          <Button
-            text="Export"
-            iconStart={exportIcon}
-            btnClass={style.btnClass}
-            className={style.className}
-            handleClick={() => setOpenMenu(!openMenu)}
-          />
-          {openMenu && <MenuPopup handleExcel={undefined} handlePdf={undefined} />}
-        </div>
-        <Button
-          text="Add Attendence"
-          iconStart={plusIcon}
-          handleClick={() => setAttendanceModal(true)}
-        />
-      </div>
-
       <CardContainer containerClass={style.container}>
         <div className={style.div}>
-          <p className={style.p}>Summary</p>
-          <p className={style.attendance}>Attendence Details</p>
+          <div style={{ display: 'flex' }}>
+            <p
+              className={style.p}
+              onClick={() => handleTab(1)}
+              style={{ color: active === 1 ? '#000000' : '#cacaca' }}
+            >
+              Summary
+            </p>
+            <p
+              className={style.p}
+              onClick={() => handleTab(2)}
+              style={{ color: active === 2 ? '#000000' : '#cacaca' }}
+            >
+              Attendence Details
+            </p>
+            <p
+              className={style.p}
+              onClick={() => handleTab(3)}
+              style={{ color: active === 3 ? '#000000' : '#cacaca' }}
+            >
+              Add Attendence
+            </p>
+          </div>
+          <div className={style.topDiv}>
+            <div style={{ position: 'relative' }}>
+              {openMenu && <MenuPopup handleExcel={undefined} handlePdf={undefined} />}
+            </div>
+            <Button
+              text="Export"
+              iconStart={exportIcon}
+              btnClass={style.btnClass}
+              className={style.className}
+              handleClick={() => setOpenMenu(!openMenu)}
+              hide={active === 1 || active === 3}
+            />
+          </div>
         </div>
-        <div style={{ padding: '0 10px' }}>
-          <Table
-            columns={ColumnsData}
-            rows={RowsData.map((row) => ({
-              ...row,
-              status: (
-                <div
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}
-                >
-                  <div
-                    style={{
-                      borderRadius: 10,
-                      background: Colors[row.status],
-                      borderWidth: 1,
-                      height: 10,
-                      width: 10,
-                      marginRight: 10,
-                    }}
-                  />
-                  <span style={{ color: Colors[row.status] }} className={style.statusText}>
-                    {row.status}
-                  </span>
-                </div>
-              ),
-              checkin: (
-                <span style={{ color: row.checkin === '12:00 AM' ? 'red' : 'black' }}>
-                  {row.checkin}
-                </span>
-              ),
-              tags: <Tags tagsTextArr={[row.tags]} />,
-            }))}
-            minWidth="2050px"
-            headingText={style.columnText}
-            handleDelete={() => setDeletePopUp(true)}
-          />
-        </div>
-      </CardContainer>
 
-      <DeletePopup open={deletePopUp} setOpen={setDeletePopUp} handleDelete={undefined} />
-      <Modal
-        open={attendanceModal}
-        text="Done"
-        iconEnd={undefined}
-        title="Add Attendence"
-        handleClose={() => setAttendanceModal(!attendanceModal)}
-        handleClick={() => undefined}
-        children={<AttendanceForm />}
-      />
+        {ActiveView()}
+
+        {active === 2 && (
+          <div className={style.pagination}>
+            <Pagination />
+          </div>
+        )}
+      </CardContainer>
     </>
   );
 };
