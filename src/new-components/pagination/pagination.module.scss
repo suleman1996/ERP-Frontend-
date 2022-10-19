@@ -10,14 +10,12 @@
   .leftFlex {
     display: flex;
     align-items: center;
-
     p {
       font-weight: 400;
       @include font16;
       color: #2d2d32;
       margin-left: 14px;
     }
-
     select {
       margin: 0px 6px;
       height: 29px;
@@ -30,7 +28,6 @@
   .rightFlex {
     display: flex;
     align-items: center;
-
     p {
       font-weight: 400;
       @include font16;
