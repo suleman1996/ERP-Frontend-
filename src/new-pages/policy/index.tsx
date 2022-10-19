@@ -22,6 +22,8 @@ import ProfileUpload from 'new-components/profile-upload';
 import Selection from 'my-components/select';
 import RenderPolicySearchView from './policies-search';
 import ViewPolicy from './view-policy';
+import PdfViewModal from 'new-components/pdf-viewer';
+import { sampleBase64pdf } from './pdfSample';
 
 const Policy = () => {
   const [selectedTab, setSelectedTab] = useState(0);
@@ -30,6 +32,7 @@ const Policy = () => {
 
   const [open, setOpen] = useState(false);
   const [openAddPolice, setOpenAddPolice] = useState(false);
+  const [openPolicyPdfView, setOpenViewPdfPolicy] = useState(false);
 
   const options = [
     { value: 'Ali', label: 'Ali' },
@@ -80,6 +83,7 @@ const Policy = () => {
             showFilterView={showFilterView}
             options={options}
             setEditPolicy={setEditPolicy}
+            setOpenViewPdfPolicy={setOpenViewPdfPolicy}
           />
         ) : (
           <RenderObsolete
@@ -92,6 +96,7 @@ const Policy = () => {
             showFilterView={showFilterView}
             options={options}
             setEditPolicy={setEditPolicy}
+            setOpenViewPdfPolicy={setOpenViewPdfPolicy}
           />
         )}
       </CardContainer>
@@ -163,28 +168,31 @@ const Policy = () => {
             closeMenuOnSelect={false}
             isMulti={true}
           />
-          <ProfileUpload
-            name={'frontPic'}
-            // register={register}
-            id={'frontPic'}
-            // errorMessage={'errors?.frontPic?.message'}
-            // selectedFileName={selectedFileName}
-            // setSelectedFileName={setSelectedFileName}
-          />
+          <div>
+            <div style={{ display: 'flex' }}>
+              <p style={{ fontSize: 17, color: '#2d2d32', marginRight: 5 }}>Attach Pdf </p>
+              <b style={{ color: 'red' }}> *</b>
+            </div>
+            <ProfileUpload
+              name={'frontPic'}
+              // register={register}
+              type="application/pdf,application/vnd.ms-excel"
+              id={'frontPic'}
+              // errorMessage={'errors?.frontPic?.message'}
+              // selectedFileName={selectedFileName}
+              // setSelectedFileName={setSelectedFileName}
+            />
+          </div>
         </div>
         <div className={style.gridView1}>
           <TextArea label="Discription" placeholder="Enter Discription" star=" *" />
         </div>
       </Modal>
-      {/* <Modal
-        open={true}
-        text="Done"
-        iconEnd={undefined}
-        title="Add Policy"
-        handleClose={() => setOpenAddPolice(false)}
-      >
-        <p>x f gh</p>
-      </Modal> */}
+      <PdfViewModal
+        openPolicyPdfView={openPolicyPdfView}
+        setOpenViewPdfPolicy={setOpenViewPdfPolicy}
+        pdf={sampleBase64pdf}
+      />
     </>
   );
 };
@@ -199,6 +207,7 @@ const RenderAllPolicies = ({
   showFilterView,
   options,
   setEditPolicy,
+  setOpenViewPdfPolicy,
 }: {
   setOpen: any;
   setSelectedTab: any;
@@ -222,6 +231,7 @@ const RenderAllPolicies = ({
           setOpen={setOpen}
           setSelectedTab={setSelectedTab}
           setEditPolicy={setEditPolicy}
+          setOpenViewPdfPolicy={setOpenViewPdfPolicy}
         />
       ))}
     </div>
@@ -238,6 +248,7 @@ const RenderObsolete = ({
   showFilterView,
   options,
   setEditPolicy,
+  setOpenViewPdfPolicy,
 }: {
   [key: string]: any;
 }) => (
@@ -259,6 +270,7 @@ const RenderObsolete = ({
           setOpen={setOpen}
           setSelectedTab={setSelectedTab}
           setEditPolicy={setEditPolicy}
+          setOpenViewPdfPolicy={setOpenViewPdfPolicy}
         />
       ))}
     </div>

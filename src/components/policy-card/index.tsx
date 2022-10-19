@@ -6,7 +6,13 @@ import menu from 'assets/menu.svg';
 import style from './request.module.scss';
 import { useOutsideAlerter } from 'hooks/useOutsideClick';
 
-const RenderPolicy = ({ setSelectedTab, setOpen, setOpenAddPolice, setEditPolicy }: any) => {
+const RenderPolicy = ({
+  setSelectedTab,
+  setOpen,
+  setOpenAddPolice,
+  setEditPolicy,
+  setOpenViewPdfPolicy,
+}: any) => {
   const [isMenuVisible, setIsMenuVisible] = React.useState(false);
   const ref = useRef<HTMLDivElement>(null);
   useOutsideAlerter(ref, () => setIsMenuVisible(false));
@@ -92,7 +98,7 @@ const RenderPolicy = ({ setSelectedTab, setOpen, setOpenAddPolice, setEditPolicy
       </div>
 
       <div className={style.policyButtonView}>
-        <div className={style.policyButton}>
+        <div onClick={() => setOpenViewPdfPolicy(true)} className={style.policyButton}>
           <p style={{ fontWeight: '500', fontSize: 11, color: '#ffffff' }}>View Policy</p>
         </div>
       </div>
