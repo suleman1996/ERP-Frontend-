@@ -5,13 +5,13 @@ import Button from 'new-components/button';
 import CardContainer from 'components/card-container';
 import MenuPopup from 'new-components/menu-popup';
 import Pagination from 'new-components/pagination';
-
-import exportIcon from 'assets/export.svg';
-
 import AttendanceDetail from './attendance-detail';
 import AddAttendance from './add-attendance';
 
+import exportIcon from 'assets/export.svg';
+
 import style from './attendance.module.scss';
+
 export interface AttendanceInt {
   id: string;
   date: string;
