@@ -7,7 +7,8 @@ export const SelectionStyle = {
     border: '1px solid #E2E2EA',
     fontSize: '12px',
     fontFamily: 'SF-regular',
-    // height: 45,
+    height: 'calc(30px + 25 * (100vw - 280px) / 2280) !important',
+    minHeight: 'calc(30px + 25 * (100vw - 280px) / 2280) !important',
     padding: '2px',
   }),
   option: (styles: any, { data, isDisabled, isFocused, isSelected }: any) => {
@@ -21,7 +22,6 @@ export const SelectionStyle = {
   placeholder: (styles: any) => ({
     ...styles,
     fontSize: '13px',
-    // fontFamily: 'SF-regular',
     color: '#CACACA',
   }),
 };

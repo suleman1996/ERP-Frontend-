@@ -8,9 +8,9 @@
   flex-direction: column;
   justify-content: space-between;
   transition: all 0.3s;
-  width: 403px;
   position: relative;
   z-index: 200000;
+  width: 403px;
   @media (max-width: $xl) {
     width: 300px;
   }

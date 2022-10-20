@@ -52,3 +52,30 @@
   font-size: 18px !important;
   color: white !important;
 }
+
+.react-datepicker__input-time-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 15px 0px !important;
+}
+.react-datepicker__input-time-container .react-datepicker-time__caption {
+  font-weight: 600;
+  font-size: 14px;
+  color: #2d2d32;
+}
+/* placeholder text style */
+/* input[type='time']::-webkit-datetime-edit-text,
+input[type='time']::-webkit-datetime-edit-month-field,
+input[type='time']::-webkit-datetime-edit-day-field,
+input[type='time']::-webkit-datetime-edit-year-field {
+  color: rgb(207, 23, 23);
+}
+/*  */
+/* regular text style */
+/* input[type='time'].date-input--has-value::-webkit-datetime-edit-text,
+input[type='time'].date-input--has-value::-webkit-datetime-edit-month-field,
+input[type='time'].date-input--has-value::-webkit-datetime-edit-day-field,
+input[type='time'].date-input--has-value::-webkit-datetime-edit-year-field {
+  color: #f8f9fa;
+} */

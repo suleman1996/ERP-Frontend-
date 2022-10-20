@@ -8,6 +8,7 @@ import { selectCountry, usePayrollDetail, payrollType, payType, roster } from '.
 import tick from 'new-assets/tick.svg';
 import arrowLeft from 'new-assets/backBtn.svg';
 import style from './payroll.module.scss';
+import { useEmployeeForms } from '../context';
 
 interface Props {
   handleBack: (data?: string) => void;
@@ -15,7 +16,18 @@ interface Props {
   employeeDocId: string;
 }
 
-const PayrollInformation = ({ handleBack, employeeId, employeeDocId }: Props) => {
+const PayrollInformation = () => {
+  const {
+    handleNext,
+    setFormData,
+    employeeDocId,
+    formData,
+    setEmployeeId,
+    setEmployeeDocId,
+    handleBack,
+    employeeId,
+  }: any = useEmployeeForms();
+
   const { onSubmit, register, handleSubmit, errors, control, allowence } = usePayrollDetail({
     employeeId,
     employeeDocId,
@@ -37,7 +49,7 @@ const PayrollInformation = ({ handleBack, employeeId, employeeDocId }: Props) =>
           <TextField
             name="houseRent"
             label="House Rent"
-            star={' *'}
+            // star={' *'}
             type="number"
             register={register}
             errorMessage={errors?.payrollDetails?.houseRent?.message}
@@ -50,7 +62,7 @@ const PayrollInformation = ({ handleBack, employeeId, employeeDocId }: Props) =>
                   <TextField
                     name={data.name}
                     label={`${data.name} Allowence`}
-                    star={' *'}
+                    // star={' *'}
                     type="number"
                     register={register}
                     errorMessage={errors?.data?.name.message}
@@ -62,7 +74,7 @@ const PayrollInformation = ({ handleBack, employeeId, employeeDocId }: Props) =>
           <TextField
             name="bankName"
             label="Bank Name"
-            star={' *'}
+            // star={' *'}
             type="text"
             register={register}
             errorMessage={errors?.bankName?.message}
@@ -71,7 +83,7 @@ const PayrollInformation = ({ handleBack, employeeId, employeeDocId }: Props) =>
           <TextField
             name="accountHolderName"
             label="Account Holder Name"
-            star={' *'}
+            // star={' *'}
             type="text"
             register={register}
             errorMessage={errors?.accountHolderName?.message}
@@ -80,7 +92,7 @@ const PayrollInformation = ({ handleBack, employeeId, employeeDocId }: Props) =>
           <TextField
             name="accountNumber"
             label="Account Number"
-            star={' *'}
+            // star={' *'}
             type="number"
             register={register}
             errorMessage={errors?.accountNumber?.message}
@@ -151,6 +163,7 @@ const PayrollInformation = ({ handleBack, employeeId, employeeDocId }: Props) =>
           </div>
           <Select
             label="Roaster"
+            star={' *'}
             name={'payrollDetails.roaster'}
             errorMessage={errors?.payrollDetails?.roaster?.message}
             register={register}

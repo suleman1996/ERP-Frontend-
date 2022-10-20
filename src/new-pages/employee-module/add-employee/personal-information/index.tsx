@@ -12,8 +12,9 @@ import { usePersonalInfo } from './helper';
 
 import arrowRight from 'new-assets/arrowBtnRight.svg';
 import style from './personal-information.module.scss';
+import { useEmployeeForms } from '../context';
 
-interface Props {
+interface ContextProps {
   handleNext: (data?: string) => void;
   formData: any;
   setFormData: any;
@@ -22,14 +23,9 @@ interface Props {
   setEmployeeDocId: Dispatch<SetStateAction<string>>;
 }
 
-const PersonalInformation = ({
-  handleNext,
-  setFormData,
-  employeeDocId,
-  formData,
-  setEmployeeId,
-  setEmployeeDocId,
-}: Props) => {
+const PersonalInformation = () => {
+  const { handleNext, setFormData, employeeDocId, formData, setEmployeeId, setEmployeeDocId }: any =
+    useEmployeeForms();
   const {
     onSubmit,
     register,

@@ -7,6 +7,7 @@ import editIcon from 'new-assets/table-edit.svg';
 import deleteIcon from 'new-assets/table-delete.svg';
 import eye from 'new-assets/table-view.svg';
 import pdf from 'assets/employee-page/print.svg';
+
 import style from './table.module.scss';
 
 interface Props {

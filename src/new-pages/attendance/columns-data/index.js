@@ -1,4 +1,4 @@
-import filterIcon from 'assets/filter.svg';
+import filterIcon from 'assets/filterIcon.svg';
 
 export const ColumnsData = [
   {
@@ -78,6 +78,7 @@ export const RowsData = [
   {
     date: '12/10/2022',
     id: 'SRX001',
+    _id: 'uiqwkjasopkdjb',
     name: 'Jack Grow',
     checkin: '10:00 AM',
     checkout: '07:00 PM',
@@ -89,6 +90,7 @@ export const RowsData = [
   {
     date: '12/10/2022',
     id: 'SRX001',
+    _id: 'uiqwkjasopkdjb',
     name: 'Jack Sparrow',
     checkin: '12:00 AM',
     checkout: '07:00 PM',
@@ -100,6 +102,7 @@ export const RowsData = [
   {
     date: '12/10/2022',
     id: 'SRX001',
+    _id: 'uiqwkjasopkdjb',
     name: 'White',
     checkin: '11:00 AM',
     checkout: '07:00 PM',
@@ -111,6 +114,7 @@ export const RowsData = [
   {
     date: '12/10/2022',
     id: 'SRX001',
+    _id: 'uiqwkjasopkdjb',
     name: 'White',
     checkin: '12:00 AM',
     checkout: '07:00 PM',
@@ -122,6 +126,7 @@ export const RowsData = [
   {
     date: '12/10/2022',
     id: 'SRX001',
+    _id: 'uiqwkjasopkdjb',
     name: 'White',
     checkin: '12:00 AM',
     checkout: '07:00 PM',
@@ -133,6 +138,7 @@ export const RowsData = [
   {
     date: '12/10/2022',
     id: 'SRX001',
+    _id: 'uiqwkjasopkdjb',
     name: 'White',
     checkin: '11:00 AM',
     checkout: '07:00 PM',
@@ -144,6 +150,7 @@ export const RowsData = [
   {
     date: '12/10/2022',
     id: 'SRX001',
+    _id: 'uiqwkjasopkdjb',
     name: 'White',
     checkin: '12:00 AM',
     checkout: '07:00 PM',
@@ -152,4 +159,20 @@ export const RowsData = [
     status: 'HalfDay',
     tags: 'short leave',
   },
+];
+
+export const departments = [
+  { value: 'Web', label: 'WEB' },
+  { value: 'Mobile', label: 'MOBILE' },
+  { value: 'Sqa', label: 'SQA' },
+  { value: 'Hr', label: 'HR' },
+  { value: 'Manager', label: 'MANAGER' },
+];
+
+export const employees = [
+  { value: 'Umair', label: 'Umair' },
+  { value: 'Faizan', label: 'Faizan' },
+  { value: 'Raja', label: 'Raja' },
+  { value: 'Ibtisam', label: 'Ibtisam' },
+  { value: 'Ibrahim', label: 'Ibrahim' },
 ];

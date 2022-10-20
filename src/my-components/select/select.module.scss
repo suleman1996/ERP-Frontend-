@@ -11,8 +11,8 @@
   @include font20;
   cursor: pointer;
   color: #2d2d32;
-  height: calc(30px + (55 - 30) * (100vw - 280px) / (2560 - 280));
-  margin-top: calc(5px + (12 - 5) * (100vw - 280px) / (2560 - 280));
+  margin-top: calc(5px + 7 * (100vw - 280px) / 2280);
+  height: calc(30px + 25 * (100vw - 280px) / 2280);
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
