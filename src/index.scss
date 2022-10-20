@@ -92,3 +92,11 @@ input::-webkit-inner-spin-button {
 .react-datepicker-popper {
   transform: translate(-33px, 40px) !important;
 }
+
+.react-pdf__Page__textContent {
+  display: none !important;
+}
+.react-pdf__Page__canvas {
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
