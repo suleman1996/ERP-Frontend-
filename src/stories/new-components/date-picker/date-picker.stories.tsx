@@ -1,6 +1,7 @@
 import { useForm } from 'react-hook-form';
 
-import DatePicker from 'my-components/date-picker';
+import DatePicker from 'new-components/date-picker';
+import { truncate } from 'lodash';
 
 export default {
   title: 'DatePicker',
@@ -11,7 +12,7 @@ export default {
 const Template = (args: any) => {
   const { control } = useForm();
 
-  return <DatePicker {...args} control={control} />;
+  return <DatePicker {...args} control={control} showTimeInput={true} />;
 };
 
 export const Datepicker: any = Template.bind({});
