@@ -83,7 +83,6 @@ export const usePersonalInfo = ({
 
     if (employeeDocId) {
       const res = await EmployeeService.getEmployee(employeeDocId);
-      console.log('res let ', res?.data?.employeePersonalInformation?.gender);
       setSelectedFileName(res.data?.employeePersonalInformation?.cnicFront?.name.toString());
       setSelectedFileNameBack(res.data?.employeePersonalInformation?.cnicBack?.name.toString());
       setImg(res?.data?.employeePersonalInformation?.profilePicture);
@@ -128,7 +127,6 @@ export const usePersonalInfo = ({
       });
     }
   };
-
   const onSubmit = async (data: Data) => {
     setBtnLoader(true);
     try {
