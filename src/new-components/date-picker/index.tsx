@@ -3,6 +3,7 @@ import React from 'react';
 import ReactDatePicker from 'react-datepicker';
 import { Controller } from 'react-hook-form';
 import moment from 'moment';
+import TimePicker from 'react-time-picker';
 
 import doubleArrowRight from 'new-assets/1.svg';
 import singleArrowRight from 'new-assets/2.svg';
@@ -32,6 +33,7 @@ interface Props {
   minDate?: any;
   readOnly?: boolean;
   star?: string;
+  showTimeInput?: any;
 }
 
 const DatePicker = ({
@@ -46,6 +48,7 @@ const DatePicker = ({
   handleChange,
   isDisable,
   handleClick,
+  showTimeInput,
   maxDate,
   minDate,
   placeholder,
@@ -59,6 +62,18 @@ const DatePicker = ({
     handleChange?.(event, name);
     onChange(event);
   };
+
+  const CustomTimeInput = ({ value, onChange }: any) => (
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+      <input
+        className={style.inputField}
+        type="time"
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+      />
+      {/* <TimePicker onChange={onChange} value={value} /> */}
+    </div>
+  );
 
   return (
     <>
@@ -81,6 +96,11 @@ const DatePicker = ({
                   maxDate={maxDate && maxDate}
                   minDate={minDate && minDate}
                   readOnly={readOnly}
+                  dateFormat="MM/dd/yyyy h:mm aa"
+                  timeFormat="HH:mm"
+                  timeCaption="Time"
+                  showTimeInput={showTimeInput}
+                  customTimeInput={<CustomTimeInput />}
                   onChange={(event) => {
                     handleChangeDate(event, onChange, name);
                   }}

@@ -1,24 +1,19 @@
+import DatePicker from 'new-components/date-picker';
+import { useForm } from 'react-hook-form';
+
 const DashBoard = () => {
+  const { control } = useForm();
+
   return (
     <>
-      <h1>dashboard</h1>
+      <DatePicker
+        label="Search Date Time Picker"
+        name="date"
+        showTimeInput={true}
+        control={control}
+      />
     </>
   );
 };
 
 export default DashBoard;
-
-export const selectOptions = [
-  {
-    value: 'SPX',
-    description: 'SPX',
-  },
-  {
-    value: 'SPX',
-    description: 'YYY',
-  },
-  {
-    value: 'SPX',
-    description: 'ZZZ',
-  },
-];
