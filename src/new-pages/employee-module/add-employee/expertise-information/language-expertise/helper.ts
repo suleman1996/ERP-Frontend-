@@ -64,7 +64,7 @@ export const useLanguage = ({ formData, setFormData, employeeId, setLanguage }: 
     }
     setEducations([...newEducations]);
     setFormData({ ...formData, languageData: [...newEducations] });
-    reset({});
+    reset({ language: '' });
     setToggle(-1);
     languageIndex.current = -1;
   };
@@ -84,6 +84,7 @@ export const useLanguage = ({ formData, setFormData, employeeId, setLanguage }: 
     const delLang = [...educations];
     delLang.splice(index, 1);
     setEducations([...delLang]);
+    setFormData({ ...formData, languageData: [...delLang] });
   };
 
   const getUser = async () => {
@@ -118,6 +119,7 @@ export const useLanguage = ({ formData, setFormData, employeeId, setLanguage }: 
     handleDeleteIndex,
     toggle,
     setToggle,
+    watch,
   };
 };
 
@@ -128,15 +130,10 @@ export const schema = yup.object().shape({
     .number()
     .required('Year is a required field')
     .typeError('Year is required & should be a number'),
-  // file: yup
-  //   .mixed()
-  //   .test("required", "You need to provide a file", (file) => {
-  //     if (file[0]) return true;
-  //     return false;
-  //   })
-  //   .test("fileSize", "The file is too large", (file) => {
-  //     return file[0] && file[0].size <= 2000000;
-  //   }),
+  experince: yup
+    .number()
+    .required('Experince is a required field')
+    .typeError('Experince is required & should be a number'),
   skills: yup.string().required('Skills is a required field'),
 });
 
@@ -148,8 +145,8 @@ export const columns = [
     width: '150px',
   },
   {
-    key: 'rate',
-    name: 'Rate',
+    key: 'experince',
+    name: 'experince',
     alignText: 'center',
     width: '150px',
   },

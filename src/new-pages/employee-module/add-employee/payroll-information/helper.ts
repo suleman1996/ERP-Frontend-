@@ -5,6 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import EmployeeService from 'services/employee-service';
+import { setErrors } from 'helper';
 
 interface Data {
   basicSalary: string;
@@ -15,7 +16,7 @@ interface Data {
   bankName: string;
   accountHolderName: string;
   accountNumber: string;
-  yes: string;
+  overtimeApplicable: string;
   paytype: string;
   payrolltype: string;
   roaster: string;
@@ -32,19 +33,15 @@ export const usePayrollDetail = ({ employeeId, employeeDocId }: Props) => {
   const [allowence, setAllowence] = useState<any>();
   const [btnLoader, setBtnLoader] = useState(false);
 
-  const { register, handleSubmit, errors, control, reset } = useForm();
+  const { register, handleSubmit, errors, control, reset, setError } = useForm();
 
   const onSubmit = async (data: any) => {
     const {
-      basicSalary,
       houseRent,
       bankName,
       accountNumber,
       accountHolderName,
-      paytype,
-      payrolltype,
-      yes,
-      roaster,
+      payrollDetails: { basicSalary, payType, payRollType, overtimeApplicable, roaster },
     } = data;
     setBtnLoader(true);
     try {
@@ -55,9 +52,9 @@ export const usePayrollDetail = ({ employeeId, employeeDocId }: Props) => {
           bankName,
           accountHolderName,
           accountNumber: accountNumber.toString(),
-          payType: paytype,
-          payRollType: payrolltype,
-          overtimeApplicable: yes,
+          payType: payType,
+          payRollType: payRollType,
+          overtimeApplicable: overtimeApplicable,
           roaster,
           allownce: allowence.map((item: any) => {
             return {
@@ -70,13 +67,20 @@ export const usePayrollDetail = ({ employeeId, employeeDocId }: Props) => {
 
       if (id) {
         const res = await EmployeeService.addPostPayroll(userData, id);
+        if (res?.response?.data?.error && res?.response?.status === 422) {
+          setErrors(res.response.data.error, setError);
+        }
       } else {
         const res = await EmployeeService.addPostPayroll({ ...userData }, employeeDocId);
+        if (res?.response?.data?.error && res?.response?.status === 422) {
+          setErrors(res.response.data.error, setError);
+        }
         if (res.status === 200) {
           navigate('/employee');
         }
       }
-    } catch (err) {
+    } catch (err: any) {
+      setErrors(err?.response?.data?.error, setError);
       console.log(err);
     }
     setBtnLoader(false);
@@ -94,6 +98,13 @@ export const usePayrollDetail = ({ employeeId, employeeDocId }: Props) => {
         console.log('123123123123', { data: res.data, dataAll: data, allowanceData });
         return { ...acc, [data.name]: allowanceData?.amount };
       }, {}),
+      payrollDetails: {
+        basicSalary: res?.data?.Payroll?.basicSalary,
+        payType: res?.data?.Payroll?.payType,
+        payRollType: res?.data?.Payroll?.payRollType,
+        overtimeApplicable: res?.data?.Payroll?.overtimeApplicable,
+        roaster: res?.data?.Payroll?.roaster,
+      },
     });
   };
 

@@ -54,7 +54,9 @@ export const useExperience = ({
     editInd: -1,
   });
 
-  const { register, handleSubmit, errors, control, reset, watch } = useForm();
+  const { register, handleSubmit, errors, control, reset, watch, setValue, clearErrors } = useForm({
+    resolver: yupResolver(schema),
+  });
 
   const onSubmit = async () => {
     setBtnLoader(true);
@@ -62,18 +64,16 @@ export const useExperience = ({
       setFormData({ ...formData, educationDetails: [...educations] });
 
       if (id) {
-        if (educations?.length) {
-          const res = await EmployeeService.addPostExperience(
-            {
-              experienceDetails: [...educations],
-            },
-            id,
-          );
-          if (res.status === 200) {
-            handleNext && handleNext('Expertise');
-          }
+        const res = await EmployeeService.addPostExperience(
+          {
+            experienceDetails: [...educations],
+          },
+          id,
+        );
+        if (res.status === 200) {
+          handleNext && handleNext('Expertise');
         }
-      } else if (educations?.length) {
+      } else {
         const res = await EmployeeService.addPostExperience(
           {
             experienceDetails: [...educations],
@@ -112,7 +112,8 @@ export const useExperience = ({
     }
     setEducations([...newEducations]);
     setFormData({ ...formData, experienceDetails: [...newEducations] });
-    reset({});
+    reset({ country: '', city: '' });
+    clearErrors();
     educationIndex.current = -1;
   };
 
@@ -125,6 +126,8 @@ export const useExperience = ({
       city: data?.city,
       jobTitle: data?.jobTitle,
       ongoing: data?.ongoing,
+      jobStartDate: data?.jobStartDate && new Date(data?.jobStartDate),
+      jobEndDate: data?.jobEndDate && new Date(data?.jobEndDate),
     });
     setOnGoing(!!data?.ongoing);
   };
@@ -160,6 +163,7 @@ export const useExperience = ({
       return {
         ...item,
         jobStartDate: moment(item?.jobStartDate).format('YYYY-MM-DD'),
+        jobEndDate: item?.jobEndDate && moment(item?.jobEndDate).format('YYYY-MM-DD'),
       };
     });
     setEducations([...newArr]);
@@ -267,3 +271,13 @@ export const rows = [
     tenure: '10 Jun, 2021-10 Jun, 2022',
   },
 ];
+
+export const schema = yup.object().shape({
+  company: yup.string().required('Company is required'),
+  country: yup.string().required('Country is required'),
+  city: yup.string().required('City is required'),
+  jobTitle: yup.string().required('Job is required'),
+  jobStartDate: yup.string().nullable().required('Start date is required'),
+  jobEndDate: yup.string().nullable().optional(),
+  ongoing: yup.boolean().optional(),
+});

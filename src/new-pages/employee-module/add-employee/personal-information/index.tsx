@@ -4,7 +4,6 @@ import Button from 'new-components/button';
 import DatePicker from 'new-components/date-picker';
 import ImageUpload from 'new-components/image-upload';
 import TextField from 'new-components/textfield';
-import Radio from 'new-components/radio';
 import ProfileUpload from 'new-components/profile-upload';
 import CountryInput from 'components/country-input';
 import Select from 'new-components/select';
@@ -13,8 +12,9 @@ import { usePersonalInfo } from './helper';
 
 import arrowRight from 'new-assets/arrowBtnRight.svg';
 import style from './personal-information.module.scss';
+import { useEmployeeForms } from '../context';
 
-interface Props {
+interface ContextProps {
   handleNext: (data?: string) => void;
   formData: any;
   setFormData: any;
@@ -23,14 +23,9 @@ interface Props {
   setEmployeeDocId: Dispatch<SetStateAction<string>>;
 }
 
-const PersonalInformation = ({
-  handleNext,
-  setFormData,
-  employeeDocId,
-  formData,
-  setEmployeeId,
-  setEmployeeDocId,
-}: Props) => {
+const PersonalInformation = () => {
+  const { handleNext, setFormData, employeeDocId, formData, setEmployeeId, setEmployeeDocId }: any =
+    useEmployeeForms();
   const {
     onSubmit,
     register,
@@ -65,7 +60,7 @@ const PersonalInformation = ({
           handleSubmit(onSubmit)(e);
         }}
       >
-        <ImageUpload name={'userimage'} img={img} setImg={setImg} />
+        <ImageUpload name={'profilePicture'} img={img} setImg={setImg} />
         <div className={style.grid}>
           <TextField
             name="firstName"

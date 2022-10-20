@@ -40,7 +40,7 @@ const ImageUpload = ({ img, setImg, name, register, errorMessage }: Props) => {
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
     accept: {
-      'image/png': ['.png'],
+      'image/*': ['.png', '.jpg'],
     },
   });
 

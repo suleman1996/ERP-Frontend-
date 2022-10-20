@@ -8,6 +8,7 @@ import { selectCountry, usePayrollDetail, payrollType, payType, roster } from '.
 import tick from 'new-assets/tick.svg';
 import arrowLeft from 'new-assets/backBtn.svg';
 import style from './payroll.module.scss';
+import { useEmployeeForms } from '../context';
 
 interface Props {
   handleBack: (data?: string) => void;
@@ -15,32 +16,43 @@ interface Props {
   employeeDocId: string;
 }
 
-const PayrollInformation = ({ handleBack, employeeId, employeeDocId }: Props) => {
+const PayrollInformation = () => {
+  const {
+    handleNext,
+    setFormData,
+    employeeDocId,
+    formData,
+    setEmployeeId,
+    setEmployeeDocId,
+    handleBack,
+    employeeId,
+  }: any = useEmployeeForms();
+
   const { onSubmit, register, handleSubmit, errors, control, allowence } = usePayrollDetail({
     employeeId,
     employeeDocId,
   });
-
+  console.log(errors);
   return (
     <div className={style.mainForm}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className={style.grid}>
           <TextField
-            name="basicSalary"
+            name="payrollDetails.basicSalary"
             label="Basic Salary"
             type="number"
             star={' *'}
             register={register}
-            errorMessage={errors?.basicSalary?.message}
+            errorMessage={errors?.payrollDetails?.basicSalary?.message}
             placeholder="Basic Salary"
           />
           <TextField
             name="houseRent"
             label="House Rent"
-            star={' *'}
+            // star={' *'}
             type="number"
             register={register}
-            errorMessage={errors?.houseRent?.message}
+            errorMessage={errors?.payrollDetails?.houseRent?.message}
             placeholder="House Rent"
           />
           {allowence &&
@@ -50,7 +62,7 @@ const PayrollInformation = ({ handleBack, employeeId, employeeDocId }: Props) =>
                   <TextField
                     name={data.name}
                     label={`${data.name} Allowence`}
-                    star={' *'}
+                    // star={' *'}
                     type="number"
                     register={register}
                     errorMessage={errors?.data?.name.message}
@@ -59,28 +71,10 @@ const PayrollInformation = ({ handleBack, employeeId, employeeDocId }: Props) =>
                 </div>
               );
             })}
-          {/* <TextField
-            name="medicalAllowance"
-            label="Medical Allowance"
-            star={' *'}
-            type="number"
-            register={register}
-            errorMessage={errors?.medicalAllowance?.message}
-            placeholder="Medical Allowance"
-          />
-          <TextField
-            name="specialAllowance"
-            label="Special Allowance"
-            star={' *'}
-            type="number"
-            register={register}
-            errorMessage={errors?.specialAllowance?.message}
-            placeholder="Special Allowance"
-          /> */}
           <TextField
             name="bankName"
             label="Bank Name"
-            star={' *'}
+            // star={' *'}
             type="text"
             register={register}
             errorMessage={errors?.bankName?.message}
@@ -89,7 +83,7 @@ const PayrollInformation = ({ handleBack, employeeId, employeeDocId }: Props) =>
           <TextField
             name="accountHolderName"
             label="Account Holder Name"
-            star={' *'}
+            // star={' *'}
             type="text"
             register={register}
             errorMessage={errors?.accountHolderName?.message}
@@ -98,7 +92,7 @@ const PayrollInformation = ({ handleBack, employeeId, employeeDocId }: Props) =>
           <TextField
             name="accountNumber"
             label="Account Number"
-            star={' *'}
+            // star={' *'}
             type="number"
             register={register}
             errorMessage={errors?.accountNumber?.message}
@@ -106,9 +100,9 @@ const PayrollInformation = ({ handleBack, employeeId, employeeDocId }: Props) =>
           />
           <Select
             label="Pay Type"
-            name={'payType'}
+            name={'payrollDetails.payType'}
             star={' *'}
-            errorMessage={errors?.payType?.message}
+            errorMessage={errors?.payrollDetails?.payType?.message}
             register={register}
           >
             <option value="">Pay Type</option>
@@ -123,9 +117,9 @@ const PayrollInformation = ({ handleBack, employeeId, employeeDocId }: Props) =>
           </Select>
           <Select
             label="Payroll Type"
-            name={'payRollType'}
+            name={'payrollDetails.payRollType'}
             star={' *'}
-            errorMessage={errors?.payRollType?.message}
+            errorMessage={errors?.payrollDetails?.payRollType?.message}
             register={register}
           >
             <option value="">Attendance</option>
@@ -143,16 +137,35 @@ const PayrollInformation = ({ handleBack, employeeId, employeeDocId }: Props) =>
               Overtime Applicable <b style={{ color: 'red' }}>{' *'}</b>{' '}
             </label>
             <div className={style.flexClassInner}>
-              <Radio name="yes" label="Yes " radioValue={'yes'} radioRef={register} />
+              <Radio
+                name="payrollDetails.overtimeApplicable"
+                label="Yes "
+                radioValue={'yes'}
+                radioRef={register}
+              />
               <div className={style.sec}>
-                <Radio name="yes" label="No " radioValue={'no'} radioRef={register} />
+                <Radio
+                  name="payrollDetails.overtimeApplicable"
+                  label="No "
+                  radioValue={'no'}
+                  radioRef={register}
+                />
               </div>
             </div>
+            {errors?.payrollDetails?.overtimeApplicable?.message && (
+              <p
+                style={{ fontSize: '10px', color: 'red', lineHeight: '10px' }}
+                className={style.errorMessage}
+              >
+                {errors?.payrollDetails?.overtimeApplicable?.message}
+              </p>
+            )}
           </div>
           <Select
             label="Roaster"
-            name={'roaster'}
-            errorMessage={errors?.roaster?.message}
+            star={' *'}
+            name={'payrollDetails.roaster'}
+            errorMessage={errors?.payrollDetails?.roaster?.message}
             register={register}
           >
             <option value="">Select</option>

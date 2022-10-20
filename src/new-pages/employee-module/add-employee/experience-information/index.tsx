@@ -16,6 +16,7 @@ import tick from 'new-assets/tick.svg';
 import arrowRight from 'new-assets/arrowBtnRight.svg';
 import arrowLeft from 'new-assets/backBtn.svg';
 import style from './experience.module.scss';
+import { useEmployeeForms } from '../context';
 
 interface Props {
   formData: any;
@@ -26,14 +27,18 @@ interface Props {
   employeeDocId?: any;
 }
 
-const ExperienceDetails = ({
-  handleBack,
-  handleNext,
-  formData,
-  setFormData,
-  employeeId,
-  employeeDocId,
-}: Props) => {
+const ExperienceDetails = () => {
+  const {
+    handleNext,
+    setFormData,
+    employeeDocId,
+    formData,
+    setEmployeeId,
+    setEmployeeDocId,
+    handleBack,
+    employeeId,
+  }: any = useEmployeeForms();
+
   const {
     handleAddEduction,
     onSubmit,
@@ -97,6 +102,7 @@ const ExperienceDetails = ({
               star={' *'}
               register={register}
               control={control}
+              value={watch('city')}
               errorMessage={errors?.city?.message}
               options={cities}
               label="City"
@@ -161,7 +167,10 @@ const ExperienceDetails = ({
                 ...education,
                 tenure:
                   education.jobStartDate && education.jobEndDate
-                    ? `${moment(watch().jobEndDate).diff(watch().jobStartDate, 'days')} Days`
+                    ? `${moment(education.jobEndDate).diff(
+                        education.jobStartDate,
+                        'months',
+                      )} Months`
                     : 'On Going',
               }))}
               columns={columns}

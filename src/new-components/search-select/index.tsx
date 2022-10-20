@@ -54,8 +54,11 @@ const SearchSelect = ({
   const timerRef = useRef<NodeJS.Timeout>();
 
   useEffect(() => {
+    if (value == selectValue) return;
     if (value) {
       setSelectValue(value);
+    } else {
+      setSelectValue('');
     }
   }, [value]);
 

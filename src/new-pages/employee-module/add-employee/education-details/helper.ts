@@ -15,13 +15,13 @@ export interface Education {
   institute: string;
   startDate?: string;
   endDate?: string;
-  percentageCgpa: string;
   transcript: string | any;
   description: string;
   ongoing?: boolean;
   filename?: string;
   prevTranscript?: string;
   marksType?: any;
+  marks?: String;
 }
 
 interface Props {
@@ -56,36 +56,31 @@ export const useEducationDetail = ({
     update: false,
     editInd: -1,
   });
-  const { register, handleSubmit, errors, control, reset, watch, setValue, setError } = useForm();
+  const { register, handleSubmit, errors, control, reset, watch, setValue, setError } = useForm({
+    resolver: yupResolver(schema),
+  });
 
   const onSubmit = async () => {
     setBtnLoader(true);
     try {
       setFormData({ ...formData, educationDetails: [...educations] });
       if (id) {
-        if (educations?.length) {
-          const userData = {
-            educationDetails: [...educations],
-          };
-          const res = await EmployeeService.addPostEducation(userData, id);
-          if (res.status === 200) {
-            handleNext && handleNext('Experience');
-          }
+        const userData = {
+          educationDetails: [...educations],
+        };
+        const res = await EmployeeService.addPostEducation(userData, id);
+        if (res.status === 200) {
+          handleNext && handleNext('Experience');
         }
       } else {
-        if (educations?.length) {
-          const res = await EmployeeService.addPostEducation(
-            {
-              educationDetails: [...educations],
-            },
-            employeeDocId,
-          );
-          if (res.status === 200) {
-            handleNext && handleNext('Experience');
-          }
-          // if (res?.response?.data?.error && res.response.status === 422) {
-          //   setErrors(res.response.data.error, setError);
-          // }
+        const res = await EmployeeService.addPostEducation(
+          {
+            educationDetails: [...educations],
+          },
+          employeeDocId,
+        );
+        if (res.status === 200) {
+          handleNext && handleNext('Experience');
         }
       }
     } catch (err) {
@@ -101,16 +96,13 @@ export const useEducationDetail = ({
       ...data,
       endDate: moment(endDate).format('YYYY-MM-DD'),
       startDate: moment(startDate).format('YYYY-MM-DD'),
-      percentageCgpa: marksVal,
       ongoing: ongiong,
       filename: transcript[0]?.name || prevFileName,
       transcript:
         transcript && (transcript[0] ? await convertBase64Image(transcript[0]) : prevTranscript),
-      // percentage: marksType === 'percentage' && marksVal,
       ...(marksType === 'percentage' && { percentage: marksVal?.toString() }),
       ...(marksType === 'cgpa' && { cgpa: marksType === 'cgpa' && marksVal?.toString() }),
     };
-    removeKeys(tempObj, ['percentageCgpa']);
     !transcript && removeKeys(tempObj, ['transcript']);
     ongiong && removeKeys(tempObj, ['endDate']);
     if (educationIndex.current < 0) {
@@ -134,14 +126,14 @@ export const useEducationDetail = ({
       institute: data?.institute,
       degree: data?.degree,
       description: data?.description,
-      percentageCgpa: marksVal,
+      marksType: data?.marksType,
       startDate: moment(data?.startDate, 'YYYY-MM-DD').toDate(),
       endDate: moment(data?.endDate, 'YYYY-MM-DD').toDate(),
       ongoing: data?.ongoing,
       prevTranscript: data?.transcript,
+      marks: data?.marks,
     });
     console.log('type', marksType.toString());
-    // setMarksType(marksType);
     setOngoing(!!data?.ongoing);
     setFilename(data?.filename);
   };
@@ -154,10 +146,8 @@ export const useEducationDetail = ({
         ...item,
         startDate: moment(item.startDate).format('YYYY-MM-DD'),
         endDate: moment(item.endDate).format('YYYY-MM-DD'),
-        // ...(item.percentage && { percentageCgpa: item.percentage.toString() }),
       };
     });
-
     setEducations(data);
   };
 
@@ -197,6 +187,29 @@ export const useEducationDetail = ({
     marksVal,
   };
 };
+
+export const schema = yup.object().shape({
+  institute: yup.string().required('Institute name is a required '),
+  degree: yup.string().required('Degree is a required '),
+  marksType: yup.string().required(),
+  marks: yup.number().when('marksType', {
+    is: 'percentage',
+    then: yup
+      .number()
+      .max(100, 'Percentage must be less than or equal to 100')
+      .required()
+      .typeError('Percentage is required'),
+    otherwise: yup
+      .number()
+      .max(4, 'CGPA must be less than or equal to 4')
+      .required()
+      .typeError('CGPA is required'),
+  }),
+  startDate: yup.string().nullable().required('Start date is required'),
+  endDate: yup.string().nullable().optional(),
+  ongoing: yup.boolean().required(),
+  description: yup.string().optional(),
+});
 
 export const selectCountry = [
   {
@@ -250,7 +263,7 @@ export const columns = [
     width: '150px',
   },
   {
-    key: 'percentage',
+    key: 'marks',
     name: 'Percentage/CGPA',
     alignText: 'center',
     width: '150px',

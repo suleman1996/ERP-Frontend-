@@ -20,12 +20,6 @@ export default class EmployeeService {
     );
     return res;
   }
-  // static async getAllEmployeesID(data: string = '') {
-  //   const res = await ApiService.get(
-  //     `${EmployeeService.baseUrl[0]}/generate-employee-id/${data?.toLowerCase()}`,
-  //   );
-  //   return res;
-  // }
 
   static async getSearchedEmployees(data: EmployeeFilterData) {
     const res = await ApiService.get(`${EmployeeService.baseUrl[0]}/`, {
@@ -58,7 +52,7 @@ export default class EmployeeService {
     return res;
   }
   static async getDesignation(id?: string | number) {
-    const res = await ApiService.get(`${EmployeeService.baseUrl[1]}/designation-setting`);
+    const res = await ApiService.get(`${EmployeeService.baseUrl[1]}/designation-setting/${id}`);
     return res;
   }
   static async getLeaves(id?: string | number) {

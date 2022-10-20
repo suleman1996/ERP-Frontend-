@@ -1,0 +1,35 @@
+@import 'styles/_colors.scss';
+@import 'styles/_mixin.scss';
+@import 'styles/_breakpoints.scss';
+
+.label {
+  font-size: 20px;
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 500;
+  color: #000000;
+}
+.gridView {
+  @include gridFive(40, 40);
+  align-items: flex-end;
+}
+.getAttendnace {
+  padding-top: 10px;
+  display: flex;
+  justify-content: flex-end;
+}
+.div {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+.p {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  color: #cacaca;
+  padding-left: 15px;
+  margin-bottom: 30px;
+  cursor: pointer;
+}

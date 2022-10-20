@@ -48,7 +48,7 @@ export const useSkill = ({ formData, setFormData, employeeId, setSkillData }: Pr
       ...data,
       skillLevel: data?.skills,
       // ...(fileBase64 && { file: `${fileBase64}` }),
-      file: data.file && (data.file[0] ? fileBase64 : data.file),
+      ...(data.file && { file: data.file[0] ? fileBase64 : data.file }),
     };
     if (!skillData.file || Object.keys(skillData.file).length === 0) {
       removeKeys(skillData, ['file']);
@@ -61,6 +61,8 @@ export const useSkill = ({ formData, setFormData, employeeId, setSkillData }: Pr
       ...data,
       skillLevel: data?.skills.toLocaleLowerCase(),
     };
+    console.log('index', skillIndex.current);
+    console.log('data?.skills.toLocaleLowerCase()', data?.skills.toLocaleLowerCase());
     if (skillIndex.current < 0) {
       newEducations.push(tempObj);
     } else {
@@ -89,10 +91,10 @@ export const useSkill = ({ formData, setFormData, employeeId, setSkillData }: Pr
     const delEdu = [...educations];
     delEdu.splice(index, 1);
     setEducations([...delEdu]);
+    setFormData({ ...formData, setSkillData: [...delEdu] });
   };
 
   const getUser = async () => {
-    // const res = await EmployeeService.getEmployee(id);
     const res = await EmployeeService.getExpertiesEmployee(id);
     console.log('res', res.data);
     setEducations(res?.data?.skills);
@@ -107,6 +109,7 @@ export const useSkill = ({ formData, setFormData, employeeId, setSkillData }: Pr
 
   useEffect(() => {
     // id && getUser();
+    console.log('form data', formData);
     if (formData?.setSkillData !== undefined && Object.keys(formData?.setSkillData)?.length) {
       setEducations([...formData?.setSkillData]);
       setSkillData((current) => [...current, ...formData?.setSkillData]);

@@ -1,16 +1,12 @@
 import { useState, useEffect, Dispatch, SetStateAction } from 'react';
-import * as yup from 'yup';
 import moment from 'moment';
 import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router';
-import { yupResolver } from '@hookform/resolvers/yup';
 
-import { removeKeys, setFormError } from 'helper';
+import { removeKeys } from 'helper';
 import { removeKey, convertBase64Image } from 'main-helper';
 
 import EmployeeService from 'services/employee-service';
-import PersonalInformation from './../../../../pages/employee-details/add-employee/personal-information/index';
-import { AxiosError } from 'axios';
 import { setErrors } from './../../../../helper/index';
 import { createNotification } from 'common/create-notification';
 
@@ -47,13 +43,14 @@ export const usePersonalInfo = ({
 }: Props) => {
   const { id } = useParams();
   const [btnLoader, setBtnLoader] = useState(false);
+  const { register, handleSubmit, errors, control, reset, setValue, watch, setError, clearErrors } =
+    useForm();
+
   const [genderData, setGenderData] = useState<any>();
   const [selectedFileName, setSelectedFileName] = useState('');
   const [selectedFileNameBack, setSelectedFileNameBack] = useState('');
-  const [userId, setUserId] = useState();
   const [img, setImg] = useState<unknown>('');
-  const { register, handleSubmit, errors, control, reset, setValue, watch, setError, clearErrors } =
-    useForm();
+  const [userId, setUserId] = useState();
 
   const getEmployeeID = async () => {
     const res = await EmployeeService.getAllEmployeesID(watch().employeeId);
@@ -82,6 +79,8 @@ export const usePersonalInfo = ({
   }, [employeeDocId]);
 
   const getSingleEmployeeData = async () => {
+    await getAllGenders();
+
     if (employeeDocId) {
       const res = await EmployeeService.getEmployee(employeeDocId);
       console.log('res let ', res?.data?.employeePersonalInformation?.gender);
@@ -134,6 +133,7 @@ export const usePersonalInfo = ({
     setBtnLoader(true);
     try {
       const { dob, cnic, frontPic, backPic, employeeId } = data;
+
       const temp = {
         ...data,
         profilePicture: img,
@@ -171,10 +171,10 @@ export const usePersonalInfo = ({
       }
       setBtnLoader(false);
     } catch (err: any) {
-      if (err.response.data.error) {
-        setErrors(err.response.data.error, setError);
+      if (err?.response?.data?.error) {
+        setErrors(err?.response?.data?.error, setError);
       } else {
-        createNotification('error', 'Error', err.response.data.message);
+        createNotification('error', 'Error', err?.response?.data?.message);
       }
       setBtnLoader(false);
     }

@@ -28,35 +28,22 @@ export class ApiService {
 
   static async post(url: string, body?: object, config?: any): Promise<any> {
     const axios = ApiService.createAxios();
-
     const res = await axios.post(url, body, config);
     if (!res.config.url?.includes('login')) ApiService.handleSuccess(res);
-    console.log(res, 'asdasdasd');
-
     return res;
-
-    // console.error(error, 'asdasdasd');
-    // ApiService.handleError(error);
-    // return error;
   }
 
   static async put(url: string, body: object, config?: any): Promise<any> {
     const axios = ApiService.createAxios();
-    try {
-      const res = await axios.put(url, body, config);
-      ApiService.handleSuccess(res);
-      return res;
-    } catch (error) {
-      ApiService.handleError(error);
-      return error;
-    }
+    const res = await axios.put(url, body, config);
+    ApiService.handleSuccess(res);
+    return res;
   }
 
   static async delete(url: string, config?: any): Promise<any> {
     const axios = ApiService.createAxios();
     try {
       const res = await axios.delete(url, config);
-
       ApiService.handleSuccess(res);
       return res;
     } catch (error) {

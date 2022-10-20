@@ -85,6 +85,7 @@ export const useCerificate = ({ formData, setFormData, employeeId, setCertificat
     const delCert = [...educations];
     delCert.splice(index, 1);
     setEducations([...delCert]);
+    setFormData({ ...formData, certificateData: [...delCert] });
   };
 
   const getUser = async () => {
