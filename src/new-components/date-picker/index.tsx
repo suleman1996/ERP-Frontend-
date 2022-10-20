@@ -148,7 +148,7 @@ const DatePicker = ({
             <img src={date} alt="" />
           </div>
         </label>
-        {errorMessage ? <span className={style.errorMessage}>Date is required</span> : ''}
+        {errorMessage ? <span className={style.errorMessage}>{errorMessage}</span> : ''}
       </div>
     </>
   );

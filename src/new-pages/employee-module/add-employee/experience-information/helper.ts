@@ -54,7 +54,7 @@ export const useExperience = ({
     editInd: -1,
   });
 
-  const { register, handleSubmit, errors, control, reset, watch, setValue } = useForm({
+  const { register, handleSubmit, errors, control, reset, watch, setValue, clearErrors } = useForm({
     resolver: yupResolver(schema),
   });
 
@@ -113,13 +113,13 @@ export const useExperience = ({
     setEducations([...newEducations]);
     setFormData({ ...formData, experienceDetails: [...newEducations] });
     reset({ country: '', city: '' });
+    clearErrors();
     educationIndex.current = -1;
   };
 
   const handleEducation = (index: number) => {
     educationIndex.current = index;
     const data = educations.find((data, i) => i === index);
-    console.log(data, 'hamza');
     reset({
       company: data?.company,
       country: data?.country,
@@ -273,11 +273,11 @@ export const rows = [
 ];
 
 export const schema = yup.object().shape({
-  company: yup.string().required('Required field'),
-  country: yup.string().required('Required field'),
-  city: yup.string().required('Required field'),
-  jobTitle: yup.string().required('Required field'),
-  jobStartDate: yup.string().required('Required field'),
-  jobEndDate: yup.string().optional(),
+  company: yup.string().required('Company is required'),
+  country: yup.string().required('Country is required'),
+  city: yup.string().required('City is required'),
+  jobTitle: yup.string().required('Job is required'),
+  jobStartDate: yup.string().nullable().required('Start date is required'),
+  jobEndDate: yup.string().nullable().optional(),
   ongoing: yup.boolean().optional(),
 });

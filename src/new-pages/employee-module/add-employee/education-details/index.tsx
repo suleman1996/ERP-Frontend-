@@ -13,6 +13,7 @@ import tick from 'new-assets/tick.svg';
 import arrowLeft from 'new-assets/backBtn.svg';
 import arrowRight from 'new-assets/arrowBtnRight.svg';
 import style from './education.module.scss';
+import { useEmployeeForms } from '../context';
 
 interface Props {
   formData: any;
@@ -23,14 +24,18 @@ interface Props {
   handleNext: (data?: string) => void;
 }
 
-const EducationalDetails = ({
-  handleBack,
-  handleNext,
-  formData,
-  setFormData,
-  employeeId,
-  employeeDocId,
-}: Props) => {
+const EducationalDetails = () => {
+  const {
+    handleNext,
+    setFormData,
+    employeeDocId,
+    formData,
+    setEmployeeId,
+    setEmployeeDocId,
+    handleBack,
+    employeeId,
+  }: any = useEmployeeForms();
+
   const {
     handleAddEduction,
     onSubmit,

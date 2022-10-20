@@ -43,13 +43,14 @@ export const usePersonalInfo = ({
 }: Props) => {
   const { id } = useParams();
   const [btnLoader, setBtnLoader] = useState(false);
+  const { register, handleSubmit, errors, control, reset, setValue, watch, setError, clearErrors } =
+    useForm();
+
   const [genderData, setGenderData] = useState<any>();
   const [selectedFileName, setSelectedFileName] = useState('');
   const [selectedFileNameBack, setSelectedFileNameBack] = useState('');
-  const [userId, setUserId] = useState();
   const [img, setImg] = useState<unknown>('');
-  const { register, handleSubmit, errors, control, reset, setValue, watch, setError, clearErrors } =
-    useForm();
+  const [userId, setUserId] = useState();
 
   const getEmployeeID = async () => {
     const res = await EmployeeService.getAllEmployeesID(watch().employeeId);
@@ -127,7 +128,7 @@ export const usePersonalInfo = ({
       });
     }
   };
-  console.log(img);
+
   const onSubmit = async (data: Data) => {
     setBtnLoader(true);
     try {

@@ -188,6 +188,29 @@ export const useEducationDetail = ({
   };
 };
 
+export const schema = yup.object().shape({
+  institute: yup.string().required('Institute name is a required '),
+  degree: yup.string().required('Degree is a required '),
+  marksType: yup.string().required(),
+  marks: yup.number().when('marksType', {
+    is: 'percentage',
+    then: yup
+      .number()
+      .max(100, 'Percentage must be less than or equal to 100')
+      .required()
+      .typeError('Percentage is required'),
+    otherwise: yup
+      .number()
+      .max(4, 'CGPA must be less than or equal to 4')
+      .required()
+      .typeError('CGPA is required'),
+  }),
+  startDate: yup.string().nullable().required('Start date is required'),
+  endDate: yup.string().nullable().optional(),
+  ongoing: yup.boolean().required(),
+  description: yup.string().optional(),
+});
+
 export const selectCountry = [
   {
     value: 'hr',
@@ -247,26 +270,3 @@ export const columns = [
   },
   { key: 'actions', name: 'Actions', alignText: 'center', width: '200px' },
 ];
-
-export const schema = yup.object().shape({
-  institute: yup.string().required('Institute Name is a required field'),
-  degree: yup.string().required('Degree is a required field'),
-  marksType: yup.string().required(),
-  marks: yup.number().when('marksType', {
-    is: 'percentage',
-    then: yup
-      .number()
-      .max(100, 'Percentage must be less than or equal to 100')
-      .required()
-      .typeError('Required Filed'),
-    otherwise: yup
-      .number()
-      .max(4, 'CGPA must be less than or equal to 4')
-      .required()
-      .typeError('Required Filed'),
-  }),
-  startDate: yup.string().required(),
-  endDate: yup.string().optional(),
-  ongoing: yup.boolean().required(),
-  description: yup.string().optional(),
-});
