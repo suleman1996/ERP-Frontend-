@@ -12,6 +12,7 @@ import countries from 'new-assets/countries.json';
 import arrowRight from 'new-assets/arrowBtnRight.svg';
 import arrowLeft from 'new-assets/backBtn.svg';
 import style from './address-information.module.scss';
+import { useEmployeeForms } from '../context';
 
 interface Props {
   formData: any;
@@ -25,15 +26,18 @@ interface Props {
 
 countries.sort((a, b) => (a.name < b.name ? -1 : 1));
 
-const AddressInformation = ({
-  handleNext,
-  handleBack,
-  setFormData,
-  formData,
-  employeeId,
-  employeeDocId,
-  setEmployeeDocId,
-}: Props) => {
+const AddressInformation = () => {
+  const {
+    handleNext,
+    setFormData,
+    employeeDocId,
+    formData,
+    setEmployeeId,
+    setEmployeeDocId,
+    handleBack,
+    employeeId,
+  }: any = useEmployeeForms();
+
   const {
     btnLoader,
     currentCountryData,
