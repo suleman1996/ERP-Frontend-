@@ -60,6 +60,8 @@ const ExperienceDetails = () => {
     cities,
     startDate,
     currentCountryData,
+    selectedFileName,
+    setSelectedFileName,
   } = useExperience({
     handleBack,
     handleNext,
@@ -120,6 +122,8 @@ const ExperienceDetails = () => {
               <ProfileUpload
                 name={'letter'}
                 register={register}
+                selectedFileName={selectedFileName}
+                setSelectedFileName={setSelectedFileName}
                 id={'letter'}
                 errorMessage={errors?.letter?.message}
                 type={'application/pdf'}

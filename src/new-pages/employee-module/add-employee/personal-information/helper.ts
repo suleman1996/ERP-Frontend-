@@ -46,10 +46,10 @@ export const usePersonalInfo = ({
 }: Props) => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  // const gender = useSelector((state) => state?.app?.gender);
   const { gender, series } = useSelector((state) => state?.app);
 
   const [btnLoader, setBtnLoader] = useState(false);
+  const [loader, setLoader] = useState(false);
   const { register, handleSubmit, errors, control, reset, setValue, watch, setError, clearErrors } =
     useForm();
 
@@ -77,6 +77,7 @@ export const usePersonalInfo = ({
 
   const getSingleEmployeeData = async () => {
     if (employeeDocId) {
+      setLoader(true);
       const res = await EmployeeService.getEmployee(employeeDocId);
       setSelectedFileName(res.data?.employeePersonalInformation?.cnicFront?.name.toString());
       setSelectedFileNameBack(res.data?.employeePersonalInformation?.cnicBack?.name.toString());
@@ -98,6 +99,7 @@ export const usePersonalInfo = ({
         cnic: res?.data?.employeePersonalInformation?.cnic,
         gender: res?.data?.employeePersonalInformation?.gender,
       });
+      setLoader(false);
     } else if (id) {
       const res = await EmployeeService.getEmployee(id);
       setSelectedFileName(res.data?.employeePersonalInformation?.cnicFront?.name.toString());
@@ -192,5 +194,6 @@ export const usePersonalInfo = ({
     setSelectedFileNameBack,
     gender,
     series,
+    loader,
   };
 };

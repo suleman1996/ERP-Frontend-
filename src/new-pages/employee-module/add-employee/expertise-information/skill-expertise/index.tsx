@@ -42,6 +42,8 @@ const SkillExpertise = ({ formData, setFormData, employeeId, setSkillData, skill
     handleDeleteIndex,
     toggle,
     setToggle,
+    selectedFileName,
+    setSelectedFileName,
   } = useSkill({
     formData,
     setFormData,
@@ -85,6 +87,8 @@ const SkillExpertise = ({ formData, setFormData, employeeId, setSkillData, skill
             <ProfileUpload
               name={'file'}
               register={register}
+              selectedFileName={selectedFileName}
+              setSelectedFileName={setSelectedFileName}
               id={'letter'}
               errorMessage={errors?.file?.message}
               type={'application/pdf'}

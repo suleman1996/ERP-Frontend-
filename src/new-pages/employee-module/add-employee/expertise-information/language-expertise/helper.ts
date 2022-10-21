@@ -30,6 +30,7 @@ export const useLanguage = ({ formData, setFormData, employeeId, setLanguage }: 
   const { id } = useParams();
   const [toggle, setToggle] = useState<number>();
   const [educations, setEducations] = useState<Language[] | []>([]);
+  const [selectedFileName, setSelectedFileName] = useState('');
   const [updateEducation, setUpdateEducation] = useState({
     update: false,
     editInd: -1,
@@ -123,6 +124,8 @@ export const useLanguage = ({ formData, setFormData, employeeId, setLanguage }: 
     toggle,
     setToggle,
     watch,
+    selectedFileName,
+    setSelectedFileName,
   };
 };
 

@@ -46,6 +46,7 @@ export const useExperience = ({
   const [btnLoader, setBtnLoader] = useState(false);
   const [currentCountryData, setCurrentCountryData] = useState([]);
   const [openTenure, setOpenTenure] = useState(false);
+  const [selectedFileName, setSelectedFileName] = useState('');
   const [onGoing, setOnGoing] = useState(false);
   const [cities, setCities] = useState([]);
   const [educations, setEducations] = useState<Experince[] | []>([]);
@@ -112,9 +113,10 @@ export const useExperience = ({
     }
     setEducations([...newEducations]);
     setFormData({ ...formData, experienceDetails: [...newEducations] });
-    reset({ country: '', city: '' });
+    reset({ country: '', city: '', jobStartDate: null, jobEndDate: null });
     clearErrors();
     educationIndex.current = -1;
+    setOnGoing(false);
   };
 
   const handleEducation = (index: number) => {
@@ -192,6 +194,8 @@ export const useExperience = ({
     cities,
     startDate,
     currentCountryData,
+    selectedFileName,
+    setSelectedFileName,
   };
 };
 
@@ -278,6 +282,8 @@ export const schema = yup.object().shape({
   city: yup.string().required('City is required'),
   jobTitle: yup.string().required('Job is required'),
   jobStartDate: yup.string().nullable().required('Start date is required'),
-  jobEndDate: yup.string().nullable().optional(),
-  ongoing: yup.boolean().optional(),
+  jobEndDate: yup.string().when('ongoing', {
+    is: 'false',
+    then: yup.string().nullable().required('End date is required.'),
+  }),
 });
