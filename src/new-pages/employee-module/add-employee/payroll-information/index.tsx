@@ -41,6 +41,7 @@ const PayrollInformation = () => {
             name="payrollDetails.basicSalary"
             label="Basic Salary"
             type="number"
+            min={'0'}
             star={' *'}
             register={register}
             errorMessage={errors?.payrollDetails?.basicSalary?.message}
@@ -48,6 +49,7 @@ const PayrollInformation = () => {
           />
           <TextField
             name="houseRent"
+            min={'0'}
             label="House Rent"
             // star={' *'}
             type="number"
@@ -62,6 +64,7 @@ const PayrollInformation = () => {
                   <TextField
                     name={data.name}
                     label={`${data.name} Allowence`}
+                    min={'0'}
                     // star={' *'}
                     type="number"
                     register={register}
@@ -92,6 +95,7 @@ const PayrollInformation = () => {
           <TextField
             name="accountNumber"
             label="Account Number"
+            min={'0'}
             // star={' *'}
             type="number"
             register={register}

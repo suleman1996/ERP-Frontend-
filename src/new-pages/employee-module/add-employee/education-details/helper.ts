@@ -57,9 +57,11 @@ export const useEducationDetail = ({
     update: false,
     editInd: -1,
   });
-  const { register, handleSubmit, errors, control, reset, watch, setValue, setError } = useForm({
-    resolver: yupResolver(schema),
-  });
+  const { register, handleSubmit, errors, control, reset, watch, setValue, setError } =
+    useForm<any>({
+      resolver: yupResolver(schema),
+      defaultValues: { endDate: null },
+    });
 
   const onSubmit = async () => {
     setBtnLoader(true);
@@ -210,7 +212,7 @@ export const schema = yup.object().shape({
       .typeError('CGPA is required'),
   }),
   startDate: yup.string().nullable().required('Start date is required'),
-  endDate: yup.string().when('ongoing', {
+  endDate: yup.date().when('ongoing', {
     is: 'false',
     then: yup.string().nullable().required('End date is required.'),
   }),

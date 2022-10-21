@@ -161,6 +161,7 @@ const PersonalInformation = () => {
                 name="cnic"
                 label="CNIC "
                 type="number"
+                min={'0'}
                 placeholder=" Enter CNIC"
                 errorMessage={errors?.cnic?.message}
                 register={register}
