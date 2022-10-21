@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import arrow from 'new-assets/arrow-left.svg';
 import style from './employee-dropdown.module.scss';
+import EmployeeService from 'services/employee-service';
 
 interface Props {
   setOpenModal?: Dispatch<SetStateAction<boolean>>;
@@ -17,7 +18,18 @@ const EmployeeDropdown = ({ setOpenModal, setOpenModalProfile, id, handleClick }
   const profile = [
     {
       text: 'Profile View ',
-      click: () => setOpenModalProfile && setOpenModalProfile(true),
+      click: async () => {
+        console.log(id);
+        const res = await EmployeeService.getProfile(id);
+        if (res.status === 200) {
+          //Create a Blob from the PDF Stream
+          const file = new Blob([res.data], { type: 'application/pdf' });
+          //Build a URL from the file
+          const fileURL = URL.createObjectURL(file);
+          //Open the URL on new Window
+          window.open(fileURL);
+        }
+      },
     },
     { text: 'CV View', click: () => setOpenModal && setOpenModal(true) },
     { text: 'More Details', icon: arrow, click: () => navigate(`/employee/${id}`) },

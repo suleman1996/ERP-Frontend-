@@ -80,7 +80,9 @@ const SingleEmployee = () => {
                 alt="asda"
                 className={style.proDiv}
               />
-              <img src={edit} alt="" className={style.edit} />
+              <Link to={`/employee/edit/${id}`}>
+                <img src={edit} alt="" className={style.edit} />
+              </Link>{' '}
             </div>
             <div className={style.content}>
               <div>
