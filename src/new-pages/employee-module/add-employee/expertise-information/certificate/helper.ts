@@ -57,6 +57,9 @@ export const useCerificate = ({ formData, setFormData, employeeId, setCertificat
       ...data,
       skillLevel: data?.skills,
     };
+    if (tempObj.file.length === 0) {
+      removeKeys(tempObj, ['file']);
+    }
     if (certificateIndex.current < 0) {
       newEducations.push(tempObj);
     } else {
@@ -104,7 +107,7 @@ export const useCerificate = ({ formData, setFormData, employeeId, setCertificat
     // id && getUser();
     if (formData?.certificateData !== undefined && Object.keys(formData?.certificateData)?.length) {
       setEducations([...formData?.certificateData]);
-      setCertificate((current) => [...current, ...formData?.certificateData]);
+      // setCertificate((current) => [...current, ...formData?.certificateData]);
     }
   }, []);
 

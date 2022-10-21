@@ -114,11 +114,14 @@ const ExpertiseInformation = () => {
   const getUser = async () => {
     const res = await EmployeeService.getExpertiesEmployee(employeeDocId);
     console.log('res pes ', res.data);
-    const certificates = res?.data?.skills.map((item: any) => {
+    console.log('skill ', res.data);
+    const skills = res?.data?.skills.map((item: any) => {
       removeKeys(item, ['_id']);
       return item;
     });
-    setSkillData((current) => [...current, ...certificates]);
+    setSkillData((current) => [...current, ...skills]);
+    console.log('skillData', skillData);
+
     const data = res?.data?.languages.map((item: any) => {
       removeKeys(item, ['_id']);
       return item;
@@ -133,8 +136,8 @@ const ExpertiseInformation = () => {
 
   useEffect(() => {
     // (id || employeeDocId) && getUser();
-    getUser();
-  }, [id]);
+    // getUser();
+  }, []);
 
   return (
     <div className={style.mainForm}>
@@ -183,6 +186,7 @@ const ExpertiseInformation = () => {
           employeeId={employeeId}
           setFormData={setFormData}
           setSkillData={setSkillData}
+          skillData={skillData}
         />
       )}
       {active === 1 && (

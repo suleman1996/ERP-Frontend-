@@ -9,6 +9,9 @@ import { removeKey, convertBase64Image } from 'main-helper';
 import EmployeeService from 'services/employee-service';
 import { setErrors } from './../../../../helper/index';
 import { createNotification } from 'common/create-notification';
+import { useDispatch, useSelector } from 'react-redux';
+import { setAllGenders } from 'store';
+import { getAllSettings } from 'store/actions';
 
 interface Data {
   firstName: string;
@@ -42,11 +45,14 @@ export const usePersonalInfo = ({
   setEmployeeDocId,
 }: Props) => {
   const { id } = useParams();
+  const dispatch = useDispatch();
+  // const gender = useSelector((state) => state?.app?.gender);
+  const { gender, series } = useSelector((state) => state?.app);
+
   const [btnLoader, setBtnLoader] = useState(false);
   const { register, handleSubmit, errors, control, reset, setValue, watch, setError, clearErrors } =
     useForm();
 
-  const [genderData, setGenderData] = useState<any>();
   const [selectedFileName, setSelectedFileName] = useState('');
   const [selectedFileNameBack, setSelectedFileNameBack] = useState('');
   const [img, setImg] = useState<unknown>('');
@@ -59,15 +65,6 @@ export const usePersonalInfo = ({
     }
   };
 
-  const getAllGenders = async () => {
-    const res = await EmployeeService.getGenders();
-    setGenderData(res?.data?.profileSetting?.gender);
-  };
-
-  useEffect(() => {
-    getAllGenders();
-  }, []);
-
   useEffect(() => {
     if (!employeeDocId) {
       watch().employeeId && getEmployeeID();
@@ -79,8 +76,6 @@ export const usePersonalInfo = ({
   }, [employeeDocId]);
 
   const getSingleEmployeeData = async () => {
-    await getAllGenders();
-
     if (employeeDocId) {
       const res = await EmployeeService.getEmployee(employeeDocId);
       setSelectedFileName(res.data?.employeePersonalInformation?.cnicFront?.name.toString());
@@ -93,10 +88,10 @@ export const usePersonalInfo = ({
         firstName: res?.data?.employeePersonalInformation?.firstName,
         lastName: res?.data?.employeePersonalInformation?.lastName,
         fullName: res?.data?.employeePersonalInformation?.fullName,
-        employeeId: res?.data?.employeePersonalInformation?.employeeId
-          ?.split('')
-          .splice(0, 3)
-          .join(''),
+        employeeId: res?.data?.employeePersonalInformation?.employeeId.substr(
+          0,
+          res?.data?.employeePersonalInformation?.employeeId.length - 3,
+        ),
         phone: res?.data?.employeePersonalInformation?.phone.toString(),
         email: res?.data?.employeePersonalInformation?.email,
         dob: new Date(res?.data?.employeePersonalInformation?.dob),
@@ -115,10 +110,10 @@ export const usePersonalInfo = ({
         firstName: res?.data?.employeePersonalInformation?.firstName,
         lastName: res?.data?.employeePersonalInformation?.lastName,
         fullName: res?.data?.employeePersonalInformation?.fullName,
-        employeeId: res?.data?.employeePersonalInformation?.employeeId
-          ?.split('')
-          .splice(0, 3)
-          .join(''),
+        employeeId: res?.data?.employeePersonalInformation?.employeeId.substr(
+          0,
+          res?.data?.employeePersonalInformation?.employeeId.length - 3,
+        ),
         phone: res?.data?.employeePersonalInformation?.phone.toString(),
         email: res?.data?.employeePersonalInformation?.email,
         dob: new Date(res?.data?.employeePersonalInformation?.dob),
@@ -195,6 +190,7 @@ export const usePersonalInfo = ({
     setSelectedFileName,
     selectedFileNameBack,
     setSelectedFileNameBack,
-    genderData,
+    gender,
+    series,
   };
 };

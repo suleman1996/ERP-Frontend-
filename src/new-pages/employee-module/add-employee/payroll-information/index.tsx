@@ -55,8 +55,8 @@ const PayrollInformation = () => {
             errorMessage={errors?.payrollDetails?.houseRent?.message}
             placeholder="House Rent"
           />
-          {allowence &&
-            allowence.map((data: any) => {
+          {allowence.length > 0 &&
+            allowence?.map((data: any) => {
               return (
                 <div>
                   <TextField

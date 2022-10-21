@@ -13,6 +13,7 @@ interface Props {
   setFormData: any;
   employeeId: string;
   setSkillData: Dispatch<SetStateAction<Skill[] | []>>;
+  skillData: any;
 }
 
 export interface Skill {
@@ -26,7 +27,7 @@ export interface Skill {
   _id?: string | number;
 }
 
-export const useSkill = ({ formData, setFormData, employeeId, setSkillData }: Props) => {
+export const useSkill = ({ formData, setFormData, employeeId, setSkillData, skillData }: Props) => {
   const { id } = useParams();
   const [educations, setEducations] = useState<Skill[] | []>([]);
   const skillIndex = useRef(-1);
@@ -60,9 +61,12 @@ export const useSkill = ({ formData, setFormData, employeeId, setSkillData }: Pr
     const tempObj = {
       ...data,
       skillLevel: data?.skills.toLocaleLowerCase(),
+      ...(data.file && { file: data.file[0] ? fileBase64 : data.file }),
     };
-    console.log('index', skillIndex.current);
-    console.log('data?.skills.toLocaleLowerCase()', data?.skills.toLocaleLowerCase());
+    console.log('tenppppp ================= ==== == = = == ===========', tempObj.file.length);
+    if (tempObj.file.length === 0) {
+      removeKeys(tempObj, ['file']);
+    }
     if (skillIndex.current < 0) {
       newEducations.push(tempObj);
     } else {
@@ -108,11 +112,11 @@ export const useSkill = ({ formData, setFormData, employeeId, setSkillData }: Pr
   };
 
   useEffect(() => {
+    console.log('formData?.setSkillData', formData?.setSkillData);
     // id && getUser();
-    console.log('form data', formData);
     if (formData?.setSkillData !== undefined && Object.keys(formData?.setSkillData)?.length) {
       setEducations([...formData?.setSkillData]);
-      setSkillData((current) => [...current, ...formData?.setSkillData]);
+      // setSkillData((current) => [...current, ...formData?.setSkillData]);
     }
   }, []);
 
