@@ -64,7 +64,6 @@ export const useSkill = ({ formData, setFormData, employeeId, setSkillData, skil
       skillLevel: data?.skills.toLocaleLowerCase(),
       ...(data.file && { file: data.file[0] ? fileBase64 : data.file }),
     };
-    console.log('tenppppp ================= ==== == = = == ===========', tempObj.file.length);
     if (tempObj.file.length === 0) {
       removeKeys(tempObj, ['file']);
     }
@@ -76,7 +75,7 @@ export const useSkill = ({ formData, setFormData, employeeId, setSkillData, skil
     }
     setEducations([...newEducations]);
     setFormData({ ...formData, setSkillData: [...newEducations] });
-    reset({});
+    reset({ skills: '' });
     setToggle(-1);
     skillIndex.current = -1;
   };
@@ -101,7 +100,6 @@ export const useSkill = ({ formData, setFormData, employeeId, setSkillData, skil
 
   const getUser = async () => {
     const res = await EmployeeService.getExpertiesEmployee(id);
-    console.log('res', res.data);
     setEducations(res?.data?.skills);
 
     const data = res?.data?.skills.map((item: any) => {
@@ -113,7 +111,6 @@ export const useSkill = ({ formData, setFormData, employeeId, setSkillData, skil
   };
 
   useEffect(() => {
-    console.log('formData?.setSkillData', formData?.setSkillData);
     // id && getUser();
     if (formData?.setSkillData !== undefined && Object.keys(formData?.setSkillData)?.length) {
       setEducations([...formData?.setSkillData]);
@@ -145,15 +142,7 @@ export const schema = yup.object().shape({
     .number()
     .required('Year is a required field')
     .typeError('Year is required & should be a number'),
-  // file: yup
-  //   .mixed()
-  //   .test("required", "You need to provide a file", (file) => {
-  //     if (file[0]) return true;
-  //     return false;
-  //   })
-  //   .test("fileSize", "The file is too large", (file) => {
-  //     return file[0] && file[0].size <= 2000000;
-  //   }),
+
   skills: yup.string().required('Skills is a required field'),
 });
 

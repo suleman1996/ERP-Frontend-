@@ -68,7 +68,7 @@ export const useLanguage = ({ formData, setFormData, employeeId, setLanguage }: 
     }
     setEducations([...newEducations]);
     setFormData({ ...formData, languageData: [...newEducations] });
-    reset({ language: '' });
+    reset({ language: '', skills: '' });
     setToggle(-1);
     languageIndex.current = -1;
   };
