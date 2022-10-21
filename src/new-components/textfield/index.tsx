@@ -19,6 +19,7 @@ interface Props {
   id?: string;
   star?: string;
   min?: any;
+  max?: any;
 }
 
 const TextField = ({
@@ -38,6 +39,7 @@ const TextField = ({
   isDisable,
   star,
   min,
+  max,
   ...restOfProps
 }: Props) => {
   return (
@@ -57,6 +59,7 @@ const TextField = ({
             }}
             id={id}
             min={min && min}
+            max={max && max}
             name={name}
             value={value}
             onChange={onChange}

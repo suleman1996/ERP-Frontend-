@@ -79,8 +79,8 @@ export const usePersonalInfo = ({
     if (employeeDocId) {
       setLoader(true);
       const res = await EmployeeService.getEmployee(employeeDocId);
-      console.log('res pes ', res.data?.employeePersonalInformation?.cnicFront?.name?.toString());
-      setSelectedFileName('cnic font');
+      console.log('res pes ', res.dataemployeePersonalInformation);
+      setSelectedFileName(res.data?.employeePersonalInformation?.cnicFront?.name?.toString());
       setSelectedFileNameBack(res.data?.employeePersonalInformation?.cnicBack?.name?.toString());
       setImg(res?.data?.employeePersonalInformation?.profilePicture);
       setUserId(
