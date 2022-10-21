@@ -43,6 +43,8 @@ const LanguageExpertise = ({ formData, setFormData, employeeId, setLanguage }: P
     toggle,
     setToggle,
     watch,
+    selectedFileName,
+    setSelectedFileName,
   } = useLanguage({
     formData,
     setFormData,
@@ -103,6 +105,8 @@ const LanguageExpertise = ({ formData, setFormData, employeeId, setLanguage }: P
             <ProfileUpload
               name={'file'}
               register={register}
+              selectedFileName={selectedFileName}
+              setSelectedFileName={setSelectedFileName}
               id={'letter'}
               errorMessage={errors?.file?.message}
               type={'application/pdf'}

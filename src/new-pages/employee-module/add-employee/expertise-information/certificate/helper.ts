@@ -30,6 +30,7 @@ export const useCerificate = ({ formData, setFormData, employeeId, setCertificat
   const { id } = useParams();
   const [toggle, setToggle] = useState<number>();
   const [educations, setEducations] = useState<Certificate[] | []>([]);
+  const [selectedFileName, setSelectedFileName] = useState('');
   const certificateIndex = useRef(-1);
   const [updateEdu, setUpdateEdu] = useState({
     update: false,
@@ -123,6 +124,8 @@ export const useCerificate = ({ formData, setFormData, employeeId, setCertificat
     handleDeleteIndex,
     toggle,
     setToggle,
+    selectedFileName,
+    setSelectedFileName,
   };
 };
 

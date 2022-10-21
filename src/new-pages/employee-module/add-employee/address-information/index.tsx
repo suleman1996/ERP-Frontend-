@@ -109,6 +109,7 @@ const AddressInformation = () => {
             name="currentAddress.postalCode"
             label="Postal Code "
             type="number"
+            min={'0'}
             register={register}
             errorMessage={errors?.currentAddress?.postalCode?.message}
             placeholder="Postal Code"
@@ -171,6 +172,7 @@ const AddressInformation = () => {
           <TextField
             name="permanentAddress.postalCode"
             star={'*'}
+            min={'0'}
             label="Postal Code "
             type="number"
             register={register}

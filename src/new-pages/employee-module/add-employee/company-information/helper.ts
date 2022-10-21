@@ -69,6 +69,7 @@ export const useCompanyInfo = ({ handleNext, formData, setFormData, employeeDocI
         ...formData?.companyInformation,
       });
     setCheck(formData?.companyInformation.workingDaysInWeek);
+    setProbation(formData?.companyInformation?.probation);
   };
   useEffect(() => {
     init();
@@ -76,6 +77,7 @@ export const useCompanyInfo = ({ handleNext, formData, setFormData, employeeDocI
 
   const getSingleEmployeeData = async () => {
     const res = await EmployeeService.getCompanyEmployee(id || employeeDocId);
+
     if (res?.data?.company?.departmentId)
       await getAllDesignations(res?.data?.company?.departmentId);
     reset({
@@ -129,6 +131,7 @@ export const useCompanyInfo = ({ handleNext, formData, setFormData, employeeDocI
         },
         workingDaysInWeek: check,
         probation: probation ? Boolean(probation) : false,
+        ...(probation && { probationDurationDays: data?.probationDurationDays }),
       };
       removeKeys(user, ['department', 'designation', ...leaves.map((leave: Leave) => leave.name)]);
       if (id) {

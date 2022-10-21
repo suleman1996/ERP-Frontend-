@@ -59,6 +59,8 @@ const EducationalDetails = () => {
     marksType,
     setMarkVal,
     marksVal,
+    selectedFileName,
+    setSelectedFileName,
   } = useEducationDetail({
     handleBack,
     handleNext,
@@ -162,6 +164,8 @@ const EducationalDetails = () => {
               name={'transcript'}
               register={register}
               id={'transcript'}
+              selectedFileName={selectedFileName}
+              setSelectedFileName={setSelectedFileName}
               defaultFileName={filename ? filename : ''}
               setFileName={(value: string) => setValue('filename', value)}
               errorMessage={errors?.transcript?.message}

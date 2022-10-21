@@ -18,6 +18,7 @@ interface Props {
   isDisable?: boolean;
   id?: string;
   star?: string;
+  min?: any;
 }
 
 const TextField = ({
@@ -36,6 +37,7 @@ const TextField = ({
   readOnly,
   isDisable,
   star,
+  min,
   ...restOfProps
 }: Props) => {
   return (
@@ -54,6 +56,7 @@ const TextField = ({
               backgroundColor: readOnly || isDisable ? '#ddd' : '#fff',
             }}
             id={id}
+            min={min && min}
             name={name}
             value={value}
             onChange={onChange}

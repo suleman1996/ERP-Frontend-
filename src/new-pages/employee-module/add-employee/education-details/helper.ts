@@ -48,6 +48,7 @@ export const useEducationDetail = ({
   const [filename, setFilename] = useState<string | any>('');
   const [startDateHandle, setStartDateHandle] = useState<string | any>();
   const [educations, setEducations] = useState<Education[] | []>([]);
+  const [selectedFileName, setSelectedFileName] = useState('');
   const educationIndex = useRef(-1);
   const [ongiong, setOngoing] = useState(false);
   const { pathname } = useLocation();
@@ -92,6 +93,7 @@ export const useEducationDetail = ({
   const handleAddEduction = async (data: Education) => {
     const newEducations: any = [...educations];
     const { startDate, endDate, transcript, prevTranscript, filename: prevFileName } = data;
+
     const tempObj = {
       ...data,
       endDate: moment(endDate).format('YYYY-MM-DD'),
@@ -114,14 +116,15 @@ export const useEducationDetail = ({
     setEducations([...newEducations]);
     setFormData({ ...formData, educationDetails: [...newEducations] });
     educationIndex.current = -1;
-    reset({});
+    reset({ startDate: null, endDate: null });
+
     setFilename('');
+    setOngoing(false);
   };
 
   const handleEducation = (index: number) => {
     educationIndex.current = index;
     const data = educations.find((data, i) => i === index);
-    console.log('data', data);
     reset({
       institute: data?.institute,
       degree: data?.degree,
@@ -133,7 +136,6 @@ export const useEducationDetail = ({
       prevTranscript: data?.transcript,
       marks: data?.marks,
     });
-    console.log('type', marksType.toString());
     setOngoing(!!data?.ongoing);
     setFilename(data?.filename);
   };
@@ -185,6 +187,8 @@ export const useEducationDetail = ({
     marksType,
     setMarkVal,
     marksVal,
+    selectedFileName,
+    setSelectedFileName,
   };
 };
 
@@ -206,8 +210,11 @@ export const schema = yup.object().shape({
       .typeError('CGPA is required'),
   }),
   startDate: yup.string().nullable().required('Start date is required'),
-  endDate: yup.string().nullable().optional(),
-  ongoing: yup.boolean().required(),
+  endDate: yup.string().when('ongoing', {
+    is: 'false',
+    then: yup.string().nullable().required('End date is required.'),
+  }),
+  // ongoing: yup.boolean().required(),
   description: yup.string().optional(),
 });
 

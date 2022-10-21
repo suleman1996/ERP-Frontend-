@@ -68,3 +68,15 @@
     display: flex;
   }
 }
+.loader {
+  border-top: 3px solid #57b894;
+  border-left: 3px solid #57b894;
+  border-right: 3px solid transparent;
+  border-bottom: 3px solid #57b894;
+  width: 40px;
+  height: 40px;
+}
+.bgCHeight {
+  height: calc(100vh - 400px);
+  background-color: #fff;
+}

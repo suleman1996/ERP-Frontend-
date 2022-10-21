@@ -30,6 +30,7 @@ export interface Skill {
 export const useSkill = ({ formData, setFormData, employeeId, setSkillData, skillData }: Props) => {
   const { id } = useParams();
   const [educations, setEducations] = useState<Skill[] | []>([]);
+  const [selectedFileName, setSelectedFileName] = useState('');
   const skillIndex = useRef(-1);
   const [toggle, setToggle] = useState<number>();
 
@@ -132,6 +133,8 @@ export const useSkill = ({ formData, setFormData, employeeId, setSkillData, skil
     handleDeleteIndex,
     toggle,
     setToggle,
+    selectedFileName,
+    setSelectedFileName,
   };
 };
 
