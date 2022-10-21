@@ -6,6 +6,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 import EmployeeService from 'services/employee-service';
 import { setErrors } from 'helper';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllAllowence } from 'store/actions';
 
 interface Data {
   basicSalary: string;
@@ -29,11 +31,13 @@ interface Props {
 
 export const usePayrollDetail = ({ employeeId, employeeDocId }: Props) => {
   const { id } = useParams();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [allowence, setAllowence] = useState<any>();
   const [btnLoader, setBtnLoader] = useState(false);
 
   const { register, handleSubmit, errors, control, reset, setError } = useForm();
+
+  const allowence = useSelector((state) => state.app?.allowence);
 
   const onSubmit = async (data: any) => {
     const {
@@ -88,14 +92,12 @@ export const usePayrollDetail = ({ employeeId, employeeDocId }: Props) => {
 
   const getUser = async () => {
     const res = await EmployeeService.getPayrollEmployee(id ? id : employeeDocId);
-    console.log('res payroll', res.data);
     reset({
       ...res?.data?.Payroll,
       ...allowence?.reduce((acc: { [key: string]: any }, data: any) => {
         const allowanceData = res?.data?.Payroll?.allownce?.find(
           (e: any) => e.allowanceId === data._id,
         );
-        console.log('123123123123', { data: res.data, dataAll: data, allowanceData });
         return { ...acc, [data.name]: allowanceData?.amount };
       }, {}),
       payrollDetails: {
@@ -113,13 +115,8 @@ export const usePayrollDetail = ({ employeeId, employeeDocId }: Props) => {
   }, [allowence, id]);
 
   useEffect(() => {
-    getAllAllowence();
+    dispatch(getAllAllowence());
   }, []);
-
-  const getAllAllowence = async () => {
-    const res = await EmployeeService.getAllowence();
-    setAllowence(res?.data?.Allownce);
-  };
 
   return {
     onSubmit,

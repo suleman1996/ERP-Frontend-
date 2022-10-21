@@ -6,6 +6,9 @@ import { useForm } from 'react-hook-form';
 import EmployeeService from 'services/employee-service';
 import { removeKeys } from 'helper';
 import { setErrors } from './../../../../helper/index';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllDepartments, getAllSettings } from 'store/actions';
+import { getAllLeaves } from './../../../../store/actions';
 
 interface Props {
   handleBack: (data?: string) => void;
@@ -37,15 +40,17 @@ interface Data {
 
 export const useCompanyInfo = ({ handleNext, formData, setFormData, employeeDocId }: Props) => {
   const { id } = useParams();
+  const dispatch = useDispatch();
   const [type, setType] = useState('per-day');
   const [probation, setProbation] = useState(false);
-  const [departments, setDepartments] = useState<any>();
   const [designation, setDesignation] = useState<any>();
   const [check, setCheck] = useState<number[]>([]);
-  const [leaves, setLeaves] = useState<any>();
   const [btnLoader, setBtnLoader] = useState(false);
   const { register, handleSubmit, errors, control, reset, watch, setError, clearErrors } =
     useForm();
+
+  const state = useSelector((state) => state.app);
+  const { departments, leaves } = state;
 
   const departmentChangeHandler = async (e: any) => {
     await getAllDesignations(e.target.value);
@@ -151,11 +156,6 @@ export const useCompanyInfo = ({ handleNext, formData, setFormData, employeeDocI
     setBtnLoader(false);
   };
 
-  const getAllDepartments = async () => {
-    const res = await EmployeeService.getDepartments();
-    setDepartments(res?.data?.department);
-  };
-
   const getAllDesignations = async (id: string) => {
     try {
       const res = await EmployeeService.getDesignation(id);
@@ -165,14 +165,9 @@ export const useCompanyInfo = ({ handleNext, formData, setFormData, employeeDocI
     }
   };
 
-  const getAllLeaves = async () => {
-    const res = await EmployeeService.getLeaves();
-    setLeaves(res?.data?.Leave);
-  };
-
   useEffect(() => {
-    getAllDepartments();
-    getAllLeaves();
+    dispatch(getAllDepartments());
+    dispatch(getAllLeaves());
   }, []);
 
   return {
@@ -205,24 +200,5 @@ export const employmentType = [
   {
     value: 'Part-Time',
     description: 'Part-Time',
-  },
-];
-
-export const department = [
-  {
-    value: 'Front-end Developer',
-    description: 'Front-end Developer',
-  },
-  {
-    value: 'Backend-developer',
-    description: 'Backend-developer',
-  },
-  {
-    value: 'management',
-    description: 'Management',
-  },
-  {
-    value: 'quality-control',
-    description: 'Quality-Control',
   },
 ];

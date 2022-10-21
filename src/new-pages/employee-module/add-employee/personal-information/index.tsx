@@ -41,7 +41,8 @@ const PersonalInformation = () => {
     setSelectedFileName,
     selectedFileNameBack,
     setSelectedFileNameBack,
-    genderData,
+    gender,
+    series,
   } = usePersonalInfo({
     handleNext,
     setFormData,
@@ -101,11 +102,11 @@ const PersonalInformation = () => {
             register={register}
           >
             <>
-              {selectOptions &&
-                selectOptions.map((ele) => (
+              {series &&
+                series.map((ele: any) => (
                   <>
-                    <option key={ele.value} value={ele.value}>
-                      {ele.description}
+                    <option key={ele.name} value={ele?._id}>
+                      {ele.name}
                     </option>
                   </>
                 ))}
@@ -186,8 +187,8 @@ const PersonalInformation = () => {
           >
             <option value="">--Gender--</option>
             <>
-              {genderData &&
-                genderData.map((data: any) => (
+              {gender &&
+                gender.map((data: any) => (
                   <option key={data?._id} value={data?._id}>
                     {data.name}
                   </option>
@@ -204,18 +205,3 @@ const PersonalInformation = () => {
 };
 
 export default PersonalInformation;
-
-export const selectOptions = [
-  {
-    value: 'SPX',
-    description: 'SPX',
-  },
-  {
-    value: 'YYY',
-    description: 'YYY',
-  },
-  {
-    value: 'ZZZ',
-    description: 'ZZZ',
-  },
-];

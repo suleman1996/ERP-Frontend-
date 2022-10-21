@@ -8,6 +8,8 @@ export const store = configureStore({
 });
 
 export const {
+  setAllGenders,
+  setAllSeries,
   setCurrentUser,
   setToken,
   setLoading,

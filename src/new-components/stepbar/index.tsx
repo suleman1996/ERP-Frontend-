@@ -5,7 +5,7 @@ import style from './stepbar.module.scss';
 interface Props {
   activeTab: any;
   setStepBarActive: Dispatch<SetStateAction<string[]>>;
-  setActive: any;
+  setActive: Dispatch<SetStateAction<any>>;
   controlWidth: number;
   tabs: any;
 }
@@ -29,7 +29,7 @@ const StepBar = ({ activeTab, controlWidth, setStepBarActive, setActive, tabs = 
                   onClick={() => {
                     if (isActive) {
                       // setStepBarActive([ele]);
-                      setActive(index);
+                      setActive && setActive(index);
                     }
                   }}
                 >

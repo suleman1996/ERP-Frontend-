@@ -26,9 +26,10 @@ interface Props {
   setFormData: any;
   employeeId: string;
   setSkillData: Dispatch<SetStateAction<Skill[] | []>>;
+  skillData: any;
 }
 
-const SkillExpertise = ({ formData, setFormData, employeeId, setSkillData }: Props) => {
+const SkillExpertise = ({ formData, setFormData, employeeId, setSkillData, skillData }: Props) => {
   const {
     handleSubmit,
     register,
@@ -46,6 +47,7 @@ const SkillExpertise = ({ formData, setFormData, employeeId, setSkillData }: Pro
     setFormData,
     employeeId,
     setSkillData,
+    skillData,
   });
 
   return (
