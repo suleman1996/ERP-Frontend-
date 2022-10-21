@@ -79,8 +79,9 @@ export const usePersonalInfo = ({
     if (employeeDocId) {
       setLoader(true);
       const res = await EmployeeService.getEmployee(employeeDocId);
-      setSelectedFileName(res.data?.employeePersonalInformation?.cnicFront?.name.toString());
-      setSelectedFileNameBack(res.data?.employeePersonalInformation?.cnicBack?.name.toString());
+      console.log('res pes ', res.data?.employeePersonalInformation?.cnicFront?.name?.toString());
+      setSelectedFileName('cnic font');
+      setSelectedFileNameBack(res.data?.employeePersonalInformation?.cnicBack?.name?.toString());
       setImg(res?.data?.employeePersonalInformation?.profilePicture);
       setUserId(
         res?.data?.employeePersonalInformation?.employeeId?.split('').splice(3, 3).join(''),
@@ -124,6 +125,7 @@ export const usePersonalInfo = ({
       });
     }
   };
+
   const onSubmit = async (data: Data) => {
     setBtnLoader(true);
     try {

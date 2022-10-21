@@ -14,6 +14,7 @@ import arrowLeft from 'new-assets/backBtn.svg';
 import arrowRight from 'new-assets/arrowBtnRight.svg';
 import style from './education.module.scss';
 import { useEmployeeForms } from '../context';
+import moment from 'moment';
 
 interface Props {
   formData: any;
@@ -186,7 +187,8 @@ const EducationalDetails = () => {
           <Table
             rows={educations.map((education) => ({
               ...education,
-              endDate: education.endDate || '---',
+              endDate: moment(education.endDate).format('Do MMMM YYYY') || '---',
+              startDate: moment(education.startDate).format('Do MMMM YYYY'),
             }))}
             columns={columns}
             minWidth="950px"

@@ -125,6 +125,7 @@ const CompanyInformation = () => {
                     label={`${data.name} Leave`}
                     type="number"
                     register={register}
+                    min={'0'}
                     errorMessage={errors.leaves && errors.leaves[index]?.quantity?.message}
                     placeholder={`${data?.name} Leave`}
                   />
