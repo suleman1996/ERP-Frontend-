@@ -162,7 +162,7 @@ const PersonalInformation = () => {
                 label="CNIC "
                 type="number"
                 min={'0'}
-                // max={'13'}
+                max={'9999999999999'}
                 placeholder=" Enter CNIC"
                 errorMessage={errors?.cnic?.message}
                 register={register}
