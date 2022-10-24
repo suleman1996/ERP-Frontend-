@@ -83,11 +83,20 @@ const Overview = ({ user }: any) => {
       </CardContainer>
       <CardContainer className={style.card}>
         <Table
-          rows={user?.education.length > 0 && user?.education}
+          rows={
+            user?.education.length > 0 &&
+            user.education.map((education: any, index: any) => ({
+              ...education,
+              endDate: moment(education.endDate).format('Do MMMM YYYY') || '---',
+              startDate: moment(education.startDate).format('Do MMMM YYYY'),
+              no: index + 1,
+            }))
+          }
           columns={columns}
           minWidth="800px"
         />
       </CardContainer>
+      {console.log('user', user?.education)}
     </>
   );
 };

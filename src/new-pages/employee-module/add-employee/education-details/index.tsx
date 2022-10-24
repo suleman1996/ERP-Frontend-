@@ -175,7 +175,6 @@ const EducationalDetails = () => {
           </div>
         </div>
         <div className={style.btnContainer}>
-          <p></p>
           <Button
             type="submit"
             text="Add"
