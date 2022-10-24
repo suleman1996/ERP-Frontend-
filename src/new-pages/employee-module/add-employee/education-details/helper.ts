@@ -101,12 +101,21 @@ export const useEducationDetail = ({
       endDate: moment(endDate).format('YYYY-MM-DD'),
       startDate: moment(startDate).format('YYYY-MM-DD'),
       ongoing: ongiong,
-      filename: transcript[0]?.name || prevFileName,
-      transcript:
-        transcript && (transcript[0] ? await convertBase64Image(transcript[0]) : prevTranscript),
+      ...(transcript[0]?.name
+        ? {
+            filename: transcript[0]?.name || prevFileName,
+            transcript:
+              transcript &&
+              (transcript[0] ? await convertBase64Image(transcript[0]) : prevTranscript),
+          }
+        : {
+            filename: newEducations[educationIndex.current]?.filename || '',
+            transcript: newEducations[educationIndex.current]?.transcript || '',
+          }),
       ...(marksType === 'percentage' && { percentage: marksVal?.toString() }),
       ...(marksType === 'cgpa' && { cgpa: marksType === 'cgpa' && marksVal?.toString() }),
     };
+    console.log(tempObj);
     !transcript && removeKeys(tempObj, ['transcript']);
     ongiong && removeKeys(tempObj, ['endDate']);
     if (educationIndex.current < 0) {
@@ -122,13 +131,24 @@ export const useEducationDetail = ({
 
     setFilename('');
     setOngoing(false);
+
     setSelectedFileName('');
+    ongiong &&
+      setEducations(
+        newEducations.map((item: any) => {
+          return {
+            ...item,
+            endDate: null,
+          };
+        }),
+      );
   };
 
   const handleEducation = (index: number) => {
     educationIndex.current = index;
     const data = educations.find((data, i) => i === index);
-    data?.transcript && setSelectedFileName('transcript');
+
+    data?.filename && setSelectedFileName(data.filename);
     reset({
       institute: data?.institute,
       degree: data?.degree,
@@ -137,11 +157,12 @@ export const useEducationDetail = ({
       startDate: moment(data?.startDate, 'YYYY-MM-DD').toDate(),
       endDate: moment(data?.endDate, 'YYYY-MM-DD').toDate(),
       ongoing: data?.ongoing,
-      prevTranscript: data?.transcript,
       marks: data?.marks,
     });
     setOngoing(!!data?.ongoing);
-    setFilename(data?.filename);
+
+    data?.filename && setFilename(data?.filename);
+    console.log('edit', data);
   };
 
   const getUser = async () => {

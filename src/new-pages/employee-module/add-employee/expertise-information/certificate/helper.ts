@@ -31,6 +31,7 @@ export const useCerificate = ({ formData, setFormData, employeeId, setCertificat
   const [toggle, setToggle] = useState<number>();
   const [educations, setEducations] = useState<Certificate[] | []>([]);
   const [selectedFileName, setSelectedFileName] = useState('');
+  const [activeEdit, setActiveEdit] = useState('');
   const certificateIndex = useRef(-1);
   const [updateEdu, setUpdateEdu] = useState({
     update: false,
@@ -57,6 +58,11 @@ export const useCerificate = ({ formData, setFormData, employeeId, setCertificat
     const tempObj = {
       ...data,
       skillLevel: data?.skills,
+      ...(fileBase64
+        ? { file: fileBase64 }
+        : {
+            file: newEducations[certificateIndex.current].file,
+          }),
     };
     if (tempObj.file.length === 0) {
       removeKeys(tempObj, ['file']);
@@ -79,6 +85,7 @@ export const useCerificate = ({ formData, setFormData, employeeId, setCertificat
     certificateIndex.current = index;
     const data = educations.find((data, i) => i === index);
     data?.file && setSelectedFileName('file');
+    setActiveEdit(`${data?.skillLevel}`);
     reset({
       certificateName: data?.certificateName,
       year: data?.year,
@@ -122,7 +129,7 @@ export const useCerificate = ({ formData, setFormData, employeeId, setCertificat
     handleAddEduction,
     educations,
     handleEducation,
-    activeEdit: certificateIndex.current,
+    activeEdit,
     handleDeleteIndex,
     toggle,
     setToggle,
