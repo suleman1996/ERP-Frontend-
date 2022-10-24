@@ -31,12 +31,11 @@ const ProfileUpload = ({
     selectedFileName && setFileName && setFileName(selectedFileName);
   }, [selectedFileName]);
 
-  const checkFileType = (file: any) => {
+  const checkFileType = () => {
     var fileInput = document.getElementById(id);
 
     var filePath = fileInput?.value;
 
-    // Allowing file type
     var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.pdf)$/i;
 
     if (!allowedExtensions.exec(filePath)) {

@@ -51,7 +51,6 @@ export const useEducationDetail = ({
   const [selectedFileName, setSelectedFileName] = useState('');
   const educationIndex = useRef(-1);
   const [ongiong, setOngoing] = useState(false);
-  const { pathname } = useLocation();
 
   const [updateEdu, setUpdateEdu] = useState({
     update: false,
@@ -96,6 +95,8 @@ export const useEducationDetail = ({
     const newEducations: any = [...educations];
     const { startDate, endDate, transcript, prevTranscript, filename: prevFileName } = data;
 
+    console.log('data', data);
+
     const tempObj = {
       ...data,
       endDate: moment(endDate).format('YYYY-MM-DD'),
@@ -115,7 +116,6 @@ export const useEducationDetail = ({
       ...(marksType === 'percentage' && { percentage: marksVal?.toString() }),
       ...(marksType === 'cgpa' && { cgpa: marksType === 'cgpa' && marksVal?.toString() }),
     };
-    console.log(tempObj);
     !transcript && removeKeys(tempObj, ['transcript']);
     ongiong && removeKeys(tempObj, ['endDate']);
     if (educationIndex.current < 0) {
@@ -127,21 +127,11 @@ export const useEducationDetail = ({
     setEducations([...newEducations]);
     setFormData({ ...formData, educationDetails: [...newEducations] });
     educationIndex.current = -1;
-    reset({ startDate: null, endDate: null });
+    reset({ startDate: null });
 
     setFilename('');
     setOngoing(false);
-
     setSelectedFileName('');
-    ongiong &&
-      setEducations(
-        newEducations.map((item: any) => {
-          return {
-            ...item,
-            endDate: null,
-          };
-        }),
-      );
   };
 
   const handleEducation = (index: number) => {

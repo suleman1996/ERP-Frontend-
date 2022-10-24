@@ -61,10 +61,10 @@ export const useCerificate = ({ formData, setFormData, employeeId, setCertificat
       ...(fileBase64
         ? { file: fileBase64 }
         : {
-            file: newEducations[certificateIndex.current].file,
+            file: newEducations && newEducations[certificateIndex.current]?.file,
           }),
     };
-    if (tempObj.file.length === 0) {
+    if (tempObj?.file?.length === 0) {
       removeKeys(tempObj, ['file']);
     }
     if (certificateIndex.current < 0) {
@@ -77,6 +77,7 @@ export const useCerificate = ({ formData, setFormData, employeeId, setCertificat
     setFormData({ ...formData, certificateData: [...newEducations] });
     reset({ skills: '' });
     setToggle(-1);
+    setActiveEdit('');
     certificateIndex.current = -1;
     setSelectedFileName('');
   };

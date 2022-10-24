@@ -66,11 +66,11 @@ export const useSkill = ({ formData, setFormData, employeeId, setSkillData, skil
       ...(fileBase64
         ? { file: fileBase64 }
         : {
-            file: newEducations[skillIndex.current].file,
+            file: newEducations && newEducations[skillIndex.current]?.file,
           }),
     };
 
-    if (tempObj.file.length === 0) {
+    if (tempObj?.file?.length === 0) {
       removeKeys(tempObj, ['file']);
     }
     if (skillIndex.current < 0) {
@@ -83,6 +83,7 @@ export const useSkill = ({ formData, setFormData, employeeId, setSkillData, skil
     setFormData({ ...formData, setSkillData: [...newEducations] });
     reset({ skills: '' });
     setToggle(-1);
+    setActiveEdit('');
     skillIndex.current = -1;
     setSelectedFileName('');
   };
@@ -90,7 +91,6 @@ export const useSkill = ({ formData, setFormData, employeeId, setSkillData, skil
   const handleEducation = (index: number) => {
     skillIndex.current = index;
     const data = educations.find((data, i) => i === index);
-    console.log('edit', data);
     data?.file && setSelectedFileName('file');
     setActiveEdit(`${data?.skillLevel}`);
     reset({
