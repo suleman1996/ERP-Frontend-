@@ -72,11 +72,13 @@ export const useCerificate = ({ formData, setFormData, employeeId, setCertificat
     reset({ skills: '' });
     setToggle(-1);
     certificateIndex.current = -1;
+    setSelectedFileName('');
   };
 
   const handleEducation = (index: number) => {
     certificateIndex.current = index;
     const data = educations.find((data, i) => i === index);
+    data?.file && setSelectedFileName('file');
     reset({
       certificateName: data?.certificateName,
       year: data?.year,

@@ -28,10 +28,11 @@ const PayrollInformation = () => {
     employeeId,
   }: any = useEmployeeForms();
 
-  const { onSubmit, register, handleSubmit, errors, control, allowence } = usePayrollDetail({
-    employeeId,
-    employeeDocId,
-  });
+  const { onSubmit, register, handleSubmit, errors, control, allowence, btnLoader } =
+    usePayrollDetail({
+      employeeId,
+      employeeDocId,
+    });
   console.log(errors);
   return (
     <div className={style.mainForm}>
@@ -192,7 +193,7 @@ const PayrollInformation = () => {
             iconStart={arrowLeft}
             handleClick={() => handleBack('Expertise')}
           />
-          <Button text="Done" iconEnd={tick} type={'submit'} />
+          <Button text="Done" iconEnd={tick} type={'submit'} isLoading={btnLoader} />
         </div>
       </form>
     </div>

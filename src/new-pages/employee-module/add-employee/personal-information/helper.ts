@@ -79,9 +79,8 @@ export const usePersonalInfo = ({
     if (employeeDocId) {
       setLoader(true);
       const res = await EmployeeService.getEmployee(employeeDocId);
-      console.log('res pes ', res.dataemployeePersonalInformation);
-      setSelectedFileName(res.data?.employeePersonalInformation?.cnicFront?.name?.toString());
-      setSelectedFileNameBack(res.data?.employeePersonalInformation?.cnicBack?.name?.toString());
+      setSelectedFileName(res.data?.employeePersonalInformation?.cnicFront?.name);
+      setSelectedFileNameBack(res.data?.employeePersonalInformation?.cnicBack?.name);
       setImg(res?.data?.employeePersonalInformation?.profilePicture);
       setUserId(
         res?.data?.employeePersonalInformation?.employeeId?.split('').splice(3, 3).join(''),

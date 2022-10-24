@@ -86,7 +86,7 @@ const EmployeeFilter = ({ setOpen, setEmployees, open, setCount, getData }: Prop
             <>
               {designation &&
                 designation.map((data: any) => (
-                  <option key={data?.departmentSettingId} value={data?.name}>
+                  <option key={data?._id} value={data?._id}>
                     {data.name}
                   </option>
                 ))}
