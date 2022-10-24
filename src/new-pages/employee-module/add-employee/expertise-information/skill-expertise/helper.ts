@@ -31,6 +31,7 @@ export const useSkill = ({ formData, setFormData, employeeId, setSkillData, skil
   const { id } = useParams();
   const [educations, setEducations] = useState<Skill[] | []>([]);
   const [selectedFileName, setSelectedFileName] = useState('');
+  const [activeEdit, setActiveEdit] = useState('');
   const skillIndex = useRef(-1);
   const [toggle, setToggle] = useState<number>();
 
@@ -62,8 +63,17 @@ export const useSkill = ({ formData, setFormData, employeeId, setSkillData, skil
     const tempObj = {
       ...data,
       skillLevel: data?.skills.toLocaleLowerCase(),
-      ...(data.file && { file: data.file[0] ? fileBase64 : data.file }),
+      // ...(data.file && { file: data.file[0] ? fileBase64 : data.file }),
+      ...(fileBase64
+        ? { file: fileBase64 }
+        : {
+            file: newEducations[skillIndex.current].file,
+          }),
     };
+    console.log('temp', tempObj);
+    console.log('new', newEducations);
+    console.log('skill index', skillIndex);
+
     if (tempObj.file.length === 0) {
       removeKeys(tempObj, ['file']);
     }
@@ -84,7 +94,9 @@ export const useSkill = ({ formData, setFormData, employeeId, setSkillData, skil
   const handleEducation = (index: number) => {
     skillIndex.current = index;
     const data = educations.find((data, i) => i === index);
+    console.log('edit', data);
     data?.file && setSelectedFileName('file');
+    setActiveEdit(`${data?.skillLevel}`);
     reset({
       skillName: data?.skillName,
       year: data?.year,
@@ -113,7 +125,7 @@ export const useSkill = ({ formData, setFormData, employeeId, setSkillData, skil
   };
 
   useEffect(() => {
-    // id && getUser();
+    id && getUser();
     if (formData?.setSkillData !== undefined && Object.keys(formData?.setSkillData)?.length) {
       setEducations([...formData?.setSkillData]);
       // setSkillData((current) => [...current, ...formData?.setSkillData]);
@@ -128,7 +140,7 @@ export const useSkill = ({ formData, setFormData, employeeId, setSkillData, skil
     handleAddEduction,
     educations,
     handleEducation,
-    activeEdit: skillIndex.current,
+    activeEdit,
     handleDeleteIndex,
     toggle,
     setToggle,
