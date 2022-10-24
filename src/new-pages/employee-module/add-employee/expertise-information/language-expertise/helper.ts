@@ -62,10 +62,10 @@ export const useLanguage = ({ formData, setFormData, employeeId, setLanguage }: 
       ...(fileBase64
         ? { file: fileBase64 }
         : {
-            file: newEducations[languageIndex.current].file,
+            file: newEducations && newEducations[languageIndex.current]?.file,
           }),
     };
-    if (tempObj.file.length === 0) {
+    if (tempObj?.file?.length === 0) {
       removeKeys(tempObj, ['file']);
     }
     if (languageIndex.current < 0) {
@@ -78,6 +78,7 @@ export const useLanguage = ({ formData, setFormData, employeeId, setLanguage }: 
     setFormData({ ...formData, languageData: [...newEducations] });
     reset({ language: '', skills: '' });
     setToggle(-1);
+    setActiveEdit('');
     languageIndex.current = -1;
     setSelectedFileName('');
   };

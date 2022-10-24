@@ -90,7 +90,7 @@ const EmployeeProfileDetails = () => {
           setEmployees={setEmployees}
           getEmployeesData={getEmployeesData}
         />
-
+        {console.log('emp', employees)}
         <div className={style.cardSection}>
           {employees?.map(
             (
