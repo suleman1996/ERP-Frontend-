@@ -74,6 +74,9 @@ export const usePayrollDetail = ({ employeeId, employeeDocId }: Props) => {
         if (res?.response?.data?.error && res?.response?.status === 422) {
           setErrors(res.response.data.error, setError);
         }
+        if (res.status === 200) {
+          navigate('/employee');
+        }
       } else {
         const res = await EmployeeService.addPostPayroll({ ...userData }, employeeDocId);
         if (res?.response?.data?.error && res?.response?.status === 422) {

@@ -31,6 +31,22 @@ const ProfileUpload = ({
     selectedFileName && setFileName && setFileName(selectedFileName);
   }, [selectedFileName]);
 
+  const checkFileType = (file: any) => {
+    var fileInput = document.getElementById(id);
+
+    var filePath = fileInput?.value;
+
+    // Allowing file type
+    var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.pdf)$/i;
+
+    if (!allowedExtensions.exec(filePath)) {
+      alert('Invalid file type');
+      fileInput.value = '';
+      setSelectedFileName('');
+      return false;
+    }
+  };
+
   console.log('selectedFileName', selectedFileName);
 
   return (
@@ -42,11 +58,12 @@ const ProfileUpload = ({
         <input
           type={'file'}
           name={name}
-          onChange={(e) =>
+          onChange={(e) => {
             setSelectedFileName &&
-            e.target.value &&
-            setSelectedFileName(e.target.value.split('').splice(12, 100).join(''))
-          }
+              e.target.value &&
+              setSelectedFileName(e.target.value.split('').splice(12, 100).join(''));
+            checkFileType(e);
+          }}
           accept={type ? type : 'image/png '}
           ref={register}
           hidden
