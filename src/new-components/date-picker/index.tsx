@@ -88,6 +88,7 @@ const DatePicker = ({
                   placeholderText={placeholder ? placeholder : '22/03/2022'}
                   id={id}
                   disabled={isDisable}
+                  showTimeInput
                   renderCustomHeader={({
                     date,
                     decreaseMonth,

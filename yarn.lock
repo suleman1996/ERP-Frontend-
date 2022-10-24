@@ -3067,6 +3067,13 @@
   dependencies:
     "@babel/types" "^7.3.0"
 
+"@types/bootstrap@^5.2.5":
+  "integrity" "sha512-VnalUJ3E/oaV3DYrauEc/sSPpaEPxTV09twSEzY4KFRvyuGlrZUSqG95XZ6ReAi0YMZIs7rXxdngDK2X1YONQA=="
+  "resolved" "https://registry.npmjs.org/@types/bootstrap/-/bootstrap-5.2.5.tgz"
+  "version" "5.2.5"
+  dependencies:
+    "@popperjs/core" "^2.9.2"
+
 "@types/eslint@^7.29.0":
   "integrity" "sha512-VNcvioYDH8/FxaeTKkM4/TiTwt6pBV9E3OfGmvaw8tPl0rrHCJ4Ll15HRT+pMiFAf/MLQvAzC+6RzUMEL9Ceng=="
   "resolved" "https://registry.npmjs.org/@types/eslint/-/eslint-7.29.0.tgz"
@@ -4679,7 +4686,7 @@
     "jquery" ">=1.10"
     "moment" "^2.9.0"
 
-"bootstrap@^4.6.0":
+"bootstrap@^4.6.2":
   "integrity" "sha512-51Bbp/Uxr9aTuy6ca/8FbFloBUJZLHwnhTcnjIeRn2suQWsWzcuJhGjKDB5eppVte/8oCdOL3VuwxvZDUggwGQ=="
   "resolved" "https://registry.npmjs.org/bootstrap/-/bootstrap-4.6.2.tgz"
   "version" "4.6.2"
@@ -11545,6 +11552,11 @@
   "version" "4.2.2"
   dependencies:
     "@babel/runtime" "^7.17.8"
+
+"popper.js@^1.16.1":
+  "integrity" "sha512-Wb4p1J4zyFTbM+u6WuO4XstYx4Ky9Cewe4DWrel7B0w6VVICvPwdOpotjzcf6eD8TsckVnIMNONQyPIUFOUbCQ=="
+  "resolved" "https://registry.npmjs.org/popper.js/-/popper.js-1.16.1.tgz"
+  "version" "1.16.1"
 
 "portfinder@^1.0.26":
   "integrity" "sha512-Z5+DarHWCKlufshB9Z1pN95oLtANoY5Wn9X3JGELGyQ6VhEcBfT2t+1fGUBq7MwUant6g/mqowH+4HifByPbiQ=="

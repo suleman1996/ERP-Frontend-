@@ -1,0 +1,46 @@
+@import 'styles/_colors.scss';
+@import 'styles/_mixin.scss';
+@import 'styles/_breakpoints.scss';
+
+.calenderMain {
+  .fc-theme-standard td,
+  .fc-theme-standard th {
+    border: none !important;
+  }
+}
+.title {
+  font-weight: 600;
+  font-size: 16px;
+  color: #303134;
+}
+.description {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 13px;
+  color: #2d2d32;
+  padding-left: 10px;
+}
+.descDiv {
+  display: flex;
+  align-items: center;
+}
+.mainDiv {
+  justify-content: space-between;
+  display: flex;
+  height: 100%;
+  background-color: #edf1fb;
+  align-items: center;
+  padding: 10px;
+  border-left: 2px solid red;
+}
+.mainDiv2 {
+  background-color: #edf1fb;
+  height: 100%;
+  flex-direction: column;
+  justify-content: center;
+  display: flex;
+}
+.fc-timegrid-slot {
+  height: 100px !important;
+}
