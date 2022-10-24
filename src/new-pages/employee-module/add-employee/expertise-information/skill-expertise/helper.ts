@@ -78,11 +78,13 @@ export const useSkill = ({ formData, setFormData, employeeId, setSkillData, skil
     reset({ skills: '' });
     setToggle(-1);
     skillIndex.current = -1;
+    setSelectedFileName('');
   };
 
   const handleEducation = (index: number) => {
     skillIndex.current = index;
     const data = educations.find((data, i) => i === index);
+    data?.file && setSelectedFileName('file');
     reset({
       skillName: data?.skillName,
       year: data?.year,

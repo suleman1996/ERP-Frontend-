@@ -8,7 +8,7 @@ import { Employee } from 'interfaces/employee';
 
 export interface Props {
   setOpen?: (value: boolean) => void;
-  setEmployees?: Dispatch<SetStateAction<Employee[]>>;
+  setEmployees?: any;
   open?: boolean;
   setCount?: (value: number) => void;
   getData?: () => void;
@@ -29,8 +29,8 @@ export const useEmployeeFilter = ({ setOpen, setEmployees, setCount, getData }: 
   const onSubmit = async (data: any) => {
     const res = await EmployeeService.getAllEmployees(data);
     if (res?.status === 200) {
-      setEmployees && setEmployees(res?.data.employees);
-      setCount && setCount(res?.data.employees[0].count);
+      setEmployees && setEmployees(res?.data?.employees[0]?.data);
+      res?.data?.employees.length > 0 && setCount && setCount(res?.data?.employees[0]?.count);
     }
   };
 

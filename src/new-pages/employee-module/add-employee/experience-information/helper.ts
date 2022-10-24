@@ -117,11 +117,13 @@ export const useExperience = ({
     clearErrors();
     educationIndex.current = -1;
     setOnGoing(false);
+    setSelectedFileName('');
   };
 
   const handleEducation = (index: number) => {
     educationIndex.current = index;
     const data = educations.find((data, i) => i === index);
+    data?.experienceLetter && setSelectedFileName('experience letter');
     reset({
       company: data?.company,
       country: data?.country,
@@ -282,8 +284,11 @@ export const schema = yup.object().shape({
   city: yup.string().required('City is required'),
   jobTitle: yup.string().required('Job is required'),
   jobStartDate: yup.string().nullable().required('Start date is required'),
-  jobEndDate: yup.string().when('ongoing', {
-    is: 'false',
-    then: yup.string().nullable().required('End date is required.'),
-  }),
+  jobEndDate: yup
+    .date()
+    .typeError('End date is required')
+    .when('ongoing', {
+      is: 'false',
+      then: yup.string().nullable().required('End date is required.'),
+    }),
 });

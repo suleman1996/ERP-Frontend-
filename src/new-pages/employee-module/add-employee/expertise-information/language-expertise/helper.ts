@@ -71,12 +71,14 @@ export const useLanguage = ({ formData, setFormData, employeeId, setLanguage }: 
     reset({ language: '', skills: '' });
     setToggle(-1);
     languageIndex.current = -1;
+    setSelectedFileName('');
   };
 
   const handleEducation = (index: number) => {
     languageIndex.current = index;
 
     const data = educations.find((data, i) => i === index);
+    data?.file && setSelectedFileName('file');
     reset({
       language: data?.language,
       year: data?.year,

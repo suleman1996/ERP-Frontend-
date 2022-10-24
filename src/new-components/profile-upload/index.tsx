@@ -31,9 +31,7 @@ const ProfileUpload = ({
     selectedFileName && setFileName && setFileName(selectedFileName);
   }, [selectedFileName]);
 
-  useEffect(() => {
-    setSelectedFileName && setSelectedFileName(defaultFileName);
-  }, [defaultFileName]);
+  console.log('selectedFileName', selectedFileName);
 
   return (
     <div>
@@ -46,6 +44,7 @@ const ProfileUpload = ({
           name={name}
           onChange={(e) =>
             setSelectedFileName &&
+            e.target.value &&
             setSelectedFileName(e.target.value.split('').splice(12, 100).join(''))
           }
           accept={type ? type : 'image/png '}

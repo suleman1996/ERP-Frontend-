@@ -122,11 +122,13 @@ export const useEducationDetail = ({
 
     setFilename('');
     setOngoing(false);
+    setSelectedFileName('');
   };
 
   const handleEducation = (index: number) => {
     educationIndex.current = index;
     const data = educations.find((data, i) => i === index);
+    data?.transcript && setSelectedFileName('transcript');
     reset({
       institute: data?.institute,
       degree: data?.degree,
@@ -212,11 +214,13 @@ export const schema = yup.object().shape({
       .typeError('CGPA is required'),
   }),
   startDate: yup.string().nullable().required('Start date is required'),
-  endDate: yup.date().when('ongoing', {
-    is: 'false',
-    then: yup.string().nullable().required('End date is required.'),
-  }),
-  // ongoing: yup.boolean().required(),
+  endDate: yup
+    .date()
+    .typeError('End date is required')
+    .when('ongoing', {
+      is: 'false',
+      then: yup.string().nullable().required('End date is required.'),
+    }),
   description: yup.string().optional(),
 });
 

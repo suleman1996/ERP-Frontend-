@@ -36,7 +36,7 @@ const Pagination = ({ setCount, count, totalCount, hide }: Props) => {
           </div>
           <div className={style.rightFlex}>
             <p className={style.p}>{` Showing 1 to ${count} of ${totalCount}`} </p>
-            <img src={left} alt="" />
+            <img src={left} alt="" onClick={() => setCount((prev) => prev - 2)} />
             <img
               src={leftArrow}
               alt=""
@@ -46,7 +46,7 @@ const Pagination = ({ setCount, count, totalCount, hide }: Props) => {
             <p onClick={() => setCount(count + 1)}> {count + 1}</p>
             <p onClick={() => setCount(count + 2)}> {count + 2}</p>
             <img src={rightArrow} alt="" onClick={() => setCount((prev) => ++prev)} />
-            <img src={right} alt="" />
+            <img src={right} alt="" onClick={() => setCount((prev) => prev + 2)} />
           </div>
         </div>
       )}
