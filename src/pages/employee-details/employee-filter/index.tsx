@@ -8,7 +8,23 @@ import { Props, useEmployeeFilter } from './helper';
 import style from '../employee.module.scss';
 import cross from 'assets/employee-page/Path 307.svg';
 
-const EmployeeFilter = ({ setOpen, setEmployees, open, setCount, getData }: Props) => {
+interface Props {
+  setOpen?: any;
+  setEmployees?: any;
+  open?: any;
+  setCount?: any;
+  getData: any;
+  getEmployeesData: () => void;
+}
+
+const EmployeeFilter = ({
+  setOpen,
+  setEmployees,
+  open,
+  setCount,
+  getData,
+  getEmployeesData,
+}: Props) => {
   const {
     register,
     handleSubmit,
@@ -37,7 +53,15 @@ const EmployeeFilter = ({ setOpen, setEmployees, open, setCount, getData }: Prop
     >
       <Card className={style.employeeFilterCard}>
         <div className={style.img1}>
-          <img style={{ cursor: 'pointer' }} src={cross} alt="" onClick={() => cancelHandler()} />
+          <img
+            style={{ cursor: 'pointer' }}
+            src={cross}
+            alt=""
+            onClick={() => {
+              cancelHandler();
+              getEmployeesData();
+            }}
+          />
         </div>
         <div className={style.grid1}>
           <Input

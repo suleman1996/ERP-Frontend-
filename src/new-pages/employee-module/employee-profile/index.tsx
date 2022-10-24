@@ -88,6 +88,7 @@ const EmployeeProfileDetails = () => {
           setOpen={setOpenFilter}
           setCount={setCount}
           setEmployees={setEmployees}
+          getEmployeesData={getEmployeesData}
         />
 
         <div className={style.cardSection}>
