@@ -63,16 +63,12 @@ export const useSkill = ({ formData, setFormData, employeeId, setSkillData, skil
     const tempObj = {
       ...data,
       skillLevel: data?.skills.toLocaleLowerCase(),
-      // ...(data.file && { file: data.file[0] ? fileBase64 : data.file }),
       ...(fileBase64
         ? { file: fileBase64 }
         : {
             file: newEducations[skillIndex.current].file,
           }),
     };
-    console.log('temp', tempObj);
-    console.log('new', newEducations);
-    console.log('skill index', skillIndex);
 
     if (tempObj.file.length === 0) {
       removeKeys(tempObj, ['file']);
