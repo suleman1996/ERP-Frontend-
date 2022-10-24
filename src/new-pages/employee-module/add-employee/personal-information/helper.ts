@@ -126,6 +126,8 @@ export const usePersonalInfo = ({
   };
 
   const onSubmit = async (data: Data) => {
+    console.log('data', data);
+
     setBtnLoader(true);
     try {
       const { dob, cnic, frontPic, backPic, employeeId } = data;
@@ -133,7 +135,7 @@ export const usePersonalInfo = ({
       const temp = {
         ...data,
         profilePicture: img,
-        dob: moment(dob).format('YYYY-MM-DD'),
+        dob: dob && moment(dob).format('YYYY-MM-DD'),
         cnic: cnic.toString(),
         employeeId: employeeId + userId,
         cnicFront: frontPic && frontPic.length && (await convertBase64Image(frontPic[0])),
