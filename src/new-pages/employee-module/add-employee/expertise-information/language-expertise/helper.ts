@@ -50,6 +50,8 @@ export const useLanguage = ({ formData, setFormData, employeeId, setLanguage }: 
       skillLevel: data?.skills,
       ...(fileBase64 ? { file: `${fileBase64}` } : {}),
     };
+
+    !selectedFileName && removeKeys(languageData, ['file']);
     if (!languageData.file || Object.keys(languageData.file).length === 0) {
       removeKeys(languageData, ['file']);
     }
@@ -65,6 +67,8 @@ export const useLanguage = ({ formData, setFormData, employeeId, setLanguage }: 
             file: newEducations && newEducations[languageIndex.current]?.file,
           }),
     };
+
+    !selectedFileName && removeKeys(tempObj, ['file']);
     if (tempObj?.file?.length === 0) {
       removeKeys(tempObj, ['file']);
     }

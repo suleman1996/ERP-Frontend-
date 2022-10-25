@@ -47,7 +47,6 @@ export const usePersonalInfo = ({
   const { id } = useParams();
   const dispatch = useDispatch();
   const { gender, series } = useSelector((state) => state?.app);
-  console.log('series', series);
 
   const [btnLoader, setBtnLoader] = useState(false);
   const [loader, setLoader] = useState(false);
@@ -64,7 +63,6 @@ export const usePersonalInfo = ({
     const res = await EmployeeService.getAllEmployeesID(watch().employeeId);
     if (res.status === 200) {
       setUserId(res?.data?.newEmployeeId);
-      console.log('id', res?.data);
     }
   };
 
@@ -139,8 +137,16 @@ export const usePersonalInfo = ({
         dob: dob && moment(dob).format('YYYY-MM-DD'),
         cnic: cnic.toString(),
         employeeId: employeeId + userId,
-        cnicFront: frontPic && frontPic.length && (await convertBase64Image(frontPic[0])),
-        cnicBack: backPic && backPic.length && (await convertBase64Image(backPic[0])),
+        cnicFront:
+          selectedFileName &&
+          frontPic &&
+          frontPic.length &&
+          (await convertBase64Image(frontPic[0])),
+        cnicBack:
+          selectedFileNameBack &&
+          backPic &&
+          backPic.length &&
+          (await convertBase64Image(backPic[0])),
       };
       const obj = removeKey(temp);
       const userData = {

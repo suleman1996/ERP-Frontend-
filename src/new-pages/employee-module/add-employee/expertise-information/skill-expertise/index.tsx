@@ -69,8 +69,6 @@ const SkillExpertise = ({ formData, setFormData, employeeId, setSkillData, skill
             name="experince"
             label="Experience"
             star={' *'}
-            max={'9999'}
-            type="number"
             register={register}
             errorMessage={errors?.experince?.message}
             placeholder="Experience"
@@ -78,6 +76,8 @@ const SkillExpertise = ({ formData, setFormData, employeeId, setSkillData, skill
           <TextField
             name="year"
             label="Year"
+            max={'9999'}
+            type="number"
             star={' *'}
             register={register}
             errorMessage={errors?.year?.message}

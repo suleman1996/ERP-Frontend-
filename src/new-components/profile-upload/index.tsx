@@ -49,7 +49,7 @@ const ProfileUpload = ({
 
     if (event?.target?.files?.[0]?.size <= 2048000) {
     } else {
-      createNotification('error', 'Error', 'The image maximum size is 3MB');
+      createNotification('error', 'Error', 'The file maximum size should be 3MB');
       setSelectedFileName('');
     }
   };
