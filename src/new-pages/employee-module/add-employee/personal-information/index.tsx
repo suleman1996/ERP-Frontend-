@@ -118,7 +118,7 @@ const PersonalInformation = () => {
                   {series &&
                     series.map((ele: any) => (
                       <>
-                        <option key={ele.name} value={ele?._id}>
+                        <option key={ele.name} value={ele?.name}>
                           {ele.name}
                         </option>
                       </>

@@ -29,5 +29,5 @@ export const columns = [
     alignText: 'center',
     width: '150px',
   },
-  { key: 'marks', name: 'Percentage', alignText: 'center', width: '150px' },
+  { key: 'marks', name: 'Percentage/CGPA', alignText: 'center', width: '150px' },
 ];

@@ -127,7 +127,7 @@ export const useEducationDetail = ({
     setEducations([...newEducations]);
     setFormData({ ...formData, educationDetails: [...newEducations] });
     educationIndex.current = -1;
-    reset({ startDate: null });
+    reset({ startDate: null, endDate: null });
 
     setFilename('');
     setOngoing(false);

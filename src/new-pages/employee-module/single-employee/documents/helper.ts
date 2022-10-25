@@ -12,8 +12,8 @@ export const columns = [
     width: '150px',
   },
   {
-    key: 'fileRefType',
-    name: 'Status',
+    key: 'fileType',
+    name: 'File Type',
     alignText: 'center',
     width: '150px',
   },

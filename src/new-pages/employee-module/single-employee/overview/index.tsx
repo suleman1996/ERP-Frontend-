@@ -31,7 +31,7 @@ const Overview = ({ user }: any) => {
     },
     {
       title: 'Date of birth:',
-      subtitle: `${moment(user?.dob).format('MM-DD-YYYY')}`,
+      subtitle: `${moment(user?.dob).format('Do MMMM YYYY')}`,
     },
     {
       title: 'Gender:',
@@ -39,7 +39,7 @@ const Overview = ({ user }: any) => {
     },
     {
       title: 'Phone No:',
-      subtitle: user?.phone,
+      subtitle: `+${user?.phone}`,
     },
     {
       title: 'Current Address:',

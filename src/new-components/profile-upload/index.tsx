@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 
 import profileUploadIcon from 'new-assets/profileUploadImg.svg';
 import style from './profile-upload.module.scss';
+import { convertBase64Image } from 'main-helper';
+import { createNotification } from 'common/create-notification';
 
 interface Props {
   id?: string;
@@ -31,7 +33,7 @@ const ProfileUpload = ({
     selectedFileName && setFileName && setFileName(selectedFileName);
   }, [selectedFileName]);
 
-  const checkFileType = () => {
+  const checkFileType = (event: any) => {
     var fileInput = document.getElementById(id);
 
     var filePath = fileInput?.value;
@@ -43,6 +45,12 @@ const ProfileUpload = ({
       fileInput.value = '';
       setSelectedFileName('');
       return false;
+    }
+
+    if (event?.target?.files?.[0]?.size <= 2048000) {
+    } else {
+      createNotification('error', 'Error', 'The image maximum size is 3MB');
+      setSelectedFileName('');
     }
   };
 
