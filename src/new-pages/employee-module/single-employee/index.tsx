@@ -14,7 +14,8 @@ import EmployeeService from 'services/employee-service';
 import cross from 'new-assets/cross.svg';
 import add from 'new-assets/add.svg';
 import edit from 'new-assets/edit-employee.svg';
-import profile from 'new-assets/user-img.svg';
+// import profile from 'new-assets/user-img.svg';
+import profile from 'new-assets/avatar.jfif';
 import pencil from 'new-assets/pencil.svg';
 import style from './single-employee.module.scss';
 import { designation } from './../../settings/profile-settings/helper';
@@ -65,6 +66,8 @@ const SingleEmployee = () => {
     },
   ];
 
+  console.log('user', userData);
+
   return (
     <CardContainer className={style.card}>
       <div className={style.header}>
@@ -87,11 +90,8 @@ const SingleEmployee = () => {
             <div className={style.content}>
               <div>
                 <h6>{`${userData?.fullName}`}</h6>
-                <Link to={`/employee/edit/${id}`}>
-                  <img src={pencil} alt="" />
-                </Link>
               </div>
-              <p>{user?.companyInformation.department}</p>
+              <p>{userData?.designation}</p>
             </div>
           </div>
           <div className={style.rightDiv}>

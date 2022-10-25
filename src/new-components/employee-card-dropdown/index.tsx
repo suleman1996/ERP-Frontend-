@@ -77,7 +77,7 @@ const EmployeeDropdown = ({ setOpenModal, setOpenModalProfile, id, handleClick }
         open={open}
         text="Close"
         iconEnd={undefined}
-        title={'Policy View'}
+        title={'Profile View'}
         handleClose={() => setOpen(false)}
         handleClick={() => setOpen(false)}
       >

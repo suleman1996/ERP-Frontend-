@@ -144,7 +144,13 @@ const EmployeeProfileDetails = () => {
         </div>
       </div>
       <div className={style.position}>
-        <Pagination setCount={setCount} count={count} totalCount={totalCount} />
+        <Pagination
+          setCount={setCount}
+          count={count}
+          totalCount={totalCount}
+          setPage={setPage}
+          page={page}
+        />
       </div>
       <CvView openModal={openModal} setOpenModal={setOpenModal} id={userId} />
       <ProfileView

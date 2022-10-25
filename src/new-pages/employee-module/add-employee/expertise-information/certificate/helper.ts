@@ -147,7 +147,7 @@ export const schema = yup.object().shape({
     .required('Year is a required field')
     .typeError('Year is required & should be a number'),
 
-  skills: yup.string().required('Skills is a required field'),
+  skills: yup.string().required('Skill level is a required field'),
 });
 
 export const selectRates = [

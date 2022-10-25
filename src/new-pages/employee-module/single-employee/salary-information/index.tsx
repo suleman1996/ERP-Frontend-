@@ -18,7 +18,7 @@ const SalaryInformation = () => {
     },
     {
       title: 'Bank Name:',
-      subtitle: user?.bankName,
+      subtitle: user?.bankName ? user?.bankName : 'Not Available',
     },
     {
       title: 'Account Holder Name:',

@@ -1,3 +1,5 @@
+import { createNotification } from 'common/create-notification';
+import { convertBase64Image } from 'main-helper';
 import { ChangeEvent } from 'react';
 
 import style from './input.module.scss';
@@ -40,6 +42,7 @@ const TextField = ({
   isDisable,
   star,
   min,
+  max,
   customValidation,
   ...restOfProps
 }: Props) => {
@@ -60,6 +63,7 @@ const TextField = ({
             }}
             id={id}
             min={min && min}
+            max={max && max}
             name={name}
             value={value}
             onChange={onChange}
