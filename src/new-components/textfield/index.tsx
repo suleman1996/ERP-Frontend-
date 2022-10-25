@@ -20,6 +20,7 @@ interface Props {
   star?: string;
   min?: any;
   max?: any;
+  customValidation?: string;
 }
 
 const TextField = ({
@@ -39,7 +40,7 @@ const TextField = ({
   isDisable,
   star,
   min,
-  max,
+  customValidation,
   ...restOfProps
 }: Props) => {
   return (
@@ -59,7 +60,6 @@ const TextField = ({
             }}
             id={id}
             min={min && min}
-            max={max && max}
             name={name}
             value={value}
             onChange={onChange}
@@ -80,7 +80,10 @@ const TextField = ({
             />
           )}
         </div>
-        {errorMessage && <span className={style.errorMessage}>{errorMessage}</span>}
+        {errorMessage ||
+          (customValidation && (
+            <span className={style.errorMessage}>{errorMessage || customValidation}</span>
+          ))}
       </div>
     </>
   );
