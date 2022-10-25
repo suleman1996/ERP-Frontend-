@@ -27,7 +27,7 @@ const Modal = ({
   text,
   iconStart,
   iconEnd,
-  // handleClick,
+  handleClick,
   type,
   btnClass,
   form,
@@ -58,7 +58,7 @@ const Modal = ({
                   iconEnd={iconEnd}
                   type={type}
                   form={form}
-                  // handleClick={handleClick}
+                  handleClick={handleClick}
                 />
               </div>
             </div>

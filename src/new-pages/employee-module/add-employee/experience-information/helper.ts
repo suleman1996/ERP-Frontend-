@@ -104,7 +104,10 @@ export const useExperience = ({
       ongoing: onGoing,
       ...(fileBase64
         ? { experienceLetter: `${fileBase64}` }
-        : { experienceLetter: newEducations[educationIndex.current].experienceLetter }),
+        : {
+            experienceLetter:
+              newEducations && newEducations[educationIndex.current].experienceLetter,
+          }),
     };
     console.log('new', newEducations[educationIndex.current]);
     !watch().letter && removeKeys(tempObj, ['experienceLetter']);
