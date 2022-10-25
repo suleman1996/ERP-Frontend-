@@ -49,12 +49,28 @@ const Pagination = ({ setCount, count, totalCount, hide, setPage, page }: Props)
           </div>
           <div className={style.rightFlex}>
             <p className={style.p}>{` Showing 1 to ${count} of ${totalCount}`} </p>
-            <img src={left} alt="" onClick={() => setPage((prev: any) => prev - 2)} />
-            <img src={leftArrow} alt="" onClick={() => setPage((prev: any) => --prev)} />
+            <img src={left} alt="" onClick={() => setPage((prev: any) => 1)} />
+            <img
+              src={leftArrow}
+              alt=""
+              onClick={() => setPage((prev: any) => (prev === 1 ? 1 : --prev))}
+            />
 
             {pages()}
-            <img src={rightArrow} alt="" onClick={() => setPage((prev: any) => ++prev)} />
-            <img src={right} alt="" onClick={() => setPage((prev: any) => prev + 2)} />
+            <img
+              src={rightArrow}
+              alt=""
+              onClick={() =>
+                setPage((prev: any) =>
+                  prev === Math.ceil(totalCount / count) ? Math.ceil(totalCount / count) : ++prev,
+                )
+              }
+            />
+            <img
+              src={right}
+              alt=""
+              onClick={() => setPage((prev: any) => Math.ceil(totalCount / count))}
+            />
           </div>
         </div>
       )}
