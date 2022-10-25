@@ -1,7 +1,3 @@
-.fc-theme-standard td,
-.fc-theme-standard th {
-  //   border: none !important;
-}
 .fc-direction-ltr .fc-button-group > .fc-button:not(:first-child) {
   margin-left: 1px !important;
   border-top-left-radius: none !important;
@@ -28,16 +24,6 @@ tr:nth-child(even) {
 .fc table {
   table-layout: auto;
 }
-// .fc-view > table {
-//   min-width: 0;
-//   width: auto;
-// }
-// .fc-day,
-// .fc-resource-cell,
-// .fc-content-col {
-//   //   min-width: 300px;
-//   width: 300px;
-// }
 .fc-timegrid-event .fc-event-main {
   padding: 0px;
 }
@@ -56,5 +42,10 @@ th {
 }
 .fc-theme-standard td,
 .fc-theme-standard th {
+}
+.fc-theme-standard .fc-scrollgrid {
+  border: none;
+}
+.fc-v-event {
   border: none;
 }

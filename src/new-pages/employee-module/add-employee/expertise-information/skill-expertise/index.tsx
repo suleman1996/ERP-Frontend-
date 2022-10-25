@@ -26,9 +26,10 @@ interface Props {
   setFormData: any;
   employeeId: string;
   setSkillData: Dispatch<SetStateAction<Skill[] | []>>;
+  skillData: any;
 }
 
-const SkillExpertise = ({ formData, setFormData, employeeId, setSkillData }: Props) => {
+const SkillExpertise = ({ formData, setFormData, employeeId, setSkillData, skillData }: Props) => {
   const {
     handleSubmit,
     register,
@@ -41,11 +42,14 @@ const SkillExpertise = ({ formData, setFormData, employeeId, setSkillData }: Pro
     handleDeleteIndex,
     toggle,
     setToggle,
+    selectedFileName,
+    setSelectedFileName,
   } = useSkill({
     formData,
     setFormData,
     employeeId,
     setSkillData,
+    skillData,
   });
 
   return (
@@ -83,6 +87,8 @@ const SkillExpertise = ({ formData, setFormData, employeeId, setSkillData }: Pro
             <ProfileUpload
               name={'file'}
               register={register}
+              selectedFileName={selectedFileName}
+              setSelectedFileName={setSelectedFileName}
               id={'letter'}
               errorMessage={errors?.file?.message}
               type={'application/pdf'}

@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { User } from '../interfaces/user';
 import { Notification } from '../interfaces/notifications';
+import EmployeeService from 'services/employee-service';
 
 const currentUser = {
   id: '',
@@ -38,6 +39,12 @@ export interface AppSliceState {
   containerLoader: boolean;
   notificationCount: number;
   notificationData: Notification;
+  gender: any;
+  series: any;
+  departments: any;
+  leaves: any;
+  allowence: any;
+  designation: any;
 }
 
 const sessionNotifyCount = Number(sessionStorage.getItem('notificationCount'));
@@ -50,12 +57,37 @@ const initialState: AppSliceState = {
   containerLoader: false,
   notificationCount: sessionNotifyCount || 0,
   notificationData,
+  gender: [],
+  series: [],
+  departments: [],
+  designation: [],
+  leaves: [],
+  allowence: [],
 };
 
 export const appSlice = createSlice({
   name: 'app',
   initialState,
   reducers: {
+    setAllGenders(state, action: PayloadAction<any>) {
+      state.gender = action.payload;
+    },
+    setAllSeries(state, action: PayloadAction<any>) {
+      state.series = action.payload;
+    },
+    setAllDepartments(state, action: PayloadAction<any>) {
+      state.departments = action.payload;
+    },
+    setAllDesignation(state, action: PayloadAction<any>) {
+      state.designation = action.payload;
+    },
+    setAllLeaves(state, action: PayloadAction<any>) {
+      state.leaves = action.payload;
+    },
+    setAllAllowence(state, action: PayloadAction<any>) {
+      state.allowence = action.payload;
+    },
+
     setCurrentUser(state, action: PayloadAction<User>) {
       state.currentUser = action.payload;
     },

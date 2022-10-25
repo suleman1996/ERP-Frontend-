@@ -46,6 +46,7 @@ export const useExperience = ({
   const [btnLoader, setBtnLoader] = useState(false);
   const [currentCountryData, setCurrentCountryData] = useState([]);
   const [openTenure, setOpenTenure] = useState(false);
+  const [selectedFileName, setSelectedFileName] = useState('');
   const [onGoing, setOnGoing] = useState(false);
   const [cities, setCities] = useState([]);
   const [educations, setEducations] = useState<Experince[] | []>([]);
@@ -54,7 +55,7 @@ export const useExperience = ({
     editInd: -1,
   });
 
-  const { register, handleSubmit, errors, control, reset, watch, setValue } = useForm({
+  const { register, handleSubmit, errors, control, reset, watch, setValue, clearErrors } = useForm({
     resolver: yupResolver(schema),
   });
 
@@ -112,14 +113,17 @@ export const useExperience = ({
     }
     setEducations([...newEducations]);
     setFormData({ ...formData, experienceDetails: [...newEducations] });
-    reset({ country: '', city: '' });
+    reset({ country: '', city: '', jobStartDate: null, jobEndDate: null });
+    clearErrors();
     educationIndex.current = -1;
+    setOnGoing(false);
+    setSelectedFileName('');
   };
 
   const handleEducation = (index: number) => {
     educationIndex.current = index;
     const data = educations.find((data, i) => i === index);
-    console.log(data, 'hamza');
+    data?.experienceLetter && setSelectedFileName('experience letter');
     reset({
       company: data?.company,
       country: data?.country,
@@ -192,6 +196,8 @@ export const useExperience = ({
     cities,
     startDate,
     currentCountryData,
+    selectedFileName,
+    setSelectedFileName,
   };
 };
 
@@ -273,11 +279,16 @@ export const rows = [
 ];
 
 export const schema = yup.object().shape({
-  company: yup.string().required('Required field'),
-  country: yup.string().required('Required field'),
-  city: yup.string().required('Required field'),
-  jobTitle: yup.string().required('Required field'),
-  jobStartDate: yup.string().required('Required field'),
-  jobEndDate: yup.string().optional(),
-  ongoing: yup.boolean().optional(),
+  company: yup.string().required('Company is required'),
+  country: yup.string().required('Country is required'),
+  city: yup.string().required('City is required'),
+  jobTitle: yup.string().required('Job is required'),
+  jobStartDate: yup.string().nullable().required('Start date is required'),
+  jobEndDate: yup
+    .date()
+    .typeError('End date is required')
+    .when('ongoing', {
+      is: 'false',
+      then: yup.string().nullable().required('End date is required.'),
+    }),
 });

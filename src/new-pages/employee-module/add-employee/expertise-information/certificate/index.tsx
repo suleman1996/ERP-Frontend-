@@ -43,6 +43,8 @@ const Certificate = ({ formData, setFormData, employeeId, setCertificate }: Prop
     handleDeleteIndex,
     toggle,
     setToggle,
+    selectedFileName,
+    setSelectedFileName,
   } = useCerificate({
     formData,
     setFormData,
@@ -85,6 +87,8 @@ const Certificate = ({ formData, setFormData, employeeId, setCertificate }: Prop
             <ProfileUpload
               name={'file'}
               register={register}
+              selectedFileName={selectedFileName}
+              setSelectedFileName={setSelectedFileName}
               id={'letter'}
               errorMessage={errors?.file?.message}
               type={'application/pdf'}

@@ -30,6 +30,7 @@ export const useCerificate = ({ formData, setFormData, employeeId, setCertificat
   const { id } = useParams();
   const [toggle, setToggle] = useState<number>();
   const [educations, setEducations] = useState<Certificate[] | []>([]);
+  const [selectedFileName, setSelectedFileName] = useState('');
   const certificateIndex = useRef(-1);
   const [updateEdu, setUpdateEdu] = useState({
     update: false,
@@ -57,6 +58,9 @@ export const useCerificate = ({ formData, setFormData, employeeId, setCertificat
       ...data,
       skillLevel: data?.skills,
     };
+    if (tempObj.file.length === 0) {
+      removeKeys(tempObj, ['file']);
+    }
     if (certificateIndex.current < 0) {
       newEducations.push(tempObj);
     } else {
@@ -65,14 +69,16 @@ export const useCerificate = ({ formData, setFormData, employeeId, setCertificat
     }
     setEducations([...newEducations]);
     setFormData({ ...formData, certificateData: [...newEducations] });
-    reset({});
+    reset({ skills: '' });
     setToggle(-1);
     certificateIndex.current = -1;
+    setSelectedFileName('');
   };
 
   const handleEducation = (index: number) => {
     certificateIndex.current = index;
     const data = educations.find((data, i) => i === index);
+    data?.file && setSelectedFileName('file');
     reset({
       certificateName: data?.certificateName,
       year: data?.year,
@@ -104,7 +110,7 @@ export const useCerificate = ({ formData, setFormData, employeeId, setCertificat
     // id && getUser();
     if (formData?.certificateData !== undefined && Object.keys(formData?.certificateData)?.length) {
       setEducations([...formData?.certificateData]);
-      setCertificate((current) => [...current, ...formData?.certificateData]);
+      // setCertificate((current) => [...current, ...formData?.certificateData]);
     }
   }, []);
 
@@ -120,6 +126,8 @@ export const useCerificate = ({ formData, setFormData, employeeId, setCertificat
     handleDeleteIndex,
     toggle,
     setToggle,
+    selectedFileName,
+    setSelectedFileName,
   };
 };
 
@@ -130,15 +138,7 @@ export const schema = yup.object().shape({
     .number()
     .required('Year is a required field')
     .typeError('Year is required & should be a number'),
-  // file: yup
-  //   .mixed()
-  //   .test("required", "You need to provide a file", (file) => {
-  //     if (file[0]) return true;
-  //     return false;
-  //   })
-  //   .test("fileSize", "The file is too large", (file) => {
-  //     return file[0] && file[0].size <= 2000000;
-  //   }),
+
   skills: yup.string().required('Skills is a required field'),
 });
 

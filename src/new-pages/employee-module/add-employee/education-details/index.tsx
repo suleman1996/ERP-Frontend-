@@ -13,6 +13,8 @@ import tick from 'new-assets/tick.svg';
 import arrowLeft from 'new-assets/backBtn.svg';
 import arrowRight from 'new-assets/arrowBtnRight.svg';
 import style from './education.module.scss';
+import { useEmployeeForms } from '../context';
+import moment from 'moment';
 
 interface Props {
   formData: any;
@@ -23,14 +25,18 @@ interface Props {
   handleNext: (data?: string) => void;
 }
 
-const EducationalDetails = ({
-  handleBack,
-  handleNext,
-  formData,
-  setFormData,
-  employeeId,
-  employeeDocId,
-}: Props) => {
+const EducationalDetails = () => {
+  const {
+    handleNext,
+    setFormData,
+    employeeDocId,
+    formData,
+    setEmployeeId,
+    setEmployeeDocId,
+    handleBack,
+    employeeId,
+  }: any = useEmployeeForms();
+
   const {
     handleAddEduction,
     onSubmit,
@@ -54,6 +60,8 @@ const EducationalDetails = ({
     marksType,
     setMarkVal,
     marksVal,
+    selectedFileName,
+    setSelectedFileName,
   } = useEducationDetail({
     handleBack,
     handleNext,
@@ -157,6 +165,8 @@ const EducationalDetails = ({
               name={'transcript'}
               register={register}
               id={'transcript'}
+              selectedFileName={selectedFileName}
+              setSelectedFileName={setSelectedFileName}
               defaultFileName={filename ? filename : ''}
               setFileName={(value: string) => setValue('filename', value)}
               errorMessage={errors?.transcript?.message}
@@ -177,7 +187,8 @@ const EducationalDetails = ({
           <Table
             rows={educations.map((education) => ({
               ...education,
-              endDate: education.endDate || '---',
+              endDate: moment(education.endDate).format('Do MMMM YYYY') || '---',
+              startDate: moment(education.startDate).format('Do MMMM YYYY'),
             }))}
             columns={columns}
             minWidth="950px"

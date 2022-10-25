@@ -44,6 +44,7 @@
   right: 15px;
   cursor: pointer;
   top: 40%;
+  pointer-events: none;
   img {
     height: calc(18px + (25 - 18) * (100vw - 280px) / (2560 - 280));
     width: calc(18px + (25 - 18) * (100vw - 280px) / (2560 - 280));
@@ -80,4 +81,10 @@
     color: #2d2d32;
     @include font14;
   }
+}
+
+.inputField {
+  border: 1.08947px solid #e2e2ea;
+  border-radius: 5.44737px;
+  padding: 10px;
 }

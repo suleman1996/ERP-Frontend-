@@ -18,6 +18,8 @@ interface Props {
   isDisable?: boolean;
   id?: string;
   star?: string;
+  min?: any;
+  max?: any;
 }
 
 const TextField = ({
@@ -36,6 +38,8 @@ const TextField = ({
   readOnly,
   isDisable,
   star,
+  min,
+  max,
   ...restOfProps
 }: Props) => {
   return (
@@ -54,6 +58,8 @@ const TextField = ({
               backgroundColor: readOnly || isDisable ? '#ddd' : '#fff',
             }}
             id={id}
+            min={min && min}
+            max={max && max}
             name={name}
             value={value}
             onChange={onChange}

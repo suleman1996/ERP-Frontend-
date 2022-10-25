@@ -15,6 +15,7 @@ import arrowLeft from 'new-assets/backBtn.svg';
 import style from './company-information.module.scss';
 import WeekDay from 'new-components/week-day';
 import { useEffect } from 'react';
+import { useEmployeeForms } from '../context';
 
 interface Props {
   handleBack: (data?: string) => void;
@@ -25,14 +26,18 @@ interface Props {
   employeeDocId?: string | any;
 }
 
-const CompanyInformation = ({
-  handleNext,
-  handleBack,
-  formData,
-  setFormData,
-  employeeId,
-  employeeDocId,
-}: Props) => {
+const CompanyInformation = () => {
+  const {
+    handleNext,
+    setFormData,
+    employeeDocId,
+    formData,
+    setEmployeeId,
+    setEmployeeDocId,
+    handleBack,
+    employeeId,
+  }: any = useEmployeeForms();
+
   const {
     onSubmit,
     register,
@@ -120,6 +125,7 @@ const CompanyInformation = ({
                     label={`${data.name} Leave`}
                     type="number"
                     register={register}
+                    min={'0'}
                     errorMessage={errors.leaves && errors.leaves[index]?.quantity?.message}
                     placeholder={`${data?.name} Leave`}
                   />
@@ -180,7 +186,7 @@ const CompanyInformation = ({
         )}
         <div className={style.grid}>
           <Select
-            label="Employee Type"
+            label="Employment Type"
             name="employmentType"
             name1="type"
             star={' *'}

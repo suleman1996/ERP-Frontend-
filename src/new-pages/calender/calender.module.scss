@@ -44,3 +44,14 @@
 .fc-timegrid-slot {
   height: 100px !important;
 }
+.topBtn {
+  justify-content: flex-end;
+  display: flex;
+  margin-bottom: 20px;
+  padding: 10px;
+  border-bottom: 1px solid #e2e2ea;
+}
+.gridView {
+  @include gridTwo(50, 50);
+  margin-bottom: 20px;
+}

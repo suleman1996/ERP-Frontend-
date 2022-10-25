@@ -30,6 +30,7 @@ export const useLanguage = ({ formData, setFormData, employeeId, setLanguage }: 
   const { id } = useParams();
   const [toggle, setToggle] = useState<number>();
   const [educations, setEducations] = useState<Language[] | []>([]);
+  const [selectedFileName, setSelectedFileName] = useState('');
   const [updateEducation, setUpdateEducation] = useState({
     update: false,
     editInd: -1,
@@ -56,6 +57,9 @@ export const useLanguage = ({ formData, setFormData, employeeId, setLanguage }: 
       ...data,
       skillLevel: data?.skills,
     };
+    if (tempObj.file.length === 0) {
+      removeKeys(tempObj, ['file']);
+    }
     if (languageIndex.current < 0) {
       newEducations.push(tempObj);
     } else {
@@ -64,15 +68,17 @@ export const useLanguage = ({ formData, setFormData, employeeId, setLanguage }: 
     }
     setEducations([...newEducations]);
     setFormData({ ...formData, languageData: [...newEducations] });
-    reset({ language: '' });
+    reset({ language: '', skills: '' });
     setToggle(-1);
     languageIndex.current = -1;
+    setSelectedFileName('');
   };
 
   const handleEducation = (index: number) => {
     languageIndex.current = index;
 
     const data = educations.find((data, i) => i === index);
+    data?.file && setSelectedFileName('file');
     reset({
       language: data?.language,
       year: data?.year,
@@ -103,7 +109,7 @@ export const useLanguage = ({ formData, setFormData, employeeId, setLanguage }: 
     // id && getUser();
     if (formData?.languageData !== undefined && Object.keys(formData?.languageData)?.length) {
       setEducations([...formData?.languageData]);
-      setLanguage((current) => [...current, ...formData?.languageData]);
+      // setLanguage((current) => [...current, ...formData?.languageData]);
     }
   }, []);
 
@@ -120,6 +126,8 @@ export const useLanguage = ({ formData, setFormData, employeeId, setLanguage }: 
     toggle,
     setToggle,
     watch,
+    selectedFileName,
+    setSelectedFileName,
   };
 };
 

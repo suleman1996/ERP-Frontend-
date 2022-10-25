@@ -8,6 +8,7 @@ import { selectCountry, usePayrollDetail, payrollType, payType, roster } from '.
 import tick from 'new-assets/tick.svg';
 import arrowLeft from 'new-assets/backBtn.svg';
 import style from './payroll.module.scss';
+import { useEmployeeForms } from '../context';
 
 interface Props {
   handleBack: (data?: string) => void;
@@ -15,11 +16,23 @@ interface Props {
   employeeDocId: string;
 }
 
-const PayrollInformation = ({ handleBack, employeeId, employeeDocId }: Props) => {
-  const { onSubmit, register, handleSubmit, errors, control, allowence } = usePayrollDetail({
-    employeeId,
+const PayrollInformation = () => {
+  const {
+    handleNext,
+    setFormData,
     employeeDocId,
-  });
+    formData,
+    setEmployeeId,
+    setEmployeeDocId,
+    handleBack,
+    employeeId,
+  }: any = useEmployeeForms();
+
+  const { onSubmit, register, handleSubmit, errors, control, allowence, btnLoader } =
+    usePayrollDetail({
+      employeeId,
+      employeeDocId,
+    });
   console.log(errors);
   return (
     <div className={style.mainForm}>
@@ -29,6 +42,7 @@ const PayrollInformation = ({ handleBack, employeeId, employeeDocId }: Props) =>
             name="payrollDetails.basicSalary"
             label="Basic Salary"
             type="number"
+            min={'0'}
             star={' *'}
             register={register}
             errorMessage={errors?.payrollDetails?.basicSalary?.message}
@@ -36,21 +50,23 @@ const PayrollInformation = ({ handleBack, employeeId, employeeDocId }: Props) =>
           />
           <TextField
             name="houseRent"
+            min={'0'}
             label="House Rent"
-            star={' *'}
+            // star={' *'}
             type="number"
             register={register}
             errorMessage={errors?.payrollDetails?.houseRent?.message}
             placeholder="House Rent"
           />
-          {allowence &&
-            allowence.map((data: any) => {
+          {allowence.length > 0 &&
+            allowence?.map((data: any) => {
               return (
                 <div>
                   <TextField
                     name={data.name}
                     label={`${data.name} Allowence`}
-                    star={' *'}
+                    min={'0'}
+                    // star={' *'}
                     type="number"
                     register={register}
                     errorMessage={errors?.data?.name.message}
@@ -62,7 +78,7 @@ const PayrollInformation = ({ handleBack, employeeId, employeeDocId }: Props) =>
           <TextField
             name="bankName"
             label="Bank Name"
-            star={' *'}
+            // star={' *'}
             type="text"
             register={register}
             errorMessage={errors?.bankName?.message}
@@ -71,7 +87,7 @@ const PayrollInformation = ({ handleBack, employeeId, employeeDocId }: Props) =>
           <TextField
             name="accountHolderName"
             label="Account Holder Name"
-            star={' *'}
+            // star={' *'}
             type="text"
             register={register}
             errorMessage={errors?.accountHolderName?.message}
@@ -80,7 +96,8 @@ const PayrollInformation = ({ handleBack, employeeId, employeeDocId }: Props) =>
           <TextField
             name="accountNumber"
             label="Account Number"
-            star={' *'}
+            min={'0'}
+            // star={' *'}
             type="number"
             register={register}
             errorMessage={errors?.accountNumber?.message}
@@ -151,6 +168,7 @@ const PayrollInformation = ({ handleBack, employeeId, employeeDocId }: Props) =>
           </div>
           <Select
             label="Roaster"
+            star={' *'}
             name={'payrollDetails.roaster'}
             errorMessage={errors?.payrollDetails?.roaster?.message}
             register={register}
@@ -175,7 +193,7 @@ const PayrollInformation = ({ handleBack, employeeId, employeeDocId }: Props) =>
             iconStart={arrowLeft}
             handleClick={() => handleBack('Expertise')}
           />
-          <Button text="Done" iconEnd={tick} type={'submit'} />
+          <Button text="Done" iconEnd={tick} type={'submit'} isLoading={btnLoader} />
         </div>
       </form>
     </div>

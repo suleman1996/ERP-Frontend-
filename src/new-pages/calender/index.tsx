@@ -1,20 +1,25 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useState } from 'react';
-import ReactDatePicker from 'react-datepicker';
-import { Controller } from 'react-hook-form';
-import moment from 'moment';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import { Tooltip, Popover } from 'bootstrap';
+import { Tooltip } from 'bootstrap';
+
+import Button from 'new-components/button';
+import Modal from 'new-components/modal';
+import TextField from 'new-components/textfield';
+import DatePicker from 'new-components/date-picker';
+import Selection from 'my-components/select';
+import { eventTypes } from './event-types';
+import ProfileUpload from 'new-components/profile-upload';
+import Container from 'new-components/container';
 
 import location from 'assets/location.svg';
 import person from 'assets/person1.svg';
 import person2 from 'assets/person2.svg';
-
-import Container from 'new-components/container';
 
 import style from './calender.module.scss';
 import './calendar.scss';
@@ -23,13 +28,20 @@ interface Props {}
 let tooltipInstance = null;
 
 const Calender = () => {
+  const { control } = useForm();
+
+  const [openModal, setOpenModal] = useState(false);
+  let month = 'dayGridMonth';
+  let week = 'timeGridWeek';
+  let day = 'timeGridDay';
+
   const events = [
     {
       id: 1,
       title: 'Weekly Meeting Projects',
       //   date: '2022-10-21',
-      start: '2022-10-21T04:00:00',
-      end: '2022-10-21T06:00:00',
+      start: '2022-10-25T04:00:00',
+      end: '2022-10-25T06:00:00',
       //   allDay: true,
       editable: false,
       clickable: false,
@@ -41,8 +53,8 @@ const Calender = () => {
     {
       id: 1,
       title: 'Weekly Meeting Projects',
-      start: '2022-10-21T04:00:00',
-      end: '2022-10-21T06:00:00',
+      start: '2022-10-25T04:00:00',
+      end: '2022-10-25T06:00:00',
       editable: false,
       clickable: false,
       imageurl: 'assets/person2.svg',
@@ -53,8 +65,8 @@ const Calender = () => {
     {
       id: 1,
       title: 'Weekly Meeting Projects',
-      start: '2022-10-21T04:00:00',
-      end: '2022-10-21T06:00:00',
+      start: '2022-10-25T04:00:00',
+      end: '2022-10-25T06:00:00',
       editable: false,
       clickable: false,
       imageurl: 'assets/person2.svg',
@@ -65,8 +77,6 @@ const Calender = () => {
   ];
 
   const renderEventHandler = (eventInfo: any) => {
-    console.log(eventInfo);
-    const { event } = eventInfo;
     return (
       <>
         <div className={style.mainDiv}>
@@ -106,7 +116,6 @@ const Calender = () => {
   };
 
   const handleMouseEnter = (info: any) => {
-    // alert(JSON.stringify(info.event.extendedProps.description));
     console.log(info, 'info');
     if (info.event.extendedProps.description) {
       tooltipInstance = new Tooltip(info.el, {
@@ -130,11 +139,30 @@ const Calender = () => {
   return (
     <div className={style.calenderMain}>
       <Container>
+        <div className={style.topBtn}>
+          {day && <Button text="Add Event" handleClick={() => setOpenModal(true)} />}
+        </div>
+
         <FullCalendar
           plugins={[interactionPlugin, timeGridPlugin, dayGridPlugin]}
           initialView="dayGridMonth"
           headerToolbar={{
-            right: 'dayGridMonth,timeGridWeek,timeGridDay',
+            right: `${month} ${week} ${day}`,
+          }}
+          // views={{
+          //   dayGridMonth: {
+          //     // name of view
+          //     titleFormat: { year: 'numeric', month: '2-digit', day: '2-digit' },
+          //     // other view-specific options here
+          //   },
+          // }}
+          customButtons={{
+            myCustomButton: {
+              text: 'custom!',
+              click: function () {
+                alert('clicked the custom button!');
+              },
+            },
           }}
           eventContent={renderEventHandler}
           //   customButtons={{
@@ -143,7 +171,11 @@ const Calender = () => {
           //       click: () => console.log('new event'),
           //     },
           //   }}
-
+          datesRender={(arg) => {
+            console.log(arg);
+            console.log(arg.view.activeStart, 'active start'); //starting visible date
+            console.log(arg.view.activeEnd, 'active end'); //ending visible date
+          }}
           slotLabelInterval={{ hours: 1 }}
           events={events}
           handleWindowResize={true}
@@ -156,6 +188,42 @@ const Calender = () => {
           eventClick={(e) => console.log(e.event.id)}
           slotEventOverlap={false}
         />
+
+        <Modal open={openModal} handleClose={() => setOpenModal(!openModal)} title={'Add Event'}>
+          <div className={style.gridView}>
+            <TextField label="Title" placeholder="Enter Event Name" star=" *" />
+            <TextField label="Policy Number" placeholder="Enter Policy Name" star=" *" />
+          </div>
+          <div className={style.gridView}>
+            <DatePicker
+              label="Start Date & Time"
+              control={control}
+              name="startDate"
+              star=" *"
+              showTimeInput
+              handleChange={(event) => console.log(event, 'date time')}
+            />
+            <DatePicker
+              label="End Date & Time"
+              control={control}
+              name="endDate"
+              star=" *"
+              showTimeInput
+              handleChange={(event) => console.log(event, ' end date time')}
+            />
+          </div>
+          <div className={style.gridView}>
+            <Selection label="Type" options={eventTypes} />
+            <Selection label="Recurrence " options={eventTypes} />
+          </div>
+          <div className={style.gridView}>
+            <TextField label="Description " placeholder="Enter Description " />
+            <TextField label="Venue" placeholder="Venue" />
+          </div>
+          <div className={style.gridView}>
+            <ProfileUpload />
+          </div>
+        </Modal>
       </Container>
     </div>
   );

@@ -48,6 +48,7 @@ export const useEducationDetail = ({
   const [filename, setFilename] = useState<string | any>('');
   const [startDateHandle, setStartDateHandle] = useState<string | any>();
   const [educations, setEducations] = useState<Education[] | []>([]);
+  const [selectedFileName, setSelectedFileName] = useState('');
   const educationIndex = useRef(-1);
   const [ongiong, setOngoing] = useState(false);
   const { pathname } = useLocation();
@@ -56,9 +57,11 @@ export const useEducationDetail = ({
     update: false,
     editInd: -1,
   });
-  const { register, handleSubmit, errors, control, reset, watch, setValue, setError } = useForm({
-    resolver: yupResolver(schema),
-  });
+  const { register, handleSubmit, errors, control, reset, watch, setValue, setError } =
+    useForm<any>({
+      resolver: yupResolver(schema),
+      defaultValues: { endDate: null },
+    });
 
   const onSubmit = async () => {
     setBtnLoader(true);
@@ -92,6 +95,7 @@ export const useEducationDetail = ({
   const handleAddEduction = async (data: Education) => {
     const newEducations: any = [...educations];
     const { startDate, endDate, transcript, prevTranscript, filename: prevFileName } = data;
+
     const tempObj = {
       ...data,
       endDate: moment(endDate).format('YYYY-MM-DD'),
@@ -114,14 +118,17 @@ export const useEducationDetail = ({
     setEducations([...newEducations]);
     setFormData({ ...formData, educationDetails: [...newEducations] });
     educationIndex.current = -1;
-    reset({});
+    reset({ startDate: null, endDate: null });
+
     setFilename('');
+    setOngoing(false);
+    setSelectedFileName('');
   };
 
   const handleEducation = (index: number) => {
     educationIndex.current = index;
     const data = educations.find((data, i) => i === index);
-    console.log('data', data);
+    data?.transcript && setSelectedFileName('transcript');
     reset({
       institute: data?.institute,
       degree: data?.degree,
@@ -133,7 +140,6 @@ export const useEducationDetail = ({
       prevTranscript: data?.transcript,
       marks: data?.marks,
     });
-    console.log('type', marksType.toString());
     setOngoing(!!data?.ongoing);
     setFilename(data?.filename);
   };
@@ -185,8 +191,38 @@ export const useEducationDetail = ({
     marksType,
     setMarkVal,
     marksVal,
+    selectedFileName,
+    setSelectedFileName,
   };
 };
+
+export const schema = yup.object().shape({
+  institute: yup.string().required('Institute name is a required '),
+  degree: yup.string().required('Degree is a required '),
+  marksType: yup.string().required(),
+  marks: yup.number().when('marksType', {
+    is: 'percentage',
+    then: yup
+      .number()
+      .max(100, 'Percentage must be less than or equal to 100')
+      .required()
+      .typeError('Percentage is required'),
+    otherwise: yup
+      .number()
+      .max(4, 'CGPA must be less than or equal to 4')
+      .required()
+      .typeError('CGPA is required'),
+  }),
+  startDate: yup.string().nullable().required('Start date is required'),
+  endDate: yup
+    .date()
+    .typeError('End date is required')
+    .when('ongoing', {
+      is: 'false',
+      then: yup.string().nullable().required('End date is required.'),
+    }),
+  description: yup.string().optional(),
+});
 
 export const selectCountry = [
   {
@@ -247,26 +283,3 @@ export const columns = [
   },
   { key: 'actions', name: 'Actions', alignText: 'center', width: '200px' },
 ];
-
-export const schema = yup.object().shape({
-  institute: yup.string().required('Institute Name is a required field'),
-  degree: yup.string().required('Degree is a required field'),
-  marksType: yup.string().required(),
-  marks: yup.number().when('marksType', {
-    is: 'percentage',
-    then: yup
-      .number()
-      .max(100, 'Percentage must be less than or equal to 100')
-      .required()
-      .typeError('Required Filed'),
-    otherwise: yup
-      .number()
-      .max(4, 'CGPA must be less than or equal to 4')
-      .required()
-      .typeError('Required Filed'),
-  }),
-  startDate: yup.string().required(),
-  endDate: yup.string().optional(),
-  ongoing: yup.boolean().required(),
-  description: yup.string().optional(),
-});

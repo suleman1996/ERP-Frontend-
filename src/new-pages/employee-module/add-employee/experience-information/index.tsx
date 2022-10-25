@@ -16,6 +16,7 @@ import tick from 'new-assets/tick.svg';
 import arrowRight from 'new-assets/arrowBtnRight.svg';
 import arrowLeft from 'new-assets/backBtn.svg';
 import style from './experience.module.scss';
+import { useEmployeeForms } from '../context';
 
 interface Props {
   formData: any;
@@ -26,14 +27,18 @@ interface Props {
   employeeDocId?: any;
 }
 
-const ExperienceDetails = ({
-  handleBack,
-  handleNext,
-  formData,
-  setFormData,
-  employeeId,
-  employeeDocId,
-}: Props) => {
+const ExperienceDetails = () => {
+  const {
+    handleNext,
+    setFormData,
+    employeeDocId,
+    formData,
+    setEmployeeId,
+    setEmployeeDocId,
+    handleBack,
+    employeeId,
+  }: any = useEmployeeForms();
+
   const {
     handleAddEduction,
     onSubmit,
@@ -55,6 +60,8 @@ const ExperienceDetails = ({
     cities,
     startDate,
     currentCountryData,
+    selectedFileName,
+    setSelectedFileName,
   } = useExperience({
     handleBack,
     handleNext,
@@ -115,6 +122,8 @@ const ExperienceDetails = ({
               <ProfileUpload
                 name={'letter'}
                 register={register}
+                selectedFileName={selectedFileName}
+                setSelectedFileName={setSelectedFileName}
                 id={'letter'}
                 errorMessage={errors?.letter?.message}
                 type={'application/pdf'}

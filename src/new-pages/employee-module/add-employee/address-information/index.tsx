@@ -12,6 +12,7 @@ import countries from 'new-assets/countries.json';
 import arrowRight from 'new-assets/arrowBtnRight.svg';
 import arrowLeft from 'new-assets/backBtn.svg';
 import style from './address-information.module.scss';
+import { useEmployeeForms } from '../context';
 
 interface Props {
   formData: any;
@@ -25,15 +26,18 @@ interface Props {
 
 countries.sort((a, b) => (a.name < b.name ? -1 : 1));
 
-const AddressInformation = ({
-  handleNext,
-  handleBack,
-  setFormData,
-  formData,
-  employeeId,
-  employeeDocId,
-  setEmployeeDocId,
-}: Props) => {
+const AddressInformation = () => {
+  const {
+    handleNext,
+    setFormData,
+    employeeDocId,
+    formData,
+    setEmployeeId,
+    setEmployeeDocId,
+    handleBack,
+    employeeId,
+  }: any = useEmployeeForms();
+
   const {
     btnLoader,
     currentCountryData,
@@ -105,6 +109,7 @@ const AddressInformation = ({
             name="currentAddress.postalCode"
             label="Postal Code "
             type="number"
+            min={'0'}
             register={register}
             errorMessage={errors?.currentAddress?.postalCode?.message}
             placeholder="Postal Code"
@@ -167,6 +172,7 @@ const AddressInformation = ({
           <TextField
             name="permanentAddress.postalCode"
             star={'*'}
+            min={'0'}
             label="Postal Code "
             type="number"
             register={register}

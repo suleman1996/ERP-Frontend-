@@ -12,6 +12,8 @@ import { useParams } from 'react-router';
 import { useEffect, useState } from 'react';
 
 const Overview = ({ user }: any) => {
+  console.log('user', user);
+  const [copy, setCopy] = useState('');
   const overviewDetails = [
     {
       title: 'Employee ID:',
@@ -62,7 +64,17 @@ const Overview = ({ user }: any) => {
                 </div>
                 <div className={style.right}>
                   <p>{ele.subtitle}</p>
-                  {ele.img && <img src={ele.img} alt="" />}
+                  {ele.img && (
+                    <img
+                      src={ele.img}
+                      alt=""
+                      onClick={() => {
+                        ele.title.includes('Employee ')
+                          ? navigator.clipboard.writeText(user?.employeeId)
+                          : navigator.clipboard.writeText(user?.fullName);
+                      }}
+                    />
+                  )}
                 </div>
               </div>
             ))}
