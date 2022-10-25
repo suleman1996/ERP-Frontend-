@@ -95,8 +95,6 @@ export const useEducationDetail = ({
     const newEducations: any = [...educations];
     const { startDate, endDate, transcript, prevTranscript, filename: prevFileName } = data;
 
-    console.log('data', data);
-
     const tempObj = {
       ...data,
       endDate: moment(endDate).format('YYYY-MM-DD'),
@@ -106,6 +104,7 @@ export const useEducationDetail = ({
         ? {
             filename: transcript[0]?.name || prevFileName,
             transcript:
+              selectedFileName &&
               transcript &&
               (transcript[0] ? await convertBase64Image(transcript[0]) : prevTranscript),
           }
@@ -138,7 +137,7 @@ export const useEducationDetail = ({
     educationIndex.current = index;
     const data = educations.find((data, i) => i === index);
 
-    data?.filename && setSelectedFileName(data.filename);
+    data?.transcript && setSelectedFileName('transcript');
     reset({
       institute: data?.institute,
       degree: data?.degree,
@@ -152,7 +151,6 @@ export const useEducationDetail = ({
     setOngoing(!!data?.ongoing);
 
     data?.filename && setFilename(data?.filename);
-    console.log('edit', data);
   };
 
   const getUser = async () => {

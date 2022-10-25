@@ -49,6 +49,8 @@ export const useCerificate = ({ formData, setFormData, employeeId, setCertificat
       skillLevel: 'intermediate',
       ...(fileBase64 ? { file: `${fileBase64}` } : {}),
     };
+
+    !selectedFileName && removeKeys(certificateData, ['file']);
     if (!certificateData.file || Object.keys(certificateData.file).length === 0) {
       removeKeys(certificateData, ['file']);
     }
@@ -64,6 +66,7 @@ export const useCerificate = ({ formData, setFormData, employeeId, setCertificat
             file: newEducations && newEducations[certificateIndex.current]?.file,
           }),
     };
+    !selectedFileName && removeKeys(tempObj, ['file']);
     if (tempObj?.file?.length === 0) {
       removeKeys(tempObj, ['file']);
     }

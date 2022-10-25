@@ -51,11 +51,13 @@ export const useSkill = ({ formData, setFormData, employeeId, setSkillData, skil
       ...data,
       skillLevel: data?.skills,
       // ...(fileBase64 && { file: `${fileBase64}` }),
-      ...(data.file && { file: data.file[0] ? fileBase64 : data.file }),
+      ...(selectedFileName && data.file && { file: data.file[0] ? fileBase64 : data.file }),
     };
     if (!skillData.file || Object.keys(skillData.file).length === 0) {
-      removeKeys(skillData, ['file']);
+      !selectedFileName && removeKeys(skillData, ['file']);
     }
+
+    !selectedFileName && removeKeys(skillData, ['file']);
 
     removeKeys(skillData, ['skills']);
     setSkillData((current) => [...current, skillData]);
