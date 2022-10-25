@@ -5,6 +5,7 @@ import { Document, Page, pdfjs } from 'react-pdf';
 
 import Button from 'new-components/button';
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
+import { samplePdf2 } from 'new-pages/policy/pdfSample';
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
@@ -41,10 +42,10 @@ const PdfViewModal = ({ openPolicyPdfView, setOpenViewPdfPolicy, pdf }: Props) =
         open={openPolicyPdfView}
         text="Done"
         iconEnd={undefined}
-        title={'Policy View'}
+        title={'Profile View'}
         handleClose={() => setOpenViewPdfPolicy(false)}
       >
-        <Document file={pdf} onLoadSuccess={onDocumentLoadSuccess}>
+        <Document file={samplePdf2} onLoadSuccess={onDocumentLoadSuccess}>
           <Page pageNumber={pageNumber} />
         </Document>
         <div>

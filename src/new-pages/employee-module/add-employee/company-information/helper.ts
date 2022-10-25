@@ -107,8 +107,7 @@ export const useCompanyInfo = ({ handleNext, formData, setFormData, employeeDocI
       const { joiningDate, checkIn, probation, checkOut } = data;
       let user: any = {
         ...data,
-        workingHours: undefined,
-        joiningDate: moment(joiningDate).format('YYYY-MM-DD'),
+        joiningDate: joiningDate ? moment(joiningDate).format('YYYY-MM-DD') : undefined,
         departmentId: data?.departmentId,
         designationId: data?.designationId,
         leaves: leaves.map((leave: Leave, index: number) => {

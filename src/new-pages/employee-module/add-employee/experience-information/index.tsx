@@ -132,6 +132,7 @@ const ExperienceDetails = () => {
             <DatePicker
               label="Job Start Date"
               name="jobStartDate"
+              maxDate={new Date()}
               id="4"
               star={' *'}
               placeholder="Enter Start Date"
@@ -143,6 +144,7 @@ const ExperienceDetails = () => {
                 <DatePicker
                   label="Job End Date"
                   name="jobEndDate"
+                  maxDate={new Date()}
                   star={' *'}
                   id="11"
                   placeholder="Enter End Date"

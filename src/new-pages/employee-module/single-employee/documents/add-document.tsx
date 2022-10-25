@@ -25,9 +25,11 @@ const AddDocument = ({ open, setOpen, docId, setDocId, getAllDocuments }: Props)
   const { id } = useParams();
   const { register, handleSubmit, errors, control, reset } = useForm();
   const [selectedFileName, setSelectedFileName] = useState('');
+  const [loader, setLoader] = useState(false);
   console.log('selectedFileName', selectedFileName?.split('.')[0]);
 
   const onSubmit = async (data: any) => {
+    setLoader(true);
     const userDoc = {
       ...data,
       employeeId: id,
@@ -47,6 +49,7 @@ const AddDocument = ({ open, setOpen, docId, setDocId, getAllDocuments }: Props)
         getAllDocuments && getAllDocuments();
       }
     }
+    setLoader(false);
   };
 
   const getDocById = async () => {
@@ -66,10 +69,11 @@ const AddDocument = ({ open, setOpen, docId, setDocId, getAllDocuments }: Props)
     <>
       <Modal
         open={open}
-        title="Add Document"
+        title={`Document`}
         handleClose={() => setOpen(false)}
         // handleClick={() => setOpen(false)}
         text="Done"
+        loader={loader}
         type="submit"
         iconEnd={tick}
         form="addDoc"

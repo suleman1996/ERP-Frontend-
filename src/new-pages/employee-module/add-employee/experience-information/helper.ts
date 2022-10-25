@@ -95,14 +95,20 @@ export const useExperience = ({
     const newEducations: any = [...educations];
     const fileBase64 =
       data?.letter && data?.letter?.length > 0 && (await convertBase64Image(data.letter[0]));
+
     const tempObj = {
       ...data,
       jobStartDate: moment(data?.jobStartDate).format('YYYY-MM-DD'),
       jobEndDate: moment(data?.jobEndDate).format('YYYY-MM-DD'),
       ongoing: onGoing,
-      ...(fileBase64 ? { experienceLetter: `${fileBase64}` } : {}),
+      ...(fileBase64
+        ? { experienceLetter: selectedFileName && `${fileBase64}` }
+        : {
+            experienceLetter:
+              newEducations && newEducations[educationIndex.current].experienceLetter,
+          }),
     };
-    !watch().letter && removeKeys(tempObj, ['experienceLetter']);
+    !selectedFileName && removeKeys(tempObj, ['experienceLetter']);
     removeKeys(tempObj, ['letter']);
     onGoing && removeKeys(tempObj, ['jobEndDate']);
     if (educationIndex.current < 0) {
@@ -123,6 +129,7 @@ export const useExperience = ({
   const handleEducation = (index: number) => {
     educationIndex.current = index;
     const data = educations.find((data, i) => i === index);
+
     data?.experienceLetter && setSelectedFileName('experience letter');
     reset({
       company: data?.company,

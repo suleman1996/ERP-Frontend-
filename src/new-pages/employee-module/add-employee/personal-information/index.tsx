@@ -45,6 +45,8 @@ const PersonalInformation = () => {
     gender,
     series,
     loader,
+    customValidation,
+    setCustomValidation,
   } = usePersonalInfo({
     handleNext,
     setFormData,
@@ -116,7 +118,7 @@ const PersonalInformation = () => {
                   {series &&
                     series.map((ele: any) => (
                       <>
-                        <option key={ele.name} value={ele?._id}>
+                        <option key={ele.name} value={ele?.name}>
                           {ele.name}
                         </option>
                       </>
@@ -162,8 +164,13 @@ const PersonalInformation = () => {
                 label="CNIC "
                 type="number"
                 min={'0'}
-                // max={'13'}
                 placeholder=" Enter CNIC"
+                onChange={(e) => {
+                  e.target.value.split('').length > 13
+                    ? setCustomValidation('Only 13 digits are allowed')
+                    : setCustomValidation('');
+                }}
+                customValidation={customValidation}
                 errorMessage={errors?.cnic?.message}
                 register={register}
                 star={'*'}

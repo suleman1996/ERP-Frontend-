@@ -31,6 +31,7 @@ export const useSkill = ({ formData, setFormData, employeeId, setSkillData, skil
   const { id } = useParams();
   const [educations, setEducations] = useState<Skill[] | []>([]);
   const [selectedFileName, setSelectedFileName] = useState('');
+  const [activeEdit, setActiveEdit] = useState('');
   const skillIndex = useRef(-1);
   const [toggle, setToggle] = useState<number>();
 
@@ -50,11 +51,13 @@ export const useSkill = ({ formData, setFormData, employeeId, setSkillData, skil
       ...data,
       skillLevel: data?.skills,
       // ...(fileBase64 && { file: `${fileBase64}` }),
-      ...(data.file && { file: data.file[0] ? fileBase64 : data.file }),
+      ...(selectedFileName && data.file && { file: data.file[0] ? fileBase64 : data.file }),
     };
     if (!skillData.file || Object.keys(skillData.file).length === 0) {
-      removeKeys(skillData, ['file']);
+      !selectedFileName && removeKeys(skillData, ['file']);
     }
+
+    !selectedFileName && removeKeys(skillData, ['file']);
 
     removeKeys(skillData, ['skills']);
     setSkillData((current) => [...current, skillData]);
@@ -62,9 +65,14 @@ export const useSkill = ({ formData, setFormData, employeeId, setSkillData, skil
     const tempObj = {
       ...data,
       skillLevel: data?.skills.toLocaleLowerCase(),
-      ...(data.file && { file: data.file[0] ? fileBase64 : data.file }),
+      ...(fileBase64
+        ? { file: fileBase64 }
+        : {
+            file: newEducations && newEducations[skillIndex.current]?.file,
+          }),
     };
-    if (tempObj.file.length === 0) {
+
+    if (tempObj?.file?.length === 0) {
       removeKeys(tempObj, ['file']);
     }
     if (skillIndex.current < 0) {
@@ -77,6 +85,7 @@ export const useSkill = ({ formData, setFormData, employeeId, setSkillData, skil
     setFormData({ ...formData, setSkillData: [...newEducations] });
     reset({ skills: '' });
     setToggle(-1);
+    setActiveEdit('');
     skillIndex.current = -1;
     setSelectedFileName('');
   };
@@ -85,6 +94,7 @@ export const useSkill = ({ formData, setFormData, employeeId, setSkillData, skil
     skillIndex.current = index;
     const data = educations.find((data, i) => i === index);
     data?.file && setSelectedFileName('file');
+    setActiveEdit(`${data?.skillLevel}`);
     reset({
       skillName: data?.skillName,
       year: data?.year,
@@ -113,7 +123,7 @@ export const useSkill = ({ formData, setFormData, employeeId, setSkillData, skil
   };
 
   useEffect(() => {
-    // id && getUser();
+    id && getUser();
     if (formData?.setSkillData !== undefined && Object.keys(formData?.setSkillData)?.length) {
       setEducations([...formData?.setSkillData]);
       // setSkillData((current) => [...current, ...formData?.setSkillData]);
@@ -128,7 +138,7 @@ export const useSkill = ({ formData, setFormData, employeeId, setSkillData, skil
     handleAddEduction,
     educations,
     handleEducation,
-    activeEdit: skillIndex.current,
+    activeEdit,
     handleDeleteIndex,
     toggle,
     setToggle,
@@ -145,7 +155,7 @@ export const schema = yup.object().shape({
     .required('Year is a required field')
     .typeError('Year is required & should be a number'),
 
-  skills: yup.string().required('Skills is a required field'),
+  skills: yup.string().required('Skill level is a required field'),
 });
 
 export const columns = [

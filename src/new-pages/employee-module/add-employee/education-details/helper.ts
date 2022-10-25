@@ -51,7 +51,6 @@ export const useEducationDetail = ({
   const [selectedFileName, setSelectedFileName] = useState('');
   const educationIndex = useRef(-1);
   const [ongiong, setOngoing] = useState(false);
-  const { pathname } = useLocation();
 
   const [updateEdu, setUpdateEdu] = useState({
     update: false,
@@ -101,9 +100,18 @@ export const useEducationDetail = ({
       endDate: moment(endDate).format('YYYY-MM-DD'),
       startDate: moment(startDate).format('YYYY-MM-DD'),
       ongoing: ongiong,
-      filename: transcript[0]?.name || prevFileName,
-      transcript:
-        transcript && (transcript[0] ? await convertBase64Image(transcript[0]) : prevTranscript),
+      ...(transcript[0]?.name
+        ? {
+            filename: transcript[0]?.name || prevFileName,
+            transcript:
+              selectedFileName &&
+              transcript &&
+              (transcript[0] ? await convertBase64Image(transcript[0]) : prevTranscript),
+          }
+        : {
+            filename: newEducations[educationIndex.current]?.filename || '',
+            transcript: newEducations[educationIndex.current]?.transcript || '',
+          }),
       ...(marksType === 'percentage' && { percentage: marksVal?.toString() }),
       ...(marksType === 'cgpa' && { cgpa: marksType === 'cgpa' && marksVal?.toString() }),
     };
@@ -128,6 +136,7 @@ export const useEducationDetail = ({
   const handleEducation = (index: number) => {
     educationIndex.current = index;
     const data = educations.find((data, i) => i === index);
+
     data?.transcript && setSelectedFileName('transcript');
     reset({
       institute: data?.institute,
@@ -137,11 +146,11 @@ export const useEducationDetail = ({
       startDate: moment(data?.startDate, 'YYYY-MM-DD').toDate(),
       endDate: moment(data?.endDate, 'YYYY-MM-DD').toDate(),
       ongoing: data?.ongoing,
-      prevTranscript: data?.transcript,
       marks: data?.marks,
     });
     setOngoing(!!data?.ongoing);
-    setFilename(data?.filename);
+
+    data?.filename && setFilename(data?.filename);
   };
 
   const getUser = async () => {

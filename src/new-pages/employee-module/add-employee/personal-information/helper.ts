@@ -50,6 +50,7 @@ export const usePersonalInfo = ({
 
   const [btnLoader, setBtnLoader] = useState(false);
   const [loader, setLoader] = useState(false);
+  const [customValidation, setCustomValidation] = useState('');
   const { register, handleSubmit, errors, control, reset, setValue, watch, setError, clearErrors } =
     useForm();
 
@@ -133,11 +134,19 @@ export const usePersonalInfo = ({
       const temp = {
         ...data,
         profilePicture: img,
-        dob: moment(dob).format('YYYY-MM-DD'),
+        dob: dob && moment(dob).format('YYYY-MM-DD'),
         cnic: cnic.toString(),
         employeeId: employeeId + userId,
-        cnicFront: frontPic && frontPic.length && (await convertBase64Image(frontPic[0])),
-        cnicBack: backPic && backPic.length && (await convertBase64Image(backPic[0])),
+        cnicFront:
+          selectedFileName &&
+          frontPic &&
+          frontPic.length &&
+          (await convertBase64Image(frontPic[0])),
+        cnicBack:
+          selectedFileNameBack &&
+          backPic &&
+          backPic.length &&
+          (await convertBase64Image(backPic[0])),
       };
       const obj = removeKey(temp);
       const userData = {
@@ -196,5 +205,7 @@ export const usePersonalInfo = ({
     gender,
     series,
     loader,
+    customValidation,
+    setCustomValidation,
   };
 };

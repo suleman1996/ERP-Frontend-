@@ -32,32 +32,24 @@ const EmployeeProfileDetails = () => {
   const navigate = useNavigate();
 
   const [open, setOpen] = useState(null);
-  const [userId, setUserId] = useState<string>();
   const [employees, setEmployees] = useState([]);
   const [openModal, setOpenModal] = useState(false);
   const [openFilter, setOpenFilter] = useState(false);
-  const [count, setCount] = useState(10);
+
+  const [pageSize, setPageSize] = useState(10);
   const [totalCount, setTotalCount] = useState();
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
 
   const [loading, setLoading] = useState(false);
   const [openModalProfile, setOpenModalProfile] = useState(false);
 
   useEffect(() => {
     getEmployeesData();
-  }, [count, page]);
-
-  const handleClick = (index: any) => {
-    if (index === open) {
-      setOpen(null);
-    } else {
-      setOpen(index);
-    }
-  };
+  }, [pageSize, page]);
 
   const getEmployeesData = async () => {
     setLoading(true);
-    const res = await EmployeeService.getAllEmployees({ pageSize: count, page });
+    const res = await EmployeeService.getAllEmployees({ pageSize: pageSize, page: page - 1 });
     if (res?.status === 200) {
       setEmployees(res?.data?.employees[0]?.data);
       setTotalCount(res.data?.employees[0]?.count);
@@ -86,10 +78,10 @@ const EmployeeProfileDetails = () => {
         <EmployeeFilter
           open={openFilter}
           setOpen={setOpenFilter}
-          setCount={setCount}
           setEmployees={setEmployees}
+          getEmployeesData={getEmployeesData}
         />
-
+        {console.log('emp', employees)}
         <div className={style.cardSection}>
           {employees?.map(
             (
@@ -106,17 +98,17 @@ const EmployeeProfileDetails = () => {
               index,
             ) => (
               <>
-                <div key={index} style={{ position: 'relative' }}>
+                <div key={employeeId} style={{ position: 'relative' }}>
                   <EmployeeProfileCard
                     img={profilePicture}
                     name={fullName}
                     designation={companyInformation?.designationInformation?.name}
                     department={companyInformation?.departmentInformation?.name}
                     phone={phone}
-                    id={employeeId}
-                    handleClick={() => handleClick(index)}
+                    id={id}
+                    handleClick={() => setOpen((prev) => (prev === employeeId ? null : employeeId))}
                   />
-                  {open === index && (
+                  {open === employeeId && (
                     <div
                       style={{
                         position: 'absolute',
@@ -131,7 +123,6 @@ const EmployeeProfileDetails = () => {
                           setOpenModal={setOpenModal}
                           setOpenModalProfile={setOpenModalProfile}
                           id={_id}
-                          handleClick={() => setUserId(id)}
                         />
                       </div>
                     </div>
@@ -143,13 +134,19 @@ const EmployeeProfileDetails = () => {
         </div>
       </div>
       <div className={style.position}>
-        <Pagination setCount={setCount} count={count} totalCount={totalCount} />
+        <Pagination
+          setCount={setPageSize}
+          count={pageSize}
+          totalCount={totalCount}
+          setPage={setPage}
+          page={page}
+        />
       </div>
-      <CvView openModal={openModal} setOpenModal={setOpenModal} id={userId} />
+      <CvView openModal={openModal} setOpenModal={setOpenModal} id={open} />
       <ProfileView
         openModalProfile={openModalProfile}
         setOpenModalProfile={setOpenModalProfile}
-        id={userId}
+        id={open}
       />
     </>
   );

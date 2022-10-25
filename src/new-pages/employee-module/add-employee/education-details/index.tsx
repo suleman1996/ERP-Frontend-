@@ -71,6 +71,8 @@ const EducationalDetails = () => {
     employeeDocId,
   });
 
+  console.log('rows', educations);
+
   return (
     <div className={style.mainForm}>
       <form onSubmit={handleSubmit(handleAddEduction)}>
@@ -187,7 +189,8 @@ const EducationalDetails = () => {
           <Table
             rows={educations.map((education) => ({
               ...education,
-              endDate: moment(education.endDate).format('Do MMMM YYYY') || '---',
+              endDate:
+                (education.endDate && moment(education.endDate).format('Do MMMM YYYY')) || '---',
               startDate: moment(education.startDate).format('Do MMMM YYYY'),
             }))}
             columns={columns}

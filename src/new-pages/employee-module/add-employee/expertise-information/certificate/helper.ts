@@ -31,6 +31,7 @@ export const useCerificate = ({ formData, setFormData, employeeId, setCertificat
   const [toggle, setToggle] = useState<number>();
   const [educations, setEducations] = useState<Certificate[] | []>([]);
   const [selectedFileName, setSelectedFileName] = useState('');
+  const [activeEdit, setActiveEdit] = useState('');
   const certificateIndex = useRef(-1);
   const [updateEdu, setUpdateEdu] = useState({
     update: false,
@@ -48,6 +49,8 @@ export const useCerificate = ({ formData, setFormData, employeeId, setCertificat
       skillLevel: 'intermediate',
       ...(fileBase64 ? { file: `${fileBase64}` } : {}),
     };
+
+    !selectedFileName && removeKeys(certificateData, ['file']);
     if (!certificateData.file || Object.keys(certificateData.file).length === 0) {
       removeKeys(certificateData, ['file']);
     }
@@ -57,8 +60,14 @@ export const useCerificate = ({ formData, setFormData, employeeId, setCertificat
     const tempObj = {
       ...data,
       skillLevel: data?.skills,
+      ...(fileBase64
+        ? { file: fileBase64 }
+        : {
+            file: newEducations && newEducations[certificateIndex.current]?.file,
+          }),
     };
-    if (tempObj.file.length === 0) {
+    !selectedFileName && removeKeys(tempObj, ['file']);
+    if (tempObj?.file?.length === 0) {
       removeKeys(tempObj, ['file']);
     }
     if (certificateIndex.current < 0) {
@@ -71,6 +80,7 @@ export const useCerificate = ({ formData, setFormData, employeeId, setCertificat
     setFormData({ ...formData, certificateData: [...newEducations] });
     reset({ skills: '' });
     setToggle(-1);
+    setActiveEdit('');
     certificateIndex.current = -1;
     setSelectedFileName('');
   };
@@ -79,6 +89,7 @@ export const useCerificate = ({ formData, setFormData, employeeId, setCertificat
     certificateIndex.current = index;
     const data = educations.find((data, i) => i === index);
     data?.file && setSelectedFileName('file');
+    setActiveEdit(`${data?.skillLevel}`);
     reset({
       certificateName: data?.certificateName,
       year: data?.year,
@@ -122,7 +133,7 @@ export const useCerificate = ({ formData, setFormData, employeeId, setCertificat
     handleAddEduction,
     educations,
     handleEducation,
-    activeEdit: certificateIndex.current,
+    activeEdit,
     handleDeleteIndex,
     toggle,
     setToggle,
@@ -139,7 +150,7 @@ export const schema = yup.object().shape({
     .required('Year is a required field')
     .typeError('Year is required & should be a number'),
 
-  skills: yup.string().required('Skills is a required field'),
+  skills: yup.string().required('Skill level is a required field'),
 });
 
 export const selectRates = [

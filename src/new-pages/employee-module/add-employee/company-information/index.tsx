@@ -181,6 +181,7 @@ const CompanyInformation = () => {
               }
               control={control}
               errorMessage={errors?.endDate?.message}
+              readOnly
             />
           </div>
         )}
