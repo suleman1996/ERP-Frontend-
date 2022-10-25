@@ -80,10 +80,9 @@ const TextField = ({
             />
           )}
         </div>
-        {errorMessage ||
-          (customValidation && (
-            <span className={style.errorMessage}>{errorMessage || customValidation}</span>
-          ))}
+        {(errorMessage || customValidation) && (
+          <span className={style.errorMessage}>{errorMessage || customValidation}</span>
+        )}
       </div>
     </>
   );
