@@ -50,6 +50,7 @@ export const usePersonalInfo = ({
 
   const [btnLoader, setBtnLoader] = useState(false);
   const [loader, setLoader] = useState(false);
+  const [customValidation, setCustomValidation] = useState('');
   const { register, handleSubmit, errors, control, reset, setValue, watch, setError, clearErrors } =
     useForm();
 
@@ -126,8 +127,6 @@ export const usePersonalInfo = ({
   };
 
   const onSubmit = async (data: Data) => {
-    console.log('data', data);
-
     setBtnLoader(true);
     try {
       const { dob, cnic, frontPic, backPic, employeeId } = data;
@@ -198,5 +197,7 @@ export const usePersonalInfo = ({
     gender,
     series,
     loader,
+    customValidation,
+    setCustomValidation,
   };
 };

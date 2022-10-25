@@ -73,7 +73,6 @@ const EmployeeDropdown = ({ setOpenModal, setOpenModalProfile, id, handleClick }
         ))}
       </div>
 
-      {/* {pdf && ( */}
       <Modal
         open={open}
         text="Close"
