@@ -66,8 +66,6 @@ const SingleEmployee = () => {
     },
   ];
 
-  console.log('user', userData);
-
   return (
     <CardContainer className={style.card}>
       <div className={style.header}>

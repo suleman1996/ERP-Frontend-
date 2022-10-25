@@ -14,7 +14,7 @@ export interface Props {
   getData?: () => void;
 }
 
-export const useEmployeeFilter = ({ setOpen, setEmployees, setCount, getData }: Props) => {
+export const useEmployeeFilter = ({ setOpen, setEmployees, setCount }: Props) => {
   const { register, handleSubmit, reset } = useForm({
     resolver: yupResolver(schema),
   });
@@ -36,8 +36,6 @@ export const useEmployeeFilter = ({ setOpen, setEmployees, setCount, getData }: 
 
   const cancelHandler = () => {
     setOpen && setOpen(false);
-    getData && getData();
-    reset({});
   };
 
   const getAllDepartments = async () => {
