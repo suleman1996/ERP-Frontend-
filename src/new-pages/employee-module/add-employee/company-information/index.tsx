@@ -57,6 +57,8 @@ const CompanyInformation = () => {
     check,
     setCheck,
     departmentChangeHandler,
+    setCustomErr,
+    customErr,
   } = useCompanyInfo({
     handleBack,
     handleNext,
@@ -224,6 +226,8 @@ const CompanyInformation = () => {
             <CustomTimePicker
               name={'employmentInfo.workingHours'}
               control={control}
+              setCustomErr={setCustomErr}
+              customErr={customErr}
               errorMessage={errors?.employmentInfo?.workingHours?.message}
               type={type}
               setType={setType}
