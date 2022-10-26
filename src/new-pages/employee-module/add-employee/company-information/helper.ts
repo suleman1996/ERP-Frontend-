@@ -42,6 +42,8 @@ export const useCompanyInfo = ({ handleNext, formData, setFormData, employeeDocI
   const { id } = useParams();
   const dispatch = useDispatch();
   const [type, setType] = useState('per-day');
+  const [customErr, setCustomErr] = useState();
+
   const [probation, setProbation] = useState(false);
   const [designation, setDesignation] = useState<any>();
   const [check, setCheck] = useState<number[]>([]);
@@ -102,6 +104,7 @@ export const useCompanyInfo = ({ handleNext, formData, setFormData, employeeDocI
   };
 
   const onSubmit = async (data: Data) => {
+    !customErr && setCustomErr('Required field');
     setBtnLoader(true);
     try {
       setFormData({ ...formData, companyInformation: { ...data, workingDaysInWeek: check } });
@@ -128,7 +131,7 @@ export const useCompanyInfo = ({ handleNext, formData, setFormData, employeeDocI
               .split(':')
               .map((e: string) => String(e).padStart(2, '0'))
               .join(':'),
-          workingHoursType: type,
+          workingHoursType: watch().employmentType === 'Part-Time' && type,
         },
         workingDaysInWeek: check,
         probation: probation ? Boolean(probation) : false,
@@ -193,6 +196,8 @@ export const useCompanyInfo = ({ handleNext, formData, setFormData, employeeDocI
     setCheck,
     departmentChangeHandler,
     clearErrors,
+    customErr,
+    setCustomErr,
   };
 };
 

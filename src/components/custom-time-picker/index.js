@@ -5,33 +5,41 @@ import Select from 'new-components/select';
 
 import style from './time.module.scss';
 
-const CustomTimePicker = ({ control, name, errorMessage, setType, type, star }) => {
-  const [customErr, setCustomErr] = useState();
+const CustomTimePicker = ({
+  control,
+  name,
+  errorMessage,
+  setCustomErr,
+  customErr,
+  setType,
+  type,
+  star,
+}) => {
   const { field } = useController({ control, name, defaultValue: 'HH:MM' });
 
-  // useEffect(() => {
-  //   if (type === 'per-day') {
-  //     if (field.value.split(':')[0] > 23) {
-  //       setCustomErr('Hours should be less or equal to 24');
-  //     } else {
-  //       setCustomErr('');
-  //     }
-  //   }
-  //   if (type === 'per-week') {
-  //     if (field.value.split(':')[0] > 168) {
-  //       setCustomErr('Hours should be less or equal to 168');
-  //     } else {
-  //       setCustomErr('');
-  //     }
-  //   }
-  //   if (type === 'per-month') {
-  //     if (field.value.split(':')[0] > 999) {
-  //       setCustomErr('Hours should be less or equal to 999');
-  //     } else {
-  //       setCustomErr('');
-  //     }
-  //   }
-  // }, [field.value, type, selectCountry]);
+  useEffect(() => {
+    if (type === 'per-day') {
+      if (field.value.split(':')[0] > 23 || field.value.split(':')[1] > 59) {
+        setCustomErr('Hours should be less or equal to 23:59');
+      } else {
+        setCustomErr('');
+      }
+    }
+    if (type === 'per-week') {
+      if (field.value.split(':')[0] > 168 || field.value.split(':')[1] > 59) {
+        setCustomErr('Hours should be less or equal to 168:59');
+      } else {
+        setCustomErr('');
+      }
+    }
+    if (type === 'per-month') {
+      if (field.value.split(':')[0] > 999 || field.value.split(':')[1] > 59) {
+        setCustomErr('Hours should be less or equal to 999:59');
+      } else {
+        setCustomErr('');
+      }
+    }
+  }, [field.value, type, selectCountry]);
   return (
     <div>
       <label>
@@ -66,7 +74,8 @@ const CustomTimePicker = ({ control, name, errorMessage, setType, type, star }) 
           onChange={(e) => field.onChange(field.value.split(':')[0] + ':' + e.target.value)}
         />
       </div>
-      {errorMessage && <p className={style.error}>{errorMessage}</p>}
+      {customErr && <p className={style.error}>{customErr}</p>}
+      {/* {errorMessage && <p className={style.error}>{errorMessage}</p>} */}
     </div>
   );
 };
