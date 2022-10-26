@@ -105,7 +105,7 @@ export const useExperience = ({
         ? { experienceLetter: selectedFileName && `${fileBase64}` }
         : {
             experienceLetter:
-              newEducations && newEducations[educationIndex.current].experienceLetter,
+              newEducations && newEducations[educationIndex.current]?.experienceLetter,
           }),
     };
     !selectedFileName && removeKeys(tempObj, ['experienceLetter']);

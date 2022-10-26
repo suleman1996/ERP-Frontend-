@@ -105,7 +105,7 @@ const EmployeeProfileDetails = () => {
                     designation={companyInformation?.designationInformation?.name}
                     department={companyInformation?.departmentInformation?.name}
                     phone={phone}
-                    id={id}
+                    id={employeeId}
                     handleClick={() => setOpen((prev) => (prev === employeeId ? null : employeeId))}
                   />
                   {open === employeeId && (

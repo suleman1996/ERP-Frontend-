@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import moment from 'moment';
 import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
@@ -8,7 +8,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import EmployeeService from 'services/employee-service';
 import { convertBase64Image } from 'main-helper';
 import { removeKeys } from 'helper';
-import { setErrors } from './../../../../helper/index';
 
 export interface Education {
   degree: string;
@@ -123,7 +122,12 @@ export const useEducationDetail = ({
       newEducations[educationIndex.current] = { ...tempObj };
       setUpdateEdu({ update: false, editInd: -1 });
     }
-    setEducations([...newEducations]);
+
+    let sottedEducations = newEducations.sort(function (a: any, b) {
+      return new Date(a.endDate) - new Date(b.endDate);
+    });
+    setEducations([...sottedEducations]);
+
     setFormData({ ...formData, educationDetails: [...newEducations] });
     educationIndex.current = -1;
     reset({ startDate: null, endDate: null });
