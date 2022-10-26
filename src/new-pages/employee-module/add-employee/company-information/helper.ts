@@ -96,10 +96,12 @@ export const useCompanyInfo = ({ handleNext, formData, setFormData, employeeDocI
     });
 
     setCheck(res?.data?.company?.workingDaysInWeek);
+    setTimeout(() => {
+      setProbation(res?.data?.company?.active);
+    }, 50);
   };
 
   const onSubmit = async (data: Data) => {
-    console.log(data, 'data hai ye hamara aur hamza ka pyara');
     setBtnLoader(true);
     try {
       setFormData({ ...formData, companyInformation: { ...data, workingDaysInWeek: check } });

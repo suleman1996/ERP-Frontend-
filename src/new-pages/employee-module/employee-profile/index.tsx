@@ -45,7 +45,7 @@ const EmployeeProfileDetails = () => {
 
   useEffect(() => {
     getEmployeesData();
-  }, [pageSize, page]);
+  }, [pageSize, page, pageSize]);
 
   const getEmployeesData = async () => {
     setLoading(true);
@@ -81,57 +81,62 @@ const EmployeeProfileDetails = () => {
           setEmployees={setEmployees}
           getEmployeesData={getEmployeesData}
         />
-        {console.log('emp', employees)}
-        <div className={style.cardSection}>
-          {employees?.map(
-            (
-              {
-                profilePicture,
-                fullName,
-                companyInformation,
-                phone,
-                id,
-                employeeId,
-                department,
-                _id,
-              }: Employee,
-              index,
-            ) => (
-              <>
-                <div key={employeeId} style={{ position: 'relative' }}>
-                  <EmployeeProfileCard
-                    img={profilePicture}
-                    name={fullName}
-                    designation={companyInformation?.designationInformation?.name}
-                    department={companyInformation?.departmentInformation?.name}
-                    phone={phone}
-                    id={employeeId}
-                    handleClick={() => setOpen((prev) => (prev === employeeId ? null : employeeId))}
-                  />
-                  {open === employeeId && (
-                    <div
-                      style={{
-                        position: 'absolute',
-                        top: '85%',
-                        padding: '15px',
-                        zIndex: 2000,
-                      }}
-                    >
-                      <div onClick={() => setOpen(null)} className={style.absoluteClass}></div>
-                      <div style={{ zIndex: 2600, width: '145px' }}>
-                        <EmployeeDropdown
-                          setOpenModal={setOpenModal}
-                          setOpenModalProfile={setOpenModalProfile}
-                          id={_id}
-                        />
+        {employees?.length > 0 ? (
+          <div className={style.cardSection}>
+            {employees?.map(
+              (
+                {
+                  profilePicture,
+                  fullName,
+                  companyInformation,
+                  phone,
+                  id,
+                  employeeId,
+                  department,
+                  _id,
+                }: Employee,
+                index,
+              ) => (
+                <>
+                  <div key={employeeId} style={{ position: 'relative' }}>
+                    <EmployeeProfileCard
+                      img={profilePicture}
+                      name={fullName}
+                      designation={companyInformation?.designationInformation?.name}
+                      department={companyInformation?.departmentInformation?.name}
+                      phone={phone}
+                      id={employeeId}
+                      handleClick={() =>
+                        setOpen((prev) => (prev === employeeId ? null : employeeId))
+                      }
+                    />
+                    {open === employeeId && (
+                      <div
+                        style={{
+                          position: 'absolute',
+                          top: '85%',
+                          padding: '15px',
+                          zIndex: 2000,
+                        }}
+                      >
+                        <div onClick={() => setOpen(null)} className={style.absoluteClass}></div>
+                        <div style={{ zIndex: 2600, width: '145px' }}>
+                          <EmployeeDropdown
+                            setOpenModal={setOpenModal}
+                            setOpenModalProfile={setOpenModalProfile}
+                            id={_id}
+                          />
+                        </div>
                       </div>
-                    </div>
-                  )}
-                </div>
-              </>
-            ),
-          )}
-        </div>
+                    )}
+                  </div>
+                </>
+              ),
+            )}
+          </div>
+        ) : (
+          <h1 style={{ textAlign: 'center', marginTop: '20px' }}>No Record Found</h1>
+        )}
       </div>
       <div className={style.position}>
         <Pagination
