@@ -3,7 +3,7 @@ export const eventTypes = [
   { value: 'Meeting', label: 'Meeting' },
   { value: 'Occasion', label: 'Occasion' },
 ];
-export const recurrence = [
+export const recurrenceTypes = [
   { value: 'Daily', label: 'Daily' },
   { value: 'Weekly', label: 'Weekly' },
   { value: 'Monthly', label: 'Monthly' },

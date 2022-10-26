@@ -13,9 +13,10 @@ import Modal from 'new-components/modal';
 import TextField from 'new-components/textfield';
 import DatePicker from 'new-components/date-picker';
 import Selection from 'my-components/select';
-import { eventTypes } from './event-types';
+import { eventTypes, recurrenceTypes } from './event-types';
 import ProfileUpload from 'new-components/profile-upload';
 import Container from 'new-components/container';
+import Checkbox from 'new-components/checkbox';
 
 import location from 'assets/location.svg';
 import person from 'assets/person1.svg';
@@ -25,12 +26,12 @@ import style from './calender.module.scss';
 import './calendar.scss';
 
 interface Props {}
-let tooltipInstance = null;
+let tooltipInstance = '';
 
 const Calender = () => {
   const { control } = useForm();
-
   const [openModal, setOpenModal] = useState(false);
+  const [check, setCheck] = useState(false);
   let month = 'dayGridMonth';
   let week = 'timeGridWeek';
   let day = 'timeGridDay';
@@ -189,32 +190,39 @@ const Calender = () => {
           slotEventOverlap={false}
         />
 
-        <Modal open={openModal} handleClose={() => setOpenModal(!openModal)} title={'Add Event'}>
+        <Modal
+          open={openModal}
+          handleClose={() => setOpenModal(!openModal)}
+          title={'Add Event'}
+          text="Save"
+        >
           <div className={style.gridView}>
             <TextField label="Title" placeholder="Enter Event Name" star=" *" />
-            <TextField label="Policy Number" placeholder="Enter Policy Name" star=" *" />
+          </div>
+          <div className={style.allDay}>
+            <Checkbox label="All Day" handleChange={() => setCheck(!check)} checked={check} />
           </div>
           <div className={style.gridView}>
             <DatePicker
-              label="Start Date & Time"
+              label={check === true ? 'Start Date' : 'Start Date & Time'}
               control={control}
               name="startDate"
               star=" *"
-              showTimeInput
+              showTimeInput={check === false}
               handleChange={(event) => console.log(event, 'date time')}
             />
             <DatePicker
-              label="End Date & Time"
+              label={check === true ? 'End Date' : 'End Date & Time'}
               control={control}
               name="endDate"
               star=" *"
-              showTimeInput
+              showTimeInput={check === false}
               handleChange={(event) => console.log(event, ' end date time')}
             />
           </div>
           <div className={style.gridView}>
             <Selection label="Type" options={eventTypes} />
-            <Selection label="Recurrence " options={eventTypes} />
+            <Selection label="Recurrence " options={recurrenceTypes} />
           </div>
           <div className={style.gridView}>
             <TextField label="Description " placeholder="Enter Description " />
