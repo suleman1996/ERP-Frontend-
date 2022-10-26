@@ -20,6 +20,7 @@ export const useEmployeeFilter = ({ setOpen, setEmployees, setCount }: Props) =>
   });
 
   const [depName, setDepName] = useState();
+  const [loading, setLoading] = useState();
 
   const [departments, setDepartments] = useState<any>();
   const [designation, setDesignation] = useState<any>();
@@ -30,6 +31,7 @@ export const useEmployeeFilter = ({ setOpen, setEmployees, setCount }: Props) =>
   };
 
   const onSubmit = async (data: any) => {
+    setLoading(true);
     const filterData = {
       ...data,
       department: depName,
@@ -38,6 +40,9 @@ export const useEmployeeFilter = ({ setOpen, setEmployees, setCount }: Props) =>
     if (res?.status === 200) {
       setEmployees && setEmployees(res?.data?.employees[0]?.data);
       res?.data?.employees.length > 0 && setCount && setCount(res?.data?.employees[0]?.count);
+      setLoading(false);
+    } else {
+      setLoading(false);
     }
   };
 
@@ -71,6 +76,7 @@ export const useEmployeeFilter = ({ setOpen, setEmployees, setCount }: Props) =>
     designation,
     departmentChangeHandler,
     watch,
+    loading,
   };
 };
 

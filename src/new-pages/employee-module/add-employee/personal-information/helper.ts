@@ -179,7 +179,7 @@ export const usePersonalInfo = ({
       if (err?.response?.data?.error) {
         setErrors(err?.response?.data?.error, setError);
       } else {
-        createNotification('error', 'Error', `${err?.response?.data?.msg} please refresh page`);
+        createNotification('error', 'Error', err?.response?.data?.message);
       }
       setBtnLoader(false);
     }

@@ -26,7 +26,7 @@ const EmployeeFilter = ({ setOpen, setEmployees, open, getEmployeesData }: Props
     departments,
     designation,
     departmentChangeHandler,
-    watch,
+    loading,
   } = useEmployeeFilter({
     setOpen,
     setEmployees,
@@ -93,7 +93,7 @@ const EmployeeFilter = ({ setOpen, setEmployees, open, getEmployeesData }: Props
             </>
           </Select>
 
-          <Button text="Search" btnClass={style.btn} />
+          <Button text="Search" btnClass={style.btn} isLoading={loading} />
         </div>
       </Card>
     </form>
