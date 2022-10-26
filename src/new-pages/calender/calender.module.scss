@@ -58,3 +58,28 @@
 .allDay {
   margin-bottom: 20px;
 }
+.title {
+  font-size: 15px;
+  color: #000000;
+  padding: 10px;
+}
+.titleDiv {
+  border-bottom: 1px solid #e2e2ea;
+}
+.durationView {
+  display: flex;
+}
+.title2 {
+  font-size: 12px;
+  color: #000000;
+  font-weight: 600;
+  padding: 10px;
+}
+.description {
+  font-size: 12px;
+  color: #000000;
+  padding: 10px;
+}
+.gridDiv {
+  @include gridTwo(0, 0);
+}
