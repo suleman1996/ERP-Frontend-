@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
