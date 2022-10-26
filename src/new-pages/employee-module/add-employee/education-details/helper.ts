@@ -96,7 +96,8 @@ export const useEducationDetail = ({
 
     const tempObj = {
       ...data,
-      endDate: !ongiong && moment(endDate).format('YYYY-MM-DD'),
+      ...(!data.ongoing && { endDate: !ongiong && moment(endDate).format('YYYY-MM-DD') }),
+
       startDate: moment(startDate).format('YYYY-MM-DD'),
       ongoing: ongiong,
       ...(transcript[0]?.name
@@ -124,7 +125,7 @@ export const useEducationDetail = ({
     }
 
     let sortedEducations = newEducations.sort(function (a: any, b) {
-      return new Date(a.startDate) - new Date(b.startDate);
+      return new Date(b.startDate) - new Date(a.startDate);
     });
     setEducations([...sortedEducations]);
 
@@ -148,7 +149,8 @@ export const useEducationDetail = ({
       description: data?.description,
       marksType: data?.marksType,
       startDate: moment(data?.startDate, 'YYYY-MM-DD').toDate(),
-      endDate: moment(data?.endDate, 'YYYY-MM-DD').toDate(),
+      ...(!data?.ongoing && { endDate: moment(data?.endDate, 'YYYY-MM-DD').toDate() }),
+
       ongoing: data?.ongoing,
       marks: data?.marks,
     });
@@ -164,7 +166,7 @@ export const useEducationDetail = ({
       return {
         ...item,
         startDate: moment(item.startDate).format('YYYY-MM-DD'),
-        endDate: !item.ongoing && moment(item.endDate).format('YYYY-MM-DD'),
+        ...(!item.ongoing && { endDate: moment(item.endDate).format('YYYY-MM-DD') }),
       };
     });
     setEducations(data);
