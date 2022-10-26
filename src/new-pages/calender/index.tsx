@@ -199,7 +199,7 @@ const Calender = () => {
     }
   };
 
-  const handleMouseLeave = (info: any) => {
+  const handleMouseLeave = () => {
     if (tooltipInstance) {
       // tooltipInstance.dispose();
       setCustomTooltip(!customTooltip);
