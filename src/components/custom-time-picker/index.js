@@ -26,15 +26,15 @@ const CustomTimePicker = ({
       }
     }
     if (type === 'per-week') {
-      if (field.value.split(':')[0] > 168 || field.value.split(':')[1] > 59) {
-        setCustomErr('Hours should be less or equal to 168:59');
+      if (field.value.split(':')[0] > 167 || field.value.split(':')[1] > 59) {
+        setCustomErr('Hours should be less or equal to 167:59');
       } else {
         setCustomErr('');
       }
     }
     if (type === 'per-month') {
-      if (field.value.split(':')[0] > 999 || field.value.split(':')[1] > 59) {
-        setCustomErr('Hours should be less or equal to 999:59');
+      if (field.value.split(':')[0] > 719 || field.value.split(':')[1] > 59) {
+        setCustomErr('Hours should be less or equal to 719:59');
       } else {
         setCustomErr('');
       }

@@ -124,7 +124,7 @@ export const useEducationDetail = ({
     }
 
     let sortedEducations = newEducations.sort(function (a: any, b) {
-      return new Date(a.startDate) - new Date(b.startDate);
+      return new Date(b.startDate) - new Date(a.startDate);
     });
     setEducations([...sortedEducations]);
 

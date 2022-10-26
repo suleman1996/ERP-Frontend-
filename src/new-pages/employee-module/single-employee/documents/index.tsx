@@ -10,7 +10,7 @@ import style from './document.module.scss';
 import editIcon from 'new-assets/table-edit.svg';
 import deleteIcon from 'new-assets/table-delete.svg';
 import viewIcon from 'new-assets/viewIcon.svg';
-import downloadIcon from 'new-assets/download.svg';
+import downloadIcon from 'new-assets/downlaod.svg';
 import pdf from 'assets/employee-page/print.svg';
 import { selectFilter } from 'new-components/table-filter/mockData';
 
@@ -73,22 +73,22 @@ const Documents = ({ setOpen, setDocId, setDocument, document, getAllDocuments }
                   <img src={pdf} width={25} />
                 </div>
                 <div
-                  // onClick={() => {
-                  //   // downloadUR(e.file, e.name);
-                  //   setFile(e.file);
-                  //   // document.getElementById('download').click();
-                  //   downloadURL(e.file, e.name);
-                  // }}
+                  onClick={() => {
+                    // downloadUR(e.file, e.name);
+                    setFile(e.file);
+                    // document.getElementById('download').click();
+                    downloadURL(e.file, e.name);
+                  }}
                   style={{ marginRight: '10px' }}
                 >
-                  <a
+                  {/* <a
                     href={e.file}
                     download
                     id="download"
                     // hidden
-                  >
-                    <img src={downloadIcon} width={25} />
-                  </a>
+                  > */}
+                  <img src={downloadIcon} width={25} />
+                  {/* </a> */}
                 </div>
               </div>
             ),
@@ -137,7 +137,7 @@ function downloadURL(uri: string, name: string) {
 
   const fileLink = document.createElement('a');
   fileLink.href = fileURL;
-  fileLink.setAttribute('download', `${name}`);
+  fileLink.setAttribute('download', `${name}.pdf`);
   fileLink.setAttribute('target', '_blank');
   document.body.appendChild(fileLink);
   fileLink.click();
