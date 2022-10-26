@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { saveAs } from 'file-saver';
+import fileDownload from 'js-file-download';
 import { useParams } from 'react-router-dom';
 import CardContainer from 'new-components/card-container';
 import Table from 'new-components/table';
@@ -13,6 +15,7 @@ import viewIcon from 'new-assets/viewIcon.svg';
 import downloadIcon from 'new-assets/downlaod.svg';
 import pdf from 'assets/employee-page/print.svg';
 import { selectFilter } from 'new-components/table-filter/mockData';
+import axios from 'axios';
 
 interface Props {
   setOpen: () => void;
@@ -74,7 +77,8 @@ const Documents = ({ setOpen, setDocId, setDocument, document, getAllDocuments }
                 </div>
                 <div
                   onClick={() => {
-                    // downloadUR(e.file, e.name);
+                    console.log('e', e);
+
                     setFile(e.file);
                     // document.getElementById('download').click();
                     downloadURL(e.file, e.name);
@@ -84,7 +88,7 @@ const Documents = ({ setOpen, setDocId, setDocument, document, getAllDocuments }
                   {/* <a
                     href={e.file}
                     download
-                    id="download"
+                    target={'_blank'}
                     // hidden
                   > */}
                   <img src={downloadIcon} width={25} />
@@ -107,13 +111,6 @@ const Documents = ({ setOpen, setDocId, setDocument, document, getAllDocuments }
           }}
         />
       </CardContainer>
-
-      <a
-        href={file ? file : 'https://docs.google.com/uc?id=0B0jH18Lft7ypSmRjdWg1c082Y2M'}
-        download
-        id="download"
-        hidden
-      ></a>
     </>
   );
 };
@@ -131,15 +128,47 @@ function viewURI(uri: string, name: string) {
   document.body.removeChild(link);
 }
 
-function downloadURL(uri: string, name: string) {
+function downloadURL(uri: any, name: string) {
   // const fileURL = window.URL.createObjectURL(new Blob([uri]));
-  const fileURL = window.URL.createObjectURL(new Blob([uri]));
+  // const fileLink = document.createElement('a');
+  // fileLink.href = fileURL;
+  // fileLink.setAttribute('download', `${name}.pdf`);
+  // fileLink.setAttribute('target', '_blank');
+  // document.body.appendChild(fileLink);
+  // fileLink.click();
+  // fileLink.remove();
+  // console.log(fileURL);
 
-  const fileLink = document.createElement('a');
-  fileLink.href = fileURL;
-  fileLink.setAttribute('download', `${name}.pdf`);
-  fileLink.setAttribute('target', '_blank');
-  document.body.appendChild(fileLink);
-  fileLink.click();
-  fileLink.remove();
+  // const blob = new Blob([uri], { type: 'image/jpeg' });
+  // console.log('bb', blob);
+
+  // var FileSaver = require('file-saver');
+  // FileSaver.saveAs(uri, 'somehthing.pdf');
+
+  // const url = window.URL.createObjectURL(new Blob([uri]));
+  // const link = document.createElement('a');
+  // link.href = url;
+  // link.setAttribute('download', 'file.pdf'); //or any other extension
+  // document.body.appendChild(link);
+  // link.click();
+
+  // fileDownload(uri, 'filename.pdf');
+
+  axios({
+    url: uri,
+    method: 'GET',
+    responseType: 'blob', // important
+  }).then((response) => {
+    // create file link in browser's memory
+    const href = URL.createObjectURL(response.data);
+    // create "a" HTML element with href to file & click
+    const link = document.createElement('a');
+    link.href = href;
+    link.setAttribute('download', 'file.pdf'); //or any other extension
+    document.body.appendChild(link);
+    link.click();
+
+    // document.body.removeChild(link);
+    // URL.revokeObjectURL(href);
+  });
 }

@@ -39,7 +39,7 @@ const CustomTimePicker = ({
         setCustomErr('');
       }
     }
-  }, [field.value, type, selectCountry]);
+  }, [field.value, type, selectHoursDuration]);
   return (
     <div>
       <label>
@@ -49,11 +49,12 @@ const CustomTimePicker = ({
         <Select
           selectContainer={style.selectContainer}
           name={'selectHours'}
+          value={type && type}
           onChange={(e) => setType(e.target.value)}
         >
           <>
-            {selectCountry &&
-              selectCountry.map(({ value, description }) => (
+            {selectHoursDuration &&
+              selectHoursDuration.map(({ value, description }) => (
                 <option key={value} value={value}>
                   {description}
                 </option>
@@ -82,7 +83,7 @@ const CustomTimePicker = ({
 
 export default CustomTimePicker;
 
-export const selectCountry = [
+export const selectHoursDuration = [
   {
     value: 'per-day',
     description: 'Per Day',

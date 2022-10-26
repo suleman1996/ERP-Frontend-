@@ -26,14 +26,15 @@ const AddDocument = ({ open, setOpen, docId, setDocId, getAllDocuments }: Props)
   const { register, handleSubmit, errors, control, reset } = useForm();
   const [selectedFileName, setSelectedFileName] = useState('');
   const [loader, setLoader] = useState(false);
-  console.log('selectedFileName', selectedFileName?.split('.')[0]);
 
   const onSubmit = async (data: any) => {
     setLoader(true);
     const userDoc = {
       ...data,
       employeeId: id,
-      file: data.frontPic && data.frontPic.length && (await convertBase64Image(data.frontPic[0])),
+      ...(data.frontPic &&
+        data.frontPic.length && { file: await convertBase64Image(data.frontPic[0]) }),
+
       documentName: data?.name,
     };
     if (docId) {

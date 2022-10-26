@@ -9,6 +9,7 @@ import { setErrors } from './../../../../helper/index';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllDepartments, getAllSettings } from 'store/actions';
 import { getAllLeaves } from './../../../../store/actions';
+import CompanyInformation from './../../../../pages/employee-details/add-employee/company-information/index';
 
 interface Props {
   handleBack: (data?: string) => void;
@@ -69,9 +70,11 @@ export const useCompanyInfo = ({ handleNext, formData, setFormData, employeeDocI
     formData?.companyInformation &&
       reset({
         ...formData?.companyInformation,
+        workingHours: formData?.companyInformation?.workingHoursType,
       });
     setCheck(formData?.companyInformation.workingDaysInWeek);
     setProbation(formData?.companyInformation?.probation);
+    setType(formData?.companyInformation?.workingHoursType);
   };
   useEffect(() => {
     init();
@@ -98,16 +101,15 @@ export const useCompanyInfo = ({ handleNext, formData, setFormData, employeeDocI
     });
 
     setCheck(res?.data?.company?.workingDaysInWeek);
+    setType(res?.data?.company?.workingHoursType);
     setTimeout(() => {
       setProbation(res?.data?.company?.active);
-    }, 50);
+    }, 800);
   };
 
   const onSubmit = async (data: Data) => {
-    !customErr && setCustomErr('Required field');
     setBtnLoader(true);
     try {
-      setFormData({ ...formData, companyInformation: { ...data, workingDaysInWeek: check } });
       removeKeys(data, ['startDate', 'endDate']);
       const { joiningDate, checkIn, probation, checkOut } = data;
       let user: any = {
@@ -137,6 +139,16 @@ export const useCompanyInfo = ({ handleNext, formData, setFormData, employeeDocI
         probation: probation ? Boolean(probation) : false,
         ...(probation && { probationDurationDays: data?.probationDurationDays }),
       };
+
+      setFormData({
+        ...formData,
+        companyInformation: {
+          ...data,
+          workingDaysInWeek: check,
+          workingHoursType: user?.employmentInfo?.workingHoursType,
+        },
+      });
+
       removeKeys(user, ['department', 'designation', ...leaves.map((leave: Leave) => leave.name)]);
       if (id) {
         const res = await EmployeeService.addPostCompany(user, id);
@@ -160,6 +172,8 @@ export const useCompanyInfo = ({ handleNext, formData, setFormData, employeeDocI
         setErrors(err.response.data.error, setError);
       }
     }
+    !customErr && setCustomErr('Required field');
+
     setBtnLoader(false);
   };
 
