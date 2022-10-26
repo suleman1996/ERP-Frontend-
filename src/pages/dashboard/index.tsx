@@ -1,3 +1,4 @@
+import CustomSelect from 'components/custom-select';
 import DatePicker from 'new-components/date-picker';
 import { useForm } from 'react-hook-form';
 
@@ -12,6 +13,7 @@ const DashBoard = () => {
         showTimeInput={true}
         control={control}
       />
+      <CustomSelect name="custom" />
     </>
   );
 };
