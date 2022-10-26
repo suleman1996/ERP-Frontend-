@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 import Button from 'new-components/button';
 import TextField from 'new-components/textfield';
 import TextArea from 'new-components/textarea';
@@ -8,13 +10,12 @@ import Checkbox from 'new-components/checkbox';
 import Select from 'new-components/select';
 
 import { columns, useEducationDetail } from './helper';
+import { useEmployeeForms } from '../context';
 
 import tick from 'new-assets/tick.svg';
 import arrowLeft from 'new-assets/backBtn.svg';
 import arrowRight from 'new-assets/arrowBtnRight.svg';
 import style from './education.module.scss';
-import { useEmployeeForms } from '../context';
-import moment from 'moment';
 
 interface Props {
   formData: any;
@@ -26,16 +27,8 @@ interface Props {
 }
 
 const EducationalDetails = () => {
-  const {
-    handleNext,
-    setFormData,
-    employeeDocId,
-    formData,
-    setEmployeeId,
-    setEmployeeDocId,
-    handleBack,
-    employeeId,
-  }: any = useEmployeeForms();
+  const { handleNext, setFormData, employeeDocId, formData, handleBack, employeeId }: any =
+    useEmployeeForms();
 
   const {
     handleAddEduction,
@@ -43,7 +36,6 @@ const EducationalDetails = () => {
     register,
     control,
     errors,
-    reset,
     educations,
     handleSubmit,
     handleEducation,
@@ -51,15 +43,9 @@ const EducationalDetails = () => {
     setOngoing,
     ongiong,
     handleDeleteIndex,
-    setStartDateHandle,
-    startDateHandle,
     startDate,
     setValue,
     filename,
-    setMarksType,
-    marksType,
-    setMarkVal,
-    marksVal,
     selectedFileName,
     setSelectedFileName,
   } = useEducationDetail({
@@ -70,8 +56,6 @@ const EducationalDetails = () => {
     employeeId,
     employeeDocId,
   });
-
-  console.log('rows', educations);
 
   return (
     <div className={style.mainForm}>
@@ -106,6 +90,7 @@ const EducationalDetails = () => {
           <DatePicker
             label="Start Date"
             name="startDate"
+            maxDate={new Date()}
             star={' *'}
             id="4"
             placeholder="Start Date"
@@ -118,6 +103,7 @@ const EducationalDetails = () => {
               <DatePicker
                 label="End Date"
                 name="endDate"
+                maxDate={new Date()}
                 star={' *'}
                 id="5"
                 control={control}
@@ -178,12 +164,7 @@ const EducationalDetails = () => {
         </div>
         <div className={style.btnContainer}>
           <p></p>
-          <Button
-            type="submit"
-            text="Add"
-            iconEnd={tick}
-            // disabled={marksType === 'percentage' && marksVal ? marksVal > 101 : true}
-          />
+          <Button type="submit" text="Add" iconEnd={tick} />
         </div>
         <div style={{ marginTop: '30px' }}>
           <Table

@@ -10,8 +10,6 @@ import EmployeeService from 'services/employee-service';
 import { setErrors } from './../../../../helper/index';
 import { createNotification } from 'common/create-notification';
 import { useDispatch, useSelector } from 'react-redux';
-import { setAllGenders } from 'store';
-import { getAllSettings } from 'store/actions';
 
 interface Data {
   firstName: string;
@@ -173,13 +171,15 @@ export const usePersonalInfo = ({
           handleNext('Address');
           setFormData({ ...formData, personalInformation: { ...userData } });
         }
+        if (res.status === 400) {
+        }
       }
       setBtnLoader(false);
     } catch (err: any) {
       if (err?.response?.data?.error) {
         setErrors(err?.response?.data?.error, setError);
       } else {
-        createNotification('error', 'Error', err?.response?.data?.message);
+        createNotification('error', 'Error', `${err?.response?.data?.msg} please refresh page`);
       }
       setBtnLoader(false);
     }

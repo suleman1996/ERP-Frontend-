@@ -7,13 +7,13 @@ import TextField from 'new-components/textfield';
 import ProfileUpload from 'new-components/profile-upload';
 import CountryInput from 'components/country-input';
 import Select from 'new-components/select';
+import Loading from 'new-components/loading';
 
 import { usePersonalInfo } from './helper';
+import { useEmployeeForms } from '../context';
 
 import arrowRight from 'new-assets/arrowBtnRight.svg';
 import style from './personal-information.module.scss';
-import { useEmployeeForms } from '../context';
-import Loading from 'new-components/loading';
 
 interface ContextProps {
   handleNext: (data?: string) => void;

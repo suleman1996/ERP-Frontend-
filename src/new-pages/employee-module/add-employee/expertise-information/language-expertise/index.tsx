@@ -87,8 +87,6 @@ const LanguageExpertise = ({ formData, setFormData, employeeId, setLanguage }: P
             name="experince"
             label="Experince"
             star={' *'}
-            max={'9999'}
-            type="number"
             register={register}
             errorMessage={errors?.experince?.message}
             placeholder="Experince"
@@ -96,6 +94,8 @@ const LanguageExpertise = ({ formData, setFormData, employeeId, setLanguage }: P
           <TextField
             name="year"
             label="Year"
+            max={'9999'}
+            type="number"
             star={' *'}
             register={register}
             errorMessage={errors?.year?.message}

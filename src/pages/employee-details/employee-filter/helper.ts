@@ -15,19 +15,26 @@ export interface Props {
 }
 
 export const useEmployeeFilter = ({ setOpen, setEmployees, setCount }: Props) => {
-  const { register, handleSubmit, reset } = useForm({
+  const { register, handleSubmit, reset, watch } = useForm({
     resolver: yupResolver(schema),
   });
+
+  const [depName, setDepName] = useState();
 
   const [departments, setDepartments] = useState<any>();
   const [designation, setDesignation] = useState<any>();
 
   const departmentChangeHandler = async (e: any) => {
-    await getAllDesignations(e?.target?.value);
+    setDepName(departments[Number(e.target?.value)]?.name);
+    await getAllDesignations(departments[e.target?.value]?._id);
   };
 
   const onSubmit = async (data: any) => {
-    const res = await EmployeeService.getAllEmployees(data);
+    const filterData = {
+      ...data,
+      department: depName,
+    };
+    const res = await EmployeeService.getAllEmployees(filterData);
     if (res?.status === 200) {
       setEmployees && setEmployees(res?.data?.employees[0]?.data);
       res?.data?.employees.length > 0 && setCount && setCount(res?.data?.employees[0]?.count);
@@ -63,6 +70,7 @@ export const useEmployeeFilter = ({ setOpen, setEmployees, setCount }: Props) =>
     departments,
     designation,
     departmentChangeHandler,
+    watch,
   };
 };
 

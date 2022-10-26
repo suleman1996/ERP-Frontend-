@@ -77,6 +77,8 @@ const Certificate = ({ formData, setFormData, employeeId, setCertificate }: Prop
           <TextField
             name="year"
             label="Year"
+            max={'9999'}
+            type="number"
             star={' *'}
             register={register}
             errorMessage={errors?.year?.message}

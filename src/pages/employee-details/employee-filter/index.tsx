@@ -7,6 +7,7 @@ import { Props, useEmployeeFilter } from './helper';
 
 import style from '../employee.module.scss';
 import cross from 'assets/employee-page/Path 307.svg';
+import { useEffect } from 'react';
 
 interface Props {
   setOpen?: any;
@@ -25,6 +26,7 @@ const EmployeeFilter = ({ setOpen, setEmployees, open, getEmployeesData }: Props
     departments,
     designation,
     departmentChangeHandler,
+    watch,
   } = useEmployeeFilter({
     setOpen,
     setEmployees,
@@ -71,8 +73,8 @@ const EmployeeFilter = ({ setOpen, setEmployees, open, getEmployeesData }: Props
             <option value="">Department</option>
             <>
               {departments &&
-                departments.map((data: any) => (
-                  <option key={data?._id} value={data._id}>
+                departments.map((data: any, index) => (
+                  <option key={data?._id} id={data?._id} value={index}>
                     {data.name}
                   </option>
                 ))}
@@ -83,8 +85,8 @@ const EmployeeFilter = ({ setOpen, setEmployees, open, getEmployeesData }: Props
             <option value="">Designation</option>
             <>
               {designation &&
-                designation.map((data: any) => (
-                  <option key={data?._id} value={data?._id}>
+                designation.map((data: any, index) => (
+                  <option key={data?._id} value={data?.name}>
                     {data.name}
                   </option>
                 ))}
