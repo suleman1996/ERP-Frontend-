@@ -72,7 +72,7 @@ export const usePersonalInfo = ({
 
   useEffect(() => {
     (employeeDocId || id) && getSingleEmployeeData();
-  }, [employeeDocId]);
+  }, [employeeDocId, id]);
 
   const getSingleEmployeeData = async () => {
     if (employeeDocId) {

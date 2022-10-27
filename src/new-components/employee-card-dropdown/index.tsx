@@ -82,7 +82,7 @@ const EmployeeDropdown = ({ setOpenModal, setOpenModalProfile, id, handleClick }
         handleClick={() => setOpen(false)}
       >
         <Document
-          loading={'true'}
+          loading={'Loading please wait ...'}
           file={{
             url: `http://localhost:8080/api/employees/profile-view/${id}`,
             httpHeaders: {
@@ -115,7 +115,11 @@ const EmployeeDropdown = ({ setOpenModal, setOpenModalProfile, id, handleClick }
       >
         <Document
           file={{
-            url: `http://localhost:8080/api/employees/cv-view/${id}`,
+            url: `${
+              process.env.REACT_APP_API_IS_DEV === 'true'
+                ? process.env.REACT_APP_API_BASE_URL_DEV
+                : process.env.REACT_APP_API_BASE_URL_PRODUCTION
+            }/api/employees/cv-view/${id}`,
             httpHeaders: {
               authorization: authToken,
             },
