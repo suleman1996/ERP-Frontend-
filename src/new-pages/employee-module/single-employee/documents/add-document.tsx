@@ -29,7 +29,7 @@ const AddDocument = ({ open, setOpen, docId, setDocId, getAllDocuments }: Props)
   const [loader, setLoader] = useState(false);
 
   const onSubmit = async (data: any) => {
-    // setLoader(true);
+    setLoader(true);
     try {
       console.log('selectedFileName', selectedFileName);
 
@@ -59,7 +59,9 @@ const AddDocument = ({ open, setOpen, docId, setDocId, getAllDocuments }: Props)
       if (err?.response?.data?.error) {
         setErrors(err?.response?.data?.error, setError);
       }
+      setLoader(false);
     }
+    setLoader(false);
   };
 
   const getDocById = async () => {
