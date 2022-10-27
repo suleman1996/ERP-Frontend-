@@ -82,6 +82,7 @@ const EmployeeDropdown = ({ setOpenModal, setOpenModalProfile, id, handleClick }
         handleClick={() => setOpen(false)}
       >
         <Document
+          loading={'true'}
           file={{
             url: `http://localhost:8080/api/employees/profile-view/${id}`,
             httpHeaders: {
@@ -96,12 +97,6 @@ const EmployeeDropdown = ({ setOpenModal, setOpenModalProfile, id, handleClick }
           <p>
             Page {pageNumber || (numPages ? 1 : '--')} of {numPages || '--'}
           </p>
-          {/* <button type="button" disabled={pageNumber <= 1} onClick={previousPage}>
-            Previous
-          </button>
-          <button type="button" disabled={pageNumber >= numPages} onClick={nextPage}>
-            Next
-          </button> */}
           <div style={{ display: 'flex', width: '30%', justifyContent: 'space-around' }}>
             {pageNumber >= 1 && <Button handleClick={previousPage} text="Previous" />}
             {pageNumber <= numPages && <Button handleClick={nextPage} text="Next" />}
