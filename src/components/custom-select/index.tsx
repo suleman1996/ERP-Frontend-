@@ -58,7 +58,7 @@ const CustomSelect = ({ value, name, register }: Props) => {
                 src={downArrow}
                 alt=""
                 className={style.imgSearch}
-                style={{ transform: open && 'rotate(-180deg)' }}
+                style={{ transform: open ? 'rotate(-180deg)' : '' }}
               />
             </div>
             {/* <span className={style.errorMessage}>{helperText}</span> */}

@@ -27,6 +27,7 @@
 .react-datepicker__day-name,
 .react-datepicker__day,
 .react-datepicker__time-name {
+  background-color: 'red';
   margin: 10px !important;
   font-family: 'Poppins';
   font-style: normal;
