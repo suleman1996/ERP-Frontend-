@@ -7,7 +7,7 @@ import ProfileUpload from 'new-components/profile-upload';
 import TextField from 'new-components/textfield';
 
 import EmployeeService from 'services/employee-service';
-import { setErrors } from './../../../../helper/index';
+import { removeKeys, setErrors } from './../../../../helper/index';
 
 import tick from 'new-assets/tick.svg';
 import style from './document.module.scss';
@@ -31,16 +31,12 @@ const AddDocument = ({ open, setOpen, docId, setDocId, getAllDocuments }: Props)
   const onSubmit = async (data: any) => {
     setLoader(true);
     try {
-      console.log('selectedFileName', selectedFileName);
-
       const userDoc = {
         ...data,
         employeeId: id,
-        ...(data.file &&
-          data.file.length && {
-            file: docId ? selectedFileName : await convertBase64Image(data.file[0]),
-          }),
+        ...(data.file.length > 0 && { file: await convertBase64Image(data.file[0]) }),
       };
+      data.file.length <= 0 && removeKeys(userDoc, ['file']);
       if (docId) {
         const res = await EmployeeService.updateDocument(userDoc, docId);
         if (res.status === 200) {
@@ -95,13 +91,16 @@ const AddDocument = ({ open, setOpen, docId, setDocId, getAllDocuments }: Props)
             <TextField
               name="documentName"
               label="Name"
+              star=" *"
               type="text"
               register={register}
               errorMessage={errors?.documentName?.message}
               placeholder="Name"
             />
             <div>
-              <label className={style.label}>Document</label>
+              <label className={style.label}>
+                Document <b style={{ color: 'red' }}>*</b>
+              </label>
               <ProfileUpload
                 name={'file'}
                 register={register}
@@ -115,6 +114,7 @@ const AddDocument = ({ open, setOpen, docId, setDocId, getAllDocuments }: Props)
               name="category"
               label="Category"
               type="text"
+              star=" *"
               register={register}
               errorMessage={errors?.category?.message}
               placeholder="Category"

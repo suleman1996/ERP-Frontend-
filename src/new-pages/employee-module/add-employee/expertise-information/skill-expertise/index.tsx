@@ -19,6 +19,7 @@ export interface Skill {
   letter?: string;
   file: string;
   _id?: string | number;
+  experience: any;
 }
 
 interface Props {
@@ -110,7 +111,10 @@ const SkillExpertise = ({ formData, setFormData, employeeId, setSkillData, skill
         </div>
         <div style={{ marginTop: '30px' }}>
           <Table
-            rows={educations}
+            rows={educations.map((education) => ({
+              ...education,
+              experince: `${education.experince} year`,
+            }))}
             columns={columns}
             minWidth="800px"
             handleEducation={handleEducation}
