@@ -1,7 +1,7 @@
 import EmployeeService from 'services/employee-service';
 import { appSlice } from './app-splice';
 
-export const getAllSettings = () => async (dispatch) => {
+export const getAllSettings = () => async (dispatch: any) => {
   const res = await EmployeeService.getGenders();
 
   if (res.status === 200) {
@@ -10,7 +10,7 @@ export const getAllSettings = () => async (dispatch) => {
   }
 };
 
-export const getAllDepartments = () => async (dispatch) => {
+export const getAllDepartments = () => async (dispatch: any) => {
   const res = await EmployeeService.getDepartments();
 
   if (res.status === 200) {
@@ -20,7 +20,7 @@ export const getAllDepartments = () => async (dispatch) => {
 
 export const getAllDesignations =
   ({ id }: any) =>
-  async (dispatch) => {
+  async (dispatch: any) => {
     const res = await EmployeeService.getDesignation(id);
 
     if (res.status === 200) {
@@ -28,7 +28,7 @@ export const getAllDesignations =
     }
   };
 
-export const getAllLeaves = () => async (dispatch) => {
+export const getAllLeaves = () => async (dispatch: any) => {
   const res = await EmployeeService.getLeaves();
 
   if (res.status === 200) {
@@ -36,7 +36,7 @@ export const getAllLeaves = () => async (dispatch) => {
   }
 };
 
-export const getAllAllowence = () => async (dispatch) => {
+export const getAllAllowence = () => async (dispatch: any) => {
   const res = await EmployeeService.getAllowence();
   if (res.status === 200) {
     dispatch(appSlice.actions.setAllAllowence(res?.data?.Allownce));
