@@ -63,9 +63,10 @@
 
 /* Style the checkMark/indicator */
 .container .checkMark:after {
-  width: 5px;
-  height: 13px;
+  width: 4px;
+  height: 10px;
   border: solid #57b894;
+  top: 1px;
   border-width: 0 1.3px 1.3px 0;
   transform: translate(70%, -13%) rotate(45deg);
 }

@@ -19,17 +19,6 @@ interface Props {
 }
 
 const Pagination = ({ setCount, count, totalCount, hide, setPage, page }: Props) => {
-  const pages = () => {
-    const allPageSizes = Math.ceil(totalCount / count);
-    let paginationLines = [];
-    for (let i = 1; i <= allPageSizes; i++) {
-      paginationLines.push(<p> {i}</p>);
-    }
-    return paginationLines;
-  };
-
-  console.log('all', pages().length);
-  console.log('page', page);
   return (
     <>
       {!hide && (
@@ -48,7 +37,11 @@ const Pagination = ({ setCount, count, totalCount, hide, setPage, page }: Props)
             <p>user per page</p>
           </div>
           <div className={style.rightFlex}>
-            <p className={style.p}>{` Showing 1 to ${count} of ${totalCount}`} </p>
+            <p className={style.p}>
+              {` Showing ${(page - 1) * count === 0 ? 1 : (page - 1) * count} to ${
+                page * count
+              } of ${totalCount}`}{' '}
+            </p>
             <img src={left} alt="" onClick={() => setPage((prev: any) => 1)} />
             <img
               src={leftArrow}
@@ -56,7 +49,12 @@ const Pagination = ({ setCount, count, totalCount, hide, setPage, page }: Props)
               onClick={() => setPage((prev: any) => (prev === 1 ? 1 : --prev))}
             />
 
-            {pages()}
+            {/* {pages()} */}
+            {page - 1 === 0 ? '' : page - 1}
+            <span>
+              <b style={{ color: '#57b894', margin: '0px 10px' }}>{page}</b>
+            </span>
+            {page + 1 > Math.ceil(totalCount / count) ? '' : page + 1}
             <img
               src={rightArrow}
               alt=""

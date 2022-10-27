@@ -14,11 +14,8 @@ import EmployeeService from 'services/employee-service';
 import cross from 'new-assets/cross.svg';
 import add from 'new-assets/add.svg';
 import edit from 'new-assets/edit-employee.svg';
-// import profile from 'new-assets/user-img.svg';
 import profile from 'new-assets/avatar.jfif';
-import pencil from 'new-assets/pencil.svg';
 import style from './single-employee.module.scss';
-import { designation } from './../../settings/profile-settings/helper';
 
 type User = {
   [key: string]: any;
@@ -51,7 +48,7 @@ const SingleEmployee = () => {
   const positions = [
     {
       title: 'Position',
-      subtitle: userData?.designation,
+      subtitle: userData?.department,
       class: style.b1,
     },
     {

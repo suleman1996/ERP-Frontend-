@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import moment from 'moment';
 import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
@@ -8,7 +8,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import EmployeeService from 'services/employee-service';
 import { convertBase64Image } from 'main-helper';
 import { removeKeys } from 'helper';
-import { setErrors } from './../../../../helper/index';
 
 export interface Education {
   degree: string;
@@ -97,7 +96,8 @@ export const useEducationDetail = ({
 
     const tempObj = {
       ...data,
-      endDate: moment(endDate).format('YYYY-MM-DD'),
+      ...(!data.ongoing && { endDate: !ongiong && moment(endDate).format('YYYY-MM-DD') }),
+
       startDate: moment(startDate).format('YYYY-MM-DD'),
       ongoing: ongiong,
       ...(transcript[0]?.name
@@ -123,7 +123,12 @@ export const useEducationDetail = ({
       newEducations[educationIndex.current] = { ...tempObj };
       setUpdateEdu({ update: false, editInd: -1 });
     }
-    setEducations([...newEducations]);
+
+    let sortedEducations = newEducations.sort(function (a: any, b) {
+      return new Date(b.startDate) - new Date(a.startDate);
+    });
+    setEducations([...sortedEducations]);
+
     setFormData({ ...formData, educationDetails: [...newEducations] });
     educationIndex.current = -1;
     reset({ startDate: null, endDate: null });
@@ -144,7 +149,8 @@ export const useEducationDetail = ({
       description: data?.description,
       marksType: data?.marksType,
       startDate: moment(data?.startDate, 'YYYY-MM-DD').toDate(),
-      endDate: moment(data?.endDate, 'YYYY-MM-DD').toDate(),
+      ...(!data?.ongoing && { endDate: moment(data?.endDate, 'YYYY-MM-DD').toDate() }),
+
       ongoing: data?.ongoing,
       marks: data?.marks,
     });
@@ -160,7 +166,7 @@ export const useEducationDetail = ({
       return {
         ...item,
         startDate: moment(item.startDate).format('YYYY-MM-DD'),
-        endDate: moment(item.endDate).format('YYYY-MM-DD'),
+        ...(!item.ongoing && { endDate: moment(item.endDate).format('YYYY-MM-DD') }),
       };
     });
     setEducations(data);

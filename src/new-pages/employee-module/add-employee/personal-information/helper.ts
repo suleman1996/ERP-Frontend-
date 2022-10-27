@@ -10,8 +10,6 @@ import EmployeeService from 'services/employee-service';
 import { setErrors } from './../../../../helper/index';
 import { createNotification } from 'common/create-notification';
 import { useDispatch, useSelector } from 'react-redux';
-import { setAllGenders } from 'store';
-import { getAllSettings } from 'store/actions';
 
 interface Data {
   firstName: string;
@@ -172,6 +170,8 @@ export const usePersonalInfo = ({
           setEmployeeId(res?.data?.updatedEmployeeId);
           handleNext('Address');
           setFormData({ ...formData, personalInformation: { ...userData } });
+        }
+        if (res.status === 400) {
         }
       }
       setBtnLoader(false);

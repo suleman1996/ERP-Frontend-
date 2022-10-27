@@ -54,8 +54,6 @@ const ProfileUpload = ({
     }
   };
 
-  console.log('selectedFileName', selectedFileName);
-
   return (
     <div>
       <div
