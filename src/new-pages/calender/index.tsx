@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
@@ -6,7 +5,6 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
-// import { Tooltip } from 'bootstrap';
 
 import Button from 'new-components/button';
 import Modal from 'new-components/modal';
@@ -25,8 +23,6 @@ import person2 from 'assets/person2.svg';
 
 import style from './calender.module.scss';
 import './calendar.scss';
-
-// let tooltipInstance: string  = '';
 
 const Calender = () => {
   const { control } = useForm();
@@ -187,24 +183,10 @@ const Calender = () => {
   const handleMouseEnter = (info: any) => {
     setEventId(info.event.id);
     setCustomTooltip(true);
-    // if (info.event.extendedProps.description) {
-    //   tooltipInstance = new Tooltip(info.el, {
-    //     title: info.event.extendedProps.description,
-    //     html: true,
-    //     placement: 'top',
-    //     trigger: 'hover',
-    //     container: 'body',
-    //   });
-    //   // tooltipInstance.show();
-    // }
   };
 
   const handleMouseLeave = () => {
     setCustomTooltip(!customTooltip);
-    // if (tooltipInstance) {
-    //   // tooltipInstance.dispose();
-    //   // tooltipInstance = null;
-    // }
   };
 
   return (
@@ -219,14 +201,6 @@ const Calender = () => {
           initialView="dayGridMonth"
           headerToolbar={{
             right: `${month} ${week} ${day}`,
-          }}
-          customButtons={{
-            myCustomButton: {
-              text: 'custom!',
-              click: function () {
-                alert('clicked the custom button!');
-              },
-            },
           }}
           eventContent={(e) => RenderEventHandler({ ...e, customTooltip })}
           slotLabelInterval={{ hours: 1 }}
