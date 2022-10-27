@@ -25,14 +25,16 @@ import style from './calender.module.scss';
 import './calendar.scss';
 
 const Calender = () => {
+  let month = 'dayGridMonth';
+  let week = 'timeGridWeek';
+  let day = 'timeGridDay';
+
   const { control } = useForm();
+
   const [openModal, setOpenModal] = useState(false);
   const [check, setCheck] = useState(false);
   const [eventId, setEventId] = useState(false);
   const [customTooltip, setCustomTooltip] = useState(false);
-  let month = 'dayGridMonth';
-  let week = 'timeGridWeek';
-  let day = 'timeGridDay';
 
   const events = [
     {
@@ -92,29 +94,24 @@ const Calender = () => {
               <p className={style.title2}>Thursday, OCT 25 2022 | 10:20 AM - 11:00 AM</p>
               <p className={style.title2}>40 minutes</p>
             </div>
-
             <p className={style.title2}>Description</p>
             <p className={style.description}>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. In cursus tortor metus,
               imperdiet placerat ipsum porta et. In eleifend rhoncus neque, id posuere felis
               vestibulum a. Donec tincidunt vehicula tellus quis blandit.
             </p>
-
             <div className={style.gridDiv}>
               <p className={style.title2}>Venue</p>
               <p className={style.description}>Venue</p>
             </div>
-
             <div className={style.gridDiv}>
               <p className={style.title2}>Event Type</p>
               <p className={style.description}>Meeting</p>
             </div>
-
             <div className={style.gridDiv}>
               <p className={style.title2}>Attachment</p>
               <p className={style.description}>Approval.pdf</p>
             </div>
-
             <div className={style.gridDiv}>
               <p className={style.title2}>Attendees</p>
               <div>
