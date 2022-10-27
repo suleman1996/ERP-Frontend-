@@ -84,7 +84,11 @@ const EmployeeDropdown = ({ setOpenModal, setOpenModalProfile, id, handleClick }
         <Document
           loading={'Loading please wait ...'}
           file={{
-            url: `http://localhost:8080/api/employees/profile-view/${id}`,
+            url: `${
+              process.env.REACT_APP_API_IS_DEV === 'true'
+                ? process.env.REACT_APP_API_BASE_URL_DEV
+                : process.env.REACT_APP_API_BASE_URL_PRODUCTION
+            }employees/profile-view/${id}`,
             httpHeaders: {
               authorization: authToken,
             },
@@ -119,7 +123,7 @@ const EmployeeDropdown = ({ setOpenModal, setOpenModalProfile, id, handleClick }
               process.env.REACT_APP_API_IS_DEV === 'true'
                 ? process.env.REACT_APP_API_BASE_URL_DEV
                 : process.env.REACT_APP_API_BASE_URL_PRODUCTION
-            }/employees/cv-view/${id}`,
+            }employees/cv-view/${id}`,
             httpHeaders: {
               authorization: authToken,
             },
