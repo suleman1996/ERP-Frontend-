@@ -170,7 +170,7 @@ export const columns = [
   },
   {
     key: 'experince',
-    name: 'experince',
+    name: 'experience',
     alignText: 'center',
     width: '150px',
   },

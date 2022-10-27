@@ -113,7 +113,7 @@ const SkillExpertise = ({ formData, setFormData, employeeId, setSkillData, skill
           <Table
             rows={educations.map((education) => ({
               ...education,
-              experince: `${education.experince} year`,
+              experince: `${education.experince} years`,
             }))}
             columns={columns}
             minWidth="800px"
