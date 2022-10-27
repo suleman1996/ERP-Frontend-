@@ -30,7 +30,7 @@ const ImageUpload = ({ img, setImg, name, register, errorMessage }: Props) => {
     rejectedFiles.forEach((file: any) => {
       file.errors.forEach((err: any) => {
         if (err.code === 'file-too-large') {
-          createNotification('error', 'Error', 'The image maximum size is 3MB');
+          createNotification('error', 'Error', 'The image maximum size should be 3MB');
         }
         if (err.code === 'file-invalid-type') {
           createNotification('error', 'Error', 'Invalid File Type');
