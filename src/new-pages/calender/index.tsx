@@ -42,8 +42,8 @@ const Calender = () => {
     {
       id: 1,
       title: 'Weekly Meeting Projects',
-      start: '2022-10-26T04:00:00',
-      end: '2022-10-26T06:00:00',
+      start: '2022-10-27T04:00:00',
+      end: '2022-10-27T06:00:00',
       editable: false,
       clickable: false,
       imageurl: 'assets/person1.svg',
@@ -54,8 +54,8 @@ const Calender = () => {
     {
       id: 2,
       title: 'Weekly Meeting Projects',
-      start: '2022-10-26T04:00:00',
-      end: '2022-10-26T06:00:00',
+      start: '2022-10-27T04:00:00',
+      end: '2022-10-27T06:00:00',
       editable: false,
       clickable: false,
       imageurl: 'assets/person2.svg',
@@ -66,8 +66,8 @@ const Calender = () => {
     {
       id: 3,
       title: 'Weekly Meeting Projects',
-      start: '2022-10-26T04:00:00',
-      end: '2022-10-26T06:00:00',
+      start: '2022-10-27T04:00:00',
+      end: '2022-10-27T06:00:00',
       editable: false,
       clickable: false,
       imageurl: 'assets/person2.svg',
