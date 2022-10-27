@@ -88,6 +88,7 @@ export const useEducationDetail = ({
       console.log(err);
     }
     setBtnLoader(false);
+    setOngoing(false);
   };
 
   const handleAddEduction = async (data: Education) => {
@@ -131,10 +132,10 @@ export const useEducationDetail = ({
 
     setFormData({ ...formData, educationDetails: [...newEducations] });
     educationIndex.current = -1;
-    reset({ startDate: null, endDate: null });
+    reset({ startDate: null, endDate: null, ongiong: false });
 
     setFilename('');
-    setOngoing(false);
+    // setOngoing(false);
     setSelectedFileName('');
   };
 
@@ -208,6 +209,7 @@ export const useEducationDetail = ({
     marksVal,
     selectedFileName,
     setSelectedFileName,
+    watch,
   };
 };
 

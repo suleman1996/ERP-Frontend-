@@ -117,7 +117,12 @@ export const useExperience = ({
       newEducations[educationIndex.current] = { ...tempObj };
       setUpdateEdu({ update: false, editInd: -1 });
     }
-    setEducations([...newEducations]);
+
+    let sortedEducations = newEducations.sort(function (a: any, b) {
+      return new Date(b.jobStartDate) - new Date(a.jobStartDate);
+    });
+    setEducations([...sortedEducations]);
+
     setFormData({ ...formData, experienceDetails: [...newEducations] });
     reset({ country: '', city: '', jobStartDate: null, jobEndDate: null });
     clearErrors();

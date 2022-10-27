@@ -95,13 +95,10 @@ export const useAddressInfo = ({
   };
 
   const onSubmit = async (data: Data) => {
-    const { postalCode } = data?.currentAddress;
-
     setBtnLoader(true);
     try {
       const userData = {
         ...data,
-        postalCode: postalCode ? postalCode : null,
       };
       if (id) {
         const res = await EmployeeService.addressAddPost(userData, id);

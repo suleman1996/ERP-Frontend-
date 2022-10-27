@@ -41,6 +41,7 @@ const EducationalDetails = () => {
     handleEducation,
     btnLoader,
     setOngoing,
+    watch,
     ongiong,
     handleDeleteIndex,
     startDate,
@@ -99,7 +100,7 @@ const EducationalDetails = () => {
             minDate={'1900-01-01'}
           />
           <div className={style.onGoingSection}>
-            {!ongiong && (
+            {!watch().ongoing && (
               <DatePicker
                 label="End Date"
                 name="endDate"

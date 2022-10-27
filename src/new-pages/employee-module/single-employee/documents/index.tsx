@@ -10,6 +10,7 @@ import EmployeeService from 'services/employee-service';
 
 import style from './document.module.scss';
 import editIcon from 'new-assets/table-edit.svg';
+import view from 'new-assets/viewIconnew.svg';
 import deleteIcon from 'new-assets/table-delete.svg';
 import downloadIcon from 'new-assets/downlaod.svg';
 import pdf from 'assets/employee-page/print.svg';
@@ -67,7 +68,7 @@ const Documents = ({ setOpen, setDocId, setDocument, document, getAllDocuments }
                   }}
                   style={{ marginRight: '10px' }}
                 >
-                  <img src={pdf} width={25} />
+                  <img src={view} width={25} />
                 </div>
                 <div
                   onClick={() => {
