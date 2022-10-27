@@ -115,7 +115,7 @@ const LanguageExpertise = ({ formData, setFormData, employeeId, setLanguage }: P
           <Table
             rows={educations.map((education) => ({
               ...education,
-              experince: `${education.experince} year`,
+              experince: `${education.experince} years`,
             }))}
             columns={columns}
             minWidth="800px"

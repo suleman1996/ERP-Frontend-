@@ -223,12 +223,12 @@ export const schema = yup.object().shape({
       .number()
       .max(100, 'Percentage must be less than or equal to 100')
       .required()
-      .typeError('Percentage is required'),
+      .typeError('Percentage is required and must be a number'),
     otherwise: yup
       .number()
       .max(4, 'CGPA must be less than or equal to 4')
       .required()
-      .typeError('CGPA is required'),
+      .typeError('CGPA is required and must be a number'),
   }),
   startDate: yup.string().nullable().required('Start date is required'),
   endDate: yup

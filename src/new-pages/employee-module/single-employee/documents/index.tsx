@@ -122,6 +122,8 @@ function viewURI(uri: string, name: string) {
 }
 
 function downloadURL(uri: any, name: string, type: string) {
+  console.log('type', type.split('/'));
+
   axios({
     url: uri,
     method: 'GET',
@@ -132,7 +134,10 @@ function downloadURL(uri: any, name: string, type: string) {
     // create "a" HTML element with href to file & click
     const link = document.createElement('a');
     link.href = href;
-    link.setAttribute('download', `${name}.${type.toLowerCase()}`); //or any other extension
+    link.setAttribute(
+      'download',
+      `${name}.${type.includes('image') ? type.split('/')[1] : type.toLowerCase()}`,
+    ); //or any other extension
     document.body.appendChild(link);
     link.click();
 
