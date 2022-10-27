@@ -171,8 +171,6 @@ export const usePersonalInfo = ({
           handleNext('Address');
           setFormData({ ...formData, personalInformation: { ...userData } });
         }
-        if (res.status === 400) {
-        }
       }
       setBtnLoader(false);
     } catch (err: any) {

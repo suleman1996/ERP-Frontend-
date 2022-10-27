@@ -87,7 +87,12 @@ const Overview = ({ user }: any) => {
             user?.education.length > 0 &&
             user.education.map((education: any, index: any) => ({
               ...education,
-              endDate: moment(education.endDate).format('Do MMMM YYYY') || '---',
+              ...(education?.endDate
+                ? {
+                    endDate: moment(education.endDate).format('Do MMMM YYYY') || '---',
+                  }
+                : { endDate: 'On Going' }),
+
               startDate: moment(education.startDate).format('Do MMMM YYYY'),
               no: index + 1,
             }))

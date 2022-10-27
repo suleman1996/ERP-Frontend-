@@ -75,8 +75,8 @@ const CustomTimePicker = ({
           onChange={(e) => field.onChange(field.value.split(':')[0] + ':' + e.target.value)}
         />
       </div>
-      {customErr && <p className={style.error}>{customErr}</p>}
-      {/* {errorMessage && <p className={style.error}>{errorMessage}</p>} */}
+      {/* {customErr && <p className={style.error}>{customErr}</p>} */}
+      {errorMessage && <p className={style.error}>{errorMessage}</p>}
     </div>
   );
 };

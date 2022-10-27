@@ -69,7 +69,7 @@ const ProfileUpload = ({
               setSelectedFileName(e.target.value.split('').splice(12, 100).join(''));
             checkFileType(e);
           }}
-          accept={type ? type : 'image/png '}
+          accept={type ? type : 'image/png/pdf '}
           ref={register}
           hidden
           id={id}
