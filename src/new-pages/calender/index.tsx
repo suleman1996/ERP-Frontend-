@@ -290,7 +290,7 @@ const Calender = () => {
                 label="All Day"
                 handleChange={() => setCheck(!check)}
                 checked={check}
-                name="allday"
+                name="allDay"
                 register={register}
               />
             </div>
@@ -298,14 +298,14 @@ const Calender = () => {
               <DatePicker
                 label={check === true ? 'Start Date' : 'Start Date & Time'}
                 control={control}
-                name="startDate"
+                name="start"
                 star=" *"
                 showTimeInput={check === false}
               />
               <DatePicker
                 label={check === true ? 'End Date' : 'End Date & Time'}
                 control={control}
-                name="endDate"
+                name="end"
                 star=" *"
                 showTimeInput={check === false}
               />
