@@ -23,6 +23,7 @@ interface Props {
   min?: any;
   max?: any;
   customValidation?: string;
+  iconClass?: any;
 }
 
 const TextField = ({
@@ -44,6 +45,7 @@ const TextField = ({
   min,
   max,
   customValidation,
+  iconClass,
   ...restOfProps
 }: Props) => {
   return (
@@ -76,7 +78,7 @@ const TextField = ({
           />
           {icon && (
             <img
-              className={style.icon}
+              className={`${style.icon} ${iconClass}`}
               style={{ cursor: 'pointer' }}
               src={icon}
               alt=""
