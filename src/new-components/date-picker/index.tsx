@@ -84,7 +84,7 @@ const DatePicker = ({
             <b style={{ color: 'red' }}>{star}</b>
           </label>
         )}
-        <div onClick={handleClick}>
+        <div onClick={handleClick} style={{ position: 'relative' }}>
           <Controller
             name={name}
             control={control}
@@ -162,12 +162,12 @@ const DatePicker = ({
               );
             }}
           />
+          <label htmlFor={id}>
+            <div className={style.icon}>
+              <img src={date} alt="" />
+            </div>
+          </label>
         </div>
-        <label htmlFor={id}>
-          <div className={style.icon}>
-            <img src={date} alt="" />
-          </div>
-        </label>
         {errorMessage ? <span className={style.errorMessage}>{errorMessage}</span> : ''}
       </div>
     </>

@@ -1,0 +1,8 @@
+.App {
+  font-family: sans-serif;
+  text-align: center;
+}
+.searchWrapper {
+  height: calc(30px + 25 * (100vw - 280px) / 2280) !important;
+  min-height: calc(30px + 25 * (100vw - 280px) / 2280) !important;
+}

@@ -1,4 +1,5 @@
 import { ChangeEvent, useState } from 'react';
+import { Controller } from 'react-hook-form';
 
 import Select from 'react-select';
 
@@ -29,6 +30,7 @@ interface Props {
   value?: any;
   closeMenuOnSelect?: boolean;
   isMulti?: boolean;
+  control?: any;
 }
 
 const Selection = ({
@@ -42,6 +44,8 @@ const Selection = ({
   placeholder,
   closeMenuOnSelect,
   isMulti,
+  name,
+  control,
 }: Props) => {
   const [customErr, setCustomErr] = useState<string | undefined>();
 
@@ -56,14 +60,23 @@ const Selection = ({
         </label>
       )}
       <div className={wraperSelect}>
-        <Select
-          closeMenuOnSelect={closeMenuOnSelect}
-          isMulti={isMulti}
-          value={value}
-          onChange={onChange}
-          options={options}
-          styles={CustomStyle}
-          placeholder={placeholder}
+        <Controller
+          name={name}
+          control={control}
+          render={({ onChange, value }) => {
+            return (
+              <Select
+                closeMenuOnSelect={closeMenuOnSelect}
+                isMulti={isMulti}
+                value={value}
+                onChange={onChange}
+                options={options}
+                styles={CustomStyle}
+                placeholder={placeholder}
+                name={name}
+              />
+            );
+          }}
         />
       </div>
       {errorMessage && <span className={style.errorMessage}>{errorMessage}</span>}

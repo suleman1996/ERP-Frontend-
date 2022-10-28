@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import TextField from 'new-components/textfield';
 import style from './custom.module.scss';
@@ -11,10 +11,12 @@ interface Props {
   value?: string;
   name?: string;
   register?: any;
+  label?: string;
 }
 
-const CustomSelect = ({ value, name, register }: Props) => {
+const CustomSelect = ({ value, name, register, label }: Props) => {
   const [open, setOpen] = useState(false);
+  const [check, setCheck] = useState([]);
 
   //   const handlePartyCheckBox = (value) => {
   //     if (partyValue === value) {
@@ -25,6 +27,15 @@ const CustomSelect = ({ value, name, register }: Props) => {
   //       setValue('partyName', value);
   //     }
   //   };
+
+  const handleClick = (e: any) => {
+    const { id, checked } = e.target;
+    setCheck([...check, id]);
+    if (!checked) {
+      setCheck(check.filter((item) => item !== id));
+    }
+  };
+  console.log(check, 'chek---------------');
 
   return (
     <div>
@@ -45,20 +56,16 @@ const CustomSelect = ({ value, name, register }: Props) => {
           <div>
             <div className={style.flexOutline} onClick={() => setOpen(!open)}>
               <TextField
-                label="Custom Select"
+                label={label}
                 id="outlined-basic"
-                placeholder="Search Party"
+                placeholder="Select Attendees"
                 type="text"
                 name={name}
-                value={value}
+                value={check}
                 className={style.field}
                 register={register}
-              />
-              <img
-                src={downArrow}
-                alt=""
-                className={style.imgSearch}
-                style={{ transform: open ? 'rotate(-180deg)' : '' }}
+                icon={downArrow}
+                iconClass={`${style.imgSearch} ${open ? style.rotate : ''}`}
               />
             </div>
             {/* <span className={style.errorMessage}>{helperText}</span> */}
@@ -77,6 +84,7 @@ const CustomSelect = ({ value, name, register }: Props) => {
                         <Checkbox
                           id={ch.id}
                           label={ch.label}
+                          handleChange={handleClick}
                           //   onClick={() => handlePlatformPartyCheckBox(ele.value)}
                         />
                       </div>
@@ -101,10 +109,12 @@ const options = [
     checkArr: [
       {
         label: 'HR',
+        value: 'HR',
         id: '2',
       },
       {
         label: 'Project Manager',
+        value: 'ProjectManager',
         id: ' 3',
       },
     ],
@@ -115,10 +125,12 @@ const options = [
     checkArr: [
       {
         label: 'HR',
+        value: 'HR',
         id: '5',
       },
       {
         label: 'Project Manager',
+        value: 'ProjectManager',
         id: ' 6',
       },
     ],
