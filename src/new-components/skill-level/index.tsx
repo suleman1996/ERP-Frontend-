@@ -29,7 +29,7 @@ const SkillLevel = ({ errors, control, name, activeEdit, star, setToggle, toggle
         {skills.map((ele, index) => (
           <div
             className={
-              toggle === index || index === activeEdit ? style.activeBorder : style.borderDiv
+              toggle === index || ele === activeEdit ? style.activeBorder : style.borderDiv
             }
             key={index}
             onClick={() => {

@@ -12,6 +12,8 @@ import { useParams } from 'react-router';
 import { useEffect, useState } from 'react';
 
 const Overview = ({ user }: any) => {
+  console.log('user', user);
+  const [copy, setCopy] = useState('');
   const overviewDetails = [
     {
       title: 'Employee ID:',
@@ -29,7 +31,7 @@ const Overview = ({ user }: any) => {
     },
     {
       title: 'Date of birth:',
-      subtitle: `${moment(user?.dob).format('MM-DD-YYYY')}`,
+      subtitle: `${moment(user?.dob).format('Do MMMM YYYY')}`,
     },
     {
       title: 'Gender:',
@@ -37,7 +39,7 @@ const Overview = ({ user }: any) => {
     },
     {
       title: 'Phone No:',
-      subtitle: user?.phone,
+      subtitle: `+${user?.phone}`,
     },
     {
       title: 'Current Address:',
@@ -62,7 +64,17 @@ const Overview = ({ user }: any) => {
                 </div>
                 <div className={style.right}>
                   <p>{ele.subtitle}</p>
-                  {ele.img && <img src={ele.img} alt="" />}
+                  {ele.img && (
+                    <img
+                      src={ele.img}
+                      alt=""
+                      onClick={() => {
+                        ele.title.includes('Employee ')
+                          ? navigator.clipboard.writeText(user?.employeeId)
+                          : navigator.clipboard.writeText(user?.fullName);
+                      }}
+                    />
+                  )}
                 </div>
               </div>
             ))}
@@ -71,11 +83,25 @@ const Overview = ({ user }: any) => {
       </CardContainer>
       <CardContainer className={style.card}>
         <Table
-          rows={user?.education.length > 0 && user?.education}
+          rows={
+            user?.education.length > 0 &&
+            user.education.map((education: any, index: any) => ({
+              ...education,
+              ...(education?.endDate
+                ? {
+                    endDate: moment(education.endDate).format('Do MMMM YYYY') || '---',
+                  }
+                : { endDate: 'On Going' }),
+
+              startDate: moment(education.startDate).format('Do MMMM YYYY'),
+              no: index + 1,
+            }))
+          }
           columns={columns}
           minWidth="800px"
         />
       </CardContainer>
+      {console.log('user', user?.education)}
     </>
   );
 };

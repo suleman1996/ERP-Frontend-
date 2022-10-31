@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 import Button from 'new-components/button';
 import TextField from 'new-components/textfield';
 import TextArea from 'new-components/textarea';
@@ -8,6 +10,7 @@ import Checkbox from 'new-components/checkbox';
 import Select from 'new-components/select';
 
 import { columns, useEducationDetail } from './helper';
+import { useEmployeeForms } from '../context';
 
 import tick from 'new-assets/tick.svg';
 import arrowLeft from 'new-assets/backBtn.svg';
@@ -23,37 +26,29 @@ interface Props {
   handleNext: (data?: string) => void;
 }
 
-const EducationalDetails = ({
-  handleBack,
-  handleNext,
-  formData,
-  setFormData,
-  employeeId,
-  employeeDocId,
-}: Props) => {
+const EducationalDetails = () => {
+  const { handleNext, setFormData, employeeDocId, formData, handleBack, employeeId }: any =
+    useEmployeeForms();
+
   const {
     handleAddEduction,
     onSubmit,
     register,
     control,
     errors,
-    reset,
     educations,
     handleSubmit,
     handleEducation,
     btnLoader,
     setOngoing,
+    watch,
     ongiong,
     handleDeleteIndex,
-    setStartDateHandle,
-    startDateHandle,
     startDate,
     setValue,
     filename,
-    setMarksType,
-    marksType,
-    setMarkVal,
-    marksVal,
+    selectedFileName,
+    setSelectedFileName,
   } = useEducationDetail({
     handleBack,
     handleNext,
@@ -96,6 +91,7 @@ const EducationalDetails = ({
           <DatePicker
             label="Start Date"
             name="startDate"
+            maxDate={new Date()}
             star={' *'}
             id="4"
             placeholder="Start Date"
@@ -104,10 +100,11 @@ const EducationalDetails = ({
             minDate={'1900-01-01'}
           />
           <div className={style.onGoingSection}>
-            {!ongiong && (
+            {!watch().ongoing && (
               <DatePicker
                 label="End Date"
                 name="endDate"
+                maxDate={new Date()}
                 star={' *'}
                 id="5"
                 control={control}
@@ -157,6 +154,8 @@ const EducationalDetails = ({
               name={'transcript'}
               register={register}
               id={'transcript'}
+              selectedFileName={selectedFileName}
+              setSelectedFileName={setSelectedFileName}
               defaultFileName={filename ? filename : ''}
               setFileName={(value: string) => setValue('filename', value)}
               errorMessage={errors?.transcript?.message}
@@ -166,18 +165,15 @@ const EducationalDetails = ({
         </div>
         <div className={style.btnContainer}>
           <p></p>
-          <Button
-            type="submit"
-            text="Add"
-            iconEnd={tick}
-            // disabled={marksType === 'percentage' && marksVal ? marksVal > 101 : true}
-          />
+          <Button type="submit" text="Add" iconEnd={tick} />
         </div>
         <div style={{ marginTop: '30px' }}>
           <Table
             rows={educations.map((education) => ({
               ...education,
-              endDate: education.endDate || '---',
+              endDate:
+                (education.endDate && moment(education.endDate).format('Do MMMM YYYY')) || '---',
+              startDate: moment(education.startDate).format('Do MMMM YYYY'),
             }))}
             columns={columns}
             minWidth="950px"

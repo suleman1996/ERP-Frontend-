@@ -10,6 +10,7 @@ import AuthService from 'services/auth-service';
 import NotificationService from 'services/notification-service';
 
 import 'bootstrap-daterangepicker/daterangepicker.css';
+import { getAllSettings } from 'store/actions';
 
 const ENDPOINT =
   process.env.REACT_APP_API_IS_DEV === 'true'
@@ -25,6 +26,10 @@ const App = () => {
   const { user_id, currentUser, token } = useAppSelector((state) => state?.app);
 
   const [loader, setLoader] = useState(false);
+
+  useEffect(() => {
+    dispatch(getAllSettings());
+  }, []);
 
   useEffect(() => {
     const fetchUserData = async (id: string | number) => {

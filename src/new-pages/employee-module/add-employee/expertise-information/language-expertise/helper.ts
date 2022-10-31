@@ -18,11 +18,13 @@ interface Props {
 
 export interface Language {
   skills?: string;
+  skillLevel?: any;
   language?: string;
   rate?: string;
   year?: number;
   letter?: string;
   file: string;
+  experince: any;
 }
 
 export const useLanguage = ({ formData, setFormData, employeeId, setLanguage }: Props) => {
@@ -30,6 +32,8 @@ export const useLanguage = ({ formData, setFormData, employeeId, setLanguage }: 
   const { id } = useParams();
   const [toggle, setToggle] = useState<number>();
   const [educations, setEducations] = useState<Language[] | []>([]);
+  const [selectedFileName, setSelectedFileName] = useState('');
+  const [activeEdit, setActiveEdit] = useState('');
   const [updateEducation, setUpdateEducation] = useState({
     update: false,
     editInd: -1,
@@ -46,6 +50,8 @@ export const useLanguage = ({ formData, setFormData, employeeId, setLanguage }: 
       skillLevel: data?.skills,
       ...(fileBase64 ? { file: `${fileBase64}` } : {}),
     };
+
+    !selectedFileName && removeKeys(languageData, ['file']);
     if (!languageData.file || Object.keys(languageData.file).length === 0) {
       removeKeys(languageData, ['file']);
     }
@@ -55,7 +61,17 @@ export const useLanguage = ({ formData, setFormData, employeeId, setLanguage }: 
     const tempObj = {
       ...data,
       skillLevel: data?.skills,
+      ...(fileBase64
+        ? { file: fileBase64 }
+        : {
+            file: newEducations && newEducations[languageIndex.current]?.file,
+          }),
     };
+
+    !selectedFileName && removeKeys(tempObj, ['file']);
+    if (tempObj?.file?.length === 0) {
+      removeKeys(tempObj, ['file']);
+    }
     if (languageIndex.current < 0) {
       newEducations.push(tempObj);
     } else {
@@ -64,19 +80,25 @@ export const useLanguage = ({ formData, setFormData, employeeId, setLanguage }: 
     }
     setEducations([...newEducations]);
     setFormData({ ...formData, languageData: [...newEducations] });
-    reset({ language: '' });
+    reset({ language: '', skills: '' });
     setToggle(-1);
+    setActiveEdit('');
     languageIndex.current = -1;
+    setSelectedFileName('');
   };
 
   const handleEducation = (index: number) => {
     languageIndex.current = index;
 
     const data = educations.find((data, i) => i === index);
+    data?.file && setSelectedFileName('file');
+    setActiveEdit(`${data?.skillLevel}`);
     reset({
       language: data?.language,
       year: data?.year,
       rate: data?.rate,
+      skills: data?.skillLevel,
+      experince: data?.experince,
     });
   };
 
@@ -103,7 +125,7 @@ export const useLanguage = ({ formData, setFormData, employeeId, setLanguage }: 
     // id && getUser();
     if (formData?.languageData !== undefined && Object.keys(formData?.languageData)?.length) {
       setEducations([...formData?.languageData]);
-      setLanguage((current) => [...current, ...formData?.languageData]);
+      // setLanguage((current) => [...current, ...formData?.languageData]);
     }
   }, []);
 
@@ -115,11 +137,13 @@ export const useLanguage = ({ formData, setFormData, employeeId, setLanguage }: 
     handleAddEduction,
     educations,
     handleEducation,
-    activeEdit: languageIndex.current,
+    activeEdit,
     handleDeleteIndex,
     toggle,
     setToggle,
     watch,
+    selectedFileName,
+    setSelectedFileName,
   };
 };
 
@@ -134,7 +158,7 @@ export const schema = yup.object().shape({
     .number()
     .required('Experince is a required field')
     .typeError('Experince is required & should be a number'),
-  skills: yup.string().required('Skills is a required field'),
+  skills: yup.string().required('Skill level is a required field'),
 });
 
 export const columns = [
@@ -146,7 +170,7 @@ export const columns = [
   },
   {
     key: 'experince',
-    name: 'experince',
+    name: 'experience',
     alignText: 'center',
     width: '150px',
   },

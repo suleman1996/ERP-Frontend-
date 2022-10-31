@@ -19,6 +19,7 @@ export interface Skill {
   letter?: string;
   file: string;
   _id?: string | number;
+  experience: any;
 }
 
 interface Props {
@@ -26,9 +27,10 @@ interface Props {
   setFormData: any;
   employeeId: string;
   setSkillData: Dispatch<SetStateAction<Skill[] | []>>;
+  skillData: any;
 }
 
-const SkillExpertise = ({ formData, setFormData, employeeId, setSkillData }: Props) => {
+const SkillExpertise = ({ formData, setFormData, employeeId, setSkillData, skillData }: Props) => {
   const {
     handleSubmit,
     register,
@@ -41,11 +43,14 @@ const SkillExpertise = ({ formData, setFormData, employeeId, setSkillData }: Pro
     handleDeleteIndex,
     toggle,
     setToggle,
+    selectedFileName,
+    setSelectedFileName,
   } = useSkill({
     formData,
     setFormData,
     employeeId,
     setSkillData,
+    skillData,
   });
 
   return (
@@ -65,7 +70,6 @@ const SkillExpertise = ({ formData, setFormData, employeeId, setSkillData }: Pro
             name="experince"
             label="Experience"
             star={' *'}
-            type="text"
             register={register}
             errorMessage={errors?.experince?.message}
             placeholder="Experience"
@@ -73,6 +77,8 @@ const SkillExpertise = ({ formData, setFormData, employeeId, setSkillData }: Pro
           <TextField
             name="year"
             label="Year"
+            max={'9999'}
+            type="number"
             star={' *'}
             register={register}
             errorMessage={errors?.year?.message}
@@ -83,6 +89,8 @@ const SkillExpertise = ({ formData, setFormData, employeeId, setSkillData }: Pro
             <ProfileUpload
               name={'file'}
               register={register}
+              selectedFileName={selectedFileName}
+              setSelectedFileName={setSelectedFileName}
               id={'letter'}
               errorMessage={errors?.file?.message}
               type={'application/pdf'}
@@ -103,7 +111,10 @@ const SkillExpertise = ({ formData, setFormData, employeeId, setSkillData }: Pro
         </div>
         <div style={{ marginTop: '30px' }}>
           <Table
-            rows={educations}
+            rows={educations.map((education) => ({
+              ...education,
+              experince: `${education.experince} years`,
+            }))}
             columns={columns}
             minWidth="800px"
             handleEducation={handleEducation}

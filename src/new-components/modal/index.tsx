@@ -16,6 +16,7 @@ interface Props {
   iconEnd?: string;
   handleClick?: () => void;
   form?: string;
+  loader?: boolean;
 }
 
 const Modal = ({
@@ -27,10 +28,11 @@ const Modal = ({
   text,
   iconStart,
   iconEnd,
-  // handleClick,
+  handleClick,
   type,
   btnClass,
   form,
+  loader,
 }: Props) => {
   const handleClickWrapper = (event: React.MouseEvent<HTMLElement>): void => {
     event.nativeEvent.stopImmediatePropagation();
@@ -54,11 +56,12 @@ const Modal = ({
               <div className={`${style.btnClass}  ${btnClass}  `}>
                 <Button
                   text={text}
+                  isLoading={loader}
                   iconStart={iconStart}
                   iconEnd={iconEnd}
                   type={type}
                   form={form}
-                  // handleClick={handleClick}
+                  handleClick={handleClick}
                 />
               </div>
             </div>

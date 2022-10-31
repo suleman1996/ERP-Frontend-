@@ -14,10 +14,8 @@ import EmployeeService from 'services/employee-service';
 import cross from 'new-assets/cross.svg';
 import add from 'new-assets/add.svg';
 import edit from 'new-assets/edit-employee.svg';
-import profile from 'new-assets/user-img.svg';
-import pencil from 'new-assets/pencil.svg';
+import profile from 'new-assets/avatar.jfif';
 import style from './single-employee.module.scss';
-import { designation } from './../../settings/profile-settings/helper';
 
 type User = {
   [key: string]: any;
@@ -50,7 +48,7 @@ const SingleEmployee = () => {
   const positions = [
     {
       title: 'Position',
-      subtitle: userData?.designation,
+      subtitle: userData?.department,
       class: style.b1,
     },
     {
@@ -80,16 +78,15 @@ const SingleEmployee = () => {
                 alt="asda"
                 className={style.proDiv}
               />
-              <img src={edit} alt="" className={style.edit} />
+              <Link to={`/employee/edit/${id}`}>
+                <img src={edit} alt="" className={style.edit} />
+              </Link>{' '}
             </div>
             <div className={style.content}>
               <div>
                 <h6>{`${userData?.fullName}`}</h6>
-                <Link to={`/employee/edit/${id}`}>
-                  <img src={pencil} alt="" />
-                </Link>
               </div>
-              <p>{user?.companyInformation.department}</p>
+              <p>{userData?.designation}</p>
             </div>
           </div>
           <div className={style.rightDiv}>

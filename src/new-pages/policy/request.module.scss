@@ -243,7 +243,7 @@ p {
   padding-left: 20px;
 }
 .addPolicyView {
-  width: 30%;
+  width: 25%;
   align-items: center;
   display: flex;
   justify-content: space-around;
@@ -425,4 +425,10 @@ ul {
 
 .wraperSelect {
   margin-top: 10px;
+}
+
+.policyGridView {
+  // display: grid;
+  // grid-template-columns: repeat(4, 1fr);
+  @include gridFour(15, 30);
 }

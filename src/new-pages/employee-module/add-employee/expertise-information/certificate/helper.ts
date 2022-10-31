@@ -30,6 +30,8 @@ export const useCerificate = ({ formData, setFormData, employeeId, setCertificat
   const { id } = useParams();
   const [toggle, setToggle] = useState<number>();
   const [educations, setEducations] = useState<Certificate[] | []>([]);
+  const [selectedFileName, setSelectedFileName] = useState('');
+  const [activeEdit, setActiveEdit] = useState('');
   const certificateIndex = useRef(-1);
   const [updateEdu, setUpdateEdu] = useState({
     update: false,
@@ -47,6 +49,8 @@ export const useCerificate = ({ formData, setFormData, employeeId, setCertificat
       skillLevel: 'intermediate',
       ...(fileBase64 ? { file: `${fileBase64}` } : {}),
     };
+
+    !selectedFileName && removeKeys(certificateData, ['file']);
     if (!certificateData.file || Object.keys(certificateData.file).length === 0) {
       removeKeys(certificateData, ['file']);
     }
@@ -56,7 +60,16 @@ export const useCerificate = ({ formData, setFormData, employeeId, setCertificat
     const tempObj = {
       ...data,
       skillLevel: data?.skills,
+      ...(fileBase64
+        ? { file: fileBase64 }
+        : {
+            file: newEducations && newEducations[certificateIndex.current]?.file,
+          }),
     };
+    !selectedFileName && removeKeys(tempObj, ['file']);
+    if (tempObj?.file?.length === 0) {
+      removeKeys(tempObj, ['file']);
+    }
     if (certificateIndex.current < 0) {
       newEducations.push(tempObj);
     } else {
@@ -65,14 +78,18 @@ export const useCerificate = ({ formData, setFormData, employeeId, setCertificat
     }
     setEducations([...newEducations]);
     setFormData({ ...formData, certificateData: [...newEducations] });
-    reset({});
+    reset({ skills: '' });
     setToggle(-1);
+    setActiveEdit('');
     certificateIndex.current = -1;
+    setSelectedFileName('');
   };
 
   const handleEducation = (index: number) => {
     certificateIndex.current = index;
     const data = educations.find((data, i) => i === index);
+    data?.file && setSelectedFileName('file');
+    setActiveEdit(`${data?.skillLevel}`);
     reset({
       certificateName: data?.certificateName,
       year: data?.year,
@@ -104,7 +121,7 @@ export const useCerificate = ({ formData, setFormData, employeeId, setCertificat
     // id && getUser();
     if (formData?.certificateData !== undefined && Object.keys(formData?.certificateData)?.length) {
       setEducations([...formData?.certificateData]);
-      setCertificate((current) => [...current, ...formData?.certificateData]);
+      // setCertificate((current) => [...current, ...formData?.certificateData]);
     }
   }, []);
 
@@ -116,10 +133,12 @@ export const useCerificate = ({ formData, setFormData, employeeId, setCertificat
     handleAddEduction,
     educations,
     handleEducation,
-    activeEdit: certificateIndex.current,
+    activeEdit,
     handleDeleteIndex,
     toggle,
     setToggle,
+    selectedFileName,
+    setSelectedFileName,
   };
 };
 
@@ -130,16 +149,8 @@ export const schema = yup.object().shape({
     .number()
     .required('Year is a required field')
     .typeError('Year is required & should be a number'),
-  // file: yup
-  //   .mixed()
-  //   .test("required", "You need to provide a file", (file) => {
-  //     if (file[0]) return true;
-  //     return false;
-  //   })
-  //   .test("fileSize", "The file is too large", (file) => {
-  //     return file[0] && file[0].size <= 2000000;
-  //   }),
-  skills: yup.string().required('Skills is a required field'),
+
+  skills: yup.string().required('Skill level is a required field'),
 });
 
 export const selectRates = [

@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import moment from 'moment';
 import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
@@ -8,7 +8,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import EmployeeService from 'services/employee-service';
 import { convertBase64Image } from 'main-helper';
 import { removeKeys } from 'helper';
-import { setErrors } from './../../../../helper/index';
 
 export interface Education {
   degree: string;
@@ -48,17 +47,19 @@ export const useEducationDetail = ({
   const [filename, setFilename] = useState<string | any>('');
   const [startDateHandle, setStartDateHandle] = useState<string | any>();
   const [educations, setEducations] = useState<Education[] | []>([]);
+  const [selectedFileName, setSelectedFileName] = useState('');
   const educationIndex = useRef(-1);
   const [ongiong, setOngoing] = useState(false);
-  const { pathname } = useLocation();
 
   const [updateEdu, setUpdateEdu] = useState({
     update: false,
     editInd: -1,
   });
-  const { register, handleSubmit, errors, control, reset, watch, setValue, setError } = useForm({
-    resolver: yupResolver(schema),
-  });
+  const { register, handleSubmit, errors, control, reset, watch, setValue, setError } =
+    useForm<any>({
+      resolver: yupResolver(schema),
+      defaultValues: { endDate: null },
+    });
 
   const onSubmit = async () => {
     setBtnLoader(true);
@@ -87,19 +88,31 @@ export const useEducationDetail = ({
       console.log(err);
     }
     setBtnLoader(false);
+    setOngoing(false);
   };
 
   const handleAddEduction = async (data: Education) => {
     const newEducations: any = [...educations];
     const { startDate, endDate, transcript, prevTranscript, filename: prevFileName } = data;
+
     const tempObj = {
       ...data,
-      endDate: moment(endDate).format('YYYY-MM-DD'),
+      ...(!data.ongoing && { endDate: !ongiong && moment(endDate).format('YYYY-MM-DD') }),
+
       startDate: moment(startDate).format('YYYY-MM-DD'),
       ongoing: ongiong,
-      filename: transcript[0]?.name || prevFileName,
-      transcript:
-        transcript && (transcript[0] ? await convertBase64Image(transcript[0]) : prevTranscript),
+      ...(transcript[0]?.name
+        ? {
+            filename: transcript[0]?.name || prevFileName,
+            transcript:
+              selectedFileName &&
+              transcript &&
+              (transcript[0] ? await convertBase64Image(transcript[0]) : prevTranscript),
+          }
+        : {
+            filename: newEducations[educationIndex.current]?.filename || '',
+            transcript: newEducations[educationIndex.current]?.transcript || '',
+          }),
       ...(marksType === 'percentage' && { percentage: marksVal?.toString() }),
       ...(marksType === 'cgpa' && { cgpa: marksType === 'cgpa' && marksVal?.toString() }),
     };
@@ -111,31 +124,40 @@ export const useEducationDetail = ({
       newEducations[educationIndex.current] = { ...tempObj };
       setUpdateEdu({ update: false, editInd: -1 });
     }
-    setEducations([...newEducations]);
+
+    let sortedEducations = newEducations.sort(function (a: any, b) {
+      return new Date(b.startDate) - new Date(a.startDate);
+    });
+    setEducations([...sortedEducations]);
+
     setFormData({ ...formData, educationDetails: [...newEducations] });
     educationIndex.current = -1;
-    reset({});
+    reset({ startDate: null, endDate: null, ongiong: false });
+
     setFilename('');
+    // setOngoing(false);
+    setSelectedFileName('');
   };
 
   const handleEducation = (index: number) => {
     educationIndex.current = index;
     const data = educations.find((data, i) => i === index);
-    console.log('data', data);
+
+    data?.transcript && setSelectedFileName('transcript');
     reset({
       institute: data?.institute,
       degree: data?.degree,
       description: data?.description,
       marksType: data?.marksType,
       startDate: moment(data?.startDate, 'YYYY-MM-DD').toDate(),
-      endDate: moment(data?.endDate, 'YYYY-MM-DD').toDate(),
+      ...(!data?.ongoing && { endDate: moment(data?.endDate, 'YYYY-MM-DD').toDate() }),
+
       ongoing: data?.ongoing,
-      prevTranscript: data?.transcript,
       marks: data?.marks,
     });
-    console.log('type', marksType.toString());
     setOngoing(!!data?.ongoing);
-    setFilename(data?.filename);
+
+    data?.filename && setFilename(data?.filename);
   };
 
   const getUser = async () => {
@@ -145,7 +167,7 @@ export const useEducationDetail = ({
       return {
         ...item,
         startDate: moment(item.startDate).format('YYYY-MM-DD'),
-        endDate: moment(item.endDate).format('YYYY-MM-DD'),
+        ...(!item.ongoing && { endDate: moment(item.endDate).format('YYYY-MM-DD') }),
       };
     });
     setEducations(data);
@@ -185,8 +207,39 @@ export const useEducationDetail = ({
     marksType,
     setMarkVal,
     marksVal,
+    selectedFileName,
+    setSelectedFileName,
+    watch,
   };
 };
+
+export const schema = yup.object().shape({
+  institute: yup.string().required('Institute name is a required '),
+  degree: yup.string().required('Degree is a required '),
+  marksType: yup.string().required(),
+  marks: yup.number().when('marksType', {
+    is: 'percentage',
+    then: yup
+      .number()
+      .max(100, 'Percentage must be less than or equal to 100')
+      .required()
+      .typeError('Percentage is required and must be a number'),
+    otherwise: yup
+      .number()
+      .max(4, 'CGPA must be less than or equal to 4')
+      .required()
+      .typeError('CGPA is required and must be a number'),
+  }),
+  startDate: yup.string().nullable().required('Start date is required'),
+  endDate: yup
+    .date()
+    .typeError('End date is required')
+    .when('ongoing', {
+      is: 'false',
+      then: yup.string().nullable().required('End date is required.'),
+    }),
+  description: yup.string().optional(),
+});
 
 export const selectCountry = [
   {
@@ -247,26 +300,3 @@ export const columns = [
   },
   { key: 'actions', name: 'Actions', alignText: 'center', width: '200px' },
 ];
-
-export const schema = yup.object().shape({
-  institute: yup.string().required('Institute Name is a required field'),
-  degree: yup.string().required('Degree is a required field'),
-  marksType: yup.string().required(),
-  marks: yup.number().when('marksType', {
-    is: 'percentage',
-    then: yup
-      .number()
-      .max(100, 'Percentage must be less than or equal to 100')
-      .required()
-      .typeError('Required Filed'),
-    otherwise: yup
-      .number()
-      .max(4, 'CGPA must be less than or equal to 4')
-      .required()
-      .typeError('Required Filed'),
-  }),
-  startDate: yup.string().required(),
-  endDate: yup.string().optional(),
-  ongoing: yup.boolean().required(),
-  description: yup.string().optional(),
-});

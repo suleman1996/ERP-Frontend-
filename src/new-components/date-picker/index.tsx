@@ -84,7 +84,7 @@ const DatePicker = ({
             <b style={{ color: 'red' }}>{star}</b>
           </label>
         )}
-        <div onClick={handleClick}>
+        <div onClick={handleClick} style={{ position: 'relative' }}>
           <Controller
             name={name}
             control={control}
@@ -96,7 +96,7 @@ const DatePicker = ({
                   maxDate={maxDate && maxDate}
                   minDate={minDate && minDate}
                   readOnly={readOnly}
-                  dateFormat="MM/dd/yyyy h:mm aa"
+                  dateFormat={showTimeInput ? 'MM/dd/yyyy h:mm aa' : 'MM/dd/yyyy'}
                   timeFormat="HH:mm"
                   timeCaption="Time"
                   showTimeInput={showTimeInput}
@@ -162,13 +162,13 @@ const DatePicker = ({
               );
             }}
           />
+          <label htmlFor={id}>
+            <div className={style.icon}>
+              <img src={date} alt="" />
+            </div>
+          </label>
         </div>
-        <label htmlFor={id}>
-          <div className={style.icon}>
-            <img src={date} alt="" />
-          </div>
-        </label>
-        {errorMessage ? <span className={style.errorMessage}>Date is required</span> : ''}
+        {errorMessage ? <span className={style.errorMessage}>{errorMessage}</span> : ''}
       </div>
     </>
   );

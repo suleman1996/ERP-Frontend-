@@ -1,4 +1,4 @@
-import CustomSelect from 'components/custom-select';
+import CustomSelect from 'new-components/custom-select';
 import DatePicker from 'new-components/date-picker';
 import MonthYearPicker from 'new-components/range-month-picker';
 import { useForm } from 'react-hook-form';
@@ -14,7 +14,7 @@ const DashBoard = () => {
         showTimeInput={true}
         control={control}
       />
-      <CustomSelect name="custom" />
+      <CustomSelect name="custom" label="Search Select" />
       <MonthYearPicker label="Month Year Range Picker" control={control} />
     </>
   );

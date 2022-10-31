@@ -6,6 +6,10 @@ import { useForm } from 'react-hook-form';
 import EmployeeService from 'services/employee-service';
 import { removeKeys } from 'helper';
 import { setErrors } from './../../../../helper/index';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllDepartments, getAllSettings } from 'store/actions';
+import { getAllLeaves } from './../../../../store/actions';
+import CompanyInformation from './../../../../pages/employee-details/add-employee/company-information/index';
 
 interface Props {
   handleBack: (data?: string) => void;
@@ -37,15 +41,19 @@ interface Data {
 
 export const useCompanyInfo = ({ handleNext, formData, setFormData, employeeDocId }: Props) => {
   const { id } = useParams();
+  const dispatch = useDispatch();
   const [type, setType] = useState('per-day');
+  const [customErr, setCustomErr] = useState();
+
   const [probation, setProbation] = useState(false);
-  const [departments, setDepartments] = useState<any>();
   const [designation, setDesignation] = useState<any>();
   const [check, setCheck] = useState<number[]>([]);
-  const [leaves, setLeaves] = useState<any>();
   const [btnLoader, setBtnLoader] = useState(false);
   const { register, handleSubmit, errors, control, reset, watch, setError, clearErrors } =
     useForm();
+
+  const state = useSelector((state) => state.app);
+  const { departments, leaves } = state;
 
   const departmentChangeHandler = async (e: any) => {
     await getAllDesignations(e.target.value);
@@ -62,8 +70,11 @@ export const useCompanyInfo = ({ handleNext, formData, setFormData, employeeDocI
     formData?.companyInformation &&
       reset({
         ...formData?.companyInformation,
+        workingHours: formData?.companyInformation?.workingHoursType,
       });
     setCheck(formData?.companyInformation.workingDaysInWeek);
+    setProbation(formData?.companyInformation?.probation);
+    setType(formData?.companyInformation?.workingHoursType);
   };
   useEffect(() => {
     init();
@@ -71,6 +82,7 @@ export const useCompanyInfo = ({ handleNext, formData, setFormData, employeeDocI
 
   const getSingleEmployeeData = async () => {
     const res = await EmployeeService.getCompanyEmployee(id || employeeDocId);
+
     if (res?.data?.company?.departmentId)
       await getAllDesignations(res?.data?.company?.departmentId);
     reset({
@@ -89,19 +101,20 @@ export const useCompanyInfo = ({ handleNext, formData, setFormData, employeeDocI
     });
 
     setCheck(res?.data?.company?.workingDaysInWeek);
+    setType(res?.data?.company?.workingHoursType);
+    setTimeout(() => {
+      setProbation(res?.data?.company?.active);
+    }, 800);
   };
 
   const onSubmit = async (data: Data) => {
-    console.log(data, 'data hai ye hamara aur hamza ka pyara');
     setBtnLoader(true);
     try {
-      setFormData({ ...formData, companyInformation: { ...data, workingDaysInWeek: check } });
       removeKeys(data, ['startDate', 'endDate']);
       const { joiningDate, checkIn, probation, checkOut } = data;
       let user: any = {
         ...data,
-        workingHours: undefined,
-        joiningDate: moment(joiningDate).format('YYYY-MM-DD'),
+        joiningDate: joiningDate ? moment(joiningDate).format('YYYY-MM-DD') : undefined,
         departmentId: data?.departmentId,
         designationId: data?.designationId,
         leaves: leaves.map((leave: Leave, index: number) => {
@@ -120,11 +133,22 @@ export const useCompanyInfo = ({ handleNext, formData, setFormData, employeeDocI
               .split(':')
               .map((e: string) => String(e).padStart(2, '0'))
               .join(':'),
-          workingHoursType: type,
+          workingHoursType: watch().employmentType === 'Part-Time' && type,
         },
         workingDaysInWeek: check,
         probation: probation ? Boolean(probation) : false,
+        ...(probation && { probationDurationDays: data?.probationDurationDays }),
       };
+
+      setFormData({
+        ...formData,
+        companyInformation: {
+          ...data,
+          workingDaysInWeek: check,
+          workingHoursType: user?.employmentInfo?.workingHoursType,
+        },
+      });
+
       removeKeys(user, ['department', 'designation', ...leaves.map((leave: Leave) => leave.name)]);
       if (id) {
         const res = await EmployeeService.addPostCompany(user, id);
@@ -148,12 +172,9 @@ export const useCompanyInfo = ({ handleNext, formData, setFormData, employeeDocI
         setErrors(err.response.data.error, setError);
       }
     }
-    setBtnLoader(false);
-  };
+    !customErr && setCustomErr('Required field');
 
-  const getAllDepartments = async () => {
-    const res = await EmployeeService.getDepartments();
-    setDepartments(res?.data?.department);
+    setBtnLoader(false);
   };
 
   const getAllDesignations = async (id: string) => {
@@ -165,14 +186,9 @@ export const useCompanyInfo = ({ handleNext, formData, setFormData, employeeDocI
     }
   };
 
-  const getAllLeaves = async () => {
-    const res = await EmployeeService.getLeaves();
-    setLeaves(res?.data?.Leave);
-  };
-
   useEffect(() => {
-    getAllDepartments();
-    getAllLeaves();
+    dispatch(getAllDepartments());
+    dispatch(getAllLeaves());
   }, []);
 
   return {
@@ -194,6 +210,8 @@ export const useCompanyInfo = ({ handleNext, formData, setFormData, employeeDocI
     setCheck,
     departmentChangeHandler,
     clearErrors,
+    customErr,
+    setCustomErr,
   };
 };
 
@@ -205,24 +223,5 @@ export const employmentType = [
   {
     value: 'Part-Time',
     description: 'Part-Time',
-  },
-];
-
-export const department = [
-  {
-    value: 'Front-end Developer',
-    description: 'Front-end Developer',
-  },
-  {
-    value: 'Backend-developer',
-    description: 'Backend-developer',
-  },
-  {
-    value: 'management',
-    description: 'Management',
-  },
-  {
-    value: 'quality-control',
-    description: 'Quality-Control',
   },
 ];

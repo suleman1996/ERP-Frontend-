@@ -4,6 +4,11 @@ import { EmployeeFilterData } from 'pages/employee-details/employee-cards-helper
 export default class EmployeeService {
   static baseUrl = ['employees', 'settings'];
 
+  static async getProfile(id?: string | number) {
+    const res = await ApiService.get(`${EmployeeService.baseUrl[0]}/profile-view/${id}`);
+    return res;
+  }
+
   static async getAllEmployees(data?: any) {
     const res = await ApiService.get(`${EmployeeService.baseUrl[0]}/`, {
       ...(data && {

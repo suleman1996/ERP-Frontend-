@@ -1,4 +1,4 @@
-import { SetStateAction, useState } from 'react';
+import { SetStateAction, useState, useEffect } from 'react';
 
 import Select from 'new-components/select';
 
@@ -14,9 +14,11 @@ interface Props {
   setCount: React.Dispatch<SetStateAction<number>>;
   totalCount: any;
   hide: any;
+  setPage: (value: any) => void;
+  page: any;
 }
 
-const Pagination = ({ setCount, count, totalCount, hide }: Props) => {
+const Pagination = ({ setCount, count, totalCount, hide, setPage, page }: Props) => {
   return (
     <>
       {!hide && (
@@ -35,18 +37,38 @@ const Pagination = ({ setCount, count, totalCount, hide }: Props) => {
             <p>user per page</p>
           </div>
           <div className={style.rightFlex}>
-            <p className={style.p}>{` Showing 1 to ${count} of ${totalCount}`} </p>
-            <img src={left} alt="" />
+            <p className={style.p}>
+              {` Showing ${(page - 1) * count === 0 ? 1 : (page - 1) * count} to ${
+                page * count
+              } of ${totalCount}`}{' '}
+            </p>
+            <img src={left} alt="" onClick={() => setPage((prev: any) => 1)} />
             <img
               src={leftArrow}
               alt=""
-              onClick={() => setCount((prev) => (count === 1 ? prev : --prev))}
+              onClick={() => setPage((prev: any) => (prev === 1 ? 1 : --prev))}
             />
-            <p onClick={() => setCount(count)}> {count}</p>
-            <p onClick={() => setCount(count + 1)}> {count + 1}</p>
-            <p onClick={() => setCount(count + 2)}> {count + 2}</p>
-            <img src={rightArrow} alt="" onClick={() => setCount((prev) => ++prev)} />
-            <img src={right} alt="" />
+
+            {/* {pages()} */}
+            {page - 1 === 0 ? '' : page - 1}
+            <span>
+              <b style={{ color: '#57b894', margin: '0px 10px' }}>{page}</b>
+            </span>
+            {page + 1 > Math.ceil(totalCount / count) ? '' : page + 1}
+            <img
+              src={rightArrow}
+              alt=""
+              onClick={() =>
+                setPage((prev: any) =>
+                  prev === Math.ceil(totalCount / count) ? Math.ceil(totalCount / count) : ++prev,
+                )
+              }
+            />
+            <img
+              src={right}
+              alt=""
+              onClick={() => setPage((prev: any) => Math.ceil(totalCount / count))}
+            />
           </div>
         </div>
       )}

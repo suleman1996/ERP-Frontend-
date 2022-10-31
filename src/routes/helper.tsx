@@ -2,7 +2,6 @@ import { ReactElement } from 'react';
 
 import Applications from 'pages/applications';
 import Attendance from 'new-pages/attendance';
-import Calender from 'pages/calender';
 import Policy from 'new-pages/policy';
 import ClientInfo from 'pages/client-info';
 import DashBoard from 'pages/dashboard';
@@ -20,6 +19,7 @@ import EmployeeProfileDetails from 'new-pages/employee-module/employee-profile';
 import AddEmployee from 'new-pages/employee-module/add-employee';
 import SingleEmployee from 'new-pages/employee-module/single-employee';
 import ProfileSetting from 'new-pages/settings/profile-settings';
+import Calender from 'new-pages/calender';
 
 export interface RouteInterface {
   path: string;

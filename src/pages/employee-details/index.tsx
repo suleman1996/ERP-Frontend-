@@ -52,7 +52,6 @@ const EmployeeDetails = () => {
           setOpen={setOpen}
           setEmployees={setEmployees}
           open={open}
-          setCount={setCount}
           getData={getEmployeesData}
         />
         <div

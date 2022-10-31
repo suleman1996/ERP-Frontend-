@@ -17,6 +17,7 @@ import numImg1 from 'new-assets/2.png';
 import numImg2 from 'new-assets/3.png';
 import arrowRight from 'new-assets/arrowBtnRight.svg';
 import style from './expertise.module.scss';
+import { useEmployeeForms } from '../context';
 
 interface Props {
   handleBack: (data?: string) => void;
@@ -55,14 +56,18 @@ interface Certificate {
   file: string;
 }
 
-const ExpertiseInformation = ({
-  formData,
-  employeeId,
-  setFormData,
-  handleNext,
-  handleBack,
-  employeeDocId,
-}: Props) => {
+const ExpertiseInformation = () => {
+  const {
+    handleNext,
+    setFormData,
+    employeeDocId,
+    formData,
+    setEmployeeId,
+    setEmployeeDocId,
+    handleBack,
+    employeeId,
+  }: any = useEmployeeForms();
+
   const { id } = useParams();
   const [btnLoader, setBtnLoader] = useState(false);
   const [active, setActive] = useState(0);
@@ -75,9 +80,9 @@ const ExpertiseInformation = ({
     try {
       const userData = {
         expertiseDetails: {
-          skills: skillData,
-          languages: language,
-          certificates: certificate,
+          skills: skillData.length > 0 ? skillData : [],
+          languages: language.length > 0 ? language : [],
+          certificates: certificate.length > 0 ? certificate : [],
         },
       };
       if (id) {
@@ -109,21 +114,30 @@ const ExpertiseInformation = ({
   const getUser = async () => {
     const res = await EmployeeService.getExpertiesEmployee(employeeDocId);
     console.log('res pes ', res.data);
-    // const data = res?.data?.languages.map((item: any) => {
-    //   removeKeys(item, ['_id']);
-    //   return item;
-    // });
-    // setLanguage((current) => [...current, ...data]);
-    // const dataa = res?.data?.certificates.map((item: any) => {
-    //   removeKeys(item, ['_id']);
-    //   return item;
-    // });
-    // setCertificate((current) => [...current, ...dataa]);
+    console.log('skill ', res.data);
+    const skills = res?.data?.skills.map((item: any) => {
+      removeKeys(item, ['_id']);
+      return item;
+    });
+    setSkillData((current) => [...current, ...skills]);
+    console.log('skillData', skillData);
+
+    const data = res?.data?.languages.map((item: any) => {
+      removeKeys(item, ['_id']);
+      return item;
+    });
+    setLanguage((current) => [...current, ...data]);
+    const dataa = res?.data?.certificates.map((item: any) => {
+      removeKeys(item, ['_id']);
+      return item;
+    });
+    setCertificate((current) => [...current, ...dataa]);
   };
 
   useEffect(() => {
-    (id || employeeDocId) && getUser();
-  }, [id]);
+    // (id || employeeDocId) && getUser();
+    // getUser();
+  }, []);
 
   return (
     <div className={style.mainForm}>
@@ -172,6 +186,7 @@ const ExpertiseInformation = ({
           employeeId={employeeId}
           setFormData={setFormData}
           setSkillData={setSkillData}
+          skillData={skillData}
         />
       )}
       {active === 1 && (

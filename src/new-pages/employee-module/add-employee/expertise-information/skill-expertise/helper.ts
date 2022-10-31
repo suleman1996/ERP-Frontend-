@@ -13,6 +13,7 @@ interface Props {
   setFormData: any;
   employeeId: string;
   setSkillData: Dispatch<SetStateAction<Skill[] | []>>;
+  skillData: any;
 }
 
 export interface Skill {
@@ -26,9 +27,11 @@ export interface Skill {
   _id?: string | number;
 }
 
-export const useSkill = ({ formData, setFormData, employeeId, setSkillData }: Props) => {
+export const useSkill = ({ formData, setFormData, employeeId, setSkillData, skillData }: Props) => {
   const { id } = useParams();
   const [educations, setEducations] = useState<Skill[] | []>([]);
+  const [selectedFileName, setSelectedFileName] = useState('');
+  const [activeEdit, setActiveEdit] = useState('');
   const skillIndex = useRef(-1);
   const [toggle, setToggle] = useState<number>();
 
@@ -48,11 +51,13 @@ export const useSkill = ({ formData, setFormData, employeeId, setSkillData }: Pr
       ...data,
       skillLevel: data?.skills,
       // ...(fileBase64 && { file: `${fileBase64}` }),
-      file: data.file && (data.file[0] ? fileBase64 : data.file),
+      ...(selectedFileName && data.file && { file: data.file[0] ? fileBase64 : data.file }),
     };
     if (!skillData.file || Object.keys(skillData.file).length === 0) {
-      removeKeys(skillData, ['file']);
+      !selectedFileName && removeKeys(skillData, ['file']);
     }
+
+    !selectedFileName && removeKeys(skillData, ['file']);
 
     removeKeys(skillData, ['skills']);
     setSkillData((current) => [...current, skillData]);
@@ -60,7 +65,16 @@ export const useSkill = ({ formData, setFormData, employeeId, setSkillData }: Pr
     const tempObj = {
       ...data,
       skillLevel: data?.skills.toLocaleLowerCase(),
+      ...(fileBase64
+        ? { file: fileBase64 }
+        : {
+            file: newEducations && newEducations[skillIndex.current]?.file,
+          }),
     };
+
+    if (tempObj?.file?.length === 0) {
+      removeKeys(tempObj, ['file']);
+    }
     if (skillIndex.current < 0) {
       newEducations.push(tempObj);
     } else {
@@ -69,14 +83,18 @@ export const useSkill = ({ formData, setFormData, employeeId, setSkillData }: Pr
     }
     setEducations([...newEducations]);
     setFormData({ ...formData, setSkillData: [...newEducations] });
-    reset({});
+    reset({ skills: '' });
     setToggle(-1);
+    setActiveEdit('');
     skillIndex.current = -1;
+    setSelectedFileName('');
   };
 
   const handleEducation = (index: number) => {
     skillIndex.current = index;
     const data = educations.find((data, i) => i === index);
+    data?.file && setSelectedFileName('file');
+    setActiveEdit(`${data?.skillLevel}`);
     reset({
       skillName: data?.skillName,
       year: data?.year,
@@ -93,9 +111,7 @@ export const useSkill = ({ formData, setFormData, employeeId, setSkillData }: Pr
   };
 
   const getUser = async () => {
-    // const res = await EmployeeService.getEmployee(id);
     const res = await EmployeeService.getExpertiesEmployee(id);
-    console.log('res', res.data);
     setEducations(res?.data?.skills);
 
     const data = res?.data?.skills.map((item: any) => {
@@ -107,10 +123,10 @@ export const useSkill = ({ formData, setFormData, employeeId, setSkillData }: Pr
   };
 
   useEffect(() => {
-    // id && getUser();
+    id && getUser();
     if (formData?.setSkillData !== undefined && Object.keys(formData?.setSkillData)?.length) {
       setEducations([...formData?.setSkillData]);
-      setSkillData((current) => [...current, ...formData?.setSkillData]);
+      // setSkillData((current) => [...current, ...formData?.setSkillData]);
     }
   }, []);
 
@@ -122,10 +138,12 @@ export const useSkill = ({ formData, setFormData, employeeId, setSkillData }: Pr
     handleAddEduction,
     educations,
     handleEducation,
-    activeEdit: skillIndex.current,
+    activeEdit,
     handleDeleteIndex,
     toggle,
     setToggle,
+    selectedFileName,
+    setSelectedFileName,
   };
 };
 
@@ -136,16 +154,8 @@ export const schema = yup.object().shape({
     .number()
     .required('Year is a required field')
     .typeError('Year is required & should be a number'),
-  // file: yup
-  //   .mixed()
-  //   .test("required", "You need to provide a file", (file) => {
-  //     if (file[0]) return true;
-  //     return false;
-  //   })
-  //   .test("fileSize", "The file is too large", (file) => {
-  //     return file[0] && file[0].size <= 2000000;
-  //   }),
-  skills: yup.string().required('Skills is a required field'),
+
+  skills: yup.string().required('Skill level is a required field'),
 });
 
 export const columns = [

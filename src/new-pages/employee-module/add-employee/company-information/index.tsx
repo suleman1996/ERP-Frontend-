@@ -15,6 +15,7 @@ import arrowLeft from 'new-assets/backBtn.svg';
 import style from './company-information.module.scss';
 import WeekDay from 'new-components/week-day';
 import { useEffect } from 'react';
+import { useEmployeeForms } from '../context';
 
 interface Props {
   handleBack: (data?: string) => void;
@@ -25,14 +26,18 @@ interface Props {
   employeeDocId?: string | any;
 }
 
-const CompanyInformation = ({
-  handleNext,
-  handleBack,
-  formData,
-  setFormData,
-  employeeId,
-  employeeDocId,
-}: Props) => {
+const CompanyInformation = () => {
+  const {
+    handleNext,
+    setFormData,
+    employeeDocId,
+    formData,
+    setEmployeeId,
+    setEmployeeDocId,
+    handleBack,
+    employeeId,
+  }: any = useEmployeeForms();
+
   const {
     onSubmit,
     register,
@@ -52,6 +57,8 @@ const CompanyInformation = ({
     check,
     setCheck,
     departmentChangeHandler,
+    setCustomErr,
+    customErr,
   } = useCompanyInfo({
     handleBack,
     handleNext,
@@ -63,7 +70,12 @@ const CompanyInformation = ({
 
   return (
     <div className={style.mainForm}>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form
+        onSubmit={(e) => {
+          clearErrors();
+          handleSubmit(onSubmit)(e);
+        }}
+      >
         <div className={style.grid}>
           <DatePicker
             label="Joining Date"
@@ -120,6 +132,7 @@ const CompanyInformation = ({
                     label={`${data.name} Leave`}
                     type="number"
                     register={register}
+                    min={'0'}
                     errorMessage={errors.leaves && errors.leaves[index]?.quantity?.message}
                     placeholder={`${data?.name} Leave`}
                   />
@@ -175,12 +188,13 @@ const CompanyInformation = ({
               }
               control={control}
               errorMessage={errors?.endDate?.message}
+              readOnly
             />
           </div>
         )}
         <div className={style.grid}>
           <Select
-            label="Employee Type"
+            label="Employment Type"
             name="employmentType"
             name1="type"
             star={' *'}
@@ -217,6 +231,8 @@ const CompanyInformation = ({
             <CustomTimePicker
               name={'employmentInfo.workingHours'}
               control={control}
+              setCustomErr={setCustomErr}
+              customErr={customErr}
               errorMessage={errors?.employmentInfo?.workingHours?.message}
               type={type}
               setType={setType}

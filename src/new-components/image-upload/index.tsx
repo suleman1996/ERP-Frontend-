@@ -27,17 +27,28 @@ const ImageUpload = ({ img, setImg, name, register, errorMessage }: Props) => {
   };
 
   const onDrop = useCallback((acceptedFiles, rejectedFiles) => {
+    rejectedFiles.forEach((file: any) => {
+      file.errors.forEach((err: any) => {
+        if (err.code === 'file-too-large') {
+          createNotification('error', 'Error', 'The image maximum size should be 3MB');
+        }
+        if (err.code === 'file-invalid-type') {
+          createNotification('error', 'Error', 'Invalid File Type');
+        }
+      });
+    });
     acceptedFiles.forEach((file: Blob) => {
       const reader = new FileReader();
       reader.onload = () => {
         setImg && setImg(reader.result);
+        console.log(reader.result);
       };
-
       reader.readAsDataURL(file);
     });
   }, []);
 
   const { getRootProps, getInputProps } = useDropzone({
+    maxSize: 3072000,
     onDrop,
     accept: {
       'image/*': ['.png', '.jpg'],

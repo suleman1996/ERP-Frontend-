@@ -9,6 +9,7 @@ import { removeKey, convertBase64Image } from 'main-helper';
 import EmployeeService from 'services/employee-service';
 import { setErrors } from './../../../../helper/index';
 import { createNotification } from 'common/create-notification';
+import { useDispatch, useSelector } from 'react-redux';
 
 interface Data {
   firstName: string;
@@ -42,14 +43,19 @@ export const usePersonalInfo = ({
   setEmployeeDocId,
 }: Props) => {
   const { id } = useParams();
+  const dispatch = useDispatch();
+  const { gender, series } = useSelector((state) => state?.app);
+
   const [btnLoader, setBtnLoader] = useState(false);
-  const [genderData, setGenderData] = useState<any>();
-  const [selectedFileName, setSelectedFileName] = useState('');
-  const [selectedFileNameBack, setSelectedFileNameBack] = useState('');
-  const [userId, setUserId] = useState();
-  const [img, setImg] = useState<unknown>('');
+  const [loader, setLoader] = useState(false);
+  const [customValidation, setCustomValidation] = useState('');
   const { register, handleSubmit, errors, control, reset, setValue, watch, setError, clearErrors } =
     useForm();
+
+  const [selectedFileName, setSelectedFileName] = useState('');
+  const [selectedFileNameBack, setSelectedFileNameBack] = useState('');
+  const [img, setImg] = useState<unknown>('');
+  const [userId, setUserId] = useState();
 
   const getEmployeeID = async () => {
     const res = await EmployeeService.getAllEmployeesID(watch().employeeId);
@@ -57,15 +63,6 @@ export const usePersonalInfo = ({
       setUserId(res?.data?.newEmployeeId);
     }
   };
-
-  const getAllGenders = async () => {
-    const res = await EmployeeService.getGenders();
-    setGenderData(res?.data?.profileSetting?.gender);
-  };
-
-  useEffect(() => {
-    getAllGenders();
-  }, []);
 
   useEffect(() => {
     if (!employeeDocId) {
@@ -75,16 +72,14 @@ export const usePersonalInfo = ({
 
   useEffect(() => {
     (employeeDocId || id) && getSingleEmployeeData();
-  }, [employeeDocId]);
+  }, [employeeDocId, id]);
 
   const getSingleEmployeeData = async () => {
-    await getAllGenders();
-
     if (employeeDocId) {
+      setLoader(true);
       const res = await EmployeeService.getEmployee(employeeDocId);
-      console.log('res let ', res?.data?.employeePersonalInformation?.gender);
-      setSelectedFileName(res.data?.employeePersonalInformation?.cnicFront?.name.toString());
-      setSelectedFileNameBack(res.data?.employeePersonalInformation?.cnicBack?.name.toString());
+      setSelectedFileName(res.data?.employeePersonalInformation?.cnicFront?.name);
+      setSelectedFileNameBack(res.data?.employeePersonalInformation?.cnicBack?.name);
       setImg(res?.data?.employeePersonalInformation?.profilePicture);
       setUserId(
         res?.data?.employeePersonalInformation?.employeeId?.split('').splice(3, 3).join(''),
@@ -93,16 +88,17 @@ export const usePersonalInfo = ({
         firstName: res?.data?.employeePersonalInformation?.firstName,
         lastName: res?.data?.employeePersonalInformation?.lastName,
         fullName: res?.data?.employeePersonalInformation?.fullName,
-        employeeId: res?.data?.employeePersonalInformation?.employeeId
-          ?.split('')
-          .splice(0, 3)
-          .join(''),
+        employeeId: res?.data?.employeePersonalInformation?.employeeId.substr(
+          0,
+          res?.data?.employeePersonalInformation?.employeeId.length - 3,
+        ),
         phone: res?.data?.employeePersonalInformation?.phone.toString(),
         email: res?.data?.employeePersonalInformation?.email,
         dob: new Date(res?.data?.employeePersonalInformation?.dob),
         cnic: res?.data?.employeePersonalInformation?.cnic,
         gender: res?.data?.employeePersonalInformation?.gender,
       });
+      setLoader(false);
     } else if (id) {
       const res = await EmployeeService.getEmployee(id);
       setSelectedFileName(res.data?.employeePersonalInformation?.cnicFront?.name.toString());
@@ -115,10 +111,10 @@ export const usePersonalInfo = ({
         firstName: res?.data?.employeePersonalInformation?.firstName,
         lastName: res?.data?.employeePersonalInformation?.lastName,
         fullName: res?.data?.employeePersonalInformation?.fullName,
-        employeeId: res?.data?.employeePersonalInformation?.employeeId
-          ?.split('')
-          .splice(0, 3)
-          .join(''),
+        employeeId: res?.data?.employeePersonalInformation?.employeeId.substr(
+          0,
+          res?.data?.employeePersonalInformation?.employeeId.length - 3,
+        ),
         phone: res?.data?.employeePersonalInformation?.phone.toString(),
         email: res?.data?.employeePersonalInformation?.email,
         dob: new Date(res?.data?.employeePersonalInformation?.dob),
@@ -127,7 +123,7 @@ export const usePersonalInfo = ({
       });
     }
   };
-  console.log(img);
+
   const onSubmit = async (data: Data) => {
     setBtnLoader(true);
     try {
@@ -136,11 +132,19 @@ export const usePersonalInfo = ({
       const temp = {
         ...data,
         profilePicture: img,
-        dob: moment(dob).format('YYYY-MM-DD'),
+        dob: dob && moment(dob).format('YYYY-MM-DD'),
         cnic: cnic.toString(),
         employeeId: employeeId + userId,
-        cnicFront: frontPic && frontPic.length && (await convertBase64Image(frontPic[0])),
-        cnicBack: backPic && backPic.length && (await convertBase64Image(backPic[0])),
+        cnicFront:
+          selectedFileName &&
+          frontPic &&
+          frontPic.length &&
+          (await convertBase64Image(frontPic[0])),
+        cnicBack:
+          selectedFileNameBack &&
+          backPic &&
+          backPic.length &&
+          (await convertBase64Image(backPic[0])),
       };
       const obj = removeKey(temp);
       const userData = {
@@ -196,6 +200,10 @@ export const usePersonalInfo = ({
     setSelectedFileName,
     selectedFileNameBack,
     setSelectedFileNameBack,
-    genderData,
+    gender,
+    series,
+    loader,
+    customValidation,
+    setCustomValidation,
   };
 };

@@ -120,7 +120,6 @@ export const useAddressInfo = ({
         const res = await EmployeeService.addressAddPost(userData, employeeDocId);
         if (res.status === 200) {
           setTimeout(() => {
-            console.log('time out');
             setEmployeeDocId && setEmployeeDocId(res?.data?.updatedEmployee?._id);
           }, 500);
           handleNext('Company');
@@ -138,7 +137,6 @@ export const useAddressInfo = ({
   };
 
   const getData = async (type: string, data: { country?: string }, currentState?: string) => {
-    console.log({ type, data, currentState });
     if (data?.country) {
       if (type === 'currentCountryData') {
         setCurrentCountryData([]);
@@ -148,7 +146,6 @@ export const useAddressInfo = ({
         setPermanentCitiesData([]);
       }
       const res = await AddressService.getCountryStateCityData(data);
-      console.log('res', res.data);
       if (res.status === 200) {
         if (res.data.address[0]) {
           const { states } = res.data.address[0];

@@ -43,6 +43,8 @@ const LanguageExpertise = ({ formData, setFormData, employeeId, setLanguage }: P
     toggle,
     setToggle,
     watch,
+    selectedFileName,
+    setSelectedFileName,
   } = useLanguage({
     formData,
     setFormData,
@@ -64,23 +66,6 @@ const LanguageExpertise = ({ formData, setFormData, employeeId, setLanguage }: P
             options={languageArray}
             label="Language"
           />
-          {/* <Select
-            label="Rate"
-            register={register}
-            errorMessage={errors?.rate?.message}
-            star={' *'}
-            name="rate"
-          >
-            <option value="">50 Percent</option>
-            <>
-              {selectRates &&
-                selectRates.map((ele: any) => (
-                  <option key={ele.value} value={ele.value}>
-                    {ele.description}
-                  </option>
-                ))}
-            </>
-          </Select> */}
           <TextField
             name="experince"
             label="Experince"
@@ -92,6 +77,8 @@ const LanguageExpertise = ({ formData, setFormData, employeeId, setLanguage }: P
           <TextField
             name="year"
             label="Year"
+            max={'9999'}
+            type="number"
             star={' *'}
             register={register}
             errorMessage={errors?.year?.message}
@@ -103,6 +90,8 @@ const LanguageExpertise = ({ formData, setFormData, employeeId, setLanguage }: P
             <ProfileUpload
               name={'file'}
               register={register}
+              selectedFileName={selectedFileName}
+              setSelectedFileName={setSelectedFileName}
               id={'letter'}
               errorMessage={errors?.file?.message}
               type={'application/pdf'}
@@ -124,7 +113,10 @@ const LanguageExpertise = ({ formData, setFormData, employeeId, setLanguage }: P
         </div>
         <div style={{ marginTop: '30px' }}>
           <Table
-            rows={educations}
+            rows={educations.map((education) => ({
+              ...education,
+              experince: `${education.experince} years`,
+            }))}
             columns={columns}
             minWidth="800px"
             handleEducation={handleEducation}

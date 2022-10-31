@@ -70,7 +70,7 @@ const Select = ({
       )}
       <div className={`${wraperSelect}  ${style.containerWraper} `}>
         <select
-          // value={marksType || value}
+          value={value}
           name={name}
           className={`${style.select}  ${selectContainer}  `}
           placeholder={placeholder}
@@ -96,8 +96,10 @@ const Select = ({
           />
         )}
       </div>
-      {errorMessage && <span className={style.errorMessage}>{errorMessage}</span>}
+      {/* {errorMessage && <span className={style.errorMessage}>{errorMessage}</span>} */}
       {customErr && <span className={style.errorMessage}>{customErr}</span>}
+
+      {!customErr ? errorMessage && <span className={style.errorMessage}>{errorMessage}</span> : ''}
     </div>
   );
 };

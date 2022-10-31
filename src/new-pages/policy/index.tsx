@@ -15,19 +15,24 @@ import { useForm } from 'react-hook-form';
 
 import DeletePopup from 'new-components/delete-modal';
 import DatePicker from 'new-components/date-picker';
-import { DropDownSelect } from 'new-components/drop-down-select';
 
 import Modal from 'new-components/modal';
 import TextArea from 'new-components/textarea';
 import ProfileUpload from 'new-components/profile-upload';
 import Selection from 'my-components/select';
+import RenderPolicySearchView from './policies-search';
+import ViewPolicy from './view-policy';
+import PdfViewModal from 'new-components/pdf-viewer';
+import { sampleBase64pdf } from './pdfSample';
 
 const Policy = () => {
   const [selectedTab, setSelectedTab] = useState(0);
   const [showFilterView, setShowFilterView] = useState(false);
+  const [editPoplicy, setEditPolicy] = useState(false);
 
   const [open, setOpen] = useState(false);
   const [openAddPolice, setOpenAddPolice] = useState(false);
+  const [openPolicyPdfView, setOpenViewPdfPolicy] = useState(false);
 
   const options = [
     { value: 'Ali', label: 'Ali' },
@@ -64,82 +69,37 @@ const Policy = () => {
 
   const { control } = useForm();
 
-  const RenderPolicySearchView = () => (
-    <div className={style.policySearchView}>
-      <TextField placeholder="Job Title" />
-      <DropDownSelect />
-
-      <DatePicker control={control} name="gg" />
-      <Button text="Search" />
-    </div>
-  );
-
-  const RenderPoliciesTab = () => (
-    <>
-      <div className={style.policyHeaderView}>
-        <div className={style.headerTitleView}>
-          <p
-            onClick={() => setSelectedTab(0)}
-            style={{
-              fontSize: '16px',
-              fontWeight: 600,
-              color: selectedTab == 0 ? '#2D2D32' : '#CACACA',
-            }}
-          >
-            All Policies
-          </p>
-          <p
-            onClick={() => setSelectedTab(1)}
-            style={{
-              fontSize: '16px',
-              fontWeight: 600,
-              color: selectedTab == 1 ? '#2D2D32' : '#CACACA',
-              marginLeft: 20,
-            }}
-          >
-            Obsolete
-          </p>
-        </div>
-        <div className={style.addPolicyView}>
-          <img
-            onClick={() => setShowFilterView(!showFilterView)}
-            style={{ cursor: 'pointer' }}
-            src={filter}
-            alt=""
-            className={style.img}
-          />
-          <Button
-            handleClick={() => setOpenAddPolice(true)}
-            iconStart={plusIcon}
-            text="Add Policy"
-          />
-          <img style={{ cursor: 'pointer' }} src={del} alt="" className={style.img} />
-        </div>
-      </div>
-      {showFilterView && <RenderPolicySearchView />}
-    </>
-  );
-
-  const RenderAllPolicies = () => (
-    <div className={style.policyMainView}>
-      <RenderPoliciesTab />
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4 , 1fr )' }}>
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((item) => (
-          <RenderPolicy setOpen={setOpen} setSelectedTab={setSelectedTab} />
-        ))}
-      </div>
-    </div>
-  );
-
-  const RenderObsolete = () => (
-    <div className={style.policyMainView}>
-      <RenderPoliciesTab />
-    </div>
-  );
-
   return (
     <>
-      <CardContainer>{selectedTab == 0 ? <RenderAllPolicies /> : <RenderObsolete />}</CardContainer>
+      <CardContainer>
+        {selectedTab == 0 ? (
+          <RenderAllPolicies
+            setOpen={setOpen}
+            setSelectedTab={setSelectedTab}
+            control={control}
+            selectedTab={selectedTab}
+            setOpenAddPolice={setOpenAddPolice}
+            setShowFilterView={setShowFilterView}
+            showFilterView={showFilterView}
+            options={options}
+            setEditPolicy={setEditPolicy}
+            setOpenViewPdfPolicy={setOpenViewPdfPolicy}
+          />
+        ) : (
+          <RenderObsolete
+            setOpen={setOpen}
+            control={control}
+            selectedTab={selectedTab}
+            setOpenAddPolice={setOpenAddPolice}
+            setSelectedTab={setSelectedTab}
+            setShowFilterView={setShowFilterView}
+            showFilterView={showFilterView}
+            options={options}
+            setEditPolicy={setEditPolicy}
+            setOpenViewPdfPolicy={setOpenViewPdfPolicy}
+          />
+        )}
+      </CardContainer>
 
       <DeletePopup setOpen={setOpen} open={open} />
       {/* <AddPolicy /> */}
@@ -147,7 +107,7 @@ const Policy = () => {
         open={openAddPolice}
         text="Done"
         iconEnd={undefined}
-        title="Add Policy"
+        title={editPoplicy ? 'Update Policy' : 'Add Policy'}
         handleClose={() => setOpenAddPolice(false)}
       >
         <div className={style.gridView}>
@@ -156,7 +116,15 @@ const Policy = () => {
         </div>
         <div className={style.gridView}>
           <TextField label="Version" placeholder="Enter Policy Version" star=" *" />
-          <TextField label="Category" placeholder="Enter Policy Category" star=" *" />
+          {/* <TextField label="Category" placeholder="Enter Policy Category" star=" *" /> */}
+          <Selection
+            wraperSelect={style.wraperSelect}
+            label="Category"
+            placeholder="Category"
+            options={options}
+            star=" *"
+            onChange={(item) => console.log(item)}
+          />
         </div>
         <div className={style.gridView}>
           <DatePicker label="Effective Date" control={control} name="Effective Date" star=" *" />
@@ -190,8 +158,6 @@ const Policy = () => {
         </div>
 
         <div className={style.gridView}>
-          {/* <TextField label="Applies to" placeholder="MSDD  Applies to" star=" *" /> */}
-
           <Selection
             wraperSelect={style.wraperSelect}
             label="Applies to"
@@ -202,14 +168,179 @@ const Policy = () => {
             closeMenuOnSelect={false}
             isMulti={true}
           />
-          <ProfileUpload />
+          <div>
+            <div style={{ display: 'flex' }}>
+              <p style={{ fontSize: 17, color: '#2d2d32', marginRight: 5 }}>Attach Pdf </p>
+              <b style={{ color: 'red' }}> *</b>
+            </div>
+            <ProfileUpload
+              name={'frontPic'}
+              // register={register}
+              type="application/pdf,application/vnd.ms-excel"
+              id={'frontPic'}
+              // errorMessage={'errors?.frontPic?.message'}
+              // selectedFileName={selectedFileName}
+              // setSelectedFileName={setSelectedFileName}
+            />
+          </div>
         </div>
         <div className={style.gridView1}>
           <TextArea label="Discription" placeholder="Enter Discription" star=" *" />
         </div>
       </Modal>
+      <PdfViewModal
+        openPolicyPdfView={openPolicyPdfView}
+        setOpenViewPdfPolicy={setOpenViewPdfPolicy}
+        pdf={sampleBase64pdf}
+      />
     </>
   );
 };
+
+const RenderAllPolicies = ({
+  setOpen,
+  control,
+  selectedTab,
+  setOpenAddPolice,
+  setSelectedTab,
+  setShowFilterView,
+  showFilterView,
+  options,
+  setEditPolicy,
+  setOpenViewPdfPolicy,
+}: {
+  setOpen: any;
+  setSelectedTab: any;
+  [key: string]: any;
+}) => (
+  <div className={style.policyMainView}>
+    <RenderPoliciesTab
+      control={control}
+      selectedTab={selectedTab}
+      setOpenAddPolice={setOpenAddPolice}
+      setSelectedTab={setSelectedTab}
+      setShowFilterView={setShowFilterView}
+      showFilterView={showFilterView}
+      options={options}
+      setEditPolicy={setEditPolicy}
+    />
+    <div className={style.policyGridView}>
+      {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((item) => (
+        <RenderPolicy
+          setOpenAddPolice={setOpenAddPolice}
+          setOpen={setOpen}
+          setSelectedTab={setSelectedTab}
+          setEditPolicy={setEditPolicy}
+          setOpenViewPdfPolicy={setOpenViewPdfPolicy}
+        />
+      ))}
+    </div>
+  </div>
+);
+
+const RenderObsolete = ({
+  setOpen,
+  control,
+  selectedTab,
+  setOpenAddPolice,
+  setSelectedTab,
+  setShowFilterView,
+  showFilterView,
+  options,
+  setEditPolicy,
+  setOpenViewPdfPolicy,
+}: {
+  [key: string]: any;
+}) => (
+  <div className={style.policyMainView}>
+    <RenderPoliciesTab
+      control={control}
+      selectedTab={selectedTab}
+      setOpenAddPolice={setOpenAddPolice}
+      setSelectedTab={setSelectedTab}
+      setShowFilterView={setShowFilterView}
+      showFilterView={showFilterView}
+      options={options}
+      setEditPolicy={setEditPolicy}
+    />
+    <div className={style.policyGridView}>
+      {[1, 2, 3, 4, 5].map((item) => (
+        <RenderPolicy
+          setOpenAddPolice={setOpenAddPolice}
+          setOpen={setOpen}
+          setSelectedTab={setSelectedTab}
+          setEditPolicy={setEditPolicy}
+          setOpenViewPdfPolicy={setOpenViewPdfPolicy}
+        />
+      ))}
+    </div>
+  </div>
+);
+
+const RenderPoliciesTab = ({
+  selectedTab,
+  setSelectedTab,
+  setShowFilterView,
+  showFilterView,
+  control,
+  setOpenAddPolice,
+  options,
+  setEditPolicy,
+}: {
+  selectedTab: any;
+  setSelectedTab: any;
+  setShowFilterView: any;
+  showFilterView: any;
+  control: any;
+  setOpenAddPolice: any;
+  options: any;
+  setEditPolicy: any;
+}) => (
+  <>
+    <div className={style.policyHeaderView}>
+      <div className={style.headerTitleView}>
+        <p
+          onClick={() => setSelectedTab(0)}
+          style={{
+            fontSize: '16px',
+            fontWeight: 600,
+            color: selectedTab == 0 ? '#2D2D32' : '#CACACA',
+          }}
+        >
+          All Policies
+        </p>
+        <p
+          onClick={() => setSelectedTab(1)}
+          style={{
+            fontSize: '16px',
+            fontWeight: 600,
+            color: selectedTab == 1 ? '#2D2D32' : '#CACACA',
+            marginLeft: 20,
+          }}
+        >
+          Obsolete
+        </p>
+      </div>
+      <div className={style.addPolicyView}>
+        <img
+          onClick={() => setShowFilterView(!showFilterView)}
+          style={{ cursor: 'pointer', height: 35, width: 35 }}
+          src={filter}
+          alt=""
+          className={style.img}
+        />
+        <Button
+          handleClick={() => {
+            setOpenAddPolice(true);
+            setEditPolicy(false);
+          }}
+          iconStart={plusIcon}
+          text="Add Policy"
+        />
+      </div>
+    </div>
+    {showFilterView && <RenderPolicySearchView options={options} control={control} />}
+  </>
+);
 
 export default Policy;
