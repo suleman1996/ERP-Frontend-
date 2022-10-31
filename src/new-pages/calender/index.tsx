@@ -8,6 +8,8 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
+import CalenderService from 'services/calender-service';
+import moment from 'moment';
 
 import Button from 'new-components/button';
 import Modal from 'new-components/modal';
@@ -17,7 +19,6 @@ import Selection from 'my-components/select';
 import ProfileUpload from 'new-components/profile-upload';
 import Container from 'new-components/container';
 import Checkbox from 'new-components/checkbox';
-import CustomSelect from 'new-components/custom-select';
 import EventModal from 'new-components/event-modal';
 import MultiSelect from 'new-components/multi-select';
 
@@ -32,7 +33,6 @@ import edit from 'new-assets/edit.svg';
 
 import style from './calender.module.scss';
 import './calendar.scss';
-import CalenderService from 'services/calender-service';
 
 const Calender = () => {
   let month = 'dayGridMonth';
@@ -87,78 +87,6 @@ const Calender = () => {
   const RenderEventHandler = (eventInfo: any) => {
     return (
       <>
-        {/* {customTooltip && eventId == eventInfo.event._def.publicId && (
-          <div
-            style={{
-              background: 'white',
-              position: 'absolute',
-              boxShadow: '1px 2px 9px #F4AAB9',
-              borderRadius: '2px',
-            }}
-          >
-            <div className={style.titleDiv}>
-              <p className={style.title}>{eventInfo?.event?.title}</p>
-              <div className={style.iconView}>
-                <img src={edit} height={15} className={style.icon} />
-                <img src={deleteIcon} height={15} className={style.icon} />
-                <img
-                  src={cross}
-                  height={15}
-                  onClick={() => setCustomTooltip(!customTooltip)}
-                  className={style.icon}
-                />
-              </div>
-            </div>
-            <div className={style.durationView}>
-              <p className={style.title2}>Thursday, OCT 25 2022 | 10:20 AM - 11:00 AM</p>
-              <p className={style.title2}>40 minutes</p>
-            </div>
-            <p className={style.title2}>Description</p>
-            <p className={style.description}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. In cursus tortor metus,
-              imperdiet placerat ipsum porta et. In eleifend rhoncus neque, id posuere felis
-              vestibulum a. Donec tincidunt vehicula tellus quis blandit.
-            </p>
-            <div className={style.gridDiv}>
-              <p className={style.title2}>Venue</p>
-              <p className={style.description}>Venue</p>
-            </div>
-            <div className={style.gridDiv}>
-              <p className={style.title2}>Event Type</p>
-              <p className={style.description}>Meeting</p>
-            </div>
-            <div className={style.gridDiv}>
-              <p className={style.title2}>Attachment</p>
-              <p className={style.description}>Approval.pdf</p>
-            </div>
-            <div className={style.gridDiv}>
-              <p className={style.title2}>Attendees</p>
-              <div>
-                <img
-                  src={(!eventInfo?.event?.imageurl && person) || ''}
-                  height={28}
-                  width={28}
-                  style={{
-                    borderRadius: '30px',
-                    height: '30px',
-                    width: '30px',
-                  }}
-                />
-                <img
-                  src={(!eventInfo?.event?.imageurl && person2) || ''}
-                  height={28}
-                  width={28}
-                  style={{
-                    borderRadius: '30px',
-                    height: '30px',
-                    width: '30px',
-                    marginLeft: -10,
-                  }}
-                />
-              </div>
-            </div>
-          </div>
-        )} */}
         <div className={style.mainDiv}>
           <div className={style.mainDiv2}>
             <p className={style.title}>{eventInfo.event.title}</p>
@@ -213,13 +141,26 @@ const Calender = () => {
   });
 
   const onSubmit = async (data) => {
-    const res = await CalenderService.addEvent(data);
+    const transformData = transformer(data);
+    const res = await CalenderService.addEvent(transformData);
     console.log(res, 'res ------------ res');
+  };
+
+  const transformer = (data) => {
+    return {
+      ...data,
+      start: `${moment(data?.start).format('YYYY-MM-DD')}T${moment(new Date()).format('HH:mm')}Z`,
+      end: `${moment(data?.end).format('YYYY-MM-DD')}T${moment(new Date()).format('HH:mm')}Z`,
+      recurrence: data?.recurrence?.value,
+      type: data?.type?.value,
+      attendees: data?.attendees?.map((i: any) => i.value),
+    };
   };
 
   console.log(
     watch(
       'title',
+      'attendees',
       'allday',
       'startDate',
       'endDate',
@@ -227,7 +168,6 @@ const Calender = () => {
       'recurrenceType',
       'description',
       'venue',
-      'attendees',
     ),
   );
 
@@ -251,8 +191,6 @@ const Calender = () => {
           contentHeight={'auto'}
           contentWidth={'auto'}
           nowIndicator
-          // eventMouseEnter={handleMouseEnter}
-          // eventMouseLeave={handleMouseLeave}
           dateClick={(e) => console.log(e.dateStr)}
           eventClick={handleMouseEnter}
           slotEventOverlap={false}
@@ -301,6 +239,7 @@ const Calender = () => {
                 name="start"
                 star=" *"
                 showTimeInput={check === false}
+                handleChange={(date) => console.log(date)}
               />
               <DatePicker
                 label={check === true ? 'End Date' : 'End Date & Time'}
@@ -315,7 +254,7 @@ const Calender = () => {
               <Selection
                 label="Recurrence"
                 options={recurrenceTypes}
-                name="recurrenceType"
+                name="recurrence"
                 control={control}
               />
             </div>
