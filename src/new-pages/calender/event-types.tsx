@@ -10,7 +10,7 @@ export const recurrenceTypes = [
   { value: 'Yearly', label: 'Yearly' },
 ];
 export const options = [
-  { id: 'Option 1', name: 'Group 1' },
+  { id: 'Option 1', name: 'Group 1', value: '634d794828e365a9e7bae18b' },
   { id: 'Option 2', name: 'Group 1' },
   { id: 'Option 3', name: 'Group 1' },
   { id: 'Option 4', name: 'Group 2' },
