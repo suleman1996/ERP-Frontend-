@@ -72,8 +72,6 @@ const Documents = ({ setOpen, setDocId, setDocument, document, getAllDocuments }
                 </div>
                 <div
                   onClick={() => {
-                    console.log('e', e);
-
                     downloadURL(e.file, e.name, e.fileType);
                   }}
                   style={{ marginRight: '10px' }}

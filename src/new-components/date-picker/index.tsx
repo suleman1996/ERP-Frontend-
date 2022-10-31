@@ -34,6 +34,9 @@ interface Props {
   readOnly?: boolean;
   star?: string;
   showTimeInput?: any;
+  monthYear?: any;
+  showYearPicker?: any;
+  monthDate?: any;
 }
 
 const DatePicker = ({
@@ -53,6 +56,9 @@ const DatePicker = ({
   minDate,
   placeholder,
   star,
+  monthYear,
+  showYearPicker,
+  monthDate,
 }: Props) => {
   const handleChangeDate = (
     event: Date | [Date | null, Date | null] | null,
@@ -96,7 +102,7 @@ const DatePicker = ({
                   maxDate={maxDate && maxDate}
                   minDate={minDate && minDate}
                   readOnly={readOnly}
-                  dateFormat={showTimeInput ? 'MM/dd/yyyy h:mm aa' : 'MM/dd/yyyy'}
+                  // dateFormat={showTimeInput ? 'MM/dd/yyyy h:mm aa' : 'MM/dd/yyyy'}
                   timeFormat="HH:mm"
                   timeCaption="Time"
                   showTimeInput={showTimeInput}
@@ -137,7 +143,9 @@ const DatePicker = ({
                         </button>
                       </div>
                       <p>
-                        {months[date.getMonth()]} {date.getFullYear()}
+                        {/* {months[date.getMonth()]} {date.getFullYear()} */}
+                        {!showYearPicker ? months[date.getMonth()] : ''}{' '}
+                        {monthDate ? '' : date.getFullYear()}
                       </p>
                       <div>
                         <button
@@ -158,6 +166,26 @@ const DatePicker = ({
                       </div>
                     </div>
                   )}
+                  showMonthYearPicker
+                  {...(monthYear
+                    ? {
+                        dateFormat: 'MM/yyyy',
+                        showMonthYearPicker: true,
+                      }
+                    : showYearPicker
+                    ? {
+                        dateFormat: 'yyyy',
+                        showYearPicker,
+                      }
+                    : monthDate
+                    ? {
+                        dateFormat: 'MM/dd',
+                        showMonthYearPicker: false,
+                      }
+                    : {
+                        dateFormat: 'MM/dd/yyyy',
+                        showMonthYearPicker: false,
+                      })}
                 />
               );
             }}

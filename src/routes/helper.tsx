@@ -11,7 +11,7 @@ import Payroll from 'pages/payroll';
 import ProjectDetails from 'pages/project-details';
 import SalesManagement from 'pages/sales-management';
 import Settings from 'new-pages/settings';
-import Tax from 'pages/tax';
+// import Tax from 'pages/tax';
 import Login from 'pages/login';
 import ForgetPassword from 'pages/forget';
 import ResetPassword from 'pages/reset-password';
@@ -20,6 +20,7 @@ import EmployeeProfileDetails from 'new-pages/employee-module/employee-profile';
 import AddEmployee from 'new-pages/employee-module/add-employee';
 import SingleEmployee from 'new-pages/employee-module/single-employee';
 import ProfileSetting from 'new-pages/settings/profile-settings';
+import TaxSlab from 'new-pages/tax';
 
 export interface RouteInterface {
   path: string;
@@ -42,6 +43,11 @@ export const routes: RouteInterface[] = [
   {
     path: '/profile-setting',
     component: <ProfileSetting />,
+    role: [...roles.all],
+  },
+  {
+    path: '/tax',
+    component: <TaxSlab />,
     role: [...roles.all],
   },
   {
@@ -69,11 +75,11 @@ export const routes: RouteInterface[] = [
     component: <Payroll />,
     role: [...roles.adminHr],
   },
-  {
-    path: '/tax',
-    component: <Tax />,
-    role: [...roles.all],
-  },
+  // {
+  //   path: '/tax',
+  //   component: <Tax />,
+  //   role: [...roles.all],
+  // },
   {
     path: '/clients-info',
     component: <ClientInfo />,

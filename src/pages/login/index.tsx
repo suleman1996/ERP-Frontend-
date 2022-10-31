@@ -16,6 +16,8 @@ const Login = () => {
   const handleLogin = async (data: any, setIsLoading: any) => {
     setIsLoading(true);
     const res = await AuthService.login(data);
+    console.log('logggg', res);
+
     if (res.status === 200) {
       setIsLoading(false);
       dispatch(setCurrentUser(res.data));
