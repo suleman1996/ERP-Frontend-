@@ -7,6 +7,7 @@ import ProfileUpload from 'new-components/profile-upload';
 import TextField from 'new-components/textfield';
 
 import EmployeeService from 'services/employee-service';
+import { removeKeys, setErrors } from './../../../../helper/index';
 
 import tick from 'new-assets/tick.svg';
 import style from './document.module.scss';
@@ -23,32 +24,38 @@ interface Props {
 
 const AddDocument = ({ open, setOpen, docId, setDocId, getAllDocuments }: Props) => {
   const { id } = useParams();
-  const { register, handleSubmit, errors, control, reset } = useForm();
+  const { register, handleSubmit, errors, control, reset, setError } = useForm();
   const [selectedFileName, setSelectedFileName] = useState('');
   const [loader, setLoader] = useState(false);
 
   const onSubmit = async (data: any) => {
     setLoader(true);
-    const userDoc = {
-      ...data,
-      employeeId: id,
-      ...(data.frontPic &&
-        data.frontPic.length && { file: await convertBase64Image(data.frontPic[0]) }),
-
-      documentName: data?.name,
-    };
-    if (docId) {
-      const res = await EmployeeService.updateDocument(userDoc, docId);
-      if (res.status === 200) {
-        setOpen(false);
-        getAllDocuments && getAllDocuments();
+    try {
+      const userDoc = {
+        ...data,
+        employeeId: id,
+        ...(data.file.length > 0 && { file: await convertBase64Image(data.file[0]) }),
+      };
+      data.file.length <= 0 && removeKeys(userDoc, ['file']);
+      if (docId) {
+        const res = await EmployeeService.updateDocument(userDoc, docId);
+        if (res.status === 200) {
+          setOpen(false);
+          getAllDocuments && getAllDocuments();
+        }
+      } else {
+        const res = await EmployeeService.addDocument(userDoc);
+        if (res.status === 200) {
+          setOpen(false);
+          getAllDocuments && getAllDocuments();
+        }
       }
-    } else {
-      const res = await EmployeeService.addDocument(userDoc);
-      if (res.status === 200) {
-        setOpen(false);
-        getAllDocuments && getAllDocuments();
+    } catch (err) {
+      console.log(err);
+      if (err?.response?.data?.error) {
+        setErrors(err?.response?.data?.error, setError);
       }
+      setLoader(false);
     }
     setLoader(false);
   };
@@ -56,7 +63,7 @@ const AddDocument = ({ open, setOpen, docId, setDocId, getAllDocuments }: Props)
   const getDocById = async () => {
     const res = await EmployeeService.getByIdDocument(docId);
     reset({
-      name: res?.data?.name,
+      documentName: res?.data?.name,
       category: res?.data?.category,
     });
     setSelectedFileName(res?.data?.fileFor);
@@ -70,7 +77,7 @@ const AddDocument = ({ open, setOpen, docId, setDocId, getAllDocuments }: Props)
     <>
       <Modal
         open={open}
-        title={`Document`}
+        title={`${docId ? 'Edit' : 'Add'} Document`}
         handleClose={() => setOpen(false)}
         // handleClick={() => setOpen(false)}
         text="Done"
@@ -82,20 +89,23 @@ const AddDocument = ({ open, setOpen, docId, setDocId, getAllDocuments }: Props)
         <form id="addDoc" onSubmit={handleSubmit(onSubmit)}>
           <div className={style.grid}>
             <TextField
-              name="name"
+              name="documentName"
               label="Name"
+              star=" *"
               type="text"
               register={register}
-              errorMessage={errors?.name?.message}
+              errorMessage={errors?.documentName?.message}
               placeholder="Name"
             />
             <div>
-              <label className={style.label}>Document</label>
+              <label className={style.label}>
+                Document <b style={{ color: 'red' }}>*</b>
+              </label>
               <ProfileUpload
-                name={'frontPic'}
+                name={'file'}
                 register={register}
                 id={'frontPic'}
-                errorMessage={errors?.frontPic?.message}
+                errorMessage={errors?.file?.message}
                 selectedFileName={selectedFileName}
                 setSelectedFileName={setSelectedFileName}
               />
@@ -104,6 +114,7 @@ const AddDocument = ({ open, setOpen, docId, setDocId, getAllDocuments }: Props)
               name="category"
               label="Category"
               type="text"
+              star=" *"
               register={register}
               errorMessage={errors?.category?.message}
               placeholder="Category"

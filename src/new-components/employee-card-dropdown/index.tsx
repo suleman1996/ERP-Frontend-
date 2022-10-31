@@ -82,8 +82,13 @@ const EmployeeDropdown = ({ setOpenModal, setOpenModalProfile, id, handleClick }
         handleClick={() => setOpen(false)}
       >
         <Document
+          loading={'Loading please wait ...'}
           file={{
-            url: `http://localhost:8080/api/employees/profile-view/${id}`,
+            url: `${
+              process.env.REACT_APP_API_IS_DEV === 'true'
+                ? process.env.REACT_APP_API_BASE_URL_DEV
+                : process.env.REACT_APP_API_BASE_URL_PRODUCTION
+            }employees/profile-view/${id}`,
             httpHeaders: {
               authorization: authToken,
             },
@@ -96,12 +101,6 @@ const EmployeeDropdown = ({ setOpenModal, setOpenModalProfile, id, handleClick }
           <p>
             Page {pageNumber || (numPages ? 1 : '--')} of {numPages || '--'}
           </p>
-          {/* <button type="button" disabled={pageNumber <= 1} onClick={previousPage}>
-            Previous
-          </button>
-          <button type="button" disabled={pageNumber >= numPages} onClick={nextPage}>
-            Next
-          </button> */}
           <div style={{ display: 'flex', width: '30%', justifyContent: 'space-around' }}>
             {pageNumber >= 1 && <Button handleClick={previousPage} text="Previous" />}
             {pageNumber <= numPages && <Button handleClick={nextPage} text="Next" />}
@@ -120,7 +119,11 @@ const EmployeeDropdown = ({ setOpenModal, setOpenModalProfile, id, handleClick }
       >
         <Document
           file={{
-            url: `http://localhost:8080/api/employees/cv-view/${id}`,
+            url: `${
+              process.env.REACT_APP_API_IS_DEV === 'true'
+                ? process.env.REACT_APP_API_BASE_URL_DEV
+                : process.env.REACT_APP_API_BASE_URL_PRODUCTION
+            }employees/cv-view/${id}`,
             httpHeaders: {
               authorization: authToken,
             },
@@ -133,12 +136,6 @@ const EmployeeDropdown = ({ setOpenModal, setOpenModalProfile, id, handleClick }
           <p>
             Page {pageNumber || (numPages ? 1 : '--')} of {numPages || '--'}
           </p>
-          {/* <button type="button" disabled={pageNumber <= 1} onClick={previousPage}>
-            Previous
-          </button>
-          <button type="button" disabled={pageNumber >= numPages} onClick={nextPage}>
-            Next
-          </button> */}
           <div style={{ display: 'flex', width: '30%', justifyContent: 'space-around' }}>
             {pageNumber >= 1 && <Button handleClick={previousPage} text="Previous" />}
             {pageNumber <= numPages && <Button handleClick={nextPage} text="Next" />}

@@ -70,7 +70,12 @@ const CompanyInformation = () => {
 
   return (
     <div className={style.mainForm}>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form
+        onSubmit={(e) => {
+          clearErrors();
+          handleSubmit(onSubmit)(e);
+        }}
+      >
         <div className={style.grid}>
           <DatePicker
             label="Joining Date"

@@ -10,11 +10,10 @@ import EmployeeService from 'services/employee-service';
 
 import style from './document.module.scss';
 import editIcon from 'new-assets/table-edit.svg';
+import view from 'new-assets/viewIconnew.svg';
 import deleteIcon from 'new-assets/table-delete.svg';
-import viewIcon from 'new-assets/viewIcon.svg';
 import downloadIcon from 'new-assets/downlaod.svg';
 import pdf from 'assets/employee-page/print.svg';
-import { selectFilter } from 'new-components/table-filter/mockData';
 import axios from 'axios';
 
 interface Props {
@@ -29,10 +28,6 @@ const Documents = ({ setOpen, setDocId, setDocument, document, getAllDocuments }
   useEffect(() => {
     getAllDocuments();
   }, []);
-
-  const [file, setFile] = useState();
-
-  console.log('document', document);
 
   return (
     <>
@@ -73,15 +68,13 @@ const Documents = ({ setOpen, setDocId, setDocument, document, getAllDocuments }
                   }}
                   style={{ marginRight: '10px' }}
                 >
-                  <img src={pdf} width={25} />
+                  <img src={view} width={25} />
                 </div>
                 <div
                   onClick={() => {
                     console.log('e', e);
 
-                    setFile(e.file);
-                    // document.getElementById('download').click();
-                    downloadURL(e.file, e.name);
+                    downloadURL(e.file, e.name, e.fileType);
                   }}
                   style={{ marginRight: '10px' }}
                 >
@@ -128,31 +121,8 @@ function viewURI(uri: string, name: string) {
   document.body.removeChild(link);
 }
 
-function downloadURL(uri: any, name: string) {
-  // const fileURL = window.URL.createObjectURL(new Blob([uri]));
-  // const fileLink = document.createElement('a');
-  // fileLink.href = fileURL;
-  // fileLink.setAttribute('download', `${name}.pdf`);
-  // fileLink.setAttribute('target', '_blank');
-  // document.body.appendChild(fileLink);
-  // fileLink.click();
-  // fileLink.remove();
-  // console.log(fileURL);
-
-  // const blob = new Blob([uri], { type: 'image/jpeg' });
-  // console.log('bb', blob);
-
-  // var FileSaver = require('file-saver');
-  // FileSaver.saveAs(uri, 'somehthing.pdf');
-
-  // const url = window.URL.createObjectURL(new Blob([uri]));
-  // const link = document.createElement('a');
-  // link.href = url;
-  // link.setAttribute('download', 'file.pdf'); //or any other extension
-  // document.body.appendChild(link);
-  // link.click();
-
-  // fileDownload(uri, 'filename.pdf');
+function downloadURL(uri: any, name: string, type: string) {
+  console.log('type', type.split('/'));
 
   axios({
     url: uri,
@@ -164,7 +134,10 @@ function downloadURL(uri: any, name: string) {
     // create "a" HTML element with href to file & click
     const link = document.createElement('a');
     link.href = href;
-    link.setAttribute('download', 'file.pdf'); //or any other extension
+    link.setAttribute(
+      'download',
+      `${name}.${type.includes('image') ? type.split('/')[1] : type.toLowerCase()}`,
+    ); //or any other extension
     document.body.appendChild(link);
     link.click();
 

@@ -72,7 +72,7 @@ export const usePersonalInfo = ({
 
   useEffect(() => {
     (employeeDocId || id) && getSingleEmployeeData();
-  }, [employeeDocId]);
+  }, [employeeDocId, id]);
 
   const getSingleEmployeeData = async () => {
     if (employeeDocId) {
@@ -170,8 +170,6 @@ export const usePersonalInfo = ({
           setEmployeeId(res?.data?.updatedEmployeeId);
           handleNext('Address');
           setFormData({ ...formData, personalInformation: { ...userData } });
-        }
-        if (res.status === 400) {
         }
       }
       setBtnLoader(false);

@@ -19,15 +19,20 @@ export const useEmployeeFilter = ({ setOpen, setEmployees, setCount }: Props) =>
     resolver: yupResolver(schema),
   });
 
-  const [depName, setDepName] = useState();
+  const [depName, setDepName] = useState<string>();
   const [loading, setLoading] = useState();
 
   const [departments, setDepartments] = useState<any>();
   const [designation, setDesignation] = useState<any>();
 
   const departmentChangeHandler = async (e: any) => {
-    setDepName(departments[Number(e.target?.value)]?.name);
+    console.log('value', e.target.value);
+
+    console.log('name : ', departments[Number(e.target?.value)]?.name);
+
+    setDepName(e.target?.value ? departments[Number(e.target?.value)]?.name : '');
     await getAllDesignations(departments[e.target?.value]?._id);
+    console.log('handler', depName);
   };
 
   const onSubmit = async (data: any) => {
@@ -44,6 +49,9 @@ export const useEmployeeFilter = ({ setOpen, setEmployees, setCount }: Props) =>
     } else {
       setLoading(false);
     }
+
+    setDepName('');
+    console.log('submit', depName);
   };
 
   const cancelHandler = () => {
