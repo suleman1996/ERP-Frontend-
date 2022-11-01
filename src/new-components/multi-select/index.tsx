@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
-import { Multiselect } from 'multiselect-react-dropdown';
-import './styles.css';
 import { Controller } from 'react-hook-form';
 
-export default function App({
+// import { Multiselect } from 'multiselect-react-dropdown';
+import { MultiSelect } from 'react-multi-select-component';
+
+import './styles.css';
+
+export default function MultiPicker({
   label,
   star,
   errorMessage,
@@ -13,6 +16,9 @@ export default function App({
   handleRemove,
   name,
   control,
+  groupBy,
+  customValidation,
+  handleChange,
 }: any) {
   return (
     <div>
@@ -32,19 +38,27 @@ export default function App({
           control={control}
           render={({ onChange, value }) => {
             return (
-              <Multiselect
+              <MultiSelect
                 options={options}
-                selectedValues={value}
-                onSelect={onChange}
-                onRemove={handleRemove}
-                displayValue="id"
-                groupBy="name"
-                showCheckbox={true}
+                value={selectedValues}
+                onChange={handleChange}
+                labelledBy="Select"
                 className="wrapper"
               />
+              // <Multiselect
+              //   options={options}
+              //   selectedValues={value}
+              //   onSelect={handleSelect}
+              //   onRemove={handleRemove}
+              //   displayValue="id"
+              //   groupBy={groupBy}
+              //   showCheckbox={true}
+              //   className="wrapper"
+              // />
             );
           }}
         />
+        {(errorMessage || customValidation) && <span>{errorMessage || customValidation}</span>}
       </div>
     </div>
   );

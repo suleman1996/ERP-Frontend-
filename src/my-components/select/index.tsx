@@ -30,7 +30,7 @@ interface Props {
   value?: any;
   closeMenuOnSelect?: boolean;
   isMulti?: boolean;
-  control?: any;
+  control: any;
 }
 
 const Selection = ({
@@ -73,7 +73,6 @@ const Selection = ({
                 options={options}
                 styles={CustomStyle}
                 placeholder={placeholder}
-                name={name}
               />
             );
           }}
