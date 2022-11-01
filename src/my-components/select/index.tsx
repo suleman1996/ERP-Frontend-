@@ -73,7 +73,6 @@ const Selection = ({
                 options={options}
                 styles={CustomStyle}
                 placeholder={placeholder}
-                name={name}
               />
             );
           }}

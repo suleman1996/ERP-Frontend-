@@ -25,6 +25,11 @@ export default class PolicyService {
     return res;
   }
 
+  static async addPolicyApi(data: any) {
+    const res = await ApiService.post(`${PolicyService.baseUrl[0]}/`, data);
+    return res;
+  }
+
   static async updatePolicy(
     id: string,
     data: any,

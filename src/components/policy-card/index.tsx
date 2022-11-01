@@ -6,12 +6,15 @@ import menu from 'assets/menu.svg';
 import style from './request.module.scss';
 import { useOutsideAlerter } from 'hooks/useOutsideClick';
 
+import moment from 'moment';
+
 const RenderPolicy = ({
   setSelectedTab,
   setOpen,
   setOpenAddPolice,
   setEditPolicy,
   setOpenViewPdfPolicy,
+  data,
 }: any) => {
   const [isMenuVisible, setIsMenuVisible] = React.useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -64,10 +67,18 @@ const RenderPolicy = ({
       )}
       <div className={style.policyHeaderView}>
         <div className={style.policyHeaderTitleView}>
-          <p style={{ fontSize: '15px', fontWeight: 600, color: '#2D2D32' }}>All Policies</p>
-          <p style={{ fontSize: '10px', fontWeight: 400, color: '#2D2D32' }}>
-            Effective Date: 10 April, 2022
+          <p style={{ fontSize: '15px', fontWeight: 600, color: '#2D2D32' }}>
+            {data?.name || 'All Policies'}
           </p>
+          {data?.effectiveDate ? (
+            <p style={{ fontSize: '10px', fontWeight: 400, color: '#2D2D32' }}>
+              Effective Date: {moment(data?.effectiveDate).format('DD MMM, YYYY')}
+            </p>
+          ) : (
+            <p style={{ fontSize: '10px', fontWeight: 400, color: '#2D2D32' }}>
+              Effective Date: 10 April, 2022
+            </p>
+          )}
         </div>
         <div className={style.policyMenuView}>
           <img
@@ -82,13 +93,13 @@ const RenderPolicy = ({
       <div className={style.policyDescriptionView}>
         <ul>
           {[
-            { q: 'Policy Number', v: 'BFFF334r' },
-            { q: 'Version', v: '0.1.8' },
-            { q: 'Category', v: 'Holidays' },
-            { q: 'Prepared by ', v: 'Maira Ashraf' },
+            { q: 'Policy Number', v: data?.policyNumber || 'BFFF334r' },
+            { q: 'Version', v: data?.version || '0.1.8' },
+            { q: 'Category', v: data?.categoryId?.name || 'Holidays' },
+            { q: 'Prepared by ', v: data?.preparedBy || 'Maira Ashraf' },
             { q: 'Reviewed by', v: 'Suleman Amjad' },
-            { q: 'Approved by', v: 'Faizan Khan' },
-            { q: 'Added by', v: 'Umair Leo' },
+            { q: 'Approved by', v: data?.approvedBy || 'Faizan Khan' },
+            { q: 'Added by', v: data?.addedBy || 'Umair Leo' },
           ].map((item) => (
             <li>
               {item?.q} : {item?.v}
