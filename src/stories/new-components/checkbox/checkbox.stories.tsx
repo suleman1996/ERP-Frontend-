@@ -1,16 +1,29 @@
-import Checkbox from 'my-components/check-box';
+import Checkbox from 'new-components/checkbox';
+import React from 'react';
+import { useForm } from 'react-hook-form';
 
 import style from './checkbox.stories.module.scss';
 
 export default {
   title: 'Checkbox',
   component: Checkbox,
-  argTypes: {
-    handleChange: { action: 'true' },
-  },
 };
 
-const Template = (args: any) => <Checkbox {...args} />;
+const Template = (args: any) => {
+  const { register } = useForm();
+
+  const [check, setCheck] = React.useState(false);
+  return (
+    <Checkbox
+      {...args}
+      handleChange={() => setCheck(!check)}
+      checked={check}
+      name="check"
+      register={register}
+      containerClass={style.containerClass}
+    />
+  );
+};
 
 export const CheckBox: any = Template.bind({});
 CheckBox.args = {

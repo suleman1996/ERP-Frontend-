@@ -5,3 +5,20 @@
 .labelColor {
   color: red !important;
 }
+.containerClass {
+  label {
+    display: flex;
+    align-items: center;
+    span {
+      margin-top: 10px;
+    }
+  }
+}
+.containerClass {
+  label {
+    span:after {
+      top: 3px !important;
+      left: 2px !important;
+    }
+  }
+}

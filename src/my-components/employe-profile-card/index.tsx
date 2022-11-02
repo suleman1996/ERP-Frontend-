@@ -50,13 +50,11 @@ const EmployeeProfileCard = ({
           >
             {name}
           </h1>
-          <p style={{ margin: 2, color: designationColor, fontSize: desigFont }}>{designation}</p>
+          <p style={{ margin: 2, color: designationColor, fontSize: '20px' }}>{designation}</p>
           <div className={style.innerPara}>
             <p className={style.form}>
               Department:
-              <span style={{ fontSize: fontSizeForm, fontWeight: fontWeightForm }}>
-                {department}
-              </span>
+              <span style={{ fontSize: '17px', fontWeight: fontWeightForm }}>{department}</span>
             </p>
             <p className={style.form}>
               Phone No:<span>{phone}</span>
