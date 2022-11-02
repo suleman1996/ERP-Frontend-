@@ -47,7 +47,7 @@ const CustomSelect = ({ value, name, register, label }: Props) => {
               inset: 0,
               position: 'fixed',
               backgroundColor: 'transparent',
-              zIndex: 20,
+              zIndex: 100,
             }}
           />
         )}

@@ -118,6 +118,7 @@ export const useEducationDetail = ({
     };
     !transcript && removeKeys(tempObj, ['transcript']);
     ongiong && removeKeys(tempObj, ['endDate']);
+
     if (educationIndex.current < 0) {
       newEducations.push(tempObj);
     } else {
@@ -130,13 +131,13 @@ export const useEducationDetail = ({
     });
     setEducations([...sortedEducations]);
 
-    setFormData({ ...formData, educationDetails: [...newEducations] });
+    setFormData({ ...formData, educationDetails: [...sortedEducations] });
     educationIndex.current = -1;
     reset({ startDate: null, endDate: null, ongiong: false });
 
     setFilename('');
-    // setOngoing(false);
     setSelectedFileName('');
+    setOngoing(false);
   };
 
   const handleEducation = (index: number) => {

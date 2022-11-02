@@ -107,6 +107,7 @@ export const useSkill = ({ formData, setFormData, employeeId, setSkillData, skil
     const delEdu = [...educations];
     delEdu.splice(index, 1);
     setEducations([...delEdu]);
+    setSkillData([...delEdu]);
     setFormData({ ...formData, setSkillData: [...delEdu] });
   };
 
@@ -119,7 +120,7 @@ export const useSkill = ({ formData, setFormData, employeeId, setSkillData, skil
       return item;
     });
 
-    setSkillData((current) => [...current, ...data]);
+    setSkillData(data);
   };
 
   useEffect(() => {
@@ -128,7 +129,7 @@ export const useSkill = ({ formData, setFormData, employeeId, setSkillData, skil
       setEducations([...formData?.setSkillData]);
       // setSkillData((current) => [...current, ...formData?.setSkillData]);
     }
-  }, []);
+  }, [id]);
 
   return {
     handleSubmit,

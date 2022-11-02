@@ -119,7 +119,7 @@ const LeaveForm = ({
     if (update) {
       let type: any = formType?.type;
       if (type === 'Advance Salary' || type === 'Gate Pass') {
-        type = type.split(' ');
+        type = type && type?.split(' ');
         type = [type[0]?.toLocaleLowerCase(), type[1]].join('');
       } else {
         type = type?.toLocaleLowerCase();

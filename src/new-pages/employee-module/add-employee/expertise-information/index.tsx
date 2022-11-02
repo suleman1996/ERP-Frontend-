@@ -75,6 +75,11 @@ const ExpertiseInformation = () => {
   const [language, setLanguage] = useState<Language[] | []>([]);
   const [certificate, setCertificate] = useState<Certificate[] | []>([]);
   //for husky
+
+  console.log('skillData', skillData);
+  console.log('language', language);
+  console.log('certificate', certificate);
+
   const onSubmit = async () => {
     setBtnLoader(true);
     try {
@@ -115,23 +120,23 @@ const ExpertiseInformation = () => {
     const res = await EmployeeService.getExpertiesEmployee(employeeDocId);
     console.log('res pes ', res.data);
     console.log('skill ', res.data);
-    const skills = res?.data?.skills.map((item: any) => {
-      removeKeys(item, ['_id']);
-      return item;
-    });
-    setSkillData((current) => [...current, ...skills]);
-    console.log('skillData', skillData);
+    // const skills = res?.data?.skills?.map((item: any) => {
+    //   removeKeys(item, ['_id']);
+    //   return item;
+    // });
+    // setSkillData((current) => [...current, ...skills]);
+    // console.log('skillData', skillData);
 
-    const data = res?.data?.languages.map((item: any) => {
-      removeKeys(item, ['_id']);
-      return item;
-    });
-    setLanguage((current) => [...current, ...data]);
-    const dataa = res?.data?.certificates.map((item: any) => {
-      removeKeys(item, ['_id']);
-      return item;
-    });
-    setCertificate((current) => [...current, ...dataa]);
+    // const data = res?.data?.languages?.map((item: any) => {
+    //   removeKeys(item, ['_id']);
+    //   return item;
+    // });
+    // setLanguage((current) => [...current, ...data]);
+    // const dataa = res?.data?.certificates?.map((item: any) => {
+    //   removeKeys(item, ['_id']);
+    //   return item;
+    // });
+    // setCertificate((current) => [...current, ...dataa]);
   };
 
   useEffect(() => {
@@ -161,7 +166,6 @@ const ExpertiseInformation = () => {
         >
           <img src={active === 1 ? tickArrow : numImg1} alt="" />
           <p style={{ color: active === 1 ? '#57B894' : '#CACACA' }}>
-            {' '}
             <SvgImg active={active === 1} />
             Add Language
           </p>

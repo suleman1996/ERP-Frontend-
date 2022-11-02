@@ -7,12 +7,14 @@
   background-color: #ffffff;
   color: #717579;
   border-color: 1px solid #e9e9ef;
+  border: none;
 }
 .fc-day-today {
   background-color: #ffffff !important;
 }
 .fc .fc-button-primary:not(:disabled):active,
 .fc .fc-button-primary:not(:disabled).fc-button-active {
+  border: none;
   color: #ffffff;
   background-color: #57b894;
 }
@@ -48,4 +50,13 @@ th {
 }
 .fc-v-event {
   border: none;
+}
+.fc .fc-button-primary:not(:disabled):active:focus,
+.fc .fc-button-primary:not(:disabled).fc-button-active:focus {
+  box-shadow: none;
+}
+.fc .fc-button-primary:hover {
+  border-color: none !important;
+  background-color: #ffffff !important;
+  color: #717579 !important;
 }

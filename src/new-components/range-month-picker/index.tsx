@@ -11,22 +11,38 @@ interface Props {
   label?: string;
   id?: string;
   className?: string;
-
+  firstName?: string;
+  lastName?: string;
+  errorMessageStart?: string;
+  errorMessageEnd?: string;
+  watch?: any;
   control?: any;
   errorMessage?: string;
   defaultVal?: string;
   star?: string;
 }
 
-const MonthYearPicker = ({ control, label, className, errorMessage, defaultVal, star }: Props) => {
-  const [startDate, setStartDate] = useState(new Date('2021/02/09'));
-  const [endDate, setEndDate] = useState(new Date('2022/04/12'));
-
+const MonthYearPicker = ({
+  control,
+  label,
+  className,
+  errorMessage,
+  defaultVal,
+  star,
+  firstName,
+  lastName,
+  errorMessageStart,
+  errorMessageEnd,
+  watch,
+}: Props) => {
   return (
     <>
       <div className={`${style.main} ${className}`}>
         {label && (
-          <label style={{ color: errorMessage && '#ff5050' }} className={style.label}>
+          <label
+            style={{ color: (errorMessageStart || errorMessageEnd) && '#ff5050' }}
+            className={style.label}
+          >
             {label}
             <b style={{ color: 'red' }}>{star}</b>
           </label>
@@ -34,46 +50,64 @@ const MonthYearPicker = ({ control, label, className, errorMessage, defaultVal, 
         <div className={style.grid}>
           <div>
             <Controller
-              name="startDate"
+              name={firstName}
               control={control}
               defaultValue={defaultVal || null}
-              render={() => {
+              render={({ onChange, value }) => {
                 return (
-                  <ReactDatePicker
-                    id="startDate"
-                    selected={startDate}
-                    className={errorMessage ? style.borderClass : style.inpDiv}
-                    onChange={(date) => setStartDate(date)}
-                    selectsStart
-                    startDate={startDate}
-                    endDate={endDate}
-                    dateFormat="MM/yyyy"
-                    showMonthYearPicker
-                    placeholderText="MM/yyyy"
-                  />
+                  <>
+                    <ReactDatePicker
+                      name={lastName}
+                      selected={value == 'Invalid Date' ? null : value || null}
+                      className={errorMessageStart ? style.borderClass : style.inpDiv}
+                      onChange={onChange}
+                      value={value}
+                      selectsStart
+                      // startDate={startDate}
+                      // endDate={endDate}
+                      dateFormat="MM/yyyy"
+                      showMonthYearPicker
+                      placeholderText="MM/yyyy"
+                    />
+                    {errorMessageStart ? (
+                      <span className={style.errorMessage}>{errorMessageStart}</span>
+                    ) : (
+                      ''
+                    )}
+                  </>
                 );
               }}
             />
           </div>
           <div>
             <Controller
-              name="endDate"
+              name={lastName}
               control={control}
               defaultValue={defaultVal || null}
-              render={() => {
+              render={({ onChange, value }) => {
                 return (
-                  <ReactDatePicker
-                    id="startDate"
-                    selected={endDate}
-                    onChange={(date) => setEndDate(date)}
-                    selectsEnd
-                    startDate={startDate}
-                    endDate={endDate}
-                    dateFormat="MM/yyyy"
-                    showMonthYearPicker
-                    className={errorMessage ? style.borderClass : style.inpDiv}
-                    placeholderText="MM/yyyy"
-                  />
+                  <>
+                    <ReactDatePicker
+                      name={lastName}
+                      selected={value == 'Invalid Date' ? null : value || null}
+                      onChange={onChange}
+                      value={value}
+                      selectsEnd
+                      minDate={watch().financialYearStart}
+                      // startDate={startDate}
+                      // endDate={endDate}
+                      // minDate={startDate}
+                      dateFormat="MM/yyyy"
+                      showMonthYearPicker
+                      className={errorMessageEnd ? style.borderClass : style.inpDiv}
+                      placeholderText="MM/yyyy"
+                    />
+                    {errorMessageEnd ? (
+                      <span className={style.errorMessage}>{errorMessageEnd}</span>
+                    ) : (
+                      ''
+                    )}
+                  </>
                 );
               }}
             />

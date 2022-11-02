@@ -30,7 +30,7 @@ interface Props {
   value?: any;
   closeMenuOnSelect?: boolean;
   isMulti?: boolean;
-  control?: any;
+  control: any;
 }
 
 const Selection = ({

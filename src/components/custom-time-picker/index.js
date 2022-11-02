@@ -49,6 +49,7 @@ const CustomTimePicker = ({
         <Select
           selectContainer={style.selectContainer}
           name={'selectHours'}
+          control={control}
           value={type && type}
           onChange={(e) => setType(e.target.value)}
         >

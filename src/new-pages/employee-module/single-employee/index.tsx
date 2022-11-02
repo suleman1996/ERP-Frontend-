@@ -47,7 +47,7 @@ const SingleEmployee = () => {
 
   const positions = [
     {
-      title: 'Position',
+      title: 'Department',
       subtitle: userData?.department,
       class: style.b1,
     },

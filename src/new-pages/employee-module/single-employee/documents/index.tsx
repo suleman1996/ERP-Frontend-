@@ -72,8 +72,6 @@ const Documents = ({ setOpen, setDocId, setDocument, document, getAllDocuments }
                 </div>
                 <div
                   onClick={() => {
-                    console.log('e', e);
-
                     downloadURL(e.file, e.name, e.fileType);
                   }}
                   style={{ marginRight: '10px' }}
@@ -122,8 +120,6 @@ function viewURI(uri: string, name: string) {
 }
 
 function downloadURL(uri: any, name: string, type: string) {
-  console.log('type', type.split('/'));
-
   axios({
     url: uri,
     method: 'GET',
