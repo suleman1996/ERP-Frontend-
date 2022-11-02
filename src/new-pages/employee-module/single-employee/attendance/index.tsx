@@ -1,6 +1,8 @@
+import { useRef } from 'react';
 import CardContainer from 'new-components/card-container';
 import Table from 'new-components/table';
 import Button from 'new-components/button';
+import { useReactToPrint } from 'react-to-print';
 
 import { rows, columns, rows1, columns1, rows2, columns2 } from './helper';
 
@@ -8,6 +10,11 @@ import printIcon from 'new-assets/print.svg';
 import style from './attendance.module.scss';
 
 const Attendance = ({ user }: any) => {
+  const componentRef = useRef();
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
+
   return (
     <>
       <CardContainer className={style.card}>
@@ -23,7 +30,24 @@ const Attendance = ({ user }: any) => {
         <Table rows={rows2} columns={columns2} minWidth="850px" />
       </CardContainer>
       <div className={style.btnContainer}>
-        <Button text="Print File" iconEnd={printIcon} />
+        <Button text="Print File" iconEnd={printIcon} handleClick={() => handlePrint()} />
+      </div>
+
+      <div hidden>
+        <div ref={componentRef}>
+          <CardContainer className={style.printPages}>
+            <p className={style.printPages}>Attendance Summary</p>
+            <Table rows={rows} columns={columns} minWidth="750px" />
+          </CardContainer>
+          <CardContainer className={style.printPages}>
+            <p className={style.p}>Tags Summary</p>
+            <Table rows={rows1} columns={columns1} minWidth="850px" />
+          </CardContainer>
+          <CardContainer className={style.printPages}>
+            <p className={style.p}>Leaves Summary</p>
+            <Table rows={rows2} columns={columns2} minWidth="850px" />
+          </CardContainer>
+        </div>
       </div>
     </>
   );

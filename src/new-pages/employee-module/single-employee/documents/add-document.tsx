@@ -98,7 +98,7 @@ const AddDocument = ({ open, setOpen, docId, setDocId, getAllDocuments }: Props)
               placeholder="Name"
             />
             <div>
-              <label className={style.label}>
+              <label className={style.label} style={{ color: errors?.documentName && '#ff5050' }}>
                 Document <b style={{ color: 'red' }}>*</b>
               </label>
               <ProfileUpload
