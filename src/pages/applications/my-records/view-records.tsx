@@ -72,7 +72,7 @@ const ViewRecords = ({ open, setOpen, currentApplicationId, getAllApplications }
       setIsLoadingRejected(true);
     }
     const temp: any = applicationData;
-    let tempType: any = temp.type.split(' ').join().replace(/\,/g, '').split('');
+    let tempType: any = temp?.type && temp?.type?.split(' ').join().replace(/\,/g, '')?.split('');
     tempType[0] = tempType[0].toLowerCase();
     tempType = tempType.join().replace(/\,/g, '');
     const applicationDataObj = temp[tempType];

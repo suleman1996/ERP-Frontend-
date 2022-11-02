@@ -120,8 +120,6 @@ function viewURI(uri: string, name: string) {
 }
 
 function downloadURL(uri: any, name: string, type: string) {
-  console.log('type', type.split('/'));
-
   axios({
     url: uri,
     method: 'GET',

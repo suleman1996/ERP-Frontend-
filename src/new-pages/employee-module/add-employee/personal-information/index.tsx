@@ -166,7 +166,7 @@ const PersonalInformation = () => {
                 min={'0'}
                 placeholder=" Enter CNIC"
                 onChange={(e) => {
-                  e.target.value.split('').length > 13
+                  e?.target?.value && e?.target?.value?.split('').length > 13
                     ? setCustomValidation('Only 13 digits are allowed')
                     : setCustomValidation('');
                 }}
