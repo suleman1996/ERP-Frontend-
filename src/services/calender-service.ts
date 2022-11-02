@@ -18,9 +18,7 @@ export default class CalenderService {
   static baseUrl = ['calender'];
 
   static async getAllEvents(params?: any) {
-    const res = await ApiService.get(`${CalenderService.baseUrl[0]}/`, {
-      params,
-    });
+    const res = await ApiService.get(`${CalenderService.baseUrl[0]}/`, { params });
     return res;
   }
 
