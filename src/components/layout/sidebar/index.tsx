@@ -39,7 +39,7 @@ const Sidebar = ({ open, setOpen }: Props) => {
     if (pathname === '/') {
       setPathName('dashboard');
     } else {
-      const tempPath = pathname?.split('/')[1];
+      const tempPath = pathname && pathname?.split('/')[1];
       setPathName(tempPath);
     }
   }, [pathname]);

@@ -20,6 +20,8 @@ interface Employee {
   handleClick?: any;
   profilePicture: string;
   fullName: string;
+  firstName: string;
+  lastName: string;
   companyInformation: any;
   department: string;
   phone: string;
@@ -69,7 +71,7 @@ const EmployeeProfileDetails = () => {
           <img src={filter} alt="" className={style.img} onClick={() => setOpenFilter(true)} />
 
           <Button
-            text="Add Account"
+            text="Add Employee"
             type="button"
             handleClick={() => navigate('/employee/add')}
             iconStart={plus}
@@ -88,6 +90,8 @@ const EmployeeProfileDetails = () => {
                 {
                   profilePicture,
                   fullName,
+                  firstName,
+                  lastName,
                   companyInformation,
                   phone,
                   id,
@@ -101,7 +105,7 @@ const EmployeeProfileDetails = () => {
                   <div key={employeeId} style={{ position: 'relative' }}>
                     <EmployeeProfileCard
                       img={profilePicture}
-                      name={fullName}
+                      name={`${firstName} ${lastName}`}
                       designation={companyInformation?.designationInformation?.name}
                       department={companyInformation?.departmentInformation?.name}
                       phone={phone}

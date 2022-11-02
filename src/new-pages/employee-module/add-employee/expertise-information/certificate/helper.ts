@@ -102,11 +102,13 @@ export const useCerificate = ({ formData, setFormData, employeeId, setCertificat
     const delCert = [...educations];
     delCert.splice(index, 1);
     setEducations([...delCert]);
+    setCertificate([...delCert]);
     setFormData({ ...formData, certificateData: [...delCert] });
   };
 
   const getUser = async () => {
-    const res = await EmployeeService.getEmployee(id);
+    const res = await EmployeeService.getExpertiesEmployee(id);
+
     setEducations(res?.data?.certificates);
 
     const data = res?.data?.certificates.map((item: any) => {
@@ -114,11 +116,11 @@ export const useCerificate = ({ formData, setFormData, employeeId, setCertificat
       return item;
     });
 
-    setCertificate((current) => [...current, ...data]);
+    setCertificate(data);
   };
 
   useEffect(() => {
-    // id && getUser();
+    id && getUser();
     if (formData?.certificateData !== undefined && Object.keys(formData?.certificateData)?.length) {
       setEducations([...formData?.certificateData]);
       // setCertificate((current) => [...current, ...formData?.certificateData]);

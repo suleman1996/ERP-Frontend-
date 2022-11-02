@@ -60,7 +60,7 @@ export const usePersonalInfo = ({
   const getEmployeeID = async () => {
     const res = await EmployeeService.getAllEmployeesID(watch().employeeId);
     if (res.status === 200) {
-      setUserId(res?.data?.newEmployeeId);
+      !userId && setUserId(res?.data?.newEmployeeId);
     }
   };
 
@@ -82,7 +82,8 @@ export const usePersonalInfo = ({
       setSelectedFileNameBack(res.data?.employeePersonalInformation?.cnicBack?.name);
       setImg(res?.data?.employeePersonalInformation?.profilePicture);
       setUserId(
-        res?.data?.employeePersonalInformation?.employeeId?.split('').splice(3, 3).join(''),
+        res?.data?.employeePersonalInformation?.employeeId &&
+          res?.data?.employeePersonalInformation?.employeeId?.split('').splice(3, 3).join(''),
       );
       reset({
         firstName: res?.data?.employeePersonalInformation?.firstName,
@@ -105,7 +106,8 @@ export const usePersonalInfo = ({
       setSelectedFileNameBack(res.data?.employeePersonalInformation?.cnicBack?.name.toString());
       setImg(res?.data?.employeePersonalInformation?.profilePicture);
       setUserId(
-        res?.data?.employeePersonalInformation?.employeeId?.split('').splice(3, 3).join(''),
+        res?.data?.employeePersonalInformation?.employeeId &&
+          res?.data?.employeePersonalInformation?.employeeId?.split('').splice(3, 3).join(''),
       );
       reset({
         firstName: res?.data?.employeePersonalInformation?.firstName,

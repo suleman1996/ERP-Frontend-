@@ -11,7 +11,7 @@ import pdf from 'assets/employee-page/print.svg';
 import style from './table.module.scss';
 
 interface Props {
-  rows: any[];
+  rows?: any[];
   total?: any[];
   loading?: any;
   columns: {

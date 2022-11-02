@@ -5,7 +5,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 import Modal from 'components/modal';
 import NavLinks from 'components/nav-links';
-import Input from 'components/input';
+import Input from 'components/textfield';
 import Button from 'components/button';
 import MobileButton from 'components/button/mobile-button';
 

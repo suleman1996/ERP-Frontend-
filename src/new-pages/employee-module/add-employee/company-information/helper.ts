@@ -130,7 +130,7 @@ export const useCompanyInfo = ({ handleNext, formData, setFormData, employeeDocI
           workingHours:
             data?.employmentInfo?.workingHours &&
             data?.employmentInfo?.workingHours
-              .split(':')
+              ?.split(':')
               .map((e: string) => String(e).padStart(2, '0'))
               .join(':'),
           workingHoursType: watch().employmentType === 'Part-Time' && type,

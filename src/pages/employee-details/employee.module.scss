@@ -267,6 +267,9 @@
     }
   }
 }
+.employeeFilterCard {
+  padding: 0px;
+}
 .flexDepart {
   display: flex;
   align-items: center;
@@ -288,8 +291,4 @@
     border-color: #57b993;
     border-top-color: transparent;
   }
-}
-
-.employeeFilterCard {
-  padding: 0px;
 }
