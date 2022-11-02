@@ -66,6 +66,7 @@
   padding-left: calc(20px + (262 - 20) * (100vw - 280px) / (2560 - 280));
   padding-right: calc(20px + (262 - 20) * (100vw - 280px) / (2560 - 280));
   @media (max-width: $xl) {
-    width: 808px !important;
+    width: 700px !important;
+    padding: 50px;
   }
 }
