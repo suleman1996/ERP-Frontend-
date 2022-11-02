@@ -9,13 +9,14 @@ const Switch = ({
   name,
   className,
   checked,
+  handleClick,
   errorMessage,
   ...restOfProps
 }) => {
   return (
     <div>
       {label && <p className={style.titleClass}>{label}</p>}
-      <div className={`${style.mainClass} ${className}`}>
+      <div className={`${style.mainClass} ${className}`} onClick={handleClick && handleClick}>
         <label className={style.switch}>
           <input
             type="checkbox"

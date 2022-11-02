@@ -106,11 +106,12 @@ export const useLanguage = ({ formData, setFormData, employeeId, setLanguage }: 
     const delLang = [...educations];
     delLang.splice(index, 1);
     setEducations([...delLang]);
+    setLanguage([...delLang]);
     setFormData({ ...formData, languageData: [...delLang] });
   };
 
   const getUser = async () => {
-    const res = await EmployeeService.getEmployee(id);
+    const res = await EmployeeService.getExpertiesEmployee(id);
     setEducations(res?.data?.languages);
 
     const data = res?.data?.languages.map((item: any) => {
@@ -118,16 +119,16 @@ export const useLanguage = ({ formData, setFormData, employeeId, setLanguage }: 
       return item;
     });
 
-    setLanguage((current) => [...current, ...data]);
+    setLanguage(data);
   };
 
   useEffect(() => {
-    // id && getUser();
+    id && getUser();
     if (formData?.languageData !== undefined && Object.keys(formData?.languageData)?.length) {
       setEducations([...formData?.languageData]);
       // setLanguage((current) => [...current, ...formData?.languageData]);
     }
-  }, []);
+  }, [id]);
 
   return {
     handleSubmit,

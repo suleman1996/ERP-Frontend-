@@ -52,6 +52,13 @@ const TaxSlab = ({ setIsLoading, open, setOpen, singleId, setSingleId, slabs, se
     setOpen(true);
   };
 
+  const handleSwitch = async (id, item) => {
+    const res = await TaxService.switchTaxSlab(id, item);
+    if (res.status === 200) {
+      getTaxSlabsData();
+    }
+  };
+
   return (
     <>
       <div style={{ padding: '0 10px' }}>
@@ -68,6 +75,7 @@ const TaxSlab = ({ setIsLoading, open, setOpen, singleId, setSingleId, slabs, se
                       title={item.Status === true ? 'Active' : 'InActive'}
                       checked={item?.Status}
                       name={item._id}
+                      handleClick={() => handleSwitch(item?._id, item)}
                     />
                   </div>
                 ),

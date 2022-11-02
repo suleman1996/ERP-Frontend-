@@ -26,6 +26,11 @@ export default class TaxService {
     return res;
   }
 
+  static async switchTaxSlab(id: string, data: TaxSlab) {
+    const res = await ApiService.put(`${TaxService.baseUrl[0]}/toggle/${id}`, data);
+    return res;
+  }
+
   static async deleteTaxSlab(id: string) {
     const res = await ApiService.delete(`${TaxService.baseUrl[0]}/${id}`);
     return res;
