@@ -4,7 +4,8 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { addSlabColumns } from './tax-helper';
-import Modal from 'components/modal';
+import Modal from 'new-components/modal';
+// import Modal from 'components/modal';
 import MobileButton from 'components/button/mobile-button';
 
 import style from '../tax.module.scss';
@@ -26,24 +27,32 @@ import moment from 'moment';
 interface Props {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
+  setViewModal: Dispatch<SetStateAction<boolean>>;
   getTaxSlabsData: () => void;
   updateId: string;
   setSingleId?: Dispatch<SetStateAction<any>>;
-  newSlab?: any;
+  newSlabUpdate?: any;
+  viewModal?: boolean;
+  slabs: any;
+  setSlab: Dispatch<SetStateAction<any>>;
 }
 
 const AddAttendance = ({
+  viewModal,
   open,
   setOpen,
   getTaxSlabsData,
   updateId,
   setSingleId,
-  newSlab,
+  newSlabUpdate,
+  slabs,
+  setSlab,
+  setViewModal,
 }: Props) => {
   const [loading, setLoading] = useState(false);
   const [update, setUpdate] = useState<any>({ check: false, index: null });
-  const [slabs, setSlab] = useState<any>([]);
-  const [categories, setCategories] = useState();
+  // const [slabs, setSlab] = useState<any>([]);
+  // const [categories, setCategories] = useState();
 
   const { register, handleSubmit, errors, reset, control, watch } = useForm({
     resolver: yupResolver(schema),
@@ -74,7 +83,16 @@ const AddAttendance = ({
       return ind === index;
     });
 
-    reset({ ...data });
+    !updateId
+      ? reset({ ...data })
+      : reset({
+          taxGroupName: newSlabUpdate?.groupName,
+          category: newSlabUpdate?.category,
+          financialYearStart:
+            newSlabUpdate?.financialYearStart && new Date(newSlabUpdate?.financialYearStart),
+          financialYearEnd:
+            newSlabUpdate?.financialYearEnd && new Date(newSlabUpdate?.financialYearEnd),
+        });
   };
 
   const handleDeleteSlab = (index: any) => {
@@ -105,6 +123,8 @@ const AddAttendance = ({
         const res = await TaxService.updateTaxSlab(updateId, data);
         if (res.status === 200) {
           setSingleId('');
+          getTaxSlabsData();
+          setOpen(false);
         }
         setSingleId('');
       } else {
@@ -121,36 +141,34 @@ const AddAttendance = ({
     setLoading(false);
   };
 
-  const getCatefories = async () => {
-    const res = await TaxService.getAllCategories();
-    setCategories(res?.data?.policyCategory);
-  };
-
   useEffect(() => {
-    getCatefories();
+    console.log({ newSlabUpdate });
+
+    updateId &&
+      reset({
+        taxGroupName: newSlabUpdate?.groupName,
+        category: newSlabUpdate?.category,
+        financialYearStart:
+          newSlabUpdate?.financialYearStart && new Date(newSlabUpdate?.financialYearStart),
+        financialYearEnd:
+          newSlabUpdate?.financialYearEnd && new Date(newSlabUpdate?.financialYearEnd),
+      });
+
+    updateId && newSlabUpdate && setSlab([...newSlabUpdate?.slabs]);
   }, []);
-
-  useEffect(() => {
-    reset({ TaxGroupName: newSlab?.TaxGroupName });
-    console.log('useeffect', newSlab);
-  }, [newSlab]);
 
   return (
     <>
-      <Modal open={open} className={style.modalWrapper} handleClose={() => setOpen(false)}>
+      <Modal
+        open={open}
+        title={`${updateId ? 'Edit' : 'Add'} Tax Group`}
+        className={style.modalWrapper}
+        handleClose={() => {
+          setOpen(false);
+          setViewModal(false);
+        }}
+      >
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className={style.modal}>
-            {/* <NavLinks links={[{ title: 'Add Tax-Slab', left: '50px' }]} /> */}
-            <h1>{updateId ? 'Edit' : 'Add'} Tax Group</h1>
-            <img
-              src={back}
-              alt=""
-              className={style.img}
-              style={{ cursor: 'pointer' }}
-              onClick={() => setOpen(false)}
-            />
-          </div>
-
           <div className={style.add}>
             <TextField
               name="taxGroupName"
@@ -171,7 +189,7 @@ const AddAttendance = ({
                 <>
                   {categories &&
                     categories?.map((ele: any) => (
-                      <option key={ele.name} value={ele?._id}>
+                      <option key={ele.name} value={ele?.value}>
                         {ele.name}
                       </option>
                     ))}
@@ -232,7 +250,7 @@ const AddAttendance = ({
           </div>
 
           <div className={style.webBtnDiv}>
-            <Button text={'Add Slab'} btnClass={style.btn} type="submit" />
+            {!viewModal && <Button text={'Add Slab'} btnClass={style.btn} type="submit" />}
           </div>
 
           <div className={style.mobileBtnDiv}>
@@ -277,14 +295,16 @@ const AddAttendance = ({
         </div>
 
         <div className={style.webBtnDiv}>
-          <Button
-            text={'Save'}
-            btnClass={style.btn}
-            type="button"
-            isLoading={loading}
-            handleClick={handleSave}
-            disabled={slabs?.length <= 0}
-          />
+          {!viewModal && (
+            <Button
+              text={'Save'}
+              btnClass={style.btn}
+              type="button"
+              isLoading={loading}
+              handleClick={handleSave}
+              disabled={slabs?.length <= 0}
+            />
+          )}
         </div>
       </Modal>
     </>
@@ -308,3 +328,14 @@ const schema = yup.object().shape({
     .min(1, 'Should be greater  than 0'),
   lessLimit: yup.string().required('Less Limit is required'),
 });
+
+const categories = [
+  { name: 'Local', value: 'Local' },
+  { name: 'Expat', value: 'Expat' },
+  { name: 'Single Filers', value: 'Single Filers' },
+  {
+    name: 'Married Individuals filing joint returns',
+    value: 'Married Individuals filing joint returns',
+  },
+  { name: 'For Heads of House Hold', value: 'For Heads of House Hold' },
+];

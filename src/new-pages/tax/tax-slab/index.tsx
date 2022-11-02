@@ -12,11 +12,12 @@ import Table from 'new-components/table';
 import Switch from 'new-components/switch';
 import Modal from 'new-components/modal';
 
-const TaxSlab = ({ setIsLoading, open, setOpen, singleId, setSingleId }: any) => {
+const TaxSlab = ({ setIsLoading, open, setOpen, singleId, setSingleId, slabs, setSlab }: any) => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [taxSlabsData, setTaxSlabsData] = useState<any[]>([]);
-  const [newSlab, setNewSlab] = useState();
   const [deleteLoading, setDeleteLoading] = useState(false);
+  const [viewModal, setViewModal] = useState(false);
+  const [newSlab, setNewSlab] = useState();
 
   const deleteTaxSlab = async (id: string) => {
     setDeleteLoading(true);
@@ -40,14 +41,16 @@ const TaxSlab = ({ setIsLoading, open, setOpen, singleId, setSingleId }: any) =>
   };
 
   useEffect(() => {
-    const selectedSlab = taxSlabsData?.find((item) => item?._id === singleId);
-    setNewSlab(selectedSlab);
-    console.log('single', selectedSlab);
-  }, [singleId]);
-
-  useEffect(() => {
     getTaxSlabsData();
   }, []);
+
+  const handleEdit = async (id) => {
+    setSingleId(id);
+    const res = await TaxService.getTaxSlabById(id);
+    setNewSlab(res?.data?.tax);
+
+    setOpen(true);
+  };
 
   return (
     <>
@@ -71,16 +74,7 @@ const TaxSlab = ({ setIsLoading, open, setOpen, singleId, setSingleId }: any) =>
                 taxActions: (
                   <div style={{ display: 'flex' }}>
                     <div style={{ marginRight: '10px' }}>
-                      <img
-                        src={editIcon}
-                        width={30}
-                        onClick={() => {
-                          setTimeout(() => {
-                            setOpen(true);
-                          }, 600);
-                          setSingleId(item?._id);
-                        }}
-                      />
+                      <img src={editIcon} width={30} onClick={() => handleEdit(item?._id)} />
                     </div>
                     <div style={{ marginRight: '10px' }}>
                       <img
@@ -98,7 +92,9 @@ const TaxSlab = ({ setIsLoading, open, setOpen, singleId, setSingleId }: any) =>
                         width={30}
                         onClick={() => {
                           setOpen(true);
+                          handleEdit(item?._id);
                           setSingleId(item?._id);
+                          setViewModal(true);
                         }}
                       />
                     </div>
@@ -117,7 +113,11 @@ const TaxSlab = ({ setIsLoading, open, setOpen, singleId, setSingleId }: any) =>
           getTaxSlabsData={getTaxSlabsData}
           updateId={singleId}
           setSingleId={setSingleId}
-          newSlab={newSlab}
+          newSlabUpdate={newSlab}
+          viewModal={viewModal}
+          setViewModal={setViewModal}
+          slabs={slabs}
+          setSlab={setSlab}
         />
       )}
 

@@ -224,7 +224,7 @@ export const usePolicy = () => {
       id: _id,
       title,
       description,
-      filePath: filePath.split('./')[1],
+      filePath: filePath && filePath?.split('./')[1],
     });
   };
 

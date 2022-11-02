@@ -16,6 +16,7 @@ const Tax = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [open, setOpen] = useState<boolean>(false);
   const [singleId, setSingleId] = useState('');
+  const [slabs, setSlab] = useState<any>([]);
 
   return (
     <>
@@ -34,8 +35,9 @@ const Tax = () => {
                 <Button
                   text="Add Tax-Slab"
                   handleClick={() => {
-                    setOpen(true);
                     setSingleId('');
+                    setOpen(true);
+                    setSlab([]);
                   }}
                 />
               </div>
@@ -64,6 +66,8 @@ const Tax = () => {
             setOpen={setOpen}
             singleId={singleId}
             setSingleId={setSingleId}
+            slabs={slabs}
+            setSlab={setSlab}
           />
         )}
       </CardContainer>
