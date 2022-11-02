@@ -15,6 +15,8 @@ interface Props {
   register?: any;
   errorMessage?: string;
   selectedFileName?: any;
+  label?: string;
+  star?: any;
   setSelectedFileName?: (value: string) => any;
 }
 
@@ -28,6 +30,8 @@ const ProfileUpload = ({
   setFileName,
   selectedFileName,
   setSelectedFileName,
+  label,
+  star,
 }: Props) => {
   useEffect(() => {
     selectedFileName && setFileName && setFileName(selectedFileName);
@@ -56,6 +60,12 @@ const ProfileUpload = ({
 
   return (
     <div>
+      {label && (
+        <label style={{ color: errorMessage ? '#ff5050' : '#2d2d32' }}>
+          {label}
+          <b style={{ color: 'red' }}>{star}</b>
+        </label>
+      )}
       <div
         className={style.wraper}
         style={{ border: errorMessage ? '1.2px solid #ff5050' : ' 1.2px solid #e2e2ea' }}
@@ -76,7 +86,7 @@ const ProfileUpload = ({
           data-testid={id}
         />
         <label htmlFor={id} className={style.labelTag}>
-          {selectedFileName ? `${selectedFileName}` : 'Attach Transcript'}
+          {selectedFileName ? `${selectedFileName}` : 'Attach Transcript' || 'hello'}
           <img src={profileUploadIcon} alt="" className={style.fileIcon} />
         </label>
       </div>

@@ -124,6 +124,8 @@ const Policy = () => {
             options={options}
             star=" *"
             onChange={(item) => console.log(item)}
+            control={control}
+            name="name"
           />
         </div>
         <div className={style.gridView}>
@@ -135,6 +137,8 @@ const Policy = () => {
             options={options}
             star=" *"
             onChange={(item) => console.log(item)}
+            control={control}
+            name="name"
           />
         </div>
         <div className={style.gridView}>
@@ -145,6 +149,8 @@ const Policy = () => {
             options={options}
             star=" *"
             onChange={(item) => console.log(item)}
+            control={control}
+            name="name"
           />
 
           <Selection
@@ -154,6 +160,8 @@ const Policy = () => {
             options={options}
             star=" *"
             onChange={(item) => console.log(item)}
+            control={control}
+            name="name"
           />
         </div>
 
@@ -167,6 +175,8 @@ const Policy = () => {
             onChange={(item) => console.log(item)}
             closeMenuOnSelect={false}
             isMulti={true}
+            control={control}
+            name="name"
           />
           <div>
             <div style={{ display: 'flex' }}>
