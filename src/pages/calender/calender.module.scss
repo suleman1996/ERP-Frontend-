@@ -2,186 +2,106 @@
 @import 'styles/_mixin.scss';
 @import 'styles/_breakpoints.scss';
 
-.tableHeight {
-  height: calc(100vh - 217px);
-  @media (max-width: $md) {
-    height: calc(100vh - 182px);
+.calenderMain {
+  .fc-theme-standard td,
+  .fc-theme-standard th {
+    border: none !important;
   }
 }
-
-.addBtnDiv {
-  position: absolute;
-  bottom: 10px;
-  z-index: 999;
-  right: 10px;
-  width: 174px;
-  height: 42px;
-  @media (max-width: $md) {
-    display: none;
-  }
-  .addBtnChildDiv {
-    position: fixed;
-  }
+.title {
+  font-weight: 600;
+  font-size: 16px;
+  color: #303134;
 }
-
-.settingsMainPage {
-  background-color: #fafafa;
+.description {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 13px;
+  color: #2d2d32;
+  padding-left: 10px;
+}
+.descDiv {
   display: flex;
-  margin-top: 10px;
-  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.2);
-  flex-direction: column;
-  margin-bottom: 20px;
-  border-radius: 5px;
-}
-
-.modalWrapper {
-  max-width: 930px !important;
-  max-height: 500px;
-  padding: 0px !important;
-  @media (max-width: $xs) {
-    height: 90vh;
-  }
-  .modal {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    .img {
-      margin-right: 20px;
-      margin-top: -25px;
-    }
-  }
-  .add {
-    @include gridTwo(8, 50);
-    padding: 20px 50px;
-    @media (max-width: $sm) {
-      padding: 20px 20px;
-    }
-    .label {
-      font-size: 16px;
-      color: $header;
-      text-transform: capitalize;
-    }
-
-    .radio {
-      display: flex;
-      align-items: center;
-      margin-top: 7px;
-      .sec {
-        margin-left: 50px;
-      }
-    }
-  }
-
-  .webBtnDiv {
-    display: flex;
-    justify-content: center;
-    margin-top: 10px;
-    margin-right: 10px;
-    @media (max-width: $md) {
-      display: none;
-    }
-    .btn {
-      padding: 12px 90px;
-      margin: 30px 0px 30px 0;
-      width: 303px;
-      height: 51px;
-    }
-  }
-
-  .mobileBtnDiv {
-    display: none;
-    margin: 30px;
-    @media (max-width: $md) {
-      display: flex;
-      justify-content: flex-end;
-    }
-    .mobileBtn {
-      position: relative;
-      left: 0;
-      bottom: 0;
-    }
-  }
-}
-
-.loaderDiv {
-  position: absolute;
-  display: flex;
-  justify-content: center;
   align-items: center;
-  inset: 0;
-  background-color: #fafafa;
-  z-index: 200;
-  .loadingStyle {
-    width: 40px;
-    height: 40px;
-    border-width: 3px;
-    border-color: #57b993;
-    border-top-color: transparent;
-  }
 }
-
-.note {
-  margin-top: 14px;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  label {
-    font-size: 14px;
-    color: #6e6d6d;
-    margin-bottom: 10px;
-    font-weight: 500;
-    text-transform: capitalize;
-    color: #6e6d6d;
-  }
-
-  textarea {
-    border: 1px solid #d9d9d9;
-    color: #6e6d6d;
-    border-radius: 3px;
-    height: 100%;
-    padding: 10px;
-    outline: none;
-    resize: none;
-    &::placeholder {
-      color: #d6d9d9;
-    }
-  }
-}
-
-.inputLabel {
-  font-size: 14px;
-  color: #6e6d6d;
-  margin-bottom: 10px;
-  font-weight: 500;
-  text-transform: capitalize;
-  color: #6e6d6d;
-}
-
-.dateLabel {
-  border-radius: 5px;
-  color: white;
-  font-size: 14px;
-}
-
-.customDate {
-  border: none !important;
-  margin-top: 0 !important;
-}
-
-.onRadio {
-  margin-right: 12px;
-}
-
-.customRecursion {
-  display: flex;
-  padding: 10px 0px;
+.mainDiv {
   justify-content: space-between;
-  align-items: center;
-  height: 65px;
-}
-
-.leftDiv {
   display: flex;
-  padding: 10px 0px;
+  height: 100%;
+  background-color: #edf1fb;
   align-items: center;
+  padding: 10px;
+  border-left: 2px solid red;
+}
+.mainDiv2 {
+  background-color: #edf1fb;
+  height: 100%;
+  flex-direction: column;
+  justify-content: center;
+  display: flex;
+}
+.fc-timegrid-slot {
+  height: 100px !important;
+}
+.topBtn {
+  justify-content: flex-end;
+  display: flex;
+  margin-bottom: 20px;
+  padding: 10px;
+  border-bottom: 1px solid #e2e2ea;
+}
+.gridView {
+  @include gridTwo(50, 50);
+  margin-bottom: 20px;
+}
+.allDay {
+  margin-bottom: 20px;
+}
+.title {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 800;
+  font-size: 16px;
+  padding: 10px;
+  color: #2d2d32;
+}
+.titleDiv {
+  border-bottom: 1px solid #e2e2ea;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.durationView {
+  display: flex;
+  justify-content: space-between;
+}
+.title2 {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 12px;
+  color: #171725;
+  padding: 10px;
+}
+.description {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  color: #171725;
+  padding: 10px;
+}
+.gridDiv {
+  @include gridTwo(0, 0);
+}
+.icon {
+  margin-right: 15px;
+  cursor: pointer;
+}
+.eventDiv {
+  background: white;
+  box-shadow: 1px 3px 10px #f4aab9;
+  border-radius: 5px;
+  padding: 10px;
 }

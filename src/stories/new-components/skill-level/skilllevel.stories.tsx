@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import SkillLevel from 'my-components/skill-level';
+import SkillLevel from 'components/skill-level';
 import { useForm } from 'react-hook-form';
 
 import style from './select.stories.module.scss';

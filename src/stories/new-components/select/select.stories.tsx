@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import Selection from 'my-components/select';
+import Selection from 'components/select';
 import React from 'react';
 
 import style from './select.stories.module.scss';

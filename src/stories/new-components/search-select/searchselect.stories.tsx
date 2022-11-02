@@ -1,8 +1,8 @@
 import { useForm } from 'react-hook-form';
 
-import SearchSelect from 'my-components/search-select';
+import SearchSelect from 'components/search-select';
 
-import arrow from 'new-assets/arrow-left.svg';
+import arrow from 'assets/arrow-left.svg';
 
 export default {
   title: 'SearchSelect',

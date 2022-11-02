@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import Modal from 'my-components/modal';
+import Modal from 'components/modal';
 
 export default {
   title: 'Modal',

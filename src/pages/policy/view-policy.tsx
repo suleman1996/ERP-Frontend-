@@ -9,7 +9,7 @@ import { useViewPolicy } from './helper';
 import editIcon from 'assets/editIcon.svg';
 import deleteIcon from 'assets/deleteIcon.svg';
 import cross from 'assets/employee-page/Path 306.svg';
-import style from '../applications/my-records/records.module.scss';
+import style from 'pages/applications/my-records/records.module.scss';
 
 interface Props {
   policyData: any;

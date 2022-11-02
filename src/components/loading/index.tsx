@@ -3,6 +3,7 @@ import style from './loading.module.scss';
 interface Props {
   loaderClass?: string;
 }
+
 const Loading = ({ loaderClass }: Props) => {
   return (
     <>
@@ -10,4 +11,5 @@ const Loading = ({ loaderClass }: Props) => {
     </>
   );
 };
+
 export default Loading;

@@ -1,4 +1,4 @@
-import Radio from 'my-components/radio';
+import Radio from 'components/radio';
 import React from 'react';
 
 import style from './radio.stories.module.scss';

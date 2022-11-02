@@ -78,6 +78,5 @@ export const checkAllCheckboxBoolean = (obj: any) => {
       tempBoolean = true;
     }
   }
-
   return tempBoolean;
 };

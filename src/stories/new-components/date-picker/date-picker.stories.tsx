@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 
-import DatePicker from 'new-components/date-picker';
+import DatePicker from 'components/date-picker';
 
 export default {
   title: 'DatePicker',

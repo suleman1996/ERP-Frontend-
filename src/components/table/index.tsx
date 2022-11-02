@@ -1,55 +1,59 @@
-import React, { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 
 import TableFilter from 'components/table-filter';
-import Loading from 'components/loading';
 
+import editIcon from 'assets/table-edit.svg';
+import deleteIcon from 'assets/table-delete.svg';
+import eye from 'assets/table-view.svg';
+import pdf from 'assets/employee-page/print.svg';
 import style from './table.module.scss';
-import editIcon from 'assets/editIcon.svg';
-import deleteIcon from 'assets/deleteIcon.svg';
-import eye from 'assets/navbar-sidebar/eye.svg';
 import NoData from 'components/no-data-found-card';
 
 interface Props {
   rows: any[];
   total?: any[];
-  loading?: any;
+  loading?: boolean;
+  setRowIndex?: Dispatch<SetStateAction<number | undefined>>;
   columns: {
     key: string;
     name: string;
     icon?: string;
+    selectedIcon?: string;
     eyeIcon?: boolean;
     width?: string;
     alignText?: any;
     toLocalString?: any;
+    currency?: boolean;
   }[];
   handleEducation?: (index: number) => void;
   handleDeleteIndex?: (id: number) => void;
   handleDelete?: (id: string) => void;
   handleEdit?: (id: string) => void;
   handleView?: (id: string) => void;
+  onPrint?: (id: string) => void;
   handleModalOpen?: () => void;
   colWidth?: string;
   minWidth?: string;
   width?: string;
   tableHeight?: string;
-  overFlow?: any;
+  overFlow?: string;
   className?: string;
-  apiCall?: any;
-  filters?: any;
-  setFilters?: any;
-  sorts?: any;
-  setSorts?: any;
+  apiCall?: string;
+  filters?: boolean;
+  setFilters?: boolean;
+  sorts?: boolean;
+  setSorts?: boolean;
+  headingText?: string;
 }
 
 const Table = ({
-  columns,
-  total,
   rows,
-  width,
-  colWidth = '240px',
+  total,
+  loading,
+  columns,
   minWidth,
   className,
-  loading,
+  onPrint,
   handleView,
   handleEdit,
   handleDelete,
@@ -57,203 +61,178 @@ const Table = ({
   handleModalOpen,
   handleDeleteIndex,
   tableHeight,
+  setFilters,
+  setSorts,
   apiCall,
   filters,
-  setFilters,
   sorts,
-  setSorts,
+  headingText,
 }: Props) => {
   const [isFilter, setIsFilter] = useState<string | number>('');
+  const [isFilterSelected, setIsFilterSelected] = useState<string | number>('');
+
   const toggleFilter = (index: number) => {
     isFilter === index ? setIsFilter('') : setIsFilter(index);
+    setIsFilterSelected(index);
   };
 
-  const clearFilter = (index: number) => {
-    // console.log('clear');
+  const clearFilter = () => {
+    setIsFilter('');
+    setIsFilterSelected('');
+  };
+
+  const handlePencilIcon = ({ id, index }: { id: string; index: number }) => {
+    handleEdit && handleEdit(id);
+    handleEducation && handleEducation(index);
+  };
+  const handleDeleteIcon = ({ id, index }: { id: string; index: number }) => {
+    handleDelete && handleDelete(id);
+    handleDeleteIndex && handleDeleteIndex(index);
+    handleModalOpen && handleModalOpen();
   };
 
   return (
     <>
       {rows?.length >= 1 && (
-        <div className={`${style.tableWrapper} ${tableHeight}`}>
-          <table
-            className={style.table}
-            aria-label="customized table"
-            style={{ width: width || '100%', minWidth: minWidth || '900px' }}
-          >
-            <thead className={style.thead}>
-              <tr
-                className={style.headings}
-                style={{
-                  gridTemplateColumns: `repeat(${columns.length}, 1fr)`,
-                }}
-              >
-                {columns.map((column, index) => (
-                  <td
-                    className={style.heading}
-                    style={{
-                      width: column?.width ? column?.width : '250px',
-                      textAlign: column?.alignText,
-                    }}
-                    key={index}
-                  >
-                    <span
-                      className={style.headingTitle}
-                      style={{ width: '100%', display: 'block' }}
-                    >
-                      {column.name}
-                    </span>
+        <div
+          className={`${style.tableWrapper} ${tableHeight}`}
+          style={{
+            textTransform: 'capitalize',
+          }}
+        >
+          <div className={style.table} style={{ minWidth: minWidth || '1200px' }}>
+            <div className={style.thead} style={{ display: 'flex' }}>
+              {columns.map((column, index) => (
+                <div
+                  key={index}
+                  className={style.heading}
+                  style={{
+                    minWidth: column?.width ? column?.width : '250px',
+                    textAlign: column?.alignText,
+                    position: 'relative',
+                    width: '100%',
+                  }}
+                >
+                  <p>
+                    <span className={`${style.headingTitle} ${headingText}`}>{column.name}</span>
                     {column.icon && (
                       <img
-                        src={column.icon}
+                        src={isFilterSelected === index ? column.selectedIcon : column.icon}
                         className={style.sortIcon}
-                        alt="sortIcon"
-                        onClick={() => {
-                          toggleFilter(index);
+                        alt=""
+                        // onClick={() => {
+                        //   toggleFilter(index);
+                        // }}
+                        style={{
+                          position: 'relative',
+                          top: '3px',
+                          left: '5px',
                         }}
                       />
                     )}
-                    {isFilter === index && (
-                      <TableFilter
-                        filterKey={column.key}
-                        toggleFilter={() => {
-                          toggleFilter(index);
-                        }}
-                        clearFilter={() => {
-                          clearFilter(index);
-                        }}
-                        apiCall={apiCall}
-                        filters={filters}
-                        setFilters={setFilters}
-                        sorts={sorts}
-                        setSorts={setSorts}
-                      />
-                    )}
-                  </td>
-                ))}
-              </tr>
-            </thead>
-
-            <tbody>
-              {loading ? (
-                <div className={style.loaderContainer}>
-                  <Loading loaderClass={style.loader} />
+                  </p>
+                  {isFilter === index && (
+                    <TableFilter
+                      filterKey={column.key}
+                      toggleFilter={() => {
+                        toggleFilter(index);
+                      }}
+                      clearFilter={() => {
+                        clearFilter();
+                      }}
+                      apiCall={apiCall}
+                      filters={filters}
+                      setFilters={setFilters}
+                      sorts={sorts}
+                      setSorts={setSorts}
+                    />
+                  )}
                 </div>
-              ) : (
-                <>
-                  {rows?.map((row, index) => (
-                    <tr
-                      className={index % 2 !== 0 ? style.trOdd : style.tr}
-                      style={{
-                        gridTemplateColumns: `repeat(${columns.length}, 1fr)`,
-                      }}
-                      key={index}
-                    >
-                      {columns.map((column, colIndex) => (
-                        <td
-                          key={colIndex}
-                          style={{
-                            width: column?.width ? column?.width : '250px',
-                            textAlign: column?.alignText,
+              ))}
+            </div>
+            {rows?.map((row, index) => (
+              <div
+                className={style.tr}
+                style={{ display: 'flex', alignItems: 'center' }}
+                key={index}
+              >
+                {columns.map((column, colIndex) => (
+                  <div
+                    key={colIndex}
+                    style={{
+                      minWidth: column?.width ? column?.width : '250px',
+                      textAlign: column?.alignText,
+                      padding: '12px 10px',
+                      width: '100%',
+                    }}
+                    className={`${style.td}  ${className}`}
+                  >
+                    {row[column.key]}
+                    {column.key === 'actions' &&
+                      !column?.eyeIcon &&
+                      (row?.isActive !== false ? (
+                        <>
+                          <img
+                            onClick={() => handleDeleteIcon({ id: row.id, index })}
+                            className={style.pencilIcon}
+                            src={deleteIcon}
+                            alt="deleteIcon"
+                          />
+                          <img
+                            className={style.pencilIcon}
+                            data-testid="edit-element"
+                            onClick={() => handlePencilIcon({ id: row._id, index })}
+                            src={editIcon}
+                            alt="editIcon"
+                          />
+                        </>
+                      ) : (
+                        '-'
+                      ))}
+                    {column.key === 'actions' && column?.eyeIcon && (
+                      <>
+                        <img
+                          src={eye}
+                          alt=""
+                          className={style.pencilIcon}
+                          onClick={() => {
+                            handleView && handleView(row.id);
                           }}
-                          className={`${
-                            tdGreen.includes(row[column.key])
-                              ? style.tdGreen
-                              : tdRed.includes(row[column.key])
-                              ? style.tdRed
-                              : style.td
-                          }  ${className}`}
-                        >
-                          {column?.toLocalString
-                            ? column?.toLocalString(row[column.key])
-                            : row[column.key]}
-                          {/* {row[column.key]} */}
-                          {column.key === 'actions' && !column?.eyeIcon && (
-                            <>
-                              {row.isActive !== false && (
-                                <img
-                                  className={style.pencilIcon}
-                                  onClick={() => {
-                                    handleEdit && handleEdit(row.id);
-                                    handleEducation && handleEducation(index);
-                                  }}
-                                  src={editIcon}
-                                  alt="editIcon"
-                                />
-                              )}
-                              <img
-                                onClick={() => {
-                                  handleDelete && handleDelete(row.id);
-                                  handleDeleteIndex && handleDeleteIndex(index);
-                                  handleModalOpen && handleModalOpen();
-                                }}
-                                className={style.trashIcon}
-                                src={deleteIcon}
-                                alt="deleteIcon"
-                              />
-                            </>
-                          )}
-                          {column.key === 'actions' && column?.eyeIcon && (
-                            <img
-                              src={eye}
-                              alt=""
-                              style={{ cursor: 'pointer' }}
-                              onClick={() => {
-                                handleView && handleView(row.id);
-                              }}
-                            />
-                          )}
-                        </td>
-                      ))}
-                    </tr>
-                  ))}
-
-                  {/* total  */}
-                  {total?.map((total, index) => (
-                    <tr
-                      className={index % 2 !== 0 ? style.tr : style.trOdd}
-                      style={{
-                        gridTemplateColumns: `repeat(${columns.length}, 1fr)`,
-                        position: 'sticky',
-                        boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.3)',
-                        bottom: 0,
-                      }}
-                      key={index}
-                    >
-                      {columns.map((column, colIndex) => (
-                        <td
-                          key={colIndex}
-                          style={{ width: colWidth }}
-                          className={`${
-                            tdGreen.includes(total[column.key])
-                              ? style.tdGreen
-                              : tdRed.includes(total[column.key])
-                              ? style.tdRed
-                              : style.td2
-                          }  ${className}`}
-                        >
-                          {total[column.key]}
-                        </td>
-                      ))}
-                    </tr>
-                  ))}
-                </>
-              )}
-            </tbody>
-          </table>
+                        />
+                        <img
+                          src={pdf}
+                          alt=""
+                          className={style.pencilIcon}
+                          onClick={() => {
+                            onPrint && onPrint(row.id);
+                          }}
+                        />
+                      </>
+                    )}
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
         </div>
       )}
-
-      {rows?.length < 1 && (
+      {!rows && (
         <div
           style={{
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            height: '70vh',
           }}
         >
-          <NoData />
+          <div
+            style={{
+              maxWidth: '520px',
+              width: '100%',
+              padding: '0 20px',
+            }}
+          >
+            <NoData />
+          </div>
         </div>
       )}
     </>
@@ -261,6 +240,3 @@ const Table = ({
 };
 
 export default Table;
-
-const tdGreen = ['Active', 'Present', 'Accepted', 'Paid'];
-const tdRed = ['Inactive', 'Absent', 'Rejected', 'Unpaid'];

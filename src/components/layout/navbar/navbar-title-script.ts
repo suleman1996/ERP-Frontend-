@@ -4,12 +4,20 @@ export const navbarTitleList = [
     title: 'Dashboard',
   },
   {
+    path: '/profile-setting',
+    title: 'Settings',
+  },
+  {
     path: '/employee',
     title: 'Profiles',
   },
   {
     path: '/payroll',
     title: 'PayRoll',
+  },
+  {
+    path: '/policy',
+    title: 'Policies',
   },
   {
     path: '/tax',
@@ -34,10 +42,6 @@ export const navbarTitleList = [
   {
     path: '/calender',
     title: 'Calender',
-  },
-  {
-    path: '/policy',
-    title: 'Policy',
   },
   {
     path: '/attendance',

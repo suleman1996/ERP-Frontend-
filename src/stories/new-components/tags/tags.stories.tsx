@@ -1,4 +1,4 @@
-import Tags from 'my-components/tags';
+import Tags from 'components/tags';
 
 import style from './tags.stories.module.scss';
 

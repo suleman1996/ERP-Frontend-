@@ -1,4 +1,4 @@
-import CardContainer from 'my-components/card-container';
+import CardContainer from 'components/card-container';
 
 export default {
   title: 'CardContainer',

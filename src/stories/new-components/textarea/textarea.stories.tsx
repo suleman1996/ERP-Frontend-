@@ -1,4 +1,4 @@
-import TextArea from 'my-components/textarea';
+import TextArea from 'components/textarea';
 
 import style from './textarea.stories.module.scss';
 

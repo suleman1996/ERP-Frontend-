@@ -1,5 +1,5 @@
-import DeletePopup from 'new-components/delete-modal';
-import Button from 'new-components/button';
+import DeletePopup from 'components/delete-modal';
+import Button from 'components/button';
 
 export default {
   title: 'DeletePopup',

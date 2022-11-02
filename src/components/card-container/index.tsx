@@ -1,15 +1,19 @@
 import style from './card-container.module.scss';
 
 interface Props {
-  children?: any;
-  containerClass?: any;
+  children?: JSX.Element[] | JSX.Element;
+  className?: string;
+  backgroundColor?: string;
 }
 
-const CardContainer = ({ children, containerClass }: Props) => {
+const CardContainer = ({ children, className, backgroundColor }: Props) => {
   return (
     <>
-      <div className={`${style.mainContainer} ${containerClass}`}>
-        <div className={style.height}>{children}</div>
+      <div
+        className={`${style.mainContainer} ${className}`}
+        style={{ backgroundColor: backgroundColor }}
+      >
+        {children}
       </div>
     </>
   );

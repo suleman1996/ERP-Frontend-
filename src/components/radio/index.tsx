@@ -1,24 +1,22 @@
-import React from 'react';
 import style from './radio.module.scss';
+
 interface Props {
   label?: string;
-  htmlFor?: string;
   id?: string;
   name?: string;
   handleClick?: () => void;
   handleChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  checked?: any;
+  checked?: boolean;
   radioRef?: any;
   radioValue?: number | string;
   error?: boolean;
   errorMessage?: string;
   className?: string;
-  defaultChecked?: any;
+  defaultChecked?: boolean;
 }
 
 const Radio = ({
   label,
-  htmlFor,
   id,
   handleClick,
   name,
@@ -27,28 +25,13 @@ const Radio = ({
   radioRef,
   radioValue,
   error,
-  errorMessage,
   className,
   defaultChecked,
 }: Props) => {
   return (
     <div>
-      <label
-        className={`${style.container} ${className}`}
-        htmlFor={htmlFor}
-        style={{
-          color:
-            label === 'Active' || label === 'Present'
-              ? '#57B993'
-              : label === 'Inactive' || label === 'Absent'
-              ? '#FE3A3A'
-              : error
-              ? 'red'
-              : '#6E6D6D',
-          fontSize: '16px',
-        }}
-      >
-        {label}
+      <label className={`${style.container} ${className}`} htmlFor={id}>
+        <p> {label}</p>
         <input
           type="radio"
           name={name}
@@ -60,7 +43,7 @@ const Radio = ({
           value={radioValue}
           defaultChecked={defaultChecked}
         />
-        <span className={style.checkMark} style={{ borderColor: error ? 'red' : '#B9B9B9' }}></span>
+        <span className={style.checkMark} style={{ borderColor: error ? 'red' : '' }}></span>
       </label>
     </div>
   );

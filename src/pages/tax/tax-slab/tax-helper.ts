@@ -1,61 +1,46 @@
-// import sortIcon from 'assets/logo1.svg';
-
 export const columns = [
   {
-    key: '_id',
+    key: 'TaxGroupName',
     // icon: sortIcon,
-    name: 'S No.',
-    alignText: 'center',
-    width: '140px',
+    name: 'Group Name',
+    alignText: 'left',
+    width: '100px',
   },
   {
-    key: 'lower',
-    name: 'Lower',
+    key: 'FinancialYear',
+    name: 'Financial Year',
     // icon: sortIcon,
     alignText: 'left',
-    width: '200px',
-    toLocalString: (val: any) => (val !== '-' ? Number(val).toLocaleString() + '.00' : '-'),
+    width: '100px',
+    // toLocalString: (val: any) => (val !== '-' ? Number(val).toLocaleString() + '.00' : '-'),
   },
   {
-    key: 'upper',
+    key: 'TaxCategory',
     // icon: sortIcon,
-    name: 'Upper',
-    alignText: 'center',
-    width: '200px',
-    toLocalString: (val: any) => (val !== '-' ? Number(val).toLocaleString() + '.00' : '-'),
+    name: 'Category',
+    alignText: 'left',
+    width: '100px',
+    // toLocalString: (val: any) => (val !== '-' ? Number(val).toLocaleString() + '.00' : '-'),
   },
   {
-    key: 'fixTax',
+    key: 'Status',
     // icon: sortIcon,
-    name: 'Fix Tax',
-    alignText: 'center',
-    width: '200px',
-    toLocalString: (val: any) => (val !== '-' ? Number(val).toLocaleString() + '.00' : '-'),
+    name: 'Status',
+    alignText: 'left',
+    width: '100px',
+    // toLocalString: (val: any) => (val !== '-' ? Number(val).toLocaleString() + '.00' : '-'),
   },
   {
-    key: 'taxRate',
+    key: 'taxActions',
     // icon: sortIcon,
-    name: 'Tax Rate',
-    alignText: 'center',
-    width: '140px',
-    toLocalString: (val: any) => (val !== '-' ? Number(val).toLocaleString() + '%' : '-'),
-  },
-  {
-    key: 'lessLimit',
-    // icon: sortIcon,
-    name: 'Less Limit',
-    alignText: 'center',
-    width: '200px',
-    toLocalString: (val: any) => (val !== '-' ? Number(val).toLocaleString() + '.00' : '-'),
-  },
-  {
-    key: 'actions',
-    // icon: sortIcon,
-    name: 'Actions',
-    alignText: 'center',
-    width: '200px',
+    name: 'Action',
+    alignText: 'left',
+    width: '100px',
+    // toLocalString: (val: any) => (val !== '-' ? Number(val).toLocaleString() + '%' : '-'),
   },
 ];
+
+export const taxRow = [{ group_name: 'abc', f_year: 2020, category: 'abc', status: 'true' }];
 
 export const rows = [
   {
@@ -137,5 +122,50 @@ export const rows = [
     fix: '##########',
     tax: '5:00%',
     lessLimit: '--',
+  },
+];
+
+export const addSlabColumns = [
+  {
+    key: 'sr',
+    name: 'Sr',
+    alignText: 'left',
+    width: '100px',
+  },
+  {
+    key: 'lower',
+    name: 'Lower',
+    alignText: 'left',
+    width: '100px',
+  },
+  {
+    key: 'upper',
+    name: 'Upper',
+    alignText: 'left',
+    width: '100px',
+  },
+  {
+    key: 'fixTax',
+    name: 'Fix Tax',
+    alignText: 'left',
+    width: '100px',
+  },
+  {
+    key: 'taxRate',
+    name: 'Tax Rate',
+    alignText: 'left',
+    width: '100px',
+  },
+  {
+    key: 'lessLimit',
+    name: 'Less Limit',
+    alignText: 'left',
+    width: '100px',
+  },
+  {
+    key: 'Actions',
+    name: 'Actions',
+    alignText: 'left',
+    width: '100px',
   },
 ];

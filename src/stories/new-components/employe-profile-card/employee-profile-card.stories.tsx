@@ -1,4 +1,4 @@
-import EmployeeProfileCard from 'my-components/employe-profile-card';
+import EmployeeProfileCard from 'components/employe-profile-card';
 
 import image from 'assets/img2.svg';
 import logo from 'assets/img1.svg';

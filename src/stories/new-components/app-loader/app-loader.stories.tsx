@@ -1,4 +1,4 @@
-import AppLoader from 'new-components/app-loader';
+import AppLoader from 'components/app-loader';
 
 export default {
   title: 'AppLoader',

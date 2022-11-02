@@ -1,4 +1,4 @@
-import StepBar from 'my-components/step-bar';
+import StepBar from 'components/step-bar';
 
 export default {
   title: 'StepBar',

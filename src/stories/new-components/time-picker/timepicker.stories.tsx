@@ -1,4 +1,4 @@
-import TimePicker from 'new-components/time-picker';
+import TimePicker from 'components/time-picker';
 
 import style from './timepicker.stories.module.scss';
 

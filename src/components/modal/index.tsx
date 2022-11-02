@@ -1,19 +1,22 @@
-import Button from 'new-components/button';
+import Button from 'components/button';
 
-import cross from 'new-assets/cross.svg';
+import cross from 'assets/cross.svg';
+
 import style from './modal.module.scss';
 interface Props {
   open?: boolean;
-  children: JSX.Element[] | JSX.Element;
+  children?: JSX.Element[] | JSX.Element;
   className?: string;
   title?: string;
   btnClass?: string;
-  handleClose: () => void;
+  handleClose?: () => void;
   text?: string;
   type?: 'button' | 'submit' | 'reset' | undefined;
   iconStart?: string;
   iconEnd?: string;
   handleClick?: () => void;
+  form?: string;
+  loader?: boolean;
 }
 
 const Modal = ({
@@ -28,6 +31,8 @@ const Modal = ({
   handleClick,
   type,
   btnClass,
+  form,
+  loader,
 }: Props) => {
   const handleClickWrapper = (event: React.MouseEvent<HTMLElement>): void => {
     event.nativeEvent.stopImmediatePropagation();
@@ -42,7 +47,24 @@ const Modal = ({
             className={`${style.modalContentWrapper} ${className}`}
             onClick={(e) => e.stopPropagation()}
           >
-            <div className={style.body}>{children}</div>
+            <div className={style.header}>
+              <p>{title}</p>
+              <img src={cross} alt="close icon" onClick={handleClose} />
+            </div>
+            <div className={style.body}>
+              {children}
+              <div className={`${style.btnClass}  ${btnClass}  `}>
+                <Button
+                  text={text}
+                  isLoading={loader}
+                  iconStart={iconStart}
+                  iconEnd={iconEnd}
+                  type={type}
+                  form={form}
+                  handleClick={handleClick}
+                />
+              </div>
+            </div>
           </div>
         </div>
       )}

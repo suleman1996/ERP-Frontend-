@@ -1,4 +1,4 @@
-import Checkbox from 'new-components/checkbox';
+import Checkbox from 'components/checkbox';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 

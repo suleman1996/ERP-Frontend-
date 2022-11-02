@@ -1,4 +1,4 @@
-import TextField from 'my-components/textfield';
+import TextField from 'components/textfield';
 import image from 'assets/logo3.png';
 
 import style from './textfield.stories.module.scss';

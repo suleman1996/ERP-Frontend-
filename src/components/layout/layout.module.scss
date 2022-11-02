@@ -2,42 +2,71 @@
 @import 'styles/_colors.scss';
 @import 'styles/_mixin.scss';
 
-.downMd {
-  display: block;
-  @media (max-width: $md) {
-    display: none;
-  }
-}
-
-.upMd {
-  display: none;
-  @media (max-width: $md) {
-    display: block;
-  }
-}
-
 .layoutWrapper {
   header {
-    height: calc(100vh - 21px);
-    border-radius: 8px;
-    overflow-y: auto;
+    height: calc(100vh - 14px);
     position: fixed;
-    overflow-x: hidden;
-    margin: 10px 0 0 10px;
-    background: $primary;
+    margin: 7px 7px 0 7px;
+    background: #555555;
+    border-radius: 12px;
+    z-index: 1000;
     top: 0;
     &::-webkit-scrollbar {
-      background: transparent; /* make scrollbar transparent */
+      background: transparent;
       width: 0px;
     }
-    @media (max-width: $md) {
-      height: calc(100vh - 67px);
-      top: 57px;
-      margin-bottom: 0;
-      position: absolute;
-      transition: all 1.2s cubic-bezier(0.165, 0.84, 0.44, 1);
-      background: #57b993;
-      border-radius: 0px;
+    @media (max-width: $tab) {
+      left: -100%;
     }
+
+    .backdropDiv {
+      position: fixed;
+      z-index: 1000;
+      inset: 0;
+      background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4));
+    }
+  }
+
+  main {
+    margin-right: 7px;
+    transition: all 0.3s;
+    position: relative;
+    @media (max-width: $tab) {
+      margin-right: 0px;
+    }
+  }
+  .navbarDiv {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+}
+
+.mainSection {
+  margin-left: 145px;
+  @media (max-width: $lg) {
+    margin-left: 150px;
+  }
+  @media (max-width: $md) {
+    margin-left: 143px;
+  }
+  @media (max-width: $tab) {
+    margin-left: 0px;
+  }
+}
+
+.sectionMargin {
+  margin-left: 418px;
+  @media (max-width: $xl) {
+    margin-left: 315px;
+  }
+  @media (max-width: $lg) {
+    margin-left: 300px;
+  }
+  @media (max-width: $md) {
+    margin-left: 220px;
+  }
+  @media (max-width: $tab) {
+    margin-left: 0px;
   }
 }

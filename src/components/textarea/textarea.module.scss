@@ -1,33 +1,42 @@
+@import 'styles/_breakpoints.scss';
+@import 'styles/_colors.scss';
+@import 'styles/_mixin.scss';
+
 .note {
   display: flex;
   flex-direction: column;
   position: relative;
-  margin-top: 15px;
+
   label {
-    font-size: 14px;
-    color: #6e6d6d;
-    margin-bottom: 10px;
-    font-weight: 500;
-    line-height: 16px;
+    @include font24;
+    font-family: 'Poppins';
+    font-style: normal;
+    color: #2d2d32;
+    margin-bottom: calc(5px + (12 - 5) * (100vw - 280px) / (2560 - 280));
     text-transform: capitalize;
   }
+
   textarea {
-    border: 1px solid #d9d9d9;
-    color: #6e6d6d;
-    border-radius: 3px;
-    padding: 10px;
+    background: #ffffff;
+    box-shadow: none;
     outline: none;
+    border-radius: 6px;
+    width: 100%;
+    padding: 20px;
     resize: none;
+    @include font20;
     &::placeholder {
+      color: #cacaca;
       text-transform: capitalize;
-      color: #d6d9d9;
+      @include font18;
     }
   }
 }
 
 .errorMessage {
-  color: #ff5050;
-  font-size: 12px;
   position: absolute;
-  bottom: -16px;
+  display: block;
+  margin-left: 5px;
+  color: #ff5050;
+  @include font14;
 }

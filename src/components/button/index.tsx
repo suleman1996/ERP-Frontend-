@@ -1,23 +1,26 @@
-import React from 'react';
-import Loading from '../loading';
+import Loading from 'components/loading';
 
 import style from './button.module.scss';
 
 interface Props {
   text?: string;
-  icon?: string;
-  handleClick?: () => void;
-  type?: any;
+  iconStart?: string;
+  iconEnd?: string;
+  handleClick?: React.MouseEventHandler<HTMLButtonElement>;
+  type?: 'button' | 'submit' | 'reset' | undefined;
   isLoading?: boolean;
   btnClass?: string;
-  disabled?: any;
+  disabled?: boolean;
   btnLoaderClass?: string;
-  className?: any;
+  className?: string;
+  form?: string;
+  hide?: boolean;
 }
 
 const Button = ({
   text,
-  icon,
+  iconStart,
+  iconEnd,
   handleClick,
   type,
   className,
@@ -25,27 +28,33 @@ const Button = ({
   btnClass,
   disabled,
   btnLoaderClass,
+  form,
+  hide,
 }: Props) => {
   return (
     <>
-      <button
-        className={`${style.btnEl} ${btnClass}`}
-        type={type}
-        onClick={handleClick}
-        disabled={isLoading || disabled ? true : false}
-        style={{
-          pointerEvents: isLoading || disabled ? 'none' : 'auto',
-        }}
-      >
-        {isLoading ? (
-          <Loading loaderClass={btnLoaderClass} />
-        ) : (
-          <>
-            {text && <span className={`${style.btnTitle} ${className}`}>{text}</span>}
-            {icon && <img src={icon} alt="" className={style.img} />}
-          </>
-        )}
-      </button>
+      {!hide && (
+        <button
+          className={`${style.btn} ${btnClass}`}
+          type={type}
+          form={form}
+          onClick={handleClick}
+          disabled={isLoading || disabled ? true : false}
+          style={{
+            pointerEvents: isLoading || disabled ? 'none' : 'auto',
+          }}
+        >
+          {isLoading ? (
+            <Loading loaderClass={btnLoaderClass} />
+          ) : (
+            <>
+              {iconStart && <img src={iconStart} alt="" className={style.img1} />}
+              {text && <span className={`${style.btnTitle} ${className}`}>{text}</span>}
+              {iconEnd && <img src={iconEnd} alt="" className={style.img} />}
+            </>
+          )}
+        </button>
+      )}
     </>
   );
 };

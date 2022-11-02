@@ -1,4 +1,4 @@
-import ProfileUpload from 'new-components/profile-upload';
+import ProfileUpload from 'components/profile-upload';
 
 export default {
   title: 'ProfileUpload',

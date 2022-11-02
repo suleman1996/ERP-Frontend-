@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useController } from 'react-hook-form';
 
-import Select from 'new-components/select';
+import Select from 'components/select';
 
 import style from './time.module.scss';
 
