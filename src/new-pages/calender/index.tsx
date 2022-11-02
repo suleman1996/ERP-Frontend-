@@ -1,13 +1,18 @@
 /* eslint-disable jsx-a11y/alt-text */
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import * as yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
 
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
+import CalenderService from 'services/calender-service';
+import EmployeeService from 'services/employee-service';
+import { createNotification } from 'common/create-notification';
+import moment from 'moment';
+
+import { convertBase64Image } from 'main-helper';
+import { setErrors } from 'helper';
 
 import Button from 'new-components/button';
 import Modal from 'new-components/modal';
@@ -17,11 +22,10 @@ import Selection from 'my-components/select';
 import ProfileUpload from 'new-components/profile-upload';
 import Container from 'new-components/container';
 import Checkbox from 'new-components/checkbox';
-import CustomSelect from 'new-components/custom-select';
 import EventModal from 'new-components/event-modal';
-import MultiSelect from 'new-components/multi-select';
+import MultiPicker from 'new-components/multi-select';
 
-import { eventTypes, options, recurrenceTypes } from './event-types';
+import { eventTypes, recurrenceTypes } from './event-types';
 
 import location from 'assets/location.svg';
 import person from 'assets/person1.svg';
@@ -29,10 +33,10 @@ import person2 from 'assets/person2.svg';
 import cross from 'new-assets/cross.svg';
 import deleteIcon from 'new-assets/delete.svg';
 import edit from 'new-assets/edit.svg';
+import plus from 'new-assets/add.svg';
 
 import style from './calender.module.scss';
 import './calendar.scss';
-import CalenderService from 'services/calender-service';
 
 const Calender = () => {
   let month = 'dayGridMonth';
@@ -44,6 +48,24 @@ const Calender = () => {
   const [eventId, setEventId] = useState(false);
   const [customTooltip, setCustomTooltip] = useState(false);
   const [items, setItems] = useState([]);
+  const [attendees, setAttendees] = useState([]);
+  const [selectedFileNameBack, setSelectedFileNameBack] = useState();
+  const [btnLoader, setBtnLoader] = useState(false);
+  const [selected, setSelected] = useState([]);
+
+  const {
+    register,
+    getValues,
+    handleSubmit,
+    errors,
+    reset,
+    watch,
+    control,
+    setError,
+    clearErrors,
+  } = useForm({
+    mode: 'all',
+  });
 
   const events = [
     {
@@ -84,81 +106,18 @@ const Calender = () => {
     },
   ];
 
+  useEffect(() => {
+    getEmployeesData();
+  }, []);
+
+  const getEmployeesData = async () => {
+    const res = await EmployeeService.getAllEmployees();
+    setAttendees(res?.data?.employees[0]?.data);
+  };
+
   const RenderEventHandler = (eventInfo: any) => {
     return (
       <>
-        {/* {customTooltip && eventId == eventInfo.event._def.publicId && (
-          <div
-            style={{
-              background: 'white',
-              position: 'absolute',
-              boxShadow: '1px 2px 9px #F4AAB9',
-              borderRadius: '2px',
-            }}
-          >
-            <div className={style.titleDiv}>
-              <p className={style.title}>{eventInfo?.event?.title}</p>
-              <div className={style.iconView}>
-                <img src={edit} height={15} className={style.icon} />
-                <img src={deleteIcon} height={15} className={style.icon} />
-                <img
-                  src={cross}
-                  height={15}
-                  onClick={() => setCustomTooltip(!customTooltip)}
-                  className={style.icon}
-                />
-              </div>
-            </div>
-            <div className={style.durationView}>
-              <p className={style.title2}>Thursday, OCT 25 2022 | 10:20 AM - 11:00 AM</p>
-              <p className={style.title2}>40 minutes</p>
-            </div>
-            <p className={style.title2}>Description</p>
-            <p className={style.description}>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. In cursus tortor metus,
-              imperdiet placerat ipsum porta et. In eleifend rhoncus neque, id posuere felis
-              vestibulum a. Donec tincidunt vehicula tellus quis blandit.
-            </p>
-            <div className={style.gridDiv}>
-              <p className={style.title2}>Venue</p>
-              <p className={style.description}>Venue</p>
-            </div>
-            <div className={style.gridDiv}>
-              <p className={style.title2}>Event Type</p>
-              <p className={style.description}>Meeting</p>
-            </div>
-            <div className={style.gridDiv}>
-              <p className={style.title2}>Attachment</p>
-              <p className={style.description}>Approval.pdf</p>
-            </div>
-            <div className={style.gridDiv}>
-              <p className={style.title2}>Attendees</p>
-              <div>
-                <img
-                  src={(!eventInfo?.event?.imageurl && person) || ''}
-                  height={28}
-                  width={28}
-                  style={{
-                    borderRadius: '30px',
-                    height: '30px',
-                    width: '30px',
-                  }}
-                />
-                <img
-                  src={(!eventInfo?.event?.imageurl && person2) || ''}
-                  height={28}
-                  width={28}
-                  style={{
-                    borderRadius: '30px',
-                    height: '30px',
-                    width: '30px',
-                    marginLeft: -10,
-                  }}
-                />
-              </div>
-            </div>
-          </div>
-        )} */}
         <div className={style.mainDiv}>
           <div className={style.mainDiv2}>
             <p className={style.title}>{eventInfo.event.title}</p>
@@ -199,27 +158,56 @@ const Calender = () => {
     setEventId(info.event.id);
     setCustomTooltip(true);
   };
-
   const handleSelect = (selectedList: any) => {
+    console.log('selectedList', selectedList);
+
     setItems(selectedList);
   };
   const handleRemove = (selectedList: any) => {
     setItems(selectedList);
   };
 
-  const { register, getValues, handleSubmit, errors, reset, watch, control } = useForm({
-    resolver: yupResolver(schema),
-    mode: 'all',
-  });
-
-  const onSubmit = async (data) => {
-    const res = await CalenderService.addEvent(data);
-    console.log(res, 'res ------------ res');
+  const onSubmit = async (data: any) => {
+    setBtnLoader(true);
+    try {
+      const transformData = {
+        ...data,
+        title: data?.title,
+        start: `${moment(data?.start).format('YYYY-MM-DD')}T${moment(new Date()).format('HH:mm')}Z`,
+        end: `${moment(data?.end).format('YYYY-MM-DD')}T${moment(new Date()).format('HH:mm')}Z`,
+        recurrence: data?.recurrence?.value,
+        type: data?.type?.value,
+        allDay: data?.allDay,
+        attendees: items?.map((i: any) => i?.value),
+        ...(data?.uploadFile.length > 0 && {
+          file: await convertBase64Image(data?.uploadFile[0]),
+        }),
+      };
+      delete transformData?.uploadFile;
+      const res = await CalenderService.addEvent(transformData);
+      if (res.status === 200) {
+        createNotification('success', 'success', res?.data?.msg);
+        setOpenModal(!openModal);
+      }
+      setBtnLoader(false);
+    } catch (err: any) {
+      if (err?.response?.data?.error) {
+        setErrors(err?.response?.data?.error, setError);
+      } else {
+      }
+      createNotification('error', 'Error', err?.response?.data?.msg);
+      setBtnLoader(false);
+    }
   };
+  const attendeesOptions = attendees?.map(({ _id, fullName }) => ({
+    label: fullName && fullName,
+    value: _id && _id,
+  }));
 
   console.log(
     watch(
       'title',
+      'attendees',
       'allday',
       'startDate',
       'endDate',
@@ -227,7 +215,6 @@ const Calender = () => {
       'recurrenceType',
       'description',
       'venue',
-      'attendees',
     ),
   );
 
@@ -235,14 +222,16 @@ const Calender = () => {
     <div className={style.calenderMain}>
       <Container>
         <div className={style.topBtn}>
-          {day && <Button text="Add Event" handleClick={() => setOpenModal(true)} />}
+          {day && (
+            <Button text="Add Event" handleClick={() => setOpenModal(true)} iconStart={plus} />
+          )}
         </div>
 
         <FullCalendar
           plugins={[interactionPlugin, timeGridPlugin, dayGridPlugin]}
-          initialView="dayGridMonth"
+          initialView={day}
           headerToolbar={{
-            right: `${month} ${week} ${day}`,
+            right: `${day} ${week} ${month}`,
           }}
           eventContent={(e) => RenderEventHandler({ ...e, customTooltip })}
           slotLabelInterval={{ hours: 1 }}
@@ -251,8 +240,6 @@ const Calender = () => {
           contentHeight={'auto'}
           contentWidth={'auto'}
           nowIndicator
-          // eventMouseEnter={handleMouseEnter}
-          // eventMouseLeave={handleMouseLeave}
           dateClick={(e) => console.log(e.dateStr)}
           eventClick={handleMouseEnter}
           slotEventOverlap={false}
@@ -265,8 +252,15 @@ const Calender = () => {
           text="Save"
           type="submit"
           form="hello"
+          loader={btnLoader}
         >
-          <form onSubmit={handleSubmit(onSubmit)} id="hello">
+          <form
+            onSubmit={(e) => {
+              clearErrors();
+              handleSubmit(onSubmit)(e);
+            }}
+            id="hello"
+          >
             <div className={style.gridView}>
               <TextField
                 label="Title"
@@ -274,16 +268,26 @@ const Calender = () => {
                 star=" *"
                 name="title"
                 register={register}
+                errorMessage={errors?.title?.message}
               />
-              <MultiSelect
+              <MultiPicker
                 label="Attendees"
-                options={options}
+                options={attendeesOptions}
+                handleChange={setSelected}
+                selectedValues={selected}
+                control={control}
+                name="attendees"
+              />
+              {/* <MultiPicker
+                label="Attendees"
+                options={attendeesOptions}
                 selectedValues={items}
                 handleSelect={handleSelect}
                 handleRemove={handleRemove}
                 control={control}
                 name="attendees"
-              />
+                // groupBy="name"
+              /> */}
             </div>
             <div className={style.allDay}>
               <Checkbox
@@ -300,23 +304,35 @@ const Calender = () => {
                 control={control}
                 name="start"
                 star=" *"
-                showTimeInput={check === false}
+                showTimeInput={!check === true}
+                handleChange={(date) => console.log(date)}
+                errorMessage={errors?.start?.message}
               />
               <DatePicker
                 label={check === true ? 'End Date' : 'End Date & Time'}
                 control={control}
                 name="end"
                 star=" *"
-                showTimeInput={check === false}
+                showTimeInput={!check === true}
+                errorMessage={errors?.end?.message}
               />
             </div>
             <div className={style.gridView}>
-              <Selection label="Type" options={eventTypes} name="type" control={control} />
+              <Selection
+                label="Type"
+                options={eventTypes}
+                name="type"
+                control={control}
+                errorMessage={errors?.type?.message}
+                star=" *"
+              />
               <Selection
                 label="Recurrence"
                 options={recurrenceTypes}
-                name="recurrenceType"
+                name="recurrence"
                 control={control}
+                errorMessage={errors?.recurrence?.message}
+                star=" *"
               />
             </div>
             <div className={style.gridView}>
@@ -328,9 +344,16 @@ const Calender = () => {
               />
               <TextField label="Venue" placeholder="Venue" name="venue" register={register} />
             </div>
-            {/* <div className={style.gridView}>
-              <ProfileUpload />
-            </div> */}
+            <div className={style.gridView}>
+              <ProfileUpload
+                label="File"
+                name={'uploadFile'}
+                register={register}
+                id={'file'}
+                selectedFileName={selectedFileNameBack}
+                setSelectedFileName={setSelectedFileNameBack}
+              />
+            </div>
           </form>
         </Modal>
 
@@ -409,23 +432,29 @@ const Calender = () => {
 };
 export default Calender;
 
-const schema = yup
-  .object()
-  .shape({
-    title: yup.string().required('Title is a required field'),
-    // type: yup.string().required('Type is a required field'),
-    // description: yup.string().optional(),
-    // time: yup.string().required('Time is a required field'),
-    // date: yup.date().required('Date is a required field'),
-    // scope: yup.string().required('Scope is a required field'),
-    // recursion: yup.string().required('Recursion is a required field'),
-    // recursionEndDate: yup.string().when('recursion', {
-    //   is: 'true',
-    //   then: yup.string().required('required field'),
-    // }),
-    // days: yup.array().when('recursion', {
-    //   is: 'Custom',
-    //   then: yup.array().min(1, 'Please Select At least 1 Day'),
-    // }),
-  })
-  .required();
+const multiOptions = [
+  {
+    options: [
+      { value: '1', label: 'Ali' },
+      { value: '2', label: 'Umair' },
+      { value: '3', label: 'Faizan' },
+    ],
+    label: 'HR',
+  },
+  {
+    options: [
+      { value: '4', label: 'Ibtassam' },
+      { value: '5', label: 'Suleman' },
+      { value: '6', label: 'Haseeb' },
+    ],
+    label: 'IT',
+  },
+  {
+    options: [
+      { value: '7', label: 'Maira' },
+      { value: '8', label: 'Huda' },
+      { value: '9', label: 'Fatima' },
+    ],
+    label: 'SE',
+  },
+];

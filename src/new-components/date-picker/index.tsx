@@ -34,6 +34,10 @@ interface Props {
   readOnly?: boolean;
   star?: string;
   showTimeInput?: any;
+  monthYear?: any;
+  showYearPicker?: any;
+  monthDate?: any;
+  showMonthYearPicker?: any;
 }
 
 const DatePicker = ({
@@ -53,6 +57,10 @@ const DatePicker = ({
   minDate,
   placeholder,
   star,
+  showMonthYearPicker,
+  monthYear,
+  showYearPicker,
+  monthDate,
 }: Props) => {
   const handleChangeDate = (
     event: Date | [Date | null, Date | null] | null,
@@ -96,6 +104,7 @@ const DatePicker = ({
                   maxDate={maxDate && maxDate}
                   minDate={minDate && minDate}
                   readOnly={readOnly}
+                  // showMonthYearPicker={showMonthYearPicker && true}
                   dateFormat={showTimeInput ? 'MM/dd/yyyy h:mm aa' : 'MM/dd/yyyy'}
                   timeFormat="HH:mm"
                   timeCaption="Time"
