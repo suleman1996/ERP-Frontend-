@@ -27,6 +27,7 @@ import { sampleBase64pdf } from './pdfSample';
 import PolicyService from 'services/policy-service';
 import { setErrors } from 'helper';
 import { createNotification } from 'common/create-notification';
+import EmployeeService from 'services/employee-service';
 
 const Policy = () => {
   const [selectedTab, setSelectedTab] = useState(0);
@@ -37,11 +38,7 @@ const Policy = () => {
   const [openAddPolice, setOpenAddPolice] = useState(false);
   const [openPolicyPdfView, setOpenViewPdfPolicy] = useState(false);
 
-  const options = [
-    { value: 'Ali', label: 'Ali' },
-    { value: 'Umair', label: 'Umair' },
-    { value: 'Faizan', label: 'Faizan' },
-  ];
+  const [employees] = React.useState<any>([]);
 
   const multiOptions = [
     {
@@ -74,6 +71,22 @@ const Policy = () => {
     mode: 'all',
   });
 
+  React.useEffect(() => {
+    getAllEmployees();
+  }, []);
+
+  const getAllEmployees = async () => {
+    try {
+      const result = await EmployeeService.getAllEmployees();
+      console.log('Her are all employees ', result?.data?.employees[0]?.data);
+      result?.data?.employees[0]?.data?.map((item: any) =>
+        employees.push({ value: item?._id, label: item?.fullName }),
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleAddPolicy = async (data: any) => {
     console.log('fffhj fdj ', data);
 
@@ -90,7 +103,7 @@ const Policy = () => {
         appliesTo: ['634d794828e365a9e7bae18b', '634e6dceb3ad4b4f49eeaeea'],
         description: 'Policy relating leaves',
       };
-      const result = await PolicyService.addPolicyApi(policyData);
+      const result = await PolicyService.addPolicyApi('');
       console.log(result);
     } catch (err: any) {
       console.log('error ', err.response.data);
@@ -114,7 +127,7 @@ const Policy = () => {
             setOpenAddPolice={setOpenAddPolice}
             setShowFilterView={setShowFilterView}
             showFilterView={showFilterView}
-            options={options}
+            options={employees}
             setEditPolicy={setEditPolicy}
             setOpenViewPdfPolicy={setOpenViewPdfPolicy}
           />
@@ -127,7 +140,7 @@ const Policy = () => {
             setSelectedTab={setSelectedTab}
             setShowFilterView={setShowFilterView}
             showFilterView={showFilterView}
-            options={options}
+            options={employees}
             setEditPolicy={setEditPolicy}
             setOpenViewPdfPolicy={setOpenViewPdfPolicy}
           />
@@ -166,8 +179,8 @@ const Policy = () => {
               label="Policy Number"
               placeholder="Enter Policy Name"
               star=" *"
-              name="policy"
-              errorMessage={errors?.policy?.message}
+              name="policyNumber"
+              errorMessage={errors?.policyNumber?.message}
             />
           </div>
           <div className={style.gridView}>
@@ -184,11 +197,11 @@ const Policy = () => {
               wraperSelect={style.wraperSelect}
               label="Category"
               placeholder="Category"
-              options={options}
+              options={employees}
               star=" *"
               onChange={(item) => console.log(item)}
-              name="category"
-              errorMessage={errors?.category?.message}
+              name="categoryId"
+              errorMessage={errors?.categoryId?.message}
               control={control}
             />
           </div>
@@ -196,8 +209,8 @@ const Policy = () => {
             <DatePicker
               label="Effective Date"
               control={control}
-              errorMessage={errors?.cateEffectiveDategory?.message}
-              name="EffectiveDate"
+              errorMessage={errors?.effectiveDate?.message}
+              name="effectiveDate"
               star=" *"
             />
             <Selection
@@ -206,7 +219,7 @@ const Policy = () => {
               wraperSelect={style.wraperSelect}
               label="Prepared By"
               placeholder="Prepared By"
-              options={options}
+              options={employees}
               star=" *"
               onChange={(item) => console.log(item)}
               name="preparedBy"
@@ -214,13 +227,13 @@ const Policy = () => {
           </div>
           <div className={style.gridView}>
             <Selection
-              name="reviewedBy"
-              errorMessage={errors?.reviewedBy?.message}
+              name="reviewers"
+              errorMessage={errors?.reviewers?.message}
               control={control}
               wraperSelect={style.wraperSelect}
               label="Reviewed By"
               placeholder="Reviewed By"
-              options={options}
+              options={employees}
               star=" *"
               onChange={(item) => console.log(item)}
             />
@@ -231,7 +244,7 @@ const Policy = () => {
               wraperSelect={style.wraperSelect}
               label="Approved By"
               placeholder="Approved By"
-              options={options}
+              options={employees}
               star=" *"
               onChange={(item) => console.log(item)}
               name="approvedBy"
@@ -255,7 +268,7 @@ const Policy = () => {
             <div>
               <div style={{ display: 'flex' }}>
                 <p style={{ fontSize: 17, color: '#2d2d32', marginRight: 5 }}>Attach Pdf </p>
-                <b style={{ color: 'red' }}> *</b>
+                {/* <b style={{ color: 'red' }}> *</b> */}
               </div>
               <ProfileUpload
                 name={'pdf'}
@@ -272,7 +285,7 @@ const Policy = () => {
             <TextArea
               label="Discription"
               placeholder="Enter Discription"
-              star=" *"
+              // star=" *"
               register={register}
               name="discription"
               errorMessage={errors?.discription?.message}
