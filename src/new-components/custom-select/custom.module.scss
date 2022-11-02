@@ -1,0 +1,34 @@
+@import '../../styles/_breakpoints.scss';
+@import '../../styles/colors';
+
+.position {
+  position: relative;
+  z-index: 50;
+  .card {
+    position: absolute;
+    background-color: #ffffff;
+    width: 100%;
+    margin-top: 10px;
+    .flexDiv {
+      margin-bottom: 30px;
+      &:nth-last-of-type(1) {
+        margin-bottom: 0px;
+      }
+      .flexInner {
+        margin-left: 20px;
+        margin-top: 10px;
+      }
+    }
+  }
+  .flexOutline {
+    position: relative;
+    .imgSearch {
+      right: 10px !important;
+      top: 29% !important;
+      pointer-events: none;
+    }
+    .rotate {
+      transform: rotate(-180deg);
+    }
+  }
+}

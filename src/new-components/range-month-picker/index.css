@@ -10,7 +10,6 @@
 .react-datepicker-popper {
   inset: 18px auto auto 35px !important;
   padding: 10px !important;
-  z-index: 1000 !important;
 }
 
 .react-datepicker-popper[data-placement^='bottom'] .react-datepicker__triangle::before,
@@ -23,13 +22,11 @@
   border: 1px solid #e2e2ea !important;
   border-radius: 8px !important;
   margin-top: 30px !important;
-  z-index: 1000 !important;
 }
 
 .react-datepicker__day-name,
 .react-datepicker__day,
 .react-datepicker__time-name {
-  background-color: 'red';
   margin: 10px !important;
   font-family: 'Poppins';
   font-style: normal;
@@ -82,3 +79,19 @@ input[type='time'].date-input--has-value::-webkit-datetime-edit-day-field,
 input[type='time'].date-input--has-value::-webkit-datetime-edit-year-field {
   color: #f8f9fa;
 } */
+.react-datepicker__month--selected,
+.react-datepicker__month--in-selecting-range,
+.react-datepicker__month--in-range,
+.react-datepicker__quarter--selected,
+.react-datepicker__quarter--in-selecting-range,
+.react-datepicker__quarter--in-range {
+  border-radius: 0px !important;
+  background-color: #57b993 !important;
+  color: #fff !important;
+}
+.react-datepicker__month .react-datepicker__month-text,
+.react-datepicker__month .react-datepicker__quarter-text {
+  width: auto !important;
+  margin: 8px !important;
+  padding: 10px !important;
+}

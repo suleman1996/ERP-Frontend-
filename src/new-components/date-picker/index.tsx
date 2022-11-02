@@ -37,6 +37,7 @@ interface Props {
   monthYear?: any;
   showYearPicker?: any;
   monthDate?: any;
+  showMonthYearPicker?: any;
 }
 
 const DatePicker = ({
@@ -56,6 +57,7 @@ const DatePicker = ({
   minDate,
   placeholder,
   star,
+  showMonthYearPicker,
   monthYear,
   showYearPicker,
   monthDate,
@@ -90,7 +92,7 @@ const DatePicker = ({
             <b style={{ color: 'red' }}>{star}</b>
           </label>
         )}
-        <div onClick={handleClick}>
+        <div onClick={handleClick} style={{ position: 'relative' }}>
           <Controller
             name={name}
             control={control}
@@ -102,7 +104,8 @@ const DatePicker = ({
                   maxDate={maxDate && maxDate}
                   minDate={minDate && minDate}
                   readOnly={readOnly}
-                  // dateFormat={showTimeInput ? 'MM/dd/yyyy h:mm aa' : 'MM/dd/yyyy'}
+                  // showMonthYearPicker={showMonthYearPicker && true}
+                  dateFormat={showTimeInput ? 'MM/dd/yyyy h:mm aa' : 'MM/dd/yyyy'}
                   timeFormat="HH:mm"
                   timeCaption="Time"
                   showTimeInput={showTimeInput}
@@ -143,9 +146,7 @@ const DatePicker = ({
                         </button>
                       </div>
                       <p>
-                        {/* {months[date.getMonth()]} {date.getFullYear()} */}
-                        {!showYearPicker ? months[date.getMonth()] : ''}{' '}
-                        {monthDate ? '' : date.getFullYear()}
+                        {months[date.getMonth()]} {date.getFullYear()}
                       </p>
                       <div>
                         <button
@@ -166,36 +167,16 @@ const DatePicker = ({
                       </div>
                     </div>
                   )}
-                  showMonthYearPicker
-                  {...(monthYear
-                    ? {
-                        dateFormat: 'MM/yyyy',
-                        showMonthYearPicker: true,
-                      }
-                    : showYearPicker
-                    ? {
-                        dateFormat: 'yyyy',
-                        showYearPicker,
-                      }
-                    : monthDate
-                    ? {
-                        dateFormat: 'MM/dd',
-                        showMonthYearPicker: false,
-                      }
-                    : {
-                        dateFormat: 'MM/dd/yyyy',
-                        showMonthYearPicker: false,
-                      })}
                 />
               );
             }}
           />
+          <label htmlFor={id}>
+            <div className={style.icon}>
+              <img src={date} alt="" />
+            </div>
+          </label>
         </div>
-        <label htmlFor={id}>
-          <div className={style.icon}>
-            <img src={date} alt="" />
-          </div>
-        </label>
         {errorMessage ? <span className={style.errorMessage}>{errorMessage}</span> : ''}
       </div>
     </>

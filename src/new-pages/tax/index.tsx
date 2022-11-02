@@ -15,6 +15,7 @@ const Tax = () => {
   const [active, setActive] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [open, setOpen] = useState<boolean>(false);
+  const [singleId, setSingleId] = useState('');
 
   return (
     <>
@@ -32,10 +33,9 @@ const Tax = () => {
               <div className={style.addTaxBtnChildDiv}>
                 <Button
                   text="Add Tax-Slab"
-                  // icon={addSvg}
-                  // isLoading={false}
                   handleClick={() => {
                     setOpen(true);
+                    setSingleId('');
                   }}
                 />
               </div>
@@ -57,7 +57,15 @@ const Tax = () => {
           </div>
         )}
         {/* {active === 0 && <TaxCalculation setIsLoading={setIsLoading} />} */}
-        {active === 0 && <TaxSlab setIsLoading={setIsLoading} open={open} setOpen={setOpen} />}
+        {active === 0 && (
+          <TaxSlab
+            setIsLoading={setIsLoading}
+            open={open}
+            setOpen={setOpen}
+            singleId={singleId}
+            setSingleId={setSingleId}
+          />
+        )}
       </CardContainer>
     </>
   );

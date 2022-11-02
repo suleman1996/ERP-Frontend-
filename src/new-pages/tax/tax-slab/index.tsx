@@ -1,10 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import AddTaxSlab from './add-tax';
-import DeletePopup from 'components/delete-modal';
-import { useAppSelector } from 'store/hooks';
-import NewTable from 'components/table/new-table';
-import { columns, taxRow } from './tax-helper';
+import { columns } from './tax-helper';
 import TaxService from 'services/tax-service';
 import style from '../tax.module.scss';
 
@@ -12,48 +9,41 @@ import editIcon from 'new-assets/table-edit.svg';
 import view from 'new-assets/viewIconnew.svg';
 import deleteIcon from 'new-assets/table-delete.svg';
 import Table from 'new-components/table';
+import Switch from 'new-components/switch';
+import Modal from 'new-components/modal';
 
-const TaxSlab = ({ setIsLoading, open, setOpen }: any) => {
+const TaxSlab = ({ setIsLoading, open, setOpen, singleId, setSingleId }: any) => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [taxSlabsData, setTaxSlabsData] = useState<any[]>([]);
+  const [newSlab, setNewSlab] = useState();
   const [deleteLoading, setDeleteLoading] = useState(false);
-  const [singleId, setSingleId] = useState('');
-  const [columnArr, setColumnArr] = useState<any>([]);
 
-  const { currentUser } = useAppSelector((state) => state.app);
+  const deleteTaxSlab = async (id: string) => {
+    setDeleteLoading(true);
+    const res = await TaxService.deleteTaxSlab(id);
+    if (res.status === 200) {
+      setDeleteModalOpen(false);
+      setDeleteLoading(false);
+      getTaxSlabsData();
+    }
+    setDeleteLoading(false);
+  };
 
   const getTaxSlabsData = async () => {
     setIsLoading(true);
     const res = await TaxService.getAllTaxSlabsData();
-    // if (res.status === 200) {
-    //   const temp: any[] = [];
-    //   res.data.tax.forEach((x: any, index: number) => {
-    //     x.id = x._id;
-    //     x._id = index + 1;
-    //     temp.push(x);
-    //   });
-    //   setTaxSlabsData(temp);
-    // }
+
+    if (res.status === 200) {
+      setTaxSlabsData(res?.data.data);
+    }
     setIsLoading(false);
   };
 
-  const deleteTaxSlab = async () => {
-    setDeleteLoading(true);
-    const res = await TaxService.deleteTaxSlab(singleId);
-    if (res.status === 200) {
-      getTaxSlabsData();
-      setDeleteLoading(false);
-      setDeleteModalOpen(false);
-    }
-  };
-
-  // useEffect(() => {
-  //   if (currentUser?.role && currentUser?.role === 'Employee') {
-  //     const tempArr = [...columns];
-  //     tempArr.splice(tempArr.length - 1);
-  //     setColumnArr([...tempArr]);
-  //   }
-  // }, [currentUser?.role]);
+  useEffect(() => {
+    const selectedSlab = taxSlabsData?.find((item) => item?._id === singleId);
+    setNewSlab(selectedSlab);
+    console.log('single', selectedSlab);
+  }, [singleId]);
 
   useEffect(() => {
     getTaxSlabsData();
@@ -63,36 +53,60 @@ const TaxSlab = ({ setIsLoading, open, setOpen }: any) => {
     <>
       <div style={{ padding: '0 10px' }}>
         <Table
-          columns={columnArr?.length ? columnArr : columns}
+          columns={columns}
           rows={
-            taxRow &&
-            taxRow.map((item): any => {
+            taxSlabsData &&
+            taxSlabsData?.map((item): any => {
               return {
                 ...item,
+                Status: (
+                  <div>
+                    <Switch
+                      title={item.Status === true ? 'Active' : 'InActive'}
+                      checked={item?.Status}
+                      name={item._id}
+                    />
+                  </div>
+                ),
                 taxActions: (
                   <div style={{ display: 'flex' }}>
                     <div style={{ marginRight: '10px' }}>
-                      <img src={editIcon} width={30} />
+                      <img
+                        src={editIcon}
+                        width={30}
+                        onClick={() => {
+                          setTimeout(() => {
+                            setOpen(true);
+                          }, 600);
+                          setSingleId(item?._id);
+                        }}
+                      />
                     </div>
                     <div style={{ marginRight: '10px' }}>
-                      <img src={deleteIcon} width={30} />
+                      <img
+                        src={deleteIcon}
+                        width={30}
+                        onClick={() => {
+                          setDeleteModalOpen(true);
+                          setSingleId(item?._id);
+                        }}
+                      />
                     </div>
                     <div style={{ marginRight: '10px' }}>
-                      <img src={view} width={25} />
+                      <img
+                        src={view}
+                        width={30}
+                        onClick={() => {
+                          setOpen(true);
+                          setSingleId(item?._id);
+                        }}
+                      />
                     </div>
                   </div>
                 ),
               };
             })
           }
-          handleDelete={(id: string) => setSingleId(id)}
-          minWidth="1280px"
-          tableHeight={style.taxSlabTableHeight}
-          handleEdit={(id: string) => {
-            setOpen(true);
-            setSingleId(id);
-          }}
-          handleModalOpen={() => setDeleteModalOpen(true)}
         />
       </div>
 
@@ -102,16 +116,21 @@ const TaxSlab = ({ setIsLoading, open, setOpen }: any) => {
           setOpen={setOpen}
           getTaxSlabsData={getTaxSlabsData}
           updateId={singleId}
+          setSingleId={setSingleId}
+          newSlab={newSlab}
         />
       )}
-      {deleteModalOpen && (
-        <DeletePopup
-          handleDelete={deleteTaxSlab}
-          open={deleteModalOpen}
-          setOpen={setDeleteModalOpen}
-          btnLoader={deleteLoading}
-        />
-      )}
+
+      <Modal
+        open={deleteModalOpen}
+        text={'Delete Slab'}
+        title={'Delete Slab'}
+        loader={deleteLoading}
+        handleClose={() => setDeleteModalOpen(false)}
+        handleClick={() => deleteTaxSlab(singleId)}
+      >
+        <h1>Are you sure you want to delete this record !</h1>
+      </Modal>
     </>
   );
 };

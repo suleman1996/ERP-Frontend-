@@ -60,7 +60,7 @@ export const usePersonalInfo = ({
   const getEmployeeID = async () => {
     const res = await EmployeeService.getAllEmployeesID(watch().employeeId);
     if (res.status === 200) {
-      setUserId(res?.data?.newEmployeeId);
+      !userId && setUserId(res?.data?.newEmployeeId);
     }
   };
 

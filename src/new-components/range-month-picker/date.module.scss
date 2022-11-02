@@ -4,6 +4,7 @@
 
 .main {
   width: 100%;
+  position: relative;
 
   .label {
     @include font24;
@@ -86,4 +87,8 @@
   border: 1.08947px solid #e2e2ea;
   border-radius: 5.44737px;
   padding: 10px;
+}
+
+.grid {
+  @include gridTwo(20, 20);
 }
