@@ -1,24 +1,24 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import React, { useEffect, useState, Dispatch, SetStateAction } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 
 import { adminListArr } from './list-script';
 import { useAppDispatch, useAppSelector } from 'store/hooks';
 import { setLogout } from 'store';
 
+import leftArrow from 'assets/sidebar-icon.svg';
+import right from 'assets/right.svg';
+import logoImg2 from 'assets/sidebar-logo.svg';
+import smallImg from 'assets/onlyX.svg';
+import logoutImg from 'assets/logout-sidebar.svg';
+import profileImg from 'assets/profileImg.png';
+import profileImg2 from 'assets/profileImg2.svg';
 import style from './sidebar.module.scss';
-import leftArrow from 'assets/navbar-sidebar/leftArrow.svg';
-import rightArrow from 'assets/navbar-sidebar/rightArrow.svg';
-import logo from 'assets/mobile-view/sprintx.svg';
-
-import logoImg2 from 'assets/navbar-sidebar/logoImg2.svg';
-import logoutImg from 'assets/navbar-sidebar/Logout.svg';
-import profileImg from 'assets/navbar-sidebar/profileImg.png';
-import profileImg2 from 'assets/navbar-sidebar/profileImg2.svg';
 
 interface Props {
-  open: boolean;
+  open?: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
 }
+
 interface ListArr {
   path: string;
   active: string;
@@ -28,12 +28,13 @@ interface ListArr {
 }
 
 const Sidebar = ({ open, setOpen }: Props) => {
-  const [sideBarListArr, setSideBarListArr] = useState<ListArr[] | []>([]);
-  const [pathName, setPathName] = useState<string>('');
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const dispatch = useAppDispatch();
   const { currentUser } = useAppSelector((state) => state.app);
+
+  const [sideBarListArr, setSideBarListArr] = useState<ListArr[] | []>([]);
+  const [pathName, setPathName] = useState<string>('');
 
   useEffect(() => {
     if (pathname === '/') {
@@ -65,98 +66,87 @@ const Sidebar = ({ open, setOpen }: Props) => {
 
   return (
     <>
-      <div
-        style={{ width: !open ? '250px' : '75px', transition: 'all 0.3s' }}
-        className={style.sidebarWrapper}
-      >
-        <div className={style.sidebarHeader}>
-          <div className={style.arrowDiv}>
-            <img
-              src={!open ? leftArrow : rightArrow}
-              alt="!error"
-              onClick={() => setOpen(!open)}
-              style={{ cursor: 'pointer' }}
-            />
-          </div>
-          <div className={style.logoImgDiv}>
-            {!open ? (
-              <img src={logo} alt="!error" className={style.img} />
-            ) : (
+      <div className={!open ? style.sidebarWrapper : style.wrapperSmall}>
+        <div>
+          <div className={!open ? style.sidebarHeader : style.sidebarSmall}>
+            <div className={!open ? style.arrowDiv : style.arrowCloseDiv}>
               <img
-                src={logoImg2}
+                src={!open ? leftArrow : right}
                 alt="!error"
-                style={{ position: 'relative', left: '3px', marginTop: '10px' }}
+                onClick={() => setOpen(!open)}
+                style={{ cursor: 'pointer' }}
+                data-testid={'openClose'}
               />
-            )}
-          </div>
-
-          <div className={style.profileImgDiv}>
-            {!open ? (
-              <img
-                src={currentUser?.img ? currentUser?.img : profileImg}
-                alt="!error"
-                style={{
-                  width: '130px',
-                  height: '130px',
-                  borderRadius: '50%',
-                  objectFit: 'cover',
-                }}
-              />
-            ) : (
-              <img
-                src={currentUser?.img ? currentUser?.img : profileImg2}
-                alt="!error"
-                style={{
-                  marginTop: '20px',
-                  width: '38px',
-                  height: '38px',
-                  borderRadius: '50%',
-                  objectFit: 'cover',
-                }}
-              />
-            )}
-          </div>
-
-          <div className={style.profileContentDiv} style={{ display: !open ? 'block' : 'none' }}>
-            <h1>{`${currentUser?.firstName} ${currentUser?.lastName}`}</h1>
-            <p style={{ color: '#57B993' }}>{currentUser?.designation}</p>
-          </div>
-        </div>
-
-        {/* / RoutesList/ */}
-        <div className={style.listWrapperDiv}>
-          <ul className={style.ul1}>
-            {sideBarListArr?.map((ele, index: number) => (
-              <li
-                key={index}
-                onClick={() => handleNavigate(ele.path, ele.active)}
-                style={{
-                  borderLeft: ele.active.includes(pathName)
-                    ? '4px solid #57b993'
-                    : '4px solid transparent',
-                }}
+            </div>
+            <div className={style.logoImgDiv}>
+              {!open ? (
+                <img src={logoImg2} alt="!error" className={style.smallImg} />
+              ) : (
+                <img src={smallImg} alt="!error" className={style.webImage} />
+              )}
+            </div>
+            <div className={style.profileImgDiv}>
+              {!open ? (
+                <img
+                  src={currentUser?.img ? currentUser?.img : profileImg}
+                  alt="!error"
+                  className={style.imgLarge}
+                />
+              ) : (
+                <img
+                  src={currentUser?.img ? currentUser?.img : profileImg2}
+                  alt="!error"
+                  className={style.imgSmall}
+                />
+              )}
+              <div
+                className={style.profileContentDiv}
+                style={{ display: !open ? 'block' : 'none' }}
               >
-                <img src={ele.active.includes(pathName) ? ele.img2 : ele.img1} alt="!error" />
-                <p
+                <h1>{`${currentUser?.firstName} ${currentUser?.lastName}`}</h1>
+                <p>{currentUser?.designation}</p>
+              </div>
+            </div>
+          </div>
+          {/* / RoutesList/ */}
+          <div className={open ? style.listWrapperClose : style.listWrapperDiv}>
+            <ul className={open ? style.ul : style.ul1}>
+              {sideBarListArr?.map((ele, index: number) => (
+                <li
+                  key={index}
+                  onClick={() => handleNavigate(ele.path, ele.active)}
                   style={{
-                    visibility: !open ? 'visible' : 'hidden',
-                    marginBottom: '0px',
+                    borderLeft: ele.active.includes(pathName)
+                      ? '4px solid #57b993'
+                      : '4px solid transparent',
                   }}
+                  className={open ? style.heightDiv : ''}
                 >
-                  {ele.title}
-                </p>
-              </li>
-            ))}
-          </ul>
+                  <img
+                    src={ele.active.includes(pathName) ? ele.img2 : ele.img1}
+                    alt="!error"
+                    className={open ? style.iconsClass : style.img}
+                  />
+                  <p
+                    style={{
+                      display: !open ? 'block' : 'none',
+                      marginBottom: '0px',
+                    }}
+                  >
+                    {ele.title}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
-
         {/* Logout  */}
-        <div className={style.logoutDiv} style={{ paddingLeft: '24px' }}>
-          <div onClick={handleLogout}>
-            <img src={logoutImg} alt="!error" />
+        <div className={style.logoutDiv}>
+          <div onClick={handleLogout} className={style.smallLogoutDiv}>
+            <img src={logoutImg} alt="!error" className={open ? style.iconsClass1 : style.img} />
             <p
               style={{
-                visibility: !open ? 'visible' : 'hidden',
+                display: open ? 'none' : 'block',
                 marginBottom: '0px',
               }}
             >

@@ -1,0 +1,64 @@
+@import 'styles/_breakpoints.scss';
+@import 'styles/_colors.scss';
+@import 'styles/_mixin.scss';
+
+.select {
+  box-shadow: none;
+  outline: none;
+  border-radius: 6px;
+  width: 100%;
+  padding: 0px 20px;
+  @include font20;
+  cursor: pointer;
+  color: #2d2d32;
+  margin-top: calc(5px + 7 * (100vw - 280px) / 2280);
+  height: calc(30px + 25 * (100vw - 280px) / 2280);
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background: url('../../assets/select-arrow.svg');
+  background-position: 98% 50%;
+  background-color: #ffffff;
+  background-repeat: no-repeat;
+  background-size: 15px;
+
+  option {
+    text-transform: capitalize;
+    @include font32;
+    color: #2d2d32;
+    padding: 15px;
+    margin: 20px;
+    text-indent: 20px;
+    line-height: 30px;
+    height: 30px;
+  }
+}
+
+label {
+  @include font24;
+  font-family: 'Poppins';
+  font-style: normal;
+  color: #2d2d32;
+  text-transform: capitalize;
+}
+
+.errorMessage {
+  position: absolute;
+  display: block;
+  margin-left: 5px;
+  color: #ff5050;
+  @include font14;
+}
+
+select option:checked {
+  background: #57b894 -webkit-linear-gradient(bottom, #57b894 0%, #57b894 100%);
+  color: #ffffff;
+}
+
+.inputClass {
+  border: none !important;
+  input {
+    width: 100%;
+    border: none !important;
+  }
+}

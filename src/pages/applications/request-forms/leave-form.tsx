@@ -5,7 +5,7 @@ import { useAppSelector } from 'store/hooks';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import Modal from 'components/modal';
-import NavLinks from 'components/nav-links';
+// import NavLinks from 'components/nav-links';
 import Button from 'components/button';
 import ApplicationService from 'services/application-service';
 import NotificationService from 'services/notification-service';
@@ -164,7 +164,7 @@ const LeaveForm = ({
         handleClose={() => setOpenLeave(false)}
       >
         <div className={style.modal}>
-          <NavLinks links={[{ title: `${formType?.type}`, left: '50px' }]} />
+          {/* <NavLinks links={[{ title: `${formType?.type}`, left: '50px' }]} /> */}
           <img
             src={cross}
             alt=""

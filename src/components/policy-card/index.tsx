@@ -15,6 +15,7 @@ const RenderPolicy = ({
   setEditPolicy,
   setOpenViewPdfPolicy,
   data,
+  setSelectedPolicy,
 }: any) => {
   const [isMenuVisible, setIsMenuVisible] = React.useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -28,6 +29,7 @@ const RenderPolicy = ({
               setOpenAddPolice(true);
               setIsMenuVisible(false);
               setEditPolicy(true);
+              setSelectedPolicy(data);
             }}
             className={style.menuViewBox}
           >
@@ -96,9 +98,9 @@ const RenderPolicy = ({
             { q: 'Policy Number', v: data?.policyNumber || 'BFFF334r' },
             { q: 'Version', v: data?.version || '0.1.8' },
             { q: 'Category', v: data?.categoryId?.name || 'Holidays' },
-            { q: 'Prepared by ', v: data?.preparedBy || 'Maira Ashraf' },
+            { q: 'Prepared by ', v: data?.preparedBy?.fullName || 'Maira Ashraf' },
             { q: 'Reviewed by', v: 'Suleman Amjad' },
-            { q: 'Approved by', v: data?.approvedBy || 'Faizan Khan' },
+            { q: 'Approved by', v: data?.approvedBy?.fullName || 'Faizan Khan' },
             { q: 'Added by', v: data?.addedBy || 'Umair Leo' },
           ].map((item) => (
             <li>

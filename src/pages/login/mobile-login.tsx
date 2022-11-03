@@ -9,8 +9,8 @@ import Input from 'components/input';
 import Button from 'components/button';
 
 import style from './login.module.scss';
-import logo from 'assets/mobile-view/sprintx.svg';
-import eye from 'assets/mobile-view/eye.svg';
+import logo from 'assets/sprintx.svg';
+import eye from 'assets/eye.svg';
 
 const MobileLogin = ({ handleLogin }: any) => {
   const [isLoading, setIsLoading] = useState(false);

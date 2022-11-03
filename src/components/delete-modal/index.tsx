@@ -3,8 +3,8 @@ import React, { Dispatch, memo, SetStateAction } from 'react';
 import Modal from 'components/modal';
 import Button from 'components/button';
 
+import cross from 'assets/delete-cross.svg';
 import style from './delete-modal.module.scss';
-import cross from 'assets/settings-page/Path 306.png';
 
 interface Props {
   open: boolean;
@@ -16,23 +16,21 @@ interface Props {
 const DeletePopup = ({ open, setOpen, handleDelete, btnLoader }: Props) => {
   return (
     <>
-      <Modal open={open} handleClose={() => setOpen(false)}>
+      <Modal open={open} handleClose={() => setOpen(false)} className={style.wrapperModal}>
         <div className={style.emailPopupContentDiv}>
           <div className={style.headerDiv}>
             <img src={cross} alt="" />
-            <h1>Are you Sure?</h1>
+            <h1>Are you sure you want to delete this?</h1>
+            <p>If you delete this you can’t recover it</p>
           </div>
           <div className={style.flex}>
-            <button onClick={() => setOpen(false)} className={style.btn1}>
-              Cancel
-            </button>
+            <Button text="Cancel" handleClick={() => setOpen(false)} btnClass={style.btn1} />
             <Button
               text="Delete"
               handleClick={() => {
                 handleDelete && handleDelete();
               }}
               btnClass={style.button}
-              isLoading={btnLoader}
             />
           </div>
         </div>
@@ -40,5 +38,4 @@ const DeletePopup = ({ open, setOpen, handleDelete, btnLoader }: Props) => {
     </>
   );
 };
-
 export default memo(DeletePopup);

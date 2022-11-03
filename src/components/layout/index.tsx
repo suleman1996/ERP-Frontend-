@@ -1,61 +1,50 @@
 import React, { useState } from 'react';
-
-import Navbar from './navbar';
-import Sidebar from './sidebar';
-import ContainerLoader from 'components/container-loader';
+import { useLocation } from 'react-router-dom';
 import { useAppSelector } from 'store/hooks';
 
+import ContainerLoader from 'components/loading';
+import Navbar from './navbar';
+import Sidebar from './sidebar';
+import SettingsSidebar from './setting-sidebar';
+
 import style from './layout.module.scss';
-import MobileSidebar from './sidebar/mobile-sidebar';
-import MobileNavbar from './navbar/mobile-navbar';
 
 interface Props {
-  children: any;
+  children: JSX.Element[] | JSX.Element;
 }
 
 const Layout = ({ children }: Props) => {
-  const [open, setOpen] = useState(false);
+  const { pathname } = useLocation();
   const { containerLoader } = useAppSelector((state) => state.app);
+
+  const [open, setOpen] = useState(false);
+  const [openSidebar, setOpenSidebar] = useState(false);
 
   return (
     <>
-      <div className={style.downMd}>
-        <div className={style.layoutWrapper}>
-          <header>
+      <div className={style.layoutWrapper}>
+        {pathname === '/settings' ? (
+          <header style={{ left: openSidebar ? '0px' : '' }}>
+            {openSidebar && (
+              <div className={style.backdropDiv} onClick={() => setOpenSidebar(false)}></div>
+            )}
+            <SettingsSidebar setOpen={setOpen} open={open} />
+          </header>
+        ) : (
+          <header style={{ left: openSidebar ? '0px' : '' }}>
+            {openSidebar && (
+              <div className={style.backdropDiv} onClick={() => setOpenSidebar(false)}></div>
+            )}
             <Sidebar setOpen={setOpen} open={open} />
           </header>
+        )}
 
-          <main
-            style={{
-              marginLeft: open ? '85px' : '260px',
-              transition: 'all 0.3s',
-              position: 'relative',
-            }}
-          >
-            <Navbar />
-            {containerLoader ? <ContainerLoader /> : children}
-          </main>
-        </div>
-      </div>
-      <div className={style.upMd}>
-        <div className={style.layoutWrapper} style={{ overflowX: 'hidden' }}>
-          <MobileNavbar open={open} setOpen={setOpen} />
-          <header style={{ left: open ? '' : '-100%' }}>
-            <MobileSidebar setOpen={setOpen} open={open} />
-          </header>
-          <main
-            style={{
-              marginLeft: open ? '200px' : '0px',
-              transition: 'all 0.3s',
-              position: 'relative',
-              transform: open ? 'scaleY(0.9)' : '',
-              borderRadius: open ? '5px' : '0px',
-              width: '100%',
-            }}
-          >
-            {containerLoader ? <ContainerLoader /> : children}
-          </main>
-        </div>
+        <main className={open ? style.mainSection : style.sectionMargin}>
+          <div className={style.navbarDiv}>
+            <Navbar openSidebar={openSidebar} setOpenSidebar={setOpenSidebar} />
+          </div>
+          <div>{containerLoader ? <ContainerLoader /> : children}</div>
+        </main>
       </div>
     </>
   );

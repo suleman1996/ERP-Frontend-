@@ -1,4 +1,4 @@
-import flagImg from 'new-assets/flag/pakFlag.svg';
+import flagImg from 'assets/flag/pakFlag.svg';
 export const columns = [
   {
     key: 'date',

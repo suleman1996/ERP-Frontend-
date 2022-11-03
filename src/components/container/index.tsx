@@ -1,9 +1,10 @@
 import React from 'react';
+
 import style from './container.module.scss';
 
 interface Props {
-  children?: any;
-  container?: any;
+  children?: JSX.Element[] | JSX.Element;
+  container?: string;
 }
 
 const Container = ({ children, container }: Props) => {

@@ -1,11 +1,9 @@
 import React from 'react';
-
 import style from './card.module.scss';
 interface Props {
   className?: any;
   children?: any;
 }
-
 const Card = ({ children, className }: Props) => {
   return (
     <>
@@ -13,5 +11,4 @@ const Card = ({ children, className }: Props) => {
     </>
   );
 };
-
 export default Card;

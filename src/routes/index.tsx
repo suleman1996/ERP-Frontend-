@@ -1,10 +1,10 @@
 import { memo, useEffect, useState } from 'react';
 import { Navigate, Route, Routes as Switch } from 'react-router-dom';
 
-import AppLoader from 'new-components/app-loader';
+import AppLoader from 'components/app-loader';
 
 import { routes, publicRoute, RouteInterface } from './helper';
-import Layout from 'new-components/layout';
+import Layout from 'components/layout';
 
 interface Props {
   token: string;

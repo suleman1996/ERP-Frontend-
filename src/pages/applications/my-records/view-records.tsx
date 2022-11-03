@@ -6,7 +6,7 @@ import { mySocket } from 'app';
 
 import Modal from 'components/modal';
 import Button from 'components/button';
-import NavLinks from 'components/nav-links';
+// import NavLinks from 'components/nav-links';
 import LeaveForm from '../request-forms/leave-form';
 
 import { useAppSelector } from 'store/hooks';
@@ -16,7 +16,7 @@ import cross from 'assets/employee-page/Path 306.svg';
 import style from './records.module.scss';
 import editIcon from 'assets/editIcon.svg';
 import deleteIcon from 'assets/deleteIcon.svg';
-import { cardsData } from '../request-forms/applications.helper';
+// import { cardsData } from '../request-forms/applications.helper';
 
 interface Props {
   open?: any;
@@ -119,7 +119,7 @@ const ViewRecords = ({ open, setOpen, currentApplicationId, getAllApplications }
       <Modal open={open} className={style.modalWrapper} handleClose={() => setOpen(false)}>
         <form>
           <div className={style.modal}>
-            <NavLinks links={[{ title: 'Record', left: '65px' }]} />
+            {/* <NavLinks links={[{ title: 'Record', left: '65px' }]} /> */}
 
             <img
               src={cross}
@@ -196,7 +196,8 @@ const ViewRecords = ({ open, setOpen, currentApplicationId, getAllApplications }
         <LeaveForm
           openLeave={openEdit}
           setOpenLeave={setOpenEdit}
-          cardsData={cardsData.find((x: any) => x.type === applicationData?.type)?.form}
+          // cardsData={cardsData.find((x: any) => x.type === applicationData?.type)?.form}
+          cardsData={[]}
           formType={{ type: applicationData?.type }}
           update={true}
           applicationData={applicationData}

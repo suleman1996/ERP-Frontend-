@@ -2,30 +2,26 @@
 @import 'styles/_colors.scss';
 @import 'styles/_mixin.scss';
 
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px;
+  padding: 15px;
+  border: 0.5px solid lightgray;
+  border-radius: 8px;
+}
+
 .taxCalculationTable {
   height: calc(100vh - 214px);
   @media (max-width: $md) {
     height: calc(100vh - 182px);
   }
 }
-.taxSlabTableHeight {
-  height: calc(100vh - 217px);
-  @media (max-width: $md) {
-    height: calc(100vh - 146px);
-  }
-}
+
 .addTaxBtnDiv {
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
-  width: 149px;
-  height: 42px;
   @media (max-width: $md) {
     display: none;
-  }
-
-  .addTaxBtnChildDiv {
-    position: fixed;
   }
 }
 
@@ -48,6 +44,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 20px;
     .img {
       margin-right: 20px;
       margin-top: -25px;
@@ -55,8 +52,17 @@
   }
 
   .add {
-    @include gridTwo(8, 80);
+    // @include gridTwo(8, 80);
     padding: 20px 50px;
+    .twoGrid {
+      margin-top: 20px;
+      @include gridTwo(8, 15);
+    }
+    .fiveGrid {
+      @include gridFive();
+      grid-gap: 10px;
+      margin-top: 25px;
+    }
     @media (max-width: $md) {
       padding: 20px;
     }
@@ -78,15 +84,14 @@
   }
   .webBtnDiv {
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
+    margin: 10px;
     @media (max-width: $md) {
       display: none;
     }
     .btn {
-      padding: 12px 100px;
       margin: 40px 0px;
-      width: 330px;
-      height: 51px;
+      width: max-content;
     }
   }
   .mobileBtnDiv {

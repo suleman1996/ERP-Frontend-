@@ -1,53 +1,31 @@
-import React from 'react';
+import { ChangeEvent } from 'react';
 
 import style from './checkbox.module.scss';
 
 interface Props {
   label?: string;
-  inputLabel?: string;
+  handleChange?: (event: ChangeEvent<HTMLInputElement>) => void;
   id?: string;
+  checked?: boolean;
   name?: string;
-  handleChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  checked?: any;
-  inputRef?: any;
-  labelClass?: any;
-  checkboxClass?: any;
-  error?: boolean;
+  register?: any;
+  containerClass?: string;
 }
 
-const Checkbox = ({
-  id,
-  name,
-  label,
-  inputLabel,
-  error,
-  inputRef,
-  labelClass,
-  checkboxClass,
-  handleChange,
-  checked,
-}: Props) => {
+const Checkbox = ({ id, label, handleChange, checked, name, register, containerClass }: Props) => {
   return (
-    <div style={{ display: 'flex' }}>
-      <label style={{ marginRight: '10px' }}>{label}</label>
-      <label
-        className={`${style.container} ${labelClass}`}
-        style={{ color: error ? '#FF5050' : '' }}
-        htmlFor={id}
-      >
-        {inputLabel}
+    <div className={containerClass}>
+      <label className={style.container} htmlFor={id}>
+        {label && <p>{label}</p>}
         <input
-          type="checkbox"
           name={name}
-          ref={inputRef}
+          ref={register}
+          type="checkbox"
           id={id}
           onChange={handleChange}
           checked={checked}
         />
-        <span
-          className={`${style.checkMark} ${checkboxClass}`}
-          style={{ borderColor: error ? '#FF5050' : '' }}
-        ></span>
+        <span className={style.checkMark}></span>
       </label>
     </div>
   );
