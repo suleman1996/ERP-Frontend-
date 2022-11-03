@@ -66,7 +66,7 @@ const Input = ({
             <span style={{ color: 'red' }}>{star}</span>
           </label>
         )}
-        <div style={{ position: 'relative' }}>
+        <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
           <input
             className={inputClass}
             list={list}

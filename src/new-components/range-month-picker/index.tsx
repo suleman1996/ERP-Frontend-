@@ -6,6 +6,8 @@ import { Controller } from 'react-hook-form';
 import style from './date.module.scss';
 import 'react-datepicker/dist/react-datepicker.css';
 import './index.css';
+import moment from 'moment';
+import { useEffect } from 'react';
 
 interface Props {
   label?: string;
@@ -90,6 +92,12 @@ const MonthYearPicker = ({
                     <ReactDatePicker
                       name={lastName}
                       selected={value == 'Invalid Date' ? null : value || null}
+                      // selected={
+                      //   value
+                      //     ? value
+                      //     : watch().financialYearStart &&
+                      //       new Date(moment(watch().financialYearStart).add(1, 'y'))
+                      // }
                       onChange={onChange}
                       value={value}
                       selectsEnd

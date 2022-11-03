@@ -24,6 +24,7 @@ interface Props {
   max?: any;
   customValidation?: string;
   iconClass?: any;
+  step?: string;
 }
 
 const TextField = ({
@@ -46,6 +47,7 @@ const TextField = ({
   max,
   customValidation,
   iconClass,
+  step,
   ...restOfProps
 }: Props) => {
   return (
@@ -67,6 +69,7 @@ const TextField = ({
             min={min && min}
             max={max && max}
             name={name}
+            step={step && step}
             value={value}
             onChange={onChange}
             type={type}

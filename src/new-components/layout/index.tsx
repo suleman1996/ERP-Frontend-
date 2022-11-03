@@ -23,7 +23,7 @@ const Layout = ({ children }: Props) => {
   return (
     <>
       <div className={style.layoutWrapper}>
-        {pathname === '/settings' || pathname === '/profile-setting' ? (
+        {pathname === '/profile-setting' ? (
           <header style={{ left: openSidebar ? '0px' : '' }}>
             {openSidebar && (
               <div className={style.backdropDiv} onClick={() => setOpenSidebar(false)}></div>

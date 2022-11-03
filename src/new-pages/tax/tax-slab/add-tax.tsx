@@ -54,7 +54,7 @@ const AddAttendance = ({
   // const [slabs, setSlab] = useState<any>([]);
   // const [categories, setCategories] = useState();
 
-  const { register, handleSubmit, errors, reset, control, watch } = useForm({
+  const { register, handleSubmit, errors, reset, control, watch, setValue } = useForm({
     resolver: yupResolver(schema),
     mode: 'onSubmit',
   });
@@ -142,8 +142,6 @@ const AddAttendance = ({
   };
 
   useEffect(() => {
-    console.log({ newSlabUpdate });
-
     updateId &&
       reset({
         taxGroupName: newSlabUpdate?.groupName,
@@ -156,6 +154,10 @@ const AddAttendance = ({
 
     updateId && newSlabUpdate && setSlab([...newSlabUpdate?.slabs]);
   }, []);
+
+  console.log(moment(moment(watch().financialYearStart).add(1, 'y')).format('MM/YYYY'));
+  console.log('saas', watch().financialYearStart);
+  console.log({ a: moment(watch().financialYearStart).add(1, 'y') });
 
   return (
     <>
@@ -236,6 +238,7 @@ const AddAttendance = ({
                 type="number"
                 placeholder="Tax Rate"
                 register={register}
+                step={'any'}
                 errorMessage={errors?.taxRate?.message}
               />
               <TextField
@@ -325,7 +328,7 @@ const schema = yup.object().shape({
     .number()
     .typeError('Tax Rate is required')
     .max(100, 'Should be less or equal to 100')
-    .min(1, 'Should be greater  than 0'),
+    .min(0, 'Invalid value'),
   lessLimit: yup.string().required('Less Limit is required'),
 });
 

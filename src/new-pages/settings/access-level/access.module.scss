@@ -1,0 +1,80 @@
+@use 'styles/_colors.scss' as c;
+@import 'styles/_mixin.scss';
+@import 'styles/_breakpoints.scss';
+
+.card {
+  border-radius: 0%;
+}
+.innderDivs {
+  @include gridTwo(20, 20);
+
+  .rolesAddText {
+    display: flex;
+    padding-bottom: 10px;
+    justify-content: space-between;
+    .iconDiv {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      img {
+        margin-right: 7px;
+        width: 10px;
+      }
+    }
+    p {
+      font-style: normal;
+      font-weight: 600;
+      font-size: 15px;
+      line-height: 22px;
+    }
+    span {
+      font-style: normal;
+      font-weight: 500;
+      font-size: 11px;
+      line-height: 16px;
+      color: #afafaf;
+    }
+  }
+
+  .blocks {
+    padding: 10px;
+    border: 1.19506px solid #e2e2ea;
+    cursor: pointer;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 20px;
+    color: #2d2d32;
+  }
+  .activeClass {
+    color: #57b894 !important;
+    border-left: 4px solid;
+  }
+
+  .containerClassInput {
+    width: 70%;
+    margin-top: 0px !important;
+  }
+  .btnClass {
+    display: flex;
+    flex: 1;
+    margin-top: 10px;
+    border-radius: 0%;
+  }
+
+  //////////// Access ///////////
+  .accessHeader {
+    p {
+      font-family: 'Poppins';
+      font-style: normal;
+      font-weight: 600;
+      font-size: 15px;
+      line-height: 22px;
+      color: #171725;
+    }
+  }
+}
+
+.submitBtn {
+  margin-top: 20px;
+}
