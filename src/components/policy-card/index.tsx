@@ -29,7 +29,6 @@ const RenderPolicy = ({
               setOpenAddPolice(true);
               setIsMenuVisible(false);
               setEditPolicy(true);
-              setSelectedPolicy(data);
             }}
             className={style.menuViewBox}
           >
@@ -39,6 +38,7 @@ const RenderPolicy = ({
           <div
             onClick={() => {
               setOpen(true);
+              setSelectedPolicy(data);
             }}
             className={style.menuViewBox}
           >
