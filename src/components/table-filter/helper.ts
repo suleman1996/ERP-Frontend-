@@ -50,7 +50,10 @@ export const getFiltersData = async ({
   });
 
   if (res.status === 200) {
-    if (res.data.data?.length) {
+    if (
+      (Array.isArray(res.data.data?.length) && res.data.data?.length) ||
+      Object.keys(res.data.data).length
+    ) {
       let temp: any = [];
       let obj: any = {};
 
@@ -154,7 +157,6 @@ export const handleSelectAll = ({
   if (e.target.checked) {
     setSelectAll(true);
     setSelectFilters([...filtersData]);
-
     setFilterCheckboxName({
       ...selectAllCheckboxToggle(true, filterCheckboxName),
     });
@@ -204,6 +206,7 @@ interface HandleSort {
   toggleFilter: () => void;
   filterKey: string;
 }
+
 interface GetFiltersData {
   apiCall: any;
   page: number;
@@ -220,6 +223,7 @@ interface GetFiltersData {
   tempFiltersData: number[];
   setTempFiltersData: Dispatch<SetStateAction<number[]>>;
 }
+
 interface GetFiltersDataBySort {
   apiCall: any;
   page: number;

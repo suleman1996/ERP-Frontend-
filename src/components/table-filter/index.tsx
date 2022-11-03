@@ -6,13 +6,12 @@ import { v4 } from 'uuid';
 import Input from 'components/input';
 import Checkbox from 'components/checkbox';
 import Button from 'components/button';
+import Loading from 'components/loading';
 
 import { checkAllCheckboxBoolean, selectAllCheckboxToggle, sortData } from './mockData';
 
-import style from './table-filter.module.scss';
-
 import searchIcon from '../../assets/settings-page/search.png';
-import Loading from 'components/loading';
+import style from './table-filter.module.scss';
 import {
   getFiltersData,
   getFiltersDataBySort,
@@ -44,10 +43,10 @@ const TableFilter = ({
   sorts,
   setSorts,
 }: Props) => {
+  const pageSize = 20;
   const [selectFilters, setSelectFilters] = useState<any>([]);
   const [selectAll, setSelectAll] = useState(false);
   const [hasMore, setHasMore] = useState(true);
-  const pageSize = 20;
   const [page, setPage] = useState(0);
   const [search, setSearch] = useState('');
   const [filterCheckboxName, setFilterCheckboxName] = useState<any>({});
@@ -175,7 +174,6 @@ const TableFilter = ({
                 }}
               />
             </div>
-
             <div
               id="scrollableDiv"
               style={{
@@ -198,9 +196,9 @@ const TableFilter = ({
                   });
                 }}
                 style={{ display: 'flex', flexDirection: 'column' }} //To put endMessage and loader to the top.
-                inverse={false} //
+                inverse={false}
                 hasMore={hasMore}
-                // endMessage={"That's all"}
+                scrollableTarget="scrollableDiv"
                 loader={
                   !loading ? (
                     <></>
@@ -210,7 +208,6 @@ const TableFilter = ({
                     </div>
                   )
                 }
-                scrollableTarget="scrollableDiv"
               >
                 {filtersData?.map((val: any) => (
                   <React.Fragment key={v4()}>

@@ -9,8 +9,8 @@ import Button from 'components/button';
 import AuthService from 'services/auth-service';
 
 import style from './reset-password.module.scss';
-import logo from 'assets/mobile-view/sprintx.svg';
-import eye from 'assets/mobile-view/eye.svg';
+import logo from 'assets/sprintx.svg';
+import eye from 'assets/eye.svg';
 
 const MobileResetPassword = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);

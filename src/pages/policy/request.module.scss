@@ -223,3 +223,212 @@ p {
     border-top-color: transparent;
   }
 }
+
+.policyMainView {
+  background-color: #ffffff;
+  // height: 500px;
+  border: 1px solid #e2e2ea;
+  border-radius: 5px;
+}
+.policyHeaderView {
+  padding: 10px 0px;
+  display: flex;
+  flex-direction: row;
+  border-bottom: 1px solid #e2e2ea;
+}
+.headerTitleView {
+  width: 80%;
+  align-items: center;
+  display: flex;
+  padding-left: 20px;
+}
+.addPolicyView {
+  width: 25%;
+  align-items: center;
+  display: flex;
+  justify-content: space-around;
+  // background-color: red;
+}
+
+.policyView {
+  // backgroundColor: 'red',
+  width: 235.59px;
+  height: 240.62px;
+  border: 1px solid #e2e2ea;
+  border-radius: 5px;
+  margin: 20px;
+  position: relative;
+}
+.policyHeaderView {
+  width: 100%;
+  // height: 25%;
+  border-bottom: 1px solid #e2e2ea;
+  display: flex;
+}
+.policySearchView {
+  width: 100%;
+  border-bottom: 1px solid #e2e2ea;
+  @include gridFour(10, 10);
+  padding: 10px;
+}
+.policyHeaderTitleView {
+  width: 80%;
+  display: flex;
+  // alignItems: 'center',
+  justify-content: center;
+  padding-left: 20px;
+  flex-direction: column;
+}
+.policyMenuView {
+  width: 20%;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+
+.policyDescriptionView {
+  width: 100%;
+  height: 55%;
+  border-bottom: 2px dotted #e2e2ea;
+  padding: 0px 20px;
+  display: flex;
+  align-items: center;
+}
+.policyButtonView {
+  width: 100%;
+  height: 20%;
+  padding: 0px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.policyButton {
+  width: 100%;
+  height: 25px;
+  background-color: #57b894;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.menuBox {
+  width: 85px;
+  // height: 55px;
+  background-color: #ffffff;
+  border-radius: 3px;
+  position: absolute;
+  right: 20px;
+  top: 50px;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  border-radius: 5px;
+  border: 1px solid #e2e2ea;
+}
+
+.menuViewBox {
+  height: 50%;
+  width: 100%;
+  display: flex;
+  padding: 5px;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+  border-bottom: 0.6px solid #e2e2ea;
+  cursor: pointer;
+  &:last-child {
+    border-bottom: none;
+  }
+  .img {
+    width: 7px;
+    height: 7px;
+  }
+  // justify-content: 'center';
+  // justify-content: space-between;
+  // text-align: center;
+  // background-color: red;
+  // border: 1px solid;
+}
+
+ul {
+  li {
+    list-style-type: disc !important;
+    font-size: 10px;
+    font-weight: 300;
+    color: #2d2d32;
+  }
+}
+
+.delView {
+  // height: 40%;
+  width: 30%;
+  background-color: #ffffff;
+  border-radius: 5px;
+  // padding: 40px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  padding: 40px 0px;
+}
+.delLogoView {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.btnView {
+  display: flex;
+}
+.delTitle {
+  width: 40%;
+  text-align: center;
+  color: #2d2d32;
+  font-weight: 900px;
+  @include font29;
+  margin: 10px 0px;
+}
+.delSubTitle {
+  width: 40%;
+  text-align: center;
+  color: #2d2d32;
+  @include font14;
+  margin-bottom: 10px;
+}
+
+.cancelBtn {
+  background-color: #ffffff;
+  border: 1px solid #57b894;
+  &:hover {
+    background-color: #ffffff;
+    border: 1px solid #57b894;
+  }
+}
+.textColor {
+  color: #57b894 !important;
+}
+
+.datePicker {
+  // padding-top: 0px;
+  background-color: #265828;
+  // border-radius: 5px;
+}
+
+.gridView {
+  // display: flex;
+  @include gridTwo(50, 50);
+  margin-bottom: 20px;
+}
+
+.gridView1 {
+  margin-bottom: 20px;
+}
+
+.wraperSelect {
+  margin-top: 10px;
+}
+
+.policyGridView {
+  // display: grid;
+  // grid-template-columns: repeat(4, 1fr);
+  @include gridFour(15, 30);
+}

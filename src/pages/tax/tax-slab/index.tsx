@@ -1,59 +1,49 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import AddTaxSlab from './add-tax';
-import DeletePopup from 'components/delete-modal';
-import { useAppSelector } from 'store/hooks';
-import NewTable from 'components/table/new-table';
 import { columns } from './tax-helper';
 import TaxService from 'services/tax-service';
 import style from '../tax.module.scss';
-import Button from 'components/button';
-import addSvg from 'assets/logo5.svg';
-import MobileButton from 'components/button/mobile-button';
-import plusIcon from 'assets/mobile-view/plusIcon.svg';
 
-const TaxSlab = ({ setIsLoading }: any) => {
-  const [open, setOpen] = useState<boolean>(false);
+import editIcon from 'assets/table-edit.svg';
+import view from 'assets/viewIconnew.svg';
+import deleteIcon from 'assets/table-delete.svg';
+import Table from 'components/table';
+import Switch from 'components/switch';
+import Modal from 'components/modal';
+
+const TaxSlab = ({ setIsLoading, open, setOpen, singleId, setSingleId }: any) => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [taxSlabsData, setTaxSlabsData] = useState<any[]>([]);
+  const [newSlab, setNewSlab] = useState();
   const [deleteLoading, setDeleteLoading] = useState(false);
-  const [singleId, setSingleId] = useState('');
-  const [columnArr, setColumnArr] = useState<any>([]);
 
-  const { currentUser } = useAppSelector((state) => state.app);
+  const deleteTaxSlab = async (id: string) => {
+    setDeleteLoading(true);
+    const res = await TaxService.deleteTaxSlab(id);
+    if (res.status === 200) {
+      setDeleteModalOpen(false);
+      setDeleteLoading(false);
+      getTaxSlabsData();
+    }
+    setDeleteLoading(false);
+  };
 
   const getTaxSlabsData = async () => {
     setIsLoading(true);
     const res = await TaxService.getAllTaxSlabsData();
+
     if (res.status === 200) {
-      const temp: any[] = [];
-      res.data.tax.forEach((x: any, index: number) => {
-        x.id = x._id;
-        x._id = index + 1;
-        temp.push(x);
-      });
-      setTaxSlabsData(temp);
+      setTaxSlabsData(res?.data.data);
     }
     setIsLoading(false);
   };
 
-  const deleteTaxSlab = async () => {
-    setDeleteLoading(true);
-    const res = await TaxService.deleteTaxSlab(singleId);
-    if (res.status === 200) {
-      getTaxSlabsData();
-      setDeleteLoading(false);
-      setDeleteModalOpen(false);
-    }
-  };
-
   useEffect(() => {
-    if (currentUser?.role && currentUser?.role === 'Employee') {
-      const tempArr = [...columns];
-      tempArr.splice(tempArr.length - 1);
-      setColumnArr([...tempArr]);
-    }
-  }, [currentUser?.role]);
+    const selectedSlab = taxSlabsData?.find((item) => item?._id === singleId);
+    setNewSlab(selectedSlab);
+    console.log('single', selectedSlab);
+  }, [singleId]);
 
   useEffect(() => {
     getTaxSlabsData();
@@ -62,62 +52,85 @@ const TaxSlab = ({ setIsLoading }: any) => {
   return (
     <>
       <div style={{ padding: '0 10px' }}>
-        <NewTable
-          columns={columnArr?.length ? columnArr : columns}
-          rows={taxSlabsData}
-          handleDelete={(id: string) => setSingleId(id)}
-          minWidth="1280px"
-          tableHeight={style.taxSlabTableHeight}
-          handleEdit={(id: string) => {
-            setOpen(true);
-            setSingleId(id);
-          }}
-          handleModalOpen={() => setDeleteModalOpen(true)}
+        <Table
+          columns={columns}
+          rows={
+            taxSlabsData &&
+            taxSlabsData?.map((item): any => {
+              return {
+                ...item,
+                Status: (
+                  <div>
+                    <Switch
+                      title={item.Status === true ? 'Active' : 'InActive'}
+                      checked={item?.Status}
+                      name={item._id}
+                    />
+                  </div>
+                ),
+                taxActions: (
+                  <div style={{ display: 'flex' }}>
+                    <div style={{ marginRight: '10px' }}>
+                      <img
+                        src={editIcon}
+                        width={30}
+                        onClick={() => {
+                          setTimeout(() => {
+                            setOpen(true);
+                          }, 600);
+                          setSingleId(item?._id);
+                        }}
+                      />
+                    </div>
+                    <div style={{ marginRight: '10px' }}>
+                      <img
+                        src={deleteIcon}
+                        width={30}
+                        onClick={() => {
+                          setDeleteModalOpen(true);
+                          setSingleId(item?._id);
+                        }}
+                      />
+                    </div>
+                    <div style={{ marginRight: '10px' }}>
+                      <img
+                        src={view}
+                        width={30}
+                        onClick={() => {
+                          setOpen(true);
+                          setSingleId(item?._id);
+                        }}
+                      />
+                    </div>
+                  </div>
+                ),
+              };
+            })
+          }
         />
       </div>
-      {currentUser?.role !== 'Employee' && (
-        <>
-          <div className={style.addTaxBtnDiv}>
-            <div className={style.addTaxBtnChildDiv}>
-              <Button
-                text="Add Tax-Slab"
-                icon={addSvg}
-                isLoading={false}
-                handleClick={() => {
-                  setOpen(true);
-                  setSingleId('');
-                }}
-              />
-            </div>
-          </div>
 
-          <div className={style.mobileAddTaxBtnDiv}>
-            <MobileButton
-              mobileIcon={plusIcon}
-              handleClick={() => {
-                setOpen(true);
-                setSingleId('');
-              }}
-            />
-          </div>
-        </>
-      )}
       {open && (
         <AddTaxSlab
           open={open}
           setOpen={setOpen}
           getTaxSlabsData={getTaxSlabsData}
           updateId={singleId}
+          setSingleId={setSingleId}
+          newSlab={newSlab}
         />
       )}
-      {deleteModalOpen && (
-        <DeletePopup
-          handleDelete={deleteTaxSlab}
-          open={deleteModalOpen}
-          setOpen={setDeleteModalOpen}
-          btnLoader={deleteLoading}
-        />
-      )}
+
+      <Modal
+        open={deleteModalOpen}
+        text={'Delete Slab'}
+        title={'Delete Slab'}
+        loader={deleteLoading}
+        handleClose={() => setDeleteModalOpen(false)}
+        handleClick={() => deleteTaxSlab(singleId)}
+      >
+        <h1>Are you sure you want to delete this record !</h1>
+      </Modal>
     </>
   );
 };

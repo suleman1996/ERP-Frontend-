@@ -3,70 +3,145 @@ import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
+import { addSlabColumns } from './tax-helper';
 import Modal from 'components/modal';
-import NavLinks from 'components/nav-links';
-import Input from 'components/textfield';
-import Button from 'components/button';
 import MobileButton from 'components/button/mobile-button';
 
 import style from '../tax.module.scss';
 import back from 'assets/employee-page/Group 1996.png';
 import TaxService from 'services/tax-service';
-import tickIcon from 'assets/mobile-view/tickIcon.svg';
+import tickIcon from 'assets/tickIcon.svg';
+import Select from 'components/select';
+import TextField from 'components/textfield';
+import Button from 'components/button';
+import Table from 'components/table';
+
+import editIcon from 'assets/table-edit.svg';
+import deleteIcon from 'assets/table-delete.svg';
+import DatePicker from 'components/date-picker';
+import { createNotification } from 'common/create-notification';
+import MonthYearPicker from 'components/range-month-picker';
+import moment from 'moment';
 
 interface Props {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
   getTaxSlabsData: () => void;
   updateId: string;
+  setSingleId?: Dispatch<SetStateAction<any>>;
+  newSlab?: any;
 }
 
-const AddAttendance = ({ open, setOpen, getTaxSlabsData, updateId }: Props) => {
+const AddAttendance = ({
+  open,
+  setOpen,
+  getTaxSlabsData,
+  updateId,
+  setSingleId,
+  newSlab,
+}: Props) => {
   const [loading, setLoading] = useState(false);
+  const [update, setUpdate] = useState<any>({ check: false, index: null });
+  const [slabs, setSlab] = useState<any>([]);
+  const [categories, setCategories] = useState();
 
-  const { register, handleSubmit, errors, reset } = useForm({
+  const { register, handleSubmit, errors, reset, control, watch } = useForm({
     resolver: yupResolver(schema),
     mode: 'onSubmit',
   });
 
   const onSubmit = async (data: any) => {
+    if (update.check) {
+      let newSlab = [...slabs];
+      newSlab[update.index] = { ...newSlab[update.index], ...data };
+      setSlab(newSlab);
+      setUpdate({ check: false, index: null });
+    } else setSlab([...slabs, data]);
+
+    reset({
+      ...data,
+      lower: '',
+      upper: '',
+      fixTax: '',
+      taxRate: '',
+      lessLimit: '',
+    });
+  };
+
+  const handleEditSlab = (index: number) => {
+    setUpdate({ check: true, index: index });
+    const data = slabs?.find((slab: any, ind: number) => {
+      return ind === index;
+    });
+
+    reset({ ...data });
+  };
+
+  const handleDeleteSlab = (index: any) => {
+    slabs?.splice(index, 1);
+    setSlab([...slabs]);
+  };
+
+  const handleSave = async () => {
     setLoading(true);
-    if (updateId) {
-      await TaxService.updateTaxSlab(updateId, data);
-    } else {
-      await TaxService.AddTaxSlab(data);
+    try {
+      const data = {
+        financialYearStart: moment(slabs[0].financialYearStart).format('YYYY/MM'),
+        financialYearEnd: moment(slabs[0].financialYearEnd).format('YYYY/MM'),
+        groupName: slabs[0]?.taxGroupName,
+        category: slabs[0]?.category,
+        slabs: slabs?.map((item: any) => {
+          return {
+            lower: item.lower,
+            upper: item.upper,
+            fixTax: item.fixTax,
+            taxRate: item.taxRate,
+            lessLimit: item.lessLimit,
+          };
+        }),
+      };
+
+      if (updateId) {
+        const res = await TaxService.updateTaxSlab(updateId, data);
+        if (res.status === 200) {
+          setSingleId('');
+        }
+        setSingleId('');
+      } else {
+        const res = await TaxService.AddTaxSlab(data);
+        if (res.status === 200) {
+          setOpen(false);
+          getTaxSlabsData();
+        }
+      }
+    } catch (err) {
+      createNotification('error', 'Error', err?.response?.data?.msg);
+      setLoading(false);
     }
-    getTaxSlabsData();
     setLoading(false);
-    setOpen(false);
+  };
+
+  const getCatefories = async () => {
+    const res = await TaxService.getAllCategories();
+    setCategories(res?.data?.policyCategory);
   };
 
   useEffect(() => {
-    if (updateId) {
-      const getCurrentSlab = async () => {
-        const res = await TaxService.getTaxSlabById(updateId);
-        if (res?.status === 200) {
-          reset({
-            upper: res.data.tax.upper,
-            lower: res.data.tax.lower,
-            fixTax: res.data.tax.fixTax,
-            taxRate: res.data.tax.taxRate,
-            lessLimit: res.data.tax.lessLimit,
-          });
-        }
-      };
-      getCurrentSlab();
-    } else {
-      reset({});
-    }
-  }, [updateId, reset]);
+    getCatefories();
+  }, []);
+
+  useEffect(() => {
+    reset({ TaxGroupName: newSlab?.TaxGroupName });
+    console.log('useeffect', newSlab);
+  }, [newSlab]);
 
   return (
     <>
       <Modal open={open} className={style.modalWrapper} handleClose={() => setOpen(false)}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className={style.modal}>
-            <NavLinks links={[{ title: 'Add Tax-Slab', left: '50px' }]} />
+            {/* <NavLinks links={[{ title: 'Add Tax-Slab', left: '50px' }]} /> */}
+            <h1>{updateId ? 'Edit' : 'Add'} Tax Group</h1>
             <img
               src={back}
               alt=""
@@ -77,56 +152,87 @@ const AddAttendance = ({ open, setOpen, getTaxSlabsData, updateId }: Props) => {
           </div>
 
           <div className={style.add}>
-            <Input
-              name="lower"
-              label="Lower"
-              type="number"
-              placeholder="lower"
-              inputRef={register}
-              error={errors?.lower}
-              errorMessage={errors?.lower?.message}
+            <TextField
+              name="taxGroupName"
+              label="Tax Group Name"
+              placeholder="Tax Group Name"
+              register={register}
+              errorMessage={errors?.taxGroupName?.message}
             />
-            <Input
-              name="upper"
-              label="Upper "
-              type="number"
-              placeholder="upper"
-              inputRef={register}
-              error={errors?.upper}
-              errorMessage={errors?.upper?.message}
-            />
-            <Input
-              name="fixTax"
-              label="Fix Tax"
-              type="number"
-              placeholder="fix tax"
-              inputRef={register}
-              error={errors?.fixTax}
-              errorMessage={errors?.fixTax?.message}
-            />
-            <Input
-              name="taxRate"
-              label="Tax Rate"
-              type="number"
-              step="0.01"
-              placeholder="tax rate"
-              inputRef={register}
-              error={errors?.taxRate}
-              errorMessage={errors?.taxRate?.message}
-            />
-            <Input
-              name="lessLimit"
-              label="Less Limit"
-              type="number"
-              placeholder="less limit"
-              inputRef={register}
-              error={errors?.lessLimit}
-              errorMessage={errors?.lessLimit?.message}
-            />
+            <div className={style.twoGrid}>
+              <Select
+                label="Category"
+                star={' *'}
+                name={'category'}
+                errorMessage={errors?.category?.message}
+                register={register}
+              >
+                <option value="">Select</option>
+                <>
+                  {categories &&
+                    categories?.map((ele: any) => (
+                      <option key={ele.name} value={ele?._id}>
+                        {ele.name}
+                      </option>
+                    ))}
+                </>
+              </Select>
+              <MonthYearPicker
+                control={control}
+                label={'Financial Year'}
+                firstName={'financialYearStart'}
+                lastName={'financialYearEnd'}
+                errorMessageStart={errors?.financialYearStart?.message}
+                errorMessageEnd={errors?.financialYearEnd?.message}
+                watch={watch}
+              />
+            </div>
+            <div className={style.fiveGrid}>
+              <TextField
+                name="lower"
+                label="Lower"
+                type="number"
+                placeholder="Lower"
+                register={register}
+                errorMessage={errors?.lower?.message}
+              />
+              <TextField
+                name="upper"
+                label="Upper"
+                type="number"
+                placeholder="upper"
+                register={register}
+                errorMessage={errors?.upper?.message}
+              />
+              <TextField
+                name="fixTax"
+                label="Fix Tax"
+                type="number"
+                placeholder="Fix Tax"
+                register={register}
+                errorMessage={errors?.fixTax?.message}
+              />
+              <TextField
+                name="taxRate"
+                label="Tax Rate"
+                type="number"
+                placeholder="Tax Rate"
+                register={register}
+                errorMessage={errors?.taxRate?.message}
+              />
+              <TextField
+                name="lessLimit"
+                label="Less Limit"
+                type="number"
+                placeholder="less limit"
+                register={register}
+                errorMessage={errors?.lessLimit?.message}
+              />
+            </div>
           </div>
 
           <div className={style.webBtnDiv}>
-            <Button text={'Save Changes'} btnClass={style.btn} type="submit" isLoading={loading} />
+            <Button text={'Add Slab'} btnClass={style.btn} type="submit" />
           </div>
 
           <div className={style.mobileBtnDiv}>
@@ -138,6 +244,48 @@ const AddAttendance = ({ open, setOpen, getTaxSlabsData, updateId }: Props) => {
             />
           </div>
         </form>
+
+        <div style={{ padding: '0 10px' }}>
+          <Table
+            columns={addSlabColumns}
+            rows={
+              slabs &&
+              slabs.map((item: any, index: number) => {
+                return {
+                  ...item,
+                  sr: index + 1,
+                  taxRate: `${item.taxRate} %`,
+                  Actions: (
+                    <div style={{ display: 'flex' }}>
+                      <div style={{ marginRight: '10px' }}>
+                        <img src={editIcon} width={30} onClick={() => handleEditSlab(index)} />
+                      </div>
+                      <div style={{ marginRight: '10px' }}>
+                        <img src={deleteIcon} width={30} onClick={() => handleDeleteSlab(index)} />
+                      </div>
+                    </div>
+                  ),
+                };
+              })
+            }
+            minWidth="250px"
+            tableHeight={style.taxSlabTableHeight}
+            handleEdit={(id: string) => {
+              setOpen(true);
+            }}
+          />
+        </div>
+
+        <div className={style.webBtnDiv}>
+          <Button
+            text={'Save'}
+            btnClass={style.btn}
+            type="button"
+            isLoading={loading}
+            handleClick={handleSave}
+            disabled={slabs?.length <= 0}
+          />
+        </div>
       </Modal>
     </>
   );
@@ -146,15 +294,17 @@ const AddAttendance = ({ open, setOpen, getTaxSlabsData, updateId }: Props) => {
 export default AddAttendance;
 
 const schema = yup.object().shape({
-  lower: yup
-    .number()
-    .typeError('Lower is required field')
-    .lessThan(yup.ref('upper'), 'Lower must be less than upper amount'),
-  upper: yup.number().typeError('Upper is required field'),
-  fixTax: yup.string().required('Fix Tax is required field'),
+  taxGroupName: yup.string().required('Tax group name is required'),
+  financialYearStart: yup.date().typeError('Financial year is required'),
+  financialYearEnd: yup.date().typeError('Financial year is required'),
+  fixTax: yup.string().required('Fix Tax is required'),
+  category: yup.string().required('Category  is required'),
+  lower: yup.string().required('Lower is required'),
+  upper: yup.string().required('Upper is required'),
   taxRate: yup
     .number()
-    .typeError('Tax Rate is required field')
-    .max(50, 'Tax Rate must be less than or equal to 50'),
-  lessLimit: yup.string().required('Less Limit is required field'),
+    .typeError('Tax Rate is required')
+    .max(100, 'Should be less or equal to 100')
+    .min(1, 'Should be greater  than 0'),
+  lessLimit: yup.string().required('Less Limit is required'),
 });

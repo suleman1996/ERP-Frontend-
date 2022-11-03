@@ -4,7 +4,7 @@ import Input from 'components/input';
 import Button from 'components/button';
 
 import style from './forget.module.scss';
-import logo from 'assets/mobile-view/sprintx.svg';
+import logo from 'assets/sprintx.svg';
 
 const MobileForgotVerification = () => {
   return (

@@ -1,3 +1,5 @@
+import { createNotification } from 'common/create-notification';
+import { convertBase64Image } from 'main-helper';
 import { ChangeEvent } from 'react';
 
 import style from './input.module.scss';
@@ -18,6 +20,11 @@ interface Props {
   isDisable?: boolean;
   id?: string;
   star?: string;
+  min?: any;
+  max?: any;
+  customValidation?: string;
+  iconClass?: any;
+  step?: string;
 }
 
 const TextField = ({
@@ -36,6 +43,11 @@ const TextField = ({
   readOnly,
   isDisable,
   star,
+  min,
+  max,
+  customValidation,
+  iconClass,
+  step,
   ...restOfProps
 }: Props) => {
   return (
@@ -54,7 +66,10 @@ const TextField = ({
               backgroundColor: readOnly || isDisable ? '#ddd' : '#fff',
             }}
             id={id}
+            min={min && min}
+            max={max && max}
             name={name}
+            step={step && step}
             value={value}
             onChange={onChange}
             type={type}
@@ -66,7 +81,7 @@ const TextField = ({
           />
           {icon && (
             <img
-              className={style.icon}
+              className={`${style.icon} ${iconClass}`}
               style={{ cursor: 'pointer' }}
               src={icon}
               alt=""
@@ -74,7 +89,9 @@ const TextField = ({
             />
           )}
         </div>
-        {errorMessage && <span className={style.errorMessage}>{errorMessage}</span>}
+        {(errorMessage || customValidation) && (
+          <span className={style.errorMessage}>{errorMessage || customValidation}</span>
+        )}
       </div>
     </>
   );

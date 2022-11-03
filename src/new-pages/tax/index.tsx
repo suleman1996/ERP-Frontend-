@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 
 import TaxSlab from './tax-slab';
-import NavLinks from 'components/nav-links';
+// import NavLinks from 'components/nav-links';
 import CardContainer from 'components/card-container';
 import TaxCalculation from './tax-calculation';
 import style from './tax.module.scss';
 import Loading from 'components/loading';
 
-import Button from 'new-components/button';
+import Button from 'components/button';
 import MobileButton from 'components/button/mobile-button';
 import plusIcon from 'assets/mobile-view/plusIcon.svg';
 

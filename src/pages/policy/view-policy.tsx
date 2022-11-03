@@ -2,14 +2,14 @@ import { Dispatch, SetStateAction } from 'react';
 
 import Modal from 'components/modal';
 import Button from 'components/button';
-import NavLinks from 'components/nav-links';
+// import NavLinks from 'components/nav-links';
 
 import { useViewPolicy } from './helper';
 
 import editIcon from 'assets/editIcon.svg';
 import deleteIcon from 'assets/deleteIcon.svg';
 import cross from 'assets/employee-page/Path 306.svg';
-import style from '../applications/my-records/records.module.scss';
+import style from 'pages/applications/my-records/records.module.scss';
 
 interface Props {
   policyData: any;
@@ -46,7 +46,7 @@ const ViewPolicy = ({
       <Modal open={open} className={style.modalWrapper} handleClose={() => setOpen(false)}>
         <form>
           <div className={style.modal}>
-            <NavLinks links={[{ title: 'Policy', left: '65px' }]} />
+            {/* <NavLinks links={[{ title: 'Policy', left: '65px' }]} /> */}
 
             <img
               src={cross}

@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import { addSlabColumns } from './tax-helper';
-import Modal from 'new-components/modal';
+import Modal from 'components/modal';
 // import Modal from 'components/modal';
 import MobileButton from 'components/button/mobile-button';
 
@@ -12,16 +12,16 @@ import style from '../tax.module.scss';
 import back from 'assets/employee-page/Group 1996.png';
 import TaxService from 'services/tax-service';
 import tickIcon from 'assets/mobile-view/tickIcon.svg';
-import Select from 'new-components/select';
-import TextField from 'new-components/textfield';
-import Button from 'new-components/button';
-import Table from 'new-components/table';
+import Select from 'components/select';
+import TextField from 'components/textfield';
+import Button from 'components/button';
+import Table from 'components/table';
 
-import editIcon from 'new-assets/table-edit.svg';
-import deleteIcon from 'new-assets/table-delete.svg';
-import DatePicker from 'new-components/date-picker';
+import editIcon from 'assets/table-edit.svg';
+import deleteIcon from 'assets/table-delete.svg';
+import DatePicker from 'components/date-picker';
 import { createNotification } from 'common/create-notification';
-import MonthYearPicker from 'new-components/range-month-picker';
+import MonthYearPicker from 'components/range-month-picker';
 import moment from 'moment';
 
 interface Props {

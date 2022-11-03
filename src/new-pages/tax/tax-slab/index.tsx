@@ -5,12 +5,12 @@ import { columns } from './tax-helper';
 import TaxService from 'services/tax-service';
 import style from '../tax.module.scss';
 
-import editIcon from 'new-assets/table-edit.svg';
-import view from 'new-assets/viewIconnew.svg';
-import deleteIcon from 'new-assets/table-delete.svg';
-import Table from 'new-components/table';
-import Switch from 'new-components/switch';
-import Modal from 'new-components/modal';
+import editIcon from 'assets/table-edit.svg';
+import view from 'assets/viewIconnew.svg';
+import deleteIcon from 'assets/table-delete.svg';
+import Table from 'components/table';
+import Switch from 'components/switch';
+import Modal from 'components/modal';
 
 const TaxSlab = ({ setIsLoading, open, setOpen, singleId, setSingleId, slabs, setSlab }: any) => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);

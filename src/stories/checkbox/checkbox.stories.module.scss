@@ -1,0 +1,24 @@
+@import 'styles/_breakpoints.scss';
+@import 'styles/_colors.scss';
+@import 'styles/_mixin.scss';
+
+.labelColor {
+  color: red !important;
+}
+.containerClass {
+  label {
+    display: flex;
+    align-items: center;
+    span {
+      margin-top: 10px;
+    }
+  }
+}
+.containerClass {
+  label {
+    span:after {
+      top: 3px !important;
+      left: 2px !important;
+    }
+  }
+}

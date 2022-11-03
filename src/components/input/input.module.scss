@@ -13,13 +13,13 @@
     line-height: 16px;
     text-transform: capitalize;
     color: #6e6d6d;
-    margin-bottom: 10px;
   }
   input {
     border-radius: 3px;
     padding: 10px 8px;
     width: 100%;
-    height: 45px;
+    margin-top: calc(5px + 7 * (100vw - 280px) / 2280);
+    height: calc(30px + 25 * (100vw - 280px) / 2280);
     background-color: #ffffff;
     &:focus {
       outline: none;

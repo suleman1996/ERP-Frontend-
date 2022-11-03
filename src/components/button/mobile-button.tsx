@@ -1,8 +1,6 @@
 import React from 'react';
 import Loading from '../loading';
-
 import style from './button.module.scss';
-
 interface Props {
   mobileIcon?: string;
   handleClick?: () => void;
@@ -13,7 +11,6 @@ interface Props {
   btnLoaderClass?: string;
   className?: any;
 }
-
 const MobileButton = ({
   mobileIcon,
   handleClick,
@@ -45,5 +42,4 @@ const MobileButton = ({
     </>
   );
 };
-
 export default MobileButton;

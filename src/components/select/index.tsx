@@ -1,77 +1,99 @@
-import React from 'react';
-
+import TextField from 'components/textfield';
+import { ChangeEvent, useEffect, useState } from 'react';
 import style from './select.module.scss';
-
-import icon from 'assets/employee-page/Polygon 1.png';
-import { FieldError } from 'react-hook-form';
-
 interface Props {
   label?: string;
-  htmlFor?: string;
-  star?: string;
-  id?: string;
+  value?: string;
   name?: string;
-  options: string[] | [];
-  onChange?: (e: any) => void;
-  onBlur?: () => void;
-  inputRef?: any;
-  className?: string;
-  placeHolder?: string;
-  error?: FieldError | Boolean;
+  name1?: string;
+  children?: JSX.Element[] | JSX.Element;
+  onChange?: (event: ChangeEvent<HTMLSelectElement>) => void;
+  register?: any;
   errorMessage?: string;
-  selectClass?: string;
-  readonly?: boolean;
-  disabled?: boolean;
+  placeholder?: string;
+  disable?: boolean;
+  star?: string;
+  selectContainer?: string;
+  wraperSelect?: string;
+  newSelect?: boolean;
+  withInput?: boolean;
+  userId?: any;
+  marksType?: string;
+  setMarkVal?: any;
+  marksVal?: any;
 }
-
 const Select = ({
   label,
-  options,
+  value,
   name,
+  name1,
   onChange,
-  onBlur,
-  selectClass,
-  inputRef,
-  className,
-  placeHolder,
-  star,
+  register,
   errorMessage,
-  error,
-  disabled,
+  disable,
+  children,
+  placeholder,
+  star,
+  selectContainer,
+  wraperSelect,
+  newSelect,
+  userId,
+  withInput,
+  marksType,
+  marksVal,
+  setMarkVal,
 }: Props) => {
+  const [customErr, setCustomErr] = useState<string | undefined>();
+  useEffect(() => {
+    if (marksType === 'percentage') {
+      if (marksVal > 100) {
+        setCustomErr('Percentage should be less than 100%');
+      } else setCustomErr('');
+    } else if (marksType === 'cgpa') {
+      if (marksVal > 4) {
+        setCustomErr('CGPA should be less than or equal to 4');
+      } else setCustomErr('');
+    }
+  }, [marksType, marksVal]);
   return (
-    <div className={`${style.generalSettingsInputContainer} ${className}`}>
+    <div style={{ position: 'relative' }}>
       {label && (
-        <label>
-          {label} <span style={{ color: 'red' }}>{star}</span>
+        <label style={{ color: errorMessage ? '#FF5050' : '#2D2D32' }}>
+          {label} <b style={{ color: 'red' }}>{star}</b>{' '}
         </label>
       )}
-      <div
-        style={{
-          position: 'relative',
-          borderRadius: '5px',
-        }}
-      >
+      <div className={`${wraperSelect}  ${style.containerWraper} `}>
         <select
+          value={value}
           name={name}
-          className={`${style.select} ${selectClass}`}
-          ref={inputRef}
-          disabled={disabled}
+          className={`${style.select}  ${selectContainer}  `}
+          placeholder={placeholder}
+          style={{
+            border: errorMessage ? '1.2px solid #FF5050' : ' 1.2px solid #E2E2EA',
+          }}
+          disabled={disable || false}
+          ref={register}
           onChange={onChange}
-          style={{ border: error ? '1px solid #ff5050' : ' 1px solid #d9d9d9' }}
         >
-          {placeHolder && <option value="">{placeHolder}</option>}
-          {options.map((opt: string, index: number) => (
-            <option key={index} value={opt}>
-              {opt}
-            </option>
-          ))}
+          {children}
         </select>
-        <img src={icon} alt="arrow icon" className={style.img} />
+        {newSelect && <p>{userId}</p>}
+        {withInput && (
+          <TextField
+            star={' *'}
+            type="text"
+            name={name1}
+            register={register}
+            className={style.inputClass}
+            placeholder="Marks"
+            // onChange={(e) => setMarkVal(parseFloat(e.target.value))}
+          />
+        )}
       </div>
-      {error && errorMessage && <span className={style.errorMessage}>{errorMessage}</span>}
+      {/* {errorMessage && <span className={style.errorMessage}>{errorMessage}</span>} */}
+      {customErr && <span className={style.errorMessage}>{customErr}</span>}
+      {!customErr ? errorMessage && <span className={style.errorMessage}>{errorMessage}</span> : ''}
     </div>
   );
 };
-
 export default Select;
