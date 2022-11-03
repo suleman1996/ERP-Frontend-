@@ -1,15 +1,9 @@
 import React, { useState } from 'react';
 
-import Button from 'components/button';
-
 import CardContainer from 'components/card-container';
 
-import plusIcon from 'assets/plusIcon.svg';
-import del from 'assets/cross.svg';
-import filter from 'assets/filter-icon.svg';
-
 import style from './request.module.scss';
-import RenderPolicy from 'components/policy-card';
+
 import TextField from 'components/textfield';
 import { useForm } from 'react-hook-form';
 
@@ -19,11 +13,15 @@ import DatePicker from 'components/date-picker';
 import Modal from 'components/modal';
 import TextArea from 'components/textarea';
 import ProfileUpload from 'components/profile-upload';
-import Selection from 'components/selection';
-import RenderPolicySearchView from './policies-search';
-import ViewPolicy from './view-policy';
+import Selection from 'components/select';
 import PdfViewModal from 'components/pdf-viewer';
 import { sampleBase64pdf } from './pdfSample';
+import PolicyService from 'services/policy-service';
+import { setErrors } from 'helper';
+import { createNotification } from 'common/create-notification';
+import EmployeeService from 'services/employee-service';
+import RenderAllPolicies from './render-all-policy';
+import RenderObsolete from './render-obselete-policy';
 
 const Policy = () => {
   const [selectedTab, setSelectedTab] = useState(0);
@@ -33,12 +31,10 @@ const Policy = () => {
   const [open, setOpen] = useState(false);
   const [openAddPolice, setOpenAddPolice] = useState(false);
   const [openPolicyPdfView, setOpenViewPdfPolicy] = useState(false);
+  const [render, setRender] = useState(false);
+  const [selectedPolicy, setSelectedPolicy] = useState({ _id: '' });
 
-  const options = [
-    { value: 'Ali', label: 'Ali' },
-    { value: 'Umair', label: 'Umair' },
-    { value: 'Faizan', label: 'Faizan' },
-  ];
+  const [employees] = React.useState<any>([]);
 
   const multiOptions = [
     {
@@ -67,13 +63,73 @@ const Policy = () => {
     },
   ];
 
-  const { control } = useForm();
+  const { control, register, errors, setError, clearErrors, handleSubmit } = useForm({
+    mode: 'all',
+  });
+
+  React.useEffect(() => {
+    getAllEmployees();
+  }, []);
+
+  const getAllEmployees = async () => {
+    try {
+      const result = await EmployeeService.getAllEmployees();
+      console.log('Her are all employees ', result?.data?.employees[0]?.data);
+      result?.data?.employees[0]?.data?.map((item: any) =>
+        employees.push({ value: item?._id, label: item?.fullName }),
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleAddPolicy = async (data: any) => {
+    console.log('fffhj fdj ', data);
+
+    try {
+      const policyData = {
+        name: 'Leave policy 20',
+        policyNumber: 'LP1',
+        version: 1,
+        categoryId: '634d56b223c6560844875f33',
+        effectiveDate: '2022-10-17',
+        preparedBy: '634d794828e365a9e7bae18b',
+        approvedBy: '634d794828e365a9e7bae18b',
+        reviewers: ['634e4a3ab0cd54de3c7f30a7', '634e5889ca126baa62c8c7f7'],
+        appliesTo: ['634d794828e365a9e7bae18b', '634e6dceb3ad4b4f49eeaeea'],
+        description: 'Policy relating leaves',
+      };
+      const result = await PolicyService.addPolicy('');
+      console.log(result);
+    } catch (err: any) {
+      console.log('error ', err?.response?.data);
+      if (err?.response?.data?.error) {
+        setErrors(err?.response?.data?.error, setError);
+      }
+      createNotification('error', 'Error', err?.response?.data?.msg);
+      // setBtnLoader(false);
+    }
+  };
+
+  const deletePolicy = async () => {
+    console.log('going to delete this policy ', selectedPolicy?._id);
+
+    try {
+      const result = await PolicyService.deletePolicy(selectedPolicy?._id);
+      console.log('HEre is the delete policy result  ', result);
+      setRender(!render);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
       <CardContainer>
         {selectedTab == 0 ? (
           <RenderAllPolicies
+            render={render}
+            setSelectedPolicy={setSelectedPolicy}
             setOpen={setOpen}
             setSelectedTab={setSelectedTab}
             control={control}
@@ -81,7 +137,7 @@ const Policy = () => {
             setOpenAddPolice={setOpenAddPolice}
             setShowFilterView={setShowFilterView}
             showFilterView={showFilterView}
-            options={options}
+            options={employees}
             setEditPolicy={setEditPolicy}
             setOpenViewPdfPolicy={setOpenViewPdfPolicy}
           />
@@ -94,14 +150,14 @@ const Policy = () => {
             setSelectedTab={setSelectedTab}
             setShowFilterView={setShowFilterView}
             showFilterView={showFilterView}
-            options={options}
+            options={employees}
             setEditPolicy={setEditPolicy}
             setOpenViewPdfPolicy={setOpenViewPdfPolicy}
           />
         )}
       </CardContainer>
 
-      <DeletePopup setOpen={setOpen} open={open} />
+      <DeletePopup handleDelete={() => deletePolicy()} setOpen={setOpen} open={open} />
       {/* <AddPolicy /> */}
       <Modal
         open={openAddPolice}
@@ -109,94 +165,143 @@ const Policy = () => {
         iconEnd={undefined}
         title={editPoplicy ? 'Update Policy' : 'Add Policy'}
         handleClose={() => setOpenAddPolice(false)}
+        type="submit"
+        form="AddPolicy"
       >
-        <div className={style.gridView}>
-          <TextField label="Name" placeholder="Enter Policy Name" star=" *" />
-          <TextField label="Policy Number" placeholder="Enter Policy Name" star=" *" />
-        </div>
-        <div className={style.gridView}>
-          <TextField label="Version" placeholder="Enter Policy Version" star=" *" />
-          {/* <TextField label="Category" placeholder="Enter Policy Category" star=" *" /> */}
-          <Selection
-            wraperSelect={style.wraperSelect}
-            label="Category"
-            placeholder="Category"
-            options={options}
-            star=" *"
-            onChange={(item) => console.log(item)}
-            control={control}
-            name="name"
-          />
-        </div>
-        <div className={style.gridView}>
-          <DatePicker label="Effective Date" control={control} name="Effective Date" star=" *" />
-          <Selection
-            wraperSelect={style.wraperSelect}
-            label="Prepared By"
-            placeholder="Prepared By"
-            options={options}
-            star=" *"
-            onChange={(item) => console.log(item)}
-            control={control}
-            name="name"
-          />
-        </div>
-        <div className={style.gridView}>
-          <Selection
-            wraperSelect={style.wraperSelect}
-            label="Reviewed By"
-            placeholder="Reviewed By"
-            options={options}
-            star=" *"
-            onChange={(item) => console.log(item)}
-            control={control}
-            name="name"
-          />
-
-          <Selection
-            wraperSelect={style.wraperSelect}
-            label="Approved By"
-            placeholder="Approved By"
-            options={options}
-            star=" *"
-            onChange={(item) => console.log(item)}
-            control={control}
-            name="name"
-          />
-        </div>
-
-        <div className={style.gridView}>
-          <Selection
-            wraperSelect={style.wraperSelect}
-            label="Applies to"
-            placeholder="Applies to"
-            options={multiOptions}
-            star=" *"
-            onChange={(item) => console.log(item)}
-            closeMenuOnSelect={false}
-            isMulti={true}
-            control={control}
-            name="name"
-          />
-          <div>
-            <div style={{ display: 'flex' }}>
-              <p style={{ fontSize: 17, color: '#2d2d32', marginRight: 5 }}>Attach Pdf </p>
-              <b style={{ color: 'red' }}> *</b>
-            </div>
-            <ProfileUpload
-              name={'frontPic'}
-              // register={register}
-              type="application/pdf,application/vnd.ms-excel"
-              id={'frontPic'}
-              // errorMessage={'errors?.frontPic?.message'}
-              // selectedFileName={selectedFileName}
-              // setSelectedFileName={setSelectedFileName}
+        <form
+          onSubmit={(e) => {
+            clearErrors();
+            handleSubmit(handleAddPolicy)(e);
+          }}
+          id="AddPolicy"
+        >
+          <div className={style.gridView}>
+            <TextField
+              register={register}
+              label="Name"
+              placeholder="Enter Policy Name"
+              star=" *"
+              name="name"
+              errorMessage={errors?.name?.message}
+            />
+            <TextField
+              register={register}
+              label="Policy Number"
+              placeholder="Enter Policy Name"
+              star=" *"
+              name="policyNumber"
+              errorMessage={errors?.policyNumber?.message}
             />
           </div>
-        </div>
-        <div className={style.gridView1}>
-          <TextArea label="Discription" placeholder="Enter Discription" star=" *" />
-        </div>
+          <div className={style.gridView}>
+            <TextField
+              register={register}
+              label="Version"
+              placeholder="Enter Policy Version"
+              star=" *"
+              name="version"
+              errorMessage={errors?.version?.message}
+            />
+            {/* <TextField label="Category" placeholder="Enter Policy Category" star=" *" /> */}
+            <Selection
+              wraperSelect={style.wraperSelect}
+              label="Category"
+              placeholder="Category"
+              options={employees}
+              star=" *"
+              onChange={(item) => console.log(item)}
+              name="categoryId"
+              errorMessage={errors?.categoryId?.message}
+              control={control}
+            />
+          </div>
+          <div className={style.gridView}>
+            <DatePicker
+              label="Effective Date"
+              control={control}
+              errorMessage={errors?.effectiveDate?.message}
+              name="effectiveDate"
+              star=" *"
+            />
+            <Selection
+              control={control}
+              errorMessage={errors?.preparedBy?.message}
+              wraperSelect={style.wraperSelect}
+              label="Prepared By"
+              placeholder="Prepared By"
+              options={employees}
+              star=" *"
+              onChange={(item) => console.log(item)}
+              name="preparedBy"
+            />
+          </div>
+          <div className={style.gridView}>
+            <Selection
+              name="reviewers"
+              errorMessage={errors?.reviewers?.message}
+              control={control}
+              wraperSelect={style.wraperSelect}
+              label="Reviewed By"
+              placeholder="Reviewed By"
+              options={employees}
+              star=" *"
+              onChange={(item) => console.log(item)}
+            />
+
+            <Selection
+              control={control}
+              errorMessage={errors?.approvedBy?.message}
+              wraperSelect={style.wraperSelect}
+              label="Approved By"
+              placeholder="Approved By"
+              options={employees}
+              star=" *"
+              onChange={(item) => console.log(item)}
+              name="approvedBy"
+            />
+          </div>
+
+          <div className={style.gridView}>
+            <Selection
+              control={control}
+              errorMessage={errors?.appliesTo?.message}
+              wraperSelect={style.wraperSelect}
+              label="Applies to"
+              placeholder="Applies to"
+              options={multiOptions}
+              star=" *"
+              onChange={(item) => console.log(item)}
+              closeMenuOnSelect={false}
+              isMulti={true}
+              name="appliesTo"
+            />
+            <div>
+              <div style={{ display: 'flex' }}>
+                <p style={{ fontSize: 17, color: '#2d2d32', marginRight: 5 }}>Attach Pdf </p>
+                {/* <b style={{ color: 'red' }}> *</b> */}
+              </div>
+              <ProfileUpload
+                name={'pdf'}
+                register={register}
+                type="application/pdf,application/vnd.ms-excel"
+                id={'frontPic'}
+                errorMessage={errors?.pdf?.message}
+                // selectedFileName={selectedFileName}
+                // setSelectedFileName={setSelectedFileName}
+              />
+            </div>
+          </div>
+          <div className={style.gridView1}>
+            <TextArea
+              label="Discription"
+              placeholder="Enter Discription"
+              // star=" *"
+              register={register}
+              name="discription"
+              errorMessage={errors?.discription?.message}
+            />
+          </div>
+        </form>
       </Modal>
       <PdfViewModal
         openPolicyPdfView={openPolicyPdfView}
@@ -206,151 +311,5 @@ const Policy = () => {
     </>
   );
 };
-
-const RenderAllPolicies = ({
-  setOpen,
-  control,
-  selectedTab,
-  setOpenAddPolice,
-  setSelectedTab,
-  setShowFilterView,
-  showFilterView,
-  options,
-  setEditPolicy,
-  setOpenViewPdfPolicy,
-}: {
-  setOpen: any;
-  setSelectedTab: any;
-  [key: string]: any;
-}) => (
-  <div className={style.policyMainView}>
-    <RenderPoliciesTab
-      control={control}
-      selectedTab={selectedTab}
-      setOpenAddPolice={setOpenAddPolice}
-      setSelectedTab={setSelectedTab}
-      setShowFilterView={setShowFilterView}
-      showFilterView={showFilterView}
-      options={options}
-      setEditPolicy={setEditPolicy}
-    />
-    <div className={style.policyGridView}>
-      {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((item) => (
-        <RenderPolicy
-          setOpenAddPolice={setOpenAddPolice}
-          setOpen={setOpen}
-          setSelectedTab={setSelectedTab}
-          setEditPolicy={setEditPolicy}
-          setOpenViewPdfPolicy={setOpenViewPdfPolicy}
-        />
-      ))}
-    </div>
-  </div>
-);
-
-const RenderObsolete = ({
-  setOpen,
-  control,
-  selectedTab,
-  setOpenAddPolice,
-  setSelectedTab,
-  setShowFilterView,
-  showFilterView,
-  options,
-  setEditPolicy,
-  setOpenViewPdfPolicy,
-}: {
-  [key: string]: any;
-}) => (
-  <div className={style.policyMainView}>
-    <RenderPoliciesTab
-      control={control}
-      selectedTab={selectedTab}
-      setOpenAddPolice={setOpenAddPolice}
-      setSelectedTab={setSelectedTab}
-      setShowFilterView={setShowFilterView}
-      showFilterView={showFilterView}
-      options={options}
-      setEditPolicy={setEditPolicy}
-    />
-    <div className={style.policyGridView}>
-      {[1, 2, 3, 4, 5].map((item) => (
-        <RenderPolicy
-          setOpenAddPolice={setOpenAddPolice}
-          setOpen={setOpen}
-          setSelectedTab={setSelectedTab}
-          setEditPolicy={setEditPolicy}
-          setOpenViewPdfPolicy={setOpenViewPdfPolicy}
-        />
-      ))}
-    </div>
-  </div>
-);
-
-const RenderPoliciesTab = ({
-  selectedTab,
-  setSelectedTab,
-  setShowFilterView,
-  showFilterView,
-  control,
-  setOpenAddPolice,
-  options,
-  setEditPolicy,
-}: {
-  selectedTab: any;
-  setSelectedTab: any;
-  setShowFilterView: any;
-  showFilterView: any;
-  control: any;
-  setOpenAddPolice: any;
-  options: any;
-  setEditPolicy: any;
-}) => (
-  <>
-    <div className={style.policyHeaderView}>
-      <div className={style.headerTitleView}>
-        <p
-          onClick={() => setSelectedTab(0)}
-          style={{
-            fontSize: '16px',
-            fontWeight: 600,
-            color: selectedTab == 0 ? '#2D2D32' : '#CACACA',
-          }}
-        >
-          All Policies
-        </p>
-        <p
-          onClick={() => setSelectedTab(1)}
-          style={{
-            fontSize: '16px',
-            fontWeight: 600,
-            color: selectedTab == 1 ? '#2D2D32' : '#CACACA',
-            marginLeft: 20,
-          }}
-        >
-          Obsolete
-        </p>
-      </div>
-      <div className={style.addPolicyView}>
-        <img
-          onClick={() => setShowFilterView(!showFilterView)}
-          style={{ cursor: 'pointer', height: 35, width: 35 }}
-          src={filter}
-          alt=""
-          className={style.img}
-        />
-        <Button
-          handleClick={() => {
-            setOpenAddPolice(true);
-            setEditPolicy(false);
-          }}
-          iconStart={plusIcon}
-          text="Add Policy"
-        />
-      </div>
-    </div>
-    {showFilterView && <RenderPolicySearchView options={options} control={control} />}
-  </>
-);
 
 export default Policy;
