@@ -45,13 +45,16 @@ const Calender = () => {
 
   const [openModal, setOpenModal] = useState(false);
   const [check, setCheck] = useState(false);
-  const [eventId, setEventId] = useState(false);
+  const [eventId, setEventId] = useState('');
   const [customTooltip, setCustomTooltip] = useState(false);
   const [items, setItems] = useState([]);
   const [attendees, setAttendees] = useState([]);
-  const [selectedFileNameBack, setSelectedFileNameBack] = useState();
+  const [selectedFileNameBack, setSelectedFileNameBack] = useState<any>();
   const [btnLoader, setBtnLoader] = useState(false);
   const [selected, setSelected] = useState([]);
+  const [allEvent, setAllEvent] = useState([]);
+  const [singleEventData, setSingleEventData] = useState<any>('');
+  const [updatedEvent, setUpdateEvent] = useState();
 
   const {
     register,
@@ -67,47 +70,9 @@ const Calender = () => {
     mode: 'all',
   });
 
-  const events = [
-    {
-      id: 1,
-      title: 'Weekly Meeting Projects',
-      start: '2022-10-27T04:00:00',
-      end: '2022-10-27T06:00:00',
-      editable: false,
-      clickable: false,
-      imageurl: 'assets/person1.svg',
-      extendedProps: {
-        description: 'Khokkar Chowk, Johar Town, Lahore',
-      },
-    },
-    {
-      id: 2,
-      title: 'Weekly Meeting Projects',
-      start: '2022-10-27T04:00:00',
-      end: '2022-10-27T06:00:00',
-      editable: false,
-      clickable: false,
-      imageurl: 'assets/person2.svg',
-      extendedProps: {
-        description: 'Khokkar Chowk, Johar Town, Lahore',
-      },
-    },
-    {
-      id: 3,
-      title: 'Weekly Meeting Projects',
-      start: '2022-10-27T04:00:00',
-      end: '2022-10-27T06:00:00',
-      editable: false,
-      clickable: false,
-      imageurl: 'assets/person2.svg',
-      extendedProps: {
-        description: 'Khokkar Chowk, Johar Town, Lahore',
-      },
-    },
-  ];
-
   useEffect(() => {
     getEmployeesData();
+    getAllEvents();
   }, []);
 
   const getEmployeesData = async () => {
@@ -115,18 +80,58 @@ const Calender = () => {
     setAttendees(res?.data?.employees[0]?.data);
   };
 
+  const getAllEvents = async () => {
+    const res = await CalenderService.getAllEvents({
+      view: 'Daily',
+    });
+    setAllEvent(res.data.events);
+  };
+
+  const handleDelete = async () => {
+    const res = await CalenderService.deleteEvent(eventId);
+    if (res.status === 200) {
+      createNotification('success', 'success', res?.data?.msg);
+      getAllEvents();
+      setCustomTooltip(!customTooltip);
+    }
+  };
+
+  // const handleUpdate = async () => {
+  //   const res = await CalenderService.updateEvent(eventId, {
+  //     title: 'Event ',
+  //     start: '2022-11-03T10:20Z',
+  //     end: '2022-11-03T11:40Z',
+  //     type: 'Meeting',
+  //     attendees: [],
+  //     recurrence: 'Daily',
+  //     description: 'Never give up',
+  //     venue: 'Lets see now not decided',
+  //   });
+  //   console.log(res.data, '---updated res-------');
+  //   getAllEvents();
+  //   createNotification('success', 'success', res?.data?.msg);
+  // };
+
+  const handleUpdateById = () => {
+    // alert(eventId);
+  };
+
   const RenderEventHandler = (eventInfo: any) => {
+    setEventId(eventInfo?.event?.extendedProps?._id);
     return (
       <>
         <div className={style.mainDiv}>
           <div className={style.mainDiv2}>
-            <p className={style.title}>{eventInfo.event.title}</p>
+            <p className={style.title}>{eventInfo?.event?.title && eventInfo?.event?.title}</p>
             <div className={style.descDiv}>
-              <img src={location} />
-              <p className={style.description}>{eventInfo.event.extendedProps.description}</p>
+              <img src={eventInfo?.event?.extendedProps?.description && location} />
+              <p className={style.description}>
+                {eventInfo?.event?.extendedProps?.description &&
+                  eventInfo?.event?.extendedProps?.description}
+              </p>
             </div>
           </div>
-          <div>
+          {/* <div>
             <img
               src={(!eventInfo?.event?.imageurl && person) || ''}
               height={28}
@@ -148,19 +153,20 @@ const Calender = () => {
                 marginLeft: -10,
               }}
             />
-          </div>
+          </div> */}
         </div>
       </>
     );
   };
 
-  const handleMouseEnter = (info: any) => {
-    setEventId(info.event.id);
+  const handleMouseEnter = async () => {
+    const res = await CalenderService.getEventById(eventId);
+    console.log(res?.data?.event, 'mouse enter--------------------');
+    setSingleEventData(res?.data?.event);
     setCustomTooltip(true);
   };
   const handleSelect = (selectedList: any) => {
     console.log('selectedList', selectedList);
-
     setItems(selectedList);
   };
   const handleRemove = (selectedList: any) => {
@@ -173,8 +179,10 @@ const Calender = () => {
       const transformData = {
         ...data,
         title: data?.title,
-        start: `${moment(data?.start).format('YYYY-MM-DD')}T${moment(new Date()).format('HH:mm')}Z`,
-        end: `${moment(data?.end).format('YYYY-MM-DD')}T${moment(new Date()).format('HH:mm')}Z`,
+        start: `${moment(data?.start).format('YYYY-MM-DD')}T${moment(data?.start).format(
+          'HH:mm',
+        )}Z`,
+        end: `${moment(data?.end).format('YYYY-MM-DD')}T${moment(data?.end).format('HH:mm')}Z`,
         recurrence: data?.recurrence?.value,
         type: data?.type?.value,
         allDay: data?.allDay,
@@ -186,9 +194,11 @@ const Calender = () => {
       delete transformData?.uploadFile;
       const res = await CalenderService.addEvent(transformData);
       if (res.status === 200) {
+        getAllEvents();
         createNotification('success', 'success', res?.data?.msg);
         setOpenModal(!openModal);
       }
+
       setBtnLoader(false);
     } catch (err: any) {
       if (err?.response?.data?.error) {
@@ -199,11 +209,11 @@ const Calender = () => {
       setBtnLoader(false);
     }
   };
+
   const attendeesOptions = attendees?.map(({ _id, fullName }) => ({
     label: fullName && fullName,
     value: _id && _id,
   }));
-
   console.log(
     watch(
       'title',
@@ -217,6 +227,10 @@ const Calender = () => {
       'venue',
     ),
   );
+
+  useEffect(() => {
+    reset({ singleEventData });
+  }, [singleEventData]);
 
   return (
     <div className={style.calenderMain}>
@@ -233,9 +247,14 @@ const Calender = () => {
           headerToolbar={{
             right: `${day} ${week} ${month}`,
           }}
+          buttonText={{
+            month: 'Monthly',
+            week: 'Weekly',
+            day: 'Daily',
+          }}
           eventContent={(e) => RenderEventHandler({ ...e, customTooltip })}
           slotLabelInterval={{ hours: 1 }}
-          events={events}
+          events={allEvent}
           handleWindowResize={true}
           contentHeight={'auto'}
           contentWidth={'auto'}
@@ -278,16 +297,6 @@ const Calender = () => {
                 control={control}
                 name="attendees"
               />
-              {/* <MultiPicker
-                label="Attendees"
-                options={attendeesOptions}
-                selectedValues={items}
-                handleSelect={handleSelect}
-                handleRemove={handleRemove}
-                control={control}
-                name="attendees"
-                // groupBy="name"
-              /> */}
             </div>
             <div className={style.allDay}>
               <Checkbox
@@ -307,6 +316,7 @@ const Calender = () => {
                 showTimeInput={!check === true}
                 handleChange={(date) => console.log(date)}
                 errorMessage={errors?.start?.message}
+                placeholder={'Start Date'}
               />
               <DatePicker
                 label={check === true ? 'End Date' : 'End Date & Time'}
@@ -315,6 +325,7 @@ const Calender = () => {
                 star=" *"
                 showTimeInput={!check === true}
                 errorMessage={errors?.end?.message}
+                placeholder={'End Date'}
               />
             </div>
             <div className={style.gridView}>
@@ -361,10 +372,19 @@ const Calender = () => {
           <EventModal open={customTooltip && eventId}>
             <div className={style.eventDiv}>
               <div className={style.titleDiv}>
-                <p className={style.title}>Daily Standup Meeting</p>
+                <p className={style.title}>{singleEventData?.title && singleEventData?.title}</p>
                 <div className={style.iconView}>
-                  <img src={edit} height={20} className={style.icon} />
-                  <img src={deleteIcon} height={20} className={style.icon} />
+                  <img
+                    src={edit}
+                    height={20}
+                    className={style.icon}
+                    onClick={() => {
+                      setCustomTooltip(!customTooltip);
+                      setOpenModal(true);
+                      handleUpdateById();
+                    }}
+                  />
+                  <img src={deleteIcon} height={20} className={style.icon} onClick={handleDelete} />
                   <img
                     src={cross}
                     height={20}
@@ -374,28 +394,38 @@ const Calender = () => {
                 </div>
               </div>
               <div className={style.durationView}>
-                <p className={style.title2}>Thursday, OCT 25 2022 | 10:20 AM - 11:00 AM</p>
-                <p className={style.title2}>40 minutes</p>
+                <p className={style.title2}>
+                  {moment(singleEventData?.start).format('dddd, MMMM Do YYYY')} |
+                  {`${moment(singleEventData?.start).format('h:mm a')}  -
+                  ${moment(singleEventData?.end).format('h:mm a')}`}
+                </p>
+                <p className={style.title2}>
+                  {singleEventData?.duration && singleEventData?.duration}
+                </p>
               </div>
               <p className={style.title2}>Description</p>
               <p className={style.description}>
-                The purpose of a standup is to bring teams together to share developments, surface
-                blockers, and move work forward. It’s about empowering team members and building
-                accountability. It’s a meeting that’s in direct service of moving toward completion
-                quickly, without hiccups. Everyone who participates in the standup should understand
-                this, and get value out of the time spent together.
+                {singleEventData?.description ? singleEventData.description : '-'}
               </p>
               <div className={style.gridDiv}>
                 <p className={style.title2}>Venue</p>
-                <p className={style.description}>Venue</p>
+                <p className={style.description}>
+                  {singleEventData?.venue ? singleEventData?.venue : '-'}
+                </p>
               </div>
               <div className={style.gridDiv}>
                 <p className={style.title2}>Event Type</p>
-                <p className={style.description}>Meeting</p>
+                <p className={style.description}>
+                  {singleEventData?.type ? singleEventData?.type : '-'}
+                </p>
               </div>
               <div className={style.gridDiv}>
                 <p className={style.title2}>Attachment</p>
-                <p className={style.description}>Approval.pdf</p>
+                <a href={singleEventData?.fileId?.file} target={'_blank'}>
+                  <p className={style.description}>
+                    {singleEventData?.fileId?.name ? singleEventData?.fileId?.name : '-'}
+                  </p>
+                </a>
               </div>
               <div className={style.gridDiv}>
                 <p className={style.title2}>Attendees</p>
@@ -431,30 +461,3 @@ const Calender = () => {
   );
 };
 export default Calender;
-
-const multiOptions = [
-  {
-    options: [
-      { value: '1', label: 'Ali' },
-      { value: '2', label: 'Umair' },
-      { value: '3', label: 'Faizan' },
-    ],
-    label: 'HR',
-  },
-  {
-    options: [
-      { value: '4', label: 'Ibtassam' },
-      { value: '5', label: 'Suleman' },
-      { value: '6', label: 'Haseeb' },
-    ],
-    label: 'IT',
-  },
-  {
-    options: [
-      { value: '7', label: 'Maira' },
-      { value: '8', label: 'Huda' },
-      { value: '9', label: 'Fatima' },
-    ],
-    label: 'SE',
-  },
-];
