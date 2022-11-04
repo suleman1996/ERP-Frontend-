@@ -1,8 +1,8 @@
 import Button from 'components/button';
 
-import eye from '../../../assets/add.svg';
-import leftAroow from '../../../assets/arrow-left.svg';
-import edit from '../../../assets/edit.svg';
+import eye from '../../assets/add.svg';
+import leftAroow from '../../assets/arrow-left.svg';
+import edit from '../../assets/edit.svg';
 
 export default {
   title: 'Button',

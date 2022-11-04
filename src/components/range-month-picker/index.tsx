@@ -5,6 +5,8 @@ import { Controller } from 'react-hook-form';
 
 import style from './date.module.scss';
 import 'react-datepicker/dist/react-datepicker.css';
+import singleArrowRight from 'assets/2.svg';
+import singleArrowLeft from 'assets/3.svg';
 import './index.css';
 import moment from 'moment';
 import { useEffect } from 'react';
@@ -13,13 +15,10 @@ interface Props {
   label?: string;
   id?: string;
   className?: string;
-  firstName?: string;
-  lastName?: string;
-  errorMessageStart?: string;
-  errorMessageEnd?: string;
+  name?: string;
+  errorMessage?: string;
   watch?: any;
   control?: any;
-  errorMessage?: string;
   defaultVal?: string;
   star?: string;
 }
@@ -28,101 +27,73 @@ const MonthYearPicker = ({
   control,
   label,
   className,
-  errorMessage,
   defaultVal,
   star,
-  firstName,
-  lastName,
-  errorMessageStart,
-  errorMessageEnd,
+  name,
+  errorMessage,
   watch,
 }: Props) => {
   return (
     <>
       <div className={`${style.main} ${className}`}>
         {label && (
-          <label
-            style={{ color: (errorMessageStart || errorMessageEnd) && '#ff5050' }}
-            className={style.label}
-          >
+          <label style={{ color: errorMessage && '#ff5050' }} className={style.label}>
             {label}
             <b style={{ color: 'red' }}>{star}</b>
           </label>
         )}
-        <div className={style.grid}>
-          <div>
-            <Controller
-              name={firstName}
-              control={control}
-              defaultValue={defaultVal || null}
-              render={({ onChange, value }) => {
-                return (
-                  <>
-                    <ReactDatePicker
-                      name={lastName}
-                      selected={value == 'Invalid Date' ? null : value || null}
-                      className={errorMessageStart ? style.borderClass : style.inpDiv}
-                      onChange={onChange}
-                      value={value}
-                      selectsStart
-                      // startDate={startDate}
-                      // endDate={endDate}
-                      dateFormat="MM/yyyy"
-                      showMonthYearPicker
-                      placeholderText="MM/yyyy"
-                    />
-                    {errorMessageStart ? (
-                      <span className={style.errorMessage}>{errorMessageStart}</span>
-                    ) : (
-                      ''
-                    )}
-                  </>
-                );
-              }}
-            />
-          </div>
-          <div>
-            <Controller
-              name={lastName}
-              control={control}
-              defaultValue={defaultVal || null}
-              render={({ onChange, value }) => {
-                return (
-                  <>
-                    <ReactDatePicker
-                      name={lastName}
-                      selected={value == 'Invalid Date' ? null : value || null}
-                      // selected={
-                      //   value
-                      //     ? value
-                      //     : watch().financialYearStart &&
-                      //       new Date(moment(watch().financialYearStart).add(1, 'y'))
-                      // }
-                      onChange={onChange}
-                      value={value}
-                      selectsEnd
-                      minDate={watch().financialYearStart}
-                      // startDate={startDate}
-                      // endDate={endDate}
-                      // minDate={startDate}
-                      dateFormat="MM/yyyy"
-                      showMonthYearPicker
-                      className={errorMessageEnd ? style.borderClass : style.inpDiv}
-                      placeholderText="MM/yyyy"
-                    />
-                    {errorMessageEnd ? (
-                      <span className={style.errorMessage}>{errorMessageEnd}</span>
-                    ) : (
-                      ''
-                    )}
-                  </>
-                );
-              }}
-            />
-          </div>
-        </div>
 
-        {errorMessage ? <span className={style.errorMessage}>Date is required</span> : ''}
+        <Controller
+          name={name || ''}
+          control={control}
+          defaultValue={defaultVal || null}
+          render={({ onChange, value }) => {
+            return (
+              <>
+                <ReactDatePicker
+                  id={name}
+                  name={name}
+                  selected={value == 'Invalid Date' ? null : value || null}
+                  className={errorMessage ? style.borderClass : style.inpDiv}
+                  onChange={onChange}
+                  value={value}
+                  selectsStart
+                  dateFormat="MM/yyyy"
+                  showMonthYearPicker
+                  placeholderText="MM/yyyy"
+                  minDate={watch}
+                  renderCustomHeader={({
+                    date,
+                    decreaseMonth,
+                    increaseMonth,
+                    prevMonthButtonDisabled,
+                    nextMonthButtonDisabled,
+                  }) => (
+                    <div className={style.iconsDiv}>
+                      <button
+                        type={'button'}
+                        onClick={decreaseMonth}
+                        disabled={prevMonthButtonDisabled}
+                      >
+                        <img src={singleArrowLeft} alt="" />
+                      </button>
+                      <p>{date.getFullYear()}</p>
+                      <button
+                        type={'button'}
+                        onClick={increaseMonth}
+                        disabled={nextMonthButtonDisabled}
+                      >
+                        <img src={singleArrowRight} alt="" />
+                      </button>
+                    </div>
+                  )}
+                />
+              </>
+            );
+          }}
+        />
+
+        {errorMessage ? <span className={style.errorMessage}>{errorMessage}</span> : ''}
       </div>
     </>
   );

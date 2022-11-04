@@ -47,14 +47,16 @@ const Modal = ({
             className={`${style.modalContentWrapper} ${className}`}
             onClick={(e) => e.stopPropagation()}
           >
-            <div className={style.header}>
-              <p>{title}</p>
-              <img src={cross} alt="close icon" onClick={handleClose} />
-            </div>
+            {title && (
+              <div className={style.header}>
+                <p>{title}</p>
+                <img src={cross} alt="close icon" onClick={handleClose} />
+              </div>
+            )}
             <div className={style.body}>
               {children}
-              <div className={`${style.btnClass}  ${btnClass}  `}>
-                {text && (
+              {text && (
+                <div className={`${style.btnClass}  ${btnClass}  `}>
                   <Button
                     text={text}
                     isLoading={loader}
@@ -64,8 +66,8 @@ const Modal = ({
                     form={form}
                     handleClick={handleClick}
                   />
-                )}
-              </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
