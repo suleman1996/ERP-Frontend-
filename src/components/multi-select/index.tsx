@@ -1,6 +1,5 @@
 import { Controller } from 'react-hook-form';
 
-// import { Multiselect } from 'multiselect-react-dropdown';
 import { MultiSelect } from 'react-multi-select-component';
 
 import './styles.css';
@@ -39,21 +38,13 @@ export default function MultiPicker({
             return (
               <MultiSelect
                 options={options}
+                // value={value || []}
+                // onChange={onChange}
                 value={selectedValues}
                 onChange={handleChange}
                 labelledBy="Select"
                 className="wrapper"
               />
-              // <Multiselect
-              //   options={options}
-              //   selectedValues={value}
-              //   onSelect={handleSelect}
-              //   onRemove={handleRemove}
-              //   displayValue="id"
-              //   groupBy={groupBy}
-              //   showCheckbox={true}
-              //   className="wrapper"
-              // />
             );
           }}
         />

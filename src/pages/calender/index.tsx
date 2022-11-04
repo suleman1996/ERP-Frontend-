@@ -18,7 +18,7 @@ import Button from 'components/button';
 import Modal from 'components/modal';
 import TextField from 'components/textfield';
 import DatePicker from 'components/date-picker';
-import Selection from 'components/select';
+import Selection from 'components/selection';
 import ProfileUpload from 'components/profile-upload';
 import Container from 'components/container';
 import Checkbox from 'components/checkbox';
@@ -47,14 +47,13 @@ const Calender = () => {
   const [check, setCheck] = useState(false);
   const [eventId, setEventId] = useState('');
   const [customTooltip, setCustomTooltip] = useState(false);
-  const [items, setItems] = useState([]);
   const [attendees, setAttendees] = useState([]);
   const [selectedFileNameBack, setSelectedFileNameBack] = useState<any>();
   const [btnLoader, setBtnLoader] = useState(false);
   const [selected, setSelected] = useState([]);
   const [allEvent, setAllEvent] = useState([]);
   const [singleEventData, setSingleEventData] = useState<any>('');
-  const [updatedEvent, setUpdateEvent] = useState();
+  const [attendeesPic, setAttendeesPic] = useState([]);
 
   const {
     register,
@@ -74,6 +73,10 @@ const Calender = () => {
     getEmployeesData();
     getAllEvents();
   }, []);
+
+  useEffect(() => {
+    updateEventData();
+  }, [singleEventData]);
 
   const getEmployeesData = async () => {
     const res = await EmployeeService.getAllEmployees();
@@ -96,24 +99,18 @@ const Calender = () => {
     }
   };
 
-  // const handleUpdate = async () => {
-  //   const res = await CalenderService.updateEvent(eventId, {
-  //     title: 'Event ',
-  //     start: '2022-11-03T10:20Z',
-  //     end: '2022-11-03T11:40Z',
-  //     type: 'Meeting',
-  //     attendees: [],
-  //     recurrence: 'Daily',
-  //     description: 'Never give up',
-  //     venue: 'Lets see now not decided',
-  //   });
-  //   console.log(res.data, '---updated res-------');
-  //   getAllEvents();
-  //   createNotification('success', 'success', res?.data?.msg);
-  // };
-
-  const handleUpdateById = () => {
-    // alert(eventId);
+  const updateEventData = () => {
+    const { title, venue, description, type, start, end, recurrence, attendees } = singleEventData;
+    reset({
+      title,
+      venue,
+      description,
+      attendees: attendeesOptions,
+      type: [{ label: type, value: type }],
+      recurrence: [{ label: recurrence, value: recurrence }],
+      // start: new Date(moment(start).format('DD/MM/YYYY')),
+      // end: new Date(moment(end).format('DD/MM/YYYY')),
+    });
   };
 
   const RenderEventHandler = (eventInfo: any) => {
@@ -163,15 +160,11 @@ const Calender = () => {
     const res = await CalenderService.getEventById(eventId);
     console.log(res?.data?.event, 'mouse enter--------------------');
     setSingleEventData(res?.data?.event);
+    setAttendeesPic(res?.data?.event?.attendees);
     setCustomTooltip(true);
   };
-  const handleSelect = (selectedList: any) => {
-    console.log('selectedList', selectedList);
-    setItems(selectedList);
-  };
-  const handleRemove = (selectedList: any) => {
-    setItems(selectedList);
-  };
+
+  console.log(watch(), selected);
 
   const onSubmit = async (data: any) => {
     setBtnLoader(true);
@@ -186,20 +179,26 @@ const Calender = () => {
         recurrence: data?.recurrence?.value,
         type: data?.type?.value,
         allDay: data?.allDay,
-        attendees: items?.map((i: any) => i?.value),
-        ...(data?.uploadFile.length > 0 && {
+        attendees: selected?.map((i: any) => i?.value),
+        ...(data?.uploadFile?.length > 0 && {
           file: await convertBase64Image(data?.uploadFile[0]),
         }),
       };
-      delete transformData?.uploadFile;
-      const res = await CalenderService.addEvent(transformData);
-      if (res.status === 200) {
-        getAllEvents();
-        createNotification('success', 'success', res?.data?.msg);
-        setOpenModal(!openModal);
+      if (singleEventData) {
+        const res = await CalenderService.updateEvent(eventId, transformData);
+        console.log(res?.data, 'updated response');
+        delete transformData?.uploadFile;
+        setBtnLoader(false);
+      } else {
+        delete transformData?.uploadFile;
+        const res = await CalenderService.addEvent(transformData);
+        if (res.status === 200) {
+          getAllEvents();
+          createNotification('success', 'success', res?.data?.msg);
+          setOpenModal(!openModal);
+        }
+        setBtnLoader(false);
       }
-
-      setBtnLoader(false);
     } catch (err: any) {
       if (err?.response?.data?.error) {
         setErrors(err?.response?.data?.error, setError);
@@ -214,23 +213,6 @@ const Calender = () => {
     label: fullName && fullName,
     value: _id && _id,
   }));
-  console.log(
-    watch(
-      'title',
-      'attendees',
-      'allday',
-      'startDate',
-      'endDate',
-      'type',
-      'recurrenceType',
-      'description',
-      'venue',
-    ),
-  );
-
-  useEffect(() => {
-    reset({ singleEventData });
-  }, [singleEventData]);
 
   return (
     <div className={style.calenderMain}>
@@ -381,7 +363,6 @@ const Calender = () => {
                     onClick={() => {
                       setCustomTooltip(!customTooltip);
                       setOpenModal(true);
-                      handleUpdateById();
                     }}
                   />
                   <img src={deleteIcon} height={20} className={style.icon} onClick={handleDelete} />
@@ -430,17 +411,19 @@ const Calender = () => {
               <div className={style.gridDiv}>
                 <p className={style.title2}>Attendees</p>
                 <div>
-                  <img
-                    src={person || ''}
-                    height={28}
-                    width={28}
-                    style={{
-                      borderRadius: '30px',
-                      height: '30px',
-                      width: '30px',
-                    }}
-                  />
-                  <img
+                  {attendeesPic.map((i: any) => (
+                    <img
+                      src={i?.profilePicture || ''}
+                      height={28}
+                      width={28}
+                      style={{
+                        borderRadius: '30px',
+                        height: '30px',
+                        width: '30px',
+                      }}
+                    />
+                  ))}
+                  {/* <img
                     src={person2 || ''}
                     height={28}
                     width={28}
@@ -450,7 +433,7 @@ const Calender = () => {
                       width: '30px',
                       marginLeft: -10,
                     }}
-                  />
+                  /> */}
                 </div>
               </div>
             </div>
