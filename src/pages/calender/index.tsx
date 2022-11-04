@@ -18,7 +18,7 @@ import Button from 'components/button';
 import Modal from 'components/modal';
 import TextField from 'components/textfield';
 import DatePicker from 'components/date-picker';
-import Selection from 'components/select';
+import Selection from 'components/selection';
 import ProfileUpload from 'components/profile-upload';
 import Container from 'components/container';
 import Checkbox from 'components/checkbox';
