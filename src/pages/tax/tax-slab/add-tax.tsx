@@ -30,6 +30,7 @@ interface Props {
   getTaxSlabsData: () => void;
   updateId: string;
   setSingleId?: Dispatch<SetStateAction<any>>;
+  newSlab?: any;
   newSlabUpdate?: any;
   viewModal?: boolean;
   slabs: any;
@@ -81,6 +82,8 @@ const AddAttendance = ({
     const data = slabs?.find((slab: any, ind: number) => {
       return ind === index;
     });
+
+    console.log('slab update', newSlabUpdate);
 
     !updateId
       ? reset({ ...data })
@@ -141,8 +144,6 @@ const AddAttendance = ({
   };
 
   useEffect(() => {
-    console.log({ newSlabUpdate });
-
     updateId &&
       reset({
         taxGroupName: newSlabUpdate?.groupName,

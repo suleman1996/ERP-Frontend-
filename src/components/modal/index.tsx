@@ -54,15 +54,17 @@ const Modal = ({
             <div className={style.body}>
               {children}
               <div className={`${style.btnClass}  ${btnClass}  `}>
-                <Button
-                  text={text}
-                  isLoading={loader}
-                  iconStart={iconStart}
-                  iconEnd={iconEnd}
-                  type={type}
-                  form={form}
-                  handleClick={handleClick}
-                />
+                {text && (
+                  <Button
+                    text={text}
+                    isLoading={loader}
+                    iconStart={iconStart}
+                    iconEnd={iconEnd}
+                    type={type}
+                    form={form}
+                    handleClick={handleClick}
+                  />
+                )}
               </div>
             </div>
           </div>
