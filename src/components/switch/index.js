@@ -10,6 +10,8 @@ const Switch = ({
   className,
   checked,
   handleClick,
+  switchContainer,
+  onChange,
   errorMessage,
   ...restOfProps
 }) => {
@@ -17,10 +19,11 @@ const Switch = ({
     <div>
       {label && <p className={style.titleClass}>{label}</p>}
       <div className={`${style.mainClass} ${className}`} onClick={handleClick && handleClick}>
-        <label className={style.switch}>
+        <label className={`${style.switch}  ${switchContainer} `}>
           <input
             type="checkbox"
             checked={checked}
+            onChange={onChange && onChange}
             {...restOfProps}
             {...(register && register(name))}
           />

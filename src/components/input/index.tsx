@@ -28,6 +28,7 @@ interface Props {
   star?: string;
   extension?: string;
   files?: any[];
+  register?: any;
 }
 
 const Input = ({
@@ -55,6 +56,7 @@ const Input = ({
   step,
   star,
   extension,
+  register,
   ...restOfProps
 }: Props) => {
   return (
@@ -80,7 +82,7 @@ const Input = ({
             onChange={onChange}
             type={type}
             placeholder={placeholder}
-            ref={inputRef}
+            ref={register}
             readOnly={readOnly || false}
             disabled={isDisable || false}
             step={step}
@@ -99,7 +101,7 @@ const Input = ({
             />
           )}
         </div>
-        {error && errorMessage && <span className={style.errorMessage}>{errorMessage}</span>}
+        {(error || errorMessage) && <span className={style.errorMessage}>{errorMessage}</span>}
       </div>
     </>
   );

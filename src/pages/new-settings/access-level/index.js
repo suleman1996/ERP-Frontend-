@@ -1,6 +1,8 @@
 import CardContainer from 'components/card-container';
 import React, { useState } from 'react';
 
+import AccordianSwitch from 'components/accordian';
+
 import addIcon from 'assets/add.svg';
 import style from './access.module.scss';
 import Input from 'components/input';
@@ -58,6 +60,7 @@ const AccessLevel = () => {
           {/* ////////////////////////////// Access ///////////////////////////// */}
           <div className={style.accessHeader}>
             <p>Access</p>
+            <AccordianSwitch title={'Profile'} bodyData={addProfileData} />
           </div>
         </div>
 
@@ -82,4 +85,13 @@ const roles = [
   'UX | UI Designer',
   'SQA Engineer',
   'SQA Engineer',
+];
+
+const addProfileData = [
+  { name: 'Add Employee' },
+  { name: 'Edit Employee' },
+  { name: 'View Employee' },
+  { name: 'Delete Employee' },
+  { name: 'CV View' },
+  { name: 'Profile View' },
 ];
