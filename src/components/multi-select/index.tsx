@@ -10,11 +10,8 @@ export default function MultiPicker({
   errorMessage,
   options,
   selectedValues,
-  handleSelect,
-  handleRemove,
   name,
   control,
-  groupBy,
   customValidation,
   handleChange,
 }: any) {
@@ -30,7 +27,7 @@ export default function MultiPicker({
           <b style={{ color: 'red' }}>{star}</b>
         </label>
       )}
-      <div style={{ marginTop: 'calc(5px + (12 - 5) * (100vw - 280px) / (2560 - 280))' }}>
+      <div style={{ marginTop: 'calc(5px + 7 * (100vw - 280px) / 2280)' }}>
         <Controller
           name={name}
           control={control}

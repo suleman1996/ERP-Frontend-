@@ -33,28 +33,26 @@ const Button = ({
 }: Props) => {
   return (
     <>
-      {!hide && (
-        <button
-          className={`${style.btn} ${btnClass}`}
-          type={type}
-          form={form}
-          onClick={handleClick}
-          disabled={isLoading || disabled ? true : false}
-          style={{
-            pointerEvents: isLoading || disabled ? 'none' : 'auto',
-          }}
-        >
-          {isLoading ? (
-            <Loading loaderClass={btnLoaderClass} />
-          ) : (
-            <>
-              {iconStart && <img src={iconStart} alt="" className={style.img1} />}
-              {text && <span className={`${style.btnTitle} ${className}`}>{text}</span>}
-              {iconEnd && <img src={iconEnd} alt="" className={style.img} />}
-            </>
-          )}
-        </button>
-      )}
+      <button
+        className={`${style.btn} ${btnClass}`}
+        type={type}
+        form={form}
+        onClick={handleClick}
+        disabled={isLoading || disabled ? true : false}
+        style={{
+          pointerEvents: isLoading || disabled ? 'none' : 'auto',
+        }}
+      >
+        {isLoading ? (
+          <Loading loaderClass={btnLoaderClass} />
+        ) : (
+          <>
+            {iconStart && <img src={iconStart} alt="" className={style.img1} />}
+            {text && <span className={`${style.btnTitle} ${className}`}>{text}</span>}
+            {iconEnd && <img src={iconEnd} alt="" className={style.img} />}
+          </>
+        )}
+      </button>
     </>
   );
 };

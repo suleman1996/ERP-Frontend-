@@ -125,3 +125,7 @@
     border-top-color: transparent;
   }
 }
+
+.gridTwo {
+  @include gridTwo(20, 10);
+}

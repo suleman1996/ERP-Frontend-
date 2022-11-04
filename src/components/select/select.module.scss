@@ -7,7 +7,7 @@
   border-radius: 6px;
   width: 100%;
   padding: 0px 20px;
-  @include font20;
+  @include font16;
   cursor: pointer;
   color: #2d2d32;
   height: calc(30px + (55 - 30) * (100vw - 280px) / (2560 - 280));
@@ -22,7 +22,7 @@
   background-size: 15px;
   option {
     text-transform: capitalize;
-    @include font20;
+    @include font16;
     color: #2d2d32;
   }
 }

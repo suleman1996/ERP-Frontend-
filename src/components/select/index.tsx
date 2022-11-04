@@ -69,7 +69,7 @@ const Select = ({
           className={`${style.select}  ${selectContainer}  `}
           placeholder={placeholder}
           style={{
-            border: errorMessage ? '1.2px solid #FF5050' : ' 1.2px solid #E2E2EA',
+            border: errorMessage ? '1.2px solid #FF5050' : '1.2px solid rgb(226, 226, 234)',
           }}
           disabled={disable || false}
           ref={register}
