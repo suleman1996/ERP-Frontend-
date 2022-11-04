@@ -112,6 +112,7 @@ export const useCompanyInfo = ({ handleNext, formData, setFormData, employeeDocI
     try {
       removeKeys(data, ['startDate', 'endDate']);
       const { joiningDate, checkIn, probation, checkOut } = data;
+
       let user: any = {
         ...data,
         joiningDate: joiningDate ? moment(joiningDate).format('YYYY-MM-DD') : undefined,
@@ -123,7 +124,7 @@ export const useCompanyInfo = ({ handleNext, formData, setFormData, employeeDocI
         employmentInfo: {
           checkIn:
             data?.employmentInfo?.checkIn &&
-            moment(data?.employmentInfo?.checkIn, 'HH:mm').format('hh:mm a'),
+            moment(data?.employmentInfo.checkIn, 'HH:mm').format('hh:mm a'),
           checkOut:
             data?.employmentInfo?.checkOut &&
             moment(data?.employmentInfo?.checkOut, 'HH:mm').format('hh:mm a'),
