@@ -11,6 +11,7 @@
   backdrop-filter: blur(3px);
   z-index: 250000;
   padding: 20px 20px;
+
   background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4));
 
   .modalContentWrapper {
@@ -35,13 +36,12 @@
       padding-bottom: calc(12px + (30 - 12) * (100vw - 280px) / (2560 - 280));
       padding-left: calc(18px + (80 - 18) * (100vw - 280px) / (2560 - 280));
       padding-right: calc(18px + (80 - 18) * (100vw - 280px) / (2560 - 280));
-
+      box-sizing: border-box;
       p {
         font-style: normal;
         font-weight: 700;
         color: $title;
         @include font40;
-        line-height: calc(40px + (62 - 40) * (100vw - 280px) / (2560 - 280));
       }
 
       img {

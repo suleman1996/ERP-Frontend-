@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import Selection from 'components/select';
+import Select from 'components/select';
 import React from 'react';
 
 import style from './select.stories.module.scss';
 
 export default {
   title: 'Select',
-  component: Selection,
+  component: Select,
   argTypes: {
     onChange: { action: 'Please Click Me' },
   },
@@ -24,7 +24,13 @@ const Template = (args: any) => {
   ];
   return (
     <>
-      <Selection {...args} options={options} value={selectedOption} onChange={setSelectedOption} />
+      <Select {...args} value={selectedOption} onChange={setSelectedOption}>
+        {options?.map((ele: any) => (
+          <option key={ele.value} value={ele.value}>
+            {ele.label}
+          </option>
+        ))}
+      </Select>
     </>
   );
 };

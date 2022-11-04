@@ -30,7 +30,7 @@
     border-radius: 6px;
     width: 100%;
     padding-left: 20px;
-    border: 1px solid #d9d9d9;
+    border: 1.2px solid rgb(226, 226, 234);
     @include font20;
     color: #2d2d32;
     margin-top: calc(5px + (12 - 5) * (100vw - 280px) / (2560 - 280));
