@@ -88,6 +88,7 @@ const AddAttendance = ({
     !updateId
       ? reset({ ...data })
       : reset({
+          ...data,
           taxGroupName: newSlabUpdate?.groupName,
           category: newSlabUpdate?.category,
           financialYearStart:
