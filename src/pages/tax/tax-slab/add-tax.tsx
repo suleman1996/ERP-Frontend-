@@ -194,15 +194,22 @@ const AddAttendance = ({
                     ))}
                 </>
               </Select>
-              <MonthYearPicker
-                control={control}
-                label={'Financial Year'}
-                firstName={'financialYearStart'}
-                lastName={'financialYearEnd'}
-                errorMessageStart={errors?.financialYearStart?.message}
-                errorMessageEnd={errors?.financialYearEnd?.message}
-                watch={watch}
-              />
+              <div className={style.gridTwo}>
+                <MonthYearPicker
+                  control={control}
+                  label={'Start Year'}
+                  name={'financialYearStart'}
+                  errorMessage={errors?.financialYearStart?.message}
+                  watch={watch}
+                />
+                <MonthYearPicker
+                  control={control}
+                  label={'End Year'}
+                  name={'financialYearEnd'}
+                  errorMessage={errors?.financialYearStart?.message}
+                  watch={watch().financialYearStart}
+                />
+              </div>
             </div>
             <div className={style.fiveGrid}>
               <TextField

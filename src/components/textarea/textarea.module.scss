@@ -24,6 +24,8 @@
     width: 100%;
     padding: 20px;
     resize: none;
+    box-sizing: border-box;
+
     @include font20;
     &::placeholder {
       color: #cacaca;
