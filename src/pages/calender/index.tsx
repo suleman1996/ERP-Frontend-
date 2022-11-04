@@ -105,7 +105,9 @@ const Calender = () => {
       title,
       venue,
       description,
-      attendees: attendeesOptions,
+      attendees: attendees?.map(({ _id, fullName }: any) => {
+        return { label: fullName, value: _id };
+      }),
       type: [{ label: type, value: type }],
       recurrence: [{ label: recurrence, value: recurrence }],
       // start: new Date(moment(start).format('DD/MM/YYYY')),
