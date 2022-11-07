@@ -33,7 +33,7 @@ import person2 from 'assets/person2.svg';
 import cross from 'assets/cross.svg';
 import deleteIcon from 'assets/delete.svg';
 import edit from 'assets/edit.svg';
-import plus from 'assets/add.svg';
+import plus from 'assets/plusIcon.svg';
 
 import style from './calender.module.scss';
 import './calendar.scss';
@@ -47,14 +47,13 @@ const Calender = () => {
   const [check, setCheck] = useState(false);
   const [eventId, setEventId] = useState('');
   const [customTooltip, setCustomTooltip] = useState(false);
-  const [items, setItems] = useState([]);
   const [attendees, setAttendees] = useState([]);
   const [selectedFileNameBack, setSelectedFileNameBack] = useState<any>();
   const [btnLoader, setBtnLoader] = useState(false);
   const [selected, setSelected] = useState([]);
   const [allEvent, setAllEvent] = useState([]);
   const [singleEventData, setSingleEventData] = useState<any>('');
-  const [updatedEvent, setUpdateEvent] = useState();
+  const [attendeesPic, setAttendeesPic] = useState([]);
 
   const {
     register,
@@ -74,6 +73,10 @@ const Calender = () => {
     getEmployeesData();
     getAllEvents();
   }, []);
+
+  useEffect(() => {
+    updateEventData();
+  }, [singleEventData]);
 
   const getEmployeesData = async () => {
     const res = await EmployeeService.getAllEmployees();
@@ -96,24 +99,25 @@ const Calender = () => {
     }
   };
 
-  // const handleUpdate = async () => {
-  //   const res = await CalenderService.updateEvent(eventId, {
-  //     title: 'Event ',
-  //     start: '2022-11-03T10:20Z',
-  //     end: '2022-11-03T11:40Z',
-  //     type: 'Meeting',
-  //     attendees: [],
-  //     recurrence: 'Daily',
-  //     description: 'Never give up',
-  //     venue: 'Lets see now not decided',
-  //   });
-  //   console.log(res.data, '---updated res-------');
-  //   getAllEvents();
-  //   createNotification('success', 'success', res?.data?.msg);
-  // };
+  const attendeesOptions = attendees?.map(({ _id, fullName }) => ({
+    label: fullName && fullName,
+    value: _id && _id,
+  }));
 
-  const handleUpdateById = () => {
-    // alert(eventId);
+  const updateEventData = () => {
+    const { title, venue, description, type, start, end, recurrence, attendees } = singleEventData;
+    reset({
+      title,
+      venue,
+      description,
+      attendees: attendees?.map(({ _id, fullName }: any) => {
+        return { label: fullName, value: _id };
+      }),
+      type: { label: type, value: type },
+      recurrence: { label: recurrence, value: recurrence },
+      // start: `${moment(start).format('YYYY-MM-DD')}T${moment(start).format('HH:mm')}Z`,
+      // end: new Date(moment(end).format('DD/MM/YYYY')),
+    });
   };
 
   const RenderEventHandler = (eventInfo: any) => {
@@ -131,29 +135,20 @@ const Calender = () => {
               </p>
             </div>
           </div>
-          {/* <div>
-            <img
-              src={(!eventInfo?.event?.imageurl && person) || ''}
-              height={28}
-              width={28}
-              style={{
-                borderRadius: '30px',
-                height: '30px',
-                width: '30px',
-              }}
-            />
-            <img
-              src={(!eventInfo?.event?.imageurl && person2) || ''}
-              height={28}
-              width={28}
-              style={{
-                borderRadius: '30px',
-                height: '30px',
-                width: '30px',
-                marginLeft: -10,
-              }}
-            />
-          </div> */}
+          <div>
+            {/* {attendeesPic.map((i: any) => (
+              <img
+                src={(i?.profilePicture ? i?.profilePicture : person) || ''}
+                height={28}
+                width={28}
+                style={{
+                  borderRadius: '30px',
+                  height: '30px',
+                  width: '30px',
+                }}
+              />
+            ))} */}
+          </div>
         </div>
       </>
     );
@@ -163,14 +158,8 @@ const Calender = () => {
     const res = await CalenderService.getEventById(eventId);
     console.log(res?.data?.event, 'mouse enter--------------------');
     setSingleEventData(res?.data?.event);
+    setAttendeesPic(res?.data?.event?.attendees);
     setCustomTooltip(true);
-  };
-  const handleSelect = (selectedList: any) => {
-    console.log('selectedList', selectedList);
-    setItems(selectedList);
-  };
-  const handleRemove = (selectedList: any) => {
-    setItems(selectedList);
   };
 
   const onSubmit = async (data: any) => {
@@ -186,20 +175,30 @@ const Calender = () => {
         recurrence: data?.recurrence?.value,
         type: data?.type?.value,
         allDay: data?.allDay,
-        attendees: items?.map((i: any) => i?.value),
-        ...(data?.uploadFile.length > 0 && {
+        attendees: data?.attendees?.map((i: any) => i?.value),
+        ...(data?.uploadFile?.length > 0 && {
           file: await convertBase64Image(data?.uploadFile[0]),
         }),
       };
-      delete transformData?.uploadFile;
-      const res = await CalenderService.addEvent(transformData);
-      if (res.status === 200) {
-        getAllEvents();
-        createNotification('success', 'success', res?.data?.msg);
-        setOpenModal(!openModal);
+      if (singleEventData) {
+        delete transformData?.uploadFile;
+        const res = await CalenderService.updateEvent(eventId, transformData);
+        if (res?.status === 200) {
+          setOpenModal(!openModal);
+          createNotification('success', 'success', res?.data?.msg);
+          getAllEvents();
+        }
+        setBtnLoader(false);
+      } else {
+        delete transformData?.uploadFile;
+        const res = await CalenderService.addEvent(transformData);
+        if (res?.status === 200) {
+          getAllEvents();
+          createNotification('success', 'success', res?.data?.msg);
+          setOpenModal(!openModal);
+        }
+        setBtnLoader(false);
       }
-
-      setBtnLoader(false);
     } catch (err: any) {
       if (err?.response?.data?.error) {
         setErrors(err?.response?.data?.error, setError);
@@ -210,34 +209,19 @@ const Calender = () => {
     }
   };
 
-  const attendeesOptions = attendees?.map(({ _id, fullName }) => ({
-    label: fullName && fullName,
-    value: _id && _id,
-  }));
-  console.log(
-    watch(
-      'title',
-      'attendees',
-      'allday',
-      'startDate',
-      'endDate',
-      'type',
-      'recurrenceType',
-      'description',
-      'venue',
-    ),
-  );
-
-  useEffect(() => {
-    reset({ singleEventData });
-  }, [singleEventData]);
-
   return (
     <div className={style.calenderMain}>
       <Container>
         <div className={style.topBtn}>
           {day && (
-            <Button text="Add Event" handleClick={() => setOpenModal(true)} iconStart={plus} />
+            <Button
+              text="Add Event"
+              handleClick={() => {
+                setOpenModal(true);
+                setSingleEventData('');
+              }}
+              iconStart={plus}
+            />
           )}
         </div>
 
@@ -256,8 +240,8 @@ const Calender = () => {
           slotLabelInterval={{ hours: 1 }}
           events={allEvent}
           handleWindowResize={true}
-          contentHeight={'auto'}
-          contentWidth={'auto'}
+          contentHeight="auto"
+          contentWidth="auto"
           nowIndicator
           dateClick={(e) => console.log(e.dateStr)}
           eventClick={handleMouseEnter}
@@ -296,6 +280,8 @@ const Calender = () => {
                 selectedValues={selected}
                 control={control}
                 name="attendees"
+                star=" *"
+                errorMessage={errors?.attendees?.message}
               />
             </div>
             <div className={style.allDay}>
@@ -369,7 +355,7 @@ const Calender = () => {
         </Modal>
 
         <>
-          <EventModal open={customTooltip && eventId}>
+          <EventModal open={customTooltip && eventId} key={eventId}>
             <div className={style.eventDiv}>
               <div className={style.titleDiv}>
                 <p className={style.title}>{singleEventData?.title && singleEventData?.title}</p>
@@ -381,7 +367,6 @@ const Calender = () => {
                     onClick={() => {
                       setCustomTooltip(!customTooltip);
                       setOpenModal(true);
-                      handleUpdateById();
                     }}
                   />
                   <img src={deleteIcon} height={20} className={style.icon} onClick={handleDelete} />
@@ -430,27 +415,20 @@ const Calender = () => {
               <div className={style.gridDiv}>
                 <p className={style.title2}>Attendees</p>
                 <div>
-                  <img
-                    src={person || ''}
-                    height={28}
-                    width={28}
-                    style={{
-                      borderRadius: '30px',
-                      height: '30px',
-                      width: '30px',
-                    }}
-                  />
-                  <img
-                    src={person2 || ''}
-                    height={28}
-                    width={28}
-                    style={{
-                      borderRadius: '30px',
-                      height: '30px',
-                      width: '30px',
-                      marginLeft: -10,
-                    }}
-                  />
+                  {attendeesPic.map((i: any) => {
+                    return (
+                      <img
+                        src={i?.profilePicture && i?.profilePicture}
+                        height={28}
+                        width={28}
+                        style={{
+                          borderRadius: '30px',
+                          height: '30px',
+                          width: '30px',
+                        }}
+                      />
+                    );
+                  })}
                 </div>
               </div>
             </div>
