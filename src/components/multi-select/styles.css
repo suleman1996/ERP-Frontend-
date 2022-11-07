@@ -12,7 +12,6 @@
   --rmsc-selected: rgb(226, 226, 234) !important;
   --rmsc-border: rgb(226, 226, 234) !important;
   --rmsc-gray: #aaa;
-  --rmsc-bg: transparent !important;
   --rmsc-p: 10px;
   --rmsc-radius: 6px !important;
   --rmsc-h: calc(30px + 25 * (100vw - 280px) / 2280) !important;

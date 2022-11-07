@@ -10,6 +10,10 @@ export const SelectionStyle = {
     height: 'calc(30px + 25 * (100vw - 280px) / 2280) !important',
     minHeight: 'calc(30px + 25 * (100vw - 280px) / 2280) !important',
     padding: '2px',
+    '&:focus': {
+      border: '1px solid #E2E2EA !important',
+      boxShadow: 'none !important',
+    },
   }),
   option: (styles: any, { data, isDisabled, isFocused, isSelected }: any) => {
     return {

@@ -33,7 +33,7 @@ import person2 from 'assets/person2.svg';
 import cross from 'assets/cross.svg';
 import deleteIcon from 'assets/delete.svg';
 import edit from 'assets/edit.svg';
-import plus from 'assets/add.svg';
+import plus from 'assets/plusIcon.svg';
 
 import style from './calender.module.scss';
 import './calendar.scss';
@@ -99,6 +99,11 @@ const Calender = () => {
     }
   };
 
+  const attendeesOptions = attendees?.map(({ _id, fullName }) => ({
+    label: fullName && fullName,
+    value: _id && _id,
+  }));
+
   const updateEventData = () => {
     const { title, venue, description, type, start, end, recurrence, attendees } = singleEventData;
     reset({
@@ -108,9 +113,9 @@ const Calender = () => {
       attendees: attendees?.map(({ _id, fullName }: any) => {
         return { label: fullName, value: _id };
       }),
-      type: [{ label: type, value: type }],
-      recurrence: [{ label: recurrence, value: recurrence }],
-      // start: new Date(moment(start).format('DD/MM/YYYY')),
+      type: { label: type, value: type },
+      recurrence: { label: recurrence, value: recurrence },
+      // start: `${moment(start).format('YYYY-MM-DD')}T${moment(start).format('HH:mm')}Z`,
       // end: new Date(moment(end).format('DD/MM/YYYY')),
     });
   };
@@ -130,29 +135,20 @@ const Calender = () => {
               </p>
             </div>
           </div>
-          {/* <div>
-            <img
-              src={(!eventInfo?.event?.imageurl && person) || ''}
-              height={28}
-              width={28}
-              style={{
-                borderRadius: '30px',
-                height: '30px',
-                width: '30px',
-              }}
-            />
-            <img
-              src={(!eventInfo?.event?.imageurl && person2) || ''}
-              height={28}
-              width={28}
-              style={{
-                borderRadius: '30px',
-                height: '30px',
-                width: '30px',
-                marginLeft: -10,
-              }}
-            />
-          </div> */}
+          <div>
+            {/* {attendeesPic.map((i: any) => (
+              <img
+                src={(i?.profilePicture ? i?.profilePicture : person) || ''}
+                height={28}
+                width={28}
+                style={{
+                  borderRadius: '30px',
+                  height: '30px',
+                  width: '30px',
+                }}
+              />
+            ))} */}
+          </div>
         </div>
       </>
     );
@@ -165,8 +161,6 @@ const Calender = () => {
     setAttendeesPic(res?.data?.event?.attendees);
     setCustomTooltip(true);
   };
-
-  console.log(watch(), selected);
 
   const onSubmit = async (data: any) => {
     setBtnLoader(true);
@@ -181,20 +175,24 @@ const Calender = () => {
         recurrence: data?.recurrence?.value,
         type: data?.type?.value,
         allDay: data?.allDay,
-        attendees: selected?.map((i: any) => i?.value),
+        attendees: data?.attendees?.map((i: any) => i?.value),
         ...(data?.uploadFile?.length > 0 && {
           file: await convertBase64Image(data?.uploadFile[0]),
         }),
       };
       if (singleEventData) {
-        const res = await CalenderService.updateEvent(eventId, transformData);
-        console.log(res?.data, 'updated response');
         delete transformData?.uploadFile;
+        const res = await CalenderService.updateEvent(eventId, transformData);
+        if (res?.status === 200) {
+          setOpenModal(!openModal);
+          createNotification('success', 'success', res?.data?.msg);
+          getAllEvents();
+        }
         setBtnLoader(false);
       } else {
         delete transformData?.uploadFile;
         const res = await CalenderService.addEvent(transformData);
-        if (res.status === 200) {
+        if (res?.status === 200) {
           getAllEvents();
           createNotification('success', 'success', res?.data?.msg);
           setOpenModal(!openModal);
@@ -211,17 +209,19 @@ const Calender = () => {
     }
   };
 
-  const attendeesOptions = attendees?.map(({ _id, fullName }) => ({
-    label: fullName && fullName,
-    value: _id && _id,
-  }));
-
   return (
     <div className={style.calenderMain}>
       <Container>
         <div className={style.topBtn}>
           {day && (
-            <Button text="Add Event" handleClick={() => setOpenModal(true)} iconStart={plus} />
+            <Button
+              text="Add Event"
+              handleClick={() => {
+                setOpenModal(true);
+                setSingleEventData('');
+              }}
+              iconStart={plus}
+            />
           )}
         </div>
 
@@ -240,8 +240,8 @@ const Calender = () => {
           slotLabelInterval={{ hours: 1 }}
           events={allEvent}
           handleWindowResize={true}
-          contentHeight={'auto'}
-          contentWidth={'auto'}
+          contentHeight="auto"
+          contentWidth="auto"
           nowIndicator
           dateClick={(e) => console.log(e.dateStr)}
           eventClick={handleMouseEnter}
@@ -280,6 +280,8 @@ const Calender = () => {
                 selectedValues={selected}
                 control={control}
                 name="attendees"
+                star=" *"
+                errorMessage={errors?.attendees?.message}
               />
             </div>
             <div className={style.allDay}>
@@ -353,7 +355,7 @@ const Calender = () => {
         </Modal>
 
         <>
-          <EventModal open={customTooltip && eventId}>
+          <EventModal open={customTooltip && eventId} key={eventId}>
             <div className={style.eventDiv}>
               <div className={style.titleDiv}>
                 <p className={style.title}>{singleEventData?.title && singleEventData?.title}</p>
@@ -413,29 +415,20 @@ const Calender = () => {
               <div className={style.gridDiv}>
                 <p className={style.title2}>Attendees</p>
                 <div>
-                  {attendeesPic.map((i: any) => (
-                    <img
-                      src={i?.profilePicture || ''}
-                      height={28}
-                      width={28}
-                      style={{
-                        borderRadius: '30px',
-                        height: '30px',
-                        width: '30px',
-                      }}
-                    />
-                  ))}
-                  {/* <img
-                    src={person2 || ''}
-                    height={28}
-                    width={28}
-                    style={{
-                      borderRadius: '30px',
-                      height: '30px',
-                      width: '30px',
-                      marginLeft: -10,
-                    }}
-                  /> */}
+                  {attendeesPic.map((i: any) => {
+                    return (
+                      <img
+                        src={i?.profilePicture && i?.profilePicture}
+                        height={28}
+                        width={28}
+                        style={{
+                          borderRadius: '30px',
+                          height: '30px',
+                          width: '30px',
+                        }}
+                      />
+                    );
+                  })}
                 </div>
               </div>
             </div>
