@@ -29,7 +29,7 @@ import { eventTypes, recurrenceTypes } from './event-types';
 
 import location from 'assets/location.svg';
 import person from 'assets/person1.svg';
-import person2 from 'assets/person2.svg';
+import noimage from 'assets/NoImage.svg';
 import cross from 'assets/cross.svg';
 import deleteIcon from 'assets/delete.svg';
 import edit from 'assets/edit.svg';
@@ -38,6 +38,7 @@ import plus from 'assets/plusIcon.svg';
 import style from './calender.module.scss';
 import './calendar.scss';
 
+let colorIndex = -1;
 const Calender = () => {
   let month = 'dayGridMonth';
   let week = 'timeGridWeek';
@@ -46,7 +47,7 @@ const Calender = () => {
   const [openModal, setOpenModal] = useState(false);
   const [check, setCheck] = useState(false);
   const [eventId, setEventId] = useState('');
-  const [customTooltip, setCustomTooltip] = useState(false);
+  const [customTooltip, setCustomTooltip] = useState<number | string | undefined | boolean>();
   const [attendees, setAttendees] = useState([]);
   const [selectedFileNameBack, setSelectedFileNameBack] = useState<any>();
   const [btnLoader, setBtnLoader] = useState(false);
@@ -85,7 +86,7 @@ const Calender = () => {
 
   const getAllEvents = async () => {
     const res = await CalenderService.getAllEvents({
-      view: 'Daily',
+      view: 'Daily' && 'Weekly',
     });
     setAllEvent(res.data.events);
   };
@@ -121,11 +122,17 @@ const Calender = () => {
   };
 
   const RenderEventHandler = (eventInfo: any) => {
-    setEventId(eventInfo?.event?.extendedProps?._id);
+    const colors = ['#EDF8FF', '#EDF1FB', '#FFEBEE'];
+    const placeholderImage = noimage;
+    const onImageError = (e: any) => {
+      e.target.src = placeholderImage;
+    };
+    colorIndex += 1;
+    if (colorIndex === colors.length) colorIndex = 0;
     return (
       <>
-        <div className={style.mainDiv}>
-          <div className={style.mainDiv2}>
+        <div className={style.mainDiv} style={{ backgroundColor: colors[colorIndex] }}>
+          <div className={style.mainDiv2} style={{ backgroundColor: colors[colorIndex] }}>
             <p className={style.title}>{eventInfo?.event?.title && eventInfo?.event?.title}</p>
             <div className={style.descDiv}>
               <img src={eventInfo?.event?.extendedProps?.description && location} />
@@ -136,9 +143,10 @@ const Calender = () => {
             </div>
           </div>
           <div>
-            {/* {attendeesPic.map((i: any) => (
+            {eventInfo?.event?.extendedProps?.attendees?.map((i: any) => (
               <img
-                src={(i?.profilePicture ? i?.profilePicture : person) || ''}
+                src={i?.profilePicture && i?.profilePicture}
+                onError={onImageError}
                 height={28}
                 width={28}
                 style={{
@@ -147,19 +155,20 @@ const Calender = () => {
                   width: '30px',
                 }}
               />
-            ))} */}
+            ))}
           </div>
         </div>
+        ;
       </>
     );
   };
 
-  const handleMouseEnter = async () => {
-    const res = await CalenderService.getEventById(eventId);
-    console.log(res?.data?.event, 'mouse enter--------------------');
+  const handleMouseEnter = async ({ event }: any) => {
+    const res = await CalenderService.getEventById(event._def.extendedProps._id);
     setSingleEventData(res?.data?.event);
     setAttendeesPic(res?.data?.event?.attendees);
-    setCustomTooltip(true);
+    setCustomTooltip(event._def.extendedProps._id);
+    setEventId(event._def.extendedProps._id);
   };
 
   const onSubmit = async (data: any) => {
@@ -168,10 +177,12 @@ const Calender = () => {
       const transformData = {
         ...data,
         title: data?.title,
-        start: `${moment(data?.start).format('YYYY-MM-DD')}T${moment(data?.start).format(
-          'HH:mm',
-        )}Z`,
-        end: `${moment(data?.end).format('YYYY-MM-DD')}T${moment(data?.end).format('HH:mm')}Z`,
+        start: data?.start
+          ? `${moment(data?.start).format('YYYY-MM-DD')}T${moment(data?.start).format('HH:mm')}Z`
+          : '',
+        end: data?.end
+          ? `${moment(data?.end).format('YYYY-MM-DD')}T${moment(data?.end).format('HH:mm')}Z`
+          : '',
         recurrence: data?.recurrence?.value,
         type: data?.type?.value,
         allDay: data?.allDay,
@@ -182,8 +193,8 @@ const Calender = () => {
       };
       if (singleEventData) {
         delete transformData?.uploadFile;
-        const res = await CalenderService.updateEvent(eventId, transformData);
-        if (res?.status === 200) {
+        const res = await CalenderService.updateEvent(singleEventData?._id, transformData);
+        if (res?.status === 201) {
           setOpenModal(!openModal);
           createNotification('success', 'success', res?.data?.msg);
           getAllEvents();
@@ -219,6 +230,7 @@ const Calender = () => {
               handleClick={() => {
                 setOpenModal(true);
                 setSingleEventData('');
+                setSelectedFileNameBack('');
               }}
               iconStart={plus}
             />
@@ -238,7 +250,11 @@ const Calender = () => {
           }}
           eventContent={(e) => RenderEventHandler({ ...e, customTooltip })}
           slotLabelInterval={{ hours: 1 }}
-          events={allEvent}
+          events={allEvent.map((e: any) => ({
+            ...e,
+            start: e.start.replace('Z', ''),
+            end: e.end.replace('Z', ''),
+          }))}
           handleWindowResize={true}
           contentHeight="auto"
           contentWidth="auto"
@@ -355,7 +371,7 @@ const Calender = () => {
         </Modal>
 
         <>
-          <EventModal open={customTooltip && eventId} key={eventId}>
+          <EventModal open={customTooltip}>
             <div className={style.eventDiv}>
               <div className={style.titleDiv}>
                 <p className={style.title}>{singleEventData?.title && singleEventData?.title}</p>
@@ -381,8 +397,8 @@ const Calender = () => {
               <div className={style.durationView}>
                 <p className={style.title2}>
                   {moment(singleEventData?.start).format('dddd, MMMM Do YYYY')} |
-                  {`${moment(singleEventData?.start).format('h:mm a')}  -
-                  ${moment(singleEventData?.end).format('h:mm a')}`}
+                  {`${moment(singleEventData?.start?.replace('Z', '')).format('h:mm a')}  -
+                  ${moment(singleEventData?.end?.replace('Z', '')).format('h:mm a')}`}
                 </p>
                 <p className={style.title2}>
                   {singleEventData?.duration && singleEventData?.duration}
