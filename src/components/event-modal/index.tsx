@@ -4,7 +4,7 @@ import cross from 'assets/cross.svg';
 
 import style from './modal.module.scss';
 interface Props {
-  open: boolean;
+  open: any;
   children: JSX.Element[] | JSX.Element;
   className?: string;
   title?: string;
