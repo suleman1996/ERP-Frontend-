@@ -46,7 +46,14 @@ const RenderPolicy = ({
             <img src={arrowRight} alt="" className={style.img} />
           </div>
 
-          <div className={style.menuViewBox}>
+          <div
+            onClick={() => {
+              setOpenAddPolice(true);
+              setIsMenuVisible(false);
+              setEditPolicy(true);
+            }}
+            className={style.menuViewBox}
+          >
             <p style={{ fontSize: '8px', fontWeight: '500', color: '#2D2D32', cursor: 'pointer' }}>
               Add Revision
             </p>
@@ -111,8 +118,10 @@ const RenderPolicy = ({
       </div>
 
       <div className={style.policyButtonView}>
-        <div onClick={() => setOpenViewPdfPolicy(true)} className={style.policyButton}>
-          <p style={{ fontWeight: '500', fontSize: 11, color: '#ffffff' }}>View Policy</p>
+        <div className={style.policyButton}>
+          <a style={{ textDecoration: 'none' }} target={'_blank'} href={data?.fileId?.file}>
+            <p style={{ fontWeight: '500', fontSize: 11, color: '#ffffff' }}>View Policy</p>
+          </a>
         </div>
       </div>
     </div>

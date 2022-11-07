@@ -13,7 +13,7 @@ import DatePicker from 'components/date-picker';
 import Modal from 'components/modal';
 import TextArea from 'components/textarea';
 import ProfileUpload from 'components/profile-upload';
-import Selection from 'components/select';
+import Selection from 'components/selection';
 import PdfViewModal from 'components/pdf-viewer';
 import { sampleBase64pdf } from './pdfSample';
 import PolicyService from 'services/policy-service';

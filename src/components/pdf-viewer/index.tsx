@@ -45,24 +45,25 @@ const PdfViewModal = ({ openPolicyPdfView, setOpenViewPdfPolicy, pdf }: Props) =
         title={'Profile View'}
         handleClose={() => setOpenViewPdfPolicy(false)}
       >
-        <Document file={samplePdf2} onLoadSuccess={onDocumentLoadSuccess}>
+        {/* <Document file={samplePdf2} onLoadSuccess={onDocumentLoadSuccess}>
           <Page pageNumber={pageNumber} />
-        </Document>
-        <div>
+        </Document> */}
+        <a
+          target={'_blank'}
+          href="https://erp-bucket-sprintx.s3.amazonaws.com/Leave%20Policy-SPX1-v1"
+        >
+          <p>hello</p>
+        </a>
+        {/* <div>
           <p>
             Page {pageNumber || (numPages ? 1 : '--')} of {numPages || '--'}
           </p>
-          {/* <button type="button" disabled={pageNumber <= 1} onClick={previousPage}>
-            Previous
-          </button>
-          <button type="button" disabled={pageNumber >= numPages} onClick={nextPage}>
-            Next
-          </button> */}
+
           <div style={{ display: 'flex', width: '30%', justifyContent: 'space-around' }}>
             {pageNumber >= 1 && <Button handleClick={previousPage} text="Previous" />}
             {pageNumber <= numPages && <Button handleClick={nextPage} text="Next" />}
           </div>
-        </div>
+        </div> */}
       </Modal>
     </>
   );
