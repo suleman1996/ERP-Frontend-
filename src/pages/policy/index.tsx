@@ -112,12 +112,11 @@ const Policy = () => {
   };
 
   const deletePolicy = async () => {
-    console.log('going to delete this policy ', selectedPolicy?._id);
-
     try {
       const result = await PolicyService.deletePolicy(selectedPolicy?._id);
       console.log('HEre is the delete policy result  ', result);
       setRender(!render);
+      setOpen(false);
     } catch (error) {
       console.log(error);
     }
