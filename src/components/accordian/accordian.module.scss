@@ -1,17 +1,28 @@
 .container {
-  padding: 15px;
+  padding: 10px;
   display: flex;
   justify-content: space-between;
   background: #ffffff;
   border: 1.19506px solid #e2e2ea;
   border-radius: 7.93819px;
   cursor: pointer;
+
+  .switchHeader {
+    display: flex;
+    align-items: center;
+  }
 }
 
 .body {
-  padding: 15px;
+  padding: 10px;
   background: #ffffff;
-  border: 1.19506px solid #e2e2ea;
-
   cursor: pointer;
+  .bodySwitch {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+.switchContainer {
+  margin-left: 10px;
 }
