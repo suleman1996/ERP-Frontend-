@@ -58,7 +58,7 @@ const Select = ({
   return (
     <div style={{ position: 'relative' }}>
       {label && (
-        <label style={{ color: errorMessage ? '#FF5050' : '#2D2D32' }}>
+        <label className={style.label} style={{ color: errorMessage ? '#FF5050' : '#2D2D32' }}>
           {label} <b style={{ color: 'red' }}>{star}</b>{' '}
         </label>
       )}
@@ -79,18 +79,18 @@ const Select = ({
         </select>
         {newSelect && <p>{userId}</p>}
         {withInput && (
-          <TextField
-            star={' *'}
-            type="text"
-            name={name1}
-            register={register}
-            className={style.inputClass}
-            placeholder="Marks"
-            // onChange={(e) => setMarkVal(parseFloat(e.target.value))}
-          />
+          <div style={{ flex: '1' }}>
+            <TextField
+              star={' *'}
+              type="text"
+              name={name1}
+              register={register}
+              className={style.inputClass}
+              placeholder="Marks"
+            />
+          </div>
         )}
       </div>
-      {/* {errorMessage && <span className={style.errorMessage}>{errorMessage}</span>} */}
       {customErr && <span className={style.errorMessage}>{customErr}</span>}
       {!customErr ? errorMessage && <span className={style.errorMessage}>{errorMessage}</span> : ''}
     </div>

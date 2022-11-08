@@ -75,7 +75,7 @@ const Input = ({
             style={{
               border: error ? '1px solid #ff5050' : ' 1px solid #d9d9d9',
               color: error ? '#ff5050' : '#6e6d6d',
-              backgroundColor: readOnly || isDisable ? '#ddd' : '#fff',
+              backgroundColor: readOnly || isDisable ? 'rgb(245 245 245)' : '#fff',
             }}
             name={name}
             value={value}
