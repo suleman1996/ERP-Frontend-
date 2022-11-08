@@ -1,6 +1,8 @@
 import CardContainer from 'components/card-container';
 import React, { useState } from 'react';
 
+import AccordianSwitch from 'components/accordian';
+
 import addIcon from 'assets/add.svg';
 import style from './access.module.scss';
 import Input from 'components/input';
@@ -10,7 +12,7 @@ const AccessLevel = () => {
   const [toggle, setToggle] = useState(0);
   const [newUser, setNewUser] = useState(false);
 
-  console.log('toggle', toggle);
+  const [openAccordian, setOpenAccordian] = useState(-1);
 
   return (
     <div style={{ padding: '20px' }}>
@@ -58,6 +60,17 @@ const AccessLevel = () => {
           {/* ////////////////////////////// Access ///////////////////////////// */}
           <div className={style.accessHeader}>
             <p>Access</p>
+            {totalAccordian?.map((data) => {
+              return (
+                <AccordianSwitch
+                  title={'Profile'}
+                  bodyData={addProfileData}
+                  id={data?.id}
+                  openAccordian={openAccordian}
+                  setOpenAccordian={setOpenAccordian}
+                />
+              );
+            })}
           </div>
         </div>
 
@@ -82,4 +95,19 @@ const roles = [
   'UX | UI Designer',
   'SQA Engineer',
   'SQA Engineer',
+];
+
+const addProfileData = [
+  { name: 'Add Employee' },
+  { name: 'Edit Employee' },
+  { name: 'View Employee' },
+  { name: 'Delete Employee' },
+  { name: 'CV View' },
+  { name: 'Profile View' },
+];
+
+const totalAccordian = [
+  { name: '1', id: 1 },
+  { name: '1', id: 2 },
+  { name: '1', id: 3 },
 ];

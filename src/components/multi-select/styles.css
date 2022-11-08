@@ -6,3 +6,14 @@
   height: calc(30px + 25 * (100vw - 280px) / 2280) !important;
   min-height: calc(30px + 25 * (100vw - 280px) / 2280) !important;
 }
+.rmsc {
+  --rmsc-main: rgb(226, 226, 234) !important;
+  --rmsc-hover: rgb(226, 226, 234) !important;
+  --rmsc-selected: rgb(226, 226, 234) !important;
+  --rmsc-border: rgb(226, 226, 234) !important;
+  --rmsc-gray: #aaa;
+  --rmsc-bg: #ffffff !important;
+  --rmsc-p: 10px;
+  --rmsc-radius: 6px !important;
+  --rmsc-h: calc(30px + 25 * (100vw - 280px) / 2280) !important;
+}

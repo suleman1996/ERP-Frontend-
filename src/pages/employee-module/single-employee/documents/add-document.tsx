@@ -24,7 +24,7 @@ interface Props {
 
 const AddDocument = ({ open, setOpen, docId, setDocId, getAllDocuments }: Props) => {
   const { id } = useParams();
-  const { register, handleSubmit, errors, control, reset, setError } = useForm();
+  const { register, handleSubmit, errors, control, reset, setError, clearErrors } = useForm();
   const [selectedFileName, setSelectedFileName] = useState('');
   const [loader, setLoader] = useState(false);
 
@@ -34,7 +34,9 @@ const AddDocument = ({ open, setOpen, docId, setDocId, getAllDocuments }: Props)
       const userDoc = {
         ...data,
         employeeId: id,
-        ...(data.file.length > 0 && { file: await convertBase64Image(data.file[0]) }),
+        ...(data.file.length > 0 && {
+          file: selectedFileName && (await convertBase64Image(data.file[0])),
+        }),
       };
       data.file.length <= 0 && removeKeys(userDoc, ['file']);
       if (docId) {
@@ -79,14 +81,19 @@ const AddDocument = ({ open, setOpen, docId, setDocId, getAllDocuments }: Props)
         open={open}
         title={`${docId ? 'Edit' : 'Add'} Document`}
         handleClose={() => setOpen(false)}
-        // handleClick={() => setOpen(false)}
         text="Done"
         loader={loader}
         type="submit"
         iconEnd={tick}
         form="addDoc"
       >
-        <form id="addDoc" onSubmit={handleSubmit(onSubmit)}>
+        <form
+          id="addDoc"
+          onSubmit={(e) => {
+            clearErrors();
+            handleSubmit(onSubmit)(e);
+          }}
+        >
           <div className={style.grid}>
             <TextField
               name="documentName"

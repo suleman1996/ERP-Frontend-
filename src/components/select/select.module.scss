@@ -2,16 +2,22 @@
 @import 'styles/_colors.scss';
 @import 'styles/_mixin.scss';
 .select {
-  box-shadow: none;
-  outline: none;
+  background: #ffffff;
   border-radius: 6px;
   width: 100%;
-  padding: 0px 20px;
-  @include font20;
-  cursor: pointer;
+  padding: 0px 12px 0px 20px;
+  box-sizing: border-box;
   color: #2d2d32;
   height: calc(30px + (55 - 30) * (100vw - 280px) / (2560 - 280));
-  margin-top: calc(5px + (12 - 5) * (100vw - 280px) / (2560 - 280));
+  @include font20;
+  &:focus {
+    outline: none;
+  }
+  &::placeholder {
+    color: #cacaca;
+    text-transform: capitalize;
+    @include font18;
+  }
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -20,18 +26,19 @@
   background-color: #ffffff;
   background-repeat: no-repeat;
   background-size: 15px;
+  margin-top: calc(5px + (12 - 5) * (100vw - 280px) / (2560 - 280));
   option {
     text-transform: capitalize;
-    @include font20;
+    @include font16;
     color: #2d2d32;
   }
 }
-label {
-  @include font24;
-  font-family: 'Poppins';
-  font-style: normal;
-  color: #2d2d32;
+.label {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
   text-transform: capitalize;
+  color: #6e6d6d;
 }
 .errorMessage {
   position: absolute;

@@ -171,6 +171,7 @@ export const useEducationDetail = ({
         ...(!item.ongoing && { endDate: moment(item.endDate).format('YYYY-MM-DD') }),
       };
     });
+
     setEducations(data);
   };
 

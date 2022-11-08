@@ -21,6 +21,7 @@
     border-radius: 6px;
     width: 100%;
     padding: 0px 12px 0px 20px;
+    box-sizing: border-box;
     color: #2d2d32;
     height: calc(30px + (55 - 30) * (100vw - 280px) / (2560 - 280));
     @include font20;

@@ -1,23 +1,18 @@
 import { Controller } from 'react-hook-form';
 
-// import { Multiselect } from 'multiselect-react-dropdown';
 import { MultiSelect } from 'react-multi-select-component';
 
 import './styles.css';
+import style from './multi.module.scss';
 
 export default function MultiPicker({
   label,
   star,
   errorMessage,
   options,
-  selectedValues,
-  handleSelect,
-  handleRemove,
   name,
   control,
-  groupBy,
   customValidation,
-  handleChange,
 }: any) {
   return (
     <div>
@@ -31,7 +26,13 @@ export default function MultiPicker({
           <b style={{ color: 'red' }}>{star}</b>
         </label>
       )}
-      <div style={{ marginTop: 'calc(5px + (12 - 5) * (100vw - 280px) / (2560 - 280))' }}>
+      <div
+        style={{
+          marginTop: 'calc(5px + 7 * (100vw - 280px) / 2280)',
+          border: errorMessage ? '1.2px solid #ff5050' : undefined,
+        }}
+        className={style.container}
+      >
         <Controller
           name={name}
           control={control}
@@ -39,25 +40,17 @@ export default function MultiPicker({
             return (
               <MultiSelect
                 options={options}
-                value={selectedValues}
-                onChange={handleChange}
+                value={value || []}
+                onChange={onChange}
                 labelledBy="Select"
                 className="wrapper"
               />
-              // <Multiselect
-              //   options={options}
-              //   selectedValues={value}
-              //   onSelect={handleSelect}
-              //   onRemove={handleRemove}
-              //   displayValue="id"
-              //   groupBy={groupBy}
-              //   showCheckbox={true}
-              //   className="wrapper"
-              // />
             );
           }}
         />
-        {(errorMessage || customValidation) && <span>{errorMessage || customValidation}</span>}
+        {(errorMessage || customValidation) && (
+          <span className={style.errorMessage}>{errorMessage || customValidation}</span>
+        )}
       </div>
     </div>
   );

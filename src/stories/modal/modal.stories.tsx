@@ -1,6 +1,8 @@
+import Button from 'components/button';
+import Modal from 'components/modal';
 import React, { useState } from 'react';
 
-import Modal from 'components/modal';
+import style from './modal.stories.module.scss';
 
 export default {
   title: 'Modal',
@@ -12,12 +14,8 @@ const Template = (args: any) => {
   const [open, setOpen] = useState(false);
   return (
     <>
-      <Modal
-        {...args}
-        handleClose={() => setOpen(!open)}
-        open={open}
-        openModal={() => setOpen(true)}
-      />
+      <Button handleClick={() => setOpen(true)} text="open" />
+      <Modal {...args} handleClose={() => setOpen(false)} open={open} className={style.modal} />
     </>
   );
 };

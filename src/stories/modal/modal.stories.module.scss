@@ -2,5 +2,8 @@
 @import 'styles/_colors.scss';
 @import 'styles/_mixin.scss';
 
-.containerClass {
+.modal {
+  & div {
+    padding: 5px 20px !important;
+  }
 }

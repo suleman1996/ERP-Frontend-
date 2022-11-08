@@ -30,6 +30,7 @@ interface Props {
   getTaxSlabsData: () => void;
   updateId: string;
   setSingleId?: Dispatch<SetStateAction<any>>;
+  newSlab?: any;
   newSlabUpdate?: any;
   viewModal?: boolean;
   slabs: any;
@@ -85,6 +86,7 @@ const AddAttendance = ({
     !updateId
       ? reset({ ...data })
       : reset({
+          ...data,
           taxGroupName: newSlabUpdate?.groupName,
           category: newSlabUpdate?.category,
           financialYearStart:
@@ -141,8 +143,6 @@ const AddAttendance = ({
   };
 
   useEffect(() => {
-    console.log({ newSlabUpdate });
-
     updateId &&
       reset({
         taxGroupName: newSlabUpdate?.groupName,
@@ -194,15 +194,22 @@ const AddAttendance = ({
                     ))}
                 </>
               </Select>
-              <MonthYearPicker
-                control={control}
-                label={'Financial Year'}
-                firstName={'financialYearStart'}
-                lastName={'financialYearEnd'}
-                errorMessageStart={errors?.financialYearStart?.message}
-                errorMessageEnd={errors?.financialYearEnd?.message}
-                watch={watch}
-              />
+              <div className={style.gridTwo}>
+                <MonthYearPicker
+                  control={control}
+                  label={'Start Year'}
+                  name={'financialYearStart'}
+                  errorMessage={errors?.financialYearStart?.message}
+                  watch={watch}
+                />
+                <MonthYearPicker
+                  control={control}
+                  label={'End Year'}
+                  name={'financialYearEnd'}
+                  errorMessage={errors?.financialYearStart?.message}
+                  watch={watch().financialYearStart}
+                />
+              </div>
             </div>
             <div className={style.fiveGrid}>
               <TextField
@@ -232,7 +239,7 @@ const AddAttendance = ({
               <TextField
                 name="taxRate"
                 label="Tax Rate"
-                type="number"
+                // type="number"
                 placeholder="Tax Rate"
                 register={register}
                 errorMessage={errors?.taxRate?.message}
@@ -316,16 +323,19 @@ const schema = yup.object().shape({
   taxGroupName: yup.string().required('Tax group name is required'),
   financialYearStart: yup.date().typeError('Financial year is required'),
   financialYearEnd: yup.date().typeError('Financial year is required'),
-  fixTax: yup.string().required('Fix Tax is required'),
   category: yup.string().required('Category  is required'),
-  lower: yup.string().required('Lower is required'),
-  upper: yup.string().required('Upper is required'),
+  fixTax: yup.number().typeError('Fix Tax is required').min(0, 'Invalid value'),
+  lower: yup.number().typeError('Lower is required').min(0, 'Invalid value'),
+  upper: yup.number().typeError('Upper is required').min(0, 'Invalid value'),
   taxRate: yup
     .number()
     .typeError('Tax Rate is required')
     .max(100, 'Should be less or equal to 100')
-    .min(1, 'Should be greater  than 0'),
-  lessLimit: yup.string().required('Less Limit is required'),
+    .min(0, 'Invalid value')
+    .test('maxDigitsAfterDecimal', 'Must have 2 digits after decimal or less', (number) =>
+      /^\d+(\.\d{1,2})?$/.test(number),
+    ),
+  lessLimit: yup.number().typeError('Less Limit is required').min(0, 'Invalid value'),
 });
 
 const categories = [

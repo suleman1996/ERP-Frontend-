@@ -23,22 +23,14 @@ const Layout = ({ children }: Props) => {
   return (
     <>
       <div className={style.layoutWrapper}>
-        {pathname === '/settings' ? (
-          <header style={{ left: openSidebar ? '0px' : '' }}>
-            {openSidebar && (
-              <div className={style.backdropDiv} onClick={() => setOpenSidebar(false)}></div>
-            )}
-            <SettingsSidebar setOpen={setOpen} open={open} />
-          </header>
-        ) : (
-          <header style={{ left: openSidebar ? '0px' : '' }}>
-            {openSidebar && (
-              <div className={style.backdropDiv} onClick={() => setOpenSidebar(false)}></div>
-            )}
-            <Sidebar setOpen={setOpen} open={open} />
-          </header>
-        )}
-
+        (
+        <header style={{ left: openSidebar ? '0px' : '' }}>
+          {openSidebar && (
+            <div className={style.backdropDiv} onClick={() => setOpenSidebar(false)}></div>
+          )}
+          <Sidebar setOpen={setOpen} open={open} />
+        </header>
+        )
         <main className={open ? style.mainSection : style.sectionMargin}>
           <div className={style.navbarDiv}>
             <Navbar openSidebar={openSidebar} setOpenSidebar={setOpenSidebar} />

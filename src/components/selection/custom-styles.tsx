@@ -1,5 +1,5 @@
 export const SelectionStyle = {
-  control: (styles: any) => ({
+  control: (styles: any, state: any) => ({
     ...styles,
     backgroundColor: 'bg-dark-gray',
     borderRadius: 5,
@@ -10,6 +10,10 @@ export const SelectionStyle = {
     height: 'calc(30px + 25 * (100vw - 280px) / 2280) !important',
     minHeight: 'calc(30px + 25 * (100vw - 280px) / 2280) !important',
     padding: '2px',
+
+    '&:hover': {
+      outline: state.isFocused ? 0 : 0,
+    },
   }),
   option: (styles: any, { data, isDisabled, isFocused, isSelected }: any) => {
     return {

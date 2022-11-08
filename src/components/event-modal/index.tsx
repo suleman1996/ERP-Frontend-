@@ -4,7 +4,7 @@ import cross from 'assets/cross.svg';
 
 import style from './modal.module.scss';
 interface Props {
-  open: boolean;
+  open: any;
   children: JSX.Element[] | JSX.Element;
   className?: string;
   title?: string;
@@ -34,23 +34,14 @@ const EventModal = ({
   form,
   loader,
 }: Props) => {
-  const handleClickWrapper = (event: React.MouseEvent<HTMLElement>): void => {
-    event.nativeEvent.stopImmediatePropagation();
-    handleClose?.();
-  };
-
   return (
     <>
       {open && (
-        <div className={style.modalWrapper} onClick={(e) => handleClickWrapper(e)}>
+        <div className={style.modalWrapper}>
           <div
             className={`${style.modalContentWrapper} ${className}`}
             onClick={(e) => e.stopPropagation()}
           >
-            <div className={style.header}>
-              <p>{title}</p>
-              <img src={cross} alt="close icon" onClick={handleClose} />
-            </div>
             <div className={style.body}>
               {children}
               <div className={`${style.btnClass}  ${btnClass}  `}>
