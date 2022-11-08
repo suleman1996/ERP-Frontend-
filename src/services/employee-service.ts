@@ -56,6 +56,12 @@ export default class EmployeeService {
     const res = await ApiService.get(`${EmployeeService.baseUrl[1]}/department-setting`);
     return res;
   }
+  static async getOnlyEmployees(params?: any) {
+    const res = await ApiService.get(`${EmployeeService.baseUrl[0]}/get-employee-Only-name/`, {
+      params,
+    });
+    return res;
+  }
   static async getDesignation(id?: string | number) {
     const res = await ApiService.get(`${EmployeeService.baseUrl[1]}/designation-setting/${id}`);
     return res;
