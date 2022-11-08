@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import CardContainer from 'components/card-container';
 
@@ -41,7 +41,7 @@ const Policy = () => {
   const [policyCategory] = React.useState<any>([]);
   const [employeesWithDep] = React.useState<any>([]);
 
-  const { control, register, errors, setError, clearErrors, handleSubmit, watch } = useForm({
+  const { control, register, errors, setError, clearErrors, handleSubmit, reset } = useForm({
     mode: 'all',
   });
 
@@ -131,8 +131,75 @@ const Policy = () => {
       console.log('HEre is the delete policy result  ', result);
       setRender(!render);
       setOpen(false);
+      // console.log(' selectedPolicy ', selectedPolicy);
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const handleEdit = async (data: any) => {
+    const {
+      appliesTo,
+      approvedBy,
+      categoryId,
+      effectiveDate,
+      name,
+      policyNumber,
+      preparedBy,
+      reviewers,
+      version,
+    } = data;
+
+    let temp = [];
+    appliesTo?.map((item: amy) => temp?.push({ label: item?.fullName, value: item?._id }));
+
+    reset({
+      appliesTo: temp,
+      approvedBy: { value: approvedBy?._id, label: approvedBy?.fullName },
+      categoryId: { value: categoryId?._id, label: categoryId?.name },
+      // effectiveDate,
+      name,
+      policyNumber,
+      preparedBy: { value: preparedBy?._id, label: preparedBy?.fullName },
+      reviewers: { value: reviewers[0]?._id, label: reviewers[0]?.fullName },
+      version,
+    });
+    console.log('all values ', data);
+
+    // console.log('Edit function called ', dat);
+  };
+
+  const updatePolicy = async (data: any) => {
+    const pdffile = await convertBase64Image(data?.pdf[0]);
+    console.log('update data ', selectedPolicy?._id);
+
+    try {
+      const policyData = {
+        name: data?.name,
+        policyNumber: data?.policyNumber,
+        version: Number(data?.version),
+        categoryId: data?.categoryId?.value,
+        effectiveDate: moment(new Date(data?.effectiveDate)).format('YYYY-MM-DD'),
+        preparedBy: data?.preparedBy?.value,
+        approvedBy: data?.approvedBy?.value,
+        reviewers: [data?.reviewers?.value],
+        appliesTo: data?.appliesTo ? data?.appliesTo.map((item: any) => item?.value) : [],
+        description: data?.discription,
+        file: pdffile,
+      };
+
+      const result = await PolicyService.updatePolicyApi(policyData, selectedPolicy?._id);
+
+      console.log('Here is the success add update policy ', result);
+      setRender(!render);
+      setOpenAddPolice(false);
+    } catch (err: any) {
+      console.log('error from add policy ', err?.response?.data);
+      if (err?.response?.data?.error) {
+        setErrors(err?.response?.data?.error, setError);
+      }
+      createNotification('error', 'Error', err?.response?.data?.msg);
+      // setBtnLoader(false);
     }
   };
 
@@ -142,6 +209,8 @@ const Policy = () => {
         {selectedTab == 0 ? (
           <RenderAllPolicies
             render={render}
+            reset={reset}
+            handleEdit={handleEdit}
             setSelectedPolicy={setSelectedPolicy}
             setOpen={setOpen}
             setSelectedTab={setSelectedTab}
@@ -157,6 +226,8 @@ const Policy = () => {
         ) : (
           <RenderObsolete
             setOpen={setOpen}
+            reset={reset}
+            handleEdit={handleEdit}
             control={control}
             selectedTab={selectedTab}
             setOpenAddPolice={setOpenAddPolice}
@@ -184,7 +255,7 @@ const Policy = () => {
         <form
           onSubmit={(e) => {
             clearErrors();
-            handleSubmit(handleAddPolicy)(e);
+            editPoplicy ? handleSubmit(updatePolicy)(e) : handleSubmit(handleAddPolicy)(e);
           }}
           id="AddPolicy"
         >
@@ -235,6 +306,7 @@ const Policy = () => {
               errorMessage={errors?.effectiveDate?.message}
               name="effectiveDate"
               star=" *"
+              placeholder="Effective Date"
             />
             <Selection
               control={control}
@@ -306,8 +378,8 @@ const Policy = () => {
           </div>
           <div className={style.gridView1}>
             <TextArea
-              label="Discription"
-              placeholder="Enter Discription"
+              label="Description"
+              placeholder="Enter Description"
               // star=" *"
               register={register}
               name="discription"

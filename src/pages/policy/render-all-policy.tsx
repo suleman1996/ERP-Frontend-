@@ -20,6 +20,8 @@ const RenderAllPolicies = ({
   setOpenViewPdfPolicy,
   render,
   setSelectedPolicy,
+  handleEdit,
+  reset,
 }: {
   setOpen: any;
   setSelectedTab: any;
@@ -51,10 +53,12 @@ const RenderAllPolicies = ({
         showFilterView={showFilterView}
         options={options}
         setEditPolicy={setEditPolicy}
+        reset={reset}
       />
       <div className={style.policyGridView}>
         {policies?.map((item) => (
           <RenderPolicy
+            handleEdit={handleEdit}
             setSelectedPolicy={setSelectedPolicy}
             data={item}
             setOpenAddPolice={setOpenAddPolice}

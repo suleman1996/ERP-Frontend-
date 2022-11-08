@@ -16,6 +16,7 @@ const RenderPolicy = ({
   setOpenViewPdfPolicy,
   data,
   setSelectedPolicy,
+  handleEdit,
 }: any) => {
   const [isMenuVisible, setIsMenuVisible] = React.useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -29,6 +30,8 @@ const RenderPolicy = ({
               setOpenAddPolice(true);
               setIsMenuVisible(false);
               setEditPolicy(true);
+              handleEdit(data);
+              setSelectedPolicy(data);
             }}
             className={style.menuViewBox}
           >
