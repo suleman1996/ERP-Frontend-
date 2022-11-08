@@ -1,0 +1,58 @@
+@import 'styles/_colors.scss';
+@import 'styles/_mixin.scss';
+@import 'styles/_breakpoints.scss';
+
+.cardContainer {
+  margin: 0px 14px 12px 16.09px;
+  background-color: #fff;
+  height: 93vh;
+  padding: 30px 0;
+}
+
+.headContainer {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #e2e2ea;
+  padding-bottom: 18.45px;
+  padding-left: 52px;
+  p {
+    margin-right: 39px;
+    line-height: 40px;
+    font-weight: 500;
+    font-size: 27px;
+    color: #cacaca;
+    display: flex;
+    align-items: center;
+    img {
+      width: 22.29px;
+      height: 26px;
+      margin-left: 6.7px;
+    }
+  }
+  .active {
+    font-weight: 600;
+    font-size: 27px;
+    color: #2d2d32;
+  }
+  @media (max-width: $sm) {
+    p {
+      margin-right: 20px;
+      line-height: 20px;
+      font-weight: 500;
+      font-size: 12px;
+      color: #cacaca;
+      display: flex;
+      align-items: center;
+      img {
+        width: 15.29px;
+        height: 20px;
+        margin-left: 3.7px;
+      }
+    }
+    .active {
+      font-weight: 600;
+      font-size: 20px;
+      color: #2d2d32;
+    }
+  }
+}
