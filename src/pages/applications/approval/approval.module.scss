@@ -1,0 +1,11 @@
+@import 'styles/_colors.scss';
+@import 'styles/_mixin.scss';
+@import 'styles/_breakpoints.scss';
+
+.cardsWrapper {
+  @include gridFour(30, 30);
+}
+.container {
+  margin: 40px;
+  overflow: scroll;
+}
