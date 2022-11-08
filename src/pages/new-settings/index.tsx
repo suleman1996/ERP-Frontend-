@@ -21,7 +21,11 @@ const Settings = () => {
           {settingOptions?.map((setting, i) => {
             return (
               <>
-                <p key={setting} onClick={() => setIndex(i)}>
+                <p
+                  key={setting}
+                  onClick={() => setIndex(i)}
+                  className={i === index ? style.activeClass : ''}
+                >
                   {setting}
                 </p>
               </>
