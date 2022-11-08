@@ -58,7 +58,7 @@ const Select = ({
   return (
     <div style={{ position: 'relative' }}>
       {label && (
-        <label style={{ color: errorMessage ? '#FF5050' : '#2D2D32' }}>
+        <label className={style.label} style={{ color: errorMessage ? '#FF5050' : '#2D2D32' }}>
           {label} <b style={{ color: 'red' }}>{star}</b>{' '}
         </label>
       )}

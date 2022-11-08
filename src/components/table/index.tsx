@@ -3,11 +3,13 @@ import { Dispatch, SetStateAction, useState } from 'react';
 import TableFilter from 'components/table-filter';
 
 import editIcon from 'assets/table-edit.svg';
+import reloadIcon from 'assets/reload.svg';
 import deleteIcon from 'assets/table-delete.svg';
 import eye from 'assets/table-view.svg';
 import pdf from 'assets/employee-page/print.svg';
 import style from './table.module.scss';
 import NoData from 'components/no-data-found-card';
+import AddUser from 'pages/new-settings/manage-user/add-user';
 
 interface Props {
   rows: any[];
@@ -44,6 +46,9 @@ interface Props {
   sorts?: boolean;
   setSorts?: boolean;
   headingText?: string;
+  editIndex?: boolean;
+  setEditIndex?: Dispatch<SetStateAction<number>>;
+  setNewUser?: Dispatch<SetStateAction<boolean>>;
 }
 
 const Table = ({
@@ -67,6 +72,9 @@ const Table = ({
   filters,
   sorts,
   headingText,
+  editIndex,
+  setEditIndex,
+  setNewUser,
 }: Props) => {
   const [isFilter, setIsFilter] = useState<string | number>('');
   const [isFilterSelected, setIsFilterSelected] = useState<string | number>('');
@@ -151,67 +159,84 @@ const Table = ({
               ))}
             </div>
             {rows?.map((row, index) => (
-              <div
-                className={style.tr}
-                style={{ display: 'flex', alignItems: 'center' }}
-                key={index}
-              >
-                {columns.map((column, colIndex) => (
-                  <div
-                    key={colIndex}
-                    style={{
-                      minWidth: column?.width ? column?.width : '250px',
-                      textAlign: column?.alignText,
-                      padding: '12px 10px',
-                      width: '100%',
-                    }}
-                    className={`${style.td}  ${className}`}
-                  >
-                    {row[column.key]}
-                    {column.key === 'actions' &&
-                      !column?.eyeIcon &&
-                      (row?.isActive !== false ? (
-                        <>
-                          <img
-                            onClick={() => handleDeleteIcon({ id: row.id, index })}
-                            className={style.pencilIcon}
-                            src={deleteIcon}
-                            alt="deleteIcon"
-                          />
-                          <img
-                            className={style.pencilIcon}
-                            data-testid="edit-element"
-                            onClick={() => handlePencilIcon({ id: row._id, index })}
-                            src={editIcon}
-                            alt="editIcon"
-                          />
-                        </>
-                      ) : (
-                        '-'
+              <>
+                <div
+                  className={style.tr}
+                  style={{ display: 'flex', alignItems: 'center' }}
+                  key={index}
+                >
+                  {editIndex === index ? (
+                    <AddUser setNewUser={setNewUser} />
+                  ) : (
+                    <>
+                      {columns.map((column, colIndex) => (
+                        <div
+                          key={colIndex}
+                          style={{
+                            minWidth: column?.width ? column?.width : '250px',
+                            textAlign: column?.alignText,
+                            padding: '12px 10px',
+                            width: '100%',
+                          }}
+                          className={`${style.td}  ${className}`}
+                        >
+                          {row[column.key]}
+                          {column.key === 'actions' &&
+                            !column?.eyeIcon &&
+                            (row?.isActive !== false ? (
+                              <>
+                                <img
+                                  onClick={() => handleDeleteIcon({ id: row.id, index })}
+                                  className={style.pencilIcon}
+                                  src={deleteIcon}
+                                  alt="deleteIcon"
+                                />
+                                <img
+                                  className={style.pencilIcon}
+                                  data-testid="edit-element"
+                                  onClick={() => handlePencilIcon({ id: row._id, index })}
+                                  src={editIcon}
+                                  alt="editIcon"
+                                />
+                                {column?.lockIcon && (
+                                  <img
+                                    className={style.pencilIcon}
+                                    data-testid="edit-element"
+                                    onClick={() => handlePencilIcon({ id: row._id, index })}
+                                    src={reloadIcon}
+                                    alt="editIcon"
+                                  />
+                                )}
+                              </>
+                            ) : (
+                              '-'
+                            ))}
+                          {column.key === 'actions' && column?.eyeIcon && (
+                            <>
+                              <img
+                                src={eye}
+                                alt=""
+                                className={style.pencilIcon}
+                                onClick={() => {
+                                  handleView && handleView(row.id);
+                                }}
+                              />
+                              <img
+                                src={pdf}
+                                alt=""
+                                className={style.pencilIcon}
+                                onClick={() => {
+                                  onPrint && onPrint(row.id);
+                                }}
+                              />
+                            </>
+                          )}
+                        </div>
                       ))}
-                    {column.key === 'actions' && column?.eyeIcon && (
-                      <>
-                        <img
-                          src={eye}
-                          alt=""
-                          className={style.pencilIcon}
-                          onClick={() => {
-                            handleView && handleView(row.id);
-                          }}
-                        />
-                        <img
-                          src={pdf}
-                          alt=""
-                          className={style.pencilIcon}
-                          onClick={() => {
-                            onPrint && onPrint(row.id);
-                          }}
-                        />
-                      </>
-                    )}
-                  </div>
-                ))}
-              </div>
+                    </>
+                  )}
+                </div>
+              </>
             ))}
           </div>
         </div>

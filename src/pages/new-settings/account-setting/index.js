@@ -13,8 +13,8 @@ import style from './account.module.scss';
 const AccountSetting = () => {
   const [img, setImg] = useState('');
   const [newpass, setNewPass] = useState(false);
-  const [disableName, setDisableName] = useState(false);
-  const [disableEmail, setDisableEmail] = useState(false);
+  const [disableName, setDisableName] = useState(true);
+  const [disableEmail, setDisableEmail] = useState(true);
   const [confirmNewpass, setConfirmNewPass] = useState(false);
   return (
     <CardContainer className={style.card}>
