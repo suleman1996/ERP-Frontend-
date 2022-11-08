@@ -6,6 +6,7 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
+import listPlugin from '@fullcalendar/list';
 import CalenderService from 'services/calender-service';
 import EmployeeService from 'services/employee-service';
 import { createNotification } from 'common/create-notification';
@@ -28,11 +29,10 @@ import MultiPicker from 'components/multi-select';
 import { eventTypes, recurrenceTypes } from './event-types';
 
 import location from 'assets/location.svg';
-import person from 'assets/person1.svg';
 import noimage from 'assets/NoImage.svg';
-import cross from 'assets/cross.svg';
-import deleteIcon from 'assets/delete.svg';
-import edit from 'assets/edit.svg';
+import cross from 'assets/cross-Icon.svg';
+import deleteIcon from 'assets/delete-Icon.svg';
+import edit from 'assets/pencilIcon.svg';
 import plus from 'assets/plusIcon.svg';
 
 import style from './calender.module.scss';
@@ -43,6 +43,7 @@ const Calender = () => {
   let month = 'dayGridMonth';
   let week = 'timeGridWeek';
   let day = 'timeGridDay';
+  let list = 'listWeek';
 
   const [openModal, setOpenModal] = useState(false);
   const [check, setCheck] = useState(false);
@@ -55,6 +56,7 @@ const Calender = () => {
   const [allEvent, setAllEvent] = useState([]);
   const [singleEventData, setSingleEventData] = useState<any>('');
   const [attendeesPic, setAttendeesPic] = useState([]);
+  const [OnlyEmployees, setOnlyEmployees] = useState([]);
 
   const {
     register,
@@ -73,6 +75,7 @@ const Calender = () => {
   useEffect(() => {
     getEmployeesData();
     getAllEvents();
+    getOnlyEmployee();
   }, []);
 
   useEffect(() => {
@@ -84,9 +87,14 @@ const Calender = () => {
     setAttendees(res?.data?.employees[0]?.data);
   };
 
+  const getOnlyEmployee = async () => {
+    const res = await EmployeeService.getOnlyEmployees();
+    setOnlyEmployees(res?.data);
+  };
+
   const getAllEvents = async () => {
     const res = await CalenderService.getAllEvents({
-      view: 'Daily' && 'Weekly',
+      view: 'Daily' && 'Weekly' && 'Monthly',
     });
     setAllEvent(res.data.events);
   };
@@ -100,7 +108,7 @@ const Calender = () => {
     }
   };
 
-  const attendeesOptions = attendees?.map(({ _id, fullName }) => ({
+  const attendeesOptions = OnlyEmployees?.map(({ _id, fullName }) => ({
     label: fullName && fullName,
     value: _id && _id,
   }));
@@ -109,15 +117,15 @@ const Calender = () => {
     const { title, venue, description, type, start, end, recurrence, attendees } = singleEventData;
     reset({
       title,
-      venue,
+      venue: venue ? venue : '',
       description,
       attendees: attendees?.map(({ _id, fullName }: any) => {
         return { label: fullName, value: _id };
       }),
       type: { label: type, value: type },
       recurrence: { label: recurrence, value: recurrence },
-      // start: `${moment(start).format('YYYY-MM-DD')}T${moment(start).format('HH:mm')}Z`,
-      // end: new Date(moment(end).format('DD/MM/YYYY')),
+      start: start ? new Date(start.replace('Z', '')) : '',
+      end: end ? new Date(end.replace('Z', '')) : '',
     });
   };
 
@@ -172,7 +180,8 @@ const Calender = () => {
   };
 
   const onSubmit = async (data: any) => {
-    setBtnLoader(true);
+    console.log({ data });
+
     try {
       const transformData = {
         ...data,
@@ -187,9 +196,10 @@ const Calender = () => {
         type: data?.type?.value,
         allDay: data?.allDay,
         attendees: data?.attendees?.map((i: any) => i?.value),
-        ...(data?.uploadFile?.length > 0 && {
-          file: await convertBase64Image(data?.uploadFile[0]),
-        }),
+        ...(data?.uploadFile?.length > 0 &&
+          selectedFileNameBack && {
+            file: await convertBase64Image(data?.uploadFile[0]),
+          }),
       };
       if (singleEventData) {
         delete transformData?.uploadFile;
@@ -238,12 +248,14 @@ const Calender = () => {
         </div>
 
         <FullCalendar
-          plugins={[interactionPlugin, timeGridPlugin, dayGridPlugin]}
+          plugins={[interactionPlugin, timeGridPlugin, dayGridPlugin, listPlugin]}
           initialView={day}
           headerToolbar={{
-            right: `${day} ${week} ${month}`,
+            right: `${list} ${day} ${week} ${month}`,
+            left: 'prev title next',
           }}
           buttonText={{
+            list: 'Events',
             month: 'Monthly',
             week: 'Weekly',
             day: 'Daily',
@@ -262,6 +274,7 @@ const Calender = () => {
           dateClick={(e) => console.log(e.dateStr)}
           eventClick={handleMouseEnter}
           slotEventOverlap={false}
+          allDay={true}
         />
 
         <Modal
@@ -408,43 +421,47 @@ const Calender = () => {
               <p className={style.description}>
                 {singleEventData?.description ? singleEventData.description : '-'}
               </p>
-              <div className={style.gridDiv}>
-                <p className={style.title2}>Venue</p>
-                <p className={style.description}>
-                  {singleEventData?.venue ? singleEventData?.venue : '-'}
-                </p>
-              </div>
-              <div className={style.gridDiv}>
-                <p className={style.title2}>Event Type</p>
-                <p className={style.description}>
-                  {singleEventData?.type ? singleEventData?.type : '-'}
-                </p>
-              </div>
-              <div className={style.gridDiv}>
-                <p className={style.title2}>Attachment</p>
-                <a href={singleEventData?.fileId?.file} target={'_blank'}>
+
+              <div className={style.mainParentDiv}>
+                <div className={style.leftDiv}>
+                  <p className={style.title2}>Venue</p>
+                  <p className={style.title2}>Event Type</p>
+                  <p className={style.title2}>Attachment</p>
+                  <p className={style.title2}>Attendees</p>
+                </div>
+
+                <div className={style.rightDiv}>
                   <p className={style.description}>
-                    {singleEventData?.fileId?.name ? singleEventData?.fileId?.name : '-'}
+                    {singleEventData?.venue ? singleEventData?.venue : '-'}
                   </p>
-                </a>
-              </div>
-              <div className={style.gridDiv}>
-                <p className={style.title2}>Attendees</p>
-                <div>
-                  {attendeesPic.map((i: any) => {
-                    return (
-                      <img
-                        src={i?.profilePicture && i?.profilePicture}
-                        height={28}
-                        width={28}
-                        style={{
-                          borderRadius: '30px',
-                          height: '30px',
-                          width: '30px',
-                        }}
-                      />
-                    );
-                  })}
+                  <p className={style.description}>
+                    {singleEventData?.type ? singleEventData?.type : '-'}
+                  </p>
+                  <a
+                    href={singleEventData?.fileId?.file}
+                    target={'_blank'}
+                    style={{ textDecoration: 'none' }}
+                  >
+                    <p className={style.attachFile}>
+                      {singleEventData?.fileId?.name ? singleEventData?.fileId?.name : '-'}
+                    </p>
+                  </a>
+                  <div>
+                    {attendeesPic.map((i: any) => {
+                      return (
+                        <img
+                          src={i?.profilePicture && i?.profilePicture}
+                          height={28}
+                          width={28}
+                          style={{
+                            borderRadius: '30px',
+                            height: '30px',
+                            width: '30px',
+                          }}
+                        />
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
             </div>

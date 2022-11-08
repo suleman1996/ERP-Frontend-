@@ -57,6 +57,16 @@ th {
 }
 .fc .fc-button-primary:hover {
   border-color: none !important;
-  background-color: #ffffff !important;
-  color: #717579 !important;
+  background-color: #57b894 !important;
+  color: #fff !important;
+}
+.fc-theme-standard .fc-list-day-cushion {
+  background-color: #57b894 !important;
+}
+
+.fc-toolbar-chunk {
+  display: flex;
+}
+.fc-icon-chevron-right:before {
+  // content: 'red';
 }
