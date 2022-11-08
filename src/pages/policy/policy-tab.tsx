@@ -1,33 +1,11 @@
-import React, { useEffect, useState } from 'react';
-
 import Button from 'components/button';
 
-import CardContainer from 'components/card-container';
-
 import plusIcon from 'assets/plusIcon.svg';
-import del from 'assets/close.svg';
 import filter from 'assets/filter.svg';
 
 import style from './request.module.scss';
-import RenderPolicy from 'components/policy-card';
-import TextField from 'components/textfield';
-import { useForm } from 'react-hook-form';
 
-import DeletePopup from 'components/delete-modal';
-import DatePicker from 'components/date-picker';
-
-import Modal from 'components/modal';
-import TextArea from 'components/textarea';
-import ProfileUpload from 'components/profile-upload';
-import Selection from 'components/select';
 import RenderPolicySearchView from './policies-search';
-import ViewPolicy from './view-policy';
-import PdfViewModal from 'components/pdf-viewer';
-import { sampleBase64pdf } from './pdfSample';
-import PolicyService from 'services/policy-service';
-import { setErrors } from 'helper';
-import { createNotification } from 'common/create-notification';
-import EmployeeService from 'services/employee-service';
 
 const RenderPoliciesTab = ({
   selectedTab,
@@ -38,6 +16,7 @@ const RenderPoliciesTab = ({
   setOpenAddPolice,
   options,
   setEditPolicy,
+  reset,
 }: {
   selectedTab: any;
   setSelectedTab: any;
@@ -84,6 +63,7 @@ const RenderPoliciesTab = ({
           />
           <Button
             handleClick={() => {
+              reset({});
               setOpenAddPolice(true);
               setEditPolicy(false);
             }}
