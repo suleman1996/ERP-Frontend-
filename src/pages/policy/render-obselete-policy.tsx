@@ -18,6 +18,7 @@ const RenderObsolete = ({
   options,
   setEditPolicy,
   setOpenViewPdfPolicy,
+  reset,
 }: {
   [key: string]: any;
 }) => {

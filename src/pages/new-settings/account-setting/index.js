@@ -5,7 +5,7 @@ import ImageUpload from 'components/image-upload';
 import Input from 'components/input';
 import Button from 'components/button';
 
-import pencilIcon from 'assets/pencil.svg';
+import pencilIcon from 'assets/edit-icon.svg';
 import eyeCross from 'assets/eyeCross.svg';
 import eye from 'assets/eye.svg';
 import style from './account.module.scss';
@@ -13,8 +13,8 @@ import style from './account.module.scss';
 const AccountSetting = () => {
   const [img, setImg] = useState('');
   const [newpass, setNewPass] = useState(false);
-  const [disableName, setDisableName] = useState(false);
-  const [disableEmail, setDisableEmail] = useState(false);
+  const [disableName, setDisableName] = useState(true);
+  const [disableEmail, setDisableEmail] = useState(true);
   const [confirmNewpass, setConfirmNewPass] = useState(false);
   return (
     <CardContainer className={style.card}>
@@ -25,7 +25,7 @@ const AccountSetting = () => {
             label={'Name'}
             name={'name'}
             isDisable={disableName}
-            placeholder={'name'}
+            placeholder={'Enter name'}
             icon={pencilIcon}
             iconClass={style.iconClass}
             onClick={() => setDisableName(!disableName)}
@@ -33,7 +33,7 @@ const AccountSetting = () => {
           <Input
             label={'Email'}
             name={'email'}
-            placeholder={'Email'}
+            placeholder={'Enter email'}
             icon={pencilIcon}
             isDisable={disableEmail}
             iconClass={style.iconClass}
@@ -43,7 +43,7 @@ const AccountSetting = () => {
             label={'New Password'}
             name={'newPassword'}
             type={newpass ? 'text' : 'password'}
-            placeholder={'New Password'}
+            placeholder={'Enter new password'}
             icon={newpass ? eye : eyeCross}
             iconClass={style.iconClass}
             onClick={() => setNewPass(!newpass)}
@@ -52,7 +52,7 @@ const AccountSetting = () => {
             label={'ConfirmPassword'}
             name={'confirmPassword'}
             type={confirmNewpass ? 'text' : 'password'}
-            placeholder={'Confirm Password'}
+            placeholder={'Enter confirm password'}
             icon={confirmNewpass ? eye : eyeCross}
             iconClass={style.iconClass}
             onClick={() => setConfirmNewPass(!confirmNewpass)}
@@ -60,7 +60,7 @@ const AccountSetting = () => {
         </div>
 
         <div className={style.btnClass}>
-          <Button text="Save" type="submit" />
+          <Button text="Save Changes" type="submit" />
         </div>
       </form>
     </CardContainer>

@@ -29,7 +29,6 @@ import MultiPicker from 'components/multi-select';
 import { eventTypes, recurrenceTypes } from './event-types';
 
 import location from 'assets/location.svg';
-import person from 'assets/person1.svg';
 import noimage from 'assets/NoImage.svg';
 import cross from 'assets/cross-Icon.svg';
 import deleteIcon from 'assets/delete-Icon.svg';

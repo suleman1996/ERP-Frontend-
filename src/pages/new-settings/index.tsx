@@ -7,25 +7,46 @@ import ManageUser from './manage-user';
 import GeneralSetting from './general-setting/index';
 import AccessLevel from './access-level';
 
+import addIcon from 'assets/add.svg';
+import Button from 'components/button';
+
 const Settings = () => {
   const [index, setIndex] = useState(0);
+  const [newUser, setNewUser] = useState(false);
 
   return (
     <CardContainer className={style.card}>
       <div className={style.header}>
         <div className={style.navBar}>
-          {settingOptions?.map((setting, index) => {
+          {settingOptions?.map((setting, i) => {
             return (
-              <p key={setting} onClick={() => setIndex(index)}>
-                {setting}
-              </p>
+              <>
+                <p
+                  key={setting}
+                  onClick={() => setIndex(i)}
+                  className={i === index ? style.activeClass : ''}
+                >
+                  {setting}
+                </p>
+              </>
             );
           })}
+        </div>
+        <div>
+          {index === 1 && (
+            <Button
+              iconStart={addIcon}
+              text="New User"
+              type="submit"
+              btnClass={style.btnClass}
+              handleClick={() => setNewUser(true)}
+            />
+          )}
         </div>
       </div>
       <div>
         {index === 0 && <AccountSetting />}
-        {index === 1 && <ManageUser />}
+        {index === 1 && <ManageUser newUser={newUser} setNewUser={setNewUser} />}
         {index === 2 && <GeneralSetting />}
         {index === 3 && <AccessLevel />}
       </div>

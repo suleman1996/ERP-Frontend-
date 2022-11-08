@@ -3,6 +3,7 @@
 @import 'styles/_mixin.scss';
 
 .card {
+  margin-top: 10px;
   max-height: calc(100vh - 133px);
   overflow-y: auto;
   padding: 0px;
@@ -20,6 +21,19 @@
   }
   @media (max-width: $xs) {
     max-height: calc(100vh - 76px);
+  }
+
+  .activeClass {
+    color: black;
+    font-weight: 900 !important;
+  }
+  p {
+    padding: 7px;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 22px;
+    color: #cacaca;
   }
 }
 
@@ -47,6 +61,7 @@
   }
   .navBar {
     display: flex;
+    justify-content: space-between;
     p {
       margin-right: 30px;
       font-style: normal;

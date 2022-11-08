@@ -1,0 +1,147 @@
+@import 'styles/_colors.scss';
+@import 'styles/_mixin.scss';
+@import 'styles/_breakpoints.scss';
+
+.applicationCard {
+  border: 1px solid yellow;
+  // width: 344px;
+
+  background: linear-gradient(0deg, #ffffff, #ffffff), #d9d9d9;
+  border-radius: 10.3205px;
+  border: 1.47436px solid #e2e2ea;
+  .headBorder {
+    margin-left: 26.41px;
+    margin-top: 25.31px;
+    div {
+      display: flex;
+      align-items: center;
+      img {
+        width: 28.61px;
+        height: 28.61px;
+      }
+      span {
+        margin-left: 7.24px;
+        font-style: normal;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 24px;
+        color: #cacaca;
+      }
+    }
+    .heading {
+      font-weight: 600;
+      font-size: 22px;
+      line-height: 33px;
+      color: #2d2d32;
+    }
+  }
+  .middle {
+    padding: 16px 24px;
+    margin-top: 9.5px;
+    text-align: center;
+    background: rgba(87, 184, 148, 0.2);
+    p {
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 21px;
+      color: #57b894;
+    }
+    .dates {
+      font-weight: 500;
+      font-size: 11.0046px;
+      line-height: 17px;
+      color: #2d2d32;
+    }
+    .leaveCount {
+      font-weight: 400;
+      font-size: 11px;
+      line-height: 14px;
+      color: #2d2d32;
+    }
+    // display: flex;
+    // align-items: center;
+    // justify-content: center;
+  }
+  .last {
+    margin: 15px 0 0 26px;
+    .reason {
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 21px;
+      color: #2d2d32;
+    }
+    .reasonDesc {
+      margin-top: 6.41px;
+      padding-bottom: 17.72px;
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 17px;
+      color: #2d2d32;
+      a {
+        font-weight: 500;
+        font-size: 11px;
+        line-height: 17px;
+        text-decoration-line: underline;
+        color: #57b894;
+      }
+    }
+  }
+  .lineBorder {
+    border-bottom: 1.10046px solid #e2e2ea;
+  }
+  .buttonTab {
+    display: flex;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    // align-items: center;
+    justify-content: center;
+    gap: 8px;
+    .approve {
+      background: #7da560;
+      width: 91px;
+      height: 37.42px;
+    }
+    .approveText {
+      font-weight: 400;
+      font-size: 15px;
+      line-height: 22px;
+      color: #ffffff;
+    }
+    .reject {
+      background: #db4141;
+      width: 91px;
+      height: 37.42px;
+    }
+    .rejectText {
+      font-weight: 400;
+      font-size: 15px;
+      line-height: 22px;
+      color: #ffffff;
+    }
+    .update {
+      background: #afafaf;
+      width: 91px;
+      height: 37.42px;
+    }
+    .updateText {
+      font-weight: 400;
+      font-size: 15px;
+      line-height: 22px;
+      color: #ffffff;
+    }
+  }
+}
+
+.progressBar {
+  background: #f9f9f9;
+  border-radius: 11.0046px;
+  height: 7.7px;
+  margin-top: 6px;
+  margin-bottom: 8px;
+  div {
+    background: #57b894;
+    border-radius: 11.0046px;
+    height: 7.7px;
+    width: 80%;
+  }
+}
