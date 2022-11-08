@@ -11,6 +11,7 @@ export const removeKey = (data: any) => {
 };
 
 export const convertBase64Image = (file: any) => {
+  if (!file) return '';
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);

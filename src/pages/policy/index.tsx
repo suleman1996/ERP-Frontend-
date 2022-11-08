@@ -6,6 +6,7 @@ import style from './request.module.scss';
 
 import TextField from 'components/textfield';
 import { useForm } from 'react-hook-form';
+import moment from 'moment';
 
 import DeletePopup from 'components/delete-modal';
 import DatePicker from 'components/date-picker';
@@ -22,6 +23,8 @@ import { createNotification } from 'common/create-notification';
 import EmployeeService from 'services/employee-service';
 import RenderAllPolicies from './render-all-policy';
 import RenderObsolete from './render-obselete-policy';
+import { convertBase64Image } from 'main-helper';
+import SettingsService from 'services/settings-service';
 
 const Policy = () => {
   const [selectedTab, setSelectedTab] = useState(0);
@@ -35,40 +38,17 @@ const Policy = () => {
   const [selectedPolicy, setSelectedPolicy] = useState({ _id: '' });
 
   const [employees] = React.useState<any>([]);
+  const [policyCategory] = React.useState<any>([]);
+  const [employeesWithDep] = React.useState<any>([]);
 
-  const multiOptions = [
-    {
-      options: [
-        { value: '1', label: 'Ali' },
-        { value: '2', label: 'Umair' },
-        { value: '3', label: 'Faizan' },
-      ],
-      label: 'HR',
-    },
-    {
-      options: [
-        { value: '4', label: 'Ibtassam' },
-        { value: '5', label: 'Suleman' },
-        { value: '6', label: 'Haseeb' },
-      ],
-      label: 'IT',
-    },
-    {
-      options: [
-        { value: '7', label: 'Maira' },
-        { value: '8', label: 'Huda' },
-        { value: '9', label: 'Fatima' },
-      ],
-      label: 'SE',
-    },
-  ];
-
-  const { control, register, errors, setError, clearErrors, handleSubmit } = useForm({
+  const { control, register, errors, setError, clearErrors, handleSubmit, watch } = useForm({
     mode: 'all',
   });
 
   React.useEffect(() => {
     getAllEmployees();
+    getEmployeesWithDep();
+    getPolicyCategory();
   }, []);
 
   const getAllEmployees = async () => {
@@ -83,26 +63,60 @@ const Policy = () => {
     }
   };
 
+  const getEmployeesWithDep = async () => {
+    try {
+      const result = await EmployeeService.getEmployeesWithDepApi();
+      console.log('Her are all employees with departments ', result?.data?.employeesWithDepartment);
+      result?.data?.employeesWithDepartment?.map((item: any) => {
+        employeesWithDep.push({
+          options: item?.employees?.map((ite: any) => ({ value: ite?._id, label: ite?.fullName })),
+          label: item?._id?.name,
+        });
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getPolicyCategory = async () => {
+    try {
+      const result = await SettingsService.getPolicyCat();
+      console.log('Her are all policy category ', result?.data?.policyCategory);
+      result?.data?.policyCategory?.map((item: any) =>
+        policyCategory?.push({ value: item?._id, label: item?.name }),
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleAddPolicy = async (data: any) => {
-    console.log('fffhj fdj ', data);
+    console.log('Here is the add policy form ', data);
+
+    const pdffile = await convertBase64Image(data?.pdf[0]);
 
     try {
       const policyData = {
-        name: 'Leave policy 20',
-        policyNumber: 'LP1',
-        version: 1,
-        categoryId: '634d56b223c6560844875f33',
-        effectiveDate: '2022-10-17',
-        preparedBy: '634d794828e365a9e7bae18b',
-        approvedBy: '634d794828e365a9e7bae18b',
-        reviewers: ['634e4a3ab0cd54de3c7f30a7', '634e5889ca126baa62c8c7f7'],
-        appliesTo: ['634d794828e365a9e7bae18b', '634e6dceb3ad4b4f49eeaeea'],
-        description: 'Policy relating leaves',
+        name: data?.name,
+        policyNumber: data?.policyNumber,
+        version: Number(data?.version),
+        categoryId: data?.categoryId?.value,
+        effectiveDate: moment(new Date(data?.effectiveDate)).format('YYYY-MM-DD'),
+        preparedBy: data?.preparedBy?.value,
+        approvedBy: data?.approvedBy?.value,
+        reviewers: [data?.reviewers?.value],
+        appliesTo: data?.appliesTo ? data?.appliesTo.map((item: any) => item?.value) : [],
+        description: data?.discription,
+        file: pdffile,
       };
-      const result = await PolicyService.addPolicy('');
-      console.log(result);
+
+      const result = await PolicyService.addPolicyApi(policyData);
+
+      console.log('Here is the success add policy msg ', result);
+      setRender(!render);
+      setOpenAddPolice(false);
     } catch (err: any) {
-      console.log('error ', err?.response?.data);
+      console.log('error from add policy ', err?.response?.data);
       if (err?.response?.data?.error) {
         setErrors(err?.response?.data?.error, setError);
       }
@@ -206,7 +220,7 @@ const Policy = () => {
               wraperSelect={style.wraperSelect}
               label="Category"
               placeholder="Category"
-              options={employees}
+              options={policyCategory}
               star=" *"
               onChange={(item) => console.log(item)}
               name="categoryId"
@@ -267,9 +281,9 @@ const Policy = () => {
               wraperSelect={style.wraperSelect}
               label="Applies to"
               placeholder="Applies to"
-              options={multiOptions}
+              options={employeesWithDep}
               star=" *"
-              onChange={(item) => console.log(item)}
+              // onChange={(item) => console.log(item)}
               closeMenuOnSelect={false}
               isMulti={true}
               name="appliesTo"
@@ -283,7 +297,7 @@ const Policy = () => {
                 name={'pdf'}
                 register={register}
                 type="application/pdf,application/vnd.ms-excel"
-                id={'frontPic'}
+                id={'file'}
                 errorMessage={errors?.pdf?.message}
                 // selectedFileName={selectedFileName}
                 // setSelectedFileName={setSelectedFileName}
