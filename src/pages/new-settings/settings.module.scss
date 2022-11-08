@@ -22,6 +22,19 @@
   @media (max-width: $xs) {
     max-height: calc(100vh - 76px);
   }
+
+  .activeClass {
+    color: black;
+    font-weight: 900 !important;
+  }
+  p {
+    padding: 7px;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 22px;
+    color: #cacaca;
+  }
 }
 
 .header {

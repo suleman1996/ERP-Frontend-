@@ -8,11 +8,11 @@
   position: relative;
   margin-top: 15px;
   label {
-    font-weight: 500;
+    font-style: normal;
+    font-weight: 500 !important;
     font-size: 14px;
-    line-height: 16px;
-    text-transform: capitalize;
-    color: #6e6d6d;
+    line-height: 21px;
+    color: #2d2d32 !important;
   }
   input {
     border-radius: 3px;
@@ -32,7 +32,7 @@
       text-transform: capitalize;
       @media (max-width: $md) {
         color: #8b8b8b;
-        font-size: 14px;
+        font-size: 12px;
         font-family: Roboto;
       }
     }

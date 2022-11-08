@@ -64,6 +64,7 @@ const AccessLevel = () => {
               return (
                 <AccordianSwitch
                   title={'Profile'}
+                  switchBtn
                   bodyData={addProfileData}
                   id={data?.id}
                   openAccordian={openAccordian}

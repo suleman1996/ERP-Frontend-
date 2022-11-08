@@ -49,6 +49,7 @@ interface Props {
   editIndex?: boolean;
   setEditIndex?: Dispatch<SetStateAction<number>>;
   setNewUser?: Dispatch<SetStateAction<boolean>>;
+  tableHeaderClass?: string;
 }
 
 const Table = ({
@@ -75,6 +76,7 @@ const Table = ({
   editIndex,
   setEditIndex,
   setNewUser,
+  tableHeaderClass,
 }: Props) => {
   const [isFilter, setIsFilter] = useState<string | number>('');
   const [isFilterSelected, setIsFilterSelected] = useState<string | number>('');
@@ -109,7 +111,7 @@ const Table = ({
           }}
         >
           <div className={style.table} style={{ minWidth: minWidth || '1200px' }}>
-            <div className={style.thead} style={{ display: 'flex' }}>
+            <div className={`${style.thead}  ${tableHeaderClass}`} style={{ display: 'flex' }}>
               {columns.map((column, index) => (
                 <div
                   key={index}
