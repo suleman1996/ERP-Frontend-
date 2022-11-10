@@ -123,3 +123,32 @@
   border-radius: 5px;
   padding: 5px;
 }
+.attendees {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.file {
+  margin-bottom: 15px;
+  margin-top: 15px;
+}
+.plusView {
+  display: flex;
+}
+.plusIcon {
+  border-radius: 30px;
+  height: 30px;
+  width: 30px;
+  background-color: #57b894;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  margin-left: -10px;
+  border: 1px solid white;
+}
+.plusText {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 10px;
+  color: #ffffff;
+}

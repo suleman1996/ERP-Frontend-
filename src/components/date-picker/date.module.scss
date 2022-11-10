@@ -87,3 +87,19 @@
   border-radius: 5.44737px;
   padding: 10px;
 }
+.switch {
+  display: flex;
+  align-items: center;
+}
+.switchDiv {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.allday {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  color: #2d2d32;
+}
