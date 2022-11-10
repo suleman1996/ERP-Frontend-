@@ -19,7 +19,7 @@ const AccountSetting = () => {
   return (
     <CardContainer className={style.card}>
       <form>
-        <ImageUpload img={img} setImg={setImg} />
+        <ImageUpload img={img} setImg={setImg} accountSetting />
         <div className={style.customInputs}>
           <Input
             label={'Name'}

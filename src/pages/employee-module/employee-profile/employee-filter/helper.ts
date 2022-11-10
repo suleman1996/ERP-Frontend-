@@ -36,6 +36,7 @@ export const useEmployeeFilter = ({ setOpen, setEmployees, setCount }: Props) =>
   };
 
   const onSubmit = async (data: any) => {
+    console.log('submit', data);
     setLoading(true);
     const filterData = {
       ...data,
@@ -51,7 +52,6 @@ export const useEmployeeFilter = ({ setOpen, setEmployees, setCount }: Props) =>
     }
 
     setDepName('');
-    console.log('submit', depName);
   };
 
   const cancelHandler = () => {
