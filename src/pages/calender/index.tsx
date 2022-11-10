@@ -22,9 +22,10 @@ import DatePicker from 'components/date-picker';
 import Selection from 'components/selection';
 import ProfileUpload from 'components/profile-upload';
 import Container from 'components/container';
-import Checkbox from 'components/checkbox';
 import EventModal from 'components/event-modal';
 import MultiPicker from 'components/multi-select';
+import TextArea from 'components/textarea';
+import DeleteModal from 'components/delete-modal';
 
 import { eventTypes, recurrenceTypes } from './event-types';
 
@@ -34,9 +35,11 @@ import cross from 'assets/cross-Icon.svg';
 import deleteIcon from 'assets/delete-Icon.svg';
 import edit from 'assets/pencilIcon.svg';
 import plus from 'assets/plusIcon.svg';
+import bucketIcon from 'assets/Bucket.svg';
 
 import style from './calender.module.scss';
 import './calendar.scss';
+import Checkbox from 'components/checkbox';
 
 let colorIndex = -1;
 const Calender = () => {
@@ -57,6 +60,12 @@ const Calender = () => {
   const [singleEventData, setSingleEventData] = useState<any>('');
   const [attendeesPic, setAttendeesPic] = useState([]);
   const [OnlyEmployees, setOnlyEmployees] = useState([]);
+  const [delModal, setDelModal] = useState(false);
+
+  const placeholderImage = noimage;
+  const onImageError = (e: any) => {
+    e.target.src = placeholderImage;
+  };
 
   const {
     register,
@@ -104,7 +113,8 @@ const Calender = () => {
     if (res.status === 200) {
       createNotification('success', 'success', res?.data?.msg);
       getAllEvents();
-      setCustomTooltip(!customTooltip);
+      setCustomTooltip(false);
+      setDelModal(!delModal);
     }
   };
 
@@ -131,10 +141,6 @@ const Calender = () => {
 
   const RenderEventHandler = (eventInfo: any) => {
     const colors = ['#EDF8FF', '#EDF1FB', '#FFEBEE'];
-    const placeholderImage = noimage;
-    const onImageError = (e: any) => {
-      e.target.src = placeholderImage;
-    };
     colorIndex += 1;
     if (colorIndex === colors.length) colorIndex = 0;
     return (
@@ -150,8 +156,8 @@ const Calender = () => {
               </p>
             </div>
           </div>
-          <div>
-            {eventInfo?.event?.extendedProps?.attendees?.map((i: any) => (
+          <div className={style.plusView}>
+            {eventInfo?.event?.extendedProps?.attendees?.slice(0, 3)?.map((i: any) => (
               <img
                 src={i?.profilePicture && i?.profilePicture}
                 onError={onImageError}
@@ -161,9 +167,19 @@ const Calender = () => {
                   borderRadius: '30px',
                   height: '30px',
                   width: '30px',
+                  marginLeft: '-10px',
                 }}
               />
             ))}
+            {eventInfo?.event?.extendedProps?.attendees?.length > 3 && (
+              <div className={style.plusIcon}>
+                <p className={style.plusText}>
+                  {eventInfo?.event?.extendedProps?.attendees?.length > 3 &&
+                    eventInfo?.event?.extendedProps?.attendees?.length - 3}
+                  +
+                </p>
+              </div>
+            )}
           </div>
         </div>
         ;
@@ -180,7 +196,7 @@ const Calender = () => {
   };
 
   const onSubmit = async (data: any) => {
-    console.log({ data });
+    setBtnLoader(true);
     try {
       const transformData = {
         ...data,
@@ -193,7 +209,7 @@ const Calender = () => {
           : '',
         recurrence: data?.recurrence?.value,
         type: data?.type?.value,
-        allDay: data?.allDay,
+        allDay: check,
         attendees: data?.attendees?.map((i: any) => i?.value),
         ...(data?.uploadFile?.length > 0 &&
           selectedFileNameBack && {
@@ -240,6 +256,7 @@ const Calender = () => {
                 setOpenModal(true);
                 setSingleEventData('');
                 setSelectedFileNameBack('');
+                setCheck(false);
               }}
               iconStart={plus}
             />
@@ -270,7 +287,7 @@ const Calender = () => {
           contentHeight="auto"
           contentWidth="auto"
           nowIndicator
-          dateClick={(e) => console.log(e.dateStr)}
+          // dateClick={(e) => console.log(e.dateStr)}
           eventClick={handleMouseEnter}
           slotEventOverlap={false}
           allDaySlot={true}
@@ -293,15 +310,15 @@ const Calender = () => {
             }}
             id="hello"
           >
-            <div className={style.gridView}>
-              <TextField
-                label="Title"
-                placeholder="Enter Event Name"
-                star=" *"
-                name="title"
-                register={register}
-                errorMessage={errors?.title?.message}
-              />
+            <TextField
+              label="Title"
+              placeholder="Enter Event Name"
+              star=" *"
+              name="title"
+              register={register}
+              errorMessage={errors?.title?.message}
+            />
+            <div className={style.attendees}>
               <MultiPicker
                 label="Attendees"
                 options={attendeesOptions}
@@ -313,15 +330,7 @@ const Calender = () => {
                 errorMessage={errors?.attendees?.message}
               />
             </div>
-            <div className={style.allDay}>
-              <Checkbox
-                label="All Day"
-                handleChange={() => setCheck(!check)}
-                checked={check}
-                name="allDay"
-                register={register}
-              />
-            </div>
+
             <div className={style.gridView}>
               <DatePicker
                 label={check === true ? 'Start Date' : 'Start Date & Time'}
@@ -329,9 +338,17 @@ const Calender = () => {
                 name="start"
                 star=" *"
                 showTimeInput={!check === true}
-                handleChange={(date) => console.log(date)}
+                // handleChange={(date) => console.log(date)}
                 errorMessage={errors?.start?.message}
                 placeholder={'Start Date'}
+                allDayLabel={'All Day'}
+                checked={check}
+                switchName="allDay"
+                handleSwitchChange={(e: any) => {
+                  console.log('e', e.target.value);
+                  setCheck(!check);
+                }}
+                register={register}
               />
               <DatePicker
                 label={check === true ? 'End Date' : 'End Date & Time'}
@@ -362,15 +379,23 @@ const Calender = () => {
               />
             </div>
             <div className={style.gridView}>
-              <TextField
-                label="Description "
-                placeholder="Enter Description "
-                name="description"
-                register={register}
+              <Selection
+                label="Category"
+                options={Category}
+                name="category"
+                control={control}
+                star=" *"
               />
               <TextField label="Venue" placeholder="Venue" name="venue" register={register} />
             </div>
-            <div className={style.gridView}>
+            <TextArea
+              label="Description"
+              row={2}
+              placeholder="Enter event discription.."
+              name="description"
+              register={register}
+            />
+            <div className={style.file}>
               <ProfileUpload
                 label="File"
                 name={'uploadFile'}
@@ -399,7 +424,15 @@ const Calender = () => {
                       setOpenModal(true);
                     }}
                   />
-                  <img src={deleteIcon} height={20} className={style.icon} onClick={handleDelete} />
+                  <img
+                    src={deleteIcon}
+                    height={20}
+                    className={style.icon}
+                    onClick={() => {
+                      setCustomTooltip(!customTooltip);
+                      setDelModal(true);
+                    }}
+                  />
                   <img
                     src={cross}
                     height={20}
@@ -453,29 +486,56 @@ const Calender = () => {
                     '-'
                   )}
 
-                  <div>
-                    {attendeesPic.map((i: any) => {
+                  <div className={style.plusView}>
+                    {attendeesPic?.slice(0, 3)?.map((i: any) => {
                       return (
-                        <img
-                          src={i?.profilePicture && i?.profilePicture}
-                          height={28}
-                          width={28}
-                          style={{
-                            borderRadius: '30px',
-                            height: '30px',
-                            width: '30px',
-                          }}
-                        />
+                        <>
+                          <img
+                            src={i?.profilePicture && i?.profilePicture}
+                            height={28}
+                            onError={onImageError}
+                            width={28}
+                            style={{
+                              borderRadius: '30px',
+                              height: '30px',
+                              width: '30px',
+                              marginLeft: -10,
+                              border: '1px solid white',
+                            }}
+                            key={i}
+                          />
+                        </>
                       );
                     })}
+                    {attendeesPic?.length > 3 && (
+                      <div className={style.plusIcon}>
+                        <p className={style.plusText}>
+                          {attendeesPic?.length > 3 && attendeesPic?.length - 3}+
+                        </p>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
             </div>
           </EventModal>
         </>
+
+        <DeleteModal
+          open={delModal}
+          handleDelete={handleDelete}
+          setOpen={() => setDelModal(!delModal)}
+          bucket={bucketIcon}
+        />
       </Container>
     </div>
   );
 };
 export default Calender;
+
+const Category = [
+  { label: 'Warning', value: 'Warning' },
+  { label: 'Success', value: 'Success' },
+  { label: 'Info', value: 'Info' },
+  { label: 'Inverse', value: 'Inverse' },
+];
