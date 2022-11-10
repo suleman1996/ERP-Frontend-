@@ -15,9 +15,18 @@ interface Props {
   register?: any;
   errorMessage?: string;
   label?: string;
+  accountSetting?: boolean;
 }
 
-const ImageUpload = ({ img, setImg, name, register, errorMessage, label }: Props) => {
+const ImageUpload = ({
+  img,
+  setImg,
+  name,
+  register,
+  errorMessage,
+  label,
+  accountSetting,
+}: Props) => {
   const handleFileChange = async (event: React.ChangeEvent<any>) => {
     if (event?.target?.files?.[0]?.size <= 2048000) {
       const data = await convertBase64Image(event?.target?.files?.[0]);
@@ -73,12 +82,24 @@ const ImageUpload = ({ img, setImg, name, register, errorMessage, label }: Props
             <img src={camIcon} alt="" />
           </div>
           <div>
-            <p className={style.heading}>
-              Drop your file here or <span className={style.selectFile}> Select a file</span>
-            </p>
-            <p className={style.para}>
-              Only <span>JPEG, JPG or PNG</span> Files are allowed upto 3 MB in size
-            </p>
+            {!accountSetting ? (
+              <p className={style.heading}>
+                Drop your file here or <span className={style.selectFile}> Select a file</span>
+              </p>
+            ) : (
+              <p className={style.newText}>File should be smaller than 3MB</p>
+            )}
+
+            {!accountSetting ? (
+              <p className={style.para}>
+                Only <span>JPEG, JPG or PNG</span> Files are allowed upto 3 MB in size
+              </p>
+            ) : (
+              <p className={style.para}>
+                Only <span className={style.span1}>JPEG, JPG or PNG</span> Files are allowed upto 3
+                MB in size.It will us recognize you.
+              </p>
+            )}
           </div>
         </div>
       </div>

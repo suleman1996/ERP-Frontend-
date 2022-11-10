@@ -62,7 +62,7 @@ const EmployeeFilter = ({ setOpen, setEmployees, open, getEmployeesData }: Props
             inputClass={style.input}
             type="text"
             placeholder="Search by All"
-            inputRef={register}
+            register={register}
           />
           <Select
             label="Department"

@@ -77,12 +77,12 @@ const GeneralSetting = () => {
 export default GeneralSetting;
 
 const totalAccordian = [
-  { name: '1', id: 1, title: 'Department' },
-  { name: '1', id: 2, title: 'Designation' },
-  { name: '1', id: 3, title: 'Employee ID Series' },
-  { name: '1', id: 4, title: 'Gender' },
-  { name: '1', id: 5, title: 'Advance Tags' },
-  { name: '1', id: 6, title: 'Leave Type' },
-  { name: '1', id: 7, title: 'Allowence Types' },
-  { name: '1', id: 8, title: 'Documents Category' },
+  { id: 1, title: 'Department' },
+  { id: 2, title: 'Designation' },
+  { id: 3, title: 'Employee ID Series' },
+  { id: 4, title: 'Gender' },
+  { id: 5, title: 'Advance Tags' },
+  { id: 6, title: 'Leave Type' },
+  { id: 7, title: 'Allowence Types' },
+  { id: 8, title: 'Documents Category' },
 ];
