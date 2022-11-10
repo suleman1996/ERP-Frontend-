@@ -31,6 +31,7 @@ interface Props {
   closeMenuOnSelect?: boolean;
   isMulti?: boolean;
   control: any;
+  isDisabled?: any;
 }
 
 const Selection = ({
@@ -46,6 +47,7 @@ const Selection = ({
   isMulti,
   name,
   control,
+  isDisabled,
 }: Props) => {
   const [customErr, setCustomErr] = useState<string | undefined>();
 
@@ -61,7 +63,14 @@ const Selection = ({
           </label>
         </div>
       )}
-      <div className={wraperSelect}>
+      <div
+        style={{
+          border: !errorMessage ? '1px solid #E2E2EA' : '1px solid red',
+          borderRadius: '5PX',
+          marginTop: '7px',
+        }}
+        className={!isDisabled ? wraperSelect : style.disabledSelection}
+      >
         <Controller
           name={name}
           control={control}
@@ -75,6 +84,7 @@ const Selection = ({
                 options={options}
                 styles={CustomStyle}
                 placeholder={placeholder}
+                isDisabled={isDisabled || false}
               />
             );
           }}

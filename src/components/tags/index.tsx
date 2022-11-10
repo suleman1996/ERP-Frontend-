@@ -1,17 +1,17 @@
 import style from './tags.module.scss';
 
 interface Props {
-  tagsTextArr: string[];
+  text?: string;
+  textColor?: string;
+  boxColor?: string;
 }
 
-const Tags = ({ tagsTextArr }: Props) => {
+const Tags = ({ text, textColor, boxColor }: Props) => {
   return (
     <div className={style.tags}>
-      {tagsTextArr.map((ele: string, index: number) => (
-        <div className={style.tagsText} key={index}>
-          <p>{ele}</p>
-        </div>
-      ))}
+      <div className={style.tagsText} style={{ backgroundColor: boxColor && boxColor }}>
+        <p style={{ color: textColor && textColor }}>{text}</p>
+      </div>
     </div>
   );
 };

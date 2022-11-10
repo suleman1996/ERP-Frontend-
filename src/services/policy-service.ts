@@ -25,8 +25,18 @@ export default class PolicyService {
     return res;
   }
 
+  static async addObseletePolicyApi(id: any, data: any) {
+    const res = await ApiService.put(`${PolicyService.baseUrl[0]}/obselete/${id}`, data);
+    return res;
+  }
+
   static async addPolicyApi(data: any) {
     const res = await ApiService.post(`${PolicyService.baseUrl[0]}/`, data);
+    return res;
+  }
+
+  static async addRevisionPolicyApi(id: any, data: any) {
+    const res = await ApiService.put(`${PolicyService.baseUrl[0]}/version/${id}`, data);
     return res;
   }
 

@@ -4,7 +4,7 @@ export const SelectionStyle = {
     backgroundColor: 'bg-dark-gray',
     borderRadius: 5,
     boxShadow: 'none',
-    border: '1px solid #E2E2EA',
+    border: '1px solid transparent',
     fontSize: '12px',
     fontFamily: 'SF-regular',
     height: 'calc(30px + 25 * (100vw - 280px) / 2280) !important',

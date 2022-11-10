@@ -29,7 +29,7 @@ import SettingsService from 'services/settings-service';
 const Policy = () => {
   const [selectedTab, setSelectedTab] = useState(0);
   const [showFilterView, setShowFilterView] = useState(false);
-  const [editPoplicy, setEditPolicy] = useState(false);
+  const [editPoplicy, setEditPolicy] = useState({ bool: false, label: '' });
 
   const [open, setOpen] = useState(false);
   const [openAddPolice, setOpenAddPolice] = useState(false);
@@ -40,6 +40,9 @@ const Policy = () => {
   const [employees] = React.useState<any>([]);
   const [policyCategory] = React.useState<any>([]);
   const [employeesWithDep] = React.useState<any>([]);
+
+  const [selectedFileName, setSelectedFileName] = React.useState<any>('');
+  const [renderObselete, setRenderObselete] = useState<any>(false);
 
   const { control, register, errors, setError, clearErrors, handleSubmit, reset } = useForm({
     mode: 'all',
@@ -106,7 +109,7 @@ const Policy = () => {
         approvedBy: data?.approvedBy?.value,
         reviewers: [data?.reviewers?.value],
         appliesTo: data?.appliesTo ? data?.appliesTo.map((item: any) => item?.value) : [],
-        description: data?.discription,
+        description: data?.description,
         file: pdffile,
       };
 
@@ -129,7 +132,8 @@ const Policy = () => {
     try {
       const result = await PolicyService.deletePolicy(selectedPolicy?._id);
       console.log('HEre is the delete policy result  ', result);
-      setRender(!render);
+      selectedTab == 0 ? setRender(!render) : setRenderObselete(!renderObselete);
+
       setOpen(false);
       // console.log(' selectedPolicy ', selectedPolicy);
     } catch (error) {
@@ -138,6 +142,8 @@ const Policy = () => {
   };
 
   const handleEdit = async (data: any) => {
+    console.log('Here is the data to restored ', data);
+
     const {
       appliesTo,
       approvedBy,
@@ -148,6 +154,7 @@ const Policy = () => {
       preparedBy,
       reviewers,
       version,
+      description,
     } = data;
 
     let temp = [];
@@ -157,21 +164,21 @@ const Policy = () => {
       appliesTo: temp,
       approvedBy: { value: approvedBy?._id, label: approvedBy?.fullName },
       categoryId: { value: categoryId?._id, label: categoryId?.name },
-      // effectiveDate,
+      effectiveDate: new Date(effectiveDate),
       name,
       policyNumber,
       preparedBy: { value: preparedBy?._id, label: preparedBy?.fullName },
       reviewers: { value: reviewers[0]?._id, label: reviewers[0]?.fullName },
       version,
+      description,
     });
-    console.log('all values ', data);
 
     // console.log('Edit function called ', dat);
   };
 
   const updatePolicy = async (data: any) => {
     const pdffile = await convertBase64Image(data?.pdf[0]);
-    console.log('update data ', selectedPolicy?._id);
+    console.log('update data ', data);
 
     try {
       const policyData = {
@@ -184,13 +191,49 @@ const Policy = () => {
         approvedBy: data?.approvedBy?.value,
         reviewers: [data?.reviewers?.value],
         appliesTo: data?.appliesTo ? data?.appliesTo.map((item: any) => item?.value) : [],
-        description: data?.discription,
+        description: data?.description,
         file: pdffile,
       };
 
       const result = await PolicyService.updatePolicyApi(policyData, selectedPolicy?._id);
 
       console.log('Here is the success add update policy ', result);
+      setRender(!render);
+      setOpenAddPolice(false);
+    } catch (err: any) {
+      console.log('error from add policy ', err?.response?.data);
+      if (err?.response?.data?.error) {
+        setErrors(err?.response?.data?.error, setError);
+      }
+      createNotification('error', 'Error', err?.response?.data?.msg);
+      // setBtnLoader(false);
+    }
+  };
+
+  const handleAddRevisionPolicy = async (data: any) => {
+    console.log('Here is the revision policy data ', data);
+    const pdffile = await convertBase64Image(data?.pdf[0]);
+    try {
+      const revisionPolicyData = {
+        // name: data?.name,
+        // policyNumber: data?.policyNumber,
+        // version: Number(data?.version),
+        // categoryId: data?.categoryId?.value,
+        effectiveDate: moment(new Date(data?.effectiveDate)).format('YYYY-MM-DD'),
+        preparedBy: data?.preparedBy?.value,
+        approvedBy: data?.approvedBy?.value,
+        reviewers: [data?.reviewers?.value],
+        appliesTo: data?.appliesTo ? data?.appliesTo.map((item: any) => item?.value) : [],
+        description: data?.description,
+        file: pdffile,
+      };
+
+      const result = await PolicyService.addRevisionPolicyApi(
+        selectedPolicy?._id,
+        revisionPolicyData,
+      );
+
+      console.log('Here is the success revision policy msg ', result);
       setRender(!render);
       setOpenAddPolice(false);
     } catch (err: any) {
@@ -225,7 +268,11 @@ const Policy = () => {
           />
         ) : (
           <RenderObsolete
+            renderObselete={renderObselete}
+            setRenderObselete={setRenderObselete}
+            type="Obselete"
             setOpen={setOpen}
+            setSelectedPolicy={setSelectedPolicy}
             reset={reset}
             handleEdit={handleEdit}
             control={control}
@@ -247,7 +294,7 @@ const Policy = () => {
         open={openAddPolice}
         text="Done"
         iconEnd={undefined}
-        title={editPoplicy ? 'Update Policy' : 'Add Policy'}
+        title={editPoplicy?.label}
         handleClose={() => setOpenAddPolice(false)}
         type="submit"
         form="AddPolicy"
@@ -255,7 +302,11 @@ const Policy = () => {
         <form
           onSubmit={(e) => {
             clearErrors();
-            editPoplicy ? handleSubmit(updatePolicy)(e) : handleSubmit(handleAddPolicy)(e);
+            editPoplicy?.label == 'Update Policy'
+              ? handleSubmit(updatePolicy)(e)
+              : editPoplicy?.label == 'Add Revision'
+              ? handleSubmit(handleAddRevisionPolicy)(e)
+              : handleSubmit(handleAddPolicy)(e);
           }}
           id="AddPolicy"
         >
@@ -267,6 +318,7 @@ const Policy = () => {
               star=" *"
               name="name"
               errorMessage={errors?.name?.message}
+              isDisable={editPoplicy?.bool}
             />
             <TextField
               register={register}
@@ -275,6 +327,7 @@ const Policy = () => {
               star=" *"
               name="policyNumber"
               errorMessage={errors?.policyNumber?.message}
+              isDisable={editPoplicy?.bool}
             />
           </div>
           <div className={style.gridView}>
@@ -285,6 +338,7 @@ const Policy = () => {
               star=" *"
               name="version"
               errorMessage={errors?.version?.message}
+              isDisable={editPoplicy?.bool}
             />
             {/* <TextField label="Category" placeholder="Enter Policy Category" star=" *" /> */}
             <Selection
@@ -297,6 +351,7 @@ const Policy = () => {
               name="categoryId"
               errorMessage={errors?.categoryId?.message}
               control={control}
+              isDisabled={editPoplicy?.bool}
             />
           </div>
           <div className={style.gridView}>
@@ -371,8 +426,8 @@ const Policy = () => {
                 type="application/pdf,application/vnd.ms-excel"
                 id={'file'}
                 errorMessage={errors?.pdf?.message}
-                // selectedFileName={selectedFileName}
-                // setSelectedFileName={setSelectedFileName}
+                selectedFileName={selectedFileName}
+                setSelectedFileName={setSelectedFileName}
               />
             </div>
           </div>
@@ -382,8 +437,8 @@ const Policy = () => {
               placeholder="Enter Description"
               // star=" *"
               register={register}
-              name="discription"
-              errorMessage={errors?.discription?.message}
+              name="description"
+              errorMessage={errors?.description?.message}
             />
           </div>
         </form>

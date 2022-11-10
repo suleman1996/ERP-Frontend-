@@ -5,7 +5,7 @@
 .card {
   border-radius: 0%;
   border: none !important;
-  height: calc(100vh - 210px);
+  height: calc(100vh - 168px) !important;
 }
 .customInputs {
   @include gridTwo(20, 20);
