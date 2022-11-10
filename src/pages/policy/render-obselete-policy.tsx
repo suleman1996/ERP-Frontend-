@@ -19,6 +19,10 @@ const RenderObsolete = ({
   setEditPolicy,
   setOpenViewPdfPolicy,
   reset,
+  setSelectedPolicy,
+  type,
+  renderObselete,
+  setRenderObselete,
 }: {
   [key: string]: any;
 }) => {
@@ -26,7 +30,7 @@ const RenderObsolete = ({
 
   useEffect(() => {
     getObseletePolocies();
-  }, []);
+  }, [renderObselete]);
 
   const getObseletePolocies = async () => {
     try {
@@ -40,8 +44,9 @@ const RenderObsolete = ({
 
   return (
     <div className={style.policyMainView}>
-      <Loading />
+      {/* <Loading /> */}
       <RenderPoliciesTab
+        reset={reset}
         control={control}
         selectedTab={selectedTab}
         setOpenAddPolice={setOpenAddPolice}
@@ -52,8 +57,11 @@ const RenderObsolete = ({
         setEditPolicy={setEditPolicy}
       />
       <div className={style.policyGridView}>
-        {obseletePolicies.map((item) => (
+        {obseletePolicies?.map((item) => (
           <RenderPolicy
+            setRenderObselete={setRenderObselete}
+            type={type}
+            setSelectedPolicy={setSelectedPolicy}
             data={item}
             setOpenAddPolice={setOpenAddPolice}
             setOpen={setOpen}

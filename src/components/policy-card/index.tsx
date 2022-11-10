@@ -7,37 +7,52 @@ import style from './request.module.scss';
 import { useOutsideAlerter } from 'hooks/useOutsideClick';
 
 import moment from 'moment';
+import PolicyService from 'services/policy-service';
 
 const RenderPolicy = ({
   setSelectedTab,
   setOpen,
   setOpenAddPolice,
   setEditPolicy,
-  setOpenViewPdfPolicy,
   data,
   setSelectedPolicy,
   handleEdit,
+  type,
 }: any) => {
   const [isMenuVisible, setIsMenuVisible] = React.useState(false);
   const ref = useRef<HTMLDivElement>(null);
   useOutsideAlerter(ref, () => setIsMenuVisible(false));
+
+  const handleObseletePolicy = async () => {
+    try {
+      const result = await PolicyService.addObseletePolicyApi(data?._id);
+      console.log('Her is the result from obselete policy ', result?.data);
+      setSelectedTab(1);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className={style.policyView}>
       {isMenuVisible && (
         <div className={style.menuBox} ref={ref}>
-          <div
-            onClick={() => {
-              setOpenAddPolice(true);
-              setIsMenuVisible(false);
-              setEditPolicy(true);
-              handleEdit(data);
-              setSelectedPolicy(data);
-            }}
-            className={style.menuViewBox}
-          >
-            <p style={{ fontSize: '8px', fontWeight: '500', color: '#2D2D32' }}>Edit</p>
-            <img src={arrowRight} alt="" className={style.img} />
-          </div>
+          {type !== 'Obselete' && (
+            <div
+              onClick={() => {
+                setOpenAddPolice(true);
+                setIsMenuVisible(false);
+
+                setEditPolicy({ bool: false, label: 'Update Policy' });
+                handleEdit(data);
+                setSelectedPolicy(data);
+              }}
+              className={style.menuViewBox}
+            >
+              <p style={{ fontSize: '8px', fontWeight: '500', color: '#2D2D32' }}>Edit</p>
+              <img src={arrowRight} alt="" className={style.img} />
+            </div>
+          )}
           <div
             onClick={() => {
               setOpen(true);
@@ -48,33 +63,40 @@ const RenderPolicy = ({
             <p style={{ fontSize: '8px', fontWeight: '500', color: '#2D2D32' }}>Delete</p>
             <img src={arrowRight} alt="" className={style.img} />
           </div>
-
-          <div
-            onClick={() => {
-              setOpenAddPolice(true);
-              setIsMenuVisible(false);
-              setEditPolicy(true);
-            }}
-            className={style.menuViewBox}
-          >
-            <p style={{ fontSize: '8px', fontWeight: '500', color: '#2D2D32', cursor: 'pointer' }}>
-              Add Revision
-            </p>
-            <img src={arrowRight} alt="" className={style.img} />
-          </div>
-
-          <div className={style.menuViewBox}>
-            <p
+          {type !== 'Obselete' && (
+            <div
               onClick={() => {
-                setSelectedTab(1);
+                setOpenAddPolice(true);
                 setIsMenuVisible(false);
+                handleEdit(data);
+                setEditPolicy({ bool: true, label: 'Add Revision' });
+                setSelectedPolicy(data);
               }}
-              style={{ fontSize: '8px', fontWeight: '500', color: '#2D2D32', cursor: 'pointer' }}
+              className={style.menuViewBox}
             >
-              Obsolete
-            </p>
-            <img src={arrowRight} alt="" className={style.img} />
-          </div>
+              <p
+                style={{ fontSize: '8px', fontWeight: '500', color: '#2D2D32', cursor: 'pointer' }}
+              >
+                Add Revision
+              </p>
+              <img src={arrowRight} alt="" className={style.img} />
+            </div>
+          )}
+
+          {type !== 'Obselete' && (
+            <div className={style.menuViewBox}>
+              <p
+                onClick={() => {
+                  setIsMenuVisible(false);
+                  handleObseletePolicy();
+                }}
+                style={{ fontSize: '8px', fontWeight: '500', color: '#2D2D32', cursor: 'pointer' }}
+              >
+                Obsolete
+              </p>
+              <img src={arrowRight} alt="" className={style.img} />
+            </div>
+          )}
         </div>
       )}
       <div className={style.policyHeaderView}>
@@ -105,13 +127,13 @@ const RenderPolicy = ({
       <div className={style.policyDescriptionView}>
         <ul>
           {[
-            { q: 'Policy Number', v: data?.policyNumber || 'BFFF334r' },
-            { q: 'Version', v: data?.version || '0.1.8' },
-            { q: 'Category', v: data?.categoryId?.name || 'Holidays' },
-            { q: 'Prepared by ', v: data?.preparedBy?.fullName || 'Maira Ashraf' },
-            { q: 'Reviewed by', v: 'Suleman Amjad' },
-            { q: 'Approved by', v: data?.approvedBy?.fullName || 'Faizan Khan' },
-            { q: 'Added by', v: data?.addedBy || 'Umair Leo' },
+            { q: 'Policy Number', v: data?.policyNumber },
+            { q: 'Version', v: data?.version },
+            { q: 'Category', v: data?.categoryId?.name },
+            { q: 'Prepared by ', v: data?.preparedBy?.fullName },
+            { q: 'Reviewed by', v: data?.reviewers[0]?.fullName },
+            { q: 'Approved by', v: data?.approvedBy?.fullName },
+            { q: 'Added by', v: data?.addedBy || 'ABC' },
           ].map((item) => (
             <li>
               {item?.q} : {item?.v}
@@ -122,7 +144,7 @@ const RenderPolicy = ({
 
       <div className={style.policyButtonView}>
         <div className={style.policyButton}>
-          <a style={{ textDecoration: 'none' }} target={'_blank'} href={data?.fileId?.file}>
+          <a style={{ textDecoration: 'none' }} target={'_blank'} href={data?.fileId[0]?.file}>
             <p style={{ fontWeight: '500', fontSize: 11, color: '#ffffff' }}>View Policy</p>
           </a>
         </div>
