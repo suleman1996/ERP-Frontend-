@@ -2,7 +2,23 @@ import AccordianSwitch from 'components/accordian';
 import CardContainer from 'components/card-container';
 import React, { useState } from 'react';
 
-import { ColumnsData, RowsData } from './helper';
+import {
+  departmentColumn,
+  departmentRows,
+  designationColumn,
+  employeeIdColumn,
+  employeeIdRows,
+  genderColumn,
+  genderRows,
+  tagsColumn,
+  tagsRows,
+  leaveColumn,
+  leaveRows,
+  allowenceColumn,
+  allowenceRows,
+  documentsColumn,
+  documentsRows,
+} from './helper';
 
 import style from './general.module.scss';
 
@@ -10,14 +26,45 @@ const GeneralSetting = () => {
   const [openAccordian, setOpenAccordian] = useState(-1);
   return (
     <CardContainer className={style.card}>
-      {totalAccordian?.map((data) => {
+      {totalAccordian?.map(({ id, title }) => {
         return (
           <AccordianSwitch
-            title={data.title ? data.title : 'Profile'}
-            bodyData={addProfileData}
-            id={data?.id}
-            RowsData={RowsData}
-            ColumnsData={ColumnsData}
+            title={title ? title : 'Profile'}
+            handleEdit={(id) => alert(id)}
+            btnText={`Add ${title}`}
+            id={id}
+            RowsData={
+              title === 'Advance Tags'
+                ? tagsRows
+                : title === 'Leave Type'
+                ? leaveRows
+                : title === 'Gender'
+                ? genderRows
+                : title === 'Allowence Types'
+                ? allowenceRows
+                : title === 'Documents Category'
+                ? documentsRows
+                : departmentRows
+            }
+            ColumnsData={
+              title === 'Department'
+                ? departmentColumn
+                : title === 'Designation'
+                ? designationColumn
+                : title === 'Employee ID Series'
+                ? employeeIdColumn
+                : title === 'Gender'
+                ? genderColumn
+                : title === 'Advance Tags'
+                ? tagsColumn
+                : title === 'Leave Type'
+                ? leaveColumn
+                : title === 'Allowence Types'
+                ? allowenceColumn
+                : title === 'Documents Category'
+                ? documentsColumn
+                : ''
+            }
             openAccordian={openAccordian}
             setOpenAccordian={setOpenAccordian}
           />
@@ -28,15 +75,6 @@ const GeneralSetting = () => {
 };
 
 export default GeneralSetting;
-
-const addProfileData = [
-  { name: 'Add Employee' },
-  { name: 'Edit Employee' },
-  { name: 'View Employee' },
-  { name: 'Delete Employee' },
-  { name: 'CV View' },
-  { name: 'Profile View' },
-];
 
 const totalAccordian = [
   { name: '1', id: 1, title: 'Department' },

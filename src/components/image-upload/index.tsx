@@ -14,9 +14,10 @@ interface Props {
   name?: string;
   register?: any;
   errorMessage?: string;
+  label?: string;
 }
 
-const ImageUpload = ({ img, setImg, name, register, errorMessage }: Props) => {
+const ImageUpload = ({ img, setImg, name, register, errorMessage, label }: Props) => {
   const handleFileChange = async (event: React.ChangeEvent<any>) => {
     if (event?.target?.files?.[0]?.size <= 2048000) {
       const data = await convertBase64Image(event?.target?.files?.[0]);
@@ -57,7 +58,7 @@ const ImageUpload = ({ img, setImg, name, register, errorMessage }: Props) => {
 
   return (
     <>
-      <label>Profile Picture</label>
+      <label>{label}</label>
       <div {...getRootProps()}>
         <input {...getInputProps()} />
         <div className={style.wraper} data-testid={'wraper'}>

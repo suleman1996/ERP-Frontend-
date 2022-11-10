@@ -1,3 +1,7 @@
+@use 'styles/_colors.scss' as c;
+@import 'styles/_mixin.scss';
+@import 'styles/_breakpoints.scss';
+
 .container {
   padding: 10px;
   display: flex;
@@ -39,4 +43,59 @@
 
 .card {
   padding: 0px !important;
+}
+
+.modalContainer {
+  @include gridTwo(20, 20);
+
+  .containerClass {
+    margin-top: 5px !important;
+  }
+}
+
+.fiveGrid {
+  @include gridFive(20, 20);
+}
+.btnClass {
+  background-color: #b6e593;
+  width: max-content;
+  margin-right: 5px;
+  width: max-content;
+  &:hover {
+    background-color: #b6e593 !important;
+  }
+}
+
+.btnText {
+  color: #4f8c22 !important;
+}
+
+.btnClassRed {
+  background-color: #facccc;
+  width: max-content;
+
+  margin-right: 5px;
+  width: max-content;
+  &:hover {
+    background-color: #facccc !important;
+  }
+}
+
+.btnTextRed {
+  color: #e92424 !important;
+}
+
+.btnClassPruple {
+  background-color: #e2e2ea;
+  width: max-content !important;
+
+  margin-right: 5px;
+  width: max-content;
+  &:hover {
+    background-color: #e2e2ea !important;
+  }
+}
+
+.btnTextpurple {
+  color: #8989a9 !important;
 }
