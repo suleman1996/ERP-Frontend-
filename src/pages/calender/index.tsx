@@ -181,7 +181,6 @@ const Calender = () => {
 
   const onSubmit = async (data: any) => {
     console.log({ data });
-
     try {
       const transformData = {
         ...data,
@@ -252,7 +251,7 @@ const Calender = () => {
           initialView={day}
           headerToolbar={{
             right: `${list} ${day} ${week} ${month}`,
-            left: 'prev title next',
+            left: 'prev title next today',
           }}
           buttonText={{
             list: 'Events',
@@ -274,13 +273,14 @@ const Calender = () => {
           dateClick={(e) => console.log(e.dateStr)}
           eventClick={handleMouseEnter}
           slotEventOverlap={false}
-          allDay={true}
+          allDaySlot={true}
+          allDayText="all-day"
         />
 
         <Modal
           open={openModal}
           handleClose={() => setOpenModal(!openModal)}
-          title={'Add Event'}
+          title={singleEventData ? 'Edit Event' : 'Add Event'}
           text="Save"
           type="submit"
           form="hello"
@@ -306,7 +306,7 @@ const Calender = () => {
                 label="Attendees"
                 options={attendeesOptions}
                 handleChange={setSelected}
-                selectedValues={selected}
+                selectedValues={selected.length > 3 ? '...' : selected}
                 control={control}
                 name="attendees"
                 star=" *"
@@ -378,6 +378,7 @@ const Calender = () => {
                 id={'file'}
                 selectedFileName={selectedFileNameBack}
                 setSelectedFileName={setSelectedFileNameBack}
+                placeholder="Attach File"
               />
             </div>
           </form>
@@ -437,15 +438,21 @@ const Calender = () => {
                   <p className={style.description}>
                     {singleEventData?.type ? singleEventData?.type : '-'}
                   </p>
-                  <a
-                    href={singleEventData?.fileId?.file}
-                    target={'_blank'}
-                    style={{ textDecoration: 'none' }}
-                  >
-                    <p className={style.attachFile}>
-                      {singleEventData?.fileId?.name ? singleEventData?.fileId?.name : '-'}
-                    </p>
-                  </a>
+
+                  {singleEventData?.fileId?.name ? (
+                    <a
+                      href={singleEventData?.fileId?.file}
+                      target={'_blank'}
+                      style={{ textDecoration: 'none' }}
+                    >
+                      <p className={style.attachFile}>
+                        {singleEventData?.fileId?.name && singleEventData?.fileId?.name}
+                      </p>
+                    </a>
+                  ) : (
+                    '-'
+                  )}
+
                   <div>
                     {attendeesPic.map((i: any) => {
                       return (

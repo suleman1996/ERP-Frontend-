@@ -18,6 +18,7 @@ interface Props {
   label?: string;
   star?: any;
   setSelectedFileName?: (value: string) => any;
+  placeholder?: string;
 }
 
 const ProfileUpload = ({
@@ -32,6 +33,7 @@ const ProfileUpload = ({
   setSelectedFileName,
   label,
   star,
+  placeholder,
 }: Props) => {
   useEffect(() => {
     selectedFileName && setFileName && setFileName(selectedFileName);
@@ -86,7 +88,11 @@ const ProfileUpload = ({
           data-testid={id}
         />
         <label htmlFor={id} className={style.labelTag}>
-          {selectedFileName ? `${selectedFileName}` : 'Attach Transcript' || 'hello'}
+          {selectedFileName
+            ? `${selectedFileName}`
+            : placeholder
+            ? `${placeholder}`
+            : 'Attach Transcript'}
           <img src={profileUploadIcon} alt="" className={style.fileIcon} />
         </label>
       </div>
