@@ -74,7 +74,12 @@ const PersonalInformation = () => {
               handleSubmit(onSubmit)(e);
             }}
           >
-            <ImageUpload name={'profilePicture'} img={img} setImg={setImg} />
+            <ImageUpload
+              name={'profilePicture'}
+              label={'Profile Picture'}
+              img={img}
+              setImg={setImg}
+            />
             <div className={style.grid}>
               <TextField
                 name="firstName"
