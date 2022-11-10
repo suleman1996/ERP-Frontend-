@@ -17,6 +17,7 @@ const RenderPolicySearchView = ({ control, options }: { control: Control; option
       wraperSelect={style.wraperSelect}
       // label="Reviewed By"
       placeholder="Job Status"
+      selectContainer={style.selectContainer}
       options={options}
       star=" *"
       onChange={(item) => console.log(item)}
@@ -24,7 +25,7 @@ const RenderPolicySearchView = ({ control, options }: { control: Control; option
 
     <DatePicker control={control} name="Date" />
 
-    <Button text="Search" />
+    <Button text="Search" btnClass={style.btnClass} />
   </div>
 );
 

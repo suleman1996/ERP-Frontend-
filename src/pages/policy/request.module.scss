@@ -424,11 +424,19 @@ ul {
 }
 
 .wraperSelect {
-  margin-top: 10px;
+  // margin-top: 10px;
 }
 
 .policyGridView {
   // display: grid;
   // grid-template-columns: repeat(4, 1fr);
   @include gridFour(15, 30);
+}
+
+.selectContainer {
+  margin-top: 0 !important;
+}
+
+.btnClass {
+  margin-top: 7px;
 }

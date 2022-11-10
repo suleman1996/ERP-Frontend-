@@ -65,7 +65,7 @@ const RenderPoliciesTab = ({
             handleClick={() => {
               reset({});
               setOpenAddPolice(true);
-              setEditPolicy(false);
+              setEditPolicy({ bool: false, label: 'Add Policy' });
             }}
             iconStart={plusIcon}
             text="Add Policy"
