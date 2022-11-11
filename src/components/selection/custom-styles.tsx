@@ -28,4 +28,15 @@ export const SelectionStyle = {
     fontSize: '13px',
     color: '#CACACA',
   }),
+
+  valueContainer: (provided, state) => ({
+    ...provided,
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    flexWrap: 'nowrap',
+  }),
+  input: (provided, state) => ({
+    ...provided,
+    minWidth: '20%',
+  }),
 };

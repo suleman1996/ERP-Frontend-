@@ -32,6 +32,7 @@ const Policy = () => {
   const [editPoplicy, setEditPolicy] = useState({ bool: false, label: '' });
 
   const [open, setOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [openAddPolice, setOpenAddPolice] = useState(false);
   const [openPolicyPdfView, setOpenViewPdfPolicy] = useState(false);
   const [render, setRender] = useState(false);
@@ -44,7 +45,7 @@ const Policy = () => {
   const [selectedFileName, setSelectedFileName] = React.useState<any>('');
   const [renderObselete, setRenderObselete] = useState<any>(false);
 
-  const { control, register, errors, setError, clearErrors, handleSubmit, reset } = useForm({
+  const { control, register, errors, setError, clearErrors, handleSubmit, reset, watch } = useForm({
     mode: 'all',
   });
 
@@ -57,7 +58,7 @@ const Policy = () => {
   const getAllEmployees = async () => {
     try {
       const result = await EmployeeService.getAllEmployees();
-      console.log('Her are all employees ', result?.data?.employees[0]?.data);
+      // console.log('Her are all employees ', result?.data?.employees[0]?.data);
       result?.data?.employees[0]?.data?.map((item: any) =>
         employees.push({ value: item?._id, label: item?.fullName }),
       );
@@ -84,7 +85,7 @@ const Policy = () => {
   const getPolicyCategory = async () => {
     try {
       const result = await SettingsService.getPolicyCat();
-      console.log('Her are all policy category ', result?.data?.policyCategory);
+      // console.log('Her are all policy category ', result?.data?.policyCategory);
       result?.data?.policyCategory?.map((item: any) =>
         policyCategory?.push({ value: item?._id, label: item?.name }),
       );
@@ -94,23 +95,25 @@ const Policy = () => {
   };
 
   const handleAddPolicy = async (data: any) => {
-    console.log('Here is the add policy form ', data);
-
-    const pdffile = await convertBase64Image(data?.pdf[0]);
+    // console.log('Here is the add policy form ', data);
 
     try {
+      setIsLoading(true);
+      const pdffile = await convertBase64Image(data?.pdf[0]);
       const policyData = {
-        name: data?.name,
-        policyNumber: data?.policyNumber,
-        version: Number(data?.version),
-        categoryId: data?.categoryId?.value,
-        effectiveDate: moment(new Date(data?.effectiveDate)).format('YYYY-MM-DD'),
-        preparedBy: data?.preparedBy?.value,
-        approvedBy: data?.approvedBy?.value,
-        reviewers: [data?.reviewers?.value],
-        appliesTo: data?.appliesTo ? data?.appliesTo.map((item: any) => item?.value) : [],
+        ...(data?.name && { name: data?.name }),
+        ...(data?.policyNumber && { policyNumber: data?.policyNumber }),
+        ...(data?.version && { version: Number(data?.version) }),
+        ...(data?.categoryId?.value && { categoryId: data?.categoryId?.value }),
+        ...(data?.effectiveDate && {
+          effectiveDate: moment(new Date(data?.effectiveDate)).format('YYYY-MM-DD'),
+        }),
+        ...(data?.preparedBy?.value && { preparedBy: data?.preparedBy?.value }),
+        ...(data?.approvedBy?.value && { approvedBy: data?.approvedBy?.value }),
+        ...(data?.reviewers?.value && { reviewers: [data?.reviewers?.value] }),
+        ...(data?.appliesTo && { appliesTo: data?.appliesTo.map((item: any) => item?.value) }),
+        ...(pdffile && { file: pdffile }),
         description: data?.description,
-        file: pdffile,
       };
 
       const result = await PolicyService.addPolicyApi(policyData);
@@ -118,13 +121,15 @@ const Policy = () => {
       console.log('Here is the success add policy msg ', result);
       setRender(!render);
       setOpenAddPolice(false);
+      setIsLoading(false);
     } catch (err: any) {
-      console.log('error from add policy ', err?.response?.data);
+      // console.log('error from add policy ', err?.response?.data);
       if (err?.response?.data?.error) {
         setErrors(err?.response?.data?.error, setError);
       }
       createNotification('error', 'Error', err?.response?.data?.msg);
       // setBtnLoader(false);
+      setIsLoading(false);
     }
   };
 
@@ -135,6 +140,7 @@ const Policy = () => {
       selectedTab == 0 ? setRender(!render) : setRenderObselete(!renderObselete);
 
       setOpen(false);
+
       // console.log(' selectedPolicy ', selectedPolicy);
     } catch (error) {
       console.log(error);
@@ -142,7 +148,7 @@ const Policy = () => {
   };
 
   const handleEdit = async (data: any) => {
-    console.log('Here is the data to restored ', data);
+    // console.log('Here is the data to restored ', data);
 
     const {
       appliesTo,
@@ -157,11 +163,8 @@ const Policy = () => {
       description,
     } = data;
 
-    let temp = [];
-    appliesTo?.map((item: amy) => temp?.push({ label: item?.fullName, value: item?._id }));
-
     reset({
-      appliesTo: temp,
+      appliesTo: appliesTo?.map((item: any) => ({ label: item?.fullName, value: item?._id })),
       approvedBy: { value: approvedBy?._id, label: approvedBy?.fullName },
       categoryId: { value: categoryId?._id, label: categoryId?.name },
       effectiveDate: new Date(effectiveDate),
@@ -177,10 +180,11 @@ const Policy = () => {
   };
 
   const updatePolicy = async (data: any) => {
-    const pdffile = await convertBase64Image(data?.pdf[0]);
-    console.log('update data ', data);
+    // console.log('update data ', data);
 
     try {
+      setIsLoading(true);
+      const pdffile = await convertBase64Image(data?.pdf[0]);
       const policyData = {
         name: data?.name,
         policyNumber: data?.policyNumber,
@@ -200,7 +204,9 @@ const Policy = () => {
       console.log('Here is the success add update policy ', result);
       setRender(!render);
       setOpenAddPolice(false);
+      setIsLoading(false);
     } catch (err: any) {
+      setIsLoading(false);
       console.log('error from add policy ', err?.response?.data);
       if (err?.response?.data?.error) {
         setErrors(err?.response?.data?.error, setError);
@@ -211,9 +217,11 @@ const Policy = () => {
   };
 
   const handleAddRevisionPolicy = async (data: any) => {
-    console.log('Here is the revision policy data ', data);
-    const pdffile = await convertBase64Image(data?.pdf[0]);
+    // console.log('Here is the revision policy data ', data);
+
     try {
+      setIsLoading(true);
+      const pdffile = await convertBase64Image(data?.pdf[0]);
       const revisionPolicyData = {
         // name: data?.name,
         // policyNumber: data?.policyNumber,
@@ -236,7 +244,9 @@ const Policy = () => {
       console.log('Here is the success revision policy msg ', result);
       setRender(!render);
       setOpenAddPolice(false);
+      setIsLoading(false);
     } catch (err: any) {
+      setIsLoading(false);
       console.log('error from add policy ', err?.response?.data);
       if (err?.response?.data?.error) {
         setErrors(err?.response?.data?.error, setError);
@@ -245,6 +255,8 @@ const Policy = () => {
       // setBtnLoader(false);
     }
   };
+
+  console.log(watch('appliesTo'));
 
   return (
     <>
@@ -298,6 +310,7 @@ const Policy = () => {
         handleClose={() => setOpenAddPolice(false)}
         type="submit"
         form="AddPolicy"
+        loader={isLoading}
       >
         <form
           onSubmit={(e) => {
@@ -428,6 +441,7 @@ const Policy = () => {
                 errorMessage={errors?.pdf?.message}
                 selectedFileName={selectedFileName}
                 setSelectedFileName={setSelectedFileName}
+                placeholder="Attach File"
               />
             </div>
           </div>
@@ -439,6 +453,7 @@ const Policy = () => {
               register={register}
               name="description"
               errorMessage={errors?.description?.message}
+              row={2}
             />
           </div>
         </form>
