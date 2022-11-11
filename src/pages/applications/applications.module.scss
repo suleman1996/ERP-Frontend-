@@ -5,7 +5,7 @@
 .cardContainer {
   margin: 0px 14px 12px 16.09px;
   background-color: #fff;
-  height: 93vh;
+  height: 88.5vh;
   padding: 30px 0;
 }
 
@@ -55,4 +55,27 @@
       color: #2d2d32;
     }
   }
+}
+
+.gridView {
+  @include gridTwo(22, 22);
+  // margin-bottom: 20px;
+}
+
+.modelContainer {
+  // padding: 0px !important;
+  padding-top: 35px !important;
+}
+
+.textAreaGrid {
+  grid-column: 1 / -1;
+}
+
+.fileUpload {
+  margin-top: 0 !important;
+}
+
+.classNameLabel {
+  display: inline-block;
+  margin-bottom: 12px;
 }

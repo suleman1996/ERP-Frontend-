@@ -1,0 +1,55 @@
+@import 'styles/_colors.scss';
+@import 'styles/_mixin.scss';
+@import 'styles/_breakpoints.scss';
+
+.container {
+  margin: 40px;
+  overflow: scroll;
+  height: 100vh;
+}
+
+.historyTable {
+  background: #ffffff;
+  opacity: 0.9;
+  border: 0.800512px solid #e2e2ea;
+  border-radius: 5.97311px;
+  padding: 14px 11px 0 11px;
+  margin-bottom: 22px;
+}
+
+.tableHight {
+  padding: 0 !important;
+}
+
+.btnClass {
+  width: 60% !important;
+  height: 44px !important;
+}
+
+.headingText {
+  font-weight: 600 !important;
+  font-size: 17px !important;
+  line-height: 160% !important;
+  color: #2d2d32 !important;
+}
+
+.position {
+  position: fixed;
+  bottom: 7px;
+  left: 418px;
+  right: 7px;
+  background-color: #ffffff;
+  @media (max-width: $xl) {
+    left: 315px;
+  }
+  @media (max-width: $lg) {
+    left: 300px;
+  }
+  @media (max-width: $md) {
+    left: 220px;
+  }
+  @media (max-width: $tab) {
+    left: 0px;
+    right: 0px;
+  }
+}
