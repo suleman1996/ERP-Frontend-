@@ -68,5 +68,15 @@ th {
   display: flex;
 }
 .fc-icon-chevron-right:before {
-  // content: 'red';
+  content: '';
+}
+.fc-icon-chevron-left:before {
+  content: '';
+}
+.fc .fc-button .fc-icon {
+  background-image: url('../../assets/right-forward.svg');
+  background-repeat: no-repeat;
+}
+.fc .fc-button-primary {
+  background-color: transparent;
 }

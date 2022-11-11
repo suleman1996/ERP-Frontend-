@@ -24,6 +24,7 @@ interface Props {
   withInput?: boolean;
   userId?: any;
   marksType?: string;
+  classNameLabel?: string;
   setMarkVal?: any;
   marksVal?: any;
   options?: any;
@@ -48,6 +49,7 @@ const Selection = ({
   name,
   control,
   isDisabled,
+  classNameLabel,
 }: Props) => {
   const [customErr, setCustomErr] = useState<string | undefined>();
 
@@ -56,10 +58,12 @@ const Selection = ({
   return (
     <div style={{ position: 'relative' }}>
       {label && (
-        <label style={{ color: errorMessage ? '#ff5050' : '#2d2d32' }}>
-          {label}
-          <b style={{ color: 'red' }}>{star}</b>
-        </label>
+        <div style={{ marginBottom: 10 }}>
+          <label style={{ color: errorMessage ? '#ff5050' : '#2d2d32' }}>
+            {label}
+            <b style={{ color: 'red' }}>{star}</b>
+          </label>
+        </div>
       )}
       <div
         style={{

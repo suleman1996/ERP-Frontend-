@@ -32,6 +32,9 @@ const AccordianSwitch = ({
   const [idSeriesModal, setIdSeriesModal] = useState(false);
   const [advanceTagModal, setAdvanceTagModal] = useState(false);
   const [leaveTypeModal, setLeaveTypeModal] = useState(false);
+  const [genderModal, setGenderModal] = useState(false);
+  const [allowenceTypeModal, setAllowenceTypeModal] = useState(false);
+  const [documentModal, setDocumenModal] = useState(false);
 
   const handleClickBtn = () => {
     if (title === 'Department') {
@@ -40,10 +43,16 @@ const AccordianSwitch = ({
       setDesignationModal(true);
     } else if (title === 'Employee ID Series') {
       setIdSeriesModal(true);
-    } else if ((title = 'Advance Tags')) {
+    } else if (title === 'Advance Tags') {
       setAdvanceTagModal(true);
     } else if (title === 'Leave Type') {
       setLeaveTypeModal(true);
+    } else if (title === 'Gender') {
+      setGenderModal(true);
+    } else if (title === 'Allowence Types') {
+      setAllowenceTypeModal(true);
+    } else if (title === 'Documents Category') {
+      setDocumenModal(true);
     }
   };
 
@@ -106,7 +115,7 @@ const AccordianSwitch = ({
                   handleEdit={handleEdit && handleEdit}
                 />
                 <div className={style.btnDiv}>
-                  <Button text={btnText} btnClass={style.btnClass} handleClick={handleClickBtn} />
+                  <Button text={btnText} handleClick={handleClickBtn} />
                 </div>
                 <DeletePopup open={deletePopUp} setOpen={setDeletePopUp} handleDelete={undefined} />
               </div>
@@ -205,6 +214,7 @@ const AccordianSwitch = ({
           <Button text="Add Designation" />
         </div>
       </Modal>
+
       {/* /////Employee ID Series  ///// */}
       <Modal
         open={idSeriesModal}
@@ -346,45 +356,27 @@ const AccordianSwitch = ({
         </div>
       </Modal>
 
-      {/* //////////////////  Department  /////////////////// */}
+      {/* //////////////////  leave tye  /////////////////// */}
 
       <Modal
         open={leaveTypeModal}
         handleClose={() => setLeaveTypeModal(false)}
-        title={'Add New Department'}
+        title={'Add New Leave'}
       >
         <div className={style.modalContainer}>
           <Input
-            label="Department Name"
-            placeholder="Enter Department Name"
+            label="Leave Type"
+            placeholder="Enter Leave Type"
             containerClass={style.containerClass}
           />
           <Select
-            label="Department Parent"
+            label="Balance"
             name={'employeeId'}
             selectContainer={style.selectContainer}
             wraperSelect={style.wraperSelect}
           >
             <>
-              <option value={''}>Select Department Parent</option>
-              {series &&
-                series.map((ele: any) => (
-                  <>
-                    <option key={ele.name} value={ele?.name}>
-                      {ele.name}
-                    </option>
-                  </>
-                ))}
-            </>
-          </Select>
-          <Select
-            label="Department Head"
-            name={'employeeId'}
-            selectContainer={style.selectContainer}
-            wraperSelect={style.wraperSelect}
-          >
-            <>
-              <option value={''}>Select Department Head</option>
+              <option value={''}>Select</option>
               {series &&
                 series.map((ele: any) => (
                   <>
@@ -397,7 +389,53 @@ const AccordianSwitch = ({
           </Select>
         </div>
         <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '15px' }}>
-          <Button text="Add Department" />
+          <Button text="Add Leave" />
+        </div>
+      </Modal>
+
+      {/* ///// Gender  ///// */}
+      <Modal open={genderModal} handleClose={() => setGenderModal(false)} title={'Add New Gender'}>
+        <div>
+          <Input label="Gender" placeholder="Enter gender" containerClass={style.containerClass} />
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '15px' }}>
+          <Button text="Add Gender " />
+        </div>
+      </Modal>
+
+      {/* ///// Allowence Type  ///// */}
+      <Modal
+        open={allowenceTypeModal}
+        handleClose={() => setAllowenceTypeModal(false)}
+        title={'Add New Allowence'}
+      >
+        <div>
+          <Input
+            label="Allowence"
+            placeholder="Enter allowence"
+            containerClass={style.containerClass}
+          />
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '15px' }}>
+          <Button text="Add Allowence " />
+        </div>
+      </Modal>
+
+      {/* ///// Document Category  ///// */}
+      <Modal
+        open={documentModal}
+        handleClose={() => setDocumenModal(false)}
+        title={'Add New Document'}
+      >
+        <div>
+          <Input
+            label="Document"
+            placeholder="Enter document"
+            containerClass={style.containerClass}
+          />
+        </div>
+        <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '15px' }}>
+          <Button text="Add Document " />
         </div>
       </Modal>
     </>

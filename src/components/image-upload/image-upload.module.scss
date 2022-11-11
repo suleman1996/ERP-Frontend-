@@ -72,10 +72,27 @@
   @include font29;
 }
 
+.newText {
+  font-family: 'Poppins' !important;
+  font-style: normal !important;
+  font-weight: 600 !important;
+  font-size: 15px !important;
+  line-height: 20px !important;
+  /* identical to box height */
+
+  /* heading */
+
+  color: #2d2d32 !important;
+}
+
 .para {
   @include font24;
   span {
     font-weight: 600;
+  }
+  .span1 {
+    font-weight: 600;
+    color: #afafaf !important;
   }
 }
 

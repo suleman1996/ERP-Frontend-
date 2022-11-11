@@ -17,6 +17,7 @@ interface Props {
   isDisable?: boolean;
   className?: string;
   star?: string;
+  row?: any;
 }
 
 const TextArea = ({
@@ -28,6 +29,7 @@ const TextArea = ({
   isDisable,
   className,
   star,
+  row,
 }: Props) => {
   return (
     <>
@@ -43,7 +45,7 @@ const TextArea = ({
           }}
           placeholder={placeholder}
           name={name}
-          rows={6}
+          rows={row ? `${row}` : 6}
           ref={register}
           disabled={isDisable || false}
         >
