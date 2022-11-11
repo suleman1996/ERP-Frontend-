@@ -24,6 +24,7 @@ interface Props {
   withInput?: boolean;
   userId?: any;
   marksType?: string;
+  classNameLabel?: string;
   setMarkVal?: any;
   marksVal?: any;
   options?: any;
@@ -48,6 +49,7 @@ const Selection = ({
   name,
   control,
   isDisabled,
+  classNameLabel,
 }: Props) => {
   const [customErr, setCustomErr] = useState<string | undefined>();
 

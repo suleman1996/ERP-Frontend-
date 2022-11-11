@@ -53,7 +53,7 @@ const Modal = ({
                 <img src={cross} alt="close icon" onClick={handleClose} />
               </div>
             )}
-            <div className={style.body}>
+            <div className={`${style.body} ${className}`}>
               {children}
               {text && (
                 <div className={`${style.btnClass}  ${btnClass}  `}>
