@@ -15,6 +15,7 @@ interface Props {
   rows: any[];
   total?: any[];
   loading?: boolean;
+  tableClass?: string;
   setRowIndex?: Dispatch<SetStateAction<number | undefined>>;
   columns: {
     key: string;
@@ -77,6 +78,7 @@ const Table = ({
   setEditIndex,
   setNewUser,
   tableHeaderClass,
+  tableClass,
 }: Props) => {
   const [isFilter, setIsFilter] = useState<string | number>('');
   const [isFilterSelected, setIsFilterSelected] = useState<string | number>('');
@@ -110,7 +112,10 @@ const Table = ({
             textTransform: 'capitalize',
           }}
         >
-          <div className={style.table} style={{ minWidth: minWidth || '1200px' }}>
+          <div
+            className={`${style.table} ${tableClass}`}
+            style={{ minWidth: minWidth || '1200px' }}
+          >
             <div className={`${style.thead}  ${tableHeaderClass}`} style={{ display: 'flex' }}>
               {columns.map((column, index) => (
                 <div
