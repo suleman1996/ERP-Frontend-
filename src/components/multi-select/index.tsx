@@ -19,7 +19,7 @@ export default function MultiPicker({
       {label && (
         <label
           style={{
-            color: errorMessage ? '#ff5050' : '#2d2d32',
+            color: errorMessage ? '#000' : '#2d2d32',
           }}
         >
           {label}

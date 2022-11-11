@@ -99,7 +99,7 @@ const DatePicker = ({
       <div className={`${style.main} ${className}`}>
         <div className={style.switchDiv}>
           {label && (
-            <label style={{ color: errorMessage && '#ff5050' }} className={style.label}>
+            <label style={{ color: errorMessage && '#000' }} className={style.label}>
               {label}
               <b style={{ color: 'red' }}>{star}</b>
             </label>

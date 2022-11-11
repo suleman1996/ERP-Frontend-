@@ -68,14 +68,16 @@ th {
   display: flex;
 }
 .fc-icon-chevron-right:before {
-  content: '';
+  content: url('../../assets/right-forward.svg');
+  background-repeat: no-repeat;
 }
 .fc-icon-chevron-left:before {
-  content: '';
+  content: url('../../assets/left-forward.svg');
+  background-repeat: no-repeat;
 }
 .fc .fc-button .fc-icon {
-  background-image: url('../../assets/right-forward.svg');
-  background-repeat: no-repeat;
+  vertical-align: middle !important;
+  font-size: none !important;
 }
 .fc .fc-button-primary {
   background-color: transparent;
