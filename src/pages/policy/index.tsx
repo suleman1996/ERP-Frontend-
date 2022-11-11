@@ -441,6 +441,7 @@ const Policy = () => {
                 errorMessage={errors?.pdf?.message}
                 selectedFileName={selectedFileName}
                 setSelectedFileName={setSelectedFileName}
+                placeholder="Attach File"
               />
             </div>
           </div>
@@ -452,6 +453,7 @@ const Policy = () => {
               register={register}
               name="description"
               errorMessage={errors?.description?.message}
+              row={2}
             />
           </div>
         </form>
