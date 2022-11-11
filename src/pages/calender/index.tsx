@@ -39,7 +39,6 @@ import bucketIcon from 'assets/Bucket.svg';
 
 import style from './calender.module.scss';
 import './calendar.scss';
-import Checkbox from 'components/checkbox';
 
 let colorIndex = -1;
 const Calender = () => {
@@ -292,6 +291,7 @@ const Calender = () => {
           slotEventOverlap={false}
           allDaySlot={true}
           allDayText="all-day"
+          defaultAllDay={true}
         />
 
         <Modal
