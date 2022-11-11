@@ -5,7 +5,6 @@ import style from './textarea.module.scss';
 interface Props {
   label?: string;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
-  value?: string;
   name?: string;
   type?: React.HTMLInputTypeAttribute;
   placeholder?: string;
@@ -48,9 +47,10 @@ const TextArea = ({
           rows={row ? `${row}` : 6}
           ref={register}
           disabled={isDisable || false}
-        >
+        ></textarea>
+        <span>
           {errorMessage ? <span className={style.errorMessage}>{errorMessage}</span> : ''}
-        </textarea>
+        </span>
       </div>
     </>
   );

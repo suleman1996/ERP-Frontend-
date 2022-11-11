@@ -39,7 +39,6 @@ import bucketIcon from 'assets/Bucket.svg';
 
 import style from './calender.module.scss';
 import './calendar.scss';
-import Checkbox from 'components/checkbox';
 
 let colorIndex = -1;
 const Calender = () => {
@@ -156,33 +155,35 @@ const Calender = () => {
               </p>
             </div>
           </div>
-          <div className={style.plusView}>
-            {eventInfo?.event?.extendedProps?.attendees?.slice(0, 3)?.map((i: any) => (
-              <img
-                src={i?.profilePicture && i?.profilePicture}
-                onError={onImageError}
-                height={28}
-                width={28}
-                style={{
-                  borderRadius: '30px',
-                  height: '30px',
-                  width: '30px',
-                  marginLeft: '-10px',
-                }}
-              />
-            ))}
-            {eventInfo?.event?.extendedProps?.attendees?.length > 3 && (
-              <div className={style.plusIcon}>
-                <p className={style.plusText}>
-                  {eventInfo?.event?.extendedProps?.attendees?.length > 3 &&
-                    eventInfo?.event?.extendedProps?.attendees?.length - 3}
-                  +
-                </p>
-              </div>
-            )}
-          </div>
+          {eventInfo?.view?.type == 'timeGridDay' && 'dayGridMonth' ? (
+            <div className={style.plusView}>
+              {eventInfo?.event?.extendedProps?.attendees?.slice(0, 3)?.map((i: any) => (
+                <img
+                  src={i?.profilePicture && i?.profilePicture}
+                  onError={onImageError}
+                  height={28}
+                  width={28}
+                  style={{
+                    borderRadius: '30px',
+                    height: '30px',
+                    width: '30px',
+                    marginLeft: '-10px',
+                    border: '1px solid white',
+                  }}
+                />
+              ))}
+              {eventInfo?.event?.extendedProps?.attendees?.length > 3 && (
+                <div className={style.plusIcon}>
+                  <p className={style.plusText}>
+                    {eventInfo?.event?.extendedProps?.attendees?.length > 3 &&
+                      eventInfo?.event?.extendedProps?.attendees?.length - 3}
+                    +
+                  </p>
+                </div>
+              )}
+            </div>
+          ) : null}
         </div>
-        ;
       </>
     );
   };
@@ -276,9 +277,9 @@ const Calender = () => {
             week: 'Weekly',
             day: 'Daily',
           }}
-          eventContent={(e) => RenderEventHandler({ ...e, customTooltip })}
+          eventContent={RenderEventHandler}
           slotLabelInterval={{ hours: 1 }}
-          events={allEvent.map((e: any) => ({
+          events={allEvent?.map((e: any) => ({
             ...e,
             start: e.start.replace('Z', ''),
             end: e.end.replace('Z', ''),
@@ -287,11 +288,11 @@ const Calender = () => {
           contentHeight="auto"
           contentWidth="auto"
           nowIndicator
-          // dateClick={(e) => console.log(e.dateStr)}
           eventClick={handleMouseEnter}
           slotEventOverlap={false}
           allDaySlot={true}
           allDayText="all-day"
+          // defaultAllDay={true}
         />
 
         <Modal
@@ -368,6 +369,7 @@ const Calender = () => {
                 control={control}
                 errorMessage={errors?.type?.message}
                 star=" *"
+                placeholder={'type'}
               />
               <Selection
                 label="Recurrence"
