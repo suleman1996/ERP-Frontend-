@@ -22,6 +22,7 @@ const RenderAllPolicies = ({
   setSelectedPolicy,
   handleEdit,
   reset,
+  policyCategory,
 }: {
   setOpen: any;
   setSelectedTab: any;
@@ -54,6 +55,7 @@ const RenderAllPolicies = ({
         options={options}
         setEditPolicy={setEditPolicy}
         reset={reset}
+        policyCategory={policyCategory}
       />
       <div className={style.policyGridView}>
         {policies?.map((item) => (
