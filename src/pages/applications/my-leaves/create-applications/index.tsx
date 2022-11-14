@@ -1,17 +1,27 @@
-import DatePicker from 'components/date-picker';
 import Modal from 'components/modal';
-import ProfileUpload from 'components/profile-upload';
 import Selection from 'components/selection';
+import DatePicker from 'components/date-picker';
+import ProfileUpload from 'components/profile-upload';
 import TextArea from 'components/textarea';
-import React from 'react';
+import { useForm } from 'react-hook-form';
+import style from './create-applications.module.scss';
 
-const CreateApplicationModal = () => {
+const CreateApplicationModal = ({
+  openModal,
+  setOpenModal,
+}: {
+  openModal: boolean;
+  setOpenModal: Function;
+}) => {
+  const { control, register, errors, setError, clearErrors, handleSubmit, reset } = useForm({
+    mode: 'all',
+  });
   return (
     <Modal
-      open={createApplicationModal}
+      open={openModal}
       text="Apply"
       title={'Apply Leave Application'}
-      handleClose={() => setCreateApplicationModal(false)}
+      handleClose={() => setOpenModal(false)}
       type="submit"
       form="createLeave"
       className={style.modelContainer}
