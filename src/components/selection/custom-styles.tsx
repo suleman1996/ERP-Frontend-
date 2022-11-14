@@ -7,9 +7,9 @@ export const SelectionStyle = {
     border: '1px solid transparent',
     fontSize: '12px',
     fontFamily: 'SF-regular',
-    height: 'calc(30px + 25 * (100vw - 280px) / 2280) !important',
+    // height: 'calc(30px + 25 * (100vw - 280px) / 2280) !important',
     minHeight: 'calc(30px + 25 * (100vw - 280px) / 2280) !important',
-    padding: '2px',
+    padding: '0 2px',
 
     '&:hover': {
       outline: state.isFocused ? 0 : 0,
@@ -33,7 +33,7 @@ export const SelectionStyle = {
     ...provided,
     whiteSpace: 'nowrap',
     overflow: 'hidden',
-    flexWrap: 'nowrap',
+    flexWrap: 'wrap',
   }),
   input: (provided, state) => ({
     ...provided,
