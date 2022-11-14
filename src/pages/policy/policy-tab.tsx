@@ -17,6 +17,7 @@ const RenderPoliciesTab = ({
   options,
   setEditPolicy,
   reset,
+  policyCategory,
 }: {
   selectedTab: any;
   setSelectedTab: any;
@@ -72,7 +73,13 @@ const RenderPoliciesTab = ({
           />
         </div>
       </div>
-      {showFilterView && <RenderPolicySearchView options={options} control={control} />}
+      {showFilterView && (
+        <RenderPolicySearchView
+          policyCategory={policyCategory}
+          options={options}
+          control={control}
+        />
+      )}
     </>
   );
 };

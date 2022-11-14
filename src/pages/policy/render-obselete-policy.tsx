@@ -23,6 +23,7 @@ const RenderObsolete = ({
   type,
   renderObselete,
   setRenderObselete,
+  policyCategory,
 }: {
   [key: string]: any;
 }) => {
@@ -55,6 +56,7 @@ const RenderObsolete = ({
         showFilterView={showFilterView}
         options={options}
         setEditPolicy={setEditPolicy}
+        policyCategory={policyCategory}
       />
       <div className={style.policyGridView}>
         {obseletePolicies?.map((item) => (

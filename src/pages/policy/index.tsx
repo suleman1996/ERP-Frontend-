@@ -38,8 +38,8 @@ const Policy = () => {
   const [render, setRender] = useState(false);
   const [selectedPolicy, setSelectedPolicy] = useState({ _id: '' });
 
-  const [employees] = React.useState<any>([]);
-  const [policyCategory] = React.useState<any>([]);
+  const [employees, setEmployees] = React.useState<any>([]);
+  const [policyCategory, setPolicyCategory] = React.useState<any>([]);
   const [employeesWithDep] = React.useState<any>([]);
 
   const [selectedFileName, setSelectedFileName] = React.useState<any>('');
@@ -58,9 +58,15 @@ const Policy = () => {
   const getAllEmployees = async () => {
     try {
       const result = await EmployeeService.getAllEmployees();
-      // console.log('Her are all employees ', result?.data?.employees[0]?.data);
-      result?.data?.employees[0]?.data?.map((item: any) =>
-        employees.push({ value: item?._id, label: item?.fullName }),
+      console.log('Her are all employees ', result?.data?.employees[0]?.data);
+      // result?.data?.employees[0]?.data?.map((item: any) =>
+      //   employees.push({ value: item?._id, label: item?.fullName }),
+      // );
+      setEmployees(
+        result?.data?.employees[0]?.data?.map((item: any) => ({
+          value: item?._id,
+          label: item?.fullName,
+        })),
       );
     } catch (error) {
       console.log(error);
@@ -86,8 +92,9 @@ const Policy = () => {
     try {
       const result = await SettingsService.getPolicyCat();
       // console.log('Her are all policy category ', result?.data?.policyCategory);
-      result?.data?.policyCategory?.map((item: any) =>
-        policyCategory?.push({ value: item?._id, label: item?.name }),
+
+      setPolicyCategory(
+        result?.data?.policyCategory?.map((item: any) => ({ value: item?._id, label: item?.name })),
       );
     } catch (error) {
       console.log(error);
@@ -162,7 +169,9 @@ const Policy = () => {
       reviewers,
       version,
       description,
+      fileId,
     } = data;
+    fileId[0]?.name && setSelectedFileName(fileId[0]?.name);
 
     reset({
       appliesTo: appliesTo?.map((item: any) => ({ label: item?.fullName, value: item?._id })),
@@ -175,6 +184,7 @@ const Policy = () => {
       reviewers: { value: reviewers[0]?._id, label: reviewers[0]?.fullName },
       version,
       description,
+      // pdf: fileId,
     });
 
     // console.log('Edit function called ', dat);
@@ -278,6 +288,7 @@ const Policy = () => {
             options={employees}
             setEditPolicy={setEditPolicy}
             setOpenViewPdfPolicy={setOpenViewPdfPolicy}
+            policyCategory={policyCategory}
           />
         ) : (
           <RenderObsolete
@@ -297,6 +308,7 @@ const Policy = () => {
             options={employees}
             setEditPolicy={setEditPolicy}
             setOpenViewPdfPolicy={setOpenViewPdfPolicy}
+            policyCategory={policyCategory}
           />
         )}
       </CardContainer>
