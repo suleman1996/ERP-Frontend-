@@ -112,7 +112,7 @@ const Policy = () => {
         ...(data?.approvedBy?.value && { approvedBy: data?.approvedBy?.value }),
         ...(data?.reviewers?.value && { reviewers: [data?.reviewers?.value] }),
         ...(data?.appliesTo && { appliesTo: data?.appliesTo.map((item: any) => item?.value) }),
-        ...(pdffile && { file: pdffile }),
+        ...(pdffile && selectedFileName && { file: pdffile }),
         description: data?.description,
       };
 
@@ -122,6 +122,7 @@ const Policy = () => {
       setRender(!render);
       setOpenAddPolice(false);
       setIsLoading(false);
+      setSelectedFileName('');
     } catch (err: any) {
       // console.log('error from add policy ', err?.response?.data);
       if (err?.response?.data?.error) {
@@ -196,7 +197,7 @@ const Policy = () => {
         reviewers: [data?.reviewers?.value],
         appliesTo: data?.appliesTo ? data?.appliesTo.map((item: any) => item?.value) : [],
         description: data?.description,
-        file: pdffile,
+        ...(pdffile && selectedFileName && { file: pdffile }),
       };
 
       const result = await PolicyService.updatePolicyApi(policyData, selectedPolicy?._id);
@@ -205,6 +206,7 @@ const Policy = () => {
       setRender(!render);
       setOpenAddPolice(false);
       setIsLoading(false);
+      setSelectedFileName('');
     } catch (err: any) {
       setIsLoading(false);
       console.log('error from add policy ', err?.response?.data);
@@ -233,7 +235,7 @@ const Policy = () => {
         reviewers: [data?.reviewers?.value],
         appliesTo: data?.appliesTo ? data?.appliesTo.map((item: any) => item?.value) : [],
         description: data?.description,
-        file: pdffile,
+        ...(pdffile && selectedFileName && { file: pdffile }),
       };
 
       const result = await PolicyService.addRevisionPolicyApi(
@@ -245,6 +247,7 @@ const Policy = () => {
       setRender(!render);
       setOpenAddPolice(false);
       setIsLoading(false);
+      setSelectedFileName('');
     } catch (err: any) {
       setIsLoading(false);
       console.log('error from add policy ', err?.response?.data);
@@ -255,8 +258,6 @@ const Policy = () => {
       // setBtnLoader(false);
     }
   };
-
-  console.log(watch('appliesTo'));
 
   return (
     <>
@@ -307,7 +308,10 @@ const Policy = () => {
         text="Done"
         iconEnd={undefined}
         title={editPoplicy?.label}
-        handleClose={() => setOpenAddPolice(false)}
+        handleClose={() => {
+          setOpenAddPolice(false);
+          setSelectedFileName('');
+        }}
         type="submit"
         form="AddPolicy"
         loader={isLoading}
