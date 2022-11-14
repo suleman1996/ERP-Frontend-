@@ -27,7 +27,7 @@ import MultiPicker from 'components/multi-select';
 import TextArea from 'components/textarea';
 import DeleteModal from 'components/delete-modal';
 
-import { eventTypes, recurrenceTypes } from './event-types';
+import { eventTypes, recurrenceTypes, category } from './event-types';
 
 import location from 'assets/location.svg';
 import noimage from 'assets/NoImage.svg';
@@ -40,7 +40,6 @@ import bucketIcon from 'assets/Bucket.svg';
 import style from './calender.module.scss';
 import './calendar.scss';
 
-let colorIndex = -1;
 const Calender = () => {
   let month = 'dayGridMonth';
   let week = 'timeGridWeek';
@@ -60,6 +59,7 @@ const Calender = () => {
   const [attendeesPic, setAttendeesPic] = useState([]);
   const [OnlyEmployees, setOnlyEmployees] = useState([]);
   const [delModal, setDelModal] = useState(false);
+  const [employeesWithDep] = useState<any>([]);
 
   const placeholderImage = noimage;
   const onImageError = (e: any) => {
@@ -83,7 +83,7 @@ const Calender = () => {
   useEffect(() => {
     getEmployeesData();
     getAllEvents();
-    getOnlyEmployee();
+    getEmployeesWithDep();
   }, []);
 
   useEffect(() => {
@@ -94,10 +94,21 @@ const Calender = () => {
     const res = await EmployeeService.getAllEmployees();
     setAttendees(res?.data?.employees[0]?.data);
   };
+  // const getOnlyEmployee = async () => {
+  //   const res = await EmployeeService.getOnlyEmployees();
+  //   setOnlyEmployees(res?.data);
+  // };
 
-  const getOnlyEmployee = async () => {
-    const res = await EmployeeService.getOnlyEmployees();
-    setOnlyEmployees(res?.data);
+  const getEmployeesWithDep = async () => {
+    try {
+      const result = await EmployeeService.getEmployeesWithDepApi();
+      result?.data?.employeesWithDepartment?.map((item: any) => {
+        employeesWithDep.push({
+          options: item?.employees?.map((ite: any) => ({ value: ite?._id, label: ite?.fullName })),
+          label: item?._id?.name,
+        });
+      });
+    } catch (error) {}
   };
 
   const getAllEvents = async () => {
@@ -116,17 +127,18 @@ const Calender = () => {
       setDelModal(!delModal);
     }
   };
-
-  const attendeesOptions = OnlyEmployees?.map(({ _id, fullName }) => ({
-    label: fullName && fullName,
-    value: _id && _id,
-  }));
+  // const attendeesOptions = OnlyEmployees?.map(({ _id, fullName }) => ({
+  //   label: fullName && fullName,
+  //   value: _id && _id,
+  // }));
 
   const updateEventData = () => {
-    const { title, venue, description, type, start, end, recurrence, attendees } = singleEventData;
+    const { title, venue, description, type, start, end, recurrence, attendees, category } =
+      singleEventData;
     reset({
       title,
       venue: venue ? venue : '',
+      category: { label: category, value: category },
       description,
       attendees: attendees?.map(({ _id, fullName }: any) => {
         return { label: fullName, value: _id };
@@ -139,13 +151,25 @@ const Calender = () => {
   };
 
   const RenderEventHandler = (eventInfo: any) => {
-    const colors = ['#EDF8FF', '#EDF1FB', '#FFEBEE'];
-    colorIndex += 1;
-    if (colorIndex === colors.length) colorIndex = 0;
+    const allDay = eventInfo?.event?._def?.allDay;
+    const catogery = eventInfo?.event?.extendedProps?.category;
     return (
       <>
-        <div className={style.mainDiv} style={{ backgroundColor: colors[colorIndex] }}>
-          <div className={style.mainDiv2} style={{ backgroundColor: colors[colorIndex] }}>
+        <div
+          className={style.mainDiv}
+          style={{
+            backgroundColor: category.find(({ value }) => value === catogery)?.color || 'red',
+            height: allDay === true && 5,
+            display: 'flex',
+            alignItems: 'center',
+          }}
+        >
+          <div
+            className={style.mainDiv2}
+            style={{
+              backgroundColor: category?.find(({ value }) => value === catogery)?.color,
+            }}
+          >
             <p className={style.title}>{eventInfo?.event?.title && eventInfo?.event?.title}</p>
             <div className={style.descDiv}>
               <img src={eventInfo?.event?.extendedProps?.description && location} />
@@ -155,7 +179,7 @@ const Calender = () => {
               </p>
             </div>
           </div>
-          {eventInfo?.view?.type == 'timeGridDay' && 'dayGridMonth' ? (
+          {eventInfo?.view?.type == 'timeGridDay' && 'dayGridMonth' && allDay === false ? (
             <div className={style.plusView}>
               {eventInfo?.event?.extendedProps?.attendees?.slice(0, 3)?.map((i: any) => (
                 <img
@@ -209,6 +233,7 @@ const Calender = () => {
           ? `${moment(data?.end).format('YYYY-MM-DD')}T${moment(data?.end).format('HH:mm')}Z`
           : '',
         recurrence: data?.recurrence?.value,
+        category: data?.category?.value,
         type: data?.type?.value,
         allDay: check,
         attendees: data?.attendees?.map((i: any) => i?.value),
@@ -277,6 +302,11 @@ const Calender = () => {
             week: 'Weekly',
             day: 'Daily',
           }}
+          titleFormat={{
+            day: 'numeric',
+            year: 'numeric',
+            month: 'short',
+          }}
           eventContent={RenderEventHandler}
           slotLabelInterval={{ hours: 1 }}
           events={allEvent?.map((e: any) => ({
@@ -292,7 +322,6 @@ const Calender = () => {
           slotEventOverlap={false}
           allDaySlot={true}
           allDayText="all-day"
-          // defaultAllDay={true}
         />
 
         <Modal
@@ -320,16 +349,29 @@ const Calender = () => {
               errorMessage={errors?.title?.message}
             />
             <div className={style.attendees}>
-              <MultiPicker
+              <Selection
+                control={control}
+                errorMessage={errors?.attendees?.message}
+                wraperSelect={style.wraperSelect}
                 label="Attendees"
-                options={attendeesOptions}
+                placeholder="Attendees"
+                options={employeesWithDep}
+                star=" *"
+                // onChange={(item) => console.log(item)}
+                closeMenuOnSelect={false}
+                isMulti={true}
+                name="attendees"
+              />
+              {/* <MultiPicker
+                label="Attendees"
+                options={employeesWithDep}
                 handleChange={setSelected}
                 selectedValues={selected.length > 3 ? '...' : selected}
                 control={control}
                 name="attendees"
                 star=" *"
                 errorMessage={errors?.attendees?.message}
-              />
+              /> */}
             </div>
 
             <div className={style.gridView}>
@@ -346,7 +388,7 @@ const Calender = () => {
                 checked={check}
                 switchName="allDay"
                 handleSwitchChange={(e: any) => {
-                  console.log('e', e.target.value);
+                  // console.log('e', e.target.value);
                   setCheck(!check);
                 }}
                 register={register}
@@ -383,10 +425,11 @@ const Calender = () => {
             <div className={style.gridView}>
               <Selection
                 label="Category"
-                options={Category}
+                options={category}
                 name="category"
                 control={control}
                 star=" *"
+                errorMessage={errors?.category?.message}
               />
               <TextField label="Venue" placeholder="Venue" name="venue" register={register} />
             </div>
@@ -445,12 +488,18 @@ const Calender = () => {
               </div>
               <div className={style.durationView}>
                 <p className={style.title2}>
-                  {moment(singleEventData?.start).format('dddd, MMMM Do YYYY')} |
-                  {`${moment(singleEventData?.start?.replace('Z', '')).format('h:mm a')}  -
-                  ${moment(singleEventData?.end?.replace('Z', '')).format('h:mm a')}`}
+                  {moment(singleEventData?.start).format('dddd, MMMM Do YYYY')}
+                  {!singleEventData?.allDay && (
+                    <span>
+                      |{moment(singleEventData?.start?.replace('Z', '')).format('h:mm a')} -
+                      {moment(singleEventData?.end?.replace('Z', '')).format('h:mm a')}
+                    </span>
+                  )}
                 </p>
                 <p className={style.title2}>
-                  {singleEventData?.duration && singleEventData?.duration}
+                  {singleEventData?.allDay
+                    ? 'All Day'
+                    : singleEventData?.duration && singleEventData?.duration}
                 </p>
               </div>
               <p className={style.title2}>Description</p>
@@ -461,6 +510,7 @@ const Calender = () => {
               <div className={style.mainParentDiv}>
                 <div className={style.leftDiv}>
                   <p className={style.title2}>Venue</p>
+                  <p className={style.title2}>Category</p>
                   <p className={style.title2}>Event Type</p>
                   <p className={style.title2}>Attachment</p>
                   <p className={style.title2}>Attendees</p>
@@ -469,6 +519,9 @@ const Calender = () => {
                 <div className={style.rightDiv}>
                   <p className={style.description}>
                     {singleEventData?.venue ? singleEventData?.venue : '-'}
+                  </p>
+                  <p className={style.description}>
+                    {singleEventData?.category ? singleEventData?.category : '-'}
                   </p>
                   <p className={style.description}>
                     {singleEventData?.type ? singleEventData?.type : '-'}
@@ -534,10 +587,3 @@ const Calender = () => {
   );
 };
 export default Calender;
-
-const Category = [
-  { label: 'Warning', value: 'Warning' },
-  { label: 'Success', value: 'Success' },
-  { label: 'Info', value: 'Info' },
-  { label: 'Inverse', value: 'Inverse' },
-];

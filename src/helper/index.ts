@@ -35,7 +35,7 @@ const prepareMessage = (error: any) => {
 };
 
 export const setErrors = (errors: any, setError: any) => {
-  Object.keys(errors).forEach((key) => console.log(key));
+  Object.keys(errors).forEach((key) => console.log());
   return Object.keys(errors).forEach((key) =>
     setError(key, { type: 'custom', message: errors[key] }),
   );

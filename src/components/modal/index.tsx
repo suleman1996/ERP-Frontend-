@@ -48,9 +48,11 @@ const Modal = ({
             onClick={(e) => e.stopPropagation()}
           >
             {title && (
-              <div className={style.header}>
-                <p>{title}</p>
-                <img src={cross} alt="close icon" onClick={handleClose} />
+              <div className={style.fixedClass}>
+                <div className={style.header}>
+                  <p>{title}</p>
+                  <img src={cross} alt="close icon" onClick={handleClose} />
+                </div>
               </div>
             )}
             <div className={`${style.body} ${className}`}>
