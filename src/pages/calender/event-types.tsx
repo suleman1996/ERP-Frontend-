@@ -20,3 +20,11 @@ export const options = [
   { id: 'Option 7', name: 'Group 2' },
   { id: 'Option 7', name: 'Group 2' },
 ];
+
+export const category = [
+  { label: 'Warning', value: 'Warning', color: '#E92424' },
+  { label: 'Success', value: 'Success', color: '#5CB85C' },
+  { label: 'Info', value: 'Info', color: '#67C1F3' },
+  { label: 'Inverse', value: 'Inverse', color: '#F5D561' },
+  { label: 'Primary', value: 'Primary', color: '#57B894' },
+];

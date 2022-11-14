@@ -60,13 +60,12 @@
 }
 
 .wrapperModal {
-  max-width: 991px !important;
+  max-width: 700px !important;
   padding-top: calc(20px + (126 - 20) * (100vw - 280px) / (2560 - 280));
   padding-bottom: calc(20px + (126 - 20) * (100vw - 280px) / (2560 - 280));
   padding-left: calc(20px + (262 - 20) * (100vw - 280px) / (2560 - 280));
   padding-right: calc(20px + (262 - 20) * (100vw - 280px) / (2560 - 280));
   @media (max-width: $xl) {
-    width: 700px !important;
     padding: 50px;
   }
 }

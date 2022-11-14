@@ -1,3 +1,4 @@
+import Tags from 'components/tags';
 import { ChangeEvent, useState } from 'react';
 import { Controller } from 'react-hook-form';
 
@@ -55,6 +56,34 @@ const Selection = ({
 
   const CustomStyle = SelectionStyle;
 
+  const formatOptionLabel = (
+    { label, value, color, checkbox, box },
+    { context, selectValue },
+    badge,
+  ): any => {
+    return (
+      <>
+        {context === 'value' ? (
+          <div>{value}</div>
+        ) : (
+          <div style={{ display: 'flex' }}>
+            <div
+              style={{
+                height: '10px',
+                width: '10px',
+                borderRadius: '50%',
+                background: color,
+                marginRight: '10px',
+                marginTop: '5px',
+              }}
+            />
+            {value}
+          </div>
+        )}
+      </>
+    );
+  };
+
   return (
     <div style={{ position: 'relative' }}>
       {label && (
@@ -97,6 +126,7 @@ const Selection = ({
                   styles={CustomStyle}
                   placeholder={placeholder}
                   isDisabled={isDisabled || false}
+                  formatOptionLabel={(data, metaData) => formatOptionLabel(data, metaData, true)}
                 />
               </>
             );
