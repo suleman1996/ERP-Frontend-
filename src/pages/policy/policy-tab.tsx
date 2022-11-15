@@ -41,7 +41,8 @@ const RenderPoliciesTab = ({
             style={{
               fontSize: '16px',
               fontWeight: 600,
-              color: selectedTab == 0 ? '#2D2D32' : '#CACACA',
+              color: selectedTab === 0 ? '#2D2D32' : '#CACACA',
+              cursor: 'pointer',
             }}
           >
             All Policies
@@ -64,6 +65,7 @@ const RenderPoliciesTab = ({
               fontWeight: 600,
               color: selectedTab == 1 ? '#2D2D32' : '#CACACA',
               marginLeft: 20,
+              cursor: 'pointer',
             }}
           >
             Obsolete
