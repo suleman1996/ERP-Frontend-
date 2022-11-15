@@ -112,7 +112,12 @@ const Selection = ({
                 <Select
                   components={{
                     GroupHeading: (e) => (
-                      <div onClick={() => onChange([...e.data.options])}>
+                      <div
+                        onClick={() => {
+                          onChange([...e.data.options]);
+                          console.log('pressing ', e);
+                        }}
+                      >
                         <p className={style.groupHeading}>
                           {e?.children?.charAt(0)?.toUpperCase() + e?.children?.slice(1)}
                         </p>
