@@ -9,6 +9,8 @@ import { ColumnsData, RowsData } from './helper';
 import Switch from 'components/switch';
 import AddUser from './add-user/index';
 
+import dummy from 'assets/dummyPic.svg';
+
 const ManageUser = ({ newUser, setNewUser }) => {
   const [deletePopUp, setDeletePopUp] = useState(false);
   const [editIndex, setEditIndex] = useState(-1);
@@ -23,7 +25,11 @@ const ManageUser = ({ newUser, setNewUser }) => {
           setEditIndex={setEditIndex}
           rows={RowsData.map((row) => ({
             ...row,
-            image: <div className={style.image}></div>,
+            image: (
+              <div className={style.image}>
+                <img src={dummy} style={{ width: '100%' }} />
+              </div>
+            ),
             status: (
               <div
                 style={{

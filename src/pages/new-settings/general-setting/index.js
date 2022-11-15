@@ -1,6 +1,9 @@
+import { useEffect, useState } from 'react';
+
 import AccordianSwitch from 'components/accordian';
 import CardContainer from 'components/card-container';
-import React, { useState } from 'react';
+
+import SettingsService from 'services/settings-service';
 
 import {
   departmentColumn,
@@ -24,17 +27,51 @@ import style from './general.module.scss';
 
 const GeneralSetting = () => {
   const [openAccordian, setOpenAccordian] = useState(-1);
+  const [departmentRows, setDepartmentRows] = useState([]);
+  const [designationRows, setDesignationRow] = useState([]);
+
+  const getAllDepartments = async () => {
+    const res = await SettingsService.getDepartments();
+    setDepartmentRows(res?.data?.department);
+  };
+
+  useEffect(() => {
+    getAllDepartments();
+  }, []);
+
+  const getAllDesignations = async () => {
+    const res = await SettingsService.getDesignation();
+    if (res.status === 200) {
+      setDesignationRow(res?.data?.desiginations);
+    }
+  };
+
+  useEffect(() => {
+    getAllDesignations();
+  }, []);
+
   return (
     <CardContainer className={style.card}>
       {totalAccordian?.map(({ id, title }) => {
         return (
           <AccordianSwitch
             title={title ? title : 'Profile'}
-            handleEdit={(id) => alert(id)}
             btnText={`Add ${title}`}
             id={id}
+            getAllDepartments={getAllDepartments}
+            getAllDesignations={getAllDesignations}
+            departmentRows={departmentRows}
+            designationRows={designationRows}
             RowsData={
-              title === 'Advance Tags'
+              title === 'Designation'
+                ? designationRows?.map((item) => {
+                    return {
+                      name: item.name,
+                      department: item?.departmentSettingId?.name,
+                      _id: item?._id,
+                    };
+                  })
+                : title === 'Advance Tags'
                 ? tagsRows
                 : title === 'Leave Type'
                 ? leaveRows
