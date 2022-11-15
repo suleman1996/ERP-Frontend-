@@ -7,7 +7,7 @@ import ManageUser from './manage-user';
 import GeneralSetting from './general-setting/index';
 import AccessLevel from './access-level';
 
-import addIcon from 'assets/add.svg';
+import addIcon from 'assets/whiteAdd.svg';
 import Button from 'components/button';
 
 const Settings = () => {
@@ -32,7 +32,7 @@ const Settings = () => {
             );
           })}
         </div>
-        <div>
+        <div className={style.addBtn}>
           {index === 1 && (
             <Button
               iconStart={addIcon}

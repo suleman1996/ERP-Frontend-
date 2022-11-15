@@ -88,12 +88,12 @@ input:checked + .slider:before {
   display: flex;
   align-items: center;
   h6 {
+    font-family: 'Poppins';
+    font-style: normal;
     font-weight: 400;
-    font-size: 14px;
-    letter-spacing: 0.17px;
-    color: #363636;
-    margin-left: 10px;
-    margin-bottom: 0px;
+    font-size: 12px;
+    line-height: 140%;
+    margin-left: 5px;
   }
 }
 

@@ -7,15 +7,41 @@
 }
 .innderDivs {
   @include gridTwo(20, 20);
+  margin-top: 70px;
 
   .rolesAddText {
     display: flex;
     padding-bottom: 10px;
     justify-content: space-between;
+    .rolesDiv {
+      display: flex;
+      align-items: center;
+      span {
+        padding: 1px 10px;
+        border: 1px solid black !important;
+        border-radius: 20px;
+        color: black !important;
+      }
+      p {
+        color: black !important;
+        font-family: 'Poppins';
+        font-style: normal;
+        font-weight: 600;
+        font-size: 15px;
+        line-height: 22px;
+      }
+    }
     .iconDiv {
       display: flex;
       align-items: center;
       cursor: pointer;
+      span {
+        font-family: 'Poppins';
+        font-style: normal;
+        font-weight: 500;
+        font-size: 11px;
+        line-height: 16px;
+      }
       img {
         margin-right: 7px;
         width: 10px;
@@ -38,6 +64,8 @@
 
   .blocks {
     padding: 10px;
+    display: flex;
+    justify-content: space-between;
     border: 1.19506px solid #e2e2ea;
     cursor: pointer;
     font-style: normal;
@@ -45,6 +73,25 @@
     font-size: 13px;
     line-height: 20px;
     color: #2d2d32;
+    position: relative;
+    .menuOptions {
+      border-radius: 5px;
+      box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+      position: absolute;
+      background-color: #fff;
+      display: flex;
+      flex-direction: column;
+      z-index: 2;
+      right: 5px;
+      border: 1px solid lightgray;
+      .optionBorder {
+        padding: 10px 20px;
+        border-bottom: 1px solid lightgray;
+      }
+      .optionWithoutBorder {
+        padding: 10px 20px;
+      }
+    }
   }
   .activeClass {
     color: #57b894 !important;
