@@ -52,11 +52,11 @@ const GeneralSetting = () => {
 
   return (
     <CardContainer className={style.card}>
-      {totalAccordian?.map(({ id, title }) => {
+      {totalAccordian?.map(({ id, title, btnText }) => {
         return (
           <AccordianSwitch
             title={title ? title : 'Profile'}
-            btnText={`Add ${title}`}
+            btnText={btnText}
             id={id}
             getAllDepartments={getAllDepartments}
             getAllDesignations={getAllDesignations}
@@ -77,7 +77,7 @@ const GeneralSetting = () => {
                 ? leaveRows
                 : title === 'Gender'
                 ? genderRows
-                : title === 'Allowence Types'
+                : title === 'Allowance Types'
                 ? allowenceRows
                 : title === 'Documents Category'
                 ? documentsRows
@@ -92,11 +92,11 @@ const GeneralSetting = () => {
                 ? employeeIdColumn
                 : title === 'Gender'
                 ? genderColumn
-                : title === 'Advance Tags'
+                : title === 'Attendance Tags'
                 ? tagsColumn
                 : title === 'Leave Type'
                 ? leaveColumn
-                : title === 'Allowence Types'
+                : title === 'Allowance Types'
                 ? allowenceColumn
                 : title === 'Documents Category'
                 ? documentsColumn
@@ -114,12 +114,12 @@ const GeneralSetting = () => {
 export default GeneralSetting;
 
 const totalAccordian = [
-  { id: 1, title: 'Department' },
-  { id: 2, title: 'Designation' },
-  { id: 3, title: 'Employee ID Series' },
-  { id: 4, title: 'Gender' },
-  { id: 5, title: 'Advance Tags' },
-  { id: 6, title: 'Leave Type' },
-  { id: 7, title: 'Allowence Types' },
-  { id: 8, title: 'Documents Category' },
+  { id: 1, title: 'Department', btnText: 'Add New Department' },
+  { id: 2, title: 'Designation', btnText: 'Add New Designation' },
+  { id: 3, title: 'Employee ID Series', btnText: 'Add New ID Series' },
+  { id: 4, title: 'Gender', btnText: 'Add New Gender' },
+  { id: 5, title: 'Attendance Tags', btnText: 'Add New Tag' },
+  { id: 6, title: 'Leave Type', btnText: 'Add New Leave' },
+  { id: 7, title: 'Allowance Types', btnText: 'Add New Allowance' },
+  { id: 8, title: 'Documents Category', btnText: 'Add New Document' },
 ];

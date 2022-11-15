@@ -17,6 +17,7 @@ import Tags from 'components/tags';
 import Modal from 'components/modal';
 import Input from 'components/input';
 import Select from 'components/select';
+import statusIcon from 'assets/status.svg';
 
 const AccordianSwitch = ({
   title,
@@ -65,7 +66,7 @@ const AccordianSwitch = ({
       setLeaveTypeModal(true);
     } else if (title === 'Gender') {
       setGenderModal(true);
-    } else if (title === 'Allowence Types') {
+    } else if (title === 'Allowance Types') {
       setAllowenceTypeModal(true);
     } else if (title === 'Documents Category') {
       setDocumenModal(true);
@@ -184,7 +185,30 @@ const AccordianSwitch = ({
               <div style={{ paddingBottom: '60px' }}>
                 <Table
                   tableHeaderClass={style.tableHeaderClass}
-                  columns={ColumnsData}
+                  columns={
+                    ColumnsData &&
+                    ColumnsData?.map((item: any) => ({
+                      ...item,
+                      name:
+                        item.name !== 'Status' ? (
+                          item.name
+                        ) : (
+                          <div>
+                            {' '}
+                            <div style={{ display: 'flex', justifyContent: 'center' }}>
+                              <span style={{ marginRight: '5px' }}>Status</span>
+                              <div className={style.tooltip}>
+                                <img className={style.tooltip} src={statusIcon} />
+                                <span className={style.tooltiptext}>
+                                  If you want to hide any option from the dropdowns, you can hide it
+                                  by doing Inactive it
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        ),
+                    }))
+                  }
                   rows={RowsData.map((row) => ({
                     ...row,
                     image: <div className={style.image}></div>,
@@ -526,7 +550,7 @@ const AccordianSwitch = ({
       <Modal
         open={allowenceTypeModal}
         handleClose={() => setAllowenceTypeModal(false)}
-        title={'Add New Allowence'}
+        title={'Add New Allowance'}
       >
         <div>
           <Input

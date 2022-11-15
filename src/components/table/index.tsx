@@ -2,7 +2,7 @@ import { Dispatch, SetStateAction, useState } from 'react';
 
 import TableFilter from 'components/table-filter';
 
-import editIcon from 'assets/table-edit.svg';
+import editIcon from 'assets/newEdit.svg';
 import reloadIcon from 'assets/reset.png';
 import deleteIcon from 'assets/table-delete.svg';
 import eye from 'assets/table-view.svg';
