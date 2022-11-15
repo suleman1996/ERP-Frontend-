@@ -18,6 +18,8 @@ const RenderPoliciesTab = ({
   setEditPolicy,
   reset,
   policyCategory,
+  length,
+  setSearch,
 }: {
   selectedTab: any;
   setSelectedTab: any;
@@ -27,6 +29,8 @@ const RenderPoliciesTab = ({
   setOpenAddPolice: any;
   options: any;
   setEditPolicy: any;
+  length: any;
+  setSearch: any;
 }) => {
   return (
     <>
@@ -42,6 +46,17 @@ const RenderPoliciesTab = ({
           >
             All Policies
           </p>
+          {length && (
+            <div className={style.policyCount}>
+              <p
+                style={{
+                  color: '#000000',
+                }}
+              >
+                {length}
+              </p>
+            </div>
+          )}
           <p
             onClick={() => setSelectedTab(1)}
             style={{
@@ -78,6 +93,7 @@ const RenderPoliciesTab = ({
           policyCategory={policyCategory}
           options={options}
           control={control}
+          setSearch={setSearch}
         />
       )}
     </>
