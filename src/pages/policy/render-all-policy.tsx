@@ -29,15 +29,23 @@ const RenderAllPolicies = ({
   [key: string]: any;
 }) => {
   const [policies, setPolicies] = React.useState([]);
+  const [search, setSearch] = React.useState({ nameNumber: '', addedBy: '', categoryId: '' });
 
   useEffect(() => {
     getPoliciesService();
-  }, [render]);
+    // return () => {
+    //   setSearch({ nameNumber: '', addedBy: '', categoryId: '' });
+    // };
+  }, [render, search]);
 
   const getPoliciesService = async () => {
     try {
-      const result = await PolicyService.getAllPolicies();
-      console.log('Here are all policies ', result?.data?.data);
+      const result = await PolicyService.getAllPolicies({
+        ...(search?.nameNumber && { search: search?.nameNumber }),
+        ...(search?.categoryId && { category: search?.categoryId?.label }),
+        ...(search?.addedBy && { addedBy: search?.addedBy?.value }),
+      });
+      // console.log('Here are all policies ', result?.data?.data);
       setPolicies(result?.data?.data);
     } catch (error) {
       console.log(error);
@@ -56,6 +64,8 @@ const RenderAllPolicies = ({
         setEditPolicy={setEditPolicy}
         reset={reset}
         policyCategory={policyCategory}
+        length={policies.length}
+        setSearch={setSearch}
       />
       <div className={style.policyGridView}>
         {policies?.map((item) => (

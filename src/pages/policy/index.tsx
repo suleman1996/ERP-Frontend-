@@ -57,13 +57,13 @@ const Policy = () => {
 
   const getAllEmployees = async () => {
     try {
-      const result = await EmployeeService.getAllEmployees();
-      console.log('Her are all employees ', result?.data?.employees[0]?.data);
+      const result = await EmployeeService.getOnlyEmployees();
+      // console.log('Her are all employees ', result?.data);
       // result?.data?.employees[0]?.data?.map((item: any) =>
       //   employees.push({ value: item?._id, label: item?.fullName }),
       // );
       setEmployees(
-        result?.data?.employees[0]?.data?.map((item: any) => ({
+        result?.data?.map((item: any) => ({
           value: item?._id,
           label: item?.fullName,
         })),
@@ -76,7 +76,7 @@ const Policy = () => {
   const getEmployeesWithDep = async () => {
     try {
       const result = await EmployeeService.getEmployeesWithDepApi();
-      console.log('Her are all employees with departments ', result?.data?.employeesWithDepartment);
+      // console.log('Her are all employees with departments ', result?.data?.employeesWithDepartment);
       result?.data?.employeesWithDepartment?.map((item: any) => {
         employeesWithDep.push({
           options: item?.employees?.map((ite: any) => ({ value: ite?._id, label: ite?.fullName })),

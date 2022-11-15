@@ -28,14 +28,20 @@ const RenderObsolete = ({
   [key: string]: any;
 }) => {
   const [obseletePolicies, setObseletePolicies] = useState([]);
+  const [search, setSearch] = React.useState({ nameNumber: '', addedBy: '', categoryId: '' });
 
   useEffect(() => {
     getObseletePolocies();
-  }, [renderObselete]);
+  }, [renderObselete, search]);
 
   const getObseletePolocies = async () => {
     try {
-      const result = await PolicyService.getAllPolicies({ obselete: true });
+      const result = await PolicyService.getAllPolicies({
+        obselete: true,
+        ...(search?.nameNumber && { search: search?.nameNumber }),
+        ...(search?.categoryId && { category: search?.categoryId?.label }),
+        ...(search?.addedBy && { addedBy: search?.addedBy?.value }),
+      });
       console.log('Here are the obselete policies ', result?.data?.data);
       setObseletePolicies(result?.data?.data);
     } catch (error) {
@@ -57,6 +63,7 @@ const RenderObsolete = ({
         options={options}
         setEditPolicy={setEditPolicy}
         policyCategory={policyCategory}
+        setSearch={setSearch}
       />
       <div className={style.policyGridView}>
         {obseletePolicies?.map((item) => (
