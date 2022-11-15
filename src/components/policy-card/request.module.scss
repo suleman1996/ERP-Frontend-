@@ -5,13 +5,7 @@
 .appGrid {
   padding: 60px 60px 20px 60px;
   @include gridFour(50, 60);
-  @media (max-width: $lg) {
-    grid-gap: 30px 30px;
-    padding: 30px 7px 20px 7px;
-  }
-  @media (max-width: $md) {
-    grid-gap: 30px 30px;
-  }
+
   @media (max-width: $sm) {
     padding: 30px 40px 20px 40px;
   }
@@ -250,12 +244,8 @@ p {
 }
 
 .policyView {
-  // backgroundColor: 'red',
-  width: 235.59px;
-  // height: 240.62px;
   border: 1px solid #e2e2ea;
   border-radius: 5px;
-  margin: 20px;
   position: relative;
 }
 .policyHeaderView {

@@ -4,16 +4,17 @@
 
 .card {
   margin-top: 10px;
-  max-height: calc(100vh - 133px);
+  max-height: calc(100vh - 115px);
+  height: 90vh !important;
   overflow-y: auto;
   padding: 0px;
   display: flex;
   flex-direction: column;
   @media (max-width: $lg) {
-    max-height: calc(100vh - 124px);
+    max-height: calc(100vh - 100px);
   }
   @media (max-width: $md) {
-    max-height: calc(100vh - 109px);
+    max-height: calc(100vh - 85px);
   }
   @media (max-width: $tab) {
     margin: 0px 10px;
@@ -24,8 +25,12 @@
   }
 
   .activeClass {
-    color: black;
-    font-weight: 900 !important;
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 22px;
+    color: #2d2d32 !important;
   }
   p {
     padding: 7px;
@@ -47,6 +52,15 @@
   padding-right: calc(15px + (45 - 15) * (100vw - 280px) / (2560 - 280));
   border-bottom: 0.55939px solid #e2e2ea;
 
+  position: fixed;
+  z-index: 2;
+  background-color: #fff;
+  width: 83%;
+
+  @media (max-width: $sm) {
+    width: 94%;
+  }
+
   h6 {
     @include font32;
     @media (max-width: 600px) {
@@ -62,6 +76,7 @@
   .navBar {
     display: flex;
     justify-content: space-between;
+
     p {
       margin-right: 30px;
       font-style: normal;
@@ -69,6 +84,22 @@
       font-size: 15px;
       line-height: 22px;
       cursor: pointer;
+      @media (max-width: $sm) {
+        margin-right: 10px;
+      }
     }
+  }
+}
+
+.addBtn {
+  @media (max-width: $tab) {
+    position: fixed;
+    z-index: 3;
+    bottom: 30px;
+    right: 20px;
+  }
+
+  .btnClass {
+    width: max-content;
   }
 }

@@ -1,3 +1,9 @@
+import { useForm } from 'react-hook-form';
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+
+import SettingsService from 'services/settings-service';
+
 import style from './accordian.module.scss';
 
 import arrow from 'assets/arrowup.svg';
@@ -11,6 +17,7 @@ import Tags from 'components/tags';
 import Modal from 'components/modal';
 import Input from 'components/input';
 import Select from 'components/select';
+import statusIcon from 'assets/status.svg';
 
 const AccordianSwitch = ({
   title,
@@ -22,10 +29,14 @@ const AccordianSwitch = ({
   ColumnsData,
   RowsData,
   accordianContainer,
-  handleEdit,
   btnText,
+  getAllDepartments,
+  departmentRows,
+  designationRows,
+  getAllDesignations,
 }: any) => {
   const [checkAll, setCheckAll] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [deletePopUp, setDeletePopUp] = useState(false);
   const [departmentModal, setDepartmentModal] = useState(false);
   const [designationModal, setDesignationModal] = useState(false);
@@ -35,6 +46,12 @@ const AccordianSwitch = ({
   const [genderModal, setGenderModal] = useState(false);
   const [allowenceTypeModal, setAllowenceTypeModal] = useState(false);
   const [documentModal, setDocumenModal] = useState(false);
+
+  const [depId, setDepId] = useState();
+
+  const { register, handleSubmit, errors, control, reset, watch } = useForm({
+    resolver: yupResolver(title === 'Department' ? departmentSchema : designationSchema),
+  });
 
   const handleClickBtn = () => {
     if (title === 'Department') {
@@ -49,10 +66,89 @@ const AccordianSwitch = ({
       setLeaveTypeModal(true);
     } else if (title === 'Gender') {
       setGenderModal(true);
-    } else if (title === 'Allowence Types') {
+    } else if (title === 'Allowance Types') {
       setAllowenceTypeModal(true);
     } else if (title === 'Documents Category') {
       setDocumenModal(true);
+    }
+  };
+
+  const departmentSubmit = async (data: any) => {
+    if (depId) {
+      setLoading(true);
+      const res = await SettingsService.updateDepartment(data, depId);
+      if (res.status === 200) {
+        setDepartmentModal(false);
+        reset({});
+        getAllDepartments();
+        setLoading(false);
+      }
+      setLoading(false);
+    } else {
+      setLoading(true);
+      const res = await SettingsService.addDepartment(data);
+      if (res.status === 200) {
+        setDepartmentModal(false);
+        reset({});
+        getAllDepartments();
+        setLoading(false);
+      }
+    }
+  };
+
+  const handleEdit = (id: string | number) => {
+    if (title === 'Department') {
+      setDepartmentModal(true);
+      setDepId(id);
+      reset({ ...departmentRows?.find((item) => item._id === id) });
+    } else if (title === 'Designation') {
+      setDesignationModal(true);
+      setDepId(id);
+      let data = designationRows?.find((item) => item._id === id);
+
+      reset({
+        ...data,
+        departmentId: data?.departmentSettingId?._id,
+      });
+    }
+  };
+
+  const handleDelete = async (id) => {
+    if (title === 'Department') {
+      setLoading(true);
+      const res = await SettingsService.deleteDepartment(depId);
+      if (res.status === 200) {
+        setDeletePopUp(false);
+        getAllDepartments();
+        setDeletePopUp(false);
+      }
+      setDeletePopUp(false);
+    } else if (title === 'Designation') {
+      const res = await SettingsService.deleteDesignation(depId);
+      if (res.status === 200) {
+        getAllDesignations();
+        setDeletePopUp(false);
+      }
+    }
+  };
+
+  ///////designation////////////
+
+  const designationSubmit = async (data: any) => {
+    if (depId) {
+      const res = await SettingsService.updateDesignation(data, depId);
+      if (res.status === 200) {
+        setDesignationModal(false);
+        getAllDesignations();
+        reset({});
+      }
+    } else {
+      const res = await SettingsService.addDesignation(data);
+      if (res.status === 200) {
+        setDesignationModal(false);
+        getAllDesignations();
+        reset({});
+      }
     }
   };
 
@@ -64,7 +160,7 @@ const AccordianSwitch = ({
         style={{ marginTop: !switchBtn && '10px' }}
       >
         <div className={style.switchHeader}>
-          {title}
+          <span>{title}</span>
           {switchBtn && (
             <Switch
               switchContainer={style.switchContainer}
@@ -89,7 +185,30 @@ const AccordianSwitch = ({
               <div style={{ paddingBottom: '60px' }}>
                 <Table
                   tableHeaderClass={style.tableHeaderClass}
-                  columns={ColumnsData}
+                  columns={
+                    ColumnsData &&
+                    ColumnsData?.map((item: any) => ({
+                      ...item,
+                      name:
+                        item.name !== 'Status' ? (
+                          item.name
+                        ) : (
+                          <div>
+                            {' '}
+                            <div style={{ display: 'flex', justifyContent: 'center' }}>
+                              <span style={{ marginRight: '5px' }}>Status</span>
+                              <div className={style.tooltip}>
+                                <img className={style.tooltip} src={statusIcon} />
+                                <span className={style.tooltiptext}>
+                                  If you want to hide any option from the dropdowns, you can hide it
+                                  by doing Inactive it
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        ),
+                    }))
+                  }
                   rows={RowsData.map((row) => ({
                     ...row,
                     image: <div className={style.image}></div>,
@@ -110,14 +229,20 @@ const AccordianSwitch = ({
                   }))}
                   minWidth="700px"
                   headingText={style.columnText}
-                  handleDelete={(id) => console.log(id)}
-                  handleModalOpen={() => setDeletePopUp(true)}
-                  handleEdit={handleEdit && handleEdit}
+                  handleDelete={(id) => {
+                    setDepId(id);
+                    setDeletePopUp(true);
+                  }}
+                  handleEdit={(id) => handleEdit(id)}
                 />
                 <div className={style.btnDiv}>
                   <Button text={btnText} handleClick={handleClickBtn} />
                 </div>
-                <DeletePopup open={deletePopUp} setOpen={setDeletePopUp} handleDelete={undefined} />
+                <DeletePopup
+                  open={deletePopUp}
+                  setOpen={setDeletePopUp}
+                  handleDelete={handleDelete}
+                />
               </div>
             </CardContainer>
           </>
@@ -127,92 +252,110 @@ const AccordianSwitch = ({
 
       <Modal
         open={departmentModal}
-        handleClose={() => setDepartmentModal(false)}
+        handleClose={() => {
+          setDepartmentModal(false);
+          setDepId('');
+        }}
         title={'Add New Department'}
       >
-        <div className={style.modalContainer}>
-          <Input
-            label="Department Name"
-            placeholder="Enter Department Name"
-            containerClass={style.containerClass}
-          />
-          <Select
-            label="Department Parent"
-            name={'employeeId'}
-            selectContainer={style.selectContainer}
-            wraperSelect={style.wraperSelect}
-          >
-            <>
-              <option value={''}>Select Department Parent</option>
-              {series &&
-                series.map((ele: any) => (
-                  <>
-                    <option key={ele.name} value={ele?.name}>
-                      {ele.name}
-                    </option>
-                  </>
-                ))}
-            </>
-          </Select>
-          <Select
-            label="Department Head"
-            name={'employeeId'}
-            selectContainer={style.selectContainer}
-            wraperSelect={style.wraperSelect}
-          >
-            <>
-              <option value={''}>Select Department Head</option>
-              {series &&
-                series.map((ele: any) => (
-                  <>
-                    <option key={ele.name} value={ele?.name}>
-                      {ele.name}
-                    </option>
-                  </>
-                ))}
-            </>
-          </Select>
-        </div>
-        <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '15px' }}>
-          <Button text="Add Department" />
-        </div>
+        <form onSubmit={handleSubmit(departmentSubmit)}>
+          <div className={style.modalContainer}>
+            <Input
+              name={'name'}
+              label="Department Name"
+              placeholder="Enter Department Name"
+              register={register}
+              errorMessage={errors?.name?.message}
+              containerClass={style.containerClass}
+            />
+            <Select
+              label="Department Parent"
+              name={'employeeId'}
+              selectContainer={style.selectContainer}
+              wraperSelect={style.wraperSelect}
+            >
+              <>
+                <option value={''}>Select Department Parent</option>
+                {series &&
+                  series.map((ele: any) => (
+                    <>
+                      <option key={ele.name} value={ele?.name}>
+                        {ele.name}
+                      </option>
+                    </>
+                  ))}
+              </>
+            </Select>
+            <Select
+              label="Department Head"
+              name={'employeeId'}
+              selectContainer={style.selectContainer}
+              wraperSelect={style.wraperSelect}
+            >
+              <>
+                <option value={''}>Select Department Head</option>
+                {series &&
+                  series.map((ele: any) => (
+                    <>
+                      <option key={ele.name} value={ele?.name}>
+                        {ele.name}
+                      </option>
+                    </>
+                  ))}
+              </>
+            </Select>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '15px' }}>
+            <Button text="Add Department" type="submit" isLoading={loading} />
+          </div>
+        </form>
       </Modal>
 
       {/* ////////////// Designation  //////////////// */}
 
       <Modal
         open={designationModal}
-        handleClose={() => setDesignationModal(false)}
+        handleClose={() => {
+          setDesignationModal(false);
+          setDepId('');
+        }}
         title={'Add New Designation'}
       >
-        <div className={style.modalContainer}>
-          <Input
-            label="Department Name"
-            placeholder="Enter Department Name"
-            containerClass={style.containerClass}
-          />
-          <Select
-            label="Designation Name"
-            name={'employeeId'}
-            selectContainer={style.selectContainer}
-            wraperSelect={style.wraperSelect}
-          >
-            <>
-              <option value={''}>Select Department Parent</option>
-              {series &&
-                series.map((ele: any) => (
-                  <>
-                    <option key={ele.name} value={ele?.name}>
-                      {ele.name}
-                    </option>
-                  </>
-                ))}
-            </>
-          </Select>
-        </div>
-        <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '15px' }}>
-          <Button text="Add Designation" />
-        </div>
+        <form onSubmit={handleSubmit(designationSubmit)}>
+          <div className={style.modalContainer}>
+            <Input
+              name={'name'}
+              label="Designation Name"
+              placeholder="Enter Designation Name"
+              containerClass={style.containerClass}
+              register={register}
+              errorMessage={errors?.name?.message}
+            />
+            <Select
+              label="Department Name"
+              name={'departmentId'}
+              selectContainer={style.selectContainer}
+              wraperSelect={style.wraperSelect}
+              register={register}
+              errorMessage={errors?.departmentId?.message}
+            >
+              <>
+                <option value={''}>Select Department Parent</option>
+                {departmentRows &&
+                  departmentRows.map((ele: any) => (
+                    <>
+                      <option key={ele.name} value={ele?._id}>
+                        {ele.name}
+                      </option>
+                    </>
+                  ))}
+              </>
+            </Select>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '15px' }}>
+            <Button text="Add Designation" />
+          </div>
+        </form>
       </Modal>
 
       {/* /////Employee ID Series  ///// */}
@@ -407,7 +550,7 @@ const AccordianSwitch = ({
       <Modal
         open={allowenceTypeModal}
         handleClose={() => setAllowenceTypeModal(false)}
-        title={'Add New Allowence'}
+        title={'Add New Allowance'}
       >
         <div>
           <Input
@@ -466,3 +609,12 @@ const series = [
   { name: 'sdasd', value: 'adad' },
   { name: 'sdasd', value: 'adad' },
 ];
+
+export const departmentSchema = yup.object().shape({
+  name: yup.string().required('Department name  is a required field'),
+});
+
+export const designationSchema = yup.object().shape({
+  name: yup.string().required('Designation name  is a required field'),
+  departmentId: yup.string().required('Department name  is a required field'),
+});

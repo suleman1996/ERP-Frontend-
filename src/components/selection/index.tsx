@@ -105,13 +105,19 @@ const Selection = ({
         <Controller
           name={name}
           control={control}
+          defaultValue={null}
           render={({ onChange, value }) => {
             return (
               <>
                 <Select
                   components={{
                     GroupHeading: (e) => (
-                      <div onClick={() => onChange([...e.data.options])}>
+                      <div
+                        onClick={() => {
+                          onChange([...e.data.options]);
+                          console.log('pressing ', e);
+                        }}
+                      >
                         <p className={style.groupHeading}>
                           {e?.children?.charAt(0)?.toUpperCase() + e?.children?.slice(1)}
                         </p>
@@ -126,7 +132,6 @@ const Selection = ({
                   styles={CustomStyle}
                   placeholder={placeholder}
                   isDisabled={isDisabled || false}
-                  formatOptionLabel={(data, metaData) => formatOptionLabel(data, metaData, true)}
                 />
               </>
             );

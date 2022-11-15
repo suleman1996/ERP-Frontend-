@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import AccordianSwitch from 'components/accordian';
 
 import addIcon from 'assets/add.svg';
+import threeDots from 'assets/three.svg';
 import style from './access.module.scss';
 import Input from 'components/input';
 import Button from 'components/button';
@@ -11,6 +12,7 @@ import Button from 'components/button';
 const AccessLevel = () => {
   const [toggle, setToggle] = useState(0);
   const [newUser, setNewUser] = useState(false);
+  const [menu, setMenu] = useState(false);
 
   const [openAccordian, setOpenAccordian] = useState(-1);
 
@@ -20,7 +22,10 @@ const AccessLevel = () => {
         <div className={style.innderDivs}>
           <div>
             <div className={style.rolesAddText}>
-              <p>Roles</p>
+              <div className={style.rolesDiv}>
+                <p>Roles</p>
+                <span>{roles.length}</span>
+              </div>
               <div className={style.iconDiv} onClick={() => setNewUser(true)}>
                 <img src={addIcon} />
                 <span>Add New Role</span>
@@ -34,6 +39,15 @@ const AccessLevel = () => {
                     onClick={() => setToggle(index)}
                   >
                     {role}
+                    <div>
+                      <img src={threeDots} onClick={() => setMenu(!menu)} />
+                      {menu && toggle === index && (
+                        <div className={style.menuOptions}>
+                          <div className={style.optionBorder}>Rename</div>
+                          <div className={style.optionWithoutBorder}>Delete</div>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 );
               })}

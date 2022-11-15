@@ -2,8 +2,8 @@ import { Dispatch, SetStateAction, useState } from 'react';
 
 import TableFilter from 'components/table-filter';
 
-import editIcon from 'assets/table-edit.svg';
-import reloadIcon from 'assets/reload.svg';
+import editIcon from 'assets/newEdit.svg';
+import reloadIcon from 'assets/reset.png';
 import deleteIcon from 'assets/table-delete.svg';
 import eye from 'assets/table-view.svg';
 import pdf from 'assets/employee-page/print.svg';
@@ -193,15 +193,9 @@ const Table = ({
                             (row?.isActive !== false ? (
                               <>
                                 <img
-                                  onClick={() => handleDeleteIcon({ id: row.id, index })}
-                                  className={style.pencilIcon}
-                                  src={deleteIcon}
-                                  alt="deleteIcon"
-                                />
-                                <img
                                   className={style.pencilIcon}
                                   data-testid="edit-element"
-                                  onClick={() => handlePencilIcon({ id: row._id, index })}
+                                  onClick={() => handlePencilIcon({ id: row?._id, index })}
                                   src={editIcon}
                                   alt="editIcon"
                                 />
@@ -214,6 +208,12 @@ const Table = ({
                                     alt="editIcon"
                                   />
                                 )}
+                                <img
+                                  onClick={() => handleDeleteIcon({ id: row._id, index })}
+                                  className={style.pencilIcon}
+                                  src={deleteIcon}
+                                  alt="deleteIcon"
+                                />
                               </>
                             ) : (
                               '-'

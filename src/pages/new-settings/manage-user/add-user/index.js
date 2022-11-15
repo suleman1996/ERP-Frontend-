@@ -2,7 +2,7 @@ import Button from 'components/button';
 import Input from 'components/input';
 import React from 'react';
 
-import cam from 'assets/camlogo.svg';
+import cam from 'assets/whiteCam.svg';
 import style from './add-user.module.scss';
 import Switch from 'components/switch';
 import Select from 'components/select';
@@ -12,7 +12,7 @@ const AddUser = ({ setNewUser }) => {
     <>
       <div className={style.wraper}>
         <div className={style.imgParentDiv}>
-          <img src={cam} />
+          <img src={cam} width={30} />
         </div>
         <Input
           label="Name"
@@ -48,7 +48,12 @@ const AddUser = ({ setNewUser }) => {
           placeholder={'Enter id'}
           containerClass={style.containerClassInput}
         />
-        <Switch title={'Active'} label={'Status'} />
+        <div className={style.customLabel}>
+          <label>Status</label>
+          <div>
+            <Switch title={'Active'} />
+          </div>
+        </div>
       </div>
 
       <div className={style.btns}>

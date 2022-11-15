@@ -73,10 +73,10 @@
   grid-gap: $gap_y + px $gap_x + px;
   grid-auto-rows: auto;
   @media (max-width: 1700px) {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
   }
   @media (max-width: $lg) {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
   @media (max-width: $md) {
     grid-template-columns: repeat(2, 1fr);

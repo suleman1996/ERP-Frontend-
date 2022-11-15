@@ -29,13 +29,13 @@ export const departmentColumn = [
 export const designationColumn = [
   {
     key: 'name',
-    name: 'Department Name',
+    name: 'Designation',
     alignText: 'center',
     width: '100px',
   },
   {
-    key: 'email',
-    name: 'Department Parent',
+    key: 'department',
+    name: 'Department',
     alignText: 'center',
     width: '100px',
   },
@@ -53,8 +53,8 @@ export const employeeIdColumn = [
   {
     key: 'id',
     name: 'Employee ID Series',
-    alignText: 'center',
-    width: '1000px',
+    alignText: 'left',
+    width: '150px',
   },
 
   {
@@ -71,7 +71,7 @@ export const genderColumn = [
     key: 'gender',
     name: 'Gender',
     alignText: 'center',
-    width: '1000px',
+    width: '200px',
   },
 
   {

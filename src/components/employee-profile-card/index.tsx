@@ -1,6 +1,7 @@
 import Button from 'components/button';
 
 import style from './employee-card.module.scss';
+import profile from 'assets/avatar.jfif';
 
 interface Props {
   handleClick?: any;
@@ -25,7 +26,7 @@ const EmployeeProfileCard = ({
     <>
       <div className={style.mainDiv}>
         <div className={style.leftGrid}>
-          <img src={img} alt="" />
+          <img src={img ? img : profile} alt="" width={103} height={106} />
           <Button text="More" handleClick={() => handleClick()} />
         </div>
         <div className={style.rightGrid}>

@@ -1,11 +1,15 @@
 .card {
   border-radius: 0%;
+  // max-height: calc(100vh - 90px);
+  margin: 110px 15px 0px 15px;
+  border-radius: 8px;
+  padding-left: 0px !important;
+  padding-right: 0px !important;
 }
 
 .image {
   width: 70px;
   height: 70px;
-  background-color: lightgreen;
   border-radius: 50%;
   display: flex;
   justify-content: center;
