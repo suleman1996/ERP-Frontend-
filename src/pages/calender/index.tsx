@@ -307,6 +307,13 @@ const Calender = () => {
             year: 'numeric',
             month: 'short',
           }}
+          views={{
+            month: {
+              eventLimit: 2,
+            },
+          }}
+          eventLimit={true}
+          eventLimitText="More"
           eventContent={RenderEventHandler}
           slotLabelInterval={{ hours: 1 }}
           events={allEvent?.map((e: any) => ({
@@ -411,7 +418,7 @@ const Calender = () => {
                 control={control}
                 errorMessage={errors?.type?.message}
                 star=" *"
-                placeholder={'type'}
+                placeholder="Type"
               />
               <Selection
                 label="Recurrence"
