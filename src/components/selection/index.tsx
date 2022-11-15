@@ -63,8 +63,8 @@ const Selection = ({
   ): any => {
     return (
       <>
-        {context === 'value' ? (
-          <div>{value}</div>
+        {context === 'label' ? (
+          <div>{label}</div>
         ) : (
           <div style={{ display: 'flex' }}>
             <div
@@ -77,7 +77,7 @@ const Selection = ({
                 marginTop: '5px',
               }}
             />
-            {value}
+            {label}
           </div>
         )}
       </>
