@@ -39,8 +39,6 @@ const TaxSlab = ({ setIsLoading, open, setOpen, singleId, setSingleId, slabs, se
     const res = await TaxService.getAllTaxSlabsData();
 
     if (res.status === 200) {
-      console.log('res pes', res?.data?.data);
-
       setTaxSlabsData(res?.data?.data);
     }
     setIsLoading(false);

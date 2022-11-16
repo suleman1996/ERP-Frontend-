@@ -3,11 +3,16 @@
 @import 'styles/_mixin.scss';
 
 .tableWrapper {
-  overflow-x: auto;
-  overflow-y: auto;
   max-height: 775px;
   flex: 1;
   background: #ffffff;
+  overflow: hidden;
+
+  &:hover {
+    overflow-x: auto;
+    overflow-y: auto;
+  }
+
   &::-webkit-scrollbar:vertical {
     display: none;
     overflow-x: scroll;

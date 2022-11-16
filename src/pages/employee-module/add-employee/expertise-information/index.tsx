@@ -118,8 +118,7 @@ const ExpertiseInformation = () => {
 
   const getUser = async () => {
     const res = await EmployeeService.getExpertiesEmployee(employeeDocId);
-    console.log('res pes ', res.data);
-    console.log('skill ', res.data);
+
     // const skills = res?.data?.skills?.map((item: any) => {
     //   removeKeys(item, ['_id']);
     //   return item;

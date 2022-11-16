@@ -92,7 +92,7 @@
 }
 
 .addBtn {
-  @media (max-width: $tab) {
+  @media (max-width: $lg) {
     position: fixed;
     z-index: 3;
     bottom: 30px;

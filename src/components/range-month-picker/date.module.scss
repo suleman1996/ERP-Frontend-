@@ -36,6 +36,11 @@
     color: #2d2d32;
     margin-top: calc(5px + (12 - 5) * (100vw - 280px) / (2560 - 280));
     height: calc(30px + (55 - 30) * (100vw - 280px) / (2560 - 280));
+    &::placeholder {
+      color: lightgray;
+      font-size: 14px;
+      font-weight: 600;
+    }
   }
 }
 
