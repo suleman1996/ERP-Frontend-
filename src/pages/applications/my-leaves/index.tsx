@@ -2,30 +2,19 @@ import Table from 'components/table';
 import style from './index.module.scss';
 
 import editIcon from 'assets/table-edit.svg';
+import cancel from 'assets/cancel.svg';
 import view from 'assets/viewIconnew.svg';
 import deleteIcon from 'assets/table-delete.svg';
 import Button from 'components/button';
 import Pagination from 'components/pagination';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import CreateApplicationModal from './create-applications';
+import ApplicationService from 'services/application-service';
+import moment from 'moment';
+import Loading from 'components/loading';
+import DeleteModal from 'components/delete-modal';
+import { createNotification } from 'common/create-notification';
 
-const RowsData = [
-  {
-    leaveType: '12/10/2022',
-    total: 'SRX001',
-    remaining: 'uiqwkjasopkdjb',
-  },
-  {
-    leaveType: '12/10/2022',
-    total: 'SRX001',
-    remaining: 'uiqwkjasopkdjb',
-  },
-  {
-    leaveType: '12/10/2022',
-    total: 'SRX001',
-    remaining: 'uiqwkjasopkdjb',
-  },
-];
 const ColumnsData = [
   {
     key: 'leaveType',
@@ -50,206 +39,6 @@ const ColumnsData = [
     name: 'Action',
     alignText: 'center',
     width: '150px',
-  },
-];
-const RowsData1 = [
-  {
-    leaveType: 'Casual',
-    appliedOn: 'SRX001',
-    from: '35635',
-    to: '234',
-    duration: '12332',
-    status1: (
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            color: '#57B894',
-            fontWeight: '500',
-            backgroundColor: '#B0DECD',
-            width: '60%',
-            height: '32px',
-            fontSize: '16px',
-            borderRadius: '1.55086px',
-          }}
-        >
-          Approved
-        </div>
-      </div>
-    ),
-  },
-  {
-    leaveType: 'Casual',
-    appliedOn: 'SRX001',
-    from: '35635',
-    to: '234',
-    duration: '12332',
-    status1: (
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            color: '#E92424',
-            fontWeight: '500',
-            backgroundColor: '#F7B0B0',
-            width: '60%',
-            height: '32px',
-            fontSize: '16px',
-            borderRadius: '1.55086px',
-          }}
-        >
-          Rejected
-        </div>
-      </div>
-    ),
-  },
-  {
-    leaveType: 'Casual',
-    appliedOn: 'SRX001',
-    from: '35635',
-    to: '234',
-    duration: '12332',
-    status1: (
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            color: '#6E6E6E',
-            fontWeight: '500',
-            backgroundColor: '#BBBBBB',
-            width: '60%',
-            height: '32px',
-            fontSize: '16px',
-            borderRadius: '1.55086px',
-          }}
-        >
-          Canceled
-        </div>
-      </div>
-    ),
-  },
-  {
-    leaveType: 'Casual',
-    appliedOn: 'SRX001',
-    from: '35635',
-    to: '234',
-    duration: '12332',
-    status1: (
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            color: '#57B894',
-            fontWeight: '500',
-            backgroundColor: '#B0DECD',
-            width: '60%',
-            height: '32px',
-            fontSize: '16px',
-            borderRadius: '1.55086px',
-          }}
-        >
-          Approved
-        </div>
-      </div>
-    ),
-  },
-  {
-    leaveType: 'Casual',
-    appliedOn: 'SRX001',
-    from: '35635',
-    to: '234',
-    duration: '12332',
-    status1: (
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            color: '#5DC124',
-            fontWeight: '500',
-            backgroundColor: '#B3EB94',
-            width: '60%',
-            height: '32px',
-            fontSize: '16px',
-            borderRadius: '1.55086px',
-          }}
-        >
-          Updated
-        </div>
-      </div>
-    ),
-  },
-  {
-    leaveType: 'Casual',
-    appliedOn: 'SRX001',
-    from: '35635',
-    to: '234',
-    duration: '12332',
-    status1: (
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            color: '#5DC124',
-            fontWeight: '500',
-            backgroundColor: '#B3EB94',
-            width: '60%',
-            height: '32px',
-            fontSize: '16px',
-            borderRadius: '1.55086px',
-          }}
-        >
-          Updated
-        </div>
-      </div>
-    ),
   },
 ];
 const ColumnsData1 = [
@@ -297,14 +86,134 @@ const ColumnsData1 = [
   },
 ];
 
-const MyLeaves = () => {
+const MyLeaves = ({ data }: { data: any }) => {
+  const [loading, setLoading] = useState(false);
   const [pageSize, setPageSize] = useState(10);
   const [openModal, setOpenModal] = useState(false);
+  const [selectedId, setSelectedId] = useState('');
+  const [cancelModal, setCancelModal] = useState(false);
   const [totalCount, setTotalCount] = useState();
+  const [RowsData, setRowsData] = useState([]);
+  const [leaveRowsData, setLeaveRowsData] = useState([]);
+  const [defaultLeaveType, setDefaultLeaveType] = useState({});
   const [page, setPage] = useState(1);
+
+  const getHistory = async () => {
+    setLoading(true);
+    const res = await ApplicationService.getLeaveHistory();
+    setRowsData(res.data);
+    console.log(RowsData);
+    setLoading(false);
+  };
+  const getAllLeaveApplications = async () => {
+    setLoading(true);
+    let {
+      data: { msg, total },
+    } = await ApplicationService.getAllLeaveApplications({ pageSize: pageSize, page: page - 1 });
+    setTotalCount(total);
+    msg = msg?.map((el: any) => {
+      return {
+        id: el._id,
+        leaveType: el.leaveType.name,
+        appliedOn: moment(el.applyDate).format('D MMM, YYYY'),
+        from: moment(el.dateFrom).format('D MMM, YYYY (hh:mm A)'),
+        to: moment(el.dateTo).format('D MMM, YYYY (hh:mm A)'),
+        duration: el.noOfDays,
+        status1: (
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                color:
+                  el.status === 'Pending'
+                    ? '#E0AD00'
+                    : el.status === 'Approved'
+                    ? '#57B894'
+                    : el.status === 'Rejected'
+                    ? '#E92424'
+                    : el.status === 'Cancelled'
+                    ? '#6E6E6E'
+                    : el.status === 'Updated'
+                    ? '#5DC124'
+                    : '',
+                fontWeight: '500',
+                backgroundColor:
+                  el.status === 'Pending'
+                    ? '#FFE48A'
+                    : el.status === 'Approved'
+                    ? '#B0DECD'
+                    : el.status === 'Rejected'
+                    ? '#F7B0B0'
+                    : el.status === 'Cancelled'
+                    ? '#BBBBBB'
+                    : el.status === 'Updated'
+                    ? '#B3EB94'
+                    : '',
+                width: '60%',
+                height: '32px',
+                fontSize: '16px',
+                borderRadius: '1.55086px',
+              }}
+            >
+              {el.status}
+            </div>
+          </div>
+        ),
+      };
+    });
+    setLeaveRowsData(msg);
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    getHistory();
+    getAllLeaveApplications();
+  }, [pageSize, page]);
+
+  const handleCancel = async () => {
+    const res = await ApplicationService.deleteApplication(selectedId);
+    if (res?.response?.status === 400) {
+      createNotification('error', 'Error', res?.response?.data?.message);
+      setCancelModal(false);
+    }
+    if (res?.data) {
+      createNotification('success', 'success', 'Canceled');
+      setCancelModal(false);
+    }
+  };
+
   return (
     <>
-      {openModal && <CreateApplicationModal openModal={openModal} setOpenModal={setOpenModal} />}
+      {loading && (
+        <div className={style.loaderDiv}>
+          <Loading loaderClass={style.loadingStyle} />
+        </div>
+      )}
+      {cancelModal && (
+        <DeleteModal
+          open={cancelModal}
+          setOpen={setCancelModal}
+          heading={'Are you sure you want to cancel this?'}
+          description={`If you cancel this you can’t reverse it.`}
+          handleDelete={handleCancel}
+        />
+      )}
+      {openModal && (
+        <CreateApplicationModal
+          openModal={openModal}
+          setOpenModal={setOpenModal}
+          data={data}
+          defaultLeaveType={defaultLeaveType}
+        />
+      )}
       <div className={style.container}>
         <div className={style.historyTable}>
           <Table
@@ -312,14 +221,17 @@ const MyLeaves = () => {
             tableHeaderClass={style.tableHeaderClass}
             headingText={style.headingText}
             columns={ColumnsData}
-            rows={RowsData.map((row) => ({
+            rows={RowsData?.map((row: any) => ({
               ...row,
               action: (
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
                   <Button
                     text="Apply Now"
                     btnClass={style.btnClass}
-                    handleClick={() => setOpenModal(true)}
+                    handleClick={() => {
+                      setDefaultLeaveType({ value: row.id, label: row.leaveType });
+                      setOpenModal(true);
+                    }}
                   />{' '}
                 </div>
               ),
@@ -334,18 +246,27 @@ const MyLeaves = () => {
             tableHeaderClass={style.tableHeaderClass}
             headingText={style.headingText}
             columns={ColumnsData1}
-            rows={RowsData1.map((row) => ({
+            rows={leaveRowsData?.map((row: any) => ({
               ...row,
               action: (
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
                   <div style={{ marginRight: '10px' }}>
-                    <img src={editIcon} width={30} />
+                    <img alt="" src={view} width={30} />
                   </div>
                   <div style={{ marginRight: '10px' }}>
-                    <img src={deleteIcon} width={30} />
+                    <img alt="" src={editIcon} width={30} />
                   </div>
                   <div style={{ marginRight: '10px' }}>
-                    <img src={view} width={30} />
+                    <img
+                      alt=""
+                      src={cancel}
+                      width={30}
+                      onClick={() => {
+                        setCancelModal(true);
+                        console.log(row, 'row Data');
+                        setSelectedId(row?.id);
+                      }}
+                    />
                   </div>
                 </div>
               ),

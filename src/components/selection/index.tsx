@@ -34,6 +34,7 @@ interface Props {
   isMulti?: boolean;
   control: any;
   isDisabled?: any;
+  defaultValue?: any;
 }
 
 const Selection = ({
@@ -51,6 +52,7 @@ const Selection = ({
   control,
   isDisabled,
   classNameLabel,
+  defaultValue,
 }: Props) => {
   const [customErr, setCustomErr] = useState<string | undefined>();
 
@@ -105,35 +107,22 @@ const Selection = ({
         <Controller
           name={name}
           control={control}
-          defaultValue={null}
-          render={({ onChange, value }) => {
+          defaultValue={defaultValue}
+          render={({ onChange: handleChange, value }) => {
             return (
-              <>
-                <Select
-                  components={{
-                    GroupHeading: (e) => (
-                      <div
-                        onClick={() => {
-                          onChange([...e.data.options]);
-                          console.log('pressing ', e);
-                        }}
-                      >
-                        <p className={style.groupHeading}>
-                          {e?.children?.charAt(0)?.toUpperCase() + e?.children?.slice(1)}
-                        </p>
-                      </div>
-                    ),
-                  }}
-                  closeMenuOnSelect={closeMenuOnSelect}
-                  isMulti={isMulti}
-                  value={value}
-                  onChange={onChange}
-                  options={options}
-                  styles={CustomStyle}
-                  placeholder={placeholder}
-                  isDisabled={isDisabled || false}
-                />
-              </>
+              <Select
+                closeMenuOnSelect={closeMenuOnSelect}
+                isMulti={isMulti}
+                value={value}
+                onChange={(value) => {
+                  handleChange(value);
+                  onChange?.(value);
+                }}
+                options={options}
+                styles={CustomStyle}
+                placeholder={placeholder}
+                isDisabled={isDisabled || false}
+              />
             );
           }}
         />

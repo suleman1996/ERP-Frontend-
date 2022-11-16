@@ -12,17 +12,27 @@ interface Props {
   handleDelete?: () => void;
   btnLoader?: boolean;
   bucket?: any;
+  heading?: any;
+  description?: any;
 }
 
-const DeletePopup = ({ open, setOpen, handleDelete, btnLoader, bucket }: Props) => {
+const DeletePopup = ({
+  open,
+  setOpen,
+  handleDelete,
+  btnLoader,
+  bucket,
+  heading,
+  description,
+}: Props) => {
   return (
     <>
       <Modal open={open} handleClose={() => setOpen(false)} className={style.wrapperModal}>
         <div className={style.emailPopupContentDiv}>
           <div className={style.headerDiv}>
             {bucket ? <img src={bucket} alt="" /> : <img src={cross} alt="" />}
-            <h1>Are you sure you want to delete this?</h1>
-            <p>If you delete this you can’t recover it</p>
+            <h1>{heading ? heading : `Are you sure you want to delete this?`}</h1>
+            <p>{description ? description : `If you delete this you can’t recover it`}</p>
           </div>
           <div className={style.flex}>
             <Button text="Cancel" handleClick={() => setOpen(false)} btnClass={style.btn1} />
