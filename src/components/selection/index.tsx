@@ -34,6 +34,8 @@ interface Props {
   isMulti?: boolean;
   control: any;
   isDisabled?: any;
+  defaultValue?: any;
+  placeHolderStyle?: any;
 }
 
 const Selection = ({
@@ -51,10 +53,22 @@ const Selection = ({
   control,
   isDisabled,
   classNameLabel,
+  defaultValue,
+  placeHolderStyle,
 }: Props) => {
   const [customErr, setCustomErr] = useState<string | undefined>();
 
   const CustomStyle = SelectionStyle;
+
+  if (placeHolderStyle) {
+    CustomStyle.placeholder = (styles: any) => ({
+      ...styles,
+      fontSize: '13px',
+      color: placeHolderStyle.color,
+    });
+  }
+
+  console.log('hamza', CustomStyle.placeholder);
 
   const formatOptionLabel = (
     { label, value, color, checkbox, box },
@@ -105,8 +119,8 @@ const Selection = ({
         <Controller
           name={name}
           control={control}
-          defaultValue={null}
-          render={({ onChange, value }) => {
+          defaultValue={defaultValue}
+          render={({ onChange: handleChange, value }) => {
             return (
               <>
                 <Select

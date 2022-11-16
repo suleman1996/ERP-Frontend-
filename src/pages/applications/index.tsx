@@ -1,35 +1,63 @@
 import CardContainer from '../../components/card-container';
 import style from './applications.module.scss';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import MyLeaves from './my-leaves';
 import LeaveBalance from './leave-balance';
 import Approvals from './approval';
 import Button from 'components/button';
 import CreateApplicationModal from './my-leaves/create-applications';
+import EmployeeService from 'services/employee-service';
 
 const Applications = () => {
   const [active, setActive] = useState(1);
+  const [data, setData] = useState({});
 
   const handleTab = (index: number) => {
     setActive(index);
   };
 
+  const getAllData = async () => {
+    let employeeWithDepartment: any = await EmployeeService.getEmployeesWithDepApi();
+    const employeeOnlyName: any = await EmployeeService.getOnlyEmployees();
+    const leaves: any = await EmployeeService.getLeaves();
+    employeeWithDepartment = employeeWithDepartment?.data?.employeesWithDepartment?.filter(
+      (el: any) => {
+        return el._id.name === 'hr';
+      },
+    );
+
+    setData({
+      employeeOnlyName: employeeOnlyName.data,
+      hr: employeeWithDepartment[0]?.employees,
+      leaves: leaves.data.Leave,
+    });
+  };
+
+  useEffect(() => {
+    getAllData();
+  }, []);
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
+
   const ActiveView = () => {
     switch (active) {
       case 1:
-        return <MyLeaves />;
+        return <MyLeaves data={data} />;
       case 2:
         return <Approvals />;
       case 3:
         return <LeaveBalance />;
       default:
-        return <MyLeaves />;
+        return <MyLeaves data={data} />;
     }
   };
   const [openModal, setOpenModal] = useState(false);
   return (
     <>
-      {openModal && <CreateApplicationModal openModal={openModal} setOpenModal={setOpenModal} />}
+      {openModal && (
+        <CreateApplicationModal openModal={openModal} setOpenModal={setOpenModal} data={data} />
+      )}
       <CardContainer className={style.cardContainer}>
         <div className={style.headContainer} style={{ justifyContent: 'space-between' }}>
           <div style={{ display: 'flex' }}>
