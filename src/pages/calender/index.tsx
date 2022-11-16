@@ -404,11 +404,11 @@ const Calender = () => {
 
             <div className={style.gridView}>
               <DatePicker
-                label={check === true ? 'Start Date' : 'Start Date & Time'}
+                label={watch('allDay') === true ? 'Start Date' : 'Start Date & Time'}
                 control={control}
                 name="start"
                 star=" *"
-                showTimeInput={check !== true}
+                showTimeInput={watch('allDay') !== true}
                 errorMessage={errors?.start?.message}
                 placeholder={'Start Date'}
                 allDayLabel={'All Day'}
@@ -416,11 +416,11 @@ const Calender = () => {
                 register={register}
               />
               <DatePicker
-                label={check ? 'End Date' : 'End Date & Time'}
+                label={watch('allDay') === true ? 'End Date' : 'End Date & Time'}
                 control={control}
                 name="end"
                 star=" *"
-                showTimeInput={check !== true}
+                showTimeInput={watch('allDay') !== true}
                 errorMessage={errors?.end?.message}
                 placeholder={'End Date'}
               />
