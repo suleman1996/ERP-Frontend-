@@ -68,8 +68,10 @@ const CreateApplicationModal = ({
       handleClose={() => setOpenModal(false)}
       type="submit"
       form="createLeave"
+      btnClass={style.btnClass}
       className={style.modelContainer}
       loader={btnLoader}
+      customHeader={style.customHeader}
     >
       <form
         onSubmit={(e) => {
