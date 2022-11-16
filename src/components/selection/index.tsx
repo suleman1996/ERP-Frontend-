@@ -115,7 +115,6 @@ const Selection = ({
                       <div
                         onClick={() => {
                           onChange([...e.data.options]);
-                          console.log('pressing ', e);
                         }}
                       >
                         <p className={style.groupHeading}>

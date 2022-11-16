@@ -151,7 +151,7 @@ const Calender = () => {
       venue: venue ? venue : '',
       category: category ? { label: category, value: category } : '',
       description,
-      allDay: allDay ? allDay : false,
+      allDay: allDay,
       attendees: attendees
         ? attendees?.map(({ _id, fullName }: any) => {
             return { label: fullName, value: _id };
@@ -173,8 +173,10 @@ const Calender = () => {
           className={style.mainDiv}
           style={{
             backgroundColor: category.find(({ value }) => value === catogery)?.color || 'red',
-            height: allDay === true && '5px',
+            height:
+              allDay === true ? '5px' : eventInfo?.view?.type == 'dayGridMonth' ? '5px' : null,
             display: 'flex',
+            width: '100%',
             alignItems: 'center',
             cursor: 'pointer',
           }}
@@ -188,26 +190,18 @@ const Calender = () => {
             <span className={style.title}>
               {eventInfo?.event?.title && eventInfo?.event?.title}
             </span>
-            {!allDay && (
+            {!allDay && eventInfo?.view?.type !== 'dayGridMonth' && (
               <div className={style.descDiv}>
-                <img
-                  src={
-                    !allDay &&
-                    eventInfo?.view?.type !== 'dayGridMonth' &&
-                    eventInfo?.event?.extendedProps?.venue &&
-                    location
-                  }
-                />
+                <img src={eventInfo?.event?.extendedProps?.venue && location} />
                 <p className={style.description}>
-                  {!allDay &&
-                    eventInfo?.view?.type !== 'dayGridMonth' &&
-                    eventInfo?.event?.extendedProps?.venue &&
-                    eventInfo?.event?.extendedProps?.venue}
+                  {eventInfo?.event?.extendedProps?.venue && eventInfo?.event?.extendedProps?.venue}
                 </p>
               </div>
             )}
           </div>
-          {eventInfo?.view?.type == 'timeGridDay' && 'dayGridMonth' && allDay === false ? (
+
+          {(eventInfo?.view?.type === 'timeGridDay' || eventInfo?.view?.type === 'timeGridWeek') &&
+          allDay === false ? (
             <div className={style.plusView}>
               {eventInfo?.event?.extendedProps?.attendees?.slice(0, 3)?.map((i: any) => (
                 <img
@@ -252,7 +246,6 @@ const Calender = () => {
     setBtnLoader(true);
     try {
       const transformData = {
-        ...data,
         title: data?.title,
         start: data?.start
           ? `${moment(data?.start).format('YYYY-MM-DD')}T${moment(data?.start).format('HH:mm')}Z`
@@ -264,7 +257,11 @@ const Calender = () => {
         category: data?.category?.value,
         type: data?.typename?.value,
         allDay: data?.allDay,
-        attendees: data?.attendees ? data?.attendees?.map((i: any) => i?.value) : [],
+        venue: data?.venue,
+        description: data?.description,
+        ...(data?.attendees.length > 0 && {
+          attendees: data?.attendees?.map((i: any) => i?.value),
+        }),
         ...(data?.uploadFile?.length > 0 &&
           selectedFileNameBack && {
             file: await convertBase64Image(data?.uploadFile[0]),
@@ -299,7 +296,6 @@ const Calender = () => {
     }
   };
 
-  console.log(watch(), 'watch');
   return (
     <div className={style.calenderMain}>
       <Container>
@@ -336,6 +332,8 @@ const Calender = () => {
             month: 'short',
           }}
           dayMaxEvents={2}
+          expandRows={true}
+          allDayMaintainDuration={true}
           eventContent={RenderEventHandler}
           slotLabelInterval={{ hours: 1 }}
           events={allEvent?.map((e: any) => ({
@@ -355,7 +353,9 @@ const Calender = () => {
 
         <Modal
           open={openModal}
-          handleClose={() => setOpenModal(!openModal)}
+          handleClose={() => {
+            setOpenModal(!openModal);
+          }}
           title={singleEventData ? 'Edit Event' : 'Add Event'}
           text="Save"
           type="submit"
@@ -379,6 +379,7 @@ const Calender = () => {
             />
             <div className={style.attendees}>
               <Selection
+                name="attendees"
                 control={control}
                 errorMessage={errors?.attendees?.message}
                 wraperSelect={style.wraperSelect}
@@ -388,29 +389,31 @@ const Calender = () => {
                 star=" *"
                 closeMenuOnSelect={false}
                 isMulti={true}
-                name="attendees"
               />
             </div>
 
             <div className={style.gridView}>
               <DatePicker
-                label={watch('allDay') === true ? 'Start Date' : 'Start Date & Time'}
+                label={check === true ? 'Start Date' : 'Start Date & Time'}
                 control={control}
                 name="start"
                 star=" *"
-                showTimeInput={watch('allDay') !== true}
+                showTimeInput={check !== true}
                 errorMessage={errors?.start?.message}
                 placeholder={'Start Date'}
                 allDayLabel={'All Day'}
                 switchName="allDay"
                 register={register}
+                handleSwitchChange={(checked) => {
+                  setCheck(checked);
+                }}
               />
               <DatePicker
-                label={watch('allDay') === true ? 'End Date' : 'End Date & Time'}
+                label={check === true ? 'End Date' : 'End Date & Time'}
                 control={control}
                 name="end"
                 star=" *"
-                showTimeInput={watch('allDay') !== true}
+                showTimeInput={check !== true}
                 errorMessage={errors?.end?.message}
                 placeholder={'End Date'}
               />
