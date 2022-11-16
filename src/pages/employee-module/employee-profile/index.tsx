@@ -47,7 +47,7 @@ const EmployeeProfileDetails = () => {
 
   useEffect(() => {
     getEmployeesData();
-  }, [pageSize, page, pageSize]);
+  }, [pageSize, page]);
 
   const getEmployeesData = async () => {
     setLoading(true);
