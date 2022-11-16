@@ -5,8 +5,8 @@ import style from './switch.module.scss';
 
 const Switch = ({
   label,
-  control,
   title,
+  control,
   register,
   name,
   className,
@@ -15,6 +15,7 @@ const Switch = ({
   switchContainer,
   onChange,
   errorMessage,
+  handleSwitchChange,
   ...restOfProps
 }) => {
   return (
@@ -30,9 +31,11 @@ const Switch = ({
                 <input
                   type="checkbox"
                   checked={value}
-                  onChange={(e) => onChange?.(e.target.checked)}
-                  // {...restOfProps}
-                  // {...(register && register(name))}
+                  onChange={(e) => {
+                    onChange?.(e.target.checked);
+                    handleSwitchChange?.(e.target.checked);
+                  }}
+                  {...restOfProps}
                 />
               );
             }}

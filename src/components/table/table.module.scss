@@ -31,8 +31,11 @@
         padding: 15px 10px;
 
         .headingTitle {
-          @include font20;
-          color: #6e6d6d;
+          font-style: normal;
+          font-weight: 600;
+          font-size: 15px;
+          line-height: 160%;
+          color: #2d2d32;
         }
 
         .sortIcon {

@@ -476,6 +476,7 @@ const Policy = () => {
               closeMenuOnSelect={false}
               isMulti={true}
               name="appliesTo"
+              defaultValue={null}
             />
             <div>
               <div style={{ display: 'flex' }}>

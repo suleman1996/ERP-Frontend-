@@ -46,7 +46,6 @@ const AccordianSwitch = ({
   const [genderModal, setGenderModal] = useState(false);
   const [allowenceTypeModal, setAllowenceTypeModal] = useState(false);
   const [documentModal, setDocumenModal] = useState(false);
-
   const [depId, setDepId] = useState();
 
   const { register, handleSubmit, errors, control, reset, watch } = useForm({
@@ -164,6 +163,8 @@ const AccordianSwitch = ({
           {switchBtn && (
             <Switch
               switchContainer={style.switchContainer}
+              name={'parent'}
+              control={control}
               onChange={() => setCheckAll(!checkAll)}
             />
           )}
@@ -223,7 +224,7 @@ const AccordianSwitch = ({
                           alignItems: 'center',
                         }}
                       >
-                        <Switch title={'Active'} />
+                        <Switch title={'Active'} name={'active'} control={control} />
                       </div>
                     ),
                   }))}
@@ -588,6 +589,8 @@ const AccordianSwitch = ({
 const Comp = ({ name, checkAll }: any) => {
   const [checked, setChecked] = useState(false);
 
+  const { control } = useForm();
+
   useEffect(() => {
     setChecked(checkAll);
   }, [checkAll]);
@@ -596,7 +599,12 @@ const Comp = ({ name, checkAll }: any) => {
     <div className={style.body}>
       <div className={style.bodySwitch}>
         <span>{name}</span>
-        <Switch checked={checked} onChange={(e) => setChecked(e.target.checked)} />
+        <Switch
+          checked={checked}
+          onChange={(e) => setChecked(e.target.checked)}
+          name={'switch'}
+          control={control}
+        />
       </div>
     </div>
   );

@@ -15,6 +15,7 @@ interface Props {
   className?: string;
   form?: string;
   hide?: boolean;
+  btnTextClass?: string;
 }
 
 const Button = ({
@@ -30,6 +31,7 @@ const Button = ({
   btnLoaderClass,
   form,
   hide,
+  btnTextClass,
 }: Props) => {
   return (
     <>
@@ -48,7 +50,9 @@ const Button = ({
         ) : (
           <>
             {iconStart && <img src={iconStart} alt="" className={style.img1} />}
-            {text && <span className={`${style.btnTitle} ${className}`}>{text}</span>}
+            {text && (
+              <span className={`${style.btnTitle} ${className} ${btnTextClass}`}>{text}</span>
+            )}
             {iconEnd && <img src={iconEnd} alt="" className={style.img} />}
           </>
         )}
