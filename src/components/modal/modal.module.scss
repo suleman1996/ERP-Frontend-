@@ -10,7 +10,7 @@
   align-items: center;
   backdrop-filter: blur(3px);
   z-index: 250000;
-  padding: 20px 20px;
+  // padding: 20px 20px;
 
   background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4));
 
@@ -23,6 +23,7 @@
     overflow-y: auto;
     background: #ffffff;
     border-radius: 12.17px;
+
     &::-webkit-scrollbar:vertical {
       display: none;
     }
@@ -37,6 +38,13 @@
       padding-left: calc(18px + (80 - 18) * (100vw - 280px) / (2560 - 280));
       padding-right: calc(18px + (80 - 18) * (100vw - 280px) / (2560 - 280));
       box-sizing: border-box;
+
+      position: fixed;
+      background: #fff;
+      width: 48%;
+      z-index: 10;
+      margin-left: 10px;
+      border-radius: 3px;
       p {
         font-style: normal;
         font-weight: 700;
@@ -52,11 +60,11 @@
     }
 
     .body {
-      padding-top: calc(12px + (89 - 12) * (100vw - 280px) / (2560 - 280));
-      padding-bottom: calc(12px + (67 - 12) * (100vw - 280px) / (2560 - 280));
-      padding-right: calc(18px + (65 - 18) * (100vw - 280px) / (2560 - 280));
-      padding-left: calc(18px + (61 - 18) * (100vw - 280px) / (2560 - 280));
-
+      // padding-top: calc(12px + (89 - 12) * (100vw - 280px) / (2560 - 280));
+      // padding-bottom: calc(12px + (67 - 12) * (100vw - 280px) / (2560 - 280));
+      // padding-right: calc(18px + (65 - 18) * (100vw - 280px) / (2560 - 280));
+      // padding-left: calc(18px + (61 - 18) * (100vw - 280px) / (2560 - 280));
+      margin-top: 80px;
       .btnClass {
         display: flex;
         justify-content: flex-end;
