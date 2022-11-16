@@ -10,6 +10,9 @@ import deleteIcon from 'assets/table-delete.svg';
 import Table from 'components/table';
 import Switch from 'components/switch';
 import Modal from 'components/modal';
+import { useForm } from 'react-hook-form';
+import Container from 'components/container';
+import DeleteModal from 'components/delete-modal';
 
 const TaxSlab = ({ setIsLoading, open, setOpen, singleId, setSingleId, slabs, setSlab }: any) => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
@@ -17,6 +20,8 @@ const TaxSlab = ({ setIsLoading, open, setOpen, singleId, setSingleId, slabs, se
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [viewModal, setViewModal] = useState(false);
   const [newSlab, setNewSlab] = useState();
+
+  const { control } = useForm();
 
   const deleteTaxSlab = async (id: string) => {
     setDeleteLoading(true);
@@ -34,7 +39,9 @@ const TaxSlab = ({ setIsLoading, open, setOpen, singleId, setSingleId, slabs, se
     const res = await TaxService.getAllTaxSlabsData();
 
     if (res.status === 200) {
-      setTaxSlabsData(res?.data.data);
+      console.log('res pes', res?.data?.data);
+
+      setTaxSlabsData(res?.data?.data);
     }
     setIsLoading(false);
   };
@@ -60,59 +67,62 @@ const TaxSlab = ({ setIsLoading, open, setOpen, singleId, setSingleId, slabs, se
 
   return (
     <>
-      <div style={{ padding: '0 10px' }}>
-        <Table
-          minWidth={'100px'}
-          columns={columns}
-          rows={
-            taxSlabsData &&
-            taxSlabsData?.map((item): any => {
-              return {
-                ...item,
-                Status: (
-                  <div>
-                    <Switch
-                      title={item.Status === true ? 'Active' : 'InActive'}
-                      checked={item?.Status}
-                      name={item._id}
-                      handleClick={() => handleSwitch(item?._id, item)}
-                    />
-                  </div>
-                ),
-                taxActions: (
-                  <div style={{ display: 'flex' }}>
-                    <div style={{ marginRight: '10px' }}>
-                      <img src={editIcon} width={30} onClick={() => handleEdit(item?._id)} />
-                    </div>
-                    <div style={{ marginRight: '10px' }}>
-                      <img
-                        src={deleteIcon}
-                        width={30}
-                        onClick={() => {
-                          setDeleteModalOpen(true);
-                          setSingleId(item?._id);
-                        }}
+      <Container container={style.innerContainer}>
+        <div>
+          <Table
+            minWidth={'1500px'}
+            columns={columns}
+            rows={
+              taxSlabsData &&
+              taxSlabsData?.map((item): any => {
+                return {
+                  ...item,
+                  Status: (
+                    <div>
+                      <Switch
+                        control={control}
+                        title={item.Status === true ? 'Active' : 'InActive'}
+                        checked={item?.Status}
+                        name={item._id}
+                        handleClick={() => handleSwitch(item?._id, item)}
                       />
                     </div>
-                    <div style={{ marginRight: '10px' }}>
-                      <img
-                        src={view}
-                        width={30}
-                        onClick={() => {
-                          setOpen(true);
-                          handleEdit(item?._id);
-                          setSingleId(item?._id);
-                          setViewModal(true);
-                        }}
-                      />
+                  ),
+                  taxActions: (
+                    <div style={{ display: 'flex' }}>
+                      <div style={{ marginRight: '10px' }}>
+                        <img
+                          src={view}
+                          width={30}
+                          onClick={() => {
+                            setOpen(true);
+                            handleEdit(item?._id);
+                            setSingleId(item?._id);
+                            setViewModal(true);
+                          }}
+                        />
+                      </div>
+                      <div style={{ marginRight: '10px' }}>
+                        <img
+                          src={deleteIcon}
+                          width={30}
+                          onClick={() => {
+                            setDeleteModalOpen(true);
+                            setSingleId(item?._id);
+                          }}
+                        />
+                      </div>
+                      <div style={{ marginRight: '10px' }}>
+                        <img src={editIcon} width={30} onClick={() => handleEdit(item?._id)} />
+                      </div>
                     </div>
-                  </div>
-                ),
-              };
-            })
-          }
-        />
-      </div>
+                  ),
+                };
+              })
+            }
+          />
+        </div>
+      </Container>
 
       {open && (
         <AddTaxSlab
@@ -129,16 +139,12 @@ const TaxSlab = ({ setIsLoading, open, setOpen, singleId, setSingleId, slabs, se
         />
       )}
 
-      <Modal
+      <DeleteModal
         open={deleteModalOpen}
-        text={'Delete Slab'}
-        title={'Delete Slab'}
-        loader={deleteLoading}
-        handleClose={() => setDeleteModalOpen(false)}
-        handleClick={() => deleteTaxSlab(singleId)}
-      >
-        <h1>Are you sure you want to delete this record !</h1>
-      </Modal>
+        setOpen={setDeleteModalOpen}
+        handleDelete={() => deleteTaxSlab(singleId)}
+        btnLoader={deleteLoading}
+      ></DeleteModal>
     </>
   );
 };

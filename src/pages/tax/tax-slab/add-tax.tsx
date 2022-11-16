@@ -172,14 +172,13 @@ const AddAttendance = ({
             <TextField
               name="taxGroupName"
               label="Tax Group Name"
-              placeholder="Tax Group Name"
+              placeholder="Enter Tax Group Name"
               register={register}
               errorMessage={errors?.taxGroupName?.message}
             />
             <div className={style.twoGrid}>
               <Select
                 label="Category"
-                star={' *'}
                 name={'category'}
                 errorMessage={errors?.category?.message}
                 register={register}
@@ -216,41 +215,46 @@ const AddAttendance = ({
                 name="lower"
                 label="Lower"
                 type="number"
-                placeholder="Lower"
+                placeholder="Enter lower"
                 register={register}
                 errorMessage={errors?.lower?.message}
+                container={style.inputContainer}
               />
               <TextField
                 name="upper"
                 label="Upper"
                 type="number"
-                placeholder="upper"
+                placeholder="Enter upper"
                 register={register}
                 errorMessage={errors?.upper?.message}
+                container={style.inputContainer}
               />
               <TextField
                 name="fixTax"
                 label="Fix Tax"
                 type="number"
-                placeholder="Fix Tax"
+                placeholder="Enter fix tax"
                 register={register}
                 errorMessage={errors?.fixTax?.message}
+                container={style.inputContainer}
               />
               <TextField
                 name="taxRate"
                 label="Tax Rate"
                 // type="number"
-                placeholder="Tax Rate"
+                placeholder="Enter tax rate"
                 register={register}
+                container={style.inputContainer}
                 errorMessage={errors?.taxRate?.message}
               />
               <TextField
                 name="lessLimit"
                 label="Less Limit"
                 type="number"
-                placeholder="less limit"
+                placeholder="Enter less limit"
                 register={register}
                 errorMessage={errors?.lessLimit?.message}
+                container={style.inputContainer}
               />
             </div>
           </div>
@@ -259,14 +263,14 @@ const AddAttendance = ({
             {!viewModal && <Button text={'Add Slab'} btnClass={style.btn} type="submit" />}
           </div>
 
-          <div className={style.mobileBtnDiv}>
+          {/* <div className={style.mobileBtnDiv}>
             <MobileButton
-              // mobileIcon={tickIcon}
+              mobileIcon={tickIcon}
               btnClass={style.mobileBtn}
               type="submit"
               isLoading={loading}
             />
-          </div>
+          </div> */}
         </form>
 
         <div style={{ padding: '0 10px' }}>

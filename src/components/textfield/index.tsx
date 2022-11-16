@@ -25,6 +25,7 @@ interface Props {
   customValidation?: string;
   iconClass?: any;
   step?: string;
+  container?: string;
 }
 
 const TextField = ({
@@ -48,11 +49,12 @@ const TextField = ({
   customValidation,
   iconClass,
   step,
+  container,
   ...restOfProps
 }: Props) => {
   return (
     <>
-      <div className={style.inputContainer}>
+      <div className={`${style.inputContainer} ${container} `}>
         {label && (
           <label style={{ color: errorMessage ? '#000' : '#2d2d32' }}>
             {label}
