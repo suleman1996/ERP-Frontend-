@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useState } from 'react';
 import ReactDatePicker from 'react-datepicker';
 import { Controller } from 'react-hook-form';
 
@@ -8,8 +7,6 @@ import 'react-datepicker/dist/react-datepicker.css';
 import singleArrowRight from 'assets/2.svg';
 import singleArrowLeft from 'assets/3.svg';
 import './index.css';
-import moment from 'moment';
-import { useEffect } from 'react';
 
 interface Props {
   label?: string;
@@ -17,6 +14,8 @@ interface Props {
   className?: string;
   name?: string;
   errorMessage?: string;
+  min?: any;
+  max?: any;
   watch?: any;
   control?: any;
   defaultVal?: string;
@@ -31,13 +30,15 @@ const MonthYearPicker = ({
   star,
   name,
   errorMessage,
+  min,
+  max,
   watch,
 }: Props) => {
   return (
     <>
       <div className={`${style.main} ${className}`}>
         {label && (
-          <label style={{ color: errorMessage && '#ff5050' }} className={style.label}>
+          <label style={{ color: errorMessage && '#000' }} className={style.label}>
             {label}
             <b style={{ color: 'red' }}>{star}</b>
           </label>
@@ -56,12 +57,13 @@ const MonthYearPicker = ({
                   selected={value == 'Invalid Date' ? null : value || null}
                   className={errorMessage ? style.borderClass : style.inpDiv}
                   onChange={onChange}
-                  value={value}
+                  value={watch('financialYearStart') ? defaultVal : value}
                   selectsStart
                   dateFormat="MM/yyyy"
                   showMonthYearPicker
                   placeholderText="MM/yyyy"
-                  minDate={watch}
+                  minDate={min}
+                  maxDate={max}
                   renderCustomHeader={({
                     date,
                     decreaseMonth,
