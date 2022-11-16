@@ -17,10 +17,12 @@ const CreateApplicationModal = ({
   setOpenModal,
   data,
   defaultLeaveType,
+  setRender,
 }: {
   openModal: boolean;
   setOpenModal: Function;
   data: any;
+  setRender: Function;
   defaultLeaveType?: any;
 }) => {
   const [selectedFileName, setSelectedFileName] = useState<any>();
@@ -30,6 +32,7 @@ const CreateApplicationModal = ({
   });
 
   const submitHandler = async (data: any) => {
+    setRender((prev: any) => !prev);
     setBtnLoader(true);
     try {
       data.attachment = await convertBase64Image(data?.attachment[0]);
@@ -46,6 +49,7 @@ const CreateApplicationModal = ({
       });
       setBtnLoader(false);
       setOpenModal(false);
+
       createNotification('success', 'success', 'Application Submitted');
     } catch (err: any) {
       if (err?.response?.data?.error) {
@@ -57,8 +61,6 @@ const CreateApplicationModal = ({
       setBtnLoader(false);
     }
   };
-
-  console.log(errors);
 
   return (
     <Modal
@@ -85,7 +87,7 @@ const CreateApplicationModal = ({
           classNameLabel={style.classNameLabel}
           label="Leave Type"
           placeholder="Select"
-          options={data.leaves.map((el: any) => ({ label: el.name, value: el._id }))}
+          options={data?.leaves?.map((el: any) => ({ label: el.name, value: el._id }))}
           name="leaveType"
           errorMessage={errors?.leaveType?.message}
           control={control}
@@ -97,7 +99,10 @@ const CreateApplicationModal = ({
           wraperSelect={style.wraperSelect}
           label="Approval By"
           placeholder="Select"
-          options={data.employeeOnlyName.map((el: any) => ({ label: el.fullName, value: el._id }))}
+          options={data?.employeeOnlyName?.map((el: any) => ({
+            label: el.fullName,
+            value: el._id,
+          }))}
           name="approvedBy"
           errorMessage={errors?.approvedBy?.message}
           control={control}

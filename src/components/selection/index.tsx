@@ -1,4 +1,3 @@
-import Tags from 'components/tags';
 import { ChangeEvent, useState } from 'react';
 import { Controller } from 'react-hook-form';
 
@@ -44,8 +43,6 @@ const Selection = ({
   errorMessage,
   star,
   wraperSelect,
-  value,
-  onChange,
   placeholder,
   closeMenuOnSelect,
   isMulti,
@@ -68,12 +65,16 @@ const Selection = ({
     });
   }
 
-  console.log('hamza', CustomStyle.placeholder);
-
   const formatOptionLabel = (
-    { label, value, color, checkbox, box },
-    { context, selectValue },
-    badge,
+    {
+      label,
+      value,
+      color,
+      checkbox,
+      box,
+    }: { label: any; value: any; color: any; checkbox: any; box: any },
+    { context, selectValue }: { context: any; selectValue: any },
+    badge: any,
   ): any => {
     return (
       <>

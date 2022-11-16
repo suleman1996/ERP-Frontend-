@@ -97,6 +97,7 @@ const MyLeaves = ({ data }: { data: any }) => {
   const [leaveRowsData, setLeaveRowsData] = useState([]);
   const [defaultLeaveType, setDefaultLeaveType] = useState({});
   const [page, setPage] = useState(1);
+  const [render, setRender] = useState<boolean>(false);
 
   const getHistory = async () => {
     setLoading(true);
@@ -182,7 +183,7 @@ const MyLeaves = ({ data }: { data: any }) => {
   useEffect(() => {
     getHistory();
     getAllLeaveApplications();
-  }, [pageSize, page]);
+  }, [pageSize, page, render]);
 
   const handleCancel = async () => {
     const res = await ApplicationService.deleteApplication(selectedId);
@@ -193,6 +194,7 @@ const MyLeaves = ({ data }: { data: any }) => {
     if (res?.data) {
       createNotification('success', 'success', 'Canceled');
       setCancelModal(false);
+      setRender((prev) => !prev);
     }
   };
 
@@ -210,16 +212,16 @@ const MyLeaves = ({ data }: { data: any }) => {
           heading={'Are you sure you want to cancel this?'}
           description={`If you cancel this you can’t reverse it.`}
           handleDelete={handleCancel}
+          cancelModal
         />
       )}
-      {openModal && (
-        <CreateApplicationModal
-          openModal={openModal}
-          setOpenModal={setOpenModal}
-          data={data}
-          defaultLeaveType={defaultLeaveType}
-        />
-      )}
+      <CreateApplicationModal
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+        data={data}
+        defaultLeaveType={defaultLeaveType}
+        setRender={setRender}
+      />
       <div className={style.container}>
         <div className={style.historyTable}>
           <Table
@@ -239,7 +241,7 @@ const MyLeaves = ({ data }: { data: any }) => {
                       setDefaultLeaveType({ value: row.id, label: row.leaveType });
                       setOpenModal(true);
                     }}
-                  />{' '}
+                  />
                 </div>
               ),
             }))}
@@ -270,7 +272,6 @@ const MyLeaves = ({ data }: { data: any }) => {
                       width={30}
                       onClick={() => {
                         setCancelModal(true);
-                        console.log(row, 'row Data');
                         setSelectedId(row?.id);
                       }}
                     />
