@@ -34,9 +34,9 @@
       // background-color: #ffffff;
       width: 100%;
       border-bottom: 1.2px solid #e2e2ea;
-      padding-top: calc(12px + (0 - 18) * (100vw - 280px) / (2560 - 280));
+      padding-top: calc(12px + (30 - 12) * (100vw - 280px) / (2560 - 280));
       padding-bottom: calc(12px + (30 - 12) * (100vw - 280px) / (2560 - 280));
-      padding-left: calc(18px + (50 - 18) * (100vw - 280px) / (2560 - 280));
+      padding-left: calc(18px + (80 - 18) * (100vw - 280px) / (2560 - 280));
       padding-right: calc(18px + (80 - 18) * (100vw - 280px) / (2560 - 280));
       box-sizing: border-box;
       p {
