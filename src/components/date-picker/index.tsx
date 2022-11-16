@@ -13,6 +13,7 @@ import date from 'assets/date-icon.svg';
 import style from './date.module.scss';
 import 'react-datepicker/dist/react-datepicker.css';
 import './index.css';
+import Switch from 'components/switch';
 
 interface Props {
   label?: string;
@@ -38,6 +39,11 @@ interface Props {
   showYearPicker?: any;
   monthDate?: any;
   showMonthYearPicker?: any;
+  checked?: boolean;
+  handleSwitchChange?: () => void;
+  switchName?: any;
+  register?: any;
+  allDayLabel?: any;
 }
 
 const DatePicker = ({
@@ -57,6 +63,11 @@ const DatePicker = ({
   minDate,
   placeholder,
   star,
+  checked,
+  handleSwitchChange,
+  switchName,
+  register,
+  allDayLabel,
   showMonthYearPicker,
   monthYear,
   showYearPicker,
@@ -86,12 +97,20 @@ const DatePicker = ({
   return (
     <>
       <div className={`${style.main} ${className}`}>
-        {label && (
-          <label style={{ color: errorMessage && '#ff5050' }} className={style.label}>
-            {label}
-            <b style={{ color: 'red' }}>{star}</b>
-          </label>
-        )}
+        <div className={style.switchDiv}>
+          {label && (
+            <label style={{ color: errorMessage && '#000' }} className={style.label}>
+              {label}
+              <b style={{ color: 'red' }}>{star}</b>
+            </label>
+          )}
+          {allDayLabel && (
+            <div className={style.switch}>
+              <Switch control={control} name={switchName} />
+              <p className={style.allday}>{allDayLabel}</p>
+            </div>
+          )}
+        </div>
         <div onClick={handleClick} style={{ position: 'relative' }}>
           <Controller
             name={name}

@@ -60,6 +60,11 @@ export default class SettingsService {
     return res;
   }
 
+  static async getPolicyCat() {
+    const res = await ApiService.get(`${SettingsService.baseUrl[0]}/policyCategory`);
+    return res;
+  }
+
   static async getAllUsers(data?: any) {
     const res = await ApiService.get(`${SettingsService.baseUrl[0]}/`, {
       params: data,

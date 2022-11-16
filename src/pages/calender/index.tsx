@@ -6,6 +6,7 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
+import listPlugin from '@fullcalendar/list';
 import CalenderService from 'services/calender-service';
 import EmployeeService from 'services/employee-service';
 import { createNotification } from 'common/create-notification';
@@ -21,28 +22,29 @@ import DatePicker from 'components/date-picker';
 import Selection from 'components/selection';
 import ProfileUpload from 'components/profile-upload';
 import Container from 'components/container';
-import Checkbox from 'components/checkbox';
 import EventModal from 'components/event-modal';
 import MultiPicker from 'components/multi-select';
+import TextArea from 'components/textarea';
+import DeleteModal from 'components/delete-modal';
 
-import { eventTypes, recurrenceTypes } from './event-types';
+import { eventTypes, recurrenceTypes, category } from './event-types';
 
 import location from 'assets/location.svg';
-import person from 'assets/person1.svg';
 import noimage from 'assets/NoImage.svg';
-import cross from 'assets/cross.svg';
-import deleteIcon from 'assets/delete.svg';
-import edit from 'assets/edit.svg';
+import cross from 'assets/cross-Icon.svg';
+import deleteIcon from 'assets/delete-Icon.svg';
+import edit from 'assets/pencilIcon.svg';
 import plus from 'assets/plusIcon.svg';
+import bucketIcon from 'assets/Bucket.svg';
 
 import style from './calender.module.scss';
 import './calendar.scss';
 
-let colorIndex = -1;
 const Calender = () => {
   let month = 'dayGridMonth';
   let week = 'timeGridWeek';
   let day = 'timeGridDay';
+  let list = 'listWeek';
 
   const [openModal, setOpenModal] = useState(false);
   const [check, setCheck] = useState(false);
@@ -55,6 +57,14 @@ const Calender = () => {
   const [allEvent, setAllEvent] = useState([]);
   const [singleEventData, setSingleEventData] = useState<any>('');
   const [attendeesPic, setAttendeesPic] = useState([]);
+  const [OnlyEmployees, setOnlyEmployees] = useState([]);
+  const [delModal, setDelModal] = useState(false);
+  const [employeesWithDep] = useState<any>([]);
+
+  const placeholderImage = noimage;
+  const onImageError = (e: any) => {
+    e.target.src = placeholderImage;
+  };
 
   const {
     register,
@@ -71,22 +81,38 @@ const Calender = () => {
   });
 
   useEffect(() => {
-    getEmployeesData();
     getAllEvents();
+    getEmployeesWithDep();
   }, []);
 
   useEffect(() => {
     updateEventData();
   }, [singleEventData]);
 
-  const getEmployeesData = async () => {
-    const res = await EmployeeService.getAllEmployees();
-    setAttendees(res?.data?.employees[0]?.data);
+  // const getEmployeesData = async () => {
+  //   const res = await EmployeeService.getAllEmployees();
+  //   setAttendees(res?.data?.employees[0]?.data);
+  // };
+  // const getOnlyEmployee = async () => {
+  //   const res = await EmployeeService.getOnlyEmployees();
+  //   setOnlyEmployees(res?.data);
+  // };
+
+  const getEmployeesWithDep = async () => {
+    try {
+      const result = await EmployeeService.getEmployeesWithDepApi();
+      result?.data?.employeesWithDepartment?.map((item: any) => {
+        employeesWithDep.push({
+          options: item?.employees?.map((ite: any) => ({ value: ite?._id, label: ite?.fullName })),
+          label: item?._id?.name,
+        });
+      });
+    } catch (error) {}
   };
 
   const getAllEvents = async () => {
     const res = await CalenderService.getAllEvents({
-      view: 'Daily' && 'Weekly',
+      view: 'Daily' && 'Weekly' && 'Monthly',
     });
     setAllEvent(res.data.events);
   };
@@ -96,69 +122,120 @@ const Calender = () => {
     if (res.status === 200) {
       createNotification('success', 'success', res?.data?.msg);
       getAllEvents();
-      setCustomTooltip(!customTooltip);
+      setCustomTooltip(false);
+      setDelModal(!delModal);
     }
   };
-
-  const attendeesOptions = attendees?.map(({ _id, fullName }) => ({
-    label: fullName && fullName,
-    value: _id && _id,
-  }));
+  // const attendeesOptions = OnlyEmployees?.map(({ _id, fullName }) => ({
+  //   label: fullName && fullName,
+  //   value: _id && _id,
+  // }));
 
   const updateEventData = () => {
-    const { title, venue, description, type, start, end, recurrence, attendees } = singleEventData;
-    reset({
+    const {
       title,
       venue,
       description,
-      attendees: attendees?.map(({ _id, fullName }: any) => {
-        return { label: fullName, value: _id };
-      }),
-      type: { label: type, value: type },
-      recurrence: { label: recurrence, value: recurrence },
-      // start: `${moment(start).format('YYYY-MM-DD')}T${moment(start).format('HH:mm')}Z`,
-      // end: new Date(moment(end).format('DD/MM/YYYY')),
+      type,
+      start,
+      end,
+      recurrence,
+      attendees,
+      category,
+      allDay,
+      fileId,
+    } = singleEventData;
+    fileId?.name && setSelectedFileNameBack(fileId?.name);
+    reset({
+      title,
+      venue: venue ? venue : '',
+      category: category ? { label: category, value: category } : '',
+      description,
+      allDay: allDay ? allDay : false,
+      attendees: attendees
+        ? attendees?.map(({ _id, fullName }: any) => {
+            return { label: fullName, value: _id };
+          })
+        : '',
+      typename: type ? { label: type, value: type } : '',
+      recurrence: recurrence ? { label: recurrence, value: recurrence } : '',
+      start: start ? new Date(start.replace('Z', '')) : '',
+      end: end ? new Date(end.replace('Z', '')) : '',
     });
   };
 
   const RenderEventHandler = (eventInfo: any) => {
-    const colors = ['#EDF8FF', '#EDF1FB', '#FFEBEE'];
-    const placeholderImage = noimage;
-    const onImageError = (e: any) => {
-      e.target.src = placeholderImage;
-    };
-    colorIndex += 1;
-    if (colorIndex === colors.length) colorIndex = 0;
+    const allDay = eventInfo?.event?._def?.allDay;
+    const catogery = eventInfo?.event?.extendedProps?.category;
     return (
       <>
-        <div className={style.mainDiv} style={{ backgroundColor: colors[colorIndex] }}>
-          <div className={style.mainDiv2} style={{ backgroundColor: colors[colorIndex] }}>
-            <p className={style.title}>{eventInfo?.event?.title && eventInfo?.event?.title}</p>
-            <div className={style.descDiv}>
-              <img src={eventInfo?.event?.extendedProps?.description && location} />
-              <p className={style.description}>
-                {eventInfo?.event?.extendedProps?.description &&
-                  eventInfo?.event?.extendedProps?.description}
-              </p>
+        <div
+          className={style.mainDiv}
+          style={{
+            backgroundColor: category.find(({ value }) => value === catogery)?.color || 'red',
+            height: allDay === true && '5px',
+            display: 'flex',
+            alignItems: 'center',
+            cursor: 'pointer',
+          }}
+        >
+          <div
+            className={style.mainDiv2}
+            style={{
+              backgroundColor: category?.find(({ value }) => value === catogery)?.color,
+            }}
+          >
+            <span className={style.title}>
+              {eventInfo?.event?.title && eventInfo?.event?.title}
+            </span>
+            {!allDay && (
+              <div className={style.descDiv}>
+                <img
+                  src={
+                    !allDay &&
+                    eventInfo?.view?.type !== 'dayGridMonth' &&
+                    eventInfo?.event?.extendedProps?.venue &&
+                    location
+                  }
+                />
+                <p className={style.description}>
+                  {!allDay &&
+                    eventInfo?.view?.type !== 'dayGridMonth' &&
+                    eventInfo?.event?.extendedProps?.venue &&
+                    eventInfo?.event?.extendedProps?.venue}
+                </p>
+              </div>
+            )}
+          </div>
+          {eventInfo?.view?.type == 'timeGridDay' && 'dayGridMonth' && allDay === false ? (
+            <div className={style.plusView}>
+              {eventInfo?.event?.extendedProps?.attendees?.slice(0, 3)?.map((i: any) => (
+                <img
+                  src={i?.profilePicture && i?.profilePicture}
+                  onError={onImageError}
+                  height={28}
+                  width={28}
+                  style={{
+                    borderRadius: '30px',
+                    height: '30px',
+                    width: '30px',
+                    marginLeft: '-10px',
+                    border: '1px solid white',
+                  }}
+                />
+              ))}
+              {eventInfo?.event?.extendedProps?.attendees?.length > 3 && (
+                <div className={style.plusIcon}>
+                  <p className={style.plusText}>
+                    {eventInfo?.event?.extendedProps?.attendees?.length > 3 &&
+                      eventInfo?.event?.extendedProps?.attendees?.length - 3}
+                    +
+                  </p>
+                </div>
+              )}
             </div>
-          </div>
-          <div>
-            {eventInfo?.event?.extendedProps?.attendees?.map((i: any) => (
-              <img
-                src={i?.profilePicture && i?.profilePicture}
-                onError={onImageError}
-                height={28}
-                width={28}
-                style={{
-                  borderRadius: '30px',
-                  height: '30px',
-                  width: '30px',
-                }}
-              />
-            ))}
-          </div>
+          ) : null}
         </div>
-        ;
       </>
     );
   };
@@ -170,8 +247,9 @@ const Calender = () => {
     setCustomTooltip(event._def.extendedProps._id);
     setEventId(event._def.extendedProps._id);
   };
-
+  console.log({ check });
   const onSubmit = async (data: any) => {
+    setCheck(data?.allDay);
     setBtnLoader(true);
     try {
       const transformData = {
@@ -184,12 +262,14 @@ const Calender = () => {
           ? `${moment(data?.end).format('YYYY-MM-DD')}T${moment(data?.end).format('HH:mm')}Z`
           : '',
         recurrence: data?.recurrence?.value,
-        type: data?.type?.value,
+        category: data?.category?.value,
+        type: data?.typename?.value,
         allDay: data?.allDay,
         attendees: data?.attendees?.map((i: any) => i?.value),
-        ...(data?.uploadFile?.length > 0 && {
-          file: await convertBase64Image(data?.uploadFile[0]),
-        }),
+        ...(data?.uploadFile?.length > 0 &&
+          selectedFileNameBack && {
+            file: await convertBase64Image(data?.uploadFile[0]),
+          }),
       };
       if (singleEventData) {
         delete transformData?.uploadFile;
@@ -238,19 +318,27 @@ const Calender = () => {
         </div>
 
         <FullCalendar
-          plugins={[interactionPlugin, timeGridPlugin, dayGridPlugin]}
+          plugins={[interactionPlugin, timeGridPlugin, dayGridPlugin, listPlugin]}
           initialView={day}
           headerToolbar={{
-            right: `${day} ${week} ${month}`,
+            right: `${list} ${day} ${week} ${month}`,
+            left: 'prev title next today',
           }}
           buttonText={{
+            list: 'Events',
             month: 'Monthly',
             week: 'Weekly',
             day: 'Daily',
           }}
-          eventContent={(e) => RenderEventHandler({ ...e, customTooltip })}
+          titleFormat={{
+            day: 'numeric',
+            year: 'numeric',
+            month: 'short',
+          }}
+          dayMaxEvents={2}
+          eventContent={RenderEventHandler}
           slotLabelInterval={{ hours: 1 }}
-          events={allEvent.map((e: any) => ({
+          events={allEvent?.map((e: any) => ({
             ...e,
             start: e.start.replace('Z', ''),
             end: e.end.replace('Z', ''),
@@ -259,15 +347,16 @@ const Calender = () => {
           contentHeight="auto"
           contentWidth="auto"
           nowIndicator
-          dateClick={(e) => console.log(e.dateStr)}
           eventClick={handleMouseEnter}
           slotEventOverlap={false}
+          allDaySlot={true}
+          allDayText="all-day"
         />
 
         <Modal
           open={openModal}
           handleClose={() => setOpenModal(!openModal)}
-          title={'Add Event'}
+          title={singleEventData ? 'Edit Event' : 'Add Event'}
           text="Save"
           type="submit"
           form="hello"
@@ -280,64 +369,72 @@ const Calender = () => {
             }}
             id="hello"
           >
-            <div className={style.gridView}>
-              <TextField
-                label="Title"
-                placeholder="Enter Event Name"
-                star=" *"
-                name="title"
-                register={register}
-                errorMessage={errors?.title?.message}
-              />
-              <MultiPicker
+            <TextField
+              label="Title"
+              placeholder="Enter Event Name"
+              star=" *"
+              name="title"
+              register={register}
+              errorMessage={errors?.title?.message}
+            />
+            <div className={style.attendees}>
+              <Selection
+                control={control}
+                errorMessage={errors?.attendees?.message}
+                wraperSelect={style.wraperSelect}
                 label="Attendees"
-                options={attendeesOptions}
+                placeholder="Attendees"
+                options={employeesWithDep}
+                star=" *"
+                closeMenuOnSelect={false}
+                isMulti={true}
+                name="attendees"
+              />
+              {/* <MultiPicker
+                label="Attendees"
+                options={employeesWithDep}
                 handleChange={setSelected}
-                selectedValues={selected}
+                selectedValues={selected.length > 3 ? '...' : selected}
                 control={control}
                 name="attendees"
                 star=" *"
                 errorMessage={errors?.attendees?.message}
-              />
+              /> */}
             </div>
-            <div className={style.allDay}>
-              <Checkbox
-                label="All Day"
-                handleChange={() => setCheck(!check)}
-                checked={check}
-                name="allDay"
-                register={register}
-              />
-            </div>
+
             <div className={style.gridView}>
               <DatePicker
                 label={check === true ? 'Start Date' : 'Start Date & Time'}
                 control={control}
                 name="start"
                 star=" *"
-                showTimeInput={!check === true}
-                handleChange={(date) => console.log(date)}
+                showTimeInput={check !== true}
                 errorMessage={errors?.start?.message}
                 placeholder={'Start Date'}
+                allDayLabel={'All Day'}
+                switchName="allDay"
+                register={register}
               />
               <DatePicker
-                label={check === true ? 'End Date' : 'End Date & Time'}
+                label={check ? 'End Date' : 'End Date & Time'}
                 control={control}
                 name="end"
                 star=" *"
-                showTimeInput={!check === true}
+                showTimeInput={check !== true}
                 errorMessage={errors?.end?.message}
                 placeholder={'End Date'}
               />
             </div>
+
             <div className={style.gridView}>
               <Selection
                 label="Type"
                 options={eventTypes}
-                name="type"
+                name="typename"
                 control={control}
                 errorMessage={errors?.type?.message}
                 star=" *"
+                placeholder="Type"
               />
               <Selection
                 label="Recurrence"
@@ -346,18 +443,29 @@ const Calender = () => {
                 control={control}
                 errorMessage={errors?.recurrence?.message}
                 star=" *"
+                placeholder="Recurrence"
               />
             </div>
             <div className={style.gridView}>
-              <TextField
-                label="Description "
-                placeholder="Enter Description "
-                name="description"
-                register={register}
+              <Selection
+                label="Category"
+                options={category}
+                name="category"
+                control={control}
+                star=" *"
+                errorMessage={errors?.category?.message}
+                placeholder="Category"
               />
               <TextField label="Venue" placeholder="Venue" name="venue" register={register} />
             </div>
-            <div className={style.gridView}>
+            <TextArea
+              label="Description"
+              row={2}
+              placeholder="Enter event discription.."
+              name="description"
+              register={register}
+            />
+            <div className={style.file}>
               <ProfileUpload
                 label="File"
                 name={'uploadFile'}
@@ -365,6 +473,7 @@ const Calender = () => {
                 id={'file'}
                 selectedFileName={selectedFileNameBack}
                 setSelectedFileName={setSelectedFileNameBack}
+                placeholder="Attach File"
               />
             </div>
           </form>
@@ -385,7 +494,15 @@ const Calender = () => {
                       setOpenModal(true);
                     }}
                   />
-                  <img src={deleteIcon} height={20} className={style.icon} onClick={handleDelete} />
+                  <img
+                    src={deleteIcon}
+                    height={20}
+                    className={style.icon}
+                    onClick={() => {
+                      setCustomTooltip(!customTooltip);
+                      setDelModal(true);
+                    }}
+                  />
                   <img
                     src={cross}
                     height={20}
@@ -396,60 +513,102 @@ const Calender = () => {
               </div>
               <div className={style.durationView}>
                 <p className={style.title2}>
-                  {moment(singleEventData?.start).format('dddd, MMMM Do YYYY')} |
-                  {`${moment(singleEventData?.start?.replace('Z', '')).format('h:mm a')}  -
-                  ${moment(singleEventData?.end?.replace('Z', '')).format('h:mm a')}`}
+                  {moment(singleEventData?.start).format('dddd, MMMM Do YYYY')}
+                  {!singleEventData?.allDay && (
+                    <span>
+                      |{moment(singleEventData?.start?.replace('Z', '')).format('h:mm a')} -
+                      {moment(singleEventData?.end?.replace('Z', '')).format('h:mm a')}
+                    </span>
+                  )}
                 </p>
                 <p className={style.title2}>
-                  {singleEventData?.duration && singleEventData?.duration}
+                  {singleEventData?.allDay
+                    ? 'All Day'
+                    : singleEventData?.duration && singleEventData?.duration}
                 </p>
               </div>
               <p className={style.title2}>Description</p>
               <p className={style.description}>
                 {singleEventData?.description ? singleEventData.description : '-'}
               </p>
-              <div className={style.gridDiv}>
-                <p className={style.title2}>Venue</p>
-                <p className={style.description}>
-                  {singleEventData?.venue ? singleEventData?.venue : '-'}
-                </p>
-              </div>
-              <div className={style.gridDiv}>
-                <p className={style.title2}>Event Type</p>
-                <p className={style.description}>
-                  {singleEventData?.type ? singleEventData?.type : '-'}
-                </p>
-              </div>
-              <div className={style.gridDiv}>
-                <p className={style.title2}>Attachment</p>
-                <a href={singleEventData?.fileId?.file} target={'_blank'}>
+
+              <div className={style.mainParentDiv}>
+                <div className={style.leftDiv}>
+                  <p className={style.title2}>Venue</p>
+                  <p className={style.title2}>Category</p>
+                  <p className={style.title2}>Event Type</p>
+                  <p className={style.title2}>Attachment</p>
+                  <p className={style.title2}>Attendees</p>
+                </div>
+
+                <div className={style.rightDiv}>
                   <p className={style.description}>
-                    {singleEventData?.fileId?.name ? singleEventData?.fileId?.name : '-'}
+                    {singleEventData?.venue ? singleEventData?.venue : '-'}
                   </p>
-                </a>
-              </div>
-              <div className={style.gridDiv}>
-                <p className={style.title2}>Attendees</p>
-                <div>
-                  {attendeesPic.map((i: any) => {
-                    return (
-                      <img
-                        src={i?.profilePicture && i?.profilePicture}
-                        height={28}
-                        width={28}
-                        style={{
-                          borderRadius: '30px',
-                          height: '30px',
-                          width: '30px',
-                        }}
-                      />
-                    );
-                  })}
+                  <p className={style.description}>
+                    {singleEventData?.category ? singleEventData?.category : '-'}
+                  </p>
+                  <p className={style.description}>
+                    {singleEventData?.type ? singleEventData?.type : '-'}
+                  </p>
+                  <p className={style.description}>
+                    {singleEventData?.fileId?.name ? (
+                      <a
+                        href={singleEventData?.fileId?.file}
+                        target={'_blank'}
+                        style={{ textDecoration: 'none' }}
+                      >
+                        <p className={style.attachFile}>
+                          {singleEventData?.fileId?.name ? singleEventData?.fileId?.name : '-'}
+                        </p>
+                      </a>
+                    ) : (
+                      '-'
+                    )}
+                  </p>
+
+                  <div className={style.plusView}>
+                    {attendeesPic?.slice(0, 3)?.map((i: any) => {
+                      return (
+                        <>
+                          <img
+                            src={i?.profilePicture && i?.profilePicture}
+                            height={30}
+                            onError={onImageError}
+                            width={30}
+                            style={{
+                              borderRadius: '30px',
+                              height: '30px',
+                              width: '30px',
+                              marginLeft: -10,
+                              margin: 0,
+                              border: '1px solid white',
+                            }}
+                            key={i}
+                          />
+                        </>
+                      );
+                    })}
+                    {attendeesPic?.length > 3 && (
+                      <div className={style.plusIcon}>
+                        <p className={style.plusText}>
+                          {attendeesPic?.length > 3 && attendeesPic?.length - 3}+
+                        </p>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
           </EventModal>
         </>
+
+        <DeleteModal
+          open={delModal}
+          handleDelete={handleDelete}
+          setOpen={() => setDelModal(!delModal)}
+          bucket={bucketIcon}
+        />
       </Container>
     </div>
   );

@@ -424,11 +424,26 @@ ul {
 }
 
 .wraperSelect {
-  margin-top: 10px;
+  // margin-top: 10px;
 }
 
 .policyGridView {
-  // display: grid;
-  // grid-template-columns: repeat(4, 1fr);
-  @include gridFour(15, 30);
+  @include gridFive(15, 30);
+  padding: 20px 30px;
+}
+
+.selectContainer {
+  margin-top: 0 !important;
+}
+
+.btnClass {
+  margin-top: 7px;
+  width: 100%;
+}
+.policyCount {
+  padding: 0px 10px;
+  background-color: #fff;
+  border-radius: 12px;
+  border: 1.5px solid black;
+  margin-left: 10px;
 }

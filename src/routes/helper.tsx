@@ -21,6 +21,7 @@ import SingleEmployee from 'pages/employee-module/single-employee';
 import ProfileSetting from 'pages/settings/profile-settings';
 import TaxSlab from 'pages/tax';
 import Calender from 'pages/calender';
+import Applications from 'pages/applications';
 
 export interface RouteInterface {
   path: string;
@@ -120,11 +121,11 @@ export const routes: RouteInterface[] = [
     component: <Attendance />,
     role: [...roles.adminHr],
   },
-  // {
-  //   path: '/applications',
-  //   component: <Applications />,
-  //   role: [...roles.all],
-  // },
+  {
+    path: '/applications',
+    component: <Applications />,
+    role: [...roles.all],
+  },
   {
     path: '/settings',
     component: <Settings />,

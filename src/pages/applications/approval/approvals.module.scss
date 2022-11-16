@@ -1,0 +1,32 @@
+.mainApprovalContainer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 25px 19px -10px 43px;
+  p {
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 18px;
+    color: #cacaca;
+    cursor: pointer;
+    span {
+      display: inline-block;
+      text-align: center;
+      color: #cacaca;
+      width: 40px;
+      margin-left: 3px;
+      border: 0.864706px solid #cacaca;
+      border-radius: 9.88235px;
+    }
+  }
+  .active {
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 18px;
+    color: #2d2d32;
+    span {
+      border: 0.864706px solid #2d2d32;
+      color: #2d2d32;
+    }
+  }
+}

@@ -4,12 +4,12 @@ export const SelectionStyle = {
     backgroundColor: 'bg-dark-gray',
     borderRadius: 5,
     boxShadow: 'none',
-    border: '1px solid #E2E2EA',
+    border: '1px solid transparent',
     fontSize: '12px',
     fontFamily: 'SF-regular',
-    height: 'calc(30px + 25 * (100vw - 280px) / 2280) !important',
+    // height: 'calc(30px + 25 * (100vw - 280px) / 2280) !important',
     minHeight: 'calc(30px + 25 * (100vw - 280px) / 2280) !important',
-    padding: '2px',
+    padding: '0 2px',
 
     '&:hover': {
       outline: state.isFocused ? 0 : 0,
@@ -27,5 +27,16 @@ export const SelectionStyle = {
     ...styles,
     fontSize: '13px',
     color: '#CACACA',
+  }),
+
+  valueContainer: (provided, state) => ({
+    ...provided,
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    flexWrap: 'wrap',
+  }),
+  input: (provided, state) => ({
+    ...provided,
+    minWidth: '20%',
   }),
 };

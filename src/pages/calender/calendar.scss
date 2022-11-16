@@ -57,6 +57,28 @@ th {
 }
 .fc .fc-button-primary:hover {
   border-color: none !important;
-  background-color: #ffffff !important;
+  background-color: transparent !important;
   color: #717579 !important;
+}
+.fc-theme-standard .fc-list-day-cushion {
+  background-color: #57b894 !important;
+}
+
+.fc-toolbar-chunk {
+  display: flex;
+}
+.fc-icon-chevron-right:before {
+  content: url('../../assets/right-forward.svg');
+  background-repeat: no-repeat;
+}
+.fc-icon-chevron-left:before {
+  content: url('../../assets/left-forward.svg');
+  background-repeat: no-repeat;
+}
+.fc .fc-button .fc-icon {
+  vertical-align: middle !important;
+  font-size: none !important;
+}
+.fc .fc-button-primary {
+  background-color: transparent;
 }

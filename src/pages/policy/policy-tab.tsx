@@ -1,33 +1,11 @@
-import React, { useEffect, useState } from 'react';
-
 import Button from 'components/button';
 
-import CardContainer from 'components/card-container';
-
 import plusIcon from 'assets/plusIcon.svg';
-import del from 'assets/close.svg';
 import filter from 'assets/filter.svg';
 
 import style from './request.module.scss';
-import RenderPolicy from 'components/policy-card';
-import TextField from 'components/textfield';
-import { useForm } from 'react-hook-form';
 
-import DeletePopup from 'components/delete-modal';
-import DatePicker from 'components/date-picker';
-
-import Modal from 'components/modal';
-import TextArea from 'components/textarea';
-import ProfileUpload from 'components/profile-upload';
-import Selection from 'components/select';
 import RenderPolicySearchView from './policies-search';
-import ViewPolicy from './view-policy';
-import PdfViewModal from 'components/pdf-viewer';
-import { sampleBase64pdf } from './pdfSample';
-import PolicyService from 'services/policy-service';
-import { setErrors } from 'helper';
-import { createNotification } from 'common/create-notification';
-import EmployeeService from 'services/employee-service';
 
 const RenderPoliciesTab = ({
   selectedTab,
@@ -38,6 +16,10 @@ const RenderPoliciesTab = ({
   setOpenAddPolice,
   options,
   setEditPolicy,
+  reset,
+  policyCategory,
+  length,
+  setSearch,
 }: {
   selectedTab: any;
   setSelectedTab: any;
@@ -47,6 +29,8 @@ const RenderPoliciesTab = ({
   setOpenAddPolice: any;
   options: any;
   setEditPolicy: any;
+  length: any;
+  setSearch: any;
 }) => {
   return (
     <>
@@ -57,11 +41,23 @@ const RenderPoliciesTab = ({
             style={{
               fontSize: '16px',
               fontWeight: 600,
-              color: selectedTab == 0 ? '#2D2D32' : '#CACACA',
+              color: selectedTab === 0 ? '#2D2D32' : '#CACACA',
+              cursor: 'pointer',
             }}
           >
             All Policies
           </p>
+          {length && (
+            <div className={style.policyCount}>
+              <p
+                style={{
+                  color: '#000000',
+                }}
+              >
+                {length}
+              </p>
+            </div>
+          )}
           <p
             onClick={() => setSelectedTab(1)}
             style={{
@@ -69,6 +65,7 @@ const RenderPoliciesTab = ({
               fontWeight: 600,
               color: selectedTab == 1 ? '#2D2D32' : '#CACACA',
               marginLeft: 20,
+              cursor: 'pointer',
             }}
           >
             Obsolete
@@ -84,15 +81,23 @@ const RenderPoliciesTab = ({
           />
           <Button
             handleClick={() => {
+              reset({});
               setOpenAddPolice(true);
-              setEditPolicy(false);
+              setEditPolicy({ bool: false, label: 'Add Policy' });
             }}
             iconStart={plusIcon}
             text="Add Policy"
           />
         </div>
       </div>
-      {showFilterView && <RenderPolicySearchView options={options} control={control} />}
+      {showFilterView && (
+        <RenderPolicySearchView
+          policyCategory={policyCategory}
+          options={options}
+          control={control}
+          setSearch={setSearch}
+        />
+      )}
     </>
   );
 };

@@ -17,6 +17,19 @@ export default class EmployeeService {
     });
     return res;
   }
+
+  static async getEmployeesWithDepApi(data?: any) {
+    const res = await ApiService.get(
+      `${EmployeeService.baseUrl[0]}/get-employee-with-departments`,
+      {
+        ...(data && {
+          params: data,
+        }),
+      },
+    );
+    return res;
+  }
+
   static async getAllEmployeesID(data: string = '') {
     const res = await ApiService.get(
       `${
@@ -54,6 +67,12 @@ export default class EmployeeService {
   }
   static async getDepartments(id?: string | number) {
     const res = await ApiService.get(`${EmployeeService.baseUrl[1]}/department-setting`);
+    return res;
+  }
+  static async getOnlyEmployees(params?: any) {
+    const res = await ApiService.get(`${EmployeeService.baseUrl[0]}/get-employee-Only-name/`, {
+      params,
+    });
     return res;
   }
   static async getDesignation(id?: string | number) {

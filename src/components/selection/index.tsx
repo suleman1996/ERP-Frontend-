@@ -1,3 +1,4 @@
+import Tags from 'components/tags';
 import { ChangeEvent, useState } from 'react';
 import { Controller } from 'react-hook-form';
 
@@ -24,6 +25,7 @@ interface Props {
   withInput?: boolean;
   userId?: any;
   marksType?: string;
+  classNameLabel?: string;
   setMarkVal?: any;
   marksVal?: any;
   options?: any;
@@ -31,6 +33,7 @@ interface Props {
   closeMenuOnSelect?: boolean;
   isMulti?: boolean;
   control: any;
+  isDisabled?: any;
 }
 
 const Selection = ({
@@ -46,34 +49,91 @@ const Selection = ({
   isMulti,
   name,
   control,
+  isDisabled,
+  classNameLabel,
 }: Props) => {
   const [customErr, setCustomErr] = useState<string | undefined>();
 
   const CustomStyle = SelectionStyle;
 
+  const formatOptionLabel = (
+    { label, value, color, checkbox, box },
+    { context, selectValue },
+    badge,
+  ): any => {
+    return (
+      <>
+        {context === 'label' ? (
+          <div>{label}</div>
+        ) : (
+          <div style={{ display: 'flex' }}>
+            <div
+              style={{
+                height: '10px',
+                width: '10px',
+                borderRadius: '50%',
+                background: color,
+                marginRight: '10px',
+                marginTop: '5px',
+              }}
+            />
+            {label}
+          </div>
+        )}
+      </>
+    );
+  };
+
   return (
     <div style={{ position: 'relative' }}>
       {label && (
-        <label style={{ color: errorMessage ? '#ff5050' : '#2d2d32' }}>
-          {label}
-          <b style={{ color: 'red' }}>{star}</b>
-        </label>
+        <div style={{ marginBottom: 7.31 }}>
+          <label style={{ color: errorMessage ? '#000' : '#2d2d32' }}>
+            {label}
+            <b style={{ color: 'red' }}>{star}</b>
+          </label>
+        </div>
       )}
-      <div className={wraperSelect}>
+      <div
+        style={{
+          border: !errorMessage ? '1px solid #E2E2EA' : '1px solid red',
+          borderRadius: '5PX',
+          // marginTop: '7px',
+        }}
+        className={!isDisabled ? wraperSelect : style.disabledSelection}
+      >
         <Controller
           name={name}
           control={control}
+          defaultValue={null}
           render={({ onChange, value }) => {
             return (
-              <Select
-                closeMenuOnSelect={closeMenuOnSelect}
-                isMulti={isMulti}
-                value={value}
-                onChange={onChange}
-                options={options}
-                styles={CustomStyle}
-                placeholder={placeholder}
-              />
+              <>
+                <Select
+                  components={{
+                    GroupHeading: (e) => (
+                      <div
+                        onClick={() => {
+                          onChange([...e.data.options]);
+                          console.log('pressing ', e);
+                        }}
+                      >
+                        <p className={style.groupHeading}>
+                          {e?.children?.charAt(0)?.toUpperCase() + e?.children?.slice(1)}
+                        </p>
+                      </div>
+                    ),
+                  }}
+                  closeMenuOnSelect={closeMenuOnSelect}
+                  isMulti={isMulti}
+                  value={value}
+                  onChange={onChange}
+                  options={options}
+                  styles={CustomStyle}
+                  placeholder={placeholder}
+                  isDisabled={isDisabled || false}
+                />
+              </>
             );
           }}
         />
