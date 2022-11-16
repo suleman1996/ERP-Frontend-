@@ -62,6 +62,7 @@ const TaxSlab = ({ setIsLoading, open, setOpen, singleId, setSingleId, slabs, se
     <>
       <div style={{ padding: '0 10px' }}>
         <Table
+          minWidth={'100px'}
           columns={columns}
           rows={
             taxSlabsData &&
