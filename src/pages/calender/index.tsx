@@ -118,12 +118,19 @@ const Calender = () => {
   };
 
   const handleDelete = async () => {
-    const res = await CalenderService.deleteEvent(eventId);
-    if (res.status === 200) {
-      createNotification('success', 'success', res?.data?.msg);
-      getAllEvents();
-      setCustomTooltip(false);
-      setDelModal(!delModal);
+    setBtnLoader(true);
+    try {
+      const res = await CalenderService.deleteEvent(eventId);
+      if (res.status === 200) {
+        setBtnLoader(true);
+        createNotification('success', 'success', res?.data?.msg);
+        getAllEvents();
+        setCustomTooltip(false);
+        setDelModal(!delModal);
+      }
+      setBtnLoader(false);
+    } catch (err) {
+      setBtnLoader(false);
     }
   };
   // const attendeesOptions = OnlyEmployees?.map(({ _id, fullName }) => ({
@@ -157,7 +164,7 @@ const Calender = () => {
             return { label: fullName, value: _id };
           })
         : [],
-      typename: type ? { label: type, value: type } : '',
+      type: type ? { label: type, value: type } : '',
       recurrence: recurrence ? { label: recurrence, value: recurrence } : '',
       start: start ? new Date(start.replace('Z', '')) : '',
       end: end ? new Date(end.replace('Z', '')) : '',
@@ -255,7 +262,7 @@ const Calender = () => {
           : '',
         recurrence: data?.recurrence?.value,
         category: data?.category?.value,
-        type: data?.typename?.value,
+        type: data?.type?.value,
         allDay: data?.allDay,
         venue: data?.venue,
         description: data?.description,
@@ -423,7 +430,7 @@ const Calender = () => {
               <Selection
                 label="Type"
                 options={eventTypes}
-                name="typename"
+                name="type"
                 control={control}
                 errorMessage={errors?.type?.message}
                 star=" *"
@@ -601,6 +608,7 @@ const Calender = () => {
           handleDelete={handleDelete}
           setOpen={() => setDelModal(!delModal)}
           bucket={bucketIcon}
+          isLoading={btnLoader}
         />
       </Container>
     </div>
