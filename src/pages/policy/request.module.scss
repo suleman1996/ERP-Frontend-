@@ -417,6 +417,9 @@ ul {
   // display: flex;
   @include gridTwo(50, 50);
   margin-bottom: 20px;
+  @media (max-width: $sm) {
+    grid-gap: 0px 0px;
+  }
 }
 
 .gridView1 {
@@ -446,4 +449,14 @@ ul {
   border-radius: 12px;
   border: 1.5px solid black;
   margin-left: 10px;
+}
+.pdfHeading {
+  font-size: calc(12px + 9 * (100vw - 280px) / 2280);
+  font-weight: 500;
+  color: #2d2d32;
+  margin-right: 5px;
+  @media (max-width: $sm) {
+    font-size: calc(12px + 9 * (100vw - 280px) / 2280);
+    margin-top: 5px;
+  }
 }

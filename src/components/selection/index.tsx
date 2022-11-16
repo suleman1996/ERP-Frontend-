@@ -114,8 +114,8 @@ const Selection = ({
                     GroupHeading: (e) => (
                       <div
                         onClick={() => {
-                          onChange([...e.data.options]);
-                          console.log('pressing ', e);
+                          const set = new Set([...(value || ''), ...e.data.options]);
+                          onChange([...set]);
                         }}
                       >
                         <p className={style.groupHeading}>
