@@ -132,6 +132,7 @@ const Selection = ({
                   styles={CustomStyle}
                   placeholder={placeholder}
                   isDisabled={isDisabled || false}
+                  formatOptionLabel={(data, metaData) => formatOptionLabel(data, metaData, true)}
                 />
               </>
             );

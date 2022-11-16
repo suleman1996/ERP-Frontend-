@@ -1,11 +1,9 @@
 import React from 'react';
-import { Controller } from 'react-hook-form';
 
 import style from './switch.module.scss';
 
 const Switch = ({
   label,
-  control,
   title,
   register,
   name,
@@ -22,22 +20,13 @@ const Switch = ({
       {label && <p className={style.titleClass}>{label}</p>}
       <div className={`${style.mainClass} ${className}`} onClick={handleClick && handleClick}>
         <label className={`${style.switch}  ${switchContainer} `}>
-          <Controller
-            name={name}
-            control={control}
-            render={({ onChange, value }) => {
-              return (
-                <input
-                  type="checkbox"
-                  checked={value}
-                  onChange={(e) => onChange?.(e.target.checked)}
-                  // {...restOfProps}
-                  // {...(register && register(name))}
-                />
-              );
-            }}
+          <input
+            type="checkbox"
+            checked={checked}
+            onChange={onChange && onChange}
+            {...restOfProps}
+            {...(register && register(name))}
           />
-
           <span className={`${style.slider} ${style.round}`}></span>
         </label>
         <h6>{title}</h6>

@@ -156,7 +156,7 @@ const Calender = () => {
         ? attendees?.map(({ _id, fullName }: any) => {
             return { label: fullName, value: _id };
           })
-        : '',
+        : [],
       typename: type ? { label: type, value: type } : '',
       recurrence: recurrence ? { label: recurrence, value: recurrence } : '',
       start: start ? new Date(start.replace('Z', '')) : '',
@@ -247,9 +247,8 @@ const Calender = () => {
     setCustomTooltip(event._def.extendedProps._id);
     setEventId(event._def.extendedProps._id);
   };
-  console.log({ check });
+
   const onSubmit = async (data: any) => {
-    setCheck(data?.allDay);
     setBtnLoader(true);
     try {
       const transformData = {
@@ -265,7 +264,7 @@ const Calender = () => {
         category: data?.category?.value,
         type: data?.typename?.value,
         allDay: data?.allDay,
-        attendees: data?.attendees?.map((i: any) => i?.value),
+        attendees: data?.attendees ? data?.attendees?.map((i: any) => i?.value) : [],
         ...(data?.uploadFile?.length > 0 &&
           selectedFileNameBack && {
             file: await convertBase64Image(data?.uploadFile[0]),
@@ -300,6 +299,7 @@ const Calender = () => {
     }
   };
 
+  console.log(watch(), 'watch');
   return (
     <div className={style.calenderMain}>
       <Container>
@@ -390,16 +390,6 @@ const Calender = () => {
                 isMulti={true}
                 name="attendees"
               />
-              {/* <MultiPicker
-                label="Attendees"
-                options={employeesWithDep}
-                handleChange={setSelected}
-                selectedValues={selected.length > 3 ? '...' : selected}
-                control={control}
-                name="attendees"
-                star=" *"
-                errorMessage={errors?.attendees?.message}
-              /> */}
             </div>
 
             <div className={style.gridView}>
