@@ -6,6 +6,8 @@ import style from './tax.module.scss';
 import Loading from 'components/loading';
 
 import Button from 'components/button';
+import MobileButton from 'components/button/mobile-button';
+import plusIcon from 'assets/plusIcon.svg';
 
 const Tax = () => {
   const [active, setActive] = useState(0);
@@ -16,20 +18,34 @@ const Tax = () => {
 
   return (
     <>
-      <CardContainer>
-        <div className={style.header}>
-          <h2>Tax Groups</h2>
-          <div
-            style={{
-              position: 'relative',
-              display: 'flex',
-              justifyContent: 'center',
-            }}
-          >
-            <div className={style.addTaxBtnDiv}>
-              <div className={style.addTaxBtnChildDiv}>
-                <Button
-                  text="Add Tax-Slab"
+      <CardContainer className={style.className}>
+        <div>
+          <div className={style.header}>
+            <h2>Tax Groups</h2>
+            <div
+              style={{
+                position: 'relative',
+                display: 'flex',
+                justifyContent: 'center',
+              }}
+            >
+              <div className={style.addTaxBtnDiv}>
+                <div className={style.addTaxBtnChildDiv}>
+                  <Button
+                    text="Add Tax Group"
+                    iconStart={plusIcon}
+                    handleClick={() => {
+                      setSingleId('');
+                      setOpen(true);
+                      setSlab([]);
+                    }}
+                  />
+                </div>
+              </div>
+
+              <div className={style.mobileAddTaxBtnDiv}>
+                <MobileButton
+                  mobileIcon={plusIcon}
                   handleClick={() => {
                     setSingleId('');
                     setOpen(true);
@@ -37,15 +53,6 @@ const Tax = () => {
                   }}
                 />
               </div>
-            </div>
-
-            <div className={style.mobileAddTaxBtnDiv}>
-              {/* <MobileButton
-                // mobileIcon={plusIcon}
-                handleClick={() => {
-                  setOpen(true);
-                }}
-              /> */}
             </div>
           </div>
         </div>

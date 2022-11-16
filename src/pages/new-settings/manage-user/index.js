@@ -8,12 +8,14 @@ import style from './manage.module.scss';
 import { ColumnsData, RowsData } from './helper';
 import Switch from 'components/switch';
 import AddUser from './add-user/index';
+import { useForm } from 'react-hook-form';
 
 import dummy from 'assets/dummyPic.svg';
 
 const ManageUser = ({ newUser, setNewUser }) => {
   const [deletePopUp, setDeletePopUp] = useState(false);
   const [editIndex, setEditIndex] = useState(-1);
+  const { control } = useForm();
 
   return (
     <CardContainer className={style.card}>
@@ -38,7 +40,7 @@ const ManageUser = ({ newUser, setNewUser }) => {
                   alignItems: 'center',
                 }}
               >
-                <Switch title={'Active'} />
+                <Switch title={'Active'} name={'active'} control={control} />
               </div>
             ),
           }))}

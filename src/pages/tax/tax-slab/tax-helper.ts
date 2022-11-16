@@ -1,42 +1,33 @@
 export const columns = [
   {
     key: 'TaxGroupName',
-    // icon: sortIcon,
     name: 'Group Name',
-    alignText: 'left',
+    alignText: 'center',
     width: '100px',
   },
   {
     key: 'FinancialYear',
     name: 'Financial Year',
-    // icon: sortIcon,
-    alignText: 'left',
+    alignText: 'center',
     width: '100px',
-    // toLocalString: (val: any) => (val !== '-' ? Number(val).toLocaleString() + '.00' : '-'),
   },
   {
     key: 'TaxCategory',
-    // icon: sortIcon,
     name: 'Category',
-    alignText: 'left',
+    alignText: 'center',
     width: '100px',
-    // toLocalString: (val: any) => (val !== '-' ? Number(val).toLocaleString() + '.00' : '-'),
   },
   {
     key: 'Status',
-    // icon: sortIcon,
     name: 'Status',
-    alignText: 'left',
+    alignText: 'center',
     width: '100px',
-    // toLocalString: (val: any) => (val !== '-' ? Number(val).toLocaleString() + '.00' : '-'),
   },
   {
     key: 'taxActions',
-    // icon: sortIcon,
     name: 'Action',
-    alignText: 'left',
+    alignText: 'center',
     width: '100px',
-    // toLocalString: (val: any) => (val !== '-' ? Number(val).toLocaleString() + '%' : '-'),
   },
 ];
 
