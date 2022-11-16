@@ -118,7 +118,9 @@ const Policy = () => {
         ...(data?.preparedBy?.value && { preparedBy: data?.preparedBy?.value }),
         ...(data?.approvedBy?.value && { approvedBy: data?.approvedBy?.value }),
         ...(data?.reviewers?.value && { reviewers: [data?.reviewers?.value] }),
-        ...(data?.appliesTo && { appliesTo: data?.appliesTo.map((item: any) => item?.value) }),
+        ...(data?.appliesTo?.length > 0 && {
+          appliesTo: data?.appliesTo.map((item: any) => item?.value),
+        }),
         ...(pdffile && selectedFileName && { file: pdffile }),
         description: data?.description,
       };
@@ -221,7 +223,9 @@ const Policy = () => {
         ...(data?.preparedBy?.value && { preparedBy: data?.preparedBy?.value }),
         ...(data?.approvedBy?.value && { approvedBy: data?.approvedBy?.value }),
         ...(data?.reviewers?.value && { reviewers: [data?.reviewers?.value] }),
-        ...(data?.appliesTo && { appliesTo: data?.appliesTo.map((item: any) => item?.value) }),
+        ...(data?.appliesTo?.length > 0 && {
+          appliesTo: data?.appliesTo.map((item: any) => item?.value),
+        }),
         ...(pdffile && selectedFileName && { file: pdffile }),
         description: data?.description,
       };
@@ -270,7 +274,9 @@ const Policy = () => {
         ...(data?.preparedBy?.value && { preparedBy: data?.preparedBy?.value }),
         ...(data?.approvedBy?.value && { approvedBy: data?.approvedBy?.value }),
         ...(data?.reviewers?.value && { reviewers: [data?.reviewers?.value] }),
-        ...(data?.appliesTo && { appliesTo: data?.appliesTo.map((item: any) => item?.value) }),
+        ...(data?.appliesTo?.length > 0 && {
+          appliesTo: data?.appliesTo.map((item: any) => item?.value),
+        }),
         ...(pdffile && selectedFileName && { file: pdffile }),
         description: data?.description,
       };
@@ -470,10 +476,11 @@ const Policy = () => {
               closeMenuOnSelect={false}
               isMulti={true}
               name="appliesTo"
+              defaultValue={null}
             />
             <div>
               <div style={{ display: 'flex' }}>
-                <p style={{ fontSize: 17, color: '#2d2d32', marginRight: 5 }}>Attach Pdf </p>
+                <p className={style.pdfHeading}>Attach Pdf </p>
                 {/* <b style={{ color: 'red' }}> *</b> */}
               </div>
               <ProfileUpload

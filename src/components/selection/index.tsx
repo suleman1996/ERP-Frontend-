@@ -128,7 +128,8 @@ const Selection = ({
                     GroupHeading: (e) => (
                       <div
                         onClick={() => {
-                          onChange([...e.data.options]);
+                          const set = new Set([...(value || ''), ...e.data.options]);
+                          handleChange([...set]);
                         }}
                       >
                         <p className={style.groupHeading}>
@@ -140,7 +141,7 @@ const Selection = ({
                   closeMenuOnSelect={closeMenuOnSelect}
                   isMulti={isMulti}
                   value={value}
-                  onChange={onChange}
+                  onChange={handleChange}
                   options={options}
                   styles={CustomStyle}
                   placeholder={placeholder}
