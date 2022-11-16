@@ -101,7 +101,7 @@ const MyLeaves = ({ data }: { data: any }) => {
   const getHistory = async () => {
     setLoading(true);
     const res = await ApplicationService.getLeaveHistory();
-    const data = res?.data?.map((el) => {
+    const data = res?.data?.map((el: any) => {
       return {
         leaveType: el.leaveType + ' Leave',
         remaining: el.remaining + ' Remains',
@@ -277,22 +277,9 @@ const MyLeaves = ({ data }: { data: any }) => {
                   </div>
                 </div>
               ),
-              // status: (
-              //   <div
-              //     style={{
-              //       display: 'flex',
-              //       justifyContent: 'center',
-              //       alignItems: 'center',
-              //     }}
-              //   >
-              //     {/* <Switch title={'Active'} /> */}
-              //   </div>
-              // ),
             }))}
             minWidth="700px"
             handleDelete={(id) => console.log(id)}
-            //   handleModalOpen={() => setDeletePopUp(true)}
-            //   handleEdit={handleEdit && handleEdit}
           />
         </div>
         <div className={style.position}>

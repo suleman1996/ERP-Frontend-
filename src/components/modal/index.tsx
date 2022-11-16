@@ -16,6 +16,7 @@ interface Props {
   iconEnd?: string;
   handleClick?: () => void;
   form?: string;
+  customHeader?: string;
   loader?: boolean;
 }
 
@@ -33,6 +34,7 @@ const Modal = ({
   btnClass,
   form,
   loader,
+  customHeader,
 }: Props) => {
   const handleClickWrapper = (event: React.MouseEvent<HTMLElement>): void => {
     event.nativeEvent.stopImmediatePropagation();
@@ -49,7 +51,7 @@ const Modal = ({
           >
             {title && (
               <div className={style.fixedClass}>
-                <div className={style.header}>
+                <div className={`${style.header} ${customHeader}`}>
                   <p>{title}</p>
                   <img src={cross} alt="close icon" onClick={handleClose} />
                 </div>
