@@ -118,12 +118,19 @@ const Calender = () => {
   };
 
   const handleDelete = async () => {
-    const res = await CalenderService.deleteEvent(eventId);
-    if (res.status === 200) {
-      createNotification('success', 'success', res?.data?.msg);
-      getAllEvents();
-      setCustomTooltip(false);
-      setDelModal(!delModal);
+    setBtnLoader(true);
+    try {
+      const res = await CalenderService.deleteEvent(eventId);
+      if (res.status === 200) {
+        setBtnLoader(true);
+        createNotification('success', 'success', res?.data?.msg);
+        getAllEvents();
+        setCustomTooltip(false);
+        setDelModal(!delModal);
+      }
+      setBtnLoader(false);
+    } catch (err) {
+      setBtnLoader(false);
     }
   };
   // const attendeesOptions = OnlyEmployees?.map(({ _id, fullName }) => ({
@@ -601,6 +608,7 @@ const Calender = () => {
           handleDelete={handleDelete}
           setOpen={() => setDelModal(!delModal)}
           bucket={bucketIcon}
+          isLoading={btnLoader}
         />
       </Container>
     </div>

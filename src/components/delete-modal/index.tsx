@@ -14,6 +14,8 @@ interface Props {
   bucket?: any;
   heading?: any;
   description?: any;
+  isLoading?: any;
+  btnLoaderClass?: any;
 }
 
 const DeletePopup = ({
@@ -24,6 +26,8 @@ const DeletePopup = ({
   bucket,
   heading,
   description,
+  isLoading,
+  btnLoaderClass,
 }: Props) => {
   return (
     <>
@@ -42,6 +46,8 @@ const DeletePopup = ({
                 handleDelete && handleDelete();
               }}
               btnClass={style.button}
+              isLoading={isLoading}
+              btnLoaderClass={btnLoaderClass}
             />
           </div>
         </div>
