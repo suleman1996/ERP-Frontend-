@@ -84,11 +84,11 @@ const CreateApplicationModal = ({
           label="Leave Type"
           placeholder="Select"
           options={data.leaves.map((el: any) => ({ label: el.name, value: el._id }))}
-          // onChange={(item) => console.log(item)}
           name="leaveType"
           errorMessage={errors?.leaveType?.message}
           control={control}
           defaultValue={defaultLeaveType}
+          placeHolderStyle={{ color: '#2D2D32' }}
         />
         <Selection
           classNameLabel={style.classNameLabel}
@@ -96,12 +96,6 @@ const CreateApplicationModal = ({
           label="Approval By"
           placeholder="Select"
           options={data.employeeOnlyName.map((el: any) => ({ label: el.fullName, value: el._id }))}
-          // onChange={(item) => {
-          //   console.log('he');
-          //   setError('approvedBy', { type: 'custom', message: '' });
-
-          //   // clearErrors('approvedBy');
-          // }}
           name="approvedBy"
           errorMessage={errors?.approvedBy?.message}
           control={control}
@@ -122,6 +116,7 @@ const CreateApplicationModal = ({
           register={register}
           type="application/pdf,application/vnd.ms-excel"
           id={'file'}
+          placeholder="Upload a file"
           errorMessage={errors?.attachment?.message}
           className={style.fileUpload}
           classNameLabel={style.classNameLabel}
