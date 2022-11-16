@@ -5,28 +5,60 @@ import style from './request.module.scss';
 import TextField from 'components/textfield';
 import { Control, useForm } from 'react-hook-form';
 
-import DatePicker from 'components/date-picker';
-
 import Selection from 'components/selection';
+import EmployeeService from 'services/employee-service';
+import { useEffect, useState } from 'react';
 
 const RenderPolicySearchView = ({
   // control,
   policyCategory,
+  setSearch,
 }: {
-  control: Control;
   policyCategory: any;
+  setSearch: any;
 }) => {
-  const { handleSubmit, control, register } = useForm({
+  const [employees, setEmployees] = useState([]);
+
+  const { handleSubmit, control, register, reset } = useForm({
     mode: 'all',
   });
 
-  const handleSearch = async (data: any) => {
+  useEffect(() => {
+    getEmployees();
+  }, []);
+
+  const getEmployees = async () => {
     try {
-      console.log('Search data ', data);
+      const result = await EmployeeService.getOnlyEmployees();
+      setEmployees(
+        result?.data?.map((item: any) => ({
+          value: item?._id,
+          label: item?.fullName,
+        })),
+      );
     } catch (error) {
       console.log(error);
     }
   };
+
+  const handleSearch = async (data: any) => {
+    try {
+      console.log('Search data ', data);
+      setSearch({
+        nameNumber: data?.nameNumber,
+        categoryId: data?.categoryId,
+        addedBy: data?.nameNumber,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const clearFilter = () => {
+    reset({ categoryId: null, nameNumber: '', addedBy: null });
+    setSearch({ nameNumber: '', addedBy: '', categoryId: '' });
+  };
+
   return (
     <form
       onSubmit={(e) => {
@@ -35,24 +67,47 @@ const RenderPolicySearchView = ({
       id="SearchPolicy"
     >
       <div className={style.policySearchView}>
-        <TextField register={register} placeholder="Job Title" name="jobTitle" />
+        <TextField
+          label="Name & Number"
+          register={register}
+          placeholder="Enter Name & Number"
+          name="nameNumber"
+        />
         {/* <DropDownSelect /> */}
         <Selection
+          control={control}
           wraperSelect={style.wraperSelect}
-          // label="Category"
+          label="Category"
           placeholder="Category"
           options={policyCategory}
-          star=" *"
+          // star=" *"
           onChange={(item) => console.log(item)}
           name="categoryId"
           // errorMessage={errors?.categoryId?.message}
-          control={control}
+
           // isDisabled={editPoplicy?.bool}
         />
+        <Selection
+          control={control}
+          wraperSelect={style.wraperSelect}
+          label="Added By"
+          placeholder="Added By"
+          options={employees}
+          // star=" *"
+          onChange={(item) => console.log(item)}
+          name="addedBy"
+        />
+        <div
+          style={{
+            marginBottom: 7.31,
+          }}
+        >
+          <label onClick={() => clearFilter()} style={{ color: '#CACACA', cursor: 'pointer' }}>
+            Clear
+          </label>
 
-        <DatePicker placeholder="Effective Date" control={control} name="Date" />
-
-        <Button form="SearchPolicy" text="Search" btnClass={style.btnClass} type="submit" />
+          <Button form="SearchPolicy" text="Search" btnClass={style.btnClass} type="submit" />
+        </div>
       </div>
     </form>
   );

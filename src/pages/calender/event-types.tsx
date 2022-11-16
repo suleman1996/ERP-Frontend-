@@ -27,4 +27,7 @@ export const category = [
   { label: 'Info', value: 'Info', color: '#67C1F3' },
   { label: 'Inverse', value: 'Inverse', color: '#F5D561' },
   { label: 'Primary', value: 'Primary', color: '#57B894' },
+  { label: 'Purple', value: 'Purple', color: '#CF6BF2' },
+  { label: 'Pink', value: 'Pink', color: '#FD9BFF' },
+  { label: 'Orange', value: 'Orange', color: '#EE9555' },
 ];

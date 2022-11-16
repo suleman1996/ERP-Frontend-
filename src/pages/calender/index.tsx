@@ -81,7 +81,6 @@ const Calender = () => {
   });
 
   useEffect(() => {
-    getEmployeesData();
     getAllEvents();
     getEmployeesWithDep();
   }, []);
@@ -90,10 +89,10 @@ const Calender = () => {
     updateEventData();
   }, [singleEventData]);
 
-  const getEmployeesData = async () => {
-    const res = await EmployeeService.getAllEmployees();
-    setAttendees(res?.data?.employees[0]?.data);
-  };
+  // const getEmployeesData = async () => {
+  //   const res = await EmployeeService.getAllEmployees();
+  //   setAttendees(res?.data?.employees[0]?.data);
+  // };
   // const getOnlyEmployee = async () => {
   //   const res = await EmployeeService.getOnlyEmployees();
   //   setOnlyEmployees(res?.data);
@@ -133,18 +132,33 @@ const Calender = () => {
   // }));
 
   const updateEventData = () => {
-    const { title, venue, description, type, start, end, recurrence, attendees, category } =
-      singleEventData;
+    const {
+      title,
+      venue,
+      description,
+      type,
+      start,
+      end,
+      recurrence,
+      attendees,
+      category,
+      allDay,
+      fileId,
+    } = singleEventData;
+    fileId?.name && setSelectedFileNameBack(fileId?.name);
     reset({
       title,
       venue: venue ? venue : '',
-      category: { label: category, value: category },
+      category: category ? { label: category, value: category } : '',
       description,
-      attendees: attendees?.map(({ _id, fullName }: any) => {
-        return { label: fullName, value: _id };
-      }),
-      type: { label: type, value: type },
-      recurrence: { label: recurrence, value: recurrence },
+      allDay: allDay ? allDay : false,
+      attendees: attendees
+        ? attendees?.map(({ _id, fullName }: any) => {
+            return { label: fullName, value: _id };
+          })
+        : '',
+      typename: type ? { label: type, value: type } : '',
+      recurrence: recurrence ? { label: recurrence, value: recurrence } : '',
       start: start ? new Date(start.replace('Z', '')) : '',
       end: end ? new Date(end.replace('Z', '')) : '',
     });
@@ -159,9 +173,10 @@ const Calender = () => {
           className={style.mainDiv}
           style={{
             backgroundColor: category.find(({ value }) => value === catogery)?.color || 'red',
-            height: allDay === true && 5,
+            height: allDay === true && '5px',
             display: 'flex',
             alignItems: 'center',
+            cursor: 'pointer',
           }}
         >
           <div
@@ -170,14 +185,27 @@ const Calender = () => {
               backgroundColor: category?.find(({ value }) => value === catogery)?.color,
             }}
           >
-            <p className={style.title}>{eventInfo?.event?.title && eventInfo?.event?.title}</p>
-            <div className={style.descDiv}>
-              <img src={eventInfo?.event?.extendedProps?.description && location} />
-              <p className={style.description}>
-                {eventInfo?.event?.extendedProps?.description &&
-                  eventInfo?.event?.extendedProps?.description}
-              </p>
-            </div>
+            <span className={style.title}>
+              {eventInfo?.event?.title && eventInfo?.event?.title}
+            </span>
+            {!allDay && (
+              <div className={style.descDiv}>
+                <img
+                  src={
+                    !allDay &&
+                    eventInfo?.view?.type !== 'dayGridMonth' &&
+                    eventInfo?.event?.extendedProps?.venue &&
+                    location
+                  }
+                />
+                <p className={style.description}>
+                  {!allDay &&
+                    eventInfo?.view?.type !== 'dayGridMonth' &&
+                    eventInfo?.event?.extendedProps?.venue &&
+                    eventInfo?.event?.extendedProps?.venue}
+                </p>
+              </div>
+            )}
           </div>
           {eventInfo?.view?.type == 'timeGridDay' && 'dayGridMonth' && allDay === false ? (
             <div className={style.plusView}>
@@ -219,8 +247,9 @@ const Calender = () => {
     setCustomTooltip(event._def.extendedProps._id);
     setEventId(event._def.extendedProps._id);
   };
-
+  console.log({ check });
   const onSubmit = async (data: any) => {
+    setCheck(data?.allDay);
     setBtnLoader(true);
     try {
       const transformData = {
@@ -234,8 +263,8 @@ const Calender = () => {
           : '',
         recurrence: data?.recurrence?.value,
         category: data?.category?.value,
-        type: data?.type?.value,
-        allDay: check,
+        type: data?.typename?.value,
+        allDay: data?.allDay,
         attendees: data?.attendees?.map((i: any) => i?.value),
         ...(data?.uploadFile?.length > 0 &&
           selectedFileNameBack && {
@@ -282,7 +311,6 @@ const Calender = () => {
                 setOpenModal(true);
                 setSingleEventData('');
                 setSelectedFileNameBack('');
-                setCheck(false);
               }}
               iconStart={plus}
             />
@@ -307,6 +335,7 @@ const Calender = () => {
             year: 'numeric',
             month: 'short',
           }}
+          dayMaxEvents={2}
           eventContent={RenderEventHandler}
           slotLabelInterval={{ hours: 1 }}
           events={allEvent?.map((e: any) => ({
@@ -357,7 +386,6 @@ const Calender = () => {
                 placeholder="Attendees"
                 options={employeesWithDep}
                 star=" *"
-                // onChange={(item) => console.log(item)}
                 closeMenuOnSelect={false}
                 isMulti={true}
                 name="attendees"
@@ -380,38 +408,33 @@ const Calender = () => {
                 control={control}
                 name="start"
                 star=" *"
-                showTimeInput={!check === true}
-                // handleChange={(date) => console.log(date)}
+                showTimeInput={check !== true}
                 errorMessage={errors?.start?.message}
                 placeholder={'Start Date'}
                 allDayLabel={'All Day'}
-                checked={check}
                 switchName="allDay"
-                handleSwitchChange={(e: any) => {
-                  // console.log('e', e.target.value);
-                  setCheck(!check);
-                }}
                 register={register}
               />
               <DatePicker
-                label={check === true ? 'End Date' : 'End Date & Time'}
+                label={check ? 'End Date' : 'End Date & Time'}
                 control={control}
                 name="end"
                 star=" *"
-                showTimeInput={!check === true}
+                showTimeInput={check !== true}
                 errorMessage={errors?.end?.message}
                 placeholder={'End Date'}
               />
             </div>
+
             <div className={style.gridView}>
               <Selection
                 label="Type"
                 options={eventTypes}
-                name="type"
+                name="typename"
                 control={control}
                 errorMessage={errors?.type?.message}
                 star=" *"
-                placeholder={'type'}
+                placeholder="Type"
               />
               <Selection
                 label="Recurrence"
@@ -420,6 +443,7 @@ const Calender = () => {
                 control={control}
                 errorMessage={errors?.recurrence?.message}
                 star=" *"
+                placeholder="Recurrence"
               />
             </div>
             <div className={style.gridView}>
@@ -430,6 +454,7 @@ const Calender = () => {
                 control={control}
                 star=" *"
                 errorMessage={errors?.category?.message}
+                placeholder="Category"
               />
               <TextField label="Venue" placeholder="Venue" name="venue" register={register} />
             </div>
@@ -526,20 +551,21 @@ const Calender = () => {
                   <p className={style.description}>
                     {singleEventData?.type ? singleEventData?.type : '-'}
                   </p>
-
-                  {singleEventData?.fileId?.name ? (
-                    <a
-                      href={singleEventData?.fileId?.file}
-                      target={'_blank'}
-                      style={{ textDecoration: 'none' }}
-                    >
-                      <p className={style.attachFile}>
-                        {singleEventData?.fileId?.name && singleEventData?.fileId?.name}
-                      </p>
-                    </a>
-                  ) : (
-                    '-'
-                  )}
+                  <p className={style.description}>
+                    {singleEventData?.fileId?.name ? (
+                      <a
+                        href={singleEventData?.fileId?.file}
+                        target={'_blank'}
+                        style={{ textDecoration: 'none' }}
+                      >
+                        <p className={style.attachFile}>
+                          {singleEventData?.fileId?.name ? singleEventData?.fileId?.name : '-'}
+                        </p>
+                      </a>
+                    ) : (
+                      '-'
+                    )}
+                  </p>
 
                   <div className={style.plusView}>
                     {attendeesPic?.slice(0, 3)?.map((i: any) => {
@@ -547,14 +573,15 @@ const Calender = () => {
                         <>
                           <img
                             src={i?.profilePicture && i?.profilePicture}
-                            height={28}
+                            height={30}
                             onError={onImageError}
-                            width={28}
+                            width={30}
                             style={{
                               borderRadius: '30px',
                               height: '30px',
                               width: '30px',
                               marginLeft: -10,
+                              margin: 0,
                               border: '1px solid white',
                             }}
                             key={i}

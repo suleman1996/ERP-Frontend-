@@ -106,12 +106,7 @@ const DatePicker = ({
           )}
           {allDayLabel && (
             <div className={style.switch}>
-              <Switch
-                checked={checked}
-                onChange={handleSwitchChange}
-                name={switchName}
-                register={register}
-              />
+              <Switch control={control} name={switchName} />
               <p className={style.allday}>{allDayLabel}</p>
             </div>
           )}
