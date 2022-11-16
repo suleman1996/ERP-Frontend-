@@ -35,6 +35,7 @@ interface Props {
   control: any;
   isDisabled?: any;
   defaultValue?: any;
+  placeHolderStyle?: any;
 }
 
 const Selection = ({
@@ -53,10 +54,21 @@ const Selection = ({
   isDisabled,
   classNameLabel,
   defaultValue,
+  placeHolderStyle,
 }: Props) => {
   const [customErr, setCustomErr] = useState<string | undefined>();
 
   const CustomStyle = SelectionStyle;
+
+  if (placeHolderStyle) {
+    CustomStyle.placeholder = (styles: any) => ({
+      ...styles,
+      fontSize: '13px',
+      color: placeHolderStyle.color,
+    });
+  }
+
+  console.log('hamza', CustomStyle.placeholder);
 
   const formatOptionLabel = (
     { label, value, color, checkbox, box },

@@ -6,6 +6,9 @@
   margin: 40px 40px 0 40px;
   overflow: scroll;
   height: 100vh;
+  @media (max-width: $md) {
+    margin: 20px 20px 0 20px;
+  }
 }
 
 .historyTable {
@@ -15,6 +18,10 @@
   border-radius: 5.97311px;
   padding: 14px 11px 0 11px;
   margin-bottom: 22px;
+  @media (max-width: $md) {
+    padding: 7px 6px 0 6px;
+    margin-bottom: 11px;
+  }
 }
 
 .tableHight {
@@ -22,8 +29,22 @@
 }
 
 .btnClass {
-  width: 60% !important;
-  height: 44px !important;
+  width: 65% !important;
+  height: 34px !important;
+  @media (max-width: $md) {
+    width: 70% !important;
+    height: 25px !important;
+  }
+}
+
+.btnTitle {
+  font-size: 15px !important;
+}
+
+@media (max-width: $md) {
+  .btnTitle {
+    font-size: 12px !important;
+  }
 }
 
 .headingText {
@@ -33,23 +54,35 @@
   color: #2d2d32 !important;
 }
 
-.position {
-  position: fixed;
-  bottom: 7px;
-  left: 418px;
-  right: 7px;
-  background-color: #ffffff;
-  @media (max-width: $xl) {
-    left: 315px;
-  }
-  @media (max-width: $lg) {
-    left: 300px;
-  }
-  @media (max-width: $md) {
-    left: 220px;
-  }
-  @media (max-width: $tab) {
-    left: 0px;
-    right: 0px;
+@media (max-width: $md) {
+  .headingText {
+    font-weight: 500 !important;
+    font-size: 15px !important;
+    line-height: 160% !important;
   }
 }
+
+.tableHeaderClass {
+  background-color: #fafafa !important;
+}
+
+// .position {
+//   position: fixed;
+//   bottom: 7px;
+//   left: 418px;
+//   right: 7px;
+//   background-color: #ffffff;
+//   @media (max-width: $xl) {
+//     left: 315px;
+//   }
+//   @media (max-width: $lg) {
+//     left: 300px;
+//   }
+//   @media (max-width: $md) {
+//     left: 220px;
+//   }
+//   @media (max-width: $tab) {
+//     left: 0px;
+//     right: 0px;
+//   }
+// }

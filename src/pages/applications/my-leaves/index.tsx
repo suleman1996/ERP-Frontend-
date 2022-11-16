@@ -1,7 +1,7 @@
 import Table from 'components/table';
 import style from './index.module.scss';
 
-import editIcon from 'assets/table-edit.svg';
+import editIcon from 'assets/edit-icon-application.svg';
 import cancel from 'assets/cancel.svg';
 import view from 'assets/viewIconnew.svg';
 import deleteIcon from 'assets/table-delete.svg';
@@ -46,43 +46,43 @@ const ColumnsData1 = [
     key: 'leaveType',
     name: 'Leave Type',
     alignText: 'center',
-    width: '150px',
+    width: '100px',
   },
   {
     key: 'appliedOn',
     name: 'Applied On',
     alignText: 'center',
-    width: '150px',
+    width: '100px',
   },
   {
     key: 'from',
     name: 'From',
     alignText: 'center',
-    width: '150px',
+    width: '100px',
   },
   {
     key: 'to',
     name: 'To',
     alignText: 'center',
-    width: '150px',
+    width: '100px',
   },
   {
     key: 'duration',
     name: 'Duration',
     alignText: 'center',
-    width: '150px',
+    width: '100px',
   },
   {
     key: 'status1',
     name: 'Status',
     alignText: 'center',
-    width: '150px',
+    width: '100px',
   },
   {
     key: 'action',
     name: 'Action',
     alignText: 'center',
-    width: '150px',
+    width: '100px',
   },
 ];
 
@@ -101,8 +101,14 @@ const MyLeaves = ({ data }: { data: any }) => {
   const getHistory = async () => {
     setLoading(true);
     const res = await ApplicationService.getLeaveHistory();
-    setRowsData(res.data);
-    console.log(RowsData);
+    const data = res?.data?.map((el) => {
+      return {
+        leaveType: el.leaveType + ' Leave',
+        remaining: el.remaining + ' Remains',
+        total: el.total + ' Allows',
+      };
+    });
+    setRowsData(data);
     setLoading(false);
   };
   const getAllLeaveApplications = async () => {
@@ -118,7 +124,7 @@ const MyLeaves = ({ data }: { data: any }) => {
         appliedOn: moment(el.applyDate).format('D MMM, YYYY'),
         from: moment(el.dateFrom).format('D MMM, YYYY (hh:mm A)'),
         to: moment(el.dateTo).format('D MMM, YYYY (hh:mm A)'),
-        duration: el.noOfDays,
+        duration: el.noOfDays + ' Days',
         status1: (
           <div
             style={{
@@ -157,7 +163,7 @@ const MyLeaves = ({ data }: { data: any }) => {
                     : el.status === 'Updated'
                     ? '#B3EB94'
                     : '',
-                width: '60%',
+                width: '100%',
                 height: '32px',
                 fontSize: '16px',
                 borderRadius: '1.55086px',
@@ -228,6 +234,7 @@ const MyLeaves = ({ data }: { data: any }) => {
                   <Button
                     text="Apply Now"
                     btnClass={style.btnClass}
+                    btnTextClass={style.btnTitle}
                     handleClick={() => {
                       setDefaultLeaveType({ value: row.id, label: row.leaveType });
                       setOpenModal(true);
