@@ -122,19 +122,32 @@ const Selection = ({
           defaultValue={defaultValue}
           render={({ onChange: handleChange, value }) => {
             return (
-              <Select
-                closeMenuOnSelect={closeMenuOnSelect}
-                isMulti={isMulti}
-                value={value}
-                onChange={(value) => {
-                  handleChange(value);
-                  onChange?.(value);
-                }}
-                options={options}
-                styles={CustomStyle}
-                placeholder={placeholder}
-                isDisabled={isDisabled || false}
-              />
+              <>
+                <Select
+                  components={{
+                    GroupHeading: (e) => (
+                      <div
+                        onClick={() => {
+                          onChange([...e.data.options]);
+                        }}
+                      >
+                        <p className={style.groupHeading}>
+                          {e?.children?.charAt(0)?.toUpperCase() + e?.children?.slice(1)}
+                        </p>
+                      </div>
+                    ),
+                  }}
+                  closeMenuOnSelect={closeMenuOnSelect}
+                  isMulti={isMulti}
+                  value={value}
+                  onChange={onChange}
+                  options={options}
+                  styles={CustomStyle}
+                  placeholder={placeholder}
+                  isDisabled={isDisabled || false}
+                  formatOptionLabel={(data, metaData) => formatOptionLabel(data, metaData, true)}
+                />
+              </>
             );
           }}
         />

@@ -40,7 +40,7 @@ interface Props {
   monthDate?: any;
   showMonthYearPicker?: any;
   checked?: boolean;
-  handleSwitchChange?: () => void;
+  handleSwitchChange?: (checked: boolean) => void;
   switchName?: any;
   register?: any;
   allDayLabel?: any;
@@ -106,7 +106,7 @@ const DatePicker = ({
           )}
           {allDayLabel && (
             <div className={style.switch}>
-              <Switch control={control} name={switchName} />
+              <Switch handleSwitchChange={handleSwitchChange} name={switchName} control={control} />
               <p className={style.allday}>{allDayLabel}</p>
             </div>
           )}
