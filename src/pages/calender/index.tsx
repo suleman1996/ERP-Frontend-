@@ -158,7 +158,7 @@ const Calender = () => {
       venue: venue ? venue : '',
       category: category ? { label: category, value: category } : '',
       description,
-      allDay: allDay,
+      allDay: allDay ? allDay : '',
       attendees: attendees
         ? attendees?.map(({ _id, fullName }: any) => {
             return { label: fullName, value: _id };
@@ -314,6 +314,7 @@ const Calender = () => {
                 setOpenModal(true);
                 setSingleEventData('');
                 setSelectedFileNameBack('');
+                setCheck(!check);
               }}
               iconStart={plus}
             />
