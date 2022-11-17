@@ -19,8 +19,8 @@ const AddUser = ({ setNewUser }) => {
           handleSubmit(onSubmit)(e);
         }}
       >
-        <div className={style.wraper}>
-          <div>
+        <div className={style.addParent}>
+          <div style={{ margin: '35px 50px 0px 25px' }}>
             <label htmlFor="imgUpload">
               <div className={style.imgParentDiv}>
                 <img
@@ -45,47 +45,49 @@ const AddUser = ({ setNewUser }) => {
               }}
             />
           </div>
-          <Input
-            label="Name"
-            name={'name'}
-            register={register}
-            placeholder={'Enter user name'}
-            containerClass={style.containerClassInput}
-          />
-          <Input
-            label="Email"
-            name={'email'}
-            register={register}
-            placeholder={'Enter email'}
-            containerClass={style.containerClassInput}
-          />
-          <Select
-            label="Role"
-            name={'category'}
-            //   errorMessage={errors?.category?.message}
-            register={register}
-          >
-            <option value="">Select</option>
-            <>
-              {categories &&
-                categories?.map((ele: any) => (
-                  <option key={ele.name} value={ele?.value}>
-                    {ele.name}
-                  </option>
-                ))}
-            </>
-          </Select>
-          <Input
-            label="ID"
-            name={'id'}
-            register={register}
-            placeholder={'Enter id'}
-            containerClass={style.containerClassInput}
-          />
-          <div className={style.customLabel}>
-            <label>Status</label>
-            <div>
-              <Switch title={'Active'} name={'switch'} control={control} />
+          <div className={style.wraper}>
+            <Input
+              label="Name"
+              name={'name'}
+              register={register}
+              placeholder={'Enter user name'}
+              containerClass={style.containerClassInput}
+            />
+            <Input
+              label="Email"
+              name={'email'}
+              register={register}
+              placeholder={'Enter email'}
+              containerClass={style.containerClassInput}
+            />
+            <Select
+              label="Role"
+              name={'category'}
+              //   errorMessage={errors?.category?.message}
+              register={register}
+            >
+              <option value="">Select</option>
+              <>
+                {categories &&
+                  categories?.map((ele: any) => (
+                    <option key={ele.name} value={ele?.value}>
+                      {ele.name}
+                    </option>
+                  ))}
+              </>
+            </Select>
+            <Input
+              label="ID"
+              name={'id'}
+              register={register}
+              placeholder={'Enter id'}
+              containerClass={style.containerClassInput}
+            />
+            <div className={style.customLabel}>
+              <label>Status</label>
+              <div>
+                <Switch title={'Active'} name={'switch'} control={control} />
+              </div>
             </div>
           </div>
         </div>

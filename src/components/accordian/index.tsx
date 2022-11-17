@@ -47,6 +47,7 @@ const AccordianSwitch = ({
   const [genderModal, setGenderModal] = useState(false);
   const [allowenceTypeModal, setAllowenceTypeModal] = useState(false);
   const [documentModal, setDocumenModal] = useState(false);
+  const [arrowRotate, setArrowRotate] = useState(false);
   const [depId, setDepId] = useState();
 
   const { register, handleSubmit, errors, control, reset, watch } = useForm({
@@ -156,7 +157,10 @@ const AccordianSwitch = ({
     <>
       <div
         className={`${style.container} ${accordianContainer} `}
-        onClick={() => setOpenAccordian((prev) => (prev === id ? -1 : id))}
+        onClick={() => {
+          setOpenAccordian((prev) => (prev === id ? -1 : id));
+          setArrowRotate(!arrowRotate);
+        }}
         style={{ marginTop: !switchBtn && '10px' }}
       >
         <div className={style.switchHeader}>
@@ -172,7 +176,7 @@ const AccordianSwitch = ({
         </div>
         <img
           src={arrow}
-          style={{ transform: openAccordian && 'rotate(180deg)', transition: 'all 0.5s ease-out' }}
+          style={{ transform: !arrowRotate && 'rotate(180deg)', transition: 'all 0.5s ease-out' }}
         />
       </div>
 
@@ -184,7 +188,7 @@ const AccordianSwitch = ({
         ) : (
           <>
             <CardContainer className={style.card}>
-              <div style={{ paddingBottom: '60px' }}>
+              <div style={{ paddingBottom: '15px' }}>
                 <Table
                   tableHeaderClass={style.tableHeaderClass}
                   columns={
@@ -200,7 +204,11 @@ const AccordianSwitch = ({
                             <div style={{ display: 'flex', justifyContent: 'center' }}>
                               <span style={{ marginRight: '5px' }}>Status</span>
                               <div className={style.tooltip}>
-                                <img className={style.tooltip} src={statusIcon} />
+                                <img
+                                  className={style.tooltip}
+                                  src={statusIcon}
+                                  style={{ marginTop: '5px' }}
+                                />
                                 <span className={style.tooltiptext}>
                                   If you want to hide any option from the dropdowns, you can hide it
                                   by doing Inactive it
