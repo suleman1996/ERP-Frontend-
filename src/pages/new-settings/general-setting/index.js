@@ -56,6 +56,7 @@ const GeneralSetting = () => {
         return (
           <AccordianSwitch
             title={title ? title : 'Profile'}
+            titleClass={style.titleClass}
             btnText={btnText}
             id={id}
             getAllDepartments={getAllDepartments}

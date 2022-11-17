@@ -16,6 +16,7 @@ interface Props {
   total?: any[];
   loading?: boolean;
   tableClass?: string;
+  rowText?: string;
   setRowIndex?: Dispatch<SetStateAction<number | undefined>>;
   columns: {
     key: string;
@@ -74,6 +75,7 @@ const Table = ({
   filters,
   sorts,
   headingText,
+  rowText,
   editIndex,
   setEditIndex,
   setNewUser,
@@ -192,7 +194,7 @@ const Table = ({
                           }}
                           className={`${style.td}  ${className}`}
                         >
-                          {row[column.key]}
+                          <span className={`${rowText}`}>{row[column.key]}</span>
                           {column.key === 'actions' &&
                             !column?.eyeIcon &&
                             (row?.isActive !== false ? (
