@@ -24,6 +24,7 @@ const RenderObsolete = ({
   renderObselete,
   setRenderObselete,
   policyCategory,
+  setLoading,
 }: {
   [key: string]: any;
 }) => {
@@ -36,16 +37,19 @@ const RenderObsolete = ({
 
   const getObseletePolocies = async () => {
     try {
+      setLoading(true);
       const result = await PolicyService.getAllPolicies({
         obselete: true,
         ...(search?.nameNumber && { search: search?.nameNumber }),
         ...(search?.categoryId && { category: search?.categoryId?.label }),
         ...(search?.addedBy && { addedBy: search?.addedBy?.value }),
       });
-      console.log('Here are the obselete policies ', result?.data?.data);
+      // console.log('Here are the obselete policies ', result?.data?.data);
       setObseletePolicies(result?.data?.data);
+      setLoading(false);
     } catch (error) {
       console.log(error);
+      setLoading(false);
     }
   };
 
@@ -64,21 +68,26 @@ const RenderObsolete = ({
         setEditPolicy={setEditPolicy}
         policyCategory={policyCategory}
         setSearch={setSearch}
+        ObseleteLength={obseletePolicies?.length > 0 && obseletePolicies?.length}
       />
       <div className={style.policyGridView}>
-        {obseletePolicies?.map((item) => (
-          <RenderPolicy
-            setRenderObselete={setRenderObselete}
-            type={type}
-            setSelectedPolicy={setSelectedPolicy}
-            data={item}
-            setOpenAddPolice={setOpenAddPolice}
-            setOpen={setOpen}
-            setSelectedTab={setSelectedTab}
-            setEditPolicy={setEditPolicy}
-            setOpenViewPdfPolicy={setOpenViewPdfPolicy}
-          />
-        ))}
+        {obseletePolicies?.length > 0 ? (
+          obseletePolicies?.map((item) => (
+            <RenderPolicy
+              setRenderObselete={setRenderObselete}
+              type={type}
+              setSelectedPolicy={setSelectedPolicy}
+              data={item}
+              setOpenAddPolice={setOpenAddPolice}
+              setOpen={setOpen}
+              setSelectedTab={setSelectedTab}
+              setEditPolicy={setEditPolicy}
+              setOpenViewPdfPolicy={setOpenViewPdfPolicy}
+            />
+          ))
+        ) : (
+          <p className={style.emptyMessage}>No Policy Found</p>
+        )}
       </div>
     </div>
   );

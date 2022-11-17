@@ -23,6 +23,7 @@ const RenderAllPolicies = ({
   handleEdit,
   reset,
   policyCategory,
+  setLoading,
 }: {
   setOpen: any;
   setSelectedTab: any;
@@ -40,6 +41,7 @@ const RenderAllPolicies = ({
 
   const getPoliciesService = async () => {
     try {
+      setLoading(true);
       const result = await PolicyService.getAllPolicies({
         ...(search?.nameNumber && { search: search?.nameNumber }),
         ...(search?.categoryId && { category: search?.categoryId?.label }),
@@ -47,8 +49,10 @@ const RenderAllPolicies = ({
       });
       // console.log('Here are all policies ', result?.data?.data);
       setPolicies(result?.data?.data);
+      setLoading(false);
     } catch (error) {
       console.log(error);
+      setLoading(false);
     }
   };
   return (
@@ -64,22 +68,26 @@ const RenderAllPolicies = ({
         setEditPolicy={setEditPolicy}
         reset={reset}
         policyCategory={policyCategory}
-        length={policies.length}
+        length={policies?.length > 0 && policies?.length}
         setSearch={setSearch}
       />
       <div className={style.policyGridView}>
-        {policies?.map((item) => (
-          <RenderPolicy
-            handleEdit={handleEdit}
-            setSelectedPolicy={setSelectedPolicy}
-            data={item}
-            setOpenAddPolice={setOpenAddPolice}
-            setOpen={setOpen}
-            setSelectedTab={setSelectedTab}
-            setEditPolicy={setEditPolicy}
-            setOpenViewPdfPolicy={setOpenViewPdfPolicy}
-          />
-        ))}
+        {policies?.length > 0 ? (
+          policies?.map((item) => (
+            <RenderPolicy
+              handleEdit={handleEdit}
+              setSelectedPolicy={setSelectedPolicy}
+              data={item}
+              setOpenAddPolice={setOpenAddPolice}
+              setOpen={setOpen}
+              setSelectedTab={setSelectedTab}
+              setEditPolicy={setEditPolicy}
+              setOpenViewPdfPolicy={setOpenViewPdfPolicy}
+            />
+          ))
+        ) : (
+          <p className={style.emptyMessage}>No Policy Found</p>
+        )}
       </div>
     </div>
   );

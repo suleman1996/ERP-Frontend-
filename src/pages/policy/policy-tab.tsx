@@ -20,6 +20,7 @@ const RenderPoliciesTab = ({
   policyCategory,
   length,
   setSearch,
+  ObseleteLength,
 }: {
   selectedTab: any;
   setSelectedTab: any;
@@ -31,6 +32,7 @@ const RenderPoliciesTab = ({
   setEditPolicy: any;
   length: any;
   setSearch: any;
+  ObseleteLength: any;
 }) => {
   return (
     <>
@@ -70,6 +72,17 @@ const RenderPoliciesTab = ({
           >
             Obsolete
           </p>
+          {ObseleteLength && (
+            <div className={style.policyCount}>
+              <p
+                style={{
+                  color: '#000000',
+                }}
+              >
+                {ObseleteLength}
+              </p>
+            </div>
+          )}
         </div>
         <div className={style.addPolicyView}>
           <img
@@ -91,12 +104,7 @@ const RenderPoliciesTab = ({
         </div>
       </div>
       {showFilterView && (
-        <RenderPolicySearchView
-          policyCategory={policyCategory}
-          options={options}
-          control={control}
-          setSearch={setSearch}
-        />
+        <RenderPolicySearchView policyCategory={policyCategory} setSearch={setSearch} />
       )}
     </>
   );
