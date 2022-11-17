@@ -11,6 +11,6 @@ export const loginErrorInitial = {
 };
 
 export const schema = yup.object().shape({
-  employeeId: yup.string().required(),
+  employeeId: yup.string().required('Email or Employee ID is a required'),
   password: yup.string().required(),
 });

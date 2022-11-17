@@ -1,9 +1,14 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { useForm } from 'react-hook-form';
 
 import CardContainer from 'components/card-container';
 import ImageUpload from 'components/image-upload';
 import Input from 'components/input';
 import Button from 'components/button';
+
+import { setErrors } from './../../../helper/index';
+import { createNotification } from 'common/create-notification';
 
 import pencilIcon from 'assets/edit-icon.svg';
 import eyeCross from 'assets/eyeCross.svg';
@@ -11,21 +16,59 @@ import eye from 'assets/eye.svg';
 import style from './account.module.scss';
 
 const AccountSetting = () => {
+  const userData = useSelector((state) => state?.app?.currentUser);
+  console.log('state', userData);
+
+  const { register, handleSubmit, errors, control, reset, watch, setValue, setError, clearErrors } =
+    useForm();
+
   const [img, setImg] = useState('');
   const [newpass, setNewPass] = useState(false);
   const [disableName, setDisableName] = useState(true);
   const [disableEmail, setDisableEmail] = useState(true);
   const [confirmNewpass, setConfirmNewPass] = useState(false);
+  const [btnLoader, setBtnLoader] = useState(false);
+
+  const onSubmit = (data) => {
+    try {
+      let newData = {
+        ...data,
+        name: data?.name ? data?.name : `${userData.firstName} ${userData.lastName}`,
+        email: data?.email ? data?.email : userData.email,
+      };
+      console.log('data', newData);
+      console.log('img', img);
+    } catch (err) {
+      if (err?.response?.data?.error) {
+        setErrors(err?.response?.data?.error, setError);
+      } else {
+        createNotification('error', 'Error', err?.response?.data?.message);
+      }
+      setBtnLoader(false);
+    }
+  };
+
+  useEffect(() => {
+    reset({ name: `${userData.firstName} ${userData.lastName}`, email: userData.email });
+  }, []);
+
   return (
     <CardContainer className={style.card}>
-      <form>
-        <ImageUpload img={img} setImg={setImg} accountSetting />
+      <form
+        onSubmit={(e) => {
+          clearErrors();
+          handleSubmit(onSubmit)(e);
+        }}
+      >
+        <ImageUpload name={'profilePicture'} img={img} setImg={setImg} accountSetting />
         <div className={style.customInputs}>
           <Input
             label={'Name'}
             name={'name'}
+            // errorMessage={errors?.category?.message}
             isDisable={disableName}
             placeholder={'Enter name'}
+            register={register}
             icon={pencilIcon}
             iconClass={style.iconClass}
             onClick={() => setDisableName(!disableName)}
@@ -33,7 +76,9 @@ const AccountSetting = () => {
           <Input
             label={'Email'}
             name={'email'}
+            // errorMessage={errors?.category?.message}
             placeholder={'Enter email'}
+            register={register}
             icon={pencilIcon}
             isDisable={disableEmail}
             iconClass={style.iconClass}
@@ -42,20 +87,24 @@ const AccountSetting = () => {
           <Input
             label={'New Password'}
             name={'newPassword'}
+            // errorMessage={errors?.category?.message}
             type={newpass ? 'text' : 'password'}
             placeholder={'Enter new password'}
             icon={newpass ? eye : eyeCross}
             iconClass={style.iconClass}
             onClick={() => setNewPass(!newpass)}
+            register={register}
           />
           <Input
             label={'ConfirmPassword'}
             name={'confirmPassword'}
+            // errorMessage={errors?.category?.message}
             type={confirmNewpass ? 'text' : 'password'}
             placeholder={'Enter confirm password'}
             icon={confirmNewpass ? eye : eyeCross}
             iconClass={style.iconClass}
             onClick={() => setConfirmNewPass(!confirmNewpass)}
+            register={register}
           />
         </div>
 
