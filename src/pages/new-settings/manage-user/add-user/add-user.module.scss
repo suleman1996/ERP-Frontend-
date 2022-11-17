@@ -10,7 +10,7 @@
     width: 80px;
     height: 80px;
     border-radius: 50%;
-    background-color: $btn;
+    background-color: #9ed6c1;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -42,6 +42,16 @@
     color: #2d2d32 !important;
   }
   div {
-    margin: 17px 0px;
+    margin: 20px 0px 20px 0px;
+
+    @media (max-width: $xlg) {
+      margin: 15px 0px 20px 0px;
+    }
+    @media (max-width: $lg) {
+      margin: 13px 0px 20px 0px;
+    }
+    @media (max-width: $md) {
+      margin: 8px 0px 15px 0px;
+    }
   }
 }
