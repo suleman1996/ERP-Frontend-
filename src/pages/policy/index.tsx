@@ -10,6 +10,7 @@ import moment from 'moment';
 
 import DeletePopup from 'components/delete-modal';
 import DatePicker from 'components/date-picker';
+import Loading from 'components/loading';
 
 import Modal from 'components/modal';
 import TextArea from 'components/textarea';
@@ -44,6 +45,7 @@ const Policy = () => {
 
   const [selectedFileName, setSelectedFileName] = React.useState<any>('');
   const [renderObselete, setRenderObselete] = useState<any>(false);
+  const [loading, setLoading] = useState<any>(false);
 
   const { control, register, errors, setError, clearErrors, handleSubmit, reset, watch } = useForm({
     mode: 'all',
@@ -198,19 +200,6 @@ const Policy = () => {
     try {
       setIsLoading(true);
       const pdffile = await convertBase64Image(data?.pdf[0]);
-      // const policyData = {
-      //   name: data?.name,
-      //   policyNumber: data?.policyNumber,
-      //   version: Number(data?.version),
-      //   categoryId: data?.categoryId?.value,
-      //   effectiveDate: moment(new Date(data?.effectiveDate)).format('YYYY-MM-DD'),
-      //   preparedBy: data?.preparedBy?.value,
-      //   approvedBy: data?.approvedBy?.value,
-      //   reviewers: [data?.reviewers?.value],
-      //   appliesTo: data?.appliesTo ? data?.appliesTo.map((item: any) => item?.value) : [],
-      //   description: data?.description,
-      //   ...(pdffile && selectedFileName && { file: pdffile }),
-      // };
 
       const policyData = {
         ...(data?.name && { name: data?.name }),
@@ -254,19 +243,7 @@ const Policy = () => {
     try {
       setIsLoading(true);
       const pdffile = await convertBase64Image(data?.pdf[0]);
-      // const revisionPolicyData = {
-      //   // name: data?.name,
-      //   // policyNumber: data?.policyNumber,
-      //   // version: Number(data?.version),
-      //   // categoryId: data?.categoryId?.value,
-      //   effectiveDate: moment(new Date(data?.effectiveDate)).format('YYYY-MM-DD'),
-      //   preparedBy: data?.preparedBy?.value,
-      //   approvedBy: data?.approvedBy?.value,
-      //   reviewers: [data?.reviewers?.value],
-      //   appliesTo: data?.appliesTo ? data?.appliesTo.map((item: any) => item?.value) : [],
-      //   description: data?.description,
-      //   ...(pdffile && selectedFileName && { file: pdffile }),
-      // };
+
       const revisionPolicyData = {
         ...(data?.effectiveDate && {
           effectiveDate: moment(new Date(data?.effectiveDate)).format('YYYY-MM-DD'),
@@ -322,6 +299,7 @@ const Policy = () => {
             setEditPolicy={setEditPolicy}
             setOpenViewPdfPolicy={setOpenViewPdfPolicy}
             policyCategory={policyCategory}
+            setLoading={setLoading}
           />
         ) : (
           <RenderObsolete
@@ -342,10 +320,15 @@ const Policy = () => {
             setEditPolicy={setEditPolicy}
             setOpenViewPdfPolicy={setOpenViewPdfPolicy}
             policyCategory={policyCategory}
+            setLoading={setLoading}
           />
         )}
       </CardContainer>
-
+      {loading && (
+        <div className={style.loaderDiv}>
+          <Loading loaderClass={style.loadingStyle} />
+        </div>
+      )}
       <DeletePopup handleDelete={() => deletePolicy()} setOpen={setOpen} open={open} />
       {/* <AddPolicy /> */}
       <Modal
@@ -477,6 +460,7 @@ const Policy = () => {
               isMulti={true}
               name="appliesTo"
               defaultValue={null}
+              // showNumber
             />
             <div>
               <div style={{ display: 'flex' }}>
