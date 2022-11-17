@@ -34,6 +34,7 @@ const AccordianSwitch = ({
   departmentRows,
   designationRows,
   getAllDesignations,
+  titleClass,
 }: any) => {
   const [checkAll, setCheckAll] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -159,7 +160,7 @@ const AccordianSwitch = ({
         style={{ marginTop: !switchBtn && '10px' }}
       >
         <div className={style.switchHeader}>
-          <span>{title}</span>
+          <span className={titleClass}>{title}</span>
           {switchBtn && (
             <Switch
               switchContainer={style.switchContainer}
@@ -228,8 +229,10 @@ const AccordianSwitch = ({
                       </div>
                     ),
                   }))}
+                  headingText={style.headingText}
+                  rowText={style.rowText}
                   minWidth="700px"
-                  headingText={style.columnText}
+                  // headingText={style.columnText}
                   handleDelete={(id) => {
                     setDepId(id);
                     setDeletePopUp(true);

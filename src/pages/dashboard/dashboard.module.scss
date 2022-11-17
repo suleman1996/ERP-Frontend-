@@ -97,3 +97,7 @@ h6 {
   border-radius: 6px;
   display: flex;
 }
+button {
+  position: relative;
+  z-index: 100;
+}
