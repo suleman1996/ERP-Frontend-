@@ -44,7 +44,7 @@ const ManageUser = ({ newUser, setNewUser }) => {
               </div>
             ),
           }))}
-          minWidth="1200px"
+          minWidth="1250px"
           headingText={style.columnText}
           handleDelete={(id) => console.log(id)}
           handleEducation={(index) => setEditIndex(index)}

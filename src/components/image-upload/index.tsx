@@ -51,7 +51,6 @@ const ImageUpload = ({
       const reader = new FileReader();
       reader.onload = () => {
         setImg && setImg(reader.result);
-        console.log(reader.result);
       };
       reader.readAsDataURL(file);
     });

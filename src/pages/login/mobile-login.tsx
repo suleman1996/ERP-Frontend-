@@ -39,9 +39,9 @@ const MobileLogin = ({ handleLogin }: any) => {
             <h4>Log in Your Account</h4>
             <div className={style.loginDiv}>
               <Input
-                placeholder=" Your Employee Id"
-                label="Your Employee Id"
-                inputRef={register}
+                placeholder=" Your Employee Id or Email"
+                label="Your Employee Id or Email"
+                register={register}
                 name="employeeId"
                 error={errors?.employeeId}
                 errorMessage={errors?.employeeId?.message}
@@ -51,7 +51,7 @@ const MobileLogin = ({ handleLogin }: any) => {
                   placeholder=" Your Password"
                   type={passwordVisible ? 'text' : 'password'}
                   label=" Your Password"
-                  inputRef={register}
+                  register={register}
                   icon={eye}
                   name="password"
                   error={errors?.password}
