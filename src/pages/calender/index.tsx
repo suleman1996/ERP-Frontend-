@@ -314,6 +314,7 @@ const Calender = () => {
                 setOpenModal(true);
                 setSingleEventData('');
                 setSelectedFileNameBack('');
+                setCheck(false);
               }}
               iconStart={plus}
             />
