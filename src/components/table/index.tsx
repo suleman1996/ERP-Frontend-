@@ -80,6 +80,7 @@ const Table = ({
   tableHeaderClass,
   tableClass,
 }: Props) => {
+  const [tblScroll, setTblScroll] = useState(false);
   const [isFilter, setIsFilter] = useState<string | number>('');
   const [isFilterSelected, setIsFilterSelected] = useState<string | number>('');
 
@@ -108,8 +109,12 @@ const Table = ({
       {rows?.length >= 1 && (
         <div
           className={`${style.tableWrapper} ${tableHeight}`}
+          onMouseEnter={() => setTblScroll(true)}
+          onMouseLeave={() => setTblScroll(false)}
           style={{
             textTransform: 'capitalize',
+            overflowX: tblScroll && 'auto',
+            overflowY: tblScroll && 'auto',
           }}
         >
           <div
