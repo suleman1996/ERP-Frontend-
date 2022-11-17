@@ -29,7 +29,7 @@ const ManageUser = ({ newUser, setNewUser }) => {
             ...row,
             image: (
               <div className={style.image}>
-                <img src={dummy} style={{ width: '100%' }} />
+                <img src={dummy} />
               </div>
             ),
             status: (

@@ -5,7 +5,7 @@ export const ColumnsData = [
     key: 'image',
     name: '',
     alignText: 'center',
-    width: '50px',
+    width: '100px',
   },
   {
     key: 'name',
