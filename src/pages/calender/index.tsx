@@ -23,7 +23,6 @@ import Selection from 'components/selection';
 import ProfileUpload from 'components/profile-upload';
 import Container from 'components/container';
 import EventModal from 'components/event-modal';
-import MultiPicker from 'components/multi-select';
 import TextArea from 'components/textarea';
 import DeleteModal from 'components/delete-modal';
 
@@ -314,7 +313,7 @@ const Calender = () => {
                 setOpenModal(true);
                 setSingleEventData('');
                 setSelectedFileNameBack('');
-                setCheck(!check);
+                setCheck(false);
               }}
               iconStart={plus}
             />
