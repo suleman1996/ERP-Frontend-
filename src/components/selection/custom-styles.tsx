@@ -25,7 +25,7 @@ export const SelectionStyle = {
   },
   placeholder: (styles: any) => ({
     ...styles,
-    fontSize: '13px',
+    fontSize: 'calc(9px + (13 - 9) * (100vw - 280px) / (2560 - 280))',
     color: '#CACACA',
   }),
 

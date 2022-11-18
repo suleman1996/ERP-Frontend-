@@ -70,8 +70,6 @@ const Selection = ({
     });
   }
 
-  console.log('hamza', CustomStyle.placeholder);
-
   const formatOptionLabel = (
     { label, value, color, checkbox, box },
     { context, selectValue },
@@ -114,7 +112,6 @@ const Selection = ({
         style={{
           border: !errorMessage ? '1px solid #E2E2EA' : '1px solid red',
           borderRadius: '5PX',
-          // marginTop: '7px',
         }}
         className={!isDisabled ? wraperSelect : style.disabledSelection}
       >
