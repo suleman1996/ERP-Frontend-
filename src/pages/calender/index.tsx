@@ -32,7 +32,7 @@ import location from 'assets/location.svg';
 import noimage from 'assets/NoImage.svg';
 import cross from 'assets/cross-Icon.svg';
 import deleteIcon from 'assets/delete-Icon.svg';
-import edit from 'assets/pencilIcon.svg';
+import edit from 'assets/edit-icon.png';
 import plus from 'assets/plusIcon.svg';
 import bucketIcon from 'assets/Bucket.svg';
 
@@ -49,14 +49,11 @@ const Calender = () => {
   const [check, setCheck] = useState(false);
   const [eventId, setEventId] = useState('');
   const [customTooltip, setCustomTooltip] = useState<number | string | undefined | boolean>();
-  const [attendees, setAttendees] = useState([]);
   const [selectedFileNameBack, setSelectedFileNameBack] = useState<any>();
   const [btnLoader, setBtnLoader] = useState(false);
-  const [selected, setSelected] = useState([]);
   const [allEvent, setAllEvent] = useState([]);
   const [singleEventData, setSingleEventData] = useState<any>('');
   const [attendeesPic, setAttendeesPic] = useState([]);
-  const [OnlyEmployees, setOnlyEmployees] = useState([]);
   const [delModal, setDelModal] = useState(false);
   const [employeesWithDep] = useState<any>([]);
 
@@ -87,15 +84,6 @@ const Calender = () => {
   useEffect(() => {
     updateEventData();
   }, [singleEventData]);
-
-  // const getEmployeesData = async () => {
-  //   const res = await EmployeeService.getAllEmployees();
-  //   setAttendees(res?.data?.employees[0]?.data);
-  // };
-  // const getOnlyEmployee = async () => {
-  //   const res = await EmployeeService.getOnlyEmployees();
-  //   setOnlyEmployees(res?.data);
-  // };
 
   const getEmployeesWithDep = async () => {
     try {
@@ -132,10 +120,6 @@ const Calender = () => {
       setBtnLoader(false);
     }
   };
-  // const attendeesOptions = OnlyEmployees?.map(({ _id, fullName }) => ({
-  //   label: fullName && fullName,
-  //   value: _id && _id,
-  // }));
 
   const updateEventData = () => {
     const {
@@ -157,7 +141,7 @@ const Calender = () => {
       venue: venue ? venue : '',
       category: category ? { label: category, value: category } : '',
       description,
-      allDay: allDay ? allDay : '',
+      allDay: allDay && allDay,
       attendees: attendees
         ? attendees?.map(({ _id, fullName }: any) => {
             return { label: fullName, value: _id };
@@ -516,7 +500,8 @@ const Calender = () => {
                   {moment(singleEventData?.start).format('dddd, MMMM Do YYYY')}
                   {!singleEventData?.allDay && (
                     <span>
-                      |{moment(singleEventData?.start?.replace('Z', '')).format('h:mm a')} -
+                      {' '}
+                      | {moment(singleEventData?.start?.replace('Z', '')).format('h:mm a')} -
                       {moment(singleEventData?.end?.replace('Z', '')).format('h:mm a')}
                     </span>
                   )}
@@ -527,46 +512,56 @@ const Calender = () => {
                     : singleEventData?.duration && singleEventData?.duration}
                 </p>
               </div>
-              <p className={style.title2}>Description</p>
-              <p className={style.description}>
+              <p className={style.title2} style={{ marginTop: -10 }}>
+                Description
+              </p>
+              <p className={style.description} style={{ marginTop: -15 }}>
                 {singleEventData?.description ? singleEventData.description : '-'}
               </p>
 
-              <div className={style.mainParentDiv}>
-                <div className={style.leftDiv}>
-                  <p className={style.title2}>Venue</p>
-                  <p className={style.title2}>Category</p>
-                  <p className={style.title2}>Event Type</p>
-                  <p className={style.title2}>Attachment</p>
-                  <p className={style.title2}>Attendees</p>
-                </div>
+              <div className={style.leftDiv}>
+                <p className={style.categories}>Venue</p>
+                <p className={style.categorieData}>
+                  {singleEventData?.venue ? singleEventData?.venue : '-'}
+                </p>
+              </div>
 
-                <div className={style.rightDiv}>
-                  <p className={style.description}>
-                    {singleEventData?.venue ? singleEventData?.venue : '-'}
-                  </p>
-                  <p className={style.description}>
-                    {singleEventData?.category ? singleEventData?.category : '-'}
-                  </p>
-                  <p className={style.description}>
-                    {singleEventData?.type ? singleEventData?.type : '-'}
-                  </p>
-                  <p className={style.description}>
-                    {singleEventData?.fileId?.name ? (
-                      <a
-                        href={singleEventData?.fileId?.file}
-                        target={'_blank'}
-                        style={{ textDecoration: 'none' }}
-                      >
-                        <p className={style.attachFile}>
-                          {singleEventData?.fileId?.name ? singleEventData?.fileId?.name : '-'}
-                        </p>
-                      </a>
-                    ) : (
-                      '-'
-                    )}
-                  </p>
+              <div className={style.leftDiv}>
+                <p className={style.categories}>Category</p>
+                <p className={style.categorieData}>
+                  {singleEventData?.category ? singleEventData?.category : '-'}
+                </p>
+              </div>
 
+              <div className={style.leftDiv}>
+                <p className={style.categories}>Event Type</p>
+                <p className={style.categorieData}>
+                  {singleEventData?.type ? singleEventData?.type : '-'}
+                </p>
+              </div>
+
+              <div className={style.leftDiv}>
+                <p className={style.categories}>Attachment</p>
+                <p className={style.categorieData}>
+                  {singleEventData?.fileId?.name ? (
+                    <a
+                      href={singleEventData?.fileId?.file}
+                      target={'_blank'}
+                      style={{ textDecoration: 'none' }}
+                    >
+                      <p className={style.attachFile}>
+                        {singleEventData?.fileId?.name ? singleEventData?.fileId?.name : '-'}
+                      </p>
+                    </a>
+                  ) : (
+                    '-'
+                  )}
+                </p>
+              </div>
+
+              <div className={style.leftDiv}>
+                <p className={style.categories}>Attendees</p>
+                <p className={style.categorieData}>
                   <div className={style.plusView}>
                     {attendeesPic?.slice(0, 3)?.map((i: any) => {
                       return (
@@ -597,7 +592,7 @@ const Calender = () => {
                       </div>
                     )}
                   </div>
-                </div>
+                </p>
               </div>
             </div>
           </EventModal>
