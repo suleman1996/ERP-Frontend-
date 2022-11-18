@@ -8,7 +8,7 @@ import search from 'assets/search-icon.svg';
 import TextField from 'components/textfield';
 import Checkbox from 'components/checkbox';
 import Button from 'components/button';
-import { MonthsYearFilter } from './monthsYearFilter';
+import { MonthsYearFilter } from './months-year-filter';
 
 const FiltersComponentByDate = () => {
   return (

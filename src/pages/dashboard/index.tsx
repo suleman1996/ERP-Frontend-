@@ -3,11 +3,9 @@ import { useForm } from 'react-hook-form';
 
 import AccordianSwitch from 'components/accordian';
 import FiltersComponent from 'components/filters';
-import FiltersComponentByDate from 'components/filters/filter-for-dates';
 import ImageUpload from 'components/image-upload';
-import CustomSelect from 'components/custom-select';
-import DatePicker from 'components/date-picker';
 import NotificationPopup from 'components/notification-popup';
+import FiltersComponentByDate from 'components/filters/filter-for-dates';
 
 const DashBoard = () => {
   const { control } = useForm();
@@ -17,6 +15,7 @@ const DashBoard = () => {
 
   return (
     <>
+      <FiltersComponentByDate />
       <ImageUpload
         name={'profilePicture'}
         label={'Profile Picture'}

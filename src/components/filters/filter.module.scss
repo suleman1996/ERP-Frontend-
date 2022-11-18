@@ -42,14 +42,18 @@
   .checkDiv {
     padding: 0px 10px;
     .checkbox {
+      position: relative;
+      margin-top: 5px;
       span {
         width: 8px;
         height: 8px;
         top: 2px;
       }
       span::after {
-        width: 1px;
-        height: 3px;
+        width: 2px;
+        height: 5px;
+        top: 0px;
+        left: -1px;
       }
       p {
         font-weight: 400;
@@ -91,4 +95,87 @@
 
 .monthDiv {
   margin-top: 9px;
+}
+
+.afterClass::after {
+  content: '';
+  position: absolute;
+  height: 17px;
+  top: 11px;
+  left: 3px;
+  width: 13px;
+  border: dashed #e2e2ea;
+  border-width: 0px 0px 0.3px 0.3px;
+}
+
+.afterClassDate::after {
+  content: '';
+  position: absolute;
+  height: 18px;
+  top: 8px;
+  left: -13px;
+  width: 13px;
+  border: dashed #e2e2ea;
+  border-width: 0px 0px 0.3px 0.3px;
+}
+
+.afterClassDate1::after {
+  content: '';
+  position: absolute;
+  height: 15px;
+  top: 9px;
+  left: -13px;
+  width: 13px;
+  border: dashed #e2e2ea;
+  border-width: 0px 0px 0.3px 0.3px;
+}
+.nthDiv {
+  &:last-child {
+    .afterClassDate::after {
+      border: none;
+    }
+  }
+}
+
+.nthDiv2 {
+  position: relative;
+  &:last-child {
+    .afterClassDate1::after {
+      border: none;
+    }
+  }
+}
+.secondAfter {
+  position: relative;
+}
+
+.secondAfter {
+  &::before {
+    content: '';
+    position: absolute;
+    height: 100%;
+    top: 11px;
+    left: -13px;
+    width: 13px;
+    border: dashed #e2e2ea;
+    border-width: 0px 0px 0.3px 0.3px;
+  }
+  &:last-child::before {
+    border: none;
+  }
+}
+
+.nthDiv1 {
+  .afterClassDate::after {
+    left: 3px;
+    top: 10px;
+    height: 17px;
+    border: dashed #e2e2ea !important;
+    border-width: 0px 0px 0.3px 0.3px !important;
+  }
+}
+
+.maxHeight {
+  max-height: 200px;
+  overflow-y: auto;
 }
