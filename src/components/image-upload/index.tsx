@@ -72,38 +72,45 @@ const ImageUpload = ({
       <label>{label}</label>
       <div {...getRootProps()}>
         <input {...getInputProps()} />
-        <div className={style.wraper} data-testid={'wraper'}>
+      </div>
+      <div className={style.wraper} data-testid={'wraper'}>
+        <div {...getRootProps()}>
+          <input {...getInputProps()} />
           <div className={style.imgSection}>
             <img
               alt=""
               src={img ? `${img}` : `${profileIcon}`}
               className={`${img ? style.profileImg : ''}   `}
             />
+            <div className={style.camIcon}>
+              <img src={camIcon} alt="" />
+            </div>
           </div>
-          <div className={style.camIcon}>
-            <img src={camIcon} alt="" />
-          </div>
-          <div>
-            {!accountSetting ? (
-              <p className={style.heading}>
-                Drop your file here or <span className={style.selectFile}> Select a file</span>
-              </p>
-            ) : (
-              <p className={style.newText}>File should be smaller than 3MB</p>
-            )}
+        </div>
+        <div style={{ marginLeft: '30px' }}>
+          {!accountSetting ? (
+            <p className={style.heading}>
+              Drop your file here or
+              <div {...getRootProps()}>
+                <input {...getInputProps()} />
+                <span className={style.selectFile}> Select a file</span>
+              </div>
+            </p>
+          ) : (
+            <p className={style.newText}>File should be smaller than 3MB</p>
+          )}
 
-            {!accountSetting ? (
-              <p className={style.para}>
-                Only <span>JPEG, JPG or PNG</span> Files are allowed upto 3 MB in size
-              </p>
-            ) : (
-              <p className={style.para}>
-                Only <span className={style.span1}>JPEG, JPG or PNG</span> Files are allowed upto 3
-                MB in size.It will us recognize you.
-              </p>
-            )}
-            {btnText && <Button text={btnText} />}
-          </div>
+          {!accountSetting ? (
+            <p className={style.para}>
+              Only <span>JPEG, JPG or PNG</span> Files are allowed upto 3 MB in size
+            </p>
+          ) : (
+            <p className={style.para}>
+              Only <span className={style.span1}>JPEG, JPG or PNG</span> Files are allowed upto 3 MB
+              in size.It will us recognize you.
+            </p>
+          )}
+          {btnText && <Button text={btnText} />}
         </div>
       </div>
       <div className={style.smallImg}>

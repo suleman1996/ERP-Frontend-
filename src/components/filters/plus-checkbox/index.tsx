@@ -13,12 +13,13 @@ interface Props {
   name?: string;
   register?: any;
   containerClass?: string;
+  afterClass?: any;
 }
 
-const PlusMinusCheckbox = ({ onClick, label }: Props) => {
+const PlusMinusCheckbox = ({ onClick, label, afterClass }: Props) => {
   return (
     <>
-      <div className={style.plus_minus}>
+      <div className={`${style.plus_minus} ${afterClass}`}>
         <input type="checkbox" name="a" hidden id="a" className={style.css_checkbox} />
         <label htmlFor="a" className={style.css_label} onClick={onClick}>
           <img src={plus} alt="" className={`${style.fa} ${style.fa_plus}`} />
