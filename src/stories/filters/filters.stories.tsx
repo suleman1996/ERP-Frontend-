@@ -1,5 +1,4 @@
 import FiltersComponent from 'components/filters';
-import { useState } from 'react';
 
 export default {
   title: 'Filter',
