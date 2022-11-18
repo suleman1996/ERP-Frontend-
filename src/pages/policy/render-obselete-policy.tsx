@@ -6,6 +6,7 @@ import RenderPolicy from 'components/policy-card';
 import RenderPoliciesTab from './policy-tab';
 import PolicyService from 'services/policy-service';
 import Loading from 'components/loading';
+import CardContainer from 'components/card-container';
 
 const RenderObsolete = ({
   setOpen,
@@ -54,7 +55,8 @@ const RenderObsolete = ({
   };
 
   return (
-    <div className={style.policyMainView}>
+    <CardContainer className={style.className}>
+      {/* <div className={style.policyMainView}> */}
       {/* <Loading /> */}
       <RenderPoliciesTab
         reset={reset}
@@ -89,7 +91,8 @@ const RenderObsolete = ({
           <p className={style.emptyMessage}>No Policy Found</p>
         )}
       </div>
-    </div>
+      {/* </div> */}
+    </CardContainer>
   );
 };
 

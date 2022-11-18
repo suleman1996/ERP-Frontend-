@@ -11,6 +11,7 @@ import moment from 'moment';
 import DeletePopup from 'components/delete-modal';
 import DatePicker from 'components/date-picker';
 import Loading from 'components/loading';
+import editIcon from 'assets/edit-icon.svg';
 
 import Modal from 'components/modal';
 import TextArea from 'components/textarea';
@@ -281,7 +282,8 @@ const Policy = () => {
 
   return (
     <>
-      <CardContainer>
+      {/* <CardContainer> */}
+      <>
         {selectedTab == 0 ? (
           <RenderAllPolicies
             render={render}
@@ -323,7 +325,9 @@ const Policy = () => {
             setLoading={setLoading}
           />
         )}
-      </CardContainer>
+      </>
+      {/* </CardContainer>
+       */}
       {loading && (
         <div className={style.loaderDiv}>
           <Loading loaderClass={style.loadingStyle} />
@@ -333,7 +337,13 @@ const Policy = () => {
       {/* <AddPolicy /> */}
       <Modal
         open={openAddPolice}
-        text="Done"
+        text={
+          editPoplicy?.label == 'Update Policy'
+            ? 'Save Changes'
+            : editPoplicy?.label == 'Add Revision'
+            ? 'Save Changes'
+            : 'Add Policy'
+        }
         iconEnd={undefined}
         title={editPoplicy?.label}
         handleClose={() => {
@@ -364,15 +374,19 @@ const Policy = () => {
               name="name"
               errorMessage={errors?.name?.message}
               isDisable={editPoplicy?.bool}
+              icon={editIcon}
+              iconClass={style.iconClass}
             />
             <TextField
               register={register}
               label="Policy Number"
-              placeholder="Enter Policy Name"
+              placeholder="Enter Policy Number"
               star=" *"
               name="policyNumber"
               errorMessage={errors?.policyNumber?.message}
               isDisable={editPoplicy?.bool}
+              icon={editIcon}
+              iconClass={style.iconClass}
             />
           </div>
           <div className={style.gridView}>
@@ -384,12 +398,14 @@ const Policy = () => {
               name="version"
               errorMessage={errors?.version?.message}
               isDisable={editPoplicy?.bool}
+              icon={editIcon}
+              iconClass={style.iconClass}
             />
             {/* <TextField label="Category" placeholder="Enter Policy Category" star=" *" /> */}
             <Selection
               wraperSelect={style.wraperSelect}
               label="Category"
-              placeholder="Category"
+              placeholder="Select"
               options={policyCategory}
               star=" *"
               onChange={(item) => console.log(item)}
@@ -406,14 +422,14 @@ const Policy = () => {
               errorMessage={errors?.effectiveDate?.message}
               name="effectiveDate"
               star=" *"
-              placeholder="Effective Date"
+              placeholder="Select Date"
             />
             <Selection
               control={control}
               errorMessage={errors?.preparedBy?.message}
               wraperSelect={style.wraperSelect}
               label="Prepared By"
-              placeholder="Prepared By"
+              placeholder="Select Any"
               options={employees}
               star=" *"
               onChange={(item) => console.log(item)}
@@ -426,8 +442,8 @@ const Policy = () => {
               errorMessage={errors?.reviewers?.message}
               control={control}
               wraperSelect={style.wraperSelect}
-              label="Reviewed By"
-              placeholder="Reviewed By"
+              label="Reviewed"
+              placeholder="Select Any"
               options={employees}
               star=" *"
               onChange={(item) => console.log(item)}
@@ -438,7 +454,7 @@ const Policy = () => {
               errorMessage={errors?.approvedBy?.message}
               wraperSelect={style.wraperSelect}
               label="Approved By"
-              placeholder="Approved By"
+              placeholder="Select Any"
               options={employees}
               star=" *"
               onChange={(item) => console.log(item)}
@@ -452,7 +468,7 @@ const Policy = () => {
               errorMessage={errors?.appliesTo?.message}
               wraperSelect={style.wraperSelect}
               label="Applies to"
-              placeholder="Applies to"
+              placeholder="Select"
               options={employeesWithDep}
               star=" *"
               // onChange={(item) => console.log(item)}
