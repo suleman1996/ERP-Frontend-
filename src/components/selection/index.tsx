@@ -116,7 +116,6 @@ const Selection = ({
         style={{
           border: !errorMessage ? '1px solid #E2E2EA' : '1px solid red',
           borderRadius: '5PX',
-          // marginTop: '7px',
         }}
         className={!isDisabled ? wraperSelect : style.disabledSelection}
       >
