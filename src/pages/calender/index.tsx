@@ -23,7 +23,6 @@ import Selection from 'components/selection';
 import ProfileUpload from 'components/profile-upload';
 import Container from 'components/container';
 import EventModal from 'components/event-modal';
-import MultiPicker from 'components/multi-select';
 import TextArea from 'components/textarea';
 import DeleteModal from 'components/delete-modal';
 
@@ -33,7 +32,7 @@ import location from 'assets/location.svg';
 import noimage from 'assets/NoImage.svg';
 import cross from 'assets/cross-Icon.svg';
 import deleteIcon from 'assets/delete-Icon.svg';
-import edit from 'assets/pencilIcon.svg';
+import edit from 'assets/edit-icon.png';
 import plus from 'assets/plusIcon.svg';
 import bucketIcon from 'assets/Bucket.svg';
 
@@ -50,14 +49,11 @@ const Calender = () => {
   const [check, setCheck] = useState(false);
   const [eventId, setEventId] = useState('');
   const [customTooltip, setCustomTooltip] = useState<number | string | undefined | boolean>();
-  const [attendees, setAttendees] = useState([]);
   const [selectedFileNameBack, setSelectedFileNameBack] = useState<any>();
   const [btnLoader, setBtnLoader] = useState(false);
-  const [selected, setSelected] = useState([]);
   const [allEvent, setAllEvent] = useState([]);
   const [singleEventData, setSingleEventData] = useState<any>('');
   const [attendeesPic, setAttendeesPic] = useState([]);
-  const [OnlyEmployees, setOnlyEmployees] = useState([]);
   const [delModal, setDelModal] = useState(false);
   const [employeesWithDep] = useState<any>([]);
 
@@ -89,15 +85,6 @@ const Calender = () => {
     updateEventData();
   }, [singleEventData]);
 
-  // const getEmployeesData = async () => {
-  //   const res = await EmployeeService.getAllEmployees();
-  //   setAttendees(res?.data?.employees[0]?.data);
-  // };
-  // const getOnlyEmployee = async () => {
-  //   const res = await EmployeeService.getOnlyEmployees();
-  //   setOnlyEmployees(res?.data);
-  // };
-
   const getEmployeesWithDep = async () => {
     try {
       const result = await EmployeeService.getEmployeesWithDepApi();
@@ -118,18 +105,21 @@ const Calender = () => {
   };
 
   const handleDelete = async () => {
-    const res = await CalenderService.deleteEvent(eventId);
-    if (res.status === 200) {
-      createNotification('success', 'success', res?.data?.msg);
-      getAllEvents();
-      setCustomTooltip(false);
-      setDelModal(!delModal);
+    setBtnLoader(true);
+    try {
+      const res = await CalenderService.deleteEvent(eventId);
+      if (res.status === 200) {
+        setBtnLoader(true);
+        createNotification('success', 'success', res?.data?.msg);
+        getAllEvents();
+        setCustomTooltip(false);
+        setDelModal(!delModal);
+      }
+      setBtnLoader(false);
+    } catch (err) {
+      setBtnLoader(false);
     }
   };
-  // const attendeesOptions = OnlyEmployees?.map(({ _id, fullName }) => ({
-  //   label: fullName && fullName,
-  //   value: _id && _id,
-  // }));
 
   const updateEventData = () => {
     const {
@@ -151,13 +141,13 @@ const Calender = () => {
       venue: venue ? venue : '',
       category: category ? { label: category, value: category } : '',
       description,
-      allDay: allDay,
+      allDay: allDay && allDay,
       attendees: attendees
         ? attendees?.map(({ _id, fullName }: any) => {
             return { label: fullName, value: _id };
           })
         : [],
-      typename: type ? { label: type, value: type } : '',
+      type: type ? { label: type, value: type } : '',
       recurrence: recurrence ? { label: recurrence, value: recurrence } : '',
       start: start ? new Date(start.replace('Z', '')) : '',
       end: end ? new Date(end.replace('Z', '')) : '',
@@ -255,7 +245,7 @@ const Calender = () => {
           : '',
         recurrence: data?.recurrence?.value,
         category: data?.category?.value,
-        type: data?.typename?.value,
+        type: data?.type?.value,
         allDay: data?.allDay,
         venue: data?.venue,
         description: data?.description,
@@ -307,6 +297,7 @@ const Calender = () => {
                 setOpenModal(true);
                 setSingleEventData('');
                 setSelectedFileNameBack('');
+                setCheck(false);
               }}
               iconStart={plus}
             />
@@ -423,7 +414,7 @@ const Calender = () => {
               <Selection
                 label="Type"
                 options={eventTypes}
-                name="typename"
+                name="type"
                 control={control}
                 errorMessage={errors?.type?.message}
                 star=" *"
@@ -509,7 +500,8 @@ const Calender = () => {
                   {moment(singleEventData?.start).format('dddd, MMMM Do YYYY')}
                   {!singleEventData?.allDay && (
                     <span>
-                      |{moment(singleEventData?.start?.replace('Z', '')).format('h:mm a')} -
+                      {' '}
+                      | {moment(singleEventData?.start?.replace('Z', '')).format('h:mm a')} -
                       {moment(singleEventData?.end?.replace('Z', '')).format('h:mm a')}
                     </span>
                   )}
@@ -520,46 +512,56 @@ const Calender = () => {
                     : singleEventData?.duration && singleEventData?.duration}
                 </p>
               </div>
-              <p className={style.title2}>Description</p>
-              <p className={style.description}>
+              <p className={style.title2} style={{ marginTop: -10 }}>
+                Description
+              </p>
+              <p className={style.description} style={{ marginTop: -15 }}>
                 {singleEventData?.description ? singleEventData.description : '-'}
               </p>
 
-              <div className={style.mainParentDiv}>
-                <div className={style.leftDiv}>
-                  <p className={style.title2}>Venue</p>
-                  <p className={style.title2}>Category</p>
-                  <p className={style.title2}>Event Type</p>
-                  <p className={style.title2}>Attachment</p>
-                  <p className={style.title2}>Attendees</p>
-                </div>
+              <div className={style.leftDiv}>
+                <p className={style.categories}>Venue</p>
+                <p className={style.categorieData}>
+                  {singleEventData?.venue ? singleEventData?.venue : '-'}
+                </p>
+              </div>
 
-                <div className={style.rightDiv}>
-                  <p className={style.description}>
-                    {singleEventData?.venue ? singleEventData?.venue : '-'}
-                  </p>
-                  <p className={style.description}>
-                    {singleEventData?.category ? singleEventData?.category : '-'}
-                  </p>
-                  <p className={style.description}>
-                    {singleEventData?.type ? singleEventData?.type : '-'}
-                  </p>
-                  <p className={style.description}>
-                    {singleEventData?.fileId?.name ? (
-                      <a
-                        href={singleEventData?.fileId?.file}
-                        target={'_blank'}
-                        style={{ textDecoration: 'none' }}
-                      >
-                        <p className={style.attachFile}>
-                          {singleEventData?.fileId?.name ? singleEventData?.fileId?.name : '-'}
-                        </p>
-                      </a>
-                    ) : (
-                      '-'
-                    )}
-                  </p>
+              <div className={style.leftDiv}>
+                <p className={style.categories}>Category</p>
+                <p className={style.categorieData}>
+                  {singleEventData?.category ? singleEventData?.category : '-'}
+                </p>
+              </div>
 
+              <div className={style.leftDiv}>
+                <p className={style.categories}>Event Type</p>
+                <p className={style.categorieData}>
+                  {singleEventData?.type ? singleEventData?.type : '-'}
+                </p>
+              </div>
+
+              <div className={style.leftDiv}>
+                <p className={style.categories}>Attachment</p>
+                <p className={style.categorieData}>
+                  {singleEventData?.fileId?.name ? (
+                    <a
+                      href={singleEventData?.fileId?.file}
+                      target={'_blank'}
+                      style={{ textDecoration: 'none' }}
+                    >
+                      <p className={style.attachFile}>
+                        {singleEventData?.fileId?.name ? singleEventData?.fileId?.name : '-'}
+                      </p>
+                    </a>
+                  ) : (
+                    '-'
+                  )}
+                </p>
+              </div>
+
+              <div className={style.leftDiv}>
+                <p className={style.categories}>Attendees</p>
+                <p className={style.categorieData}>
                   <div className={style.plusView}>
                     {attendeesPic?.slice(0, 3)?.map((i: any) => {
                       return (
@@ -590,7 +592,7 @@ const Calender = () => {
                       </div>
                     )}
                   </div>
-                </div>
+                </p>
               </div>
             </div>
           </EventModal>
@@ -601,6 +603,7 @@ const Calender = () => {
           handleDelete={handleDelete}
           setOpen={() => setDelModal(!delModal)}
           bucket={bucketIcon}
+          isLoading={btnLoader}
         />
       </Container>
     </div>

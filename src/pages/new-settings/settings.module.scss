@@ -59,6 +59,8 @@
 
   @media (max-width: $sm) {
     width: 94%;
+    padding: 4px !important;
+    border-radius: 6px;
   }
 
   h6 {
@@ -86,17 +88,19 @@
       cursor: pointer;
       @media (max-width: $sm) {
         margin-right: 10px;
+        font-size: 10px !important;
+        margin-right: 0px;
       }
     }
   }
 }
 
 .addBtn {
-  @media (max-width: $tab) {
+  @media (max-width: $lg) {
     position: fixed;
     z-index: 3;
     bottom: 30px;
-    right: 20px;
+    right: 35px;
   }
 
   .btnClass {

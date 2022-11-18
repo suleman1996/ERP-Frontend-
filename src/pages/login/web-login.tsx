@@ -42,7 +42,7 @@ const WebLogin = ({ handleLogin }: any) => {
                       color: errors?.employeeId ? '#ff5050' : '#dcdcdc',
                     }}
                   >
-                    Your Employee Id
+                    Your Employee Id or Email
                     <input
                       type="text"
                       style={{
@@ -51,13 +51,13 @@ const WebLogin = ({ handleLogin }: any) => {
                       }}
                       className={style.loginInput}
                       name="employeeId"
-                      placeholder="Enter Employee Id"
+                      placeholder="Enter Employee Id or Email"
                       ref={register}
                     />
                   </label>
                 </div>
                 {errors?.employeeId && (
-                  <span style={{ color: '#ff2020' }}>EmployeeId is required</span>
+                  <span style={{ color: '#ff2020', fontSize: '12px' }}>EmployeeId is required</span>
                 )}
 
                 <div style={{ marginTop: '.5rem', position: 'relative' }}>
@@ -96,7 +96,7 @@ const WebLogin = ({ handleLogin }: any) => {
                   </label>
                 </div>
                 {errors?.password && (
-                  <span style={{ whiteSpace: 'pre-line', color: '#ff2020' }}>
+                  <span style={{ whiteSpace: 'pre-line', color: '#ff2020', fontSize: '12px' }}>
                     Please enter a valid password
                   </span>
                 )}

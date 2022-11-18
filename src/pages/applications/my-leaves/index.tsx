@@ -4,7 +4,6 @@ import style from './index.module.scss';
 import editIcon from 'assets/edit-icon-application.svg';
 import cancel from 'assets/cancel.svg';
 import view from 'assets/viewIconnew.svg';
-import deleteIcon from 'assets/table-delete.svg';
 import Button from 'components/button';
 import Pagination from 'components/pagination';
 import { useEffect, useState } from 'react';
@@ -220,7 +219,6 @@ const MyLeaves = ({ data }: { data: any }) => {
         setOpenModal={setOpenModal}
         data={data}
         defaultLeaveType={defaultLeaveType}
-        setRender={setRender}
       />
       <div className={style.container}>
         <div className={style.historyTable}>

@@ -29,7 +29,7 @@ const ManageUser = ({ newUser, setNewUser }) => {
             ...row,
             image: (
               <div className={style.image}>
-                <img src={dummy} style={{ width: '100%' }} />
+                <img src={dummy} />
               </div>
             ),
             status: (
@@ -44,7 +44,7 @@ const ManageUser = ({ newUser, setNewUser }) => {
               </div>
             ),
           }))}
-          minWidth="1200px"
+          minWidth="1150px"
           headingText={style.columnText}
           handleDelete={(id) => console.log(id)}
           handleEducation={(index) => setEditIndex(index)}

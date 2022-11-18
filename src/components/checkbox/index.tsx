@@ -10,12 +10,22 @@ interface Props {
   name?: string;
   register?: any;
   containerClass?: string;
+  onClick?: any;
 }
 
-const Checkbox = ({ id, label, handleChange, checked, name, register, containerClass }: Props) => {
+const Checkbox = ({
+  id,
+  label,
+  handleChange,
+  checked,
+  name,
+  register,
+  containerClass,
+  onClick,
+}: Props) => {
   return (
     <div className={containerClass}>
-      <label className={style.container} htmlFor={id}>
+      <label className={style.container} htmlFor={id} onClick={onClick}>
         {label && <p>{label}</p>}
         <input
           name={name}

@@ -54,7 +54,7 @@ const AddAttendance = ({
   // const [slabs, setSlab] = useState<any>([]);
   // const [categories, setCategories] = useState();
 
-  const { register, handleSubmit, errors, reset, control, watch } = useForm({
+  const { register, handleSubmit, errors, reset, control, watch, setValue } = useForm({
     resolver: yupResolver(schema),
     mode: 'onSubmit',
   });
@@ -65,7 +65,17 @@ const AddAttendance = ({
       newSlab[update.index] = { ...newSlab[update.index], ...data };
       setSlab(newSlab);
       setUpdate({ check: false, index: null });
-    } else setSlab([...slabs, data]);
+    } else {
+      const slabsCopy = [...slabs];
+      slabsCopy.push(data);
+      setSlab(slabsCopy);
+
+      let sortSlab = slabsCopy.sort(function (a: any, b: any) {
+        return a.lower - b.lower;
+      });
+
+      setSlab(sortSlab);
+    }
 
     reset({
       ...data,
@@ -156,6 +166,16 @@ const AddAttendance = ({
     updateId && newSlabUpdate && setSlab([...newSlabUpdate?.slabs]);
   }, []);
 
+  const financialYearStart = watch('financialYearStart');
+  const financialYearEnd = watch('financialYearEnd');
+  useEffect(() => {
+    if (financialYearStart && !financialYearEnd) {
+      setValue('financialYearEnd', new Date(moment(financialYearStart).add(1, 'year').format()), {
+        shouldValidate: true,
+      });
+    }
+  }, [financialYearEnd, financialYearStart]);
+
   return (
     <>
       <Modal
@@ -200,13 +220,15 @@ const AddAttendance = ({
                   name={'financialYearStart'}
                   errorMessage={errors?.financialYearStart?.message}
                   watch={watch}
+                  max={watch().financialYearEnd}
                 />
                 <MonthYearPicker
                   control={control}
                   label={'End Year'}
                   name={'financialYearEnd'}
                   errorMessage={errors?.financialYearStart?.message}
-                  watch={watch().financialYearStart}
+                  min={watch().financialYearStart}
+                  watch={watch}
                 />
               </div>
             </div>

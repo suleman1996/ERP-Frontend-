@@ -17,12 +17,10 @@ const CreateApplicationModal = ({
   setOpenModal,
   data,
   defaultLeaveType,
-  setRender,
 }: {
   openModal: boolean;
   setOpenModal: Function;
   data: any;
-  setRender: Function;
   defaultLeaveType?: any;
 }) => {
   const [selectedFileName, setSelectedFileName] = useState<any>();
@@ -32,7 +30,6 @@ const CreateApplicationModal = ({
   });
 
   const submitHandler = async (data: any) => {
-    setRender((prev: any) => !prev);
     setBtnLoader(true);
     try {
       data.attachment = await convertBase64Image(data?.attachment[0]);
