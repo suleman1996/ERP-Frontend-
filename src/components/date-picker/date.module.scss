@@ -21,6 +21,7 @@
     padding-left: 20px;
     @include font20;
     color: #2d2d32;
+    box-sizing: border-box;
     margin-top: calc(5px + (12 - 5) * (100vw - 280px) / (2560 - 280));
     height: calc(30px + (55 - 30) * (100vw - 280px) / (2560 - 280));
   }
@@ -32,6 +33,7 @@
     padding-left: 20px;
     border: 1.2px solid rgb(226, 226, 234);
     @include font20;
+    box-sizing: border-box;
     color: #2d2d32;
     margin-top: calc(5px + (12 - 5) * (100vw - 280px) / (2560 - 280));
     height: calc(30px + (55 - 30) * (100vw - 280px) / (2560 - 280));
@@ -76,9 +78,9 @@
 
   p {
     font-family: 'Poppins';
-    font-style: normal;
-    color: #2d2d32;
-    @include font14;
+    font-weight: 500;
+    color: #57b894;
+    @include font16;
   }
 }
 

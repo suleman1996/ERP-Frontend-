@@ -29,7 +29,6 @@
 .react-datepicker__day-name,
 .react-datepicker__day,
 .react-datepicker__time-name {
-  background-color: 'red';
   margin: 10px !important;
   font-family: 'Poppins';
   font-style: normal;
@@ -38,6 +37,30 @@
   color: #2d2d32;
 }
 
+@media screen and (max-width: 768px) {
+  .react-datepicker__day-name,
+  .react-datepicker__day,
+  .react-datepicker__time-name {
+    margin: 4px !important;
+  }
+}
+
+.react-datepicker__day-name {
+  font-weight: 500 !important;
+  font-size: 12px !important;
+  color: #afafaf !important;
+}
+
+.react-datepicker__day,
+.react-datepicker__day--031,
+.react-datepicker__day--outside-month {
+  font-weight: 500 !important;
+  font-size: 12px !important;
+}
+
+.react-datepicker__day {
+  color: #2d2d32 !important;
+}
 .react-datepicker__day--selected,
 .react-datepicker__day--in-selecting-range,
 .react-datepicker__day--in-range,

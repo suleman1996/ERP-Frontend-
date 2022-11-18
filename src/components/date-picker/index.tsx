@@ -12,7 +12,7 @@ import doubleArrowLeft from 'assets/4.svg';
 import date from 'assets/date-icon.svg';
 import style from './date.module.scss';
 import 'react-datepicker/dist/react-datepicker.css';
-import './index.css';
+import './date.css';
 import Switch from 'components/switch';
 
 interface Props {

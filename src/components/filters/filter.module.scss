@@ -1,0 +1,94 @@
+@import 'styles/_colors.scss';
+
+.filterMain {
+  background: #ffffff;
+  border: 0.723013px solid #e2e2ea;
+  border-radius: 2.16904px;
+  width: 173px;
+  .sortingDiv {
+    padding: 9px 7px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 0.5px solid #f2f4f3;
+    p {
+      font-weight: 400;
+      font-size: 10px;
+      color: #2d2d32;
+    }
+  }
+  .input {
+    padding: 0px 4px;
+    margin-bottom: 6px;
+    .iconSearch {
+      height: 9px;
+      width: 9px;
+      right: 3%;
+      top: 40%;
+    }
+    input {
+      height: 22px;
+      border: 0.723013px solid #e2e2ea !important;
+      border-radius: 2.16904px;
+      padding: 0px 12px 0px 12px;
+      font-size: 10px;
+      &::placeholder {
+        font-weight: 400;
+        color: #e2e2ea;
+        font-size: 10px;
+      }
+    }
+  }
+  .checkDiv {
+    padding: 0px 10px;
+    .checkbox {
+      span {
+        width: 8px;
+        height: 8px;
+        top: 2px;
+      }
+      span::after {
+        width: 1px;
+        height: 3px;
+      }
+      p {
+        font-weight: 400;
+        font-size: 9px;
+        color: #2d2d32;
+        padding-left: 15px;
+      }
+    }
+    .checkArr {
+      margin-top: 5px;
+    }
+  }
+  .btnDiv {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 0.5px solid #f2f4f3;
+    padding: 14px 18px;
+    margin-top: 13px;
+    .btn {
+      background-color: transparent;
+      span {
+        color: #57b894;
+      }
+    }
+    button {
+      border: 1px solid #57b894;
+      max-width: 61px;
+      padding: 5px 15px;
+      height: auto;
+      border-radius: 2px;
+      span {
+        font-weight: 400;
+        font-size: 8px;
+      }
+    }
+  }
+}
+
+.monthDiv {
+  margin-top: 9px;
+}
