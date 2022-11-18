@@ -7,6 +7,7 @@ import { createNotification } from 'common/create-notification';
 import profileIcon from 'assets/profileIcon.svg';
 import camIcon from 'assets/camlogo.svg';
 import style from './image-upload.module.scss';
+import Button from 'components/button';
 
 interface Props {
   setImg?: Dispatch<SetStateAction<unknown>>;
@@ -16,6 +17,7 @@ interface Props {
   errorMessage?: string;
   label?: string;
   accountSetting?: boolean;
+  btnText?: string;
 }
 
 const ImageUpload = ({
@@ -26,6 +28,7 @@ const ImageUpload = ({
   errorMessage,
   label,
   accountSetting,
+  btnText,
 }: Props) => {
   const handleFileChange = async (event: React.ChangeEvent<any>) => {
     if (event?.target?.files?.[0]?.size <= 2048000) {
@@ -100,6 +103,7 @@ const ImageUpload = ({
                 MB in size.It will us recognize you.
               </p>
             )}
+            {btnText && <Button text={btnText} />}
           </div>
         </div>
       </div>

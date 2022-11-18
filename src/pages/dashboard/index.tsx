@@ -1,16 +1,24 @@
 import AccordianSwitch from 'components/accordian';
-import CustomSelect from 'components/custom-select';
-import DatePicker from 'components/date-picker';
+import FiltersComponent from 'components/filters';
+import FiltersComponentByDate from 'components/filters/filter-for-dates';
+import ImageUpload from 'components/image-upload';
 import { useState } from 'react';
-// import MonthYearPicker from 'new-components/range-month-picker';
 import { useForm } from 'react-hook-form';
 
 const DashBoard = () => {
   const { control } = useForm();
   const [openAccordian, setOpenAccordian] = useState(-1);
+  const [img, setImg] = useState<unknown>('');
 
   return (
     <>
+      <ImageUpload
+        name={'profilePicture'}
+        label={'Profile Picture'}
+        img={img}
+        setImg={setImg}
+        btnText="Remove Photo"
+      />
       {totalAccordian?.map((data) => {
         return (
           <AccordianSwitch
@@ -22,6 +30,7 @@ const DashBoard = () => {
           />
         );
       })}
+      <FiltersComponent />
     </>
   );
 };

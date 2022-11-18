@@ -6,7 +6,7 @@ import style from './date.module.scss';
 import 'react-datepicker/dist/react-datepicker.css';
 import singleArrowRight from 'assets/2.svg';
 import singleArrowLeft from 'assets/3.svg';
-import './index.css';
+import './data.css';
 
 interface Props {
   label?: string;
@@ -66,24 +66,24 @@ const MonthYearPicker = ({
                   maxDate={max}
                   renderCustomHeader={({
                     date,
-                    decreaseMonth,
-                    increaseMonth,
-                    prevMonthButtonDisabled,
-                    nextMonthButtonDisabled,
+                    increaseYear,
+                    decreaseYear,
+                    prevYearButtonDisabled,
+                    nextYearButtonDisabled,
                   }) => (
                     <div className={style.iconsDiv}>
                       <button
                         type={'button'}
-                        onClick={decreaseMonth}
-                        disabled={prevMonthButtonDisabled}
+                        onClick={decreaseYear}
+                        disabled={prevYearButtonDisabled}
                       >
                         <img src={singleArrowLeft} alt="" />
                       </button>
                       <p>{date.getFullYear()}</p>
                       <button
                         type={'button'}
-                        onClick={increaseMonth}
-                        disabled={nextMonthButtonDisabled}
+                        onClick={increaseYear}
+                        disabled={nextYearButtonDisabled}
                       >
                         <img src={singleArrowRight} alt="" />
                       </button>
