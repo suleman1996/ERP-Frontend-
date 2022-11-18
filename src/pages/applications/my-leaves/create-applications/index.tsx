@@ -35,7 +35,6 @@ const CreateApplicationModal = ({
 
   useEffect(() => {
     if (editData) {
-      console.log(editData.rawData);
       if (editData.rawData.attachment) {
         setSelectedFileName('Attached Document');
       }
@@ -94,7 +93,6 @@ const CreateApplicationModal = ({
       setRender((prev: any) => !prev);
     } catch (err: any) {
       if (err?.response?.data?.error) {
-        console.log(err?.response?.data?.error);
         setErrors(err?.response?.data?.error, setError);
       } else {
         createNotification('error', 'Error', err?.response?.data?.message);

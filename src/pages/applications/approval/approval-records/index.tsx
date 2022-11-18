@@ -375,8 +375,6 @@ const ApprovalRecords = () => {
               </div>
             ),
           }))}
-          minWidth="700px"
-          handleDelete={(id) => console.log(id)}
         />
       </div>
       <div className={style.position}>

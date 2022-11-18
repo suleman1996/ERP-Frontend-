@@ -45,7 +45,6 @@ export const MonthsDateFilter = ({ childArr }: Props) => {
       setDateState(index);
     }
   };
-  console.log(dateState);
 
   return (
     <>
