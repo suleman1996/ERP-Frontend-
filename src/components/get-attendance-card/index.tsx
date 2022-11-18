@@ -29,7 +29,7 @@ const AttendanceCard = ({ handleSave, handleFilter }: Props) => {
 
   return (
     <div className={style.wraper}>
-      <div style={{ padding: '0 10px', paddingBottom: '60px' }}>
+      <div style={{ paddingBottom: '60px' }}>
         <Table
           columns={columns}
           rows={data.map((row, index) => ({
@@ -74,9 +74,9 @@ const AttendanceCard = ({ handleSave, handleFilter }: Props) => {
                 <TimePicker />
               </div>
             ),
-            tags: <Tags tagsTextArr={[row.tags]} />,
+            tags: <Tags text={row.tags} boxColor="#7DA560" textColor="#E2E2EA" />,
           }))}
-          minWidth="1240px"
+          minWidth="450px"
           headingText={style.columnText}
         />
       </div>
@@ -92,15 +92,15 @@ const columns = [
   {
     name: <Checkbox />,
     key: 'check',
-    width: '50px',
+    width: '100px',
   },
-  { name: 'Employee ID', key: 'id', width: '170px' },
-  { name: 'Employee Name', key: 'name', width: '170px' },
-  { name: 'Designation', key: 'designation', width: '170px' },
-  { name: 'Check in', key: 'checkIn', width: '170px' },
-  { name: 'Checkout', key: 'checkout', width: '170px' },
-  { name: 'Status', key: 'status', width: '170px' },
-  { name: 'Tags', key: 'tags', width: '170px' },
+  { name: 'ID', key: 'id', width: '50px', alignText: 'center' },
+  { name: 'Name', key: 'name', width: '50px', alignText: 'center' },
+  { name: 'Designation', key: 'designation', width: '50px', alignText: 'center' },
+  { name: 'Check in', key: 'checkIn', width: '50px', alignText: 'center' },
+  { name: 'Checkout', key: 'checkout', width: '50px', alignText: 'center' },
+  { name: 'Status', key: 'status', width: '50px' },
+  { name: 'Tags', key: 'tags', width: '50px', alignText: 'center' },
 ];
 export default AttendanceCard;
 

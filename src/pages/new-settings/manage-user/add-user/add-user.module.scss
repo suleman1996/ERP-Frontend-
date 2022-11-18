@@ -4,19 +4,23 @@
 .wraper {
   margin: 10px 0px;
   padding: 10px;
-  @include gridSix(10, 10);
+  @include gridFive(10, 10);
   align-items: flex-end;
-  .imgParentDiv {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    background-color: $btn;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    cursor: pointer;
+
+  @media (max-width: $lg) {
+    @include gridTwo(10, 10);
   }
+}
+.imgParentDiv {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: #9ed6c1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
 }
 
 .btns {
@@ -42,6 +46,27 @@
     color: #2d2d32 !important;
   }
   div {
-    margin: 17px 0px;
+    margin: 20px 0px 20px 0px;
+
+    @media (max-width: $xlg) {
+      margin: 15px 0px 20px 0px;
+    }
+    @media (max-width: $lg) {
+      margin: 13px 0px 20px 0px;
+    }
+    @media (max-width: $md) {
+      margin: 8px 0px 15px 0px;
+    }
+  }
+}
+
+.addParent {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0px 10px;
+  @media (max-width: $lg) {
+    flex-wrap: wrap;
+    justify-content: center;
   }
 }

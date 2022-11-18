@@ -101,7 +101,16 @@ const RenderPolicy = ({
       )}
       <div className={style.policyHeaderView}>
         <div className={style.policyHeaderTitleView}>
-          <p style={{ fontSize: '15px', fontWeight: 600, color: '#2D2D32' }}>
+          <p
+            style={{
+              fontSize: '15px',
+              fontWeight: 600,
+              color: '#2D2D32',
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+            }}
+          >
             {data?.name || 'All Policies'}
           </p>
           {data?.effectiveDate ? (
@@ -144,8 +153,17 @@ const RenderPolicy = ({
 
       <div className={style.policyButtonView}>
         <div className={style.policyButton}>
-          <a style={{ textDecoration: 'none' }} target={'_blank'} href={data?.fileId[0]?.file}>
-            <p style={{ fontWeight: '500', fontSize: 11, color: '#ffffff' }}>View Policy</p>
+          <a
+            style={{
+              textDecoration: 'none',
+              width: '100%',
+            }}
+            target={'_blank'}
+            href={data?.fileId[0]?.file}
+          >
+            <p style={{ fontWeight: '500', fontSize: 11, color: '#ffffff', textAlign: 'center' }}>
+              View Policy
+            </p>
           </a>
         </div>
       </div>

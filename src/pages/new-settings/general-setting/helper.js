@@ -53,8 +53,8 @@ export const employeeIdColumn = [
   {
     key: 'id',
     name: 'Employee ID Series',
-    alignText: 'left',
-    width: '150px',
+    alignText: 'center',
+    width: '100px',
   },
 
   {

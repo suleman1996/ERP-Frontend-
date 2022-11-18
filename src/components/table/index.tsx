@@ -16,6 +16,7 @@ interface Props {
   total?: any[];
   loading?: boolean;
   tableClass?: string;
+  rowText?: string;
   setRowIndex?: Dispatch<SetStateAction<number | undefined>>;
   columns: {
     key: string;
@@ -74,12 +75,14 @@ const Table = ({
   filters,
   sorts,
   headingText,
+  rowText,
   editIndex,
   setEditIndex,
   setNewUser,
   tableHeaderClass,
   tableClass,
 }: Props) => {
+  const [tblScroll, setTblScroll] = useState(false);
   const [isFilter, setIsFilter] = useState<string | number>('');
   const [isFilterSelected, setIsFilterSelected] = useState<string | number>('');
 
@@ -102,14 +105,19 @@ const Table = ({
     handleDeleteIndex && handleDeleteIndex(index);
     handleModalOpen && handleModalOpen();
   };
+  console.log('asdasd', tblScroll);
 
   return (
     <>
       {rows?.length >= 1 && (
         <div
           className={`${style.tableWrapper} ${tableHeight}`}
+          onMouseEnter={() => setTblScroll(true)}
+          onMouseLeave={() => setTblScroll(false)}
           style={{
             textTransform: 'capitalize',
+            overflowX: tblScroll && 'auto',
+            overflowY: tblScroll && 'auto',
           }}
         >
           <div
@@ -187,7 +195,7 @@ const Table = ({
                           }}
                           className={`${style.td}  ${className}`}
                         >
-                          {row[column.key]}
+                          <span className={`${rowText}`}>{row[column.key]}</span>
                           {column.key === 'actions' &&
                             !column?.eyeIcon &&
                             (row?.isActive !== false ? (

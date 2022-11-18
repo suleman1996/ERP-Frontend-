@@ -36,6 +36,7 @@ interface Props {
   isDisabled?: any;
   defaultValue?: any;
   placeHolderStyle?: any;
+  showNumber?: Boolean;
 }
 
 const Selection = ({
@@ -55,6 +56,7 @@ const Selection = ({
   classNameLabel,
   defaultValue,
   placeHolderStyle,
+  showNumber,
 }: Props) => {
   const [customErr, setCustomErr] = useState<string | undefined>();
 
@@ -137,7 +139,38 @@ const Selection = ({
                         </p>
                       </div>
                     ),
+                    ...(showNumber && {
+                      MultiValue: (props) => {
+                        const { getValue, data } = props;
+                        const selectedOptions = getValue();
+                        const currentOptionIdx = selectedOptions.findIndex(
+                          (option) => option?.value === data?.value,
+                        );
+                        if (selectedOptions.length > 1) {
+                          return currentOptionIdx === 0 ? (
+                            <Tags
+                              // isCircularNumber={true}
+                              boxColor={'red'}
+                              // numberCircular={selectedOptions?.length}
+                            ></Tags>
+                          ) : (
+                            <></>
+                          );
+                        } else {
+                          return currentOptionIdx === 0 ? (
+                            <Tags
+                              text={data?.label}
+                              boxColor={'#39695B'}
+                              // isCircular={true}
+                            ></Tags>
+                          ) : (
+                            <></>
+                          );
+                        }
+                      },
+                    }),
                   }}
+                  hideSelectedOptions={false}
                   closeMenuOnSelect={closeMenuOnSelect}
                   isMulti={isMulti}
                   value={value}

@@ -23,7 +23,6 @@ import Selection from 'components/selection';
 import ProfileUpload from 'components/profile-upload';
 import Container from 'components/container';
 import EventModal from 'components/event-modal';
-import MultiPicker from 'components/multi-select';
 import TextArea from 'components/textarea';
 import DeleteModal from 'components/delete-modal';
 
@@ -158,7 +157,7 @@ const Calender = () => {
       venue: venue ? venue : '',
       category: category ? { label: category, value: category } : '',
       description,
-      allDay: allDay,
+      allDay: allDay ? allDay : '',
       attendees: attendees
         ? attendees?.map(({ _id, fullName }: any) => {
             return { label: fullName, value: _id };
@@ -314,6 +313,7 @@ const Calender = () => {
                 setOpenModal(true);
                 setSingleEventData('');
                 setSelectedFileNameBack('');
+                setCheck(false);
               }}
               iconStart={plus}
             />

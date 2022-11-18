@@ -2,7 +2,7 @@
 import { useForm } from 'react-hook-form';
 
 import Container from 'components/container';
-import Selection from 'components/select';
+import Selection from 'components/selection';
 import Input from 'components/input';
 import DatePicker from 'components/date-picker';
 import AttendanceCard from 'components/get-attendance-card';
@@ -21,7 +21,12 @@ const AddAttendance = () => {
     <>
       <Container>
         <div className={style.gridView}>
-          <Selection options={departments} placeholder="Departments" />
+          <Selection
+            options={departments}
+            placeholder="Departments"
+            control={control}
+            name="departments"
+          />
           <Input placeholder="Name" />
           <Input placeholder="Employee ID" />
           <div>
