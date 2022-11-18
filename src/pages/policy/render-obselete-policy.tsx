@@ -44,18 +44,15 @@ const RenderObsolete = ({
         ...(search?.categoryId && { category: search?.categoryId?.label }),
         ...(search?.addedBy && { addedBy: search?.addedBy?.value }),
       });
-      // console.log('Here are the obselete policies ', result?.data?.data);
       setObseletePolicies(result?.data?.data);
       setLoading(false);
     } catch (error) {
-      console.log(error);
       setLoading(false);
     }
   };
 
   return (
     <div className={style.policyMainView}>
-      {/* <Loading /> */}
       <RenderPoliciesTab
         reset={reset}
         control={control}
