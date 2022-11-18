@@ -11,6 +11,8 @@ import EmployeeService from 'services/employee-service';
 const Applications = () => {
   const [active, setActive] = useState(1);
   const [data, setData] = useState({});
+  const [renderState, setRenderState] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
 
   const handleTab = (index: number) => {
     setActive(index);
@@ -36,27 +38,30 @@ const Applications = () => {
   useEffect(() => {
     getAllData();
   }, []);
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
+  useEffect(() => {}, [data]);
 
   const ActiveView = () => {
     switch (active) {
       case 1:
-        return <MyLeaves data={data} />;
+        return <MyLeaves data={data} parentRenderState={renderState} />;
       case 2:
         return <Approvals />;
       case 3:
         return <LeaveBalance />;
       default:
-        return <MyLeaves data={data} />;
+        return <MyLeaves data={data} parentRenderState={renderState} />;
     }
   };
-  const [openModal, setOpenModal] = useState(false);
+
   return (
     <>
       {openModal && (
-        <CreateApplicationModal openModal={openModal} setOpenModal={setOpenModal} data={data} />
+        <CreateApplicationModal
+          openModal={openModal}
+          setOpenModal={setOpenModal}
+          data={data}
+          setRender={setRenderState}
+        />
       )}
       <CardContainer className={style.cardContainer}>
         <div className={style.headContainer} style={{ justifyContent: 'space-between' }}>

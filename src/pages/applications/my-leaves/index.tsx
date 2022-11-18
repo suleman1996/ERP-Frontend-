@@ -4,7 +4,6 @@ import style from './index.module.scss';
 import editIcon from 'assets/edit-icon-application.svg';
 import cancel from 'assets/cancel.svg';
 import view from 'assets/viewIconnew.svg';
-import deleteIcon from 'assets/table-delete.svg';
 import Button from 'components/button';
 import Pagination from 'components/pagination';
 import { useEffect, useState } from 'react';
@@ -86,24 +85,27 @@ const ColumnsData1 = [
   },
 ];
 
-const MyLeaves = ({ data }: { data: any }) => {
+const MyLeaves = ({ data, parentRenderState }: { data: any; parentRenderState: any }) => {
   const [loading, setLoading] = useState(false);
   const [pageSize, setPageSize] = useState(10);
   const [openModal, setOpenModal] = useState(false);
   const [selectedId, setSelectedId] = useState('');
+  const [editData, setEditData] = useState('');
   const [cancelModal, setCancelModal] = useState(false);
   const [totalCount, setTotalCount] = useState();
   const [RowsData, setRowsData] = useState([]);
   const [leaveRowsData, setLeaveRowsData] = useState([]);
   const [defaultLeaveType, setDefaultLeaveType] = useState({});
   const [page, setPage] = useState(1);
+  const [render, setRender] = useState<boolean>(false);
 
   const getHistory = async () => {
     setLoading(true);
     const res = await ApplicationService.getLeaveHistory();
     const data = res?.data?.map((el: any) => {
       return {
-        leaveType: el.leaveType + ' Leave',
+        leaveId: el.leaveId,
+        leaveType: el.leaveType,
         remaining: el.remaining + ' Remains',
         total: el.total + ' Allows',
       };
@@ -119,12 +121,14 @@ const MyLeaves = ({ data }: { data: any }) => {
     setTotalCount(total);
     msg = msg?.map((el: any) => {
       return {
+        rawData: el,
         id: el._id,
         leaveType: el.leaveType.name,
         appliedOn: moment(el.applyDate).format('D MMM, YYYY'),
         from: moment(el.dateFrom).format('D MMM, YYYY (hh:mm A)'),
         to: moment(el.dateTo).format('D MMM, YYYY (hh:mm A)'),
         duration: el.noOfDays + ' Days',
+        status: el.status,
         status1: (
           <div
             style={{
@@ -182,7 +186,7 @@ const MyLeaves = ({ data }: { data: any }) => {
   useEffect(() => {
     getHistory();
     getAllLeaveApplications();
-  }, [pageSize, page]);
+  }, [pageSize, page, render]);
 
   const handleCancel = async () => {
     const res = await ApplicationService.deleteApplication(selectedId);
@@ -193,6 +197,7 @@ const MyLeaves = ({ data }: { data: any }) => {
     if (res?.data) {
       createNotification('success', 'success', 'Canceled');
       setCancelModal(false);
+      setRender((prev) => !prev);
     }
   };
 
@@ -210,6 +215,7 @@ const MyLeaves = ({ data }: { data: any }) => {
           heading={'Are you sure you want to cancel this?'}
           description={`If you cancel this you can’t reverse it.`}
           handleDelete={handleCancel}
+          cancelModal
         />
       )}
       {openModal && (
@@ -218,6 +224,8 @@ const MyLeaves = ({ data }: { data: any }) => {
           setOpenModal={setOpenModal}
           data={data}
           defaultLeaveType={defaultLeaveType}
+          setRender={setRender}
+          editData={editData}
         />
       )}
       <div className={style.container}>
@@ -236,15 +244,13 @@ const MyLeaves = ({ data }: { data: any }) => {
                     btnClass={style.btnClass}
                     btnTextClass={style.btnTitle}
                     handleClick={() => {
-                      setDefaultLeaveType({ value: row.id, label: row.leaveType });
+                      setDefaultLeaveType({ value: row.leaveId, label: row.leaveType });
                       setOpenModal(true);
                     }}
-                  />{' '}
+                  />
                 </div>
               ),
             }))}
-            minWidth="700px"
-            handleDelete={(id) => console.log(id)}
           />
         </div>
         <div className={style.historyTable}>
@@ -261,7 +267,15 @@ const MyLeaves = ({ data }: { data: any }) => {
                     <img alt="" src={view} width={30} />
                   </div>
                   <div style={{ marginRight: '10px' }}>
-                    <img alt="" src={editIcon} width={30} />
+                    <img
+                      alt=""
+                      src={editIcon}
+                      width={30}
+                      onClick={() => {
+                        setEditData(row);
+                        setOpenModal(true);
+                      }}
+                    />
                   </div>
                   <div style={{ marginRight: '10px' }}>
                     <img
@@ -270,7 +284,6 @@ const MyLeaves = ({ data }: { data: any }) => {
                       width={30}
                       onClick={() => {
                         setCancelModal(true);
-                        console.log(row, 'row Data');
                         setSelectedId(row?.id);
                       }}
                     />
@@ -278,8 +291,6 @@ const MyLeaves = ({ data }: { data: any }) => {
                 </div>
               ),
             }))}
-            minWidth="700px"
-            handleDelete={(id) => console.log(id)}
           />
         </div>
         <div className={style.position}>
