@@ -85,11 +85,12 @@ const ColumnsData1 = [
   },
 ];
 
-const MyLeaves = ({ data }: { data: any }) => {
+const MyLeaves = ({ data, parentRenderState }: { data: any; parentRenderState: any }) => {
   const [loading, setLoading] = useState(false);
   const [pageSize, setPageSize] = useState(10);
   const [openModal, setOpenModal] = useState(false);
   const [selectedId, setSelectedId] = useState('');
+  const [editData, setEditData] = useState('');
   const [cancelModal, setCancelModal] = useState(false);
   const [totalCount, setTotalCount] = useState();
   const [RowsData, setRowsData] = useState([]);
@@ -103,7 +104,8 @@ const MyLeaves = ({ data }: { data: any }) => {
     const res = await ApplicationService.getLeaveHistory();
     const data = res?.data?.map((el: any) => {
       return {
-        leaveType: el.leaveType + ' Leave',
+        leaveId: el.leaveId,
+        leaveType: el.leaveType,
         remaining: el.remaining + ' Remains',
         total: el.total + ' Allows',
       };
@@ -119,12 +121,14 @@ const MyLeaves = ({ data }: { data: any }) => {
     setTotalCount(total);
     msg = msg?.map((el: any) => {
       return {
+        rawData: el,
         id: el._id,
         leaveType: el.leaveType.name,
         appliedOn: moment(el.applyDate).format('D MMM, YYYY'),
         from: moment(el.dateFrom).format('D MMM, YYYY (hh:mm A)'),
         to: moment(el.dateTo).format('D MMM, YYYY (hh:mm A)'),
         duration: el.noOfDays + ' Days',
+        status: el.status,
         status1: (
           <div
             style={{
@@ -214,12 +218,16 @@ const MyLeaves = ({ data }: { data: any }) => {
           cancelModal
         />
       )}
-      <CreateApplicationModal
-        openModal={openModal}
-        setOpenModal={setOpenModal}
-        data={data}
-        defaultLeaveType={defaultLeaveType}
-      />
+      {openModal && (
+        <CreateApplicationModal
+          openModal={openModal}
+          setOpenModal={setOpenModal}
+          data={data}
+          defaultLeaveType={defaultLeaveType}
+          setRender={setRender}
+          editData={editData}
+        />
+      )}
       <div className={style.container}>
         <div className={style.historyTable}>
           <Table
@@ -236,15 +244,13 @@ const MyLeaves = ({ data }: { data: any }) => {
                     btnClass={style.btnClass}
                     btnTextClass={style.btnTitle}
                     handleClick={() => {
-                      setDefaultLeaveType({ value: row.id, label: row.leaveType });
+                      setDefaultLeaveType({ value: row.leaveId, label: row.leaveType });
                       setOpenModal(true);
                     }}
                   />
                 </div>
               ),
             }))}
-            minWidth="700px"
-            handleDelete={(id) => console.log(id)}
           />
         </div>
         <div className={style.historyTable}>
@@ -261,7 +267,15 @@ const MyLeaves = ({ data }: { data: any }) => {
                     <img alt="" src={view} width={30} />
                   </div>
                   <div style={{ marginRight: '10px' }}>
-                    <img alt="" src={editIcon} width={30} />
+                    <img
+                      alt=""
+                      src={editIcon}
+                      width={30}
+                      onClick={() => {
+                        setEditData(row);
+                        setOpenModal(true);
+                      }}
+                    />
                   </div>
                   <div style={{ marginRight: '10px' }}>
                     <img
@@ -277,8 +291,6 @@ const MyLeaves = ({ data }: { data: any }) => {
                 </div>
               ),
             }))}
-            minWidth="700px"
-            handleDelete={(id) => console.log(id)}
           />
         </div>
         <div className={style.position}>

@@ -105,7 +105,6 @@ const Table = ({
     handleDeleteIndex && handleDeleteIndex(index);
     handleModalOpen && handleModalOpen();
   };
-  console.log('asdasd', tblScroll);
 
   return (
     <>
