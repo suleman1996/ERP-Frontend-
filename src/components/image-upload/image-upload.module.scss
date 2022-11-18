@@ -10,7 +10,6 @@
   border: 1.19506px dashed #e2e2ea;
   border-radius: 8.36544px;
   background-color: #ffffff;
-  cursor: pointer;
   margin-top: calc(10px + (30 - 10) * (100vw - 280px) / (2560 - 280));
   padding: 20px;
   @media (max-width: $xxs) {
@@ -25,6 +24,9 @@
     height: auto !important;
     span {
       font-size: 8px !important;
+    }
+    &:hover {
+      background: #cacaca;
     }
   }
 
@@ -44,6 +46,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
+    cursor: pointer;
   }
 
   .camIcon {
@@ -51,16 +55,14 @@
     height: 40px;
     background-color: #ffffff;
     border-radius: 50%;
-    position: relative;
-    right: 41px;
-    top: 43px;
+    position: absolute;
+    right: 0px;
+    bottom: -3px;
     display: flex;
     justify-content: center;
     align-items: center;
     @media (max-width: $md) {
       width: 15px;
-      right: 20px;
-      top: 30px;
       height: 15px;
     }
   }
@@ -68,6 +70,8 @@
   .selectFile {
     color: #57b894;
     font-weight: 600;
+    cursor: pointer;
+    margin-left: 5px;
   }
 }
 
@@ -81,6 +85,8 @@
 
 .heading {
   @include font29;
+  display: flex;
+  align-items: center;
 }
 
 .newText {
@@ -89,10 +95,6 @@
   font-weight: 600 !important;
   font-size: 15px !important;
   line-height: 20px !important;
-  /* identical to box height */
-
-  /* heading */
-
   color: #2d2d32 !important;
 }
 
