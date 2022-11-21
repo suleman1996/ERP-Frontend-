@@ -337,8 +337,11 @@ p {
 ul {
   li {
     list-style-type: disc !important;
-    font-size: 10px;
+    font-size: 0.6rem;
     font-weight: 300;
     color: #2d2d32;
+    // @media (max-width: $xxs) {
+    //   font-size: 10px;
+    // }
   }
 }

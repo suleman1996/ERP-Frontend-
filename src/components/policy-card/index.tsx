@@ -142,7 +142,7 @@ const RenderPolicy = ({
             { q: 'Prepared by ', v: data?.preparedBy?.fullName },
             { q: 'Reviewed by', v: data?.reviewers[0]?.fullName },
             { q: 'Approved by', v: data?.approvedBy?.fullName },
-            { q: 'Added by', v: data?.addedBy || 'ABC' },
+            { q: 'Added by', v: data?.addedBy[0]?.name || 'ABC' },
           ].map((item) => (
             <li>
               {item?.q} : {item?.v}

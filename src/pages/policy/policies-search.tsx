@@ -103,7 +103,7 @@ const RenderPolicySearchView = ({
           }}
         >
           <label onClick={() => clearFilter()} style={{ color: '#CACACA', cursor: 'pointer' }}>
-            Clear
+            Clear All
           </label>
 
           <Button form="SearchPolicy" text="Search" btnClass={style.btnClass} type="submit" />
