@@ -37,7 +37,7 @@ const AccountSetting = () => {
     try {
       let newData = {
         name: data?.name,
-        email: data?.email ? data?.email : userData.email,
+        email: data?.email,
         ...(watch('newPassword') && { newPassword: data?.newPassword }),
         ...(watch('confirmPassword') && { confirmPassword: data?.confirmPassword }),
         ...(img && { img }),
