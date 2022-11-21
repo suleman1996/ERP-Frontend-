@@ -15,7 +15,7 @@ import EmployeeService from 'services/employee-service';
 
 import style from './employee-profile.module.scss';
 import filter from 'assets/filter-icon.svg';
-import plus from 'assets/path.svg';
+import plus from 'assets/path-plus.svg';
 
 interface Employee {
   handleClick?: any;
