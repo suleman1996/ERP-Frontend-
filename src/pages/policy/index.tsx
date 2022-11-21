@@ -475,7 +475,7 @@ const Policy = () => {
               register={register}
               name="description"
               errorMessage={errors?.description?.message}
-              row={2}
+              row={3}
             />
           </div>
         </form>

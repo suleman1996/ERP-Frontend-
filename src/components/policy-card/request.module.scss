@@ -383,3 +383,40 @@ ul {
     // }
   }
 }
+
+.policyTitle {
+  font-size: 15px;
+  font-weight: 600;
+  color: #2d2d32;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.policyCardDate {
+  font-size: 10px;
+  font-weight: 400;
+  color: #afafaf;
+}
+.policyFormValue {
+  font-size: 10px;
+  font-weight: 400;
+  color: #afafaf;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.viewPolicyBtn {
+  text-decoration: none;
+  width: 100%;
+}
+.viewPolicyText {
+  font-weight: 500;
+  font-size: 11;
+  color: #ffffff;
+  text-align: center;
+}
+.menuText {
+  font-size: 8px;
+  font-weight: 500;
+  color: #2d2d32;
+}
