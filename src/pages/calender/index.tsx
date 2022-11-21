@@ -1,7 +1,6 @@
 /* eslint-disable jsx-a11y/alt-text */
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import $ from 'jquery';
 
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -63,17 +62,7 @@ const Calender = () => {
     e.target.src = placeholderImage;
   };
 
-  const {
-    register,
-    getValues,
-    handleSubmit,
-    errors,
-    reset,
-    watch,
-    control,
-    setError,
-    clearErrors,
-  } = useForm({
+  const { register, handleSubmit, errors, reset, watch, control, setError, clearErrors } = useForm({
     mode: 'all',
   });
 
@@ -166,8 +155,9 @@ const Calender = () => {
           className={style.mainDiv}
           style={{
             backgroundColor: category.find(({ value }) => value === catogery)?.color || 'red',
-            height:
-              allDay === true ? '5px' : eventInfo?.view?.type == 'dayGridMonth' ? '5px' : null,
+            borderLeft: category.find(({ value }) => value === catogery)?.border || 'red',
+            padding:
+              allDay === true ? '0px' : eventInfo?.view?.type == 'dayGridMonth' ? '0px' : null,
             display: 'flex',
             width: '100%',
             alignItems: 'center',
@@ -181,9 +171,14 @@ const Calender = () => {
             className={style.mainDiv2}
             style={{
               backgroundColor: category?.find(({ value }) => value === catogery)?.color,
+              width: '100%',
+              paddingLeft: '2px',
             }}
           >
-            <span className={style.title}>
+            <span
+              className={style.title}
+              style={{ textOverflow: 'ellipsis', whiteSpace: 'nowrap', overflow: 'hidden' }}
+            >
               {eventInfo?.event?.title && eventInfo?.event?.title}
             </span>
             {!allDay && eventInfo?.view?.type !== 'dayGridMonth' && (
@@ -308,44 +303,45 @@ const Calender = () => {
               iconStart={plus}
             />
           </div>
-
-          <FullCalendar
-            plugins={[interactionPlugin, timeGridPlugin, dayGridPlugin, listPlugin]}
-            initialView={day}
-            headerToolbar={{
-              right: `${list} ${day} ${week} ${month}`,
-              left: 'prev title next today',
-            }}
-            buttonText={{
-              list: 'Events',
-              month: 'Monthly',
-              week: 'Weekly',
-              day: 'Daily',
-            }}
-            titleFormat={{
-              day: 'numeric',
-              year: 'numeric',
-              month: 'short',
-            }}
-            dayMaxEvents={2}
-            expandRows={true}
-            allDayMaintainDuration={true}
-            eventContent={RenderEventHandler}
-            slotLabelInterval={{ hours: 1 }}
-            events={allEvent?.map((e: any) => ({
-              ...e,
-              start: e.start.replace('Z', ''),
-              end: e.end.replace('Z', ''),
-            }))}
-            handleWindowResize={true}
-            contentHeight="auto"
-            contentWidth="auto"
-            nowIndicator
-            eventClick={handleMouseEnter}
-            slotEventOverlap={false}
-            allDaySlot={true}
-            allDayText="all-day"
-          />
+          <div className={style.sectionView}>
+            <FullCalendar
+              plugins={[interactionPlugin, timeGridPlugin, dayGridPlugin, listPlugin]}
+              initialView={day}
+              headerToolbar={{
+                right: `${list} ${day} ${week} ${month}`,
+                left: 'prev title next today',
+              }}
+              buttonText={{
+                list: 'Events',
+                month: 'Monthly',
+                week: 'Weekly',
+                day: 'Daily',
+              }}
+              titleFormat={{
+                day: 'numeric',
+                year: 'numeric',
+                month: 'short',
+              }}
+              dayMaxEvents={2}
+              expandRows={true}
+              allDayMaintainDuration={true}
+              eventContent={RenderEventHandler}
+              slotLabelInterval={{ hours: 1 }}
+              events={allEvent?.map((e: any) => ({
+                ...e,
+                start: e.start.replace('Z', ''),
+                end: e.end.replace('Z', ''),
+              }))}
+              handleWindowResize={true}
+              contentHeight="auto"
+              contentWidth="auto"
+              nowIndicator
+              eventClick={handleMouseEnter}
+              slotEventOverlap={false}
+              allDaySlot={true}
+              allDayText="all-day"
+            />
+          </div>
         </div>
         <Modal
           open={openModal}
@@ -480,6 +476,7 @@ const Calender = () => {
                     textOverflow: 'ellipsis',
                     whiteSpace: 'nowrap',
                     overflow: 'hidden',
+                    padding: '10px',
                   }}
                 >
                   {singleEventData?.title && singleEventData?.title}
@@ -513,11 +510,14 @@ const Calender = () => {
               </div>
               <div className={style.durationView}>
                 <p className={style.title2}>
-                  {moment(singleEventData?.start).format('dddd, MMMM Do YYYY')}
+                  {moment(singleEventData?.start?.replace('Z', '')).format('MMM Do YYYY')}
+                  {moment(singleEventData?.start?.replace('Z', '')).format('MMM Do YYYY') !==
+                    moment(singleEventData?.end?.replace('Z', '')).format('MMM Do YYYY') &&
+                    ' To ' + moment(singleEventData?.end?.replace('Z', '')).format('MMM Do YYYY')}
                   {!singleEventData?.allDay && (
                     <span>
                       {' '}
-                      | {moment(singleEventData?.start?.replace('Z', '')).format('h:mm a')} -
+                      | {moment(singleEventData?.start?.replace('Z', '')).format('h:mm a')} -{' '}
                       {moment(singleEventData?.end?.replace('Z', '')).format('h:mm a')}
                     </span>
                   )}
