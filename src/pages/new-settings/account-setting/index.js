@@ -37,7 +37,7 @@ const AccountSetting = () => {
         ...data,
         name: data?.name ? data?.name : `${userData.firstName} ${userData.lastName}`,
         email: data?.email ? data?.email : userData.email,
-        img: img,
+        img,
       };
     } catch (err) {
       if (err?.response?.data?.error) {

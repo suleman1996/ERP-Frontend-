@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, Dispatch, SetStateAction } from 'react';
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -12,7 +12,13 @@ import eye from 'assets/eye.svg';
 import logo from 'assets/sprintx.svg';
 import style from './login.module.scss';
 
-const MobileLogin = ({ handleLogin, openNotification, setOpenNotification }: any) => {
+interface Props {
+  handleLogin?: () => void;
+  openNotification?: boolean;
+  setOpenNotification?: Dispatch<SetStateAction<boolean>>;
+}
+
+const MobileLogin = ({ handleLogin, openNotification, setOpenNotification }: Props) => {
   const { register, handleSubmit, errors } = useForm({
     resolver: yupResolver(schema),
   });
