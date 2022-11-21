@@ -68,9 +68,9 @@ const AttendanceDetail = ({ setActive }: Props) => {
           }))}
           minWidth="1700px"
           headingText={style.columnText}
-          handleDelete={(id) => console.log(id)}
+          handleDelete={(id) => {}}
           handleEducation={() => setActive(3)}
-          handleEdit={(id) => console.log(id)}
+          handleEdit={(id) => {}}
           handleModalOpen={() => setDeletePopUp(true)}
         />
         <DeletePopup open={deletePopUp} setOpen={setDeletePopUp} handleDelete={undefined} />

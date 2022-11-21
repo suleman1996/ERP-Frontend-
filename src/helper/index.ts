@@ -6,7 +6,6 @@ export const removeKeys = (data: any, keysToDelete: string[]) => {
 };
 
 export const setFormError = (res: any, setError: any) => {
-  console.log('api', res);
   if (res.status === 422) {
     const errorMessages = res.data.error;
     if (errorMessages)
@@ -35,7 +34,6 @@ const prepareMessage = (error: any) => {
 };
 
 export const setErrors = (errors: any, setError: any) => {
-  // Object.keys(errors).forEach((key) => console.log(key));
   return Object.keys(errors).forEach((key) =>
     setError(key, { type: 'custom', message: errors[key] }),
   );

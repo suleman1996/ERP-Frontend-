@@ -85,7 +85,7 @@ export const useEducationDetail = ({
         }
       }
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
     setBtnLoader(false);
     setOngoing(false);

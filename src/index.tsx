@@ -1,7 +1,6 @@
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
-// @ts-ignore
 import { NotificationContainer } from 'react-notifications';
 
 import { store } from './store';

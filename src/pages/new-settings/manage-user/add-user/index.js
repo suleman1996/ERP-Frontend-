@@ -40,7 +40,7 @@ const AddUser = ({ setNewUser }) => {
               accept="image/png, image/gif, image/jpeg"
               onChange={(e) => {
                 const url = URL.createObjectURL(e.target.files[0]);
-                console.log('e', url);
+                console.error('e', url);
                 setImgBlob(url);
               }}
             />
@@ -60,12 +60,7 @@ const AddUser = ({ setNewUser }) => {
               placeholder={'Enter email'}
               containerClass={style.containerClassInput}
             />
-            <Select
-              label="Role"
-              name={'category'}
-              //   errorMessage={errors?.category?.message}
-              register={register}
-            >
+            <Select label="Role" name={'category'} register={register}>
               <option value="">Select</option>
               <>
                 {categories &&

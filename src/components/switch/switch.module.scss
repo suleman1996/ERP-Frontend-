@@ -56,7 +56,6 @@ input:checked + .slider:before {
   left: -8px;
 }
 
-/* Rounded sliders */
 .slider.round {
   border-radius: 34px;
 }
@@ -70,9 +69,6 @@ input:checked + .slider:before {
 }
 
 .titleClass {
-  // @include font29;
-  // @include p-small;
-  // color: $neutral1;
   font-family: 'Montserrat';
   margin-bottom: 11px;
   text-transform: capitalize;

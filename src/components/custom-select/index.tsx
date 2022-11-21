@@ -18,16 +18,6 @@ const CustomSelect = ({ value, name, register, label }: Props) => {
   const [open, setOpen] = useState(false);
   const [check, setCheck] = useState([]);
 
-  //   const handlePartyCheckBox = (value) => {
-  //     if (partyValue === value) {
-  //       setPartValue('');
-  //       setValue('partyName', '');
-  //     } else {
-  //       setPartValue(value);
-  //       setValue('partyName', value);
-  //     }
-  //   };
-
   const handleClick = (e: any) => {
     const { id, checked } = e.target;
     setCheck([...check, id]);
@@ -35,7 +25,6 @@ const CustomSelect = ({ value, name, register, label }: Props) => {
       setCheck(check.filter((item) => item !== id));
     }
   };
-  console.log(check, 'chek---------------');
 
   return (
     <div>
@@ -81,12 +70,7 @@ const CustomSelect = ({ value, name, register, label }: Props) => {
                     <Checkbox id={ele.id} label={ele.label} />
                     {ele.checkArr?.map((ch: any, ind: any) => (
                       <div className={style.flexInner} key={ind}>
-                        <Checkbox
-                          id={ch.id}
-                          label={ch.label}
-                          handleChange={handleClick}
-                          //   onClick={() => handlePlatformPartyCheckBox(ele.value)}
-                        />
+                        <Checkbox id={ch.id} label={ch.label} handleChange={handleClick} />
                       </div>
                     ))}
                   </div>

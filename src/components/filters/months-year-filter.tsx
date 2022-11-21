@@ -10,7 +10,6 @@ interface Props {
   childArr?: any;
 }
 
-// year
 export const MonthsYearFilter = ({ list }: Props) => {
   const [monthState, setMonthState] = useState(null);
 
@@ -41,8 +40,6 @@ export const MonthsYearFilter = ({ list }: Props) => {
     </>
   );
 };
-
-// months
 
 export const MonthsDateFilter = ({ childArr }: Props) => {
   const [dateState, setDateState] = useState(-1);
@@ -79,7 +76,6 @@ export const MonthsDateFilter = ({ childArr }: Props) => {
   );
 };
 
-// dates
 export const DayDateFilter = ({ childArr }: Props) => {
   return (
     <>

@@ -58,12 +58,10 @@ export class ApiService {
       localStorage.removeItem('token');
       window.location.reload();
     } else {
-      // createNotification('error', 'Error', error?.response?.data?.msg);
     }
   }
   private static handleSuccess(res: any) {
     if (res.config.url !== 'notifications/') {
-      // createNotification('success', 'Success', res?.data?.msg || 'Successfully');
     }
   }
 }

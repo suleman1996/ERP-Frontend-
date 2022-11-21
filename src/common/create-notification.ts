@@ -1,4 +1,3 @@
-// @ts-ignore
 import { NotificationManager } from 'react-notifications';
 
 export const createNotification = (type: string, title: string, message: string) => {

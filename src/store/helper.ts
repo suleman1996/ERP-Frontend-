@@ -1,4 +1,3 @@
-// employeeSlice helpers
 export interface EmployeeSliceState {
   form1: AddEmployeeForm1;
   form2: AddEmployeeForm2;

@@ -153,6 +153,8 @@ const MyLeaves = ({ data, parentRenderState }: { data: any; parentRenderState: a
                     ? '#6E6E6E'
                     : el.status === 'Updated'
                     ? '#5DC124'
+                    : el.status === 'Accepted'
+                    ? '#5DC224'
                     : '',
                 fontWeight: '500',
                 backgroundColor:
@@ -165,6 +167,8 @@ const MyLeaves = ({ data, parentRenderState }: { data: any; parentRenderState: a
                     : el.status === 'Cancelled'
                     ? '#BBBBBB'
                     : el.status === 'Updated'
+                    ? '#B3EB94'
+                    : el.status === 'Accepted'
                     ? '#B3EB94'
                     : '',
                 width: '100%',

@@ -9,8 +9,8 @@ test('initial button component testing', () => {
       open={true}
       children={'done'}
       text={'dfdd'}
-      handleClick={() => console.log('first')}
-      handleClose={() => console.log('ddf')}
+      handleClick={() => {}}
+      handleClose={() => {}}
     />,
   );
   const logo = screen.getByRole('img');

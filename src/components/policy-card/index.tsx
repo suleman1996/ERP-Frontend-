@@ -25,10 +25,9 @@ const RenderPolicy = ({
   const handleObseletePolicy = async () => {
     try {
       const result = await PolicyService.addObseletePolicyApi(data?._id);
-      console.log('Her is the result from obselete policy ', result?.data);
       setSelectedTab(1);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 

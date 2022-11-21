@@ -71,7 +71,6 @@ const AccessLevel = () => {
             </div>
           </div>
 
-          {/* ////////////////////////////// Access ///////////////////////////// */}
           <div className={style.accessHeader}>
             <p>Access</p>
             {totalAccordian?.map((data) => {

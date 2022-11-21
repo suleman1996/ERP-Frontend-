@@ -5,7 +5,7 @@ import Button from 'components/button';
 
 test('initial button component testing', () => {
   const title = 'helo';
-  render(<Button text={title} handleClick={() => console.log('first')} iconEnd={'test'} />);
+  render(<Button text={title} handleClick={() => {}} iconEnd={'test'} />);
   const text = screen.getByText(title);
   expect(text).toBeInTheDocument();
   const button = screen.getAllByRole('button')[0] as HTMLButtonElement;
