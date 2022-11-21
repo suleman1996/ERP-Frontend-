@@ -48,7 +48,7 @@ const RenderPolicy = ({
               }}
               className={style.menuViewBox}
             >
-              <p style={{ fontSize: '8px', fontWeight: '500', color: '#2D2D32' }}>Edit</p>
+              <p className={style.menuText}>Edit</p>
             </div>
           )}
           <div
@@ -58,7 +58,7 @@ const RenderPolicy = ({
             }}
             className={style.menuViewBox}
           >
-            <p style={{ fontSize: '8px', fontWeight: '500', color: '#2D2D32' }}>Delete</p>
+            <p className={style.menuText}>Delete</p>
           </div>
           {type !== 'Obselete' && (
             <div
@@ -71,11 +71,7 @@ const RenderPolicy = ({
               }}
               className={style.menuViewBox}
             >
-              <p
-                style={{ fontSize: '8px', fontWeight: '500', color: '#2D2D32', cursor: 'pointer' }}
-              >
-                Add Revision
-              </p>
+              <p className={style.menuText}>Add Revision</p>
             </div>
           )}
 
@@ -86,7 +82,7 @@ const RenderPolicy = ({
                   setIsMenuVisible(false);
                   handleObseletePolicy();
                 }}
-                style={{ fontSize: '8px', fontWeight: '500', color: '#2D2D32', cursor: 'pointer' }}
+                className={style.menuText}
               >
                 Obsolete
               </p>
@@ -96,27 +92,15 @@ const RenderPolicy = ({
       )}
       <div className={style.policyHeaderView}>
         <div className={style.policyHeaderTitleView}>
-          <p
-            title={data?.name}
-            style={{
-              fontSize: '15px',
-              fontWeight: 600,
-              color: '#2D2D32',
-              whiteSpace: 'nowrap',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-            }}
-          >
+          <p title={data?.name} className={style?.policyTitle}>
             {data?.name || 'All Policies'}
           </p>
           {data?.effectiveDate ? (
-            <p style={{ fontSize: '10px', fontWeight: 400, color: '#AFAFAF' }}>
+            <p className={style.policyCardDate}>
               Effective Date: {moment(data?.effectiveDate).format('DD MMM, YYYY')}
             </p>
           ) : (
-            <p style={{ fontSize: '10px', fontWeight: 400, color: '#AFAFAF' }}>
-              Effective Date: 10 April, 2022
-            </p>
+            <p className={style.policyCardDate}>Effective Date: 10 April, 2022</p>
           )}
         </div>
         <div className={style.policyMenuView}>
@@ -145,17 +129,7 @@ const RenderPolicy = ({
                 <p style={{ fontSize: '10px', fontWeight: 400, color: '#2D2D32' }}>{item?.q}</p>
               </div>
               <div style={{ width: '50%', display: 'flex', justifyContent: 'flex-end' }}>
-                <p
-                  style={{
-                    fontSize: '10px',
-                    fontWeight: 400,
-                    color: '#AFAFAF',
-                    whiteSpace: 'nowrap',
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                  }}
-                  title={item?.v?.length >= 14 && item?.v}
-                >
+                <p className={style.policyFormValue} title={item?.v?.length >= 14 && item?.v}>
                   {item?.v}
                 </p>
               </div>
@@ -169,17 +143,8 @@ const RenderPolicy = ({
 
       <div className={style.policyButtonView}>
         <div className={style.policyButton}>
-          <a
-            style={{
-              textDecoration: 'none',
-              width: '100%',
-            }}
-            target={'_blank'}
-            href={data?.fileId[0]?.file}
-          >
-            <p style={{ fontWeight: '500', fontSize: 11, color: '#ffffff', textAlign: 'center' }}>
-              View Policy
-            </p>
+          <a className={style.viewPolicyBtn} target={'_blank'} href={data?.fileId[0]?.file}>
+            <p className={style.viewPolicyText}>View Policy</p>
           </a>
         </div>
       </div>
