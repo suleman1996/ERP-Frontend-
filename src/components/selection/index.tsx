@@ -148,22 +148,10 @@ const Selection = ({
                           (option) => option?.value === data?.value,
                         );
                         if (selectedOptions.length > 1) {
-                          return currentOptionIdx === 0 ? (
-                            <Tags
-                              // isCircularNumber={true}
-                              boxColor={'red'}
-                              // numberCircular={selectedOptions?.length}
-                            ></Tags>
-                          ) : (
-                            <></>
-                          );
+                          return currentOptionIdx === 0 ? <Tags boxColor={'red'}></Tags> : <></>;
                         } else {
                           return currentOptionIdx === 0 ? (
-                            <Tags
-                              text={data?.label}
-                              boxColor={'#39695B'}
-                              // isCircular={true}
-                            ></Tags>
+                            <Tags text={data?.label} boxColor={'#39695B'}></Tags>
                           ) : (
                             <></>
                           );

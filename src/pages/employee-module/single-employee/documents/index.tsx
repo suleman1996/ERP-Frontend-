@@ -76,12 +76,6 @@ const Documents = ({ setOpen, setDocId, setDocument, document, getAllDocuments }
                   }}
                   style={{ marginRight: '10px' }}
                 >
-                  {/* <a
-                    href={e.file}
-                    download
-                    target={'_blank'}
-                    // hidden
-                  > */}
                   <img src={downloadIcon} width={25} />
                   {/* </a> */}
                 </div>
@@ -123,21 +117,16 @@ function downloadURL(uri: any, name: string, type: string) {
   axios({
     url: uri,
     method: 'GET',
-    responseType: 'blob', // important
+    responseType: 'blob',
   }).then((response) => {
-    // create file link in browser's memory
     const href = URL.createObjectURL(response.data);
-    // create "a" HTML element with href to file & click
     const link = document.createElement('a');
     link.href = href;
     link.setAttribute(
       'download',
       `${name}.${type.includes('image') ? type.split('/')[1] : type.toLowerCase()}`,
-    ); //or any other extension
+    );
     document.body.appendChild(link);
     link.click();
-
-    // document.body.removeChild(link);
-    // URL.revokeObjectURL(href);
   });
 }

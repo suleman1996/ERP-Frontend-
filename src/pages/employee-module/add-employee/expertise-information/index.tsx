@@ -74,11 +74,6 @@ const ExpertiseInformation = () => {
   const [skillData, setSkillData] = useState<Skill[] | []>([]);
   const [language, setLanguage] = useState<Language[] | []>([]);
   const [certificate, setCertificate] = useState<Certificate[] | []>([]);
-  //for husky
-
-  console.log('skillData', skillData);
-  console.log('language', language);
-  console.log('certificate', certificate);
 
   const onSubmit = async () => {
     setBtnLoader(true);
@@ -103,45 +98,20 @@ const ExpertiseInformation = () => {
           setActive(2);
         }
 
-        // if (skillData.length > 0 && language.length > 0 && certificate.length > 0) {
         const res = await EmployeeService.addPostExperties({ ...userData }, employeeDocId);
         if (res.status === 200) {
           handleNext('Payroll');
         }
-        // }
       }
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
     setBtnLoader(false);
   };
 
   const getUser = async () => {
     const res = await EmployeeService.getExpertiesEmployee(employeeDocId);
-
-    // const skills = res?.data?.skills?.map((item: any) => {
-    //   removeKeys(item, ['_id']);
-    //   return item;
-    // });
-    // setSkillData((current) => [...current, ...skills]);
-    // console.log('skillData', skillData);
-
-    // const data = res?.data?.languages?.map((item: any) => {
-    //   removeKeys(item, ['_id']);
-    //   return item;
-    // });
-    // setLanguage((current) => [...current, ...data]);
-    // const dataa = res?.data?.certificates?.map((item: any) => {
-    //   removeKeys(item, ['_id']);
-    //   return item;
-    // });
-    // setCertificate((current) => [...current, ...dataa]);
   };
-
-  useEffect(() => {
-    // (id || employeeDocId) && getUser();
-    // getUser();
-  }, []);
 
   return (
     <div className={style.mainForm}>

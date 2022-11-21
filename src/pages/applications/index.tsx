@@ -20,7 +20,7 @@ const Applications = () => {
 
   const getAllData = async () => {
     let employeeWithDepartment: any = await EmployeeService.getEmployeesWithDepApi();
-    const employeeOnlyName: any = await EmployeeService.getOnlyEmployees();
+    const employeeOnlyName: any = await EmployeeService.getOnlyEmployeesWithoutSelf();
     const leaves: any = await EmployeeService.getLeaves();
     employeeWithDepartment = employeeWithDepartment?.data?.employeesWithDepartment?.filter(
       (el: any) => {

@@ -18,23 +18,4 @@ test('initial button component testing', async () => {
   let collapse_icon = screen.getByTestId('openClose');
   expect(collapse_icon).toHaveAttribute('alt', '!error');
   expect(collapse_icon).toHaveAttribute('src', 'sidebar-icon.svg');
-
-  // please approve this commented code
-
-  // user.click(collapse_icon);
-  // waitFor(()=>{},{
-
-  // })
-  // collapse_icon = await screen.find('openClose');
-
-  // fireEvent.click(collapse_icon);
-
-  // expect(collapse_icon).toHaveAttribute('src', 'right.svg');
-  //   fireEvent.click(collapse_icon);
-  //   expect(collapse_icon).toHaveAttribute('src', 'sidebar-icon.svg');
-
-  //   expect(logo).toHaveAttribute('src', 'right.svg');
-
-  //   const button = screen.getAllByRole('button')[0] as HTMLButtonElement;
-  //   expect(button).toBeInTheDocument();
 });

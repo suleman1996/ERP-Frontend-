@@ -133,8 +133,6 @@ const AccordianSwitch = ({
     }
   };
 
-  ///////designation////////////
-
   const designationSubmit = async (data: any) => {
     if (depId) {
       const res = await SettingsService.updateDesignation(data, depId);
@@ -240,7 +238,6 @@ const AccordianSwitch = ({
                   headingText={style.headingText}
                   rowText={style.rowText}
                   minWidth="700px"
-                  // headingText={style.columnText}
                   handleDelete={(id) => {
                     setDepId(id);
                     setDeletePopUp(true);
@@ -259,8 +256,6 @@ const AccordianSwitch = ({
             </CardContainer>
           </>
         ))}
-
-      {/* //////////////////  Department  /////////////////// */}
 
       <Modal
         open={departmentModal}
@@ -323,8 +318,6 @@ const AccordianSwitch = ({
         </form>
       </Modal>
 
-      {/* ////////////// Designation  //////////////// */}
-
       <Modal
         open={designationModal}
         handleClose={() => {
@@ -370,7 +363,6 @@ const AccordianSwitch = ({
         </form>
       </Modal>
 
-      {/* /////Employee ID Series  ///// */}
       <Modal
         open={idSeriesModal}
         handleClose={() => setIdSeriesModal(false)}
@@ -387,8 +379,6 @@ const AccordianSwitch = ({
           <Button text="Add Series " />
         </div>
       </Modal>
-
-      {/* ////////////// Advance Tags  //////////////// */}
 
       <Modal
         open={advanceTagModal}
@@ -511,8 +501,6 @@ const AccordianSwitch = ({
         </div>
       </Modal>
 
-      {/* //////////////////  leave tye  /////////////////// */}
-
       <Modal
         open={leaveTypeModal}
         handleClose={() => setLeaveTypeModal(false)}
@@ -548,7 +536,6 @@ const AccordianSwitch = ({
         </div>
       </Modal>
 
-      {/* ///// Gender  ///// */}
       <Modal open={genderModal} handleClose={() => setGenderModal(false)} title={'Add New Gender'}>
         <div>
           <Input label="Gender" placeholder="Enter gender" containerClass={style.containerClass} />
@@ -558,7 +545,6 @@ const AccordianSwitch = ({
         </div>
       </Modal>
 
-      {/* ///// Allowence Type  ///// */}
       <Modal
         open={allowenceTypeModal}
         handleClose={() => setAllowenceTypeModal(false)}
@@ -576,7 +562,6 @@ const AccordianSwitch = ({
         </div>
       </Modal>
 
-      {/* ///// Document Category  ///// */}
       <Modal
         open={documentModal}
         handleClose={() => setDocumenModal(false)}

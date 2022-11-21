@@ -12,7 +12,6 @@ import advanceSalaryLoanImg from 'assets/white/policies.svg';
 import settingsImg from 'assets/white/settings.svg';
 import applicationImg from 'assets/white/application.svg';
 
-// Green Img
 import gDashboardImg from 'assets/green/dashboard.svg';
 import gEmployeeDetailsImg from 'assets/green/profile.svg';
 import gPayRollImg from 'assets/green/payroll.svg';
@@ -27,7 +26,6 @@ import gAdvanceSalaryLoanImg from 'assets/green/policies.svg';
 import gSettingsImg from 'assets/green/settings.svg';
 import gapplicationImg from 'assets/green/application.svg';
 
-// form Hr and Admin Role
 const roles: { all: string[]; adminHr: string[]; admin: string[] } = {
   all: ['Admin', 'Human Resource', 'Employee'],
   adminHr: ['Admin', 'Human Resource'],
@@ -67,31 +65,6 @@ export const adminListArr = [
     img2: gTaxImg,
     role: [...roles.all],
   },
-  // {
-  //   path: '/project-details',
-  //   active: 'project-details',
-  //   title: 'Projects',
-  //   img1: projectDetailImg,
-  //   img2: gProjectDetailImg,
-  //   role: [...roles.adminHr],
-  // },
-  // {
-  //   path: '/clients-info',
-  //   active: 'clients-info',
-  //   title: 'Expenses',
-  //   img1: clientInfoImg,
-  //   img2: gClientInfoImg,
-  //   role: [...roles.adminHr],
-  // },
-
-  // {
-  //   path: '/sales-management',
-  //   active: 'sales-management',
-  //   title: 'Sales',
-  //   img1: salesOrderManagementImg,
-  //   img2: gSalesOrderManagementImg,
-  //   role: [...roles.adminHr],
-  // },
   {
     path: '/calender',
     active: 'calender',
@@ -134,7 +107,6 @@ export const adminListArr = [
   },
 ];
 
-// for Employee Role
 export const employeeListArr = [
   {
     path: '/',

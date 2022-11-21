@@ -46,7 +46,7 @@ const ManageUser = ({ newUser, setNewUser }) => {
           }))}
           minWidth="1300px"
           headingText={style.columnText}
-          handleDelete={(id) => console.log(id)}
+          handleDelete={(id) => {}}
           handleEducation={(index) => setEditIndex(index)}
           handleEdit={(id) => setEditIndex(id)}
           handleModalOpen={() => setDeletePopUp(true)}

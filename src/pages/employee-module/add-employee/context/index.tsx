@@ -11,8 +11,8 @@ export const EmployeeFormProvider = ({ children }: any) => {
   const [formData, setFormData] = useState({
     addressInformation: {},
   });
-  const [stepBarActive, setStepBarActive] = useState(['Personal']); // To present how many steps have been completed
-  const [active, setActive] = useState<number>(0); // To Save current Tab
+  const [stepBarActive, setStepBarActive] = useState(['Personal']);
+  const [active, setActive] = useState<number>(0);
   const [controlWidth, setControlWidth] = useState(0);
 
   const handleNext = (val?: string) => {

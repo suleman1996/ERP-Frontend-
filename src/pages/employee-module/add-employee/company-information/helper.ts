@@ -183,7 +183,7 @@ export const useCompanyInfo = ({ handleNext, formData, setFormData, employeeDocI
       const res = await EmployeeService.getDesignation(id);
       setDesignation(res?.data?.Designation);
     } catch (e) {
-      console.log('designation not get yet');
+      console.error('designation not get yet');
     }
   };
 

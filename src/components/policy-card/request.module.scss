@@ -116,7 +116,6 @@
   }
 }
 
-// all modals
 .modalWrapper {
   max-width: 950px !important;
   max-height: 80vh;
@@ -175,7 +174,6 @@ p {
   font-size: 14px;
   color: $header;
   font-weight: 400;
-  // margin: 20px 0px;
 }
 .iconsSection {
   margin-top: 15px;
@@ -220,7 +218,6 @@ p {
 
 .policyMainView {
   background-color: #ffffff;
-  // height: 500px;
   border: 1px solid #e2e2ea;
   border-radius: 5px;
 }
@@ -258,7 +255,6 @@ p {
 .policyHeaderTitleView {
   width: 80%;
   display: flex;
-  // alignItems: 'center',
   justify-content: center;
   padding-left: 20px;
   flex-direction: column;
@@ -336,7 +332,6 @@ p {
 
 .menuBox {
   width: 85px;
-  // height: 55px;
   background-color: #ffffff;
   border-radius: 3px;
   position: absolute;
@@ -365,22 +360,14 @@ p {
     width: 7px;
     height: 7px;
   }
-  // justify-content: 'center';
-  // justify-content: space-between;
-  // text-align: center;
-  // background-color: red;
-  // border: 1px solid;
-}
 
-ul {
-  li {
-    list-style-type: disc !important;
-    font-size: 0.6rem;
-    font-weight: 300;
-    color: #2d2d32;
-    // @media (max-width: $xxs) {
-    //   font-size: 10px;
-    // }
+  ul {
+    li {
+      list-style-type: disc !important;
+      font-size: 0.6rem;
+      font-weight: 300;
+      color: #2d2d32;
+    }
   }
 }
 

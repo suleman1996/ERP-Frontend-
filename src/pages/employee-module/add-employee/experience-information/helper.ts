@@ -86,7 +86,7 @@ export const useExperience = ({
         }
       }
     } catch (err) {
-      console.log('err', err);
+      console.error('err', err);
     }
     setBtnLoader(false);
   };
