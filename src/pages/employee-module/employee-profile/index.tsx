@@ -7,15 +7,15 @@ import Button from 'components/button';
 import Pagination from 'components/pagination';
 import EmployeeDropdown from 'components/employee-card-dropdown';
 import EmployeeProfileCard from 'components/employee-profile-card';
-
-import EmployeeService from 'services/employee-service';
-
-import filter from 'assets/filter-icon.svg';
-import plus from 'assets/Path.svg';
-import style from './employee-profile.module.scss';
 import Loading from 'components/loading';
 import EmployeeFilter from './employee-filter';
 import Container from 'components/container';
+
+import EmployeeService from 'services/employee-service';
+
+import style from './employee-profile.module.scss';
+import filter from 'assets/filter-icon.svg';
+import plus from 'assets/path.svg';
 
 interface Employee {
   handleClick?: any;

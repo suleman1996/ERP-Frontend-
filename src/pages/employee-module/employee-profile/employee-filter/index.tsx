@@ -11,7 +11,6 @@ import { Props, useEmployeeFilter } from './helper';
 import style from '../employee-profile.module.scss';
 import cross from 'assets/employee-page/Path 307.svg';
 
-
 interface Props {
   setOpen?: any;
   setEmployees?: any;
