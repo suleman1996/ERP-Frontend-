@@ -1,6 +1,8 @@
 import { Dispatch, SetStateAction, useState } from 'react';
 
 import TableFilter from 'components/table-filter';
+import NoData from 'components/no-data-found-card';
+import AddUser from 'pages/new-settings/manage-user/add-user';
 
 import editIcon from 'assets/newEdit.svg';
 import reloadIcon from 'assets/reset.png';
@@ -8,8 +10,6 @@ import deleteIcon from 'assets/table-delete.svg';
 import eye from 'assets/table-view.svg';
 import pdf from 'assets/employee-page/print.svg';
 import style from './table.module.scss';
-import NoData from 'components/no-data-found-card';
-import AddUser from 'pages/new-settings/manage-user/add-user';
 
 interface Props {
   rows: any[];
@@ -100,12 +100,12 @@ const Table = ({
     handleEdit && handleEdit(id);
     handleEducation && handleEducation(index);
   };
+
   const handleDeleteIcon = ({ id, index }: { id: string; index: number }) => {
     handleDelete && handleDelete(id);
     handleDeleteIndex && handleDeleteIndex(index);
     handleModalOpen && handleModalOpen();
   };
-  console.log('asdasd', tblScroll);
 
   return (
     <>
@@ -143,9 +143,6 @@ const Table = ({
                         src={isFilterSelected === index ? column.selectedIcon : column.icon}
                         className={style.sortIcon}
                         alt=""
-                        // onClick={() => {
-                        //   toggleFilter(index);
-                        // }}
                         style={{
                           position: 'relative',
                           top: '3px',

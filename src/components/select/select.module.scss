@@ -2,44 +2,47 @@
 @import 'styles/_colors.scss';
 @import 'styles/_mixin.scss';
 .select {
-  background: #ffffff;
-  border-radius: 6px;
+  background-color: #ffffff !important;
+  border-radius: 3px;
   width: 100%;
   padding: 0px 12px 0px 20px;
-  box-sizing: border-box;
+  box-sizing: border-box !important;
   color: #2d2d32;
   height: calc(30px + (55 - 30) * (100vw - 280px) / (2560 - 280));
+  margin-top: calc(5px + (12 - 5) * (100vw - 280px) / (2560 - 280));
+  appearance: none !important;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url('../../assets/select-arrow.svg') !important;
+  background-position: 98% 50% !important;
+  background-repeat: no-repeat !important;
+  background-size: 15px !important;
   @include font20;
+
   &:focus {
     outline: none;
   }
+
   &::placeholder {
     color: #cacaca;
     text-transform: capitalize;
     @include font18;
   }
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  background: url('../../assets/select-arrow.svg');
-  background-position: 98% 50%;
-  background-color: #ffffff;
-  background-repeat: no-repeat;
-  background-size: 15px;
-  margin-top: calc(5px + (12 - 5) * (100vw - 280px) / (2560 - 280));
+
   option {
     text-transform: capitalize;
-    @include font16;
+    @include font18;
     color: #2d2d32;
   }
 }
 .label {
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 16px;
+  @include font20;
+  font-family: 'Poppins';
+  font-style: normal;
+  color: #2d2d32;
   text-transform: capitalize;
-  color: #6e6d6d;
 }
+
 .errorMessage {
   position: absolute;
   display: block;

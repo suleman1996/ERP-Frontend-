@@ -482,3 +482,22 @@ ul {
 .emptyMessage {
   align-self: center;
 }
+
+.className {
+  padding: 0px !important;
+  height: calc(100vh - 93px);
+  @media (max-width: $sm) {
+    height: calc(100vh - 70px);
+  }
+
+  @media (max-width: $mmd) {
+    height: calc(100vh - 70px);
+  }
+}
+
+.iconClass {
+  margin-top: -5px;
+  @media (max-width: $mmd) {
+    margin-top: -3px;
+  }
+}

@@ -26,11 +26,17 @@ const EmployeeProfileCard = ({
     <>
       <div className={style.mainDiv}>
         <div className={style.leftGrid}>
-          <img src={img ? img : profile} alt="" width={103} height={106} />
+          <img src={img ? img : profile} alt="" />
           <Button text="More" handleClick={() => handleClick()} />
         </div>
         <div className={style.rightGrid}>
-          <h1>{name}</h1>
+          <h1>
+            {name}
+
+            <div className={style.tooltip}>
+              <p>{name}</p>
+            </div>
+          </h1>
           <h6>{designation}</h6>
           <div className={style.innerPara}>
             <p>

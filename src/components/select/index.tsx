@@ -58,7 +58,7 @@ const Select = ({
   return (
     <div style={{ position: 'relative' }}>
       {label && (
-        <label className={style.label} style={{ color: errorMessage ? '#000' : '#2D2D32' }}>
+        <label className={style.label} style={{ color: errorMessage ? '#000' : '' }}>
           {label} <b style={{ color: 'red' }}>{star}</b>{' '}
         </label>
       )}
@@ -69,7 +69,7 @@ const Select = ({
           className={`${style.select}  ${selectContainer}  `}
           placeholder={placeholder}
           style={{
-            border: errorMessage ? '1.2px solid #FF5050' : '1.2px solid rgb(226, 226, 234)',
+            border: errorMessage ? '1px solid #ff5050' : '1px solid #E2E2EA',
           }}
           disabled={disable || false}
           ref={register}

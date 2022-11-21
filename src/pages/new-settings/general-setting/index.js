@@ -30,14 +30,15 @@ const GeneralSetting = () => {
   const [departmentRows, setDepartmentRows] = useState([]);
   const [designationRows, setDesignationRow] = useState([]);
 
+  useEffect(() => {
+    getAllDepartments();
+    getAllDesignations();
+  }, []);
+
   const getAllDepartments = async () => {
     const res = await SettingsService.getDepartments();
     setDepartmentRows(res?.data?.department);
   };
-
-  useEffect(() => {
-    getAllDepartments();
-  }, []);
 
   const getAllDesignations = async () => {
     const res = await SettingsService.getDesignation();
@@ -45,10 +46,6 @@ const GeneralSetting = () => {
       setDesignationRow(res?.data?.desiginations);
     }
   };
-
-  useEffect(() => {
-    getAllDesignations();
-  }, []);
 
   return (
     <CardContainer className={style.card}>

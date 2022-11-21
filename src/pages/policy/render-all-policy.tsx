@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
-import style from './request.module.scss';
 import RenderPolicy from 'components/policy-card';
 
 import PolicyService from 'services/policy-service';
 
 import RenderPoliciesTab from './policy-tab';
+import CardContainer from 'components/card-container';
+
+import style from './request.module.scss';
 
 const RenderAllPolicies = ({
   setOpen,
@@ -34,9 +36,6 @@ const RenderAllPolicies = ({
 
   useEffect(() => {
     getPoliciesService();
-    // return () => {
-    //   setSearch({ nameNumber: '', addedBy: '', categoryId: '' });
-    // };
   }, [render, search]);
 
   const getPoliciesService = async () => {
@@ -47,7 +46,7 @@ const RenderAllPolicies = ({
         ...(search?.categoryId && { category: search?.categoryId?.label }),
         ...(search?.addedBy && { addedBy: search?.addedBy?.value }),
       });
-      // console.log('Here are all policies ', result?.data?.data);
+      console.log('Here are all policies ', result?.data?.data);
       setPolicies(result?.data?.data);
       setLoading(false);
     } catch (error) {
@@ -55,8 +54,9 @@ const RenderAllPolicies = ({
       setLoading(false);
     }
   };
+
   return (
-    <div className={style.policyMainView}>
+    <CardContainer className={style.className}>
       <RenderPoliciesTab
         control={control}
         selectedTab={selectedTab}
@@ -89,7 +89,7 @@ const RenderAllPolicies = ({
           <p className={style.emptyMessage}>No Policy Found</p>
         )}
       </div>
-    </div>
+    </CardContainer>
   );
 };
 

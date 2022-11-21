@@ -6,6 +6,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
+  max-width: 120px;
   height: calc(30px + (55 - 30) * (100vw - 280px) / (2560 - 280));
   padding-top: calc(5px + (15 - 5) * (100vw - 280px) / (2560 - 280));
   padding-bottom: calc(5px + (15 - 5) * (100vw - 280px) / (2560 - 280));
@@ -35,7 +37,7 @@
 
   .btnTitle {
     color: white;
-    @include font29;
+    @include font20;
     font-family: 'Poppins';
   }
 }

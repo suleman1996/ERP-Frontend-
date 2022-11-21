@@ -4,6 +4,9 @@
   margin: 0 auto;
   padding: 0px 14px;
   @media (max-width: $md) {
-    padding: 0px 0px;
+    padding: 0px 7px;
+  }
+  @media (max-width: $tab) {
+    padding: 0px 10px;
   }
 }
