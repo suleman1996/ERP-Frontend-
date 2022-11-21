@@ -278,6 +278,18 @@ p {
   padding: 20px 20px;
   display: flex;
   align-items: center;
+  ul {
+    width: 100%;
+    li {
+      span {
+        width: 100%;
+        display: inline-block;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+  }
   .leftCircle {
     position: absolute;
     bottom: -6.5px;
@@ -333,6 +345,7 @@ p {
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
   border-radius: 5px;
   border: 1px solid #e2e2ea;
+  z-index: 1;
 }
 
 .menuViewBox {

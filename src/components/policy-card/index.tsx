@@ -97,6 +97,7 @@ const RenderPolicy = ({
       <div className={style.policyHeaderView}>
         <div className={style.policyHeaderTitleView}>
           <p
+            title={data?.name}
             style={{
               fontSize: '15px',
               fontWeight: 600,
@@ -140,7 +141,9 @@ const RenderPolicy = ({
             { q: 'Added by', v: data?.addedBy[0]?.name },
           ].map((item) => (
             <li>
-              {item?.q} : {item?.v}
+              <span title={item?.v}>
+                {item?.q} : {item?.v}
+              </span>
             </li>
           ))}
         </ul>
