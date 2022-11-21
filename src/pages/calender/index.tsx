@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/alt-text */
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import $ from 'jquery';
 
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -32,7 +33,7 @@ import location from 'assets/location.svg';
 import noimage from 'assets/NoImage.svg';
 import cross from 'assets/cross-Icon.svg';
 import deleteIcon from 'assets/delete-Icon.svg';
-import edit from 'assets/pencilIcon.svg';
+import edit from 'assets/edit-icon.png';
 import plus from 'assets/plusIcon.svg';
 import bucketIcon from 'assets/Bucket.svg';
 
@@ -49,14 +50,11 @@ const Calender = () => {
   const [check, setCheck] = useState(false);
   const [eventId, setEventId] = useState('');
   const [customTooltip, setCustomTooltip] = useState<number | string | undefined | boolean>();
-  const [attendees, setAttendees] = useState([]);
   const [selectedFileNameBack, setSelectedFileNameBack] = useState<any>();
   const [btnLoader, setBtnLoader] = useState(false);
-  const [selected, setSelected] = useState([]);
   const [allEvent, setAllEvent] = useState([]);
   const [singleEventData, setSingleEventData] = useState<any>('');
   const [attendeesPic, setAttendeesPic] = useState([]);
-  const [OnlyEmployees, setOnlyEmployees] = useState([]);
   const [delModal, setDelModal] = useState(false);
   const [employeesWithDep] = useState<any>([]);
 
@@ -86,16 +84,8 @@ const Calender = () => {
 
   useEffect(() => {
     updateEventData();
+    if (singleEventData === '') setCheck(false);
   }, [singleEventData]);
-
-  // const getEmployeesData = async () => {
-  //   const res = await EmployeeService.getAllEmployees();
-  //   setAttendees(res?.data?.employees[0]?.data);
-  // };
-  // const getOnlyEmployee = async () => {
-  //   const res = await EmployeeService.getOnlyEmployees();
-  //   setOnlyEmployees(res?.data);
-  // };
 
   const getEmployeesWithDep = async () => {
     try {
@@ -132,10 +122,6 @@ const Calender = () => {
       setBtnLoader(false);
     }
   };
-  // const attendeesOptions = OnlyEmployees?.map(({ _id, fullName }) => ({
-  //   label: fullName && fullName,
-  //   value: _id && _id,
-  // }));
 
   const updateEventData = () => {
     const {
@@ -152,12 +138,13 @@ const Calender = () => {
       fileId,
     } = singleEventData;
     fileId?.name && setSelectedFileNameBack(fileId?.name);
+    setCheck(allDay === true ? true : false);
     reset({
       title,
       venue: venue ? venue : '',
       category: category ? { label: category, value: category } : '',
       description,
-      allDay: allDay ? allDay : '',
+      allDay: allDay === true ? true : false,
       attendees: attendees
         ? attendees?.map(({ _id, fullName }: any) => {
             return { label: fullName, value: _id };
@@ -185,6 +172,9 @@ const Calender = () => {
             width: '100%',
             alignItems: 'center',
             cursor: 'pointer',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
           }}
         >
           <div
@@ -305,8 +295,8 @@ const Calender = () => {
   return (
     <div className={style.calenderMain}>
       <Container>
-        <div className={style.topBtn}>
-          {day && (
+        <div className={style.fullDiv}>
+          <div className={style.topBtn}>
             <Button
               text="Add Event"
               handleClick={() => {
@@ -317,173 +307,183 @@ const Calender = () => {
               }}
               iconStart={plus}
             />
-          )}
+          </div>
+
+          <FullCalendar
+            plugins={[interactionPlugin, timeGridPlugin, dayGridPlugin, listPlugin]}
+            initialView={day}
+            headerToolbar={{
+              right: `${list} ${day} ${week} ${month}`,
+              left: 'prev title next today',
+            }}
+            buttonText={{
+              list: 'Events',
+              month: 'Monthly',
+              week: 'Weekly',
+              day: 'Daily',
+            }}
+            titleFormat={{
+              day: 'numeric',
+              year: 'numeric',
+              month: 'short',
+            }}
+            dayMaxEvents={2}
+            expandRows={true}
+            allDayMaintainDuration={true}
+            eventContent={RenderEventHandler}
+            slotLabelInterval={{ hours: 1 }}
+            events={allEvent?.map((e: any) => ({
+              ...e,
+              start: e.start.replace('Z', ''),
+              end: e.end.replace('Z', ''),
+            }))}
+            handleWindowResize={true}
+            contentHeight="auto"
+            contentWidth="auto"
+            nowIndicator
+            eventClick={handleMouseEnter}
+            slotEventOverlap={false}
+            allDaySlot={true}
+            allDayText="all-day"
+          />
         </div>
-
-        <FullCalendar
-          plugins={[interactionPlugin, timeGridPlugin, dayGridPlugin, listPlugin]}
-          initialView={day}
-          headerToolbar={{
-            right: `${list} ${day} ${week} ${month}`,
-            left: 'prev title next today',
-          }}
-          buttonText={{
-            list: 'Events',
-            month: 'Monthly',
-            week: 'Weekly',
-            day: 'Daily',
-          }}
-          titleFormat={{
-            day: 'numeric',
-            year: 'numeric',
-            month: 'short',
-          }}
-          dayMaxEvents={2}
-          expandRows={true}
-          allDayMaintainDuration={true}
-          eventContent={RenderEventHandler}
-          slotLabelInterval={{ hours: 1 }}
-          events={allEvent?.map((e: any) => ({
-            ...e,
-            start: e.start.replace('Z', ''),
-            end: e.end.replace('Z', ''),
-          }))}
-          handleWindowResize={true}
-          contentHeight="auto"
-          contentWidth="auto"
-          nowIndicator
-          eventClick={handleMouseEnter}
-          slotEventOverlap={false}
-          allDaySlot={true}
-          allDayText="all-day"
-        />
-
         <Modal
           open={openModal}
           handleClose={() => {
             setOpenModal(!openModal);
           }}
           title={singleEventData ? 'Edit Event' : 'Add Event'}
-          text="Save"
+          text={singleEventData ? 'Save' : 'Add Event'}
           type="submit"
           form="hello"
           loader={btnLoader}
         >
-          <form
-            onSubmit={(e) => {
-              clearErrors();
-              handleSubmit(onSubmit)(e);
-            }}
-            id="hello"
-          >
-            <TextField
-              label="Title"
-              placeholder="Enter Event Name"
-              star=" *"
-              name="title"
-              register={register}
-              errorMessage={errors?.title?.message}
-            />
-            <div className={style.attendees}>
-              <Selection
-                name="attendees"
-                control={control}
-                errorMessage={errors?.attendees?.message}
-                wraperSelect={style.wraperSelect}
-                label="Attendees"
-                placeholder="Attendees"
-                options={employeesWithDep}
+          <div className={style.formDiv}>
+            <form
+              onSubmit={(e) => {
+                clearErrors();
+                handleSubmit(onSubmit)(e);
+              }}
+              id="hello"
+            >
+              <TextField
+                label="Title"
+                placeholder="Enter Event Name"
                 star=" *"
-                closeMenuOnSelect={false}
-                isMulti={true}
-              />
-            </div>
-
-            <div className={style.gridView}>
-              <DatePicker
-                label={check === true ? 'Start Date' : 'Start Date & Time'}
-                control={control}
-                name="start"
-                star=" *"
-                showTimeInput={check !== true}
-                errorMessage={errors?.start?.message}
-                placeholder={'Start Date'}
-                allDayLabel={'All Day'}
-                switchName="allDay"
+                name="title"
                 register={register}
-                handleSwitchChange={(checked) => {
-                  setCheck(checked);
-                }}
+                errorMessage={errors?.title?.message}
               />
-              <DatePicker
-                label={check === true ? 'End Date' : 'End Date & Time'}
-                control={control}
-                name="end"
-                star=" *"
-                showTimeInput={check !== true}
-                errorMessage={errors?.end?.message}
-                placeholder={'End Date'}
-              />
-            </div>
+              <div className={style.attendees}>
+                <Selection
+                  name="attendees"
+                  control={control}
+                  errorMessage={errors?.attendees?.message}
+                  wraperSelect={style.wraperSelect}
+                  label="Attendees"
+                  placeholder="Select"
+                  options={employeesWithDep}
+                  star=" *"
+                  closeMenuOnSelect={false}
+                  isMulti={true}
+                />
+              </div>
 
-            <div className={style.gridView}>
-              <Selection
-                label="Type"
-                options={eventTypes}
-                name="type"
-                control={control}
-                errorMessage={errors?.type?.message}
-                star=" *"
-                placeholder="Type"
-              />
-              <Selection
-                label="Recurrence"
-                options={recurrenceTypes}
-                name="recurrence"
-                control={control}
-                errorMessage={errors?.recurrence?.message}
-                star=" *"
-                placeholder="Recurrence"
-              />
-            </div>
-            <div className={style.gridView}>
-              <Selection
-                label="Category"
-                options={category}
-                name="category"
-                control={control}
-                star=" *"
-                errorMessage={errors?.category?.message}
-                placeholder="Category"
-              />
-              <TextField label="Venue" placeholder="Venue" name="venue" register={register} />
-            </div>
-            <TextArea
-              label="Description"
-              row={2}
-              placeholder="Enter event discription.."
-              name="description"
-              register={register}
-            />
-            <div className={style.file}>
-              <ProfileUpload
-                label="File"
-                name={'uploadFile'}
+              <div className={style.gridView}>
+                <DatePicker
+                  label={check === true ? 'Start Date' : 'Start Date & Time'}
+                  control={control}
+                  name="start"
+                  star=" *"
+                  showTimeInput={check !== true}
+                  errorMessage={errors?.start?.message}
+                  placeholder={'Start Date'}
+                  allDayLabel={'All Day'}
+                  switchName="allDay"
+                  register={register}
+                  handleSwitchChange={(checked) => {
+                    setCheck(checked);
+                  }}
+                />
+                <DatePicker
+                  label={check === true ? 'End Date' : 'End Date & Time'}
+                  control={control}
+                  name="end"
+                  star=" *"
+                  showTimeInput={check !== true}
+                  errorMessage={errors?.end?.message}
+                  placeholder={'End Date'}
+                />
+              </div>
+
+              <div className={style.gridView}>
+                <Selection
+                  label="Type"
+                  options={eventTypes}
+                  name="type"
+                  control={control}
+                  errorMessage={errors?.type?.message}
+                  star=" *"
+                  placeholder="Select Type"
+                />
+                <Selection
+                  label="Recurrence"
+                  options={recurrenceTypes}
+                  name="recurrence"
+                  control={control}
+                  errorMessage={errors?.recurrence?.message}
+                  star=" *"
+                  placeholder="Select"
+                />
+              </div>
+              <div className={style.gridView}>
+                <Selection
+                  label="Category"
+                  options={category}
+                  name="category"
+                  control={control}
+                  star=" *"
+                  errorMessage={errors?.category?.message}
+                  placeholder="Select"
+                />
+                <TextField label="Venue" placeholder="Venue" name="venue" register={register} />
+              </div>
+              <TextArea
+                label="Description"
+                row={2}
+                placeholder="Enter event discription.."
+                name="description"
                 register={register}
-                id={'file'}
-                selectedFileName={selectedFileNameBack}
-                setSelectedFileName={setSelectedFileNameBack}
-                placeholder="Attach File"
               />
-            </div>
-          </form>
+              <div className={style.file}>
+                <ProfileUpload
+                  label="File"
+                  name={'uploadFile'}
+                  register={register}
+                  id={'file'}
+                  selectedFileName={selectedFileNameBack}
+                  setSelectedFileName={setSelectedFileNameBack}
+                  placeholder="Attach File"
+                />
+              </div>
+            </form>
+          </div>
         </Modal>
 
         <>
           <EventModal open={customTooltip}>
             <div className={style.eventDiv}>
               <div className={style.titleDiv}>
-                <p className={style.title}>{singleEventData?.title && singleEventData?.title}</p>
+                <p
+                  className={style.title}
+                  style={{
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                  }}
+                >
+                  {singleEventData?.title && singleEventData?.title}
+                </p>
                 <div className={style.iconView}>
                   <img
                     src={edit}
@@ -516,7 +516,8 @@ const Calender = () => {
                   {moment(singleEventData?.start).format('dddd, MMMM Do YYYY')}
                   {!singleEventData?.allDay && (
                     <span>
-                      |{moment(singleEventData?.start?.replace('Z', '')).format('h:mm a')} -
+                      {' '}
+                      | {moment(singleEventData?.start?.replace('Z', '')).format('h:mm a')} -
                       {moment(singleEventData?.end?.replace('Z', '')).format('h:mm a')}
                     </span>
                   )}
@@ -527,46 +528,56 @@ const Calender = () => {
                     : singleEventData?.duration && singleEventData?.duration}
                 </p>
               </div>
-              <p className={style.title2}>Description</p>
-              <p className={style.description}>
+              <p className={style.title2} style={{ marginTop: -10 }}>
+                Description
+              </p>
+              <p className={style.description} style={{ marginTop: -15 }}>
                 {singleEventData?.description ? singleEventData.description : '-'}
               </p>
 
-              <div className={style.mainParentDiv}>
-                <div className={style.leftDiv}>
-                  <p className={style.title2}>Venue</p>
-                  <p className={style.title2}>Category</p>
-                  <p className={style.title2}>Event Type</p>
-                  <p className={style.title2}>Attachment</p>
-                  <p className={style.title2}>Attendees</p>
-                </div>
+              <div className={style.leftDiv}>
+                <p className={style.categories}>Venue</p>
+                <p className={style.categorieData}>
+                  {singleEventData?.venue ? singleEventData?.venue : '-'}
+                </p>
+              </div>
 
-                <div className={style.rightDiv}>
-                  <p className={style.description}>
-                    {singleEventData?.venue ? singleEventData?.venue : '-'}
-                  </p>
-                  <p className={style.description}>
-                    {singleEventData?.category ? singleEventData?.category : '-'}
-                  </p>
-                  <p className={style.description}>
-                    {singleEventData?.type ? singleEventData?.type : '-'}
-                  </p>
-                  <p className={style.description}>
-                    {singleEventData?.fileId?.name ? (
-                      <a
-                        href={singleEventData?.fileId?.file}
-                        target={'_blank'}
-                        style={{ textDecoration: 'none' }}
-                      >
-                        <p className={style.attachFile}>
-                          {singleEventData?.fileId?.name ? singleEventData?.fileId?.name : '-'}
-                        </p>
-                      </a>
-                    ) : (
-                      '-'
-                    )}
-                  </p>
+              <div className={style.leftDiv}>
+                <p className={style.categories}>Category</p>
+                <p className={style.categorieData}>
+                  {singleEventData?.category ? singleEventData?.category : '-'}
+                </p>
+              </div>
 
+              <div className={style.leftDiv}>
+                <p className={style.categories}>Event Type</p>
+                <p className={style.categorieData}>
+                  {singleEventData?.type ? singleEventData?.type : '-'}
+                </p>
+              </div>
+
+              <div className={style.leftDiv}>
+                <p className={style.categories}>Attachment</p>
+                <p className={style.categorieData}>
+                  {singleEventData?.fileId?.name ? (
+                    <a
+                      href={singleEventData?.fileId?.file}
+                      target={'_blank'}
+                      style={{ textDecoration: 'none' }}
+                    >
+                      <p className={style.attachFile}>
+                        {singleEventData?.fileId?.name ? singleEventData?.fileId?.name : '-'}
+                      </p>
+                    </a>
+                  ) : (
+                    '-'
+                  )}
+                </p>
+              </div>
+
+              <div className={style.leftDiv}>
+                <p className={style.categories}>Attendees</p>
+                <p className={style.categorieData}>
                   <div className={style.plusView}>
                     {attendeesPic?.slice(0, 3)?.map((i: any) => {
                       return (
@@ -597,7 +608,7 @@ const Calender = () => {
                       </div>
                     )}
                   </div>
-                </div>
+                </p>
               </div>
             </div>
           </EventModal>

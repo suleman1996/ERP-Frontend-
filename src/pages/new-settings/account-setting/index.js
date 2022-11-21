@@ -10,24 +10,26 @@ import Button from 'components/button';
 import { setErrors } from './../../../helper/index';
 import { createNotification } from 'common/create-notification';
 
-import pencilIcon from 'assets/edit-icon.svg';
-import eyeCross from 'assets/eyeCross.svg';
 import eye from 'assets/eye.svg';
+import eyeCross from 'assets/eyeCross.svg';
+import pencilIcon from 'assets/edit-icon.svg';
 import style from './account.module.scss';
 
 const AccountSetting = () => {
   const userData = useSelector((state) => state?.app?.currentUser);
-  console.log('state', userData);
-
-  const { register, handleSubmit, errors, control, reset, watch, setValue, setError, clearErrors } =
-    useForm();
+  const { register, handleSubmit, reset, setError, clearErrors } = useForm();
 
   const [img, setImg] = useState('');
   const [newpass, setNewPass] = useState(false);
+  const [btnLoader, setBtnLoader] = useState(false);
   const [disableName, setDisableName] = useState(true);
   const [disableEmail, setDisableEmail] = useState(true);
   const [confirmNewpass, setConfirmNewPass] = useState(false);
-  const [btnLoader, setBtnLoader] = useState(false);
+
+  useEffect(() => {
+    setImg(userData?.img);
+    reset({ name: userData?.name, email: userData.email });
+  }, []);
 
   const onSubmit = (data) => {
     try {
@@ -35,9 +37,8 @@ const AccountSetting = () => {
         ...data,
         name: data?.name ? data?.name : `${userData.firstName} ${userData.lastName}`,
         email: data?.email ? data?.email : userData.email,
+        img,
       };
-      console.log('data', newData);
-      console.log('img', img);
     } catch (err) {
       if (err?.response?.data?.error) {
         setErrors(err?.response?.data?.error, setError);
@@ -47,10 +48,6 @@ const AccountSetting = () => {
       setBtnLoader(false);
     }
   };
-
-  useEffect(() => {
-    reset({ name: `${userData.firstName} ${userData.lastName}`, email: userData.email });
-  }, []);
 
   return (
     <CardContainer className={style.card}>
@@ -65,7 +62,6 @@ const AccountSetting = () => {
           <Input
             label={'Name'}
             name={'name'}
-            // errorMessage={errors?.category?.message}
             isDisable={disableName}
             placeholder={'Enter name'}
             register={register}
@@ -76,7 +72,6 @@ const AccountSetting = () => {
           <Input
             label={'Email'}
             name={'email'}
-            // errorMessage={errors?.category?.message}
             placeholder={'Enter email'}
             register={register}
             icon={pencilIcon}
@@ -87,7 +82,6 @@ const AccountSetting = () => {
           <Input
             label={'New Password'}
             name={'newPassword'}
-            // errorMessage={errors?.category?.message}
             type={newpass ? 'text' : 'password'}
             placeholder={'Enter new password'}
             icon={newpass ? eye : eyeCross}
@@ -98,7 +92,6 @@ const AccountSetting = () => {
           <Input
             label={'ConfirmPassword'}
             name={'confirmPassword'}
-            // errorMessage={errors?.category?.message}
             type={confirmNewpass ? 'text' : 'password'}
             placeholder={'Enter confirm password'}
             icon={confirmNewpass ? eye : eyeCross}

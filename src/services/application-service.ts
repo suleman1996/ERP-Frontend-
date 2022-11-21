@@ -24,6 +24,11 @@ export default class ApplicationService {
     return res;
   }
 
+  static async editApplication(data: any) {
+    const res = await ApiService.put(`${ApplicationService.baseUrl[0]}/`, data);
+    return res;
+  }
+
   static async getLeaveHistory() {
     const res = await ApiService.get(`${ApplicationService.baseUrl[0]}/history`);
     return res;
