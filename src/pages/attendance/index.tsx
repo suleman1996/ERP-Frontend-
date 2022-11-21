@@ -24,7 +24,7 @@ export interface AttendanceInt {
 }
 const Attendance = () => {
   const [openMenu, setOpenMenu] = useState(false);
-  const [active, setActive] = useState(1);
+  const [active, setActive] = useState<number>(1);
 
   const handleTab = (index: number) => {
     setActive(index);
@@ -45,7 +45,7 @@ const Attendance = () => {
 
   return (
     <>
-      <CardContainer containerClass={style.container}>
+      <CardContainer containerClass={style.container} className={style.containerClass}>
         <div className={style.div}>
           <div style={{ display: 'flex' }}>
             <p

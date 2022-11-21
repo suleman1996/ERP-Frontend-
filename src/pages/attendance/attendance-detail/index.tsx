@@ -64,9 +64,9 @@ const AttendanceDetail = ({ setActive }: Props) => {
                 {row.checkin}
               </span>
             ),
-            tags: <Tags tagsTextArr={[row.tags]} />,
+            tags: <Tags text={row.tags} />,
           }))}
-          minWidth="2050px"
+          minWidth="1700px"
           headingText={style.columnText}
           handleDelete={(id) => console.log(id)}
           handleEducation={() => setActive(3)}

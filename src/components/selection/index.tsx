@@ -45,8 +45,6 @@ const Selection = ({
   errorMessage,
   star,
   wraperSelect,
-  value,
-  onChange,
   placeholder,
   closeMenuOnSelect,
   isMulti,
@@ -70,12 +68,16 @@ const Selection = ({
     });
   }
 
-  console.log('hamza', CustomStyle.placeholder);
-
   const formatOptionLabel = (
-    { label, value, color, checkbox, box },
-    { context, selectValue },
-    badge,
+    {
+      label,
+      value,
+      color,
+      checkbox,
+      box,
+    }: { label: any; value: any; color: any; checkbox: any; box: any },
+    { context, selectValue }: { context: any; selectValue: any },
+    badge: any,
   ): any => {
     return (
       <>
@@ -114,7 +116,6 @@ const Selection = ({
         style={{
           border: !errorMessage ? '1px solid #E2E2EA' : '1px solid red',
           borderRadius: '5PX',
-          // marginTop: '7px',
         }}
         className={!isDisabled ? wraperSelect : style.disabledSelection}
       >

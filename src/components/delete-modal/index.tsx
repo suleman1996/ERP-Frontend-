@@ -14,6 +14,7 @@ interface Props {
   bucket?: any;
   heading?: any;
   description?: any;
+  cancelModal?: any;
   isLoading?: any;
   btnLoaderClass?: any;
 }
@@ -26,6 +27,7 @@ const DeletePopup = ({
   bucket,
   heading,
   description,
+  cancelModal,
   isLoading,
   btnLoaderClass,
 }: Props) => {
@@ -39,9 +41,13 @@ const DeletePopup = ({
             <p>{description ? description : `If you delete this you can’t recover it`}</p>
           </div>
           <div className={style.flex}>
-            <Button text="Cancel" handleClick={() => setOpen(false)} btnClass={style.btn1} />
             <Button
-              text="Delete"
+              text={cancelModal ? 'No' : 'Cancel'}
+              handleClick={() => setOpen(false)}
+              btnClass={style.btn1}
+            />
+            <Button
+              text={cancelModal ? 'Yes' : 'Delete'}
               handleClick={() => {
                 handleDelete && handleDelete();
               }}

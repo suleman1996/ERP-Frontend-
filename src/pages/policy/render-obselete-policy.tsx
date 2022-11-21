@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 
-import style from './request.module.scss';
 import RenderPolicy from 'components/policy-card';
 
 import RenderPoliciesTab from './policy-tab';
 import PolicyService from 'services/policy-service';
-import Loading from 'components/loading';
 import CardContainer from 'components/card-container';
+
+import style from './request.module.scss';
 
 const RenderObsolete = ({
   setOpen,
@@ -45,19 +45,15 @@ const RenderObsolete = ({
         ...(search?.categoryId && { category: search?.categoryId?.label }),
         ...(search?.addedBy && { addedBy: search?.addedBy?.value }),
       });
-      // console.log('Here are the obselete policies ', result?.data?.data);
       setObseletePolicies(result?.data?.data);
       setLoading(false);
     } catch (error) {
-      console.log(error);
       setLoading(false);
     }
   };
 
   return (
     <CardContainer className={style.className}>
-      {/* <div className={style.policyMainView}> */}
-      {/* <Loading /> */}
       <RenderPoliciesTab
         reset={reset}
         control={control}
@@ -91,7 +87,6 @@ const RenderObsolete = ({
           <p className={style.emptyMessage}>No Policy Found</p>
         )}
       </div>
-      {/* </div> */}
     </CardContainer>
   );
 };

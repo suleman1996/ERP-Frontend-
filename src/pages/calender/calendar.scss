@@ -17,6 +17,7 @@
   border: none;
   color: #ffffff;
   background-color: #57b894;
+  margin-right: 5px;
 }
 
 tr:nth-child(even) {
@@ -61,7 +62,7 @@ th {
   color: #717579 !important;
 }
 .fc-theme-standard .fc-list-day-cushion {
-  background-color: #57b894 !important;
+  background-color: #e2e2ea !important;
 }
 
 .fc-toolbar-chunk {
@@ -81,4 +82,7 @@ th {
 }
 .fc .fc-button-primary {
   background-color: transparent;
+}
+.fc-direction-ltr .fc-toolbar > * > :not(:first-child) {
+  margin-left: 0px !important;
 }

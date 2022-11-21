@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 
-import style from './request.module.scss';
 import RenderPolicy from 'components/policy-card';
 
 import PolicyService from 'services/policy-service';
 
 import RenderPoliciesTab from './policy-tab';
 import CardContainer from 'components/card-container';
+
+import style from './request.module.scss';
 
 const RenderAllPolicies = ({
   setOpen,
@@ -35,9 +36,6 @@ const RenderAllPolicies = ({
 
   useEffect(() => {
     getPoliciesService();
-    // return () => {
-    //   setSearch({ nameNumber: '', addedBy: '', categoryId: '' });
-    // };
   }, [render, search]);
 
   const getPoliciesService = async () => {

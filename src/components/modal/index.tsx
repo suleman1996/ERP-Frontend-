@@ -40,7 +40,6 @@ const Modal = ({
     event.nativeEvent.stopImmediatePropagation();
     handleClose?.();
   };
-
   return (
     <>
       {open && (

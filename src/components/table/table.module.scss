@@ -4,14 +4,15 @@
 
 .tableWrapper {
   max-height: 775px;
+
   flex: 1;
   background: #ffffff;
   overflow: hidden;
 
-  &:hover {
-    overflow-x: auto;
-    overflow-y: auto;
-  }
+  // &:hover {
+  //   overflow-x: auto;
+  //   overflow-y: auto;
+  // }
 
   &::-webkit-scrollbar:vertical {
     display: none;

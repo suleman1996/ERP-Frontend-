@@ -7,6 +7,7 @@ import { createNotification } from 'common/create-notification';
 import profileIcon from 'assets/profileIcon.svg';
 import camIcon from 'assets/camlogo.svg';
 import style from './image-upload.module.scss';
+import Button from 'components/button';
 
 interface Props {
   setImg?: Dispatch<SetStateAction<unknown>>;
@@ -16,6 +17,7 @@ interface Props {
   errorMessage?: string;
   label?: string;
   accountSetting?: boolean;
+  btnText?: string;
 }
 
 const ImageUpload = ({
@@ -26,6 +28,7 @@ const ImageUpload = ({
   errorMessage,
   label,
   accountSetting,
+  btnText,
 }: Props) => {
   const handleFileChange = async (event: React.ChangeEvent<any>) => {
     if (event?.target?.files?.[0]?.size <= 2048000) {
@@ -51,7 +54,6 @@ const ImageUpload = ({
       const reader = new FileReader();
       reader.onload = () => {
         setImg && setImg(reader.result);
-        console.log(reader.result);
       };
       reader.readAsDataURL(file);
     });
@@ -70,37 +72,45 @@ const ImageUpload = ({
       <label>{label}</label>
       <div {...getRootProps()}>
         <input {...getInputProps()} />
-        <div className={style.wraper} data-testid={'wraper'}>
+      </div>
+      <div className={style.wraper} data-testid={'wraper'}>
+        <div {...getRootProps()}>
+          <input {...getInputProps()} />
           <div className={style.imgSection}>
             <img
               alt=""
               src={img ? `${img}` : `${profileIcon}`}
               className={`${img ? style.profileImg : ''}   `}
             />
+            <div className={style.camIcon}>
+              <img src={camIcon} alt="" />
+            </div>
           </div>
-          <div className={style.camIcon}>
-            <img src={camIcon} alt="" />
-          </div>
-          <div>
-            {!accountSetting ? (
-              <p className={style.heading}>
-                Drop your file here or <span className={style.selectFile}> Select a file</span>
-              </p>
-            ) : (
-              <p className={style.newText}>File should be smaller than 3MB</p>
-            )}
+        </div>
+        <div style={{ marginLeft: '30px' }}>
+          {!accountSetting ? (
+            <p className={style.heading}>
+              Drop your file here or
+              <div {...getRootProps()}>
+                <input {...getInputProps()} />
+                <span className={style.selectFile}> Select a file</span>
+              </div>
+            </p>
+          ) : (
+            <p className={style.newText}>File should be smaller than 3MB</p>
+          )}
 
-            {!accountSetting ? (
-              <p className={style.para}>
-                Only <span>JPEG, JPG or PNG</span> Files are allowed upto 3 MB in size
-              </p>
-            ) : (
-              <p className={style.para}>
-                Only <span className={style.span1}>JPEG, JPG or PNG</span> Files are allowed upto 3
-                MB in size.It will us recognize you.
-              </p>
-            )}
-          </div>
+          {!accountSetting ? (
+            <p className={style.para}>
+              Only <span>JPEG, JPG or PNG</span> Files are allowed upto 3 MB in size
+            </p>
+          ) : (
+            <p className={style.para}>
+              Only <span className={style.span1}>JPEG, JPG or PNG</span> Files are allowed upto 3 MB
+              in size.It will us recognize you.
+            </p>
+          )}
+          {btnText && <Button text={btnText} />}
         </div>
       </div>
       <div className={style.smallImg}>

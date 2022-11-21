@@ -26,7 +26,7 @@ interface Props {
   toggleFilter: () => void;
   clearFilter: () => void;
   setFilters: any;
-  apiCall: any;
+  apiCall?: any;
   filterKey: string;
   filters: any;
   sorts?: any;

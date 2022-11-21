@@ -45,7 +45,7 @@
 
 /* When the checkbox is checked, add a blue background */
 .container input:checked ~ .checkMark {
-  background-color: white;
+  background-color: #57b894;
   border: 1.2px solid #57b894;
 }
 
@@ -65,7 +65,7 @@
 .container .checkMark:after {
   width: 4px;
   height: 10px;
-  border: solid #57b894;
+  border: solid #ffffff;
   top: 1px;
   border-width: 0 1.3px 1.3px 0;
   transform: translate(70%, -13%) rotate(45deg);

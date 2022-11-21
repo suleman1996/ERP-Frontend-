@@ -1,8 +1,4 @@
-import React, { useEffect, useState } from 'react';
-
-import CardContainer from 'components/card-container';
-
-import style from './request.module.scss';
+import React, { useState } from 'react';
 
 import TextField from 'components/textfield';
 import { useForm } from 'react-hook-form';
@@ -27,6 +23,8 @@ import RenderAllPolicies from './render-all-policy';
 import RenderObsolete from './render-obselete-policy';
 import { convertBase64Image } from 'main-helper';
 import SettingsService from 'services/settings-service';
+
+import style from './request.module.scss';
 
 const Policy = () => {
   const [selectedTab, setSelectedTab] = useState(0);
@@ -61,10 +59,7 @@ const Policy = () => {
   const getAllEmployees = async () => {
     try {
       const result = await EmployeeService.getOnlyEmployees();
-      // console.log('Her are all employees ', result?.data);
-      // result?.data?.employees[0]?.data?.map((item: any) =>
-      //   employees.push({ value: item?._id, label: item?.fullName }),
-      // );
+
       setEmployees(
         result?.data?.map((item: any) => ({
           value: item?._id,
@@ -79,7 +74,7 @@ const Policy = () => {
   const getEmployeesWithDep = async () => {
     try {
       const result = await EmployeeService.getEmployeesWithDepApi();
-      // console.log('Her are all employees with departments ', result?.data?.employeesWithDepartment);
+
       result?.data?.employeesWithDepartment?.map((item: any) => {
         employeesWithDep.push({
           options: item?.employees?.map((ite: any) => ({ value: ite?._id, label: ite?.fullName })),
@@ -94,7 +89,6 @@ const Policy = () => {
   const getPolicyCategory = async () => {
     try {
       const result = await SettingsService.getPolicyCat();
-      // console.log('Her are all policy category ', result?.data?.policyCategory);
 
       setPolicyCategory(
         result?.data?.policyCategory?.map((item: any) => ({ value: item?._id, label: item?.name })),
@@ -105,8 +99,6 @@ const Policy = () => {
   };
 
   const handleAddPolicy = async (data: any) => {
-    // console.log('Here is the add policy form ', data);
-
     try {
       setIsLoading(true);
       const pdffile = await convertBase64Image(data?.pdf[0]);
@@ -128,20 +120,18 @@ const Policy = () => {
         description: data?.description,
       };
 
-      const result = await PolicyService.addPolicyApi(policyData);
+      await PolicyService.addPolicyApi(policyData);
 
-      console.log('Here is the success add policy msg ', result);
       setRender(!render);
       setOpenAddPolice(false);
       setIsLoading(false);
       setSelectedFileName('');
     } catch (err: any) {
-      // console.log('error from add policy ', err?.response?.data);
       if (err?.response?.data?.error) {
         setErrors(err?.response?.data?.error, setError);
       }
       createNotification('error', 'Error', err?.response?.data?.msg);
-      // setBtnLoader(false);
+
       setIsLoading(false);
     }
   };
@@ -153,16 +143,12 @@ const Policy = () => {
       selectedTab == 0 ? setRender(!render) : setRenderObselete(!renderObselete);
 
       setOpen(false);
-
-      // console.log(' selectedPolicy ', selectedPolicy);
     } catch (error) {
       console.log(error);
     }
   };
 
   const handleEdit = async (data: any) => {
-    // console.log('Here is the data to restored ', data);
-
     const {
       appliesTo,
       approvedBy,
@@ -189,15 +175,10 @@ const Policy = () => {
       reviewers: { value: reviewers[0]?._id, label: reviewers[0]?.fullName },
       version,
       description,
-      // pdf: fileId,
     });
-
-    // console.log('Edit function called ', dat);
   };
 
   const updatePolicy = async (data: any) => {
-    // console.log('update data ', data);
-
     try {
       setIsLoading(true);
       const pdffile = await convertBase64Image(data?.pdf[0]);
@@ -234,13 +215,10 @@ const Policy = () => {
         setErrors(err?.response?.data?.error, setError);
       }
       createNotification('error', 'Error', err?.response?.data?.msg);
-      // setBtnLoader(false);
     }
   };
 
   const handleAddRevisionPolicy = async (data: any) => {
-    // console.log('Here is the revision policy data ', data);
-
     try {
       setIsLoading(true);
       const pdffile = await convertBase64Image(data?.pdf[0]);
@@ -276,13 +254,11 @@ const Policy = () => {
         setErrors(err?.response?.data?.error, setError);
       }
       createNotification('error', 'Error', err?.response?.data?.msg);
-      // setBtnLoader(false);
     }
   };
 
   return (
     <>
-      {/* <CardContainer> */}
       <>
         {selectedTab == 0 ? (
           <RenderAllPolicies
@@ -326,15 +302,14 @@ const Policy = () => {
           />
         )}
       </>
-      {/* </CardContainer>
-       */}
+
       {loading && (
         <div className={style.loaderDiv}>
           <Loading loaderClass={style.loadingStyle} />
         </div>
       )}
       <DeletePopup handleDelete={() => deletePolicy()} setOpen={setOpen} open={open} />
-      {/* <AddPolicy /> */}
+
       <Modal
         open={openAddPolice}
         text={
@@ -401,7 +376,7 @@ const Policy = () => {
               icon={editIcon}
               iconClass={style.iconClass}
             />
-            {/* <TextField label="Category" placeholder="Enter Policy Category" star=" *" /> */}
+
             <Selection
               wraperSelect={style.wraperSelect}
               label="Category"
@@ -471,17 +446,14 @@ const Policy = () => {
               placeholder="Select"
               options={employeesWithDep}
               star=" *"
-              // onChange={(item) => console.log(item)}
               closeMenuOnSelect={false}
               isMulti={true}
               name="appliesTo"
               defaultValue={null}
-              // showNumber
             />
             <div>
               <div style={{ display: 'flex' }}>
                 <p className={style.pdfHeading}>Attach Pdf </p>
-                {/* <b style={{ color: 'red' }}> *</b> */}
               </div>
               <ProfileUpload
                 name={'pdf'}

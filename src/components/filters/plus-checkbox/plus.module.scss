@@ -1,0 +1,42 @@
+.css_label {
+  cursor: pointer;
+  border: 1px solid #e2e2ea;
+  border-radius: 2px;
+  height: 8px;
+  width: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  .fa {
+    width: 100%;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    height: 100%;
+  }
+  .fa_minus {
+    display: none;
+  }
+}
+
+.css_checkbox:checked + .css_label .fa_minus {
+  display: block;
+}
+
+.css_checkbox:checked + .css_label .fa_plus {
+  display: none;
+}
+
+.plus_minus {
+  display: flex;
+  align-items: center;
+  position: relative;
+  p {
+    font-weight: 400;
+    font-size: 9px;
+    color: #2d2d32;
+    padding-left: 8px;
+    margin-top: 2px;
+  }
+}
