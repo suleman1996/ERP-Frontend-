@@ -271,12 +271,37 @@ p {
 }
 
 .policyDescriptionView {
+  position: relative;
   width: 100%;
   height: 55%;
   border-bottom: 2px dotted #e2e2ea;
   padding: 20px 20px;
   display: flex;
   align-items: center;
+  .leftCircle {
+    position: absolute;
+    bottom: -6.5px;
+    left: -5px;
+    width: 11.07px;
+    height: 11.07px;
+    border-radius: 50%;
+    background: white;
+    border: 1px solid #e2e2ea;
+    border-width: 1px 1px 0 0;
+    transform: rotate(45deg);
+  }
+  .rightCircle {
+    position: absolute;
+    bottom: -6.5px;
+    right: -5px;
+    width: 11.07px;
+    height: 11.07px;
+    border-radius: 50%;
+    background: white;
+    border: 1px solid #e2e2ea;
+    border-width: 1px 1px 0 0;
+    transform: rotate(222deg);
+  }
 }
 .policyButtonView {
   width: 100%;

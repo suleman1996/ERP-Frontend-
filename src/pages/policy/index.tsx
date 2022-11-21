@@ -349,7 +349,7 @@ const Policy = () => {
               name="name"
               errorMessage={errors?.name?.message}
               isDisable={editPoplicy?.bool}
-              icon={editIcon}
+              icon={editPoplicy?.label == 'Update Policy' ? editIcon : ''}
               iconClass={style.iconClass}
             />
             <TextField
@@ -360,7 +360,7 @@ const Policy = () => {
               name="policyNumber"
               errorMessage={errors?.policyNumber?.message}
               isDisable={editPoplicy?.bool}
-              icon={editIcon}
+              icon={editPoplicy?.label == 'Update Policy' ? editIcon : ''}
               iconClass={style.iconClass}
             />
           </div>
@@ -373,7 +373,7 @@ const Policy = () => {
               name="version"
               errorMessage={errors?.version?.message}
               isDisable={editPoplicy?.bool}
-              icon={editIcon}
+              icon={editPoplicy?.label == 'Update Policy' ? editIcon : ''}
               iconClass={style.iconClass}
             />
 
