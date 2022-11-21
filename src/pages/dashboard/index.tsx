@@ -1,20 +1,21 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import AccordianSwitch from 'components/accordian';
 import FiltersComponent from 'components/filters';
 import ImageUpload from 'components/image-upload';
 import NotificationPopup from 'components/notification-popup';
 import FiltersComponentByDate from 'components/filters/filter-for-dates';
+import TextField from 'components/textfield';
+import Container from 'components/container';
 
 const DashBoard = () => {
-  const { control } = useForm();
-  const [openAccordian, setOpenAccordian] = useState(-1);
+  const { control, register } = useForm();
   const [img, setImg] = useState<unknown>('');
   const [open, setOpen] = useState(false);
 
   return (
-    <>
+    <Container>
+      <TextField label="TextField" register={register} />
       <FiltersComponentByDate />
       <ImageUpload
         name={'profilePicture'}
@@ -23,17 +24,7 @@ const DashBoard = () => {
         setImg={setImg}
         btnText="Remove Photo"
       />
-      {totalAccordian?.map((data) => {
-        return (
-          <AccordianSwitch
-            title={'Profile'}
-            bodyData={addProfileData}
-            id={data?.id}
-            openAccordian={openAccordian}
-            setOpenAccordian={setOpenAccordian}
-          />
-        );
-      })}
+
       <FiltersComponent />
       <div style={{ height: '100vh' }}>
         <button onClick={() => setOpen(!open)}>click</button>
@@ -44,23 +35,8 @@ const DashBoard = () => {
           handleClick={() => alert('click')}
         />
       </div>
-    </>
+    </Container>
   );
 };
 
 export default DashBoard;
-
-const addProfileData = [
-  { name: 'Add Employee' },
-  { name: 'Edit Employee' },
-  { name: 'View Employee' },
-  { name: 'Delete Employee' },
-  { name: 'CV View' },
-  { name: 'Profile View' },
-];
-
-const totalAccordian = [
-  { name: '1', id: 1 },
-  { name: '1', id: 2 },
-  { name: '1', id: 3 },
-];
