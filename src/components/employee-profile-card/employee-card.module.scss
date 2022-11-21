@@ -8,6 +8,7 @@
   border-radius: 11.1029px;
   display: flex;
   width: 100%;
+  height: 100%;
   position: relative;
 
   .leftGrid {
@@ -20,9 +21,7 @@
     padding-right: calc(11px + (24 - 11) * (100vw - 280px) / (2560 - 280));
     padding-top: calc(13px + (29 - 13) * (100vw - 280px) / (2560 - 280));
     padding-bottom: calc(13px + (29 - 13) * (100vw - 280px) / (2560 - 280));
-    width: 32%;
     @media (max-width: $tab) {
-      width: 25%;
       padding: 13px 11px;
     }
 
@@ -34,9 +33,13 @@
 
     button {
       height: 37px;
-      max-width: 130px;
+      max-width: 160px;
       width: 100%;
       margin-top: 15px;
+      padding-top: calc(5px + (15 - 5) * (100vw - 280px) / (2560 - 280));
+      padding-bottom: calc(5px + (15 - 5) * (100vw - 280px) / (2560 - 280));
+      padding-left: calc(5px + (10 - 5) * (100vw - 280px) / (2560 - 280));
+      padding-right: calc(5px + (10 - 5) * (100vw - 280px) / (2560 - 280));
       span {
         @include font16;
       }
@@ -47,7 +50,6 @@
   }
 
   .rightGrid {
-    flex: 1;
     padding-left: calc(11px + (24 - 11) * (100vw - 280px) / (2560 - 280));
     padding-right: calc(11px + (24 - 11) * (100vw - 280px) / (2560 - 280));
     padding-top: calc(13px + (29 - 13) * (100vw - 280px) / (2560 - 280));
@@ -55,6 +57,35 @@
 
     h1 {
       @include font29;
+      width: 175px;
+      white-space: nowrap;
+      overflow: hidden;
+      position: relative;
+      text-overflow: ellipsis;
+      cursor: pointer;
+
+      &:hover {
+        & div {
+          display: block;
+        }
+      }
+
+      .tooltip {
+        background: #ffffff;
+        position: absolute;
+        border: 1px solid #e2e2ea;
+        top: 10px;
+        right: 0px;
+        border-radius: 2px;
+        padding: 2px 4px;
+        width: fit-content;
+        display: none;
+        p {
+          font-weight: 400;
+          font-size: 9px;
+          color: #171725;
+        }
+      }
     }
 
     h6 {

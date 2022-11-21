@@ -3,26 +3,24 @@
 @import 'styles/_mixin.scss';
 
 .inputContainer {
-  display: flex;
-  flex-direction: column;
   position: relative;
 
   label {
-    @include font24;
+    @include font20;
     font-family: 'Poppins';
     font-style: normal;
     color: #2d2d32;
-    margin-bottom: calc(5px + (12 - 5) * (100vw - 280px) / (2560 - 280));
     text-transform: capitalize;
   }
 
   input {
     background: #ffffff;
-    border-radius: 6px;
+    border-radius: 3px;
     width: 100%;
     padding: 0px 12px 0px 20px;
     box-sizing: border-box;
     color: #2d2d32;
+    margin-top: calc(5px + (12 - 5) * (100vw - 280px) / (2560 - 280));
     height: calc(30px + (55 - 30) * (100vw - 280px) / (2560 - 280));
     @include font20;
     &:focus {
@@ -42,6 +40,7 @@
     width: calc(13px + (25 - 13) * (100vw - 280px) / (2560 - 280));
     height: calc(15px + (27 - 15) * (100vw - 280px) / (2560 - 280));
     cursor: pointer;
+    margin-left: 5px;
   }
 
   .errorMessage {

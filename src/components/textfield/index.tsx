@@ -56,7 +56,7 @@ const TextField = ({
     <>
       <div className={`${style.inputContainer} ${container} `}>
         {label && (
-          <label style={{ color: errorMessage ? '#000' : '#2d2d32' }}>
+          <label style={{ color: errorMessage ? '#000' : '' }}>
             {label}
             <b style={{ color: 'red' }}>{star}</b>
           </label>
@@ -64,8 +64,8 @@ const TextField = ({
         <div style={{ position: 'relative' }} className={className}>
           <input
             style={{
-              border: errorMessage ? '1.2px solid #ff5050' : ' 1.2px solid #e2e2ea',
-              backgroundColor: readOnly || isDisable ? '#ddd' : '#fff',
+              border: errorMessage ? '1px solid #ff5050' : '1px solid #E2E2EA',
+              backgroundColor: readOnly || isDisable ? '#ddd' : '',
             }}
             id={id}
             min={min && min}

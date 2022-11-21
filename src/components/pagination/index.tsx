@@ -54,7 +54,11 @@ const Pagination = ({ setCount, count, totalCount, hide, setPage, page }: Props)
             <span>
               <b style={{ color: '#57b894', margin: '0px 10px' }}>{page}</b>
             </span>
-            {page + 1 > Math.ceil(totalCount / count) ? '' : page + 1}
+
+            <span>
+              <b> {page + 1 > Math.ceil(totalCount / count) ? '' : page + 1}</b>
+            </span>
+
             <img
               src={rightArrow}
               alt=""

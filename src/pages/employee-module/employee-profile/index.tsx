@@ -7,14 +7,15 @@ import Button from 'components/button';
 import Pagination from 'components/pagination';
 import EmployeeDropdown from 'components/employee-card-dropdown';
 import EmployeeProfileCard from 'components/employee-profile-card';
+import Loading from 'components/loading';
+import EmployeeFilter from './employee-filter';
+import Container from 'components/container';
 
 import EmployeeService from 'services/employee-service';
 
-import filter from 'assets/filter-icon.svg';
-import plus from 'assets/add.svg';
 import style from './employee-profile.module.scss';
-import Loading from 'components/loading';
-import EmployeeFilter from './employee-filter';
+import filter from 'assets/filter-icon.svg';
+import plus from 'assets/path-plus.svg';
 
 interface Employee {
   handleClick?: any;
@@ -60,7 +61,7 @@ const EmployeeProfileDetails = () => {
   };
 
   return (
-    <>
+    <Container>
       {loading && (
         <div className={style.loaderDiv}>
           <Loading loaderClass={style.loadingStyle} />
@@ -68,21 +69,34 @@ const EmployeeProfileDetails = () => {
       )}
       <div className={style.main}>
         <div className={style.headerFlex}>
-          <img src={filter} alt="" className={style.img} onClick={() => setOpenFilter(true)} />
+          <p className={style.employeeTitle}>
+            Employees
+            <span>320</span>
+          </p>
+          <div className={style.innerFlex}>
+            <img
+              src={filter}
+              alt=""
+              className={style.img}
+              onClick={() => setOpenFilter(!openFilter)}
+            />
 
-          <Button
-            text="Add Employee"
-            type="button"
-            handleClick={() => navigate('/employee/add')}
-            iconStart={plus}
+            <Button
+              text="Add Employee"
+              type="button"
+              handleClick={() => navigate('/employee/add')}
+              iconStart={plus}
+            />
+          </div>
+        </div>
+        <div>
+          <EmployeeFilter
+            open={openFilter}
+            setOpen={setOpenFilter}
+            setEmployees={setEmployees}
+            getEmployeesData={getEmployeesData}
           />
         </div>
-        <EmployeeFilter
-          open={openFilter}
-          setOpen={setOpenFilter}
-          setEmployees={setEmployees}
-          getEmployeesData={getEmployeesData}
-        />
         {employees?.length > 0 ? (
           <div className={style.cardSection}>
             {employees?.map(
@@ -157,7 +171,7 @@ const EmployeeProfileDetails = () => {
         setOpenModalProfile={setOpenModalProfile}
         id={open}
       />
-    </>
+    </Container>
   );
 };
 
