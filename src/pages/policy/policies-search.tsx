@@ -43,11 +43,10 @@ const RenderPolicySearchView = ({
 
   const handleSearch = async (data: any) => {
     try {
-      // console.log('Search data ', data);
       setSearch({
         nameNumber: data?.nameNumber,
         categoryId: data?.categoryId,
-        addedBy: data?.nameNumber,
+        addedBy: data?.addedBy,
       });
     } catch (error) {
       console.log(error);
