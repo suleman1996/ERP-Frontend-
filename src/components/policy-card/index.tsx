@@ -110,11 +110,11 @@ const RenderPolicy = ({
             {data?.name || 'All Policies'}
           </p>
           {data?.effectiveDate ? (
-            <p style={{ fontSize: '10px', fontWeight: 400, color: '#2D2D32' }}>
+            <p style={{ fontSize: '10px', fontWeight: 400, color: '#AFAFAF' }}>
               Effective Date: {moment(data?.effectiveDate).format('DD MMM, YYYY')}
             </p>
           ) : (
-            <p style={{ fontSize: '10px', fontWeight: 400, color: '#2D2D32' }}>
+            <p style={{ fontSize: '10px', fontWeight: 400, color: '#AFAFAF' }}>
               Effective Date: 10 April, 2022
             </p>
           )}
@@ -140,13 +140,29 @@ const RenderPolicy = ({
             { q: 'Approved by', v: data?.approvedBy?.fullName },
             { q: 'Added by', v: data?.addedBy[0]?.name },
           ].map((item) => (
-            <li>
-              <span title={item?.v}>
-                {item?.q} : {item?.v}
-              </span>
-            </li>
+            <div style={{ display: 'flex' }}>
+              <div style={{ width: '50%' }}>
+                <p style={{ fontSize: '10px', fontWeight: 400, color: '#2D2D32' }}>{item?.q}</p>
+              </div>
+              <div style={{ width: '50%', display: 'flex', justifyContent: 'flex-end' }}>
+                <p
+                  style={{
+                    fontSize: '10px',
+                    fontWeight: 400,
+                    color: '#AFAFAF',
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                  }}
+                  title={item?.v?.length >= 14 && item?.v}
+                >
+                  {item?.v}
+                </p>
+              </div>
+            </div>
           ))}
         </ul>
+
         <div className={style.leftCircle} />
         <div className={style.rightCircle} />
       </div>
