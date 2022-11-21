@@ -1,13 +1,12 @@
 import React, { useRef } from 'react';
+import moment from 'moment';
 
-import arrowRight from 'assets/arrowRight.svg';
-import menu from 'assets/menu.svg';
-
-import style from './request.module.scss';
 import { useOutsideAlerter } from 'hooks/useOutsideClick';
 
-import moment from 'moment';
 import PolicyService from 'services/policy-service';
+
+import style from './request.module.scss';
+import menu from 'assets/menu.svg';
 
 const RenderPolicy = ({
   setSelectedTab,
@@ -50,7 +49,6 @@ const RenderPolicy = ({
               className={style.menuViewBox}
             >
               <p style={{ fontSize: '8px', fontWeight: '500', color: '#2D2D32' }}>Edit</p>
-              {/* <img src={arrowRight} alt="" className={style.img} /> */}
             </div>
           )}
           <div
@@ -61,7 +59,6 @@ const RenderPolicy = ({
             className={style.menuViewBox}
           >
             <p style={{ fontSize: '8px', fontWeight: '500', color: '#2D2D32' }}>Delete</p>
-            {/* <img src={arrowRight} alt="" className={style.img} /> */}
           </div>
           {type !== 'Obselete' && (
             <div
@@ -79,7 +76,6 @@ const RenderPolicy = ({
               >
                 Add Revision
               </p>
-              {/* <img src={arrowRight} alt="" className={style.img} /> */}
             </div>
           )}
 
@@ -94,7 +90,6 @@ const RenderPolicy = ({
               >
                 Obsolete
               </p>
-              {/* <img src={arrowRight} alt="" className={style.img} /> */}
             </div>
           )}
         </div>
