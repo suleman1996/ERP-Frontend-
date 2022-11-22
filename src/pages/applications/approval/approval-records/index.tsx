@@ -1,9 +1,9 @@
-import Pagination from 'components/pagination';
-import Table from 'components/table';
-import React, { useState } from 'react';
-import style from './approval-records.module.scss';
-import view from 'assets/viewIconnew.svg';
-import deleteIcon from 'assets/table-delete.svg';
+import Pagination from 'components/pagination'
+import Table from 'components/table'
+import React, { useState } from 'react'
+import style from './approval-records.module.scss'
+import view from 'assets/viewIconnew.svg'
+import deleteIcon from 'assets/table-delete.svg'
 
 const RowsData = [
   {
@@ -303,7 +303,7 @@ const RowsData = [
       </div>
     ),
   },
-];
+]
 const ColumnsData = [
   {
     key: 'name',
@@ -347,12 +347,12 @@ const ColumnsData = [
     alignText: 'center',
     width: '150px',
   },
-];
+]
 
 const ApprovalRecords = () => {
-  const [pageSize, setPageSize] = useState(10);
-  const [totalCount, setTotalCount] = useState();
-  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10)
+  const [totalCount] = useState()
+  const [page, setPage] = useState(1)
 
   return (
     <div className={style.approvalRecordsContainer}>
@@ -388,7 +388,7 @@ const ApprovalRecords = () => {
         />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ApprovalRecords;
+export default ApprovalRecords

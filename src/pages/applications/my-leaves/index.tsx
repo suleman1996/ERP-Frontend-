@@ -1,18 +1,18 @@
-import Table from 'components/table';
-import style from './index.module.scss';
+import Table from 'components/table'
+import style from './index.module.scss'
 
-import editIcon from 'assets/edit-icon-application.svg';
-import cancel from 'assets/cancel.svg';
-import view from 'assets/viewIconnew.svg';
-import Button from 'components/button';
-import Pagination from 'components/pagination';
-import { useEffect, useState } from 'react';
-import CreateApplicationModal from './create-applications';
-import ApplicationService from 'services/application-service';
-import moment from 'moment';
-import Loading from 'components/loading';
-import DeleteModal from 'components/delete-modal';
-import { createNotification } from 'common/create-notification';
+import editIcon from 'assets/edit-icon-application.svg'
+import cancel from 'assets/cancel.svg'
+import view from 'assets/viewIconnew.svg'
+import Button from 'components/button'
+import Pagination from 'components/pagination'
+import { useEffect, useState } from 'react'
+import CreateApplicationModal from './create-applications'
+import ApplicationService from 'services/application-service'
+import moment from 'moment'
+import Loading from 'components/loading'
+import DeleteModal from 'components/delete-modal'
+import { createNotification } from 'common/create-notification'
 
 const ColumnsData = [
   {
@@ -39,7 +39,7 @@ const ColumnsData = [
     alignText: 'center',
     width: '150px',
   },
-];
+]
 const ColumnsData1 = [
   {
     key: 'leaveType',
@@ -83,42 +83,45 @@ const ColumnsData1 = [
     alignText: 'center',
     width: '100px',
   },
-];
+]
 
-const MyLeaves = ({ data, parentRenderState }: { data: any; parentRenderState: any }) => {
-  const [loading, setLoading] = useState(false);
-  const [pageSize, setPageSize] = useState(10);
-  const [openModal, setOpenModal] = useState(false);
-  const [selectedId, setSelectedId] = useState('');
-  const [editData, setEditData] = useState('');
-  const [cancelModal, setCancelModal] = useState(false);
-  const [totalCount, setTotalCount] = useState();
-  const [RowsData, setRowsData] = useState([]);
-  const [leaveRowsData, setLeaveRowsData] = useState([]);
-  const [defaultLeaveType, setDefaultLeaveType] = useState({});
-  const [page, setPage] = useState(1);
-  const [render, setRender] = useState<boolean>(false);
+const MyLeaves = ({ data }: { data: any; parentRenderState: any }) => {
+  const [loading, setLoading] = useState(false)
+  const [pageSize, setPageSize] = useState(10)
+  const [openModal, setOpenModal] = useState(false)
+  const [selectedId, setSelectedId] = useState('')
+  const [editData, setEditData] = useState('')
+  const [cancelModal, setCancelModal] = useState(false)
+  const [totalCount, setTotalCount] = useState()
+  const [RowsData, setRowsData] = useState([])
+  const [leaveRowsData, setLeaveRowsData] = useState([])
+  const [defaultLeaveType, setDefaultLeaveType] = useState({})
+  const [page, setPage] = useState(1)
+  const [render, setRender] = useState<boolean>(false)
 
   const getHistory = async () => {
-    setLoading(true);
-    const res = await ApplicationService.getLeaveHistory();
+    setLoading(true)
+    const res = await ApplicationService.getLeaveHistory()
     const data = res?.data?.map((el: any) => {
       return {
         leaveId: el.leaveId,
         leaveType: el.leaveType,
         remaining: el.remaining + ' Remains',
         total: el.total + ' Allows',
-      };
-    });
-    setRowsData(data);
-    setLoading(false);
-  };
+      }
+    })
+    setRowsData(data)
+    setLoading(false)
+  }
   const getAllLeaveApplications = async () => {
-    setLoading(true);
-    let {
-      data: { msg, total },
-    } = await ApplicationService.getAllLeaveApplications({ pageSize: pageSize, page: page - 1 });
-    setTotalCount(total);
+    setLoading(true)
+    const { data } = await ApplicationService.getAllLeaveApplications({
+      pageSize: pageSize,
+      page: page - 1,
+    })
+    const { total } = data
+    let { msg } = data
+    setTotalCount(total)
     msg = msg?.map((el: any) => {
       return {
         rawData: el,
@@ -181,29 +184,29 @@ const MyLeaves = ({ data, parentRenderState }: { data: any; parentRenderState: a
             </div>
           </div>
         ),
-      };
-    });
-    setLeaveRowsData(msg);
-    setLoading(false);
-  };
+      }
+    })
+    setLeaveRowsData(msg)
+    setLoading(false)
+  }
 
   useEffect(() => {
-    getHistory();
-    getAllLeaveApplications();
-  }, [pageSize, page, render]);
+    getHistory()
+    getAllLeaveApplications()
+  }, [pageSize, page, render])
 
   const handleCancel = async () => {
-    const res = await ApplicationService.deleteApplication(selectedId);
+    const res = await ApplicationService.deleteApplication(selectedId)
     if (res?.response?.status === 400) {
-      createNotification('error', 'Error', res?.response?.data?.message);
-      setCancelModal(false);
+      createNotification('error', 'Error', res?.response?.data?.message)
+      setCancelModal(false)
     }
     if (res?.data) {
-      createNotification('success', 'success', 'Canceled');
-      setCancelModal(false);
-      setRender((prev) => !prev);
+      createNotification('success', 'success', 'Canceled')
+      setCancelModal(false)
+      setRender((prev) => !prev)
     }
-  };
+  }
 
   return (
     <>
@@ -248,8 +251,11 @@ const MyLeaves = ({ data, parentRenderState }: { data: any; parentRenderState: a
                     btnClass={style.btnClass}
                     btnTextClass={style.btnTitle}
                     handleClick={() => {
-                      setDefaultLeaveType({ value: row.leaveId, label: row.leaveType });
-                      setOpenModal(true);
+                      setDefaultLeaveType({
+                        value: row.leaveId,
+                        label: row.leaveType,
+                      })
+                      setOpenModal(true)
                     }}
                   />
                 </div>
@@ -276,8 +282,8 @@ const MyLeaves = ({ data, parentRenderState }: { data: any; parentRenderState: a
                       src={editIcon}
                       width={30}
                       onClick={() => {
-                        setEditData(row);
-                        setOpenModal(true);
+                        setEditData(row)
+                        setOpenModal(true)
                       }}
                     />
                   </div>
@@ -287,8 +293,8 @@ const MyLeaves = ({ data, parentRenderState }: { data: any; parentRenderState: a
                       src={cancel}
                       width={30}
                       onClick={() => {
-                        setCancelModal(true);
-                        setSelectedId(row?.id);
+                        setCancelModal(true)
+                        setSelectedId(row?.id)
                       }}
                     />
                   </div>
@@ -309,7 +315,7 @@ const MyLeaves = ({ data, parentRenderState }: { data: any; parentRenderState: a
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default MyLeaves;
+export default MyLeaves

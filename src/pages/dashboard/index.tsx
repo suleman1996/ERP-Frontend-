@@ -1,23 +1,21 @@
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
 
-import FiltersComponent from 'components/filters';
-import ImageUpload from 'components/image-upload';
-import NotificationPopup from 'components/notification-popup';
-import FiltersComponentByDate from 'components/filters/filter-for-dates';
-import TextField from 'components/textfield';
-import Container from 'components/container';
-import TextArea from 'components/textarea';
-import ProfileUpload from 'components/profile-upload';
-import TimePicker from 'components/time-picker';
-import Tags from 'components/tags';
-import Button from 'components/button';
+import FiltersComponent from 'components/filters'
+import ImageUpload from 'components/image-upload'
+import FiltersComponentByDate from 'components/filters/filter-for-dates'
+import TextField from 'components/textfield'
+import Container from 'components/container'
+import TextArea from 'components/textarea'
+import ProfileUpload from 'components/profile-upload'
+import TimePicker from 'components/time-picker'
+import Tags from 'components/tags'
+import Button from 'components/button'
 
 const DashBoard = () => {
-  const { control, register } = useForm();
-  const [img, setImg] = useState<unknown>('');
-  const [open, setOpen] = useState(false);
-  const [selectedFileName, setSelectedFileName] = useState<any>();
+  const { register } = useForm()
+  const [img, setImg] = useState<unknown>('')
+  const [selectedFileName, setSelectedFileName] = useState<any>()
 
   return (
     <Container>
@@ -25,10 +23,20 @@ const DashBoard = () => {
         <Button text="Button" />
       </div>
       <div style={{ marginTop: '10px' }}>
-        <TextField label="TextField" register={register} placeholder="TextField" name="textField" />
+        <TextField
+          label="TextField"
+          register={register}
+          placeholder="TextField"
+          name="textField"
+        />
       </div>
       <div style={{ marginTop: '10px' }}>
-        <TextArea label="TextArea" register={register} placeholder="TextArea" name="textArea" />
+        <TextArea
+          label="TextArea"
+          register={register}
+          placeholder="TextArea"
+          name="textArea"
+        />
       </div>
       <div style={{ marginTop: '10px' }}>
         <ProfileUpload
@@ -71,7 +79,7 @@ const DashBoard = () => {
         <FiltersComponent />
       </div>
     </Container>
-  );
-};
+  )
+}
 
-export default DashBoard;
+export default DashBoard

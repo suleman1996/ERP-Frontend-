@@ -1,17 +1,20 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, { memo, useEffect, useState } from 'react';
-import InfiniteScroll from 'react-infinite-scroll-component';
-import { v4 } from 'uuid';
+import React, { memo, useEffect, useState } from 'react'
+import InfiniteScroll from 'react-infinite-scroll-component'
+import { v4 } from 'uuid'
 
-import Input from 'components/input';
-import Checkbox from 'components/checkbox';
-import Button from 'components/button';
-import Loading from 'components/loading';
+import Input from 'components/input'
+import Checkbox from 'components/checkbox'
+import Button from 'components/button'
+import Loading from 'components/loading'
 
-import { checkAllCheckboxBoolean, selectAllCheckboxToggle, sortData } from './mockData';
+import {
+  checkAllCheckboxBoolean,
+  selectAllCheckboxToggle,
+  sortData,
+} from './mockData'
 
-import searchIcon from '../../assets/settings-page/search.png';
-import style from './table-filter.module.scss';
+import searchIcon from '../../assets/settings-page/search.png'
+import style from './table-filter.module.scss'
 import {
   getFiltersData,
   getFiltersDataBySort,
@@ -20,17 +23,17 @@ import {
   handlePage,
   handleSelectAll,
   handleSort,
-} from './helper';
+} from './helper'
 
 interface Props {
-  toggleFilter: () => void;
-  clearFilter: () => void;
-  setFilters: any;
-  apiCall?: any;
-  filterKey: string;
-  filters: any;
-  sorts?: any;
-  setSorts?: any;
+  toggleFilter: () => void
+  clearFilter: () => void
+  setFilters: any
+  apiCall?: any
+  filterKey: string
+  filters: any
+  sorts?: any
+  setSorts?: any
 }
 
 const TableFilter = ({
@@ -43,20 +46,20 @@ const TableFilter = ({
   sorts,
   setSorts,
 }: Props) => {
-  const pageSize = 20;
-  const [selectFilters, setSelectFilters] = useState<any>([]);
-  const [selectAll, setSelectAll] = useState(false);
-  const [hasMore, setHasMore] = useState(true);
-  const [page, setPage] = useState(0);
-  const [search, setSearch] = useState('');
-  const [filterCheckboxName, setFilterCheckboxName] = useState<any>({});
-  const [filtersData, setFiltersData] = useState<any>([]);
-  const [tempFiltersData, setTempFiltersData] = useState<any>([]);
-  const [count, setCount] = useState(0);
-  const [loading, setLoading] = useState(true);
+  const pageSize = 20
+  const [selectFilters, setSelectFilters] = useState<any>([])
+  const [selectAll, setSelectAll] = useState(false)
+  const [hasMore, setHasMore] = useState(true)
+  const [page, setPage] = useState(0)
+  const [search, setSearch] = useState('')
+  const [filterCheckboxName, setFilterCheckboxName] = useState<any>({})
+  const [filtersData, setFiltersData] = useState<any>([])
+  const [tempFiltersData, setTempFiltersData] = useState<any>([])
+  const [count, setCount] = useState(0)
+  const [loading, setLoading] = useState(true)
 
   const handleGetFilters = async () => {
-    setLoading(true);
+    setLoading(true)
     await getFiltersData({
       apiCall,
       pageSize,
@@ -72,16 +75,16 @@ const TableFilter = ({
       setFiltersData,
       setCount,
       setHasMore,
-    });
-    setLoading(false);
-  };
+    })
+    setLoading(false)
+  }
 
   useEffect(() => {
-    handleGetFilters();
-  }, [page]);
+    handleGetFilters()
+  }, [page])
 
   useEffect(() => {
-    setPage(0);
+    setPage(0)
     if (search)
       getFiltersDataBySort({
         apiCall,
@@ -93,17 +96,17 @@ const TableFilter = ({
         setFiltersData,
         setCount,
         setHasMore,
-      });
-  }, [search]);
+      })
+  }, [search])
 
   useEffect(() => {
-    const selectAllCheck = checkAllCheckboxBoolean(filterCheckboxName);
+    const selectAllCheck = checkAllCheckboxBoolean(filterCheckboxName)
     if (selectAllCheck === true) {
-      setSelectAll(true);
+      setSelectAll(true)
     } else {
-      setSelectAll(false);
+      setSelectAll(false)
     }
-  }, [filterCheckboxName]);
+  }, [filterCheckboxName])
 
   return (
     <>
@@ -170,7 +173,7 @@ const TableFilter = ({
                     setFilterCheckboxName,
                     selectAllCheckboxToggle,
                     filterCheckboxName,
-                  });
+                  })
                 }}
               />
             </div>
@@ -192,7 +195,7 @@ const TableFilter = ({
                     setHasMore,
                     page,
                     count,
-                  });
+                  })
                 }}
                 style={{ display: 'flex', flexDirection: 'column' }}
                 inverse={false}
@@ -247,7 +250,7 @@ const TableFilter = ({
                   setFilters,
                   selectFilters,
                   toggleFilter,
-                });
+                })
               }}
             />
             <Button
@@ -260,7 +263,7 @@ const TableFilter = ({
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default memo(TableFilter);
+export default memo(TableFilter)

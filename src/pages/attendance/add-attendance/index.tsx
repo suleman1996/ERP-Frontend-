@@ -1,21 +1,18 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form'
 
-import Container from 'components/container';
-import Selection from 'components/selection';
-import Input from 'components/input';
-import DatePicker from 'components/date-picker';
-import AttendanceCard from 'components/get-attendance-card';
-import Button from 'components/button';
+import Container from 'components/container'
+import Selection from 'components/selection'
+import Input from 'components/input'
+import DatePicker from 'components/date-picker'
+import AttendanceCard from 'components/get-attendance-card'
+import Button from 'components/button'
 
-import { departments } from '../columns-data';
+import { departments } from '../columns-data'
 
-import style from './add-attendance.module.scss';
-
-export interface AttendanceInt {}
+import style from './add-attendance.module.scss'
 
 const AddAttendance = () => {
-  const { control } = useForm();
+  const { control } = useForm()
 
   return (
     <>
@@ -40,6 +37,6 @@ const AddAttendance = () => {
         <AttendanceCard handleSave={() => alert('Save')} />
       </Container>
     </>
-  );
-};
-export default AddAttendance;
+  )
+}
+export default AddAttendance

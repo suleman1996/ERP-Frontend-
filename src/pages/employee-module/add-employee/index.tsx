@@ -1,25 +1,29 @@
-import { Component, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'
 
-import StepBar from 'components/stepbar';
-import EducationalDetails from './education-details';
-import AddressInformation from './address-information';
-import CompanyInformation from './company-information';
-import PayrollInformation from './payroll-information';
-import PersonalInformation from './personal-information';
-import ExperienceDetails from './experience-information';
-import CardContainer from 'components/card-container';
-import ExpertiseInformation from './expertise-information';
+import StepBar from 'components/stepbar'
+import EducationalDetails from './education-details'
+import AddressInformation from './address-information'
+import CompanyInformation from './company-information'
+import PayrollInformation from './payroll-information'
+import PersonalInformation from './personal-information'
+import ExperienceDetails from './experience-information'
+import CardContainer from 'components/card-container'
+import ExpertiseInformation from './expertise-information'
 
-import cross from 'assets/cross.svg';
-import style from './add-employee.module.scss';
-import { withAddEmployeeContext, useEmployeeForms } from './context';
+import cross from 'assets/cross.svg'
+import style from './add-employee.module.scss'
+import { withAddEmployeeContext, useEmployeeForms } from './context'
 
 const AddEmployee = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
-  const { active, setStepBarActive, setActive, stepBarActive, controlWidth }: any =
-    useEmployeeForms();
+  const {
+    active,
+    setStepBarActive,
+    setActive,
+    stepBarActive,
+    controlWidth,
+  }: any = useEmployeeForms()
 
   return (
     <>
@@ -44,17 +48,45 @@ const AddEmployee = () => {
         <div>{tabs[active].Component}</div>
       </CardContainer>
     </>
-  );
-};
+  )
+}
 
-export default withAddEmployeeContext(AddEmployee);
+export default withAddEmployeeContext(AddEmployee)
 
 const tabs: any = [
-  { key: 'Personal', title: 'Personal Information', Component: <PersonalInformation /> },
-  { key: 'Address', title: 'Personal Information', Component: <AddressInformation /> },
-  { key: 'Company', title: 'Personal Information', Component: <CompanyInformation /> },
-  { key: 'Education', title: 'Personal Information', Component: <EducationalDetails /> },
-  { key: 'Experience', title: 'Personal Information', Component: <ExperienceDetails /> },
-  { key: 'Expertise', title: 'Personal Information', Component: <ExpertiseInformation /> },
-  { key: 'Payroll', title: 'Personal Information', Component: <PayrollInformation /> },
-];
+  {
+    key: 'Personal',
+    title: 'Personal Information',
+    Component: <PersonalInformation />,
+  },
+  {
+    key: 'Address',
+    title: 'Personal Information',
+    Component: <AddressInformation />,
+  },
+  {
+    key: 'Company',
+    title: 'Personal Information',
+    Component: <CompanyInformation />,
+  },
+  {
+    key: 'Education',
+    title: 'Personal Information',
+    Component: <EducationalDetails />,
+  },
+  {
+    key: 'Experience',
+    title: 'Personal Information',
+    Component: <ExperienceDetails />,
+  },
+  {
+    key: 'Expertise',
+    title: 'Personal Information',
+    Component: <ExpertiseInformation />,
+  },
+  {
+    key: 'Payroll',
+    title: 'Personal Information',
+    Component: <PayrollInformation />,
+  },
+]
