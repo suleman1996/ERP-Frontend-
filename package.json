@@ -115,7 +115,7 @@
     "react-error-overlay": "6.0.9"
   },
   "lint-staged": {
-    "**/*.{js,jsx}": [
+    "**/*.{js,jsx,ts,tsx}": [
       "npm run lint",
       "prettier --write"
     ]
