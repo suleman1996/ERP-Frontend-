@@ -57,7 +57,7 @@ const MonthYearPicker = ({
                   selected={value == 'Invalid Date' ? null : value || null}
                   className={errorMessage ? style.borderClass : style.inpDiv}
                   onChange={onChange}
-                  value={watch('financialYearStart') ? defaultVal : value}
+                  value={watch(name) ? defaultVal : value}
                   selectsStart
                   dateFormat="MM/yyyy"
                   showMonthYearPicker

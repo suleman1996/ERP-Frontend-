@@ -1,13 +1,14 @@
 export const SelectionStyle = {
   control: (styles: any, state: any) => ({
     ...styles,
-    backgroundColor: 'bg-dark-gray',
-    borderRadius: 5,
+    backgroundColor: '#ffffff',
+    borderRadius: 6,
     boxShadow: 'none',
-    border: '1px solid transparent',
-    minHeight: 'calc(30px + 25 * (100vw - 280px) / 2280) !important',
-    padding: '0 2px',
-
+    border: 'transparent !important',
+    minHeight: 'calc(30px + (55 - 30) * (100vw - 280px) / (2560 - 280)) !important',
+    paddingLeft: 'calc(2px + (7 - 2) * (100vw - 280px) / (2560 - 280)) !important',
+    paddingRight: 'calc(2px + (7 - 2) * (100vw - 280px) / (2560 - 280)) !important',
+    borderColor: 'none !important',
     '&:hover': {
       outline: state.isFocused ? 0 : 0,
     },
@@ -16,14 +17,16 @@ export const SelectionStyle = {
     return {
       ...styles,
       backgroundColor: isDisabled ? 'black' : isSelected ? '#57B894' : isFocused ? 'white' : null,
-      color: isDisabled ? '#ccc' : isSelected ? 'white' : data.color,
+      color: isDisabled ? '#ccc' : isSelected ? 'red' : data.color,
       cursor: isDisabled ? 'not-allowed' : 'default',
     };
   },
   placeholder: (styles: any) => ({
     ...styles,
-    fontSize: 'calc(9px + (13 - 9) * (100vw - 280px) / (2560 - 280))',
-    color: '#CACACA',
+    fontSize: 'calc(12px + (18 - 12) * (100vw - 280px) / (2560 - 280))',
+    color: '#cacaca',
+    fontWeight: '500 !important',
+    textTransform: 'capitalize',
   }),
 
   valueContainer: (provided, state) => ({

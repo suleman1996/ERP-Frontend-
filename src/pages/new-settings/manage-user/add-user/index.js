@@ -1,5 +1,5 @@
 import Button from 'components/button';
-import Input from 'components/input';
+import Input from 'components/textfield';
 
 import cam from 'assets/whiteCam.svg';
 import style from './add-user.module.scss';

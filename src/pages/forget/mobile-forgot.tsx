@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { schema } from './forget-helper';
 
-import Input from 'components/input';
+import Input from 'components/textfield';
 import Button from 'components/button';
 
 import style from './forget.module.scss';

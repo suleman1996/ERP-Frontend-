@@ -8,7 +8,6 @@ import Checkbox from 'components/checkbox';
 import edit from 'assets/edit.svg';
 import delIcon from 'assets/delete.svg';
 import arrow from 'assets/arrow-left.svg';
-import arrowDown from 'assets/opposite-icon.svg';
 import style from './search-select.module.scss';
 
 interface Props {
@@ -94,6 +93,7 @@ const SearchSelect = ({
         placeholder={placeholder}
         value={selectValue}
         type="text"
+        icon={arrow}
         onChange={(e) => handleSearch(e)}
         onClick={() => setOpen(!open)}
         className={style.field}
@@ -112,9 +112,7 @@ const SearchSelect = ({
               </p>
               {icons && (
                 <div className={style.icons}>
-                  <div>
-                    <Checkbox />
-                  </div>
+                  <Checkbox />
                   <img src={edit} alt="" onClick={handleEdit && handleEdit} />
                   <img src={delIcon} alt="" onClick={handleDelete && handleDelete} />
                 </div>

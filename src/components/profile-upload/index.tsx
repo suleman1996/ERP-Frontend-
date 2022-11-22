@@ -79,27 +79,28 @@ const ProfileUpload = ({
         className={`${style.wraper} ${className}`}
         style={{ border: errorMessage ? '1px solid #ff5050' : '1px solid #E2E2EA' }}
       >
-        <input
-          type={'file'}
-          name={name}
-          onChange={(e) => {
-            setSelectedFileName &&
-              e.target.value &&
-              setSelectedFileName(e?.target?.value?.split('').splice(12, 100).join(''));
-            checkFileType(e);
-          }}
-          accept={type ? type : 'image/png/pdf '}
-          ref={register}
-          hidden
-          id={id}
-          data-testid={id}
-        />
         <label htmlFor={id} className={style.labelTag}>
           {selectedFileName
             ? `${selectedFileName}`
             : placeholder
             ? `${placeholder}`
             : 'Attach Transcript'}
+          <input
+            type={'file'}
+            name={name}
+            onChange={(e) => {
+              setSelectedFileName &&
+                e.target.value &&
+                setSelectedFileName(e?.target?.value?.split('').splice(12, 100).join(''));
+              checkFileType(e);
+            }}
+            accept={type ? type : 'image/png/pdf '}
+            ref={register}
+            hidden
+            id={id}
+            data-testid={id}
+          />
+
           <img src={profileUploadIcon} alt="" className={style.fileIcon} />
         </label>
       </div>

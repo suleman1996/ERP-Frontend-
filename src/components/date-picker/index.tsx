@@ -190,9 +190,7 @@ const DatePicker = ({
             }}
           />
           <label htmlFor={id}>
-            <div className={style.icon}>
-              <img src={date} alt="" />
-            </div>
+            <img src={date} alt="" className={style.icon} />
           </label>
         </div>
         {errorMessage ? <span className={style.errorMessage}>{errorMessage}</span> : ''}

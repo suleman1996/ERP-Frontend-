@@ -31,7 +31,7 @@ export const MonthsYearFilter = ({ list }: Props) => {
             onClick={(e: any) => handleClick(e, index)}
           />
           {ele.child && (
-            <div style={{ marginLeft: '16px', marginTop: '7px' }}>
+            <div style={{ marginLeft: '19px', marginTop: '7px' }}>
               {index === monthState && <MonthsDateFilter childArr={ele.child} />}
             </div>
           )}
@@ -63,7 +63,7 @@ export const MonthsDateFilter = ({ childArr }: Props) => {
           {ele.child && (
             <div
               style={{
-                marginLeft: '16px',
+                marginLeft: '19px',
                 marginTop: '7px',
               }}
             >

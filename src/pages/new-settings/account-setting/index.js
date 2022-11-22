@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 
 import Button from 'components/button';
-import Input from 'components/input';
+import Input from 'components/textfield';
 import ImageUpload from 'components/image-upload';
 import CardContainer from 'components/card-container';
 import NotificationPopup from 'components/notification-popup';

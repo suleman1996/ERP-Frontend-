@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-import Input from 'components/input';
+import Input from 'components/textfield';
 import Button from 'components/button';
 import { schema } from './login-helper';
 import { LoginCredentials } from 'interfaces/login-credentials';

@@ -13,12 +13,10 @@
   user-select: none;
 
   p {
-    @include font20;
+    @include font24;
     padding-left: calc(18px + (30 - 18) * (100vw - 280px) / (2560 - 280));
-    font-family: 'Poppins';
-    font-style: normal;
+    font-weight: 500;
     color: #2d2d32;
-    margin-bottom: 5px;
     margin-top: 0px !important;
   }
 }
@@ -35,7 +33,6 @@
 /* Create a custom checkbox */
 .checkMark {
   position: absolute;
-  top: 0px;
   left: 0;
   width: calc(13px + (20 - 13) * (100vw - 280px) / (2560 - 280));
   height: calc(13px + (20 - 13) * (100vw - 280px) / (2560 - 280));
@@ -48,8 +45,8 @@
 
 /* When the checkbox is checked, add a blue background */
 .container input:checked ~ .checkMark {
-  background-color: #ffffff;
-  border-color: #57b894;
+  background-color: #57b894;
+  border-color: #ffffff;
 }
 
 /* Create the checkMark/indicator (hidden when not checked) */

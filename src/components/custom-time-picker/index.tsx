@@ -5,16 +5,29 @@ import Select from 'components/select';
 
 import style from './time.module.scss';
 
+interface Props {
+  control?: any;
+  name?: any;
+  errorMessage?: any;
+  setCustomErr?: any;
+  customErr?: any;
+  setType?: any;
+  type?: any;
+  star?: any;
+  label?: string;
+}
+
 const CustomTimePicker = ({
   control,
   name,
+  label,
   errorMessage,
   setCustomErr,
   customErr,
   setType,
   type,
   star,
-}) => {
+}: Props) => {
   const { field } = useController({ control, name, defaultValue: 'HH:MM' });
 
   useEffect(() => {
@@ -42,8 +55,9 @@ const CustomTimePicker = ({
   }, [field.value, type, selectHoursDuration]);
   return (
     <div>
-      <label>
-        Working Hours <b style={{ color: 'red' }}>{star}</b>
+      <label style={{ color: errorMessage ? '#ff5050' : '' }}>
+        {label}
+        <b style={{ color: '#ff5050' }}>{star}</b>
       </label>
       <div className={style.wraper} style={{ border: ' 1.2px solid #e2e2ea' }}>
         <Select

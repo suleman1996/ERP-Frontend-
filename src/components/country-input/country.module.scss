@@ -5,11 +5,15 @@
 .wraper {
   display: flex;
   align-items: flex-end;
+  margin-top: calc(5px + (12 - 5) * (100vw - 280px) / (2560 - 280));
 }
 .buttonStyle {
   width: 50px;
   display: flex;
   justify-content: center;
+  background: #ffffff;
+  border: 1px solid #e2e2ea;
+  border-radius: 6px;
 }
 .errorMessage {
   position: absolute;
@@ -17,4 +21,11 @@
   margin-left: 5px;
   color: #ff5050;
   @include font14;
+}
+.label {
+  @include font24;
+  font-family: 'Poppins';
+  font-style: normal;
+  color: #2d2d32;
+  text-transform: capitalize;
 }

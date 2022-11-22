@@ -79,7 +79,10 @@
 
 .smallImg {
   display: none;
-  margin: 10px;
+  padding: 5px 10px;
+  background: #ffffff;
+  border: 1px solid #e2e2ea;
+  border-radius: 3px;
   @media (max-width: $xxs) {
     display: block;
   }

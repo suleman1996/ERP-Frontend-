@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
 import Card from 'components/card';
-import Input from 'components/input';
+import Input from 'components/textfield';
 import Button from 'components/button';
 import Select from 'components/select';
 import TextField from 'components/textfield';

@@ -15,7 +15,7 @@ import CardContainer from 'components/card-container';
 import Button from 'components/button';
 import Tags from 'components/tags';
 import Modal from 'components/modal';
-import Input from 'components/input';
+import Input from 'components/textfield';
 import Select from 'components/select';
 import statusIcon from 'assets/status.svg';
 

@@ -22,7 +22,7 @@ import DatePicker from 'components/date-picker';
 import Selection from 'components/selection';
 import ProfileUpload from 'components/profile-upload';
 import Container from 'components/container';
-import EventModal from 'components/event-modal';
+import EventModal from 'components/modal';
 import TextArea from 'components/textarea';
 import DeleteModal from 'components/delete-modal';
 
