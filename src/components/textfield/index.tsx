@@ -56,9 +56,9 @@ const TextField = ({
     <>
       <div className={`${style.inputContainer} ${container} `}>
         {label && (
-          <label style={{ color: errorMessage ? '#000' : '' }}>
+          <label style={{ color: errorMessage ? '#ff5050' : '' }}>
             {label}
-            <b style={{ color: 'red' }}>{star}</b>
+            <b style={{ color: '#ff5050' }}>{star}</b>
           </label>
         )}
         <div style={{ position: 'relative' }} className={className}>
