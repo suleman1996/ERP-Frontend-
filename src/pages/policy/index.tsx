@@ -471,7 +471,6 @@ const Policy = () => {
               isMulti={true}
               name="appliesTo"
               defaultValue={null}
-              showNumber
               isSearchable={false}
             />
             <div>
