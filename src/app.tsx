@@ -13,7 +13,7 @@ import NotificationService from 'services/notification-service'
 
 import 'bootstrap-daterangepicker/daterangepicker.css'
 import { getAllSettings } from 'store/actions'
-//only for comm
+//only for co
 const App = () => {
   const dispatch = useAppDispatch()
   const { user_id, currentUser, token } = useAppSelector((state) => state?.app)
