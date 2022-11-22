@@ -43,7 +43,6 @@ const Applications = () => {
   useEffect(() => {
     getAllData()
   }, [])
-  useEffect(() => {}, [data])
 
   const ActiveView = () => {
     switch (active) {

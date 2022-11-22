@@ -1,34 +1,31 @@
-import moment from 'moment';
+import moment from 'moment'
 
-import Button from 'components/button';
-import TextField from 'components/textfield';
-import TextArea from 'components/textarea';
-import DatePicker from 'components/date-picker';
-import Table from 'components/table';
-import ProfileUpload from 'components/profile-upload';
-import Checkbox from 'components/checkbox';
-import Select from 'components/select';
+import Button from 'components/button'
+import TextField from 'components/textfield'
+import TextArea from 'components/textarea'
+import DatePicker from 'components/date-picker'
+import Table from 'components/table'
+import ProfileUpload from 'components/profile-upload'
+import Checkbox from 'components/checkbox'
+import Select from 'components/select'
 
-import { columns, useEducationDetail } from './helper';
-import { useEmployeeForms } from '../context';
+import { columns, useEducationDetail } from './helper'
+import { useEmployeeForms } from '../context'
 
-import tick from 'assets/tick.svg';
-import arrowLeft from 'assets/backBtn.svg';
-import arrowRight from 'assets/arrowBtnRight.svg';
-import style from './education.module.scss';
-
-interface Props {
-  formData: any;
-  setFormData: any;
-  employeeId: string;
-  employeeDocId: string;
-  handleBack: (data?: string) => void;
-  handleNext: (data?: string) => void;
-}
+import tick from 'assets/tick.svg'
+import arrowLeft from 'assets/backBtn.svg'
+import arrowRight from 'assets/arrowBtnRight.svg'
+import style from './education.module.scss'
 
 const EducationalDetails = () => {
-  const { handleNext, setFormData, employeeDocId, formData, handleBack, employeeId }: any =
-    useEmployeeForms();
+  const {
+    handleNext,
+    setFormData,
+    employeeDocId,
+    formData,
+    handleBack,
+    employeeId,
+  }: any = useEmployeeForms()
 
   const {
     handleAddEduction,
@@ -42,7 +39,6 @@ const EducationalDetails = () => {
     btnLoader,
     setOngoing,
     watch,
-    ongiong,
     handleDeleteIndex,
     startDate,
     setValue,
@@ -56,7 +52,7 @@ const EducationalDetails = () => {
     setFormData,
     employeeId,
     employeeDocId,
-  });
+  })
 
   return (
     <div className={style.mainForm}>
@@ -172,7 +168,9 @@ const EducationalDetails = () => {
             rows={educations.map((education) => ({
               ...education,
               endDate:
-                (education.endDate && moment(education.endDate).format('Do MMMM YYYY')) || '---',
+                (education.endDate &&
+                  moment(education.endDate).format('Do MMMM YYYY')) ||
+                '---',
               startDate: moment(education.startDate).format('Do MMMM YYYY'),
             }))}
             columns={columns}
@@ -199,10 +197,10 @@ const EducationalDetails = () => {
         </div>
       </form>
     </div>
-  );
-};
+  )
+}
 
-export default EducationalDetails;
+export default EducationalDetails
 
 export const selectOptions = [
   {
@@ -213,4 +211,4 @@ export const selectOptions = [
     value: 'cgpa',
     description: 'CGPA',
   },
-];
+]

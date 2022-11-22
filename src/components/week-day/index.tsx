@@ -1,26 +1,31 @@
-import { setErrors } from 'helper';
-import Checkbox from 'components/checkbox';
-import style from './week-day.module.scss';
+import Checkbox from 'components/checkbox'
+import style from './week-day.module.scss'
 
 interface Props {
-  check?: any;
-  setCheck: (data?: any) => void;
-  star?: string;
-  errorMessage?: string;
-  clearErrors: any;
+  check?: any
+  setCheck: (data?: any) => void
+  star?: string
+  errorMessage?: string
+  clearErrors: any
 }
 
-const WeekDay = ({ check, setCheck, star, errorMessage, clearErrors }: Props) => {
+const WeekDay = ({
+  check,
+  setCheck,
+  star,
+  errorMessage,
+  clearErrors,
+}: Props) => {
   const handleCheckboxChange = (index: number) => {
-    clearErrors('workingDaysInWeek');
+    clearErrors('workingDaysInWeek')
     setCheck((prevState: any) =>
       prevState?.includes(index)
         ? prevState?.filter((e: any) => e !== index)
         : prevState
         ? [...prevState, index]
-        : [index],
-    );
-  };
+        : [index]
+    )
+  }
 
   return (
     <div className={style.wraper}>
@@ -31,30 +36,32 @@ const WeekDay = ({ check, setCheck, star, errorMessage, clearErrors }: Props) =>
       <table style={{ marginTop: '10px' }}>
         <tr>
           {days.map((ele, index) => {
-            return <th>{ele.name}</th>;
+            return <th key={index}>{ele.name}</th>
           })}
         </tr>
 
         <tr>
           {days.map((ele, index) => {
             return (
-              <td className={style.checkBox}>
+              <td className={style.checkBox} key={index}>
                 <Checkbox
                   checked={check?.includes(index)}
                   handleChange={() => handleCheckboxChange(index)}
                   containerClass={style.checkBoxContainer}
                 />
               </td>
-            );
+            )
           })}
         </tr>
       </table>
-      {errorMessage && <span className={style.errorMessage}>{errorMessage}</span>}
+      {errorMessage && (
+        <span className={style.errorMessage}>{errorMessage}</span>
+      )}
     </div>
-  );
-};
+  )
+}
 
-export default WeekDay;
+export default WeekDay
 
 const days = [
   { name: 'Monday' },
@@ -64,4 +71,4 @@ const days = [
   { name: 'Friday' },
   { name: 'Saturday' },
   { name: 'Sunday' },
-];
+]

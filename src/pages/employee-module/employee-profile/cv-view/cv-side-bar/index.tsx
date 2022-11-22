@@ -1,27 +1,33 @@
-import image1 from 'assets/icons/1.svg';
-import image2 from 'assets/icons/4.svg';
-import image3 from 'assets/icons/5.svg';
-import person from 'assets/icons/person.png';
-import style from './cv-side-bar.module.scss';
+import image1 from 'assets/icons/1.svg'
+import image2 from 'assets/icons/4.svg'
+import image3 from 'assets/icons/5.svg'
+import person from 'assets/icons/person.png'
+import style from './cv-side-bar.module.scss'
 
 const CvSideBar = ({ user }: any) => {
   return (
     <div className={style.sidebar}>
       <div className={style.userImg}>
         <img
-          src={user?.personalInformation?.img ? user?.personalInformation?.img : person}
+          src={
+            user?.personalInformation?.img
+              ? user?.personalInformation?.img
+              : person
+          }
           alt="no image"
         />
       </div>
       <div className={style.name}>
         <h1>{`${user?.personalInformation?.firstName} ${user?.personalInformation?.lastName}`}</h1>
-        <span className={style.designation}>{user?.companyInformation?.department}</span>
+        <span className={style.designation}>
+          {user?.companyInformation?.department}
+        </span>
       </div>
       <div className={style.languageHeader}> Skills </div>
       <div className={style.languageBody}>
-        {user?.skills.map((data: any) => {
+        {user?.skills.map((data: any, index) => {
           return (
-            <div className={style.point}>
+            <div className={style.point} key={index}>
               <span>{data.skillName}</span>
               <div className={style.cicularWraper}>
                 {Array(
@@ -31,18 +37,18 @@ const CvSideBar = ({ user }: any) => {
                     ? 5
                     : data.skillLevel === 'inter'
                     ? 2
-                    : 1,
+                    : 1
                 ).fill(<div className={style.circulardiv}></div>)}
               </div>
             </div>
-          );
+          )
         })}
       </div>
       <div className={style.languageHeader}> Languages </div>
       <div className={style.languageBody}>
-        {user?.languages.map((data: any) => {
+        {user?.languages.map((data: any, index) => {
           return (
-            <div className={style.point}>
+            <div className={style.point} key={index}>
               <span>{data.language}</span>
               <div className={style.cicularWraper}>
                 {Array(
@@ -52,11 +58,11 @@ const CvSideBar = ({ user }: any) => {
                     ? 5
                     : data.skillLevel === 'inter'
                     ? 2
-                    : 1,
+                    : 1
                 ).fill(<div className={style.circulardiv}></div>)}
               </div>
             </div>
-          );
+          )
         })}
       </div>
       <div className={style.languageHeader}> Contact </div>
@@ -77,7 +83,7 @@ const CvSideBar = ({ user }: any) => {
         <span>www.sprintx.com</span>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default CvSideBar;
+export default CvSideBar

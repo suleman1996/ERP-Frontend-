@@ -1,21 +1,21 @@
-import Loading from 'components/loading';
+import Loading from 'components/loading'
 
-import style from './button.module.scss';
+import style from './button.module.scss'
 
 interface Props {
-  text?: string;
-  iconStart?: string;
-  iconEnd?: string;
-  handleClick?: React.MouseEventHandler<HTMLButtonElement>;
-  type?: 'button' | 'submit' | 'reset' | undefined;
-  isLoading?: boolean;
-  btnClass?: string;
-  disabled?: boolean;
-  btnLoaderClass?: string;
-  className?: string;
-  form?: string;
-  hide?: boolean;
-  btnTextClass?: string;
+  text?: string
+  iconStart?: string
+  iconEnd?: string
+  handleClick?: React.MouseEventHandler<HTMLButtonElement>
+  type?: 'button' | 'submit' | 'reset' | undefined
+  isLoading?: boolean
+  btnClass?: string
+  disabled?: boolean
+  btnLoaderClass?: string
+  className?: string
+  form?: string
+  hide?: boolean
+  btnTextClass?: string
 }
 
 const Button = ({
@@ -30,7 +30,6 @@ const Button = ({
   disabled,
   btnLoaderClass,
   form,
-  hide,
   btnTextClass,
 }: Props) => {
   return (
@@ -51,14 +50,18 @@ const Button = ({
           <>
             {iconStart && <img src={iconStart} alt="" className={style.img1} />}
             {text && (
-              <span className={`${style.btnTitle} ${className} ${btnTextClass}`}>{text}</span>
+              <span
+                className={`${style.btnTitle} ${className} ${btnTextClass}`}
+              >
+                {text}
+              </span>
             )}
             {iconEnd && <img src={iconEnd} alt="" className={style.img} />}
           </>
         )}
       </button>
     </>
-  );
-};
+  )
+}
 
-export default Button;
+export default Button

@@ -1,23 +1,23 @@
-import { useState, useCallback, Dispatch, SetStateAction } from 'react';
-import { useDropzone } from 'react-dropzone';
+import { useCallback, Dispatch, SetStateAction } from 'react'
+import { useDropzone } from 'react-dropzone'
 
-import { convertBase64Image } from 'main-helper';
-import { createNotification } from 'common/create-notification';
+import { convertBase64Image } from 'main-helper'
+import { createNotification } from 'common/create-notification'
 
-import profileIcon from 'assets/profileIcon.svg';
-import camIcon from 'assets/camlogo.svg';
-import style from './image-upload.module.scss';
-import Button from 'components/button';
+import profileIcon from 'assets/profileIcon.svg'
+import camIcon from 'assets/camlogo.svg'
+import style from './image-upload.module.scss'
+import Button from 'components/button'
 
 interface Props {
-  setImg?: Dispatch<SetStateAction<unknown>>;
-  img: unknown;
-  name?: string;
-  register?: any;
-  errorMessage?: string;
-  label?: string;
-  accountSetting?: boolean;
-  btnText?: string;
+  setImg?: Dispatch<SetStateAction<unknown>>
+  img: unknown
+  name?: string
+  register?: any
+  errorMessage?: string
+  label?: string
+  accountSetting?: boolean
+  btnText?: string
 }
 
 const ImageUpload = ({
@@ -25,39 +25,42 @@ const ImageUpload = ({
   setImg,
   name = 'Default Name',
   register,
-  errorMessage,
   label,
   accountSetting,
   btnText,
 }: Props) => {
   const handleFileChange = async (event: React.ChangeEvent<any>) => {
     if (event?.target?.files?.[0]?.size <= 2048000) {
-      const data = await convertBase64Image(event?.target?.files?.[0]);
-      setImg && setImg(data);
+      const data = await convertBase64Image(event?.target?.files?.[0])
+      setImg && setImg(data)
     } else {
-      createNotification('error', 'Error', 'The image maximum size is 2MB');
+      createNotification('error', 'Error', 'The image maximum size is 2MB')
     }
-  };
+  }
 
   const onDrop = useCallback((acceptedFiles, rejectedFiles) => {
     rejectedFiles.forEach((file: any) => {
       file.errors.forEach((err: any) => {
         if (err.code === 'file-too-large') {
-          createNotification('error', 'Error', 'The image maximum size should be 3MB');
+          createNotification(
+            'error',
+            'Error',
+            'The image maximum size should be 3MB'
+          )
         }
         if (err.code === 'file-invalid-type') {
-          createNotification('error', 'Error', 'Invalid File Type');
+          createNotification('error', 'Error', 'Invalid File Type')
         }
-      });
-    });
+      })
+    })
     acceptedFiles.forEach((file: Blob) => {
-      const reader = new FileReader();
+      const reader = new FileReader()
       reader.onload = () => {
-        setImg && setImg(reader.result);
-      };
-      reader.readAsDataURL(file);
-    });
-  }, []);
+        setImg && setImg(reader.result)
+      }
+      reader.readAsDataURL(file)
+    })
+  }, [])
 
   const { getRootProps, getInputProps } = useDropzone({
     maxSize: 3072000,
@@ -65,7 +68,7 @@ const ImageUpload = ({
     accept: {
       'image/*': ['.png', '.jpg'],
     },
-  });
+  })
 
   return (
     <>
@@ -102,22 +105,29 @@ const ImageUpload = ({
 
           {!accountSetting ? (
             <p className={style.para}>
-              Only <span>JPEG, JPG or PNG</span> Files are allowed upto 3 MB in size
+              Only <span>JPEG, JPG or PNG</span> Files are allowed upto 3 MB in
+              size
             </p>
           ) : (
             <p className={style.para}>
-              Only <span className={style.span1}>JPEG, JPG or PNG</span> Files are allowed upto 3 MB
-              in size.It will us recognize you.
+              Only <span className={style.span1}>JPEG, JPG or PNG</span> Files
+              are allowed upto 3 MB in size.It will us recognize you.
             </p>
           )}
           {btnText && <Button text={btnText} />}
         </div>
       </div>
       <div className={style.smallImg}>
-        <input id={'img'} ref={register} name={name} type={'file'} onChange={handleFileChange} />
+        <input
+          id={'img'}
+          ref={register}
+          name={name}
+          type={'file'}
+          onChange={handleFileChange}
+        />
       </div>
     </>
-  );
-};
+  )
+}
 
-export default ImageUpload;
+export default ImageUpload

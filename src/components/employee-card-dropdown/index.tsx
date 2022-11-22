@@ -1,70 +1,74 @@
-import { Dispatch, SetStateAction, useState, useEffect } from 'react';
-import { Document, Page, pdfjs } from 'react-pdf';
-import { useNavigate } from 'react-router-dom';
-import Modal from 'components/modal';
+import { Dispatch, SetStateAction, useState } from 'react'
+import { Document, Page, pdfjs } from 'react-pdf'
+import { useNavigate } from 'react-router-dom'
+import Modal from 'components/modal'
 
-import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
+import 'react-pdf/dist/esm/Page/AnnotationLayer.css'
 
-import arrow from 'assets/arrow-left.svg';
-import style from './employee-dropdown.module.scss';
-import EmployeeService from 'services/employee-service';
-import Button from 'components/button';
-import { samplePdf2 } from 'pages/policy/pdfSample';
-import { useSelector } from 'react-redux';
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+import arrow from 'assets/arrow-left.svg'
+import style from './employee-dropdown.module.scss'
+import Button from 'components/button'
+import { useSelector } from 'react-redux'
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`
 
 interface Props {
-  setOpenModal?: Dispatch<SetStateAction<boolean>>;
-  setOpenModalProfile?: Dispatch<SetStateAction<boolean>>;
-  handleClick?: () => any;
-  id?: string;
+  setOpenModal?: Dispatch<SetStateAction<boolean>>
+  setOpenModalProfile?: Dispatch<SetStateAction<boolean>>
+  handleClick?: () => any
+  id?: string
 }
 
-const EmployeeDropdown = ({ setOpenModal, setOpenModalProfile, id, handleClick }: Props) => {
-  const navigate = useNavigate();
-  const authToken = useSelector((state) => state?.app?.token);
+const EmployeeDropdown = ({ id, handleClick }: Props) => {
+  const navigate = useNavigate()
+  const authToken = useSelector((state) => state?.app?.token)
 
-  const [numPages, setNumPages] = useState(null);
-  const [pageNumber, setPageNumber] = useState(1);
-  const [pdf, setPdf] = useState<any>();
-  const [open, setOpen] = useState(false);
-  const [openCvModal, setOpenCvModal] = useState(false);
+  const [numPages, setNumPages] = useState(null)
+  const [pageNumber, setPageNumber] = useState(1)
+  const [open, setOpen] = useState(false)
+  const [openCvModal, setOpenCvModal] = useState(false)
 
   const profile = [
     {
       text: 'Profile View ',
       click: async () => {
-        setOpen(true);
+        setOpen(true)
       },
     },
     {
       text: 'CV View',
       click: () => {
-        setOpenCvModal(true);
+        setOpenCvModal(true)
       },
     },
-    { text: 'More Details', icon: arrow, click: () => navigate(`/employee/${id}`) },
-  ];
+    {
+      text: 'More Details',
+      icon: arrow,
+      click: () => navigate(`/employee/${id}`),
+    },
+  ]
 
   function onDocumentLoadSuccess({ numPages }: any) {
-    setNumPages(numPages);
+    setNumPages(numPages)
   }
 
   const changePage = (offset: any) => {
-    setPageNumber((prevPageNumber) => prevPageNumber + offset);
-  };
+    setPageNumber((prevPageNumber) => prevPageNumber + offset)
+  }
 
   const previousPage = () => {
-    changePage(-1);
-  };
+    changePage(-1)
+  }
 
   const nextPage = () => {
-    changePage(1);
-  };
+    changePage(1)
+  }
 
   return (
     <div>
-      <div className={style.mainDiv} onClick={() => handleClick && handleClick()}>
+      <div
+        className={style.mainDiv}
+        onClick={() => handleClick && handleClick()}
+      >
         {profile.map((ele, index) => (
           <div className={style.innerDiv} key={index} onClick={ele.click}>
             <p>{ele.text}</p>
@@ -101,9 +105,19 @@ const EmployeeDropdown = ({ setOpenModal, setOpenModalProfile, id, handleClick }
           <p>
             Page {pageNumber || (numPages ? 1 : '--')} of {numPages || '--'}
           </p>
-          <div style={{ display: 'flex', width: '30%', justifyContent: 'space-around' }}>
-            {pageNumber >= 1 && <Button handleClick={previousPage} text="Previous" />}
-            {pageNumber <= numPages && <Button handleClick={nextPage} text="Next" />}
+          <div
+            style={{
+              display: 'flex',
+              width: '30%',
+              justifyContent: 'space-around',
+            }}
+          >
+            {pageNumber >= 1 && (
+              <Button handleClick={previousPage} text="Previous" />
+            )}
+            {pageNumber <= numPages && (
+              <Button handleClick={nextPage} text="Next" />
+            )}
           </div>
         </div>
       </Modal>
@@ -136,14 +150,24 @@ const EmployeeDropdown = ({ setOpenModal, setOpenModalProfile, id, handleClick }
           <p>
             Page {pageNumber || (numPages ? 1 : '--')} of {numPages || '--'}
           </p>
-          <div style={{ display: 'flex', width: '30%', justifyContent: 'space-around' }}>
-            {pageNumber >= 1 && <Button handleClick={previousPage} text="Previous" />}
-            {pageNumber <= numPages && <Button handleClick={nextPage} text="Next" />}
+          <div
+            style={{
+              display: 'flex',
+              width: '30%',
+              justifyContent: 'space-around',
+            }}
+          >
+            {pageNumber >= 1 && (
+              <Button handleClick={previousPage} text="Previous" />
+            )}
+            {pageNumber <= numPages && (
+              <Button handleClick={nextPage} text="Next" />
+            )}
           </div>
         </div>
       </Modal>
     </div>
-  );
-};
+  )
+}
 
-export default EmployeeDropdown;
+export default EmployeeDropdown

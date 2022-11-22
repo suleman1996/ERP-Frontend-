@@ -1,16 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react'
 
-import AccordianSwitch from 'components/accordian';
-import CardContainer from 'components/card-container';
+import AccordianSwitch from 'components/accordian'
+import CardContainer from 'components/card-container'
 
-import SettingsService from 'services/settings-service';
+import SettingsService from 'services/settings-service'
 
 import {
   departmentColumn,
-  departmentRows,
   designationColumn,
   employeeIdColumn,
-  employeeIdRows,
   genderColumn,
   genderRows,
   tagsColumn,
@@ -21,37 +19,38 @@ import {
   allowenceRows,
   documentsColumn,
   documentsRows,
-} from './helper';
+} from './helper'
 
-import style from './general.module.scss';
+import style from './general.module.scss'
 
 const GeneralSetting = () => {
-  const [openAccordian, setOpenAccordian] = useState(-1);
-  const [departmentRows, setDepartmentRows] = useState([]);
-  const [designationRows, setDesignationRow] = useState([]);
+  const [openAccordian, setOpenAccordian] = useState(-1)
+  const [departmentRows, setDepartmentRows] = useState([])
+  const [designationRows, setDesignationRow] = useState([])
 
   useEffect(() => {
-    getAllDepartments();
-    getAllDesignations();
-  }, []);
+    getAllDepartments()
+    getAllDesignations()
+  }, [])
 
   const getAllDepartments = async () => {
-    const res = await SettingsService.getDepartments();
-    setDepartmentRows(res?.data?.department);
-  };
+    const res = await SettingsService.getDepartments()
+    setDepartmentRows(res?.data?.department)
+  }
 
   const getAllDesignations = async () => {
-    const res = await SettingsService.getDesignation();
+    const res = await SettingsService.getDesignation()
     if (res.status === 200) {
-      setDesignationRow(res?.data?.desiginations);
+      setDesignationRow(res?.data?.desiginations)
     }
-  };
+  }
 
   return (
     <CardContainer className={style.card}>
-      {totalAccordian?.map(({ id, title, btnText }) => {
+      {totalAccordian?.map(({ id, title, btnText }, index) => {
         return (
           <AccordianSwitch
+            key={index}
             title={title ? title : 'Profile'}
             titleClass={style.titleClass}
             btnText={btnText}
@@ -67,7 +66,7 @@ const GeneralSetting = () => {
                       name: item.name,
                       department: item?.departmentSettingId?.name,
                       _id: item?._id,
-                    };
+                    }
                   })
                 : title === 'Advance Tags'
                 ? tagsRows
@@ -103,13 +102,13 @@ const GeneralSetting = () => {
             openAccordian={openAccordian}
             setOpenAccordian={setOpenAccordian}
           />
-        );
+        )
       })}
     </CardContainer>
-  );
-};
+  )
+}
 
-export default GeneralSetting;
+export default GeneralSetting
 
 const totalAccordian = [
   { id: 1, title: 'Department', btnText: 'Add New Department' },
@@ -120,4 +119,4 @@ const totalAccordian = [
   { id: 6, title: 'Leave Type', btnText: 'Add New Leave' },
   { id: 7, title: 'Allowance Types', btnText: 'Add New Allowance' },
   { id: 8, title: 'Documents Category', btnText: 'Add New Document' },
-];
+]

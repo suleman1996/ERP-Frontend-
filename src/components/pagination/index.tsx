@@ -1,24 +1,31 @@
-import { SetStateAction, useState, useEffect } from 'react';
+import { SetStateAction } from 'react'
 
-import Select from 'components/select';
+import Select from 'components/select'
 
-import left from 'assets/double-arrow-left.svg';
-import right from 'assets/double-arrow-right.svg';
-import leftArrow from 'assets/single-arrow-left.svg';
-import rightArrow from 'assets/single-arrow-right.svg';
+import left from 'assets/double-arrow-left.svg'
+import right from 'assets/double-arrow-right.svg'
+import leftArrow from 'assets/single-arrow-left.svg'
+import rightArrow from 'assets/single-arrow-right.svg'
 
-import style from './pagination.module.scss';
+import style from './pagination.module.scss'
 
 interface Props {
-  count: any;
-  setCount: React.Dispatch<SetStateAction<number>>;
-  totalCount: any;
-  hide: any;
-  setPage: (value: any) => void;
-  page: any;
+  count: any
+  setCount: React.Dispatch<SetStateAction<number>>
+  totalCount: any
+  hide: any
+  setPage: (value: any) => void
+  page: any
 }
 
-const Pagination = ({ setCount, count, totalCount, hide, setPage, page }: Props) => {
+const Pagination = ({
+  setCount,
+  count,
+  totalCount,
+  hide,
+  setPage,
+  page,
+}: Props) => {
   return (
     <>
       {!hide && (
@@ -38,11 +45,11 @@ const Pagination = ({ setCount, count, totalCount, hide, setPage, page }: Props)
           </div>
           <div className={style.rightFlex}>
             <p className={style.p}>
-              {` Showing ${(page - 1) * count === 0 ? 1 : (page - 1) * count} to ${
-                page * count
-              } of ${totalCount}`}{' '}
+              {` Showing ${
+                (page - 1) * count === 0 ? 1 : (page - 1) * count
+              } to ${page * count} of ${totalCount}`}{' '}
             </p>
-            <img src={left} alt="" onClick={() => setPage((prev: any) => 1)} />
+            <img src={left} alt="" onClick={() => setPage(() => 1)} />
             <img
               src={leftArrow}
               alt=""
@@ -64,23 +71,25 @@ const Pagination = ({ setCount, count, totalCount, hide, setPage, page }: Props)
               alt=""
               onClick={() =>
                 setPage((prev: any) =>
-                  prev === Math.ceil(totalCount / count) ? Math.ceil(totalCount / count) : ++prev,
+                  prev === Math.ceil(totalCount / count)
+                    ? Math.ceil(totalCount / count)
+                    : ++prev
                 )
               }
             />
             <img
               src={right}
               alt=""
-              onClick={() => setPage((prev: any) => Math.ceil(totalCount / count))}
+              onClick={() => setPage(() => Math.ceil(totalCount / count))}
             />
           </div>
         </div>
       )}
     </>
-  );
-};
+  )
+}
 
-export default Pagination;
+export default Pagination
 
 export const selectOptions = [
   {
@@ -95,4 +104,4 @@ export const selectOptions = [
     value: '30',
     label: '30',
   },
-];
+]

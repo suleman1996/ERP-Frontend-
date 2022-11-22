@@ -1,40 +1,38 @@
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import moment from 'moment-timezone';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react'
+import moment from 'moment-timezone'
 
-import Skills from './level';
-import CvSideBar from './cv-side-bar';
-import Modal from 'components/modal';
-import Experience from './experience/index';
+import CvSideBar from './cv-side-bar'
+import Modal from 'components/modal'
+import Experience from './experience/index'
 
-import EmployeeService from 'services/employee-service';
+import EmployeeService from 'services/employee-service'
 
-import image3 from 'assets/imgs/3.svg';
-import image4 from 'assets/imgs/2.svg';
-import style from './cv-view.module.scss';
+import image3 from 'assets/imgs/3.svg'
+import style from './cv-view.module.scss'
 
 interface Props {
-  setOpenModal: Dispatch<SetStateAction<boolean>>;
-  openModal: boolean;
-  id?: string;
+  setOpenModal: Dispatch<SetStateAction<boolean>>
+  openModal: boolean
+  id?: string
 }
 
 type User = {
-  [key: string]: any;
-};
+  [key: string]: any
+}
 
 const CvView = ({ openModal, setOpenModal, id }: Props) => {
-  const [user, setUser] = useState<User>();
+  const [user, setUser] = useState<User>()
 
   const getSingleEmployeeData = async () => {
-    const res = await EmployeeService.getEmployee(id);
+    const res = await EmployeeService.getEmployee(id)
     if (res.status === 200) {
-      setUser(res?.data);
+      setUser(res?.data)
     }
-  };
+  }
 
   useEffect(() => {
-    if (id) getSingleEmployeeData();
-  }, [id]);
+    if (id) getSingleEmployeeData()
+  }, [id])
 
   return (
     <Modal
@@ -54,7 +52,13 @@ const CvView = ({ openModal, setOpenModal, id }: Props) => {
             </div>
             <div>
               {ExperienceData.map(({ date, company, job, intro }, index) => (
-                <Experience date={date} company={company} job={job} intro={intro} />
+                <Experience
+                  key={index}
+                  date={date}
+                  company={company}
+                  job={job}
+                  intro={intro}
+                />
               ))}
             </div>
             <div className={style.topSec}>
@@ -62,11 +66,12 @@ const CvView = ({ openModal, setOpenModal, id }: Props) => {
               <h2>EDUCATION</h2>
             </div>
             <div>
-              {user?.educationDetails.map((data: any) => (
+              {user?.educationDetails.map((data: any, index) => (
                 <Experience
-                  date={`${moment(data.startDate).format('YYYY')}-${moment(data.endDate).format(
-                    'YYYY',
-                  )}`}
+                  key={index}
+                  date={`${moment(data.startDate).format('YYYY')}-${moment(
+                    data.endDate
+                  ).format('YYYY')}`}
                   company={data.institute}
                   job={data?.degree}
                 />
@@ -85,10 +90,10 @@ const CvView = ({ openModal, setOpenModal, id }: Props) => {
         </div>
       </div>
     </Modal>
-  );
-};
+  )
+}
 
-export default CvView;
+export default CvView
 
 const ExperienceData = [
   {
@@ -112,62 +117,4 @@ const ExperienceData = [
     intro:
       '  Eligendi recusandae earum,consequuntur maiores et at.fugit culpa voluptas ea quae! sit amet consectetur adipisicing elit. Quos  Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quos ',
   },
-];
-
-const EducationData = [
-  {
-    date: '2010-2015',
-    company: 'ASIAN UNIVERSITY',
-    job: 'BACHELOR OF ARTS',
-    intro:
-      'Eligendi recusandae earum,consequuntur maiores et at fugit culpa voluptas ea quae! sit amet consectetur adipisicing elit',
-  },
-  {
-    date: '2008-2010',
-    company: 'CREATIVE SCHOOL',
-    job: 'HIGHER SECONDARY EXAMINATION',
-    intro:
-      ' Eligendi recusandae earum,consequuntur maiores et at fugit culpa voluptas ea quae! sit amet consectetur adipisicing elit.',
-  },
-  {
-    date: '2006-2008',
-    company: 'CREATIVE SCHOOL',
-    job: 'HIGHER SECONDARY EXAMINATION',
-    intro:
-      'Eligendi recusandae earum,consequuntur maiores et at.fugit culpa voluptas ea quae! sit amet consectetur adipisicing elit. ',
-  },
-  {
-    date: '2004-2006',
-    company: 'CREATIVE SCHOOL',
-    job: 'ASIAN UNIVERSITY',
-    intro:
-      '  Eligendi recusandae earum,consequuntur maiores et at.fugit culpa voluptas ea quae! sit amet consectetur adipisicing elit. ',
-  },
-];
-
-const SkillsData = [
-  {
-    name: 'PHOTOSHOP',
-    val: 80,
-  },
-  {
-    name: 'AFTER EFFECTS',
-    val: 80,
-  },
-  {
-    name: 'ILLUSTRATOR',
-    val: 80,
-  },
-  {
-    name: 'ADOBE XD',
-    val: 80,
-  },
-  {
-    name: 'INDESIGN',
-    val: 80,
-  },
-  {
-    name: 'FIGMA',
-    val: 80,
-  },
-];
+]

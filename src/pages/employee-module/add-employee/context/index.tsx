@@ -1,35 +1,35 @@
-import React, { createContext, useState, useContext } from 'react';
+import React, { createContext, useState, useContext } from 'react'
 
-const EmployeeFormsContext: any = createContext(null);
-export const useEmployeeForms = () => useContext(EmployeeFormsContext);
+const EmployeeFormsContext: any = createContext(null)
+export const useEmployeeForms = () => useContext(EmployeeFormsContext)
 
 export const EmployeeFormProvider = ({ children }: any) => {
-  const [activeStep, setActiveStep] = useState(0);
-  const [employeeId, setEmployeeId] = useState('');
-  const [employeeDocId, setEmployeeDocId] = useState('');
-  const [onlyActive, setOnlyActive] = useState<number | boolean>(0);
+  const [activeStep, setActiveStep] = useState(0)
+  const [employeeId, setEmployeeId] = useState('')
+  const [employeeDocId, setEmployeeDocId] = useState('')
+  const [onlyActive, setOnlyActive] = useState<number | boolean>(0)
   const [formData, setFormData] = useState({
     addressInformation: {},
-  });
-  const [stepBarActive, setStepBarActive] = useState(['Personal']);
-  const [active, setActive] = useState<number>(0);
-  const [controlWidth, setControlWidth] = useState(0);
+  })
+  const [stepBarActive, setStepBarActive] = useState(['Personal'])
+  const [active, setActive] = useState<number>(0)
+  const [controlWidth, setControlWidth] = useState(0)
 
   const handleNext = (val?: string) => {
     if (val) {
-      setStepBarActive([...stepBarActive, val]);
-      setActive((prev) => prev + 1);
+      setStepBarActive([...stepBarActive, val])
+      setActive((prev) => prev + 1)
     }
-    setControlWidth(controlWidth + 16.79);
-  };
+    setControlWidth(controlWidth + 16.79)
+  }
 
   const handleBack = (val?: string) => {
-    const temp: any = [...stepBarActive];
-    temp.pop();
-    setStepBarActive([...temp]);
-    val && setActive((prev) => prev - 1);
-    setControlWidth(controlWidth - 16.79);
-  };
+    const temp: any = [...stepBarActive]
+    temp.pop()
+    setStepBarActive([...temp])
+    val && setActive((prev) => prev - 1)
+    setControlWidth(controlWidth - 16.79)
+  }
 
   return (
     <EmployeeFormsContext.Provider
@@ -52,12 +52,15 @@ export const EmployeeFormProvider = ({ children }: any) => {
     >
       {children}
     </EmployeeFormsContext.Provider>
-  );
-};
+  )
+}
 
-export const withAddEmployeeContext = (Child: any) => (props: any) =>
-  (
+export const withAddEmployeeContext = (Child: any) => {
+  const MyComp = (props: any) => (
     <EmployeeFormProvider>
       <Child {...props} />
     </EmployeeFormProvider>
-  );
+  )
+  MyComp.displayName = 'withAddEmployeeContext'
+  return MyComp
+}

@@ -1,23 +1,23 @@
-import { useForm } from 'react-hook-form';
-import * as yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
+import { useForm } from 'react-hook-form'
+import * as yup from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup'
 
-import SettingsService from 'services/settings-service';
+import SettingsService from 'services/settings-service'
 
-import style from './accordian.module.scss';
+import style from './accordian.module.scss'
 
-import arrow from 'assets/arrowup.svg';
-import { useEffect, useState } from 'react';
-import Switch from 'components/switch';
-import DeletePopup from 'components/delete-modal';
-import Table from 'components/table';
-import CardContainer from 'components/card-container';
-import Button from 'components/button';
-import Tags from 'components/tags';
-import Modal from 'components/modal';
-import Input from 'components/input';
-import Select from 'components/select';
-import statusIcon from 'assets/status.svg';
+import arrow from 'assets/arrowup.svg'
+import { useEffect, useState } from 'react'
+import Switch from 'components/switch'
+import DeletePopup from 'components/delete-modal'
+import Table from 'components/table'
+import CardContainer from 'components/card-container'
+import Button from 'components/button'
+import Tags from 'components/tags'
+import Modal from 'components/modal'
+import Input from 'components/input'
+import Select from 'components/select'
+import statusIcon from 'assets/status.svg'
 
 const AccordianSwitch = ({
   title,
@@ -36,128 +36,130 @@ const AccordianSwitch = ({
   getAllDesignations,
   titleClass,
 }: any) => {
-  const [checkAll, setCheckAll] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [deletePopUp, setDeletePopUp] = useState(false);
-  const [departmentModal, setDepartmentModal] = useState(false);
-  const [designationModal, setDesignationModal] = useState(false);
-  const [idSeriesModal, setIdSeriesModal] = useState(false);
-  const [advanceTagModal, setAdvanceTagModal] = useState(false);
-  const [leaveTypeModal, setLeaveTypeModal] = useState(false);
-  const [genderModal, setGenderModal] = useState(false);
-  const [allowenceTypeModal, setAllowenceTypeModal] = useState(false);
-  const [documentModal, setDocumenModal] = useState(false);
-  const [arrowRotate, setArrowRotate] = useState(false);
-  const [depId, setDepId] = useState();
+  const [checkAll, setCheckAll] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [deletePopUp, setDeletePopUp] = useState(false)
+  const [departmentModal, setDepartmentModal] = useState(false)
+  const [designationModal, setDesignationModal] = useState(false)
+  const [idSeriesModal, setIdSeriesModal] = useState(false)
+  const [advanceTagModal, setAdvanceTagModal] = useState(false)
+  const [leaveTypeModal, setLeaveTypeModal] = useState(false)
+  const [genderModal, setGenderModal] = useState(false)
+  const [allowenceTypeModal, setAllowenceTypeModal] = useState(false)
+  const [documentModal, setDocumenModal] = useState(false)
+  const [arrowRotate, setArrowRotate] = useState(false)
+  const [depId, setDepId] = useState()
 
-  const { register, handleSubmit, errors, control, reset, watch } = useForm({
-    resolver: yupResolver(title === 'Department' ? departmentSchema : designationSchema),
-  });
+  const { register, handleSubmit, errors, control, reset } = useForm({
+    resolver: yupResolver(
+      title === 'Department' ? departmentSchema : designationSchema
+    ),
+  })
 
   const handleClickBtn = () => {
     if (title === 'Department') {
-      setDepartmentModal(true);
+      setDepartmentModal(true)
     } else if (title === 'Designation') {
-      setDesignationModal(true);
+      setDesignationModal(true)
     } else if (title === 'Employee ID Series') {
-      setIdSeriesModal(true);
+      setIdSeriesModal(true)
     } else if (title === 'Advance Tags') {
-      setAdvanceTagModal(true);
+      setAdvanceTagModal(true)
     } else if (title === 'Leave Type') {
-      setLeaveTypeModal(true);
+      setLeaveTypeModal(true)
     } else if (title === 'Gender') {
-      setGenderModal(true);
+      setGenderModal(true)
     } else if (title === 'Allowance Types') {
-      setAllowenceTypeModal(true);
+      setAllowenceTypeModal(true)
     } else if (title === 'Documents Category') {
-      setDocumenModal(true);
+      setDocumenModal(true)
     }
-  };
+  }
 
   const departmentSubmit = async (data: any) => {
     if (depId) {
-      setLoading(true);
-      const res = await SettingsService.updateDepartment(data, depId);
+      setLoading(true)
+      const res = await SettingsService.updateDepartment(data, depId)
       if (res.status === 200) {
-        setDepartmentModal(false);
-        reset({});
-        getAllDepartments();
-        setLoading(false);
+        setDepartmentModal(false)
+        reset({})
+        getAllDepartments()
+        setLoading(false)
       }
-      setLoading(false);
+      setLoading(false)
     } else {
-      setLoading(true);
-      const res = await SettingsService.addDepartment(data);
+      setLoading(true)
+      const res = await SettingsService.addDepartment(data)
       if (res.status === 200) {
-        setDepartmentModal(false);
-        reset({});
-        getAllDepartments();
-        setLoading(false);
+        setDepartmentModal(false)
+        reset({})
+        getAllDepartments()
+        setLoading(false)
       }
     }
-  };
+  }
 
   const handleEdit = (id: string | number) => {
     if (title === 'Department') {
-      setDepartmentModal(true);
-      setDepId(id);
-      reset({ ...departmentRows?.find((item) => item._id === id) });
+      setDepartmentModal(true)
+      setDepId(id)
+      reset({ ...departmentRows?.find((item) => item._id === id) })
     } else if (title === 'Designation') {
-      setDesignationModal(true);
-      setDepId(id);
-      let data = designationRows?.find((item) => item._id === id);
+      setDesignationModal(true)
+      setDepId(id)
+      const data = designationRows?.find((item) => item._id === id)
 
       reset({
         ...data,
         departmentId: data?.departmentSettingId?._id,
-      });
+      })
     }
-  };
+  }
 
-  const handleDelete = async (id) => {
+  const handleDelete = async () => {
     if (title === 'Department') {
-      setLoading(true);
-      const res = await SettingsService.deleteDepartment(depId);
+      setLoading(true)
+      const res = await SettingsService.deleteDepartment(depId)
       if (res.status === 200) {
-        setDeletePopUp(false);
-        getAllDepartments();
-        setDeletePopUp(false);
+        setDeletePopUp(false)
+        getAllDepartments()
+        setDeletePopUp(false)
       }
-      setDeletePopUp(false);
+      setDeletePopUp(false)
     } else if (title === 'Designation') {
-      const res = await SettingsService.deleteDesignation(depId);
+      const res = await SettingsService.deleteDesignation(depId)
       if (res.status === 200) {
-        getAllDesignations();
-        setDeletePopUp(false);
+        getAllDesignations()
+        setDeletePopUp(false)
       }
     }
-  };
+  }
 
   const designationSubmit = async (data: any) => {
     if (depId) {
-      const res = await SettingsService.updateDesignation(data, depId);
+      const res = await SettingsService.updateDesignation(data, depId)
       if (res.status === 200) {
-        setDesignationModal(false);
-        getAllDesignations();
-        reset({});
+        setDesignationModal(false)
+        getAllDesignations()
+        reset({})
       }
     } else {
-      const res = await SettingsService.addDesignation(data);
+      const res = await SettingsService.addDesignation(data)
       if (res.status === 200) {
-        setDesignationModal(false);
-        getAllDesignations();
-        reset({});
+        setDesignationModal(false)
+        getAllDesignations()
+        reset({})
       }
     }
-  };
+  }
 
   return (
     <>
       <div
         className={`${style.container} ${accordianContainer} `}
         onClick={() => {
-          setOpenAccordian((prev) => (prev === id ? -1 : id));
-          setArrowRotate(!arrowRotate);
+          setOpenAccordian((prev) => (prev === id ? -1 : id))
+          setArrowRotate(!arrowRotate)
         }}
         style={{ marginTop: !switchBtn && '10px' }}
       >
@@ -174,14 +176,17 @@ const AccordianSwitch = ({
         </div>
         <img
           src={arrow}
-          style={{ transform: !arrowRotate && 'rotate(180deg)', transition: 'all 0.5s ease-out' }}
+          style={{
+            transform: !arrowRotate && 'rotate(180deg)',
+            transition: 'all 0.5s ease-out',
+          }}
         />
       </div>
 
       {openAccordian === id &&
         (switchBtn ? (
-          bodyData?.map((data: any) => {
-            return <Comp name={data?.name} checkAll={checkAll} />;
+          bodyData?.map((data: any, index: any) => {
+            return <Comp name={data?.name} checkAll={checkAll} key={index} />
           })
         ) : (
           <>
@@ -199,7 +204,12 @@ const AccordianSwitch = ({
                         ) : (
                           <div>
                             {' '}
-                            <div style={{ display: 'flex', justifyContent: 'center' }}>
+                            <div
+                              style={{
+                                display: 'flex',
+                                justifyContent: 'center',
+                              }}
+                            >
                               <span style={{ marginRight: '5px' }}>Status</span>
                               <div className={style.tooltip}>
                                 <img
@@ -208,8 +218,9 @@ const AccordianSwitch = ({
                                   style={{ marginTop: '5px' }}
                                 />
                                 <span className={style.tooltiptext}>
-                                  If you want to hide any option from the dropdowns, you can hide it
-                                  by doing Inactive it
+                                  If you want to hide any option from the
+                                  dropdowns, you can hide it by doing Inactive
+                                  it
                                 </span>
                               </div>
                             </div>
@@ -221,7 +232,11 @@ const AccordianSwitch = ({
                     ...row,
                     image: <div className={style.image}></div>,
                     tagCategory: (
-                      <Tags text={row?.tagCategory} boxColor={'#FACCCC'} textColor={'#e92424'} />
+                      <Tags
+                        text={row?.tagCategory}
+                        boxColor={'#FACCCC'}
+                        textColor={'#e92424'}
+                      />
                     ),
                     status: (
                       <div
@@ -231,7 +246,11 @@ const AccordianSwitch = ({
                           alignItems: 'center',
                         }}
                       >
-                        <Switch title={'Active'} name={'active'} control={control} />
+                        <Switch
+                          title={'Active'}
+                          name={'active'}
+                          control={control}
+                        />
                       </div>
                     ),
                   }))}
@@ -239,8 +258,8 @@ const AccordianSwitch = ({
                   rowText={style.rowText}
                   minWidth="700px"
                   handleDelete={(id) => {
-                    setDepId(id);
-                    setDeletePopUp(true);
+                    setDepId(id)
+                    setDeletePopUp(true)
                   }}
                   handleEdit={(id) => handleEdit(id)}
                 />
@@ -260,8 +279,8 @@ const AccordianSwitch = ({
       <Modal
         open={departmentModal}
         handleClose={() => {
-          setDepartmentModal(false);
-          setDepId('');
+          setDepartmentModal(false)
+          setDepId('')
         }}
         title={'Add New Department'}
       >
@@ -312,7 +331,13 @@ const AccordianSwitch = ({
               </>
             </Select>
           </div>
-          <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '15px' }}>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+              marginTop: '15px',
+            }}
+          >
             <Button text="Add Department" type="submit" isLoading={loading} />
           </div>
         </form>
@@ -321,8 +346,8 @@ const AccordianSwitch = ({
       <Modal
         open={designationModal}
         handleClose={() => {
-          setDesignationModal(false);
-          setDepId('');
+          setDesignationModal(false)
+          setDepId('')
         }}
         title={'Add New Designation'}
       >
@@ -357,7 +382,13 @@ const AccordianSwitch = ({
               </>
             </Select>
           </div>
-          <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '15px' }}>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+              marginTop: '15px',
+            }}
+          >
             <Button text="Add Designation" />
           </div>
         </form>
@@ -375,7 +406,13 @@ const AccordianSwitch = ({
             containerClass={style.containerClass}
           />
         </div>
-        <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '15px' }}>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+            marginTop: '15px',
+          }}
+        >
           <Button text="Add Series " />
         </div>
       </Modal>
@@ -394,8 +431,16 @@ const AccordianSwitch = ({
           <div>
             <span>Category</span>
             <div style={{ display: 'flex', marginTop: '10px' }}>
-              <Button text="Good" btnClass={style.btnClass} className={style.btnText} />
-              <Button text="Bad" btnClass={style.btnClassRed} className={style.btnTextRed} />
+              <Button
+                text="Good"
+                btnClass={style.btnClass}
+                className={style.btnText}
+              />
+              <Button
+                text="Bad"
+                btnClass={style.btnClassRed}
+                className={style.btnTextRed}
+              />
               <Button
                 text="Neutral"
                 btnClass={style.btnClassPruple}
@@ -496,7 +541,13 @@ const AccordianSwitch = ({
             </>
           </Select>
         </div>
-        <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '15px' }}>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+            marginTop: '15px',
+          }}
+        >
           <Button text="Add Tag" />
         </div>
       </Modal>
@@ -531,16 +582,36 @@ const AccordianSwitch = ({
             </>
           </Select>
         </div>
-        <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '15px' }}>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+            marginTop: '15px',
+          }}
+        >
           <Button text="Add Leave" />
         </div>
       </Modal>
 
-      <Modal open={genderModal} handleClose={() => setGenderModal(false)} title={'Add New Gender'}>
+      <Modal
+        open={genderModal}
+        handleClose={() => setGenderModal(false)}
+        title={'Add New Gender'}
+      >
         <div>
-          <Input label="Gender" placeholder="Enter gender" containerClass={style.containerClass} />
+          <Input
+            label="Gender"
+            placeholder="Enter gender"
+            containerClass={style.containerClass}
+          />
         </div>
-        <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '15px' }}>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+            marginTop: '15px',
+          }}
+        >
           <Button text="Add Gender " />
         </div>
       </Modal>
@@ -557,7 +628,13 @@ const AccordianSwitch = ({
             containerClass={style.containerClass}
           />
         </div>
-        <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '15px' }}>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+            marginTop: '15px',
+          }}
+        >
           <Button text="Add Allowence " />
         </div>
       </Modal>
@@ -574,22 +651,28 @@ const AccordianSwitch = ({
             containerClass={style.containerClass}
           />
         </div>
-        <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '15px' }}>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+            marginTop: '15px',
+          }}
+        >
           <Button text="Add Document " />
         </div>
       </Modal>
     </>
-  );
-};
+  )
+}
 
 const Comp = ({ name, checkAll }: any) => {
-  const [checked, setChecked] = useState(false);
+  const [checked, setChecked] = useState(false)
 
-  const { control } = useForm();
+  const { control } = useForm()
 
   useEffect(() => {
-    setChecked(checkAll);
-  }, [checkAll]);
+    setChecked(checkAll)
+  }, [checkAll])
 
   return (
     <div className={style.body}>
@@ -603,22 +686,22 @@ const Comp = ({ name, checkAll }: any) => {
         />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default AccordianSwitch;
+export default AccordianSwitch
 
 const series = [
   { name: 'sdasd', value: 'adad' },
   { name: 'sdasd', value: 'adad' },
   { name: 'sdasd', value: 'adad' },
-];
+]
 
 export const departmentSchema = yup.object().shape({
   name: yup.string().required('Department name  is a required field'),
-});
+})
 
 export const designationSchema = yup.object().shape({
   name: yup.string().required('Designation name  is a required field'),
   departmentId: yup.string().required('Department name  is a required field'),
-});
+})
