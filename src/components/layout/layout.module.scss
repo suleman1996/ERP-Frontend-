@@ -3,8 +3,6 @@
 @import 'styles/_mixin.scss';
 
 .layoutWrapper {
-  background-color: #fafafa;
-  height: 100vh;
   header {
     height: calc(100vh - 14px);
     position: fixed;
