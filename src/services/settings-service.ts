@@ -86,4 +86,19 @@ export default class SettingsService {
     const res = await ApiService.delete(`${SettingsService.baseUrl[0]}/${id}`);
     return res;
   }
+
+  ///////////// Account Setting //////////
+
+  static async updateAccount(data: any) {
+    const res = await ApiService.put(`${SettingsService.baseUrl[0]}/accountSetting/`, data);
+    return res;
+  }
+
+  static async resendEmail(data: any) {
+    const res = await ApiService.post(
+      `${SettingsService.baseUrl[0]}/resendConfirmationEmail/`,
+      data,
+    );
+    return res;
+  }
 }
