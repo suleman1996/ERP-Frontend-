@@ -9,6 +9,7 @@
   @media (max-width: $sm) {
     padding: 30px 40px 20px 40px;
   }
+
   .application_card {
     padding: 0px;
 
@@ -18,6 +19,7 @@
       background-image: linear-gradient(#559758, #57b993);
       display: flex;
       border-radius: 10px;
+
       .overlayImg {
         padding: 10px;
         display: flex;
@@ -25,13 +27,16 @@
         align-items: center;
         flex-direction: column;
         width: 100px;
+
         .img3 {
           font-size: 16px;
           color: #ffffff;
         }
       }
+
       .overlayDiv {
         flex: 1;
+
         .border {
           display: flex;
           flex-direction: column;
@@ -44,21 +49,21 @@
           height: 100%;
           width: 100%;
           box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+
           .title {
             font-size: 20px;
             font-weight: 500;
             color: $primary;
             margin-bottom: 0px;
-
             text-transform: capitalize;
           }
+
           .subtitle {
             font-size: 10px;
             color: $subtile;
             margin-top: 20px;
             font-weight: 200;
             text-transform: capitalize;
-
             max-width: 300px;
           }
 
@@ -66,6 +71,7 @@
             display: flex;
             justify-content: flex-end;
             margin-top: 25px;
+
             .buttonText {
               color: $btn;
               font-size: 18px;
@@ -76,6 +82,7 @@
               border: 2px solid transparent;
               background-color: transparent;
             }
+
             .buttonText:hover {
               border-bottom: 2px solid $btn;
               color: $btn;
@@ -104,6 +111,7 @@
         margin-top: 5px;
         margin-bottom: 0px;
       }
+
       h5 {
         color: $text;
         font-size: 16px;
@@ -121,15 +129,18 @@
   max-height: 80vh;
   overflow-y: auto;
   padding: 0px !important;
+
   .modal {
     display: flex;
     justify-content: space-between;
     align-items: center;
+
     .img {
       margin-right: 20px;
       margin-top: -25px;
     }
   }
+
   .grid {
     @include gridTwo(15, 30);
   }
@@ -140,6 +151,7 @@
     display: flex;
     justify-content: flex-end;
     margin-top: 20px;
+
     .btn {
       width: 100px;
       height: 42px;
@@ -149,6 +161,7 @@
 
 .mainPadding {
   padding: 30px 80px;
+
   @media (max-width: $md) {
     padding: 30px 20px;
   }
@@ -170,26 +183,31 @@
     text-align: center;
   }
 }
+
 p {
   font-size: 14px;
   color: $header;
   font-weight: 400;
 }
+
 .iconsSection {
   margin-top: 15px;
   margin-bottom: 10px;
   display: flex;
   justify-content: space-between;
 }
+
 .icon {
   cursor: pointer;
 }
+
 .addTaxBtnDiv {
   position: absolute;
   bottom: 10px;
   right: 10px;
   width: 149px;
   height: 42px;
+
   @media (max-width: $md) {
     display: none;
   }
@@ -207,6 +225,7 @@ p {
   inset: 0;
   background-color: #fafafa;
   z-index: 200;
+
   .loadingStyle {
     width: 40px;
     height: 40px;
@@ -221,18 +240,21 @@ p {
   border: 1px solid #e2e2ea;
   border-radius: 5px;
 }
+
 .policyHeaderView {
   padding: 10px 0px;
   display: flex;
   flex-direction: row;
   border-bottom: 1px solid #e2e2ea;
 }
+
 .headerTitleView {
   width: 80%;
   align-items: center;
   display: flex;
   padding-left: 20px;
 }
+
 .addPolicyView {
   width: 20%;
   align-items: center;
@@ -249,12 +271,14 @@ p {
   border-radius: 5px;
   position: relative;
 }
+
 .policyHeaderView {
   width: 100%;
   height: 25%;
   border-bottom: 1px solid #e2e2ea;
   display: flex;
 }
+
 .policyHeaderTitleView {
   width: 80%;
   display: flex;
@@ -262,6 +286,7 @@ p {
   padding-left: 20px;
   flex-direction: column;
 }
+
 .policyMenuView {
   width: 20%;
   align-items: center;
@@ -277,8 +302,10 @@ p {
   padding: 20px 20px;
   display: flex;
   align-items: center;
+
   ul {
     width: 100%;
+
     li {
       span {
         width: 100%;
@@ -289,6 +316,7 @@ p {
       }
     }
   }
+
   .leftCircle {
     position: absolute;
     bottom: -6.5px;
@@ -301,6 +329,7 @@ p {
     border-width: 1px 1px 0 0;
     transform: rotate(45deg);
   }
+
   .rightCircle {
     position: absolute;
     bottom: -6.5px;
@@ -314,6 +343,7 @@ p {
     transform: rotate(222deg);
   }
 }
+
 .policyButtonView {
   width: 100%;
   height: 20%;
@@ -322,6 +352,7 @@ p {
   align-items: center;
   justify-content: center;
 }
+
 .policyButton {
   width: 100%;
   height: 25px;
@@ -359,6 +390,7 @@ p {
   &:last-child {
     border-bottom: none;
   }
+
   .img {
     width: 7px;
     height: 7px;
@@ -382,11 +414,13 @@ p {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
 .policyCardDate {
   font-size: 10px;
   font-weight: 400;
   color: #afafaf;
 }
+
 .policyFormValue {
   font-size: 10px;
   font-weight: 400;
@@ -395,16 +429,19 @@ p {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
 .viewPolicyBtn {
   text-decoration: none;
   width: 100%;
 }
+
 .viewPolicyText {
   font-weight: 500;
   font-size: 11px;
   color: #ffffff;
   text-align: center;
 }
+
 .menuText {
   font-size: 8px;
   font-weight: 500;

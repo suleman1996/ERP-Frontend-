@@ -87,7 +87,7 @@ const RenderPoliciesTab = ({
         <div className={style.addPolicyView}>
           <img
             onClick={() => setShowFilterView(!showFilterView)}
-            style={{ cursor: 'pointer', height: 35, width: 35, marginRight: '25px' }}
+            style={{ cursor: 'pointer', height: 35, width: 35, marginRight: '5px' }}
             src={filter}
             alt=""
             className={style.img}
