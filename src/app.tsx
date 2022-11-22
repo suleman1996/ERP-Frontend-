@@ -3,17 +3,13 @@ import { useEffect, useState } from 'react'
 import Routes from 'routes'
 
 import { useAppDispatch, useAppSelector } from 'store/hooks'
-import {
-  setCurrentUser,
-  setNotificationCount,
-  setNotificationData,
-} from 'store'
+import { setCurrentUser, setNotificationData } from 'store'
 import AuthService from 'services/auth-service'
 import NotificationService from 'services/notification-service'
 
 import 'bootstrap-daterangepicker/daterangepicker.css'
 import { getAllSettings } from 'store/actions'
-//only for
+//only fo
 const App = () => {
   const dispatch = useAppDispatch()
   const { user_id, currentUser, token } = useAppSelector((state) => state?.app)
