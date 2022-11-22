@@ -65,7 +65,7 @@ const RenderPolicySearchView = ({
       }}
       id="SearchPolicy"
     >
-      <div className={style.policySearchView}>
+      <div className={style.policySearchView} style={{ marginTop: '80px' }}>
         <TextField
           label="Name & Number"
           register={register}

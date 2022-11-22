@@ -235,6 +235,13 @@ p {
   display: flex;
   flex-direction: row;
   border-bottom: 1px solid #e2e2ea;
+  position: fixed;
+  width: 78.5% !important;
+  background: #fff;
+  z-index: 2;
+  @media (max-width: $md) {
+    width: 95% !important;
+  }
 }
 .headerTitleView {
   width: 80%;
@@ -418,7 +425,7 @@ ul {
   @include gridTwo(50, 50);
   margin-bottom: 20px;
   @media (max-width: $sm) {
-    grid-gap: 0px 0px;
+    grid-gap: 10px 10px;
   }
 }
 
@@ -431,8 +438,15 @@ ul {
 }
 
 .policyGridView {
-  @include gridFive(15, 30);
+  margin-top: 60px;
+  // @include gridFive(15, 30);
   padding: 20px 30px;
+  display: flex;
+  flex-wrap: wrap;
+
+  @media (max-width: $md) {
+    justify-content: center;
+  }
 }
 
 .selectContainer {

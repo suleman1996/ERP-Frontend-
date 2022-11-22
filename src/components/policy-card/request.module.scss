@@ -244,7 +244,10 @@ p {
 }
 
 .policyView {
-  width: 250px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  width: 100%;
+  max-width: 250px;
   border: 1px solid #e2e2ea;
   border-radius: 5px;
   position: relative;
@@ -411,7 +414,7 @@ ul {
 }
 .viewPolicyText {
   font-weight: 500;
-  font-size: 11;
+  font-size: 11px;
   color: #ffffff;
   text-align: center;
 }
