@@ -1,16 +1,16 @@
-import CardContainer from 'components/card-container';
-import Table from 'components/table';
+import CardContainer from 'components/card-container'
+import Table from 'components/table'
 
-import { rows, columns } from './helper';
-import EmployeeService from 'services/employee-service';
+import { columns } from './helper'
+import EmployeeService from 'services/employee-service'
 
-import style from './salary.module.scss';
-import { useParams } from 'react-router';
-import { useEffect, useState } from 'react';
+import style from './salary.module.scss'
+import { useParams } from 'react-router'
+import { useEffect, useState } from 'react'
 
 const SalaryInformation = () => {
-  const { id } = useParams();
-  const [user, setUser] = useState<any>();
+  const { id } = useParams()
+  const [user, setUser] = useState<any>()
   const SalaryInformationDetails = [
     {
       title: 'Basic Salary:',
@@ -28,16 +28,16 @@ const SalaryInformation = () => {
       title: 'Account Number:',
       subtitle: user?.accountNumber,
     },
-  ];
+  ]
 
   const getSalaryInfo = async () => {
-    const res = await EmployeeService.getSalary(id);
-    setUser(res?.data);
-  };
+    const res = await EmployeeService.getSalary(id)
+    setUser(res?.data)
+  }
 
   useEffect(() => {
-    getSalaryInfo();
-  }, []);
+    getSalaryInfo()
+  }, [])
 
   return (
     <>
@@ -63,7 +63,7 @@ const SalaryInformation = () => {
         <Table rows={user?.salarySummary} columns={columns} minWidth="800px" />
       </CardContainer>
     </>
-  );
-};
+  )
+}
 
-export default SalaryInformation;
+export default SalaryInformation

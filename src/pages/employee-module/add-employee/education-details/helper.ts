@@ -1,103 +1,109 @@
-import { useState, useEffect, useRef } from 'react';
-import { useParams } from 'react-router-dom';
-import moment from 'moment';
-import * as yup from 'yup';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
+import { useState, useEffect, useRef } from 'react'
+import { useParams } from 'react-router-dom'
+import moment from 'moment'
+import * as yup from 'yup'
+import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
 
-import EmployeeService from 'services/employee-service';
-import { convertBase64Image } from 'main-helper';
-import { removeKeys } from 'helper';
+import EmployeeService from 'services/employee-service'
+import { convertBase64Image } from 'main-helper'
+import { removeKeys } from 'helper'
 
 export interface Education {
-  degree: string;
-  institute: string;
-  startDate?: string;
-  endDate?: string;
-  transcript: string | any;
-  description: string;
-  ongoing?: boolean;
-  filename?: string;
-  prevTranscript?: string;
-  marksType?: any;
-  marks?: String;
+  degree: string
+  institute: string
+  startDate?: string
+  endDate?: string
+  transcript: string | any
+  description: string
+  ongoing?: boolean
+  filename?: string
+  prevTranscript?: string
+  marksType?: any
+  marks?: string
 }
 
 interface Props {
-  formData: any;
-  setFormData: any;
-  employeeId: string;
-  employeeDocId: string;
-  handleBack: (data?: string) => void;
-  handleNext: (data?: string) => void;
+  formData: any
+  setFormData: any
+  employeeId: string
+  employeeDocId: string
+  handleBack: (data?: string) => void
+  handleNext: (data?: string) => void
 }
 
 export const useEducationDetail = ({
-  handleBack,
   handleNext,
   formData,
   setFormData,
-  employeeId,
   employeeDocId,
 }: Props) => {
-  const { id } = useParams();
-  const [btnLoader, setBtnLoader] = useState(false);
-  const [marksType, setMarksType] = useState('percentage');
-  const [marksVal, setMarkVal] = useState<number>();
-  const [filename, setFilename] = useState<string | any>('');
-  const [startDateHandle, setStartDateHandle] = useState<string | any>();
-  const [educations, setEducations] = useState<Education[] | []>([]);
-  const [selectedFileName, setSelectedFileName] = useState('');
-  const educationIndex = useRef(-1);
-  const [ongiong, setOngoing] = useState(false);
+  const { id } = useParams()
+  const [btnLoader, setBtnLoader] = useState(false)
+  const [marksType, setMarksType] = useState('percentage')
+  const [marksVal, setMarkVal] = useState<number>()
+  const [filename, setFilename] = useState<string | any>('')
+  const [startDateHandle, setStartDateHandle] = useState<string | any>()
+  const [educations, setEducations] = useState<Education[] | []>([])
+  const [selectedFileName, setSelectedFileName] = useState('')
+  const educationIndex = useRef(-1)
+  const [ongiong, setOngoing] = useState(false)
 
-  const [updateEdu, setUpdateEdu] = useState({
+  const [, setUpdateEdu] = useState({
     update: false,
     editInd: -1,
-  });
-  const { register, handleSubmit, errors, control, reset, watch, setValue, setError } =
+  })
+  const { register, handleSubmit, errors, control, reset, watch, setValue } =
     useForm<any>({
       resolver: yupResolver(schema),
       defaultValues: { endDate: null },
-    });
+    })
 
   const onSubmit = async () => {
-    setBtnLoader(true);
+    setBtnLoader(true)
     try {
-      setFormData({ ...formData, educationDetails: [...educations] });
+      setFormData({ ...formData, educationDetails: [...educations] })
       if (id) {
         const userData = {
           educationDetails: [...educations],
-        };
-        const res = await EmployeeService.addPostEducation(userData, id);
+        }
+        const res = await EmployeeService.addPostEducation(userData, id)
         if (res.status === 200) {
-          handleNext && handleNext('Experience');
+          handleNext && handleNext('Experience')
         }
       } else {
         const res = await EmployeeService.addPostEducation(
           {
             educationDetails: [...educations],
           },
-          employeeDocId,
-        );
+          employeeDocId
+        )
         if (res.status === 200) {
-          handleNext && handleNext('Experience');
+          handleNext && handleNext('Experience')
         }
       }
     } catch (err) {
-      console.error(err);
+      console.error(err)
     }
-    setBtnLoader(false);
-    setOngoing(false);
-  };
+    setBtnLoader(false)
+    setOngoing(false)
+  }
 
   const handleAddEduction = async (data: Education) => {
-    const newEducations: any = [...educations];
-    const { startDate, endDate, transcript, prevTranscript, filename: prevFileName } = data;
+    const newEducations: any = [...educations]
+    const {
+      startDate,
+      endDate,
+      transcript,
+      prevTranscript,
+      filename: prevFileName,
+    } = data
 
     const tempObj = {
       ...data,
-      ...(!data.ongoing && { endDate: !ongiong && moment(endDate).format('YYYY-MM-DD') }),
+      ...(!data.ongoing && {
+        endDate: !ongiong && moment(endDate).format('YYYY-MM-DD'),
+      }),
 
       startDate: moment(startDate).format('YYYY-MM-DD'),
       ongoing: ongiong,
@@ -107,85 +113,93 @@ export const useEducationDetail = ({
             transcript:
               selectedFileName &&
               transcript &&
-              (transcript[0] ? await convertBase64Image(transcript[0]) : prevTranscript),
+              (transcript[0]
+                ? await convertBase64Image(transcript[0])
+                : prevTranscript),
           }
         : {
             filename: newEducations[educationIndex.current]?.filename || '',
             transcript: newEducations[educationIndex.current]?.transcript || '',
           }),
       ...(marksType === 'percentage' && { percentage: marksVal?.toString() }),
-      ...(marksType === 'cgpa' && { cgpa: marksType === 'cgpa' && marksVal?.toString() }),
-    };
-    !transcript && removeKeys(tempObj, ['transcript']);
-    ongiong && removeKeys(tempObj, ['endDate']);
+      ...(marksType === 'cgpa' && {
+        cgpa: marksType === 'cgpa' && marksVal?.toString(),
+      }),
+    }
+    !transcript && removeKeys(tempObj, ['transcript'])
+    ongiong && removeKeys(tempObj, ['endDate'])
 
     if (educationIndex.current < 0) {
-      newEducations.push(tempObj);
+      newEducations.push(tempObj)
     } else {
-      newEducations[educationIndex.current] = { ...tempObj };
-      setUpdateEdu({ update: false, editInd: -1 });
+      newEducations[educationIndex.current] = { ...tempObj }
+      setUpdateEdu({ update: false, editInd: -1 })
     }
 
-    let sortedEducations = newEducations.sort(function (a: any, b) {
-      return new Date(b.startDate) - new Date(a.startDate);
-    });
-    setEducations([...sortedEducations]);
+    const sortedEducations = newEducations.sort(function (a: any, b) {
+      return new Date(b.startDate) - new Date(a.startDate)
+    })
+    setEducations([...sortedEducations])
 
-    setFormData({ ...formData, educationDetails: [...sortedEducations] });
-    educationIndex.current = -1;
-    reset({ startDate: null, endDate: null, ongiong: false });
+    setFormData({ ...formData, educationDetails: [...sortedEducations] })
+    educationIndex.current = -1
+    reset({ startDate: null, endDate: null, ongiong: false })
 
-    setFilename('');
-    setSelectedFileName('');
-    setOngoing(false);
-  };
+    setFilename('')
+    setSelectedFileName('')
+    setOngoing(false)
+  }
 
   const handleEducation = (index: number) => {
-    educationIndex.current = index;
-    const data = educations.find((data, i) => i === index);
+    educationIndex.current = index
+    const data = educations.find((data, i) => i === index)
 
-    data?.transcript && setSelectedFileName('transcript');
+    data?.transcript && setSelectedFileName('transcript')
     reset({
       institute: data?.institute,
       degree: data?.degree,
       description: data?.description,
       marksType: data?.marksType,
       startDate: moment(data?.startDate, 'YYYY-MM-DD').toDate(),
-      ...(!data?.ongoing && { endDate: moment(data?.endDate, 'YYYY-MM-DD').toDate() }),
+      ...(!data?.ongoing && {
+        endDate: moment(data?.endDate, 'YYYY-MM-DD').toDate(),
+      }),
 
       ongoing: data?.ongoing,
       marks: data?.marks,
-    });
-    setOngoing(!!data?.ongoing);
+    })
+    setOngoing(!!data?.ongoing)
 
-    data?.filename && setFilename(data?.filename);
-  };
+    data?.filename && setFilename(data?.filename)
+  }
 
   const getUser = async () => {
-    const res = await EmployeeService.getEducationEmployee(employeeDocId || id);
+    const res = await EmployeeService.getEducationEmployee(employeeDocId || id)
 
-    const data = res.data.education.map((item: any, index: number) => {
+    const data = res.data.education.map((item: any) => {
       return {
         ...item,
         startDate: moment(item.startDate).format('YYYY-MM-DD'),
-        ...(!item.ongoing && { endDate: moment(item.endDate).format('YYYY-MM-DD') }),
-      };
-    });
+        ...(!item.ongoing && {
+          endDate: moment(item.endDate).format('YYYY-MM-DD'),
+        }),
+      }
+    })
 
-    setEducations(data);
-  };
+    setEducations(data)
+  }
 
   const handleDeleteIndex = (index: number) => {
-    const delEdu = [...educations];
-    delEdu.splice(index, 1);
-    setEducations([...delEdu]);
-  };
+    const delEdu = [...educations]
+    delEdu.splice(index, 1)
+    setEducations([...delEdu])
+  }
 
   useEffect(() => {
-    (id || employeeDocId) && getUser();
-  }, []);
+    if (id || employeeDocId) getUser()
+  }, [])
 
-  const startDate = watch('startDate');
+  const startDate = watch('startDate')
   return {
     handleAddEduction,
     onSubmit,
@@ -212,8 +226,8 @@ export const useEducationDetail = ({
     selectedFileName,
     setSelectedFileName,
     watch,
-  };
-};
+  }
+}
 
 export const schema = yup.object().shape({
   institute: yup.string().required('Institute name is a required '),
@@ -241,7 +255,7 @@ export const schema = yup.object().shape({
       then: yup.string().nullable().required('End date is required.'),
     }),
   description: yup.string().optional(),
-});
+})
 
 export const selectCountry = [
   {
@@ -256,7 +270,7 @@ export const selectCountry = [
     value: 'admin',
     description: 'Admin',
   },
-];
+]
 
 export const department = [
   {
@@ -267,7 +281,7 @@ export const department = [
     value: 'Backend-developer',
     description: 'Backend-developer',
   },
-];
+]
 
 export const columns = [
   {
@@ -301,4 +315,4 @@ export const columns = [
     width: '150px',
   },
   { key: 'actions', name: 'Actions', alignText: 'center', width: '200px' },
-];
+]

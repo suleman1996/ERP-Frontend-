@@ -1,28 +1,33 @@
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction } from 'react'
 
 const getUniqueFilters = ({ data }: any) => {
-  const ids: any = [];
-  const uniqueData: any = [];
+  const ids: any = []
+  const uniqueData: any = []
 
   data?.forEach(() => {
-    const currentFilter = data?.find((x: any) => !ids.includes(x?.id));
+    const currentFilter = data?.find((x: any) => !ids.includes(x?.id))
     if (currentFilter !== undefined) {
-      ids.push(currentFilter?.id);
-      uniqueData.push(currentFilter);
+      ids.push(currentFilter?.id)
+      uniqueData.push(currentFilter)
     }
-  });
-  return uniqueData;
-};
+  })
+  return uniqueData
+}
 
-export const handleSort = ({ title, setSorts, toggleFilter, filterKey }: HandleSort) => {
+export const handleSort = ({
+  title,
+  setSorts,
+  toggleFilter,
+  filterKey,
+}: HandleSort) => {
   setSorts([
     {
       columnName: filterKey,
       selected: title === 'Ascending' ? 'ASC' : 'DESC',
     },
-  ]);
-  toggleFilter();
-};
+  ])
+  toggleFilter()
+}
 
 export const getFiltersData = async ({
   apiCall,
@@ -44,39 +49,43 @@ export const getFiltersData = async ({
     pageSize,
     page,
     search: JSON.stringify([{ columnName: filterKey, selected: search }]),
-    filters: JSON.stringify([{ columnName: filterKey, selected: selectFilters }]),
-    sorts: JSON.stringify(sorts?.length ? sorts : [{ columnName: filterKey, selected: 'ASC' }]),
+    filters: JSON.stringify([
+      { columnName: filterKey, selected: selectFilters },
+    ]),
+    sorts: JSON.stringify(
+      sorts?.length ? sorts : [{ columnName: filterKey, selected: 'ASC' }]
+    ),
     properties: [filterKey],
-  });
+  })
 
   if (res.status === 200) {
     if (
       (Array.isArray(res.data.data?.length) && res.data.data?.length) ||
       Object.keys(res.data.data).length
     ) {
-      let temp: any = [];
-      let obj: any = {};
+      const temp: any = []
+      let obj: any = {}
 
       const uniqueData = getUniqueFilters({
         data: [...tempFiltersData, ...res.data.data],
-      });
+      })
       uniqueData?.forEach((ele: any) => {
         if (ele?.id) {
-          temp.push(ele?.id);
-          obj = { ...obj, [ele?.id]: false };
+          temp.push(ele?.id)
+          obj = { ...obj, [ele?.id]: false }
         }
-      });
+      })
 
-      setFilterCheckboxName({ ...filterCheckboxName, ...obj });
-      setFiltersData([...temp]);
-      setCount(res?.data?.count);
-      setTempFiltersData(res?.data?.data);
+      setFilterCheckboxName({ ...filterCheckboxName, ...obj })
+      setFiltersData([...temp])
+      setCount(res?.data?.count)
+      setTempFiltersData(res?.data?.data)
       if (res?.data?.count <= (page + 1) * pageSize) {
-        setHasMore(false);
+        setHasMore(false)
       }
     }
   }
-};
+}
 
 export const getFiltersDataBySort = async ({
   apiCall,
@@ -95,31 +104,37 @@ export const getFiltersDataBySort = async ({
     search: JSON.stringify([{ columnName: filterKey, selected: search }]),
     filters: JSON.stringify(filters),
     properties: [filterKey],
-  });
+  })
   if (res.status === 200) {
     if (res.data.data?.length) {
-      let temp: any = [];
+      const temp: any = []
       res.data.data.forEach((ele: any) => {
         if (ele.id) {
-          temp.push(ele.id);
+          temp.push(ele.id)
         }
-      });
-      setFiltersData([...temp]);
-      setCount(res?.data?.count);
+      })
+      setFiltersData([...temp])
+      setCount(res?.data?.count)
 
       if (res.data.data.length < pageSize) {
-        setHasMore(false);
+        setHasMore(false)
       }
     }
   }
-};
+}
 
-export const handlePage = ({ setPage, filtersData, setHasMore, page, count }: any) => {
-  setPage(page + 1);
+export const handlePage = ({
+  setPage,
+  filtersData,
+  setHasMore,
+  page,
+  count,
+}: any) => {
+  setPage(page + 1)
   if (count === filtersData.length) {
-    setHasMore(false);
+    setHasMore(false)
   }
-};
+}
 
 export const handleFilters = ({
   filters,
@@ -130,20 +145,20 @@ export const handleFilters = ({
 }: any) => {
   const findKey = filters?.length
     ? filters.findIndex((ele: any) => ele.columnName === filterKey)
-    : -1;
+    : -1
 
   if (findKey === -1) {
-    setFilters([...filters, { columnName: filterKey, selected: selectFilters }]);
+    setFilters([...filters, { columnName: filterKey, selected: selectFilters }])
   } else {
     setFilters([
       ...filters.slice(0, findKey),
       { columnName: filterKey, selected: selectFilters },
       ...filters.slice(findKey + 1),
-    ]);
+    ])
   }
 
-  toggleFilter();
-};
+  toggleFilter()
+}
 
 export const handleSelectAll = ({
   e,
@@ -155,19 +170,19 @@ export const handleSelectAll = ({
   filterCheckboxName,
 }: any) => {
   if (e.target.checked) {
-    setSelectAll(true);
-    setSelectFilters([...filtersData]);
+    setSelectAll(true)
+    setSelectFilters([...filtersData])
     setFilterCheckboxName({
       ...selectAllCheckboxToggle(true, filterCheckboxName),
-    });
+    })
   } else {
-    setSelectFilters([]);
-    setSelectAll(false);
+    setSelectFilters([])
+    setSelectAll(false)
     setFilterCheckboxName({
       ...selectAllCheckboxToggle(false, filterCheckboxName),
-    });
+    })
   }
-};
+}
 export const handleCheckboxChange = ({
   e,
   selectFilters,
@@ -176,62 +191,62 @@ export const handleCheckboxChange = ({
   setFilterCheckboxName,
 }: any) => {
   if (e.target.checked === true) {
-    setSelectFilters([...selectFilters, e.target.name]);
+    setSelectFilters([...selectFilters, e.target.name])
     setFilterCheckboxName({
       ...filterCheckboxName,
       [e.target.name]: e.target.checked,
-    });
+    })
   } else {
-    const temp = [...selectFilters];
-    let index = temp.findIndex((ele) => ele === e.target.name);
-    temp.splice(index, 1);
-    setSelectFilters([...temp]);
+    const temp = [...selectFilters]
+    const index = temp.findIndex((ele) => ele === e.target.name)
+    temp.splice(index, 1)
+    setSelectFilters([...temp])
     setFilterCheckboxName({
       ...filterCheckboxName,
       [e.target.name]: e.target.checked,
-    });
+    })
   }
-};
+}
 
 interface HandleSort {
-  title: string;
+  title: string
   setSorts: Dispatch<
     SetStateAction<
       {
-        columnName: string;
-        selected: string;
+        columnName: string
+        selected: string
       }[]
     >
-  >;
-  toggleFilter: () => void;
-  filterKey: string;
+  >
+  toggleFilter: () => void
+  filterKey: string
 }
 
 interface GetFiltersData {
-  apiCall: any;
-  page: number;
-  sorts: string;
-  search: string;
-  pageSize: number;
-  filterKey: string;
-  selectFilters: string;
-  filterCheckboxName: any;
-  setCount: Dispatch<SetStateAction<number>>;
-  setHasMore: Dispatch<SetStateAction<boolean>>;
-  setFiltersData: Dispatch<SetStateAction<number[]>>;
-  setFilterCheckboxName: Dispatch<SetStateAction<any[]>>;
-  tempFiltersData: number[];
-  setTempFiltersData: Dispatch<SetStateAction<number[]>>;
+  apiCall: any
+  page: number
+  sorts: string
+  search: string
+  pageSize: number
+  filterKey: string
+  selectFilters: string
+  filterCheckboxName: any
+  setCount: Dispatch<SetStateAction<number>>
+  setHasMore: Dispatch<SetStateAction<boolean>>
+  setFiltersData: Dispatch<SetStateAction<number[]>>
+  setFilterCheckboxName: Dispatch<SetStateAction<any[]>>
+  tempFiltersData: number[]
+  setTempFiltersData: Dispatch<SetStateAction<number[]>>
 }
 
 interface GetFiltersDataBySort {
-  apiCall: any;
-  page: number;
-  search: string;
-  pageSize: number;
-  filterKey: string;
-  filters: string[];
-  setCount: Dispatch<SetStateAction<number>>;
-  setHasMore: Dispatch<SetStateAction<boolean>>;
-  setFiltersData: Dispatch<SetStateAction<number[]>>;
+  apiCall: any
+  page: number
+  search: string
+  pageSize: number
+  filterKey: string
+  filters: string[]
+  setCount: Dispatch<SetStateAction<number>>
+  setHasMore: Dispatch<SetStateAction<boolean>>
+  setFiltersData: Dispatch<SetStateAction<number[]>>
 }

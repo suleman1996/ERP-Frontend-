@@ -1,27 +1,23 @@
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
-
-interface Data {
-  gender: string;
-  department: string;
-  designation: string;
-  employmentType: string;
-  payType: string;
-}
+import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from 'yup'
 
 export const useProfileSetting = () => {
-  const { register, handleSubmit, errors, control } = useForm({ resolver: yupResolver(schema) });
+  const { register, handleSubmit, errors, control } = useForm({
+    resolver: yupResolver(schema),
+  })
 
-  const onSubmit = () => {};
+  const onSubmit = () => {
+    return
+  }
   return {
     onSubmit,
     register,
     handleSubmit,
     errors,
     control,
-  };
-};
+  }
+}
 
 export const schema = yup.object().shape({
   gender: yup.string().required('Gender is a required field'),
@@ -29,7 +25,7 @@ export const schema = yup.object().shape({
   designation: yup.string().required('Designation is a required field'),
   employmentType: yup.string().required('Employment Type is a required field'),
   payType: yup.string().required('Pay Type is a required field'),
-});
+})
 
 export const gender = [
   {
@@ -44,7 +40,7 @@ export const gender = [
     value: 'Other',
     description: 'Other',
   },
-];
+]
 
 export const department = [
   {
@@ -55,7 +51,7 @@ export const department = [
     value: 'Backend-developer',
     description: 'Backend-developer',
   },
-];
+]
 
 export const designation = [
   {
@@ -66,7 +62,7 @@ export const designation = [
     value: 'Senior Backend-developer',
     description: 'Senior Backend-developer',
   },
-];
+]
 
 export const employmentType = [
   {
@@ -77,7 +73,7 @@ export const employmentType = [
     value: 'Full Time',
     description: 'Full Time',
   },
-];
+]
 
 export const referenceOptions = [
   {
@@ -88,7 +84,7 @@ export const referenceOptions = [
     value: 'Checkout',
     description: 'Checkout',
   },
-];
+]
 
 export const conditionOptions = [
   {
@@ -99,7 +95,7 @@ export const conditionOptions = [
     value: 'Less than',
     description: 'Less than',
   },
-];
+]
 
 export const colorOptions = [
   {
@@ -110,4 +106,4 @@ export const colorOptions = [
     value: 'Light Green',
     description: 'Light Green',
   },
-];
+]

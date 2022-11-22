@@ -1,43 +1,41 @@
-import Tags from 'components/tags';
-import { ChangeEvent, useState } from 'react';
-import { Controller } from 'react-hook-form';
+import { ChangeEvent, useState } from 'react'
+import { Controller } from 'react-hook-form'
 
-import Select, { components } from 'react-select';
+import Select from 'react-select'
 
-import { SelectionStyle } from './custom-styles';
+import { SelectionStyle } from './custom-styles'
 
-import style from './select.module.scss';
+import style from './select.module.scss'
 
 interface Props {
-  label?: string;
-  name?: string;
-  name1?: string;
-  children?: JSX.Element[] | JSX.Element;
-  onChange?: (event: ChangeEvent<HTMLSelectElement>) => void;
-  register?: any;
-  errorMessage?: string;
-  placeholder?: string;
-  disable?: boolean;
-  star?: string;
-  selectContainer?: string;
-  wraperSelect?: string;
-  newSelect?: boolean;
-  withInput?: boolean;
-  userId?: any;
-  marksType?: string;
-  classNameLabel?: string;
-  setMarkVal?: any;
-  marksVal?: any;
-  options?: any;
-  value?: any;
-  closeMenuOnSelect?: boolean;
-  isMulti?: boolean;
-  control: any;
-  isDisabled?: any;
-  defaultValue?: any;
-  placeHolderStyle?: any;
-  showNumber?: Boolean;
-  isSearchable?: Boolean;
+  label?: string
+  name?: string
+  name1?: string
+  children?: JSX.Element[] | JSX.Element
+  onChange?: (event: ChangeEvent<HTMLSelectElement>) => void
+  register?: any
+  errorMessage?: string
+  placeholder?: string
+  disable?: boolean
+  star?: string
+  selectContainer?: string
+  wraperSelect?: string
+  newSelect?: boolean
+  withInput?: boolean
+  userId?: any
+  marksType?: string
+  classNameLabel?: string
+  setMarkVal?: any
+  marksVal?: any
+  options?: any
+  value?: any
+  closeMenuOnSelect?: boolean
+  isMulti?: boolean
+  control: any
+  isDisabled?: any
+  defaultValue?: any
+  placeHolderStyle?: any
+  isSearchable?: boolean
 }
 
 const Selection = ({
@@ -52,55 +50,56 @@ const Selection = ({
   name,
   control,
   isDisabled,
-  classNameLabel,
   defaultValue,
   placeHolderStyle,
-  showNumber,
   isSearchable,
 }: Props) => {
-  const [customErr, setCustomErr] = useState<string | undefined>();
+  const [customErr] = useState<string | undefined>()
 
-  const CustomStyle = SelectionStyle;
+  const CustomStyle = SelectionStyle
 
   if (placeHolderStyle) {
     CustomStyle.placeholder = (styles: any) => ({
       ...styles,
       fontSize: '13px',
       color: placeHolderStyle.color,
-    });
+    })
   }
 
-  const LimitedChipsContainer = ({ children, hasValue, ...props }) => {
-    if (!hasValue) {
-      return <components.ValueContainer {...props}>{children}</components.ValueContainer>;
-    }
+  // const LimitedChipsContainer = ({ children, hasValue, ...props }) => {
+  //   if (!hasValue) {
+  //     return (
+  //       <components.ValueContainer {...props}>
+  //         {children}
+  //       </components.ValueContainer>
+  //     )
+  //   }
 
-    const CHIPS_LIMIT = 2;
-    const [chips, otherChildren] = children;
-    const overflowCounter = chips.slice(CHIPS_LIMIT).length;
-    const displayChips = chips.slice(overflowCounter, overflowCounter + CHIPS_LIMIT);
+  //   const CHIPS_LIMIT = 2
+  //   const [chips, otherChildren] = children
+  //   const overflowCounter = chips.slice(CHIPS_LIMIT).length
+  //   const displayChips = chips.slice(
+  //     overflowCounter,
+  //     overflowCounter + CHIPS_LIMIT
+  //   )
 
-    return (
-      <components.ValueContainer {...props}>
-        {displayChips}
+  //   return (
+  //     <components.ValueContainer {...props}>
+  //       {displayChips}
 
-        {overflowCounter > 0 && `+ ${overflowCounter}`}
+  //       {overflowCounter > 0 && `+ ${overflowCounter}`}
 
-        {otherChildren}
-      </components.ValueContainer>
-    );
-  };
+  //       {otherChildren}
+  //     </components.ValueContainer>
+  //   )
+  // }
 
   const formatOptionLabel = (
     {
       label,
-      value,
       color,
-      checkbox,
-      box,
     }: { label: any; value: any; color: any; checkbox: any; box: any },
-    { context, selectValue }: { context: any; selectValue: any },
-    badge: any,
+    { context }: { context: any; selectValue: any }
   ): any => {
     return (
       <>
@@ -122,8 +121,8 @@ const Selection = ({
           </div>
         )}
       </>
-    );
-  };
+    )
+  }
 
   return (
     <div style={{ position: 'relative' }}>
@@ -154,12 +153,16 @@ const Selection = ({
                     GroupHeading: (e) => (
                       <div
                         onClick={() => {
-                          const set = new Set([...(value || ''), ...e.data.options]);
-                          handleChange([...set]);
+                          const set = new Set([
+                            ...(value || ''),
+                            ...e.data.options,
+                          ])
+                          handleChange([...set])
                         }}
                       >
                         <p className={style.groupHeading}>
-                          {e?.children?.charAt(0)?.toUpperCase() + e?.children?.slice(1)}
+                          {e?.children?.charAt(0)?.toUpperCase() +
+                            e?.children?.slice(1)}
                         </p>
                       </div>
                     ),
@@ -206,18 +209,22 @@ const Selection = ({
                   styles={CustomStyle}
                   placeholder={placeholder}
                   isDisabled={isDisabled || false}
-                  formatOptionLabel={(data, metaData) => formatOptionLabel(data, metaData, true)}
+                  formatOptionLabel={(data, metaData) =>
+                    formatOptionLabel(data, metaData, true)
+                  }
                   isSearchable={isSearchable}
                 />
               </>
-            );
+            )
           }}
         />
       </div>
-      {errorMessage && <span className={style.errorMessage}>{errorMessage}</span>}
+      {errorMessage && (
+        <span className={style.errorMessage}>{errorMessage}</span>
+      )}
       {customErr && <span className={style.errorMessage}>{customErr}</span>}
     </div>
-  );
-};
+  )
+}
 
-export default Selection;
+export default Selection

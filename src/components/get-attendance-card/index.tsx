@@ -1,21 +1,21 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react'
 
-import Checkbox from 'components/checkbox';
-import Button from 'components/button';
-import Tags from 'components/tags';
-import TimePicker from 'components/time-picker';
-import { Colors } from 'pages/attendance/columns-data';
-import Table from 'components/table';
+import Checkbox from 'components/checkbox'
+import Button from 'components/button'
+import Tags from 'components/tags'
+import TimePicker from 'components/time-picker'
+import { Colors } from 'pages/attendance/columns-data'
+import Table from 'components/table'
 
-import style from './get-attendance.module.scss';
+import style from './get-attendance.module.scss'
 
 interface Props {
-  handleSave?: () => void;
-  handleFilter?: () => void;
+  handleSave?: () => void
+  handleFilter?: () => void
 }
 
-const AttendanceCard = ({ handleSave, handleFilter }: Props) => {
-  const [checkmark, setCheckMark] = useState([]);
+const AttendanceCard = ({ handleSave }: Props) => {
+  const [checkmark, setCheckMark] = useState([])
 
   const handleCheckboxChange = (index: number) => {
     setCheckMark((prevState: any) =>
@@ -23,9 +23,9 @@ const AttendanceCard = ({ handleSave, handleFilter }: Props) => {
         ? prevState?.filter((e: any) => e !== index)
         : prevState
         ? [...prevState, index]
-        : [index],
-    );
-  };
+        : [index]
+    )
+  }
 
   return (
     <div className={style.wraper}>
@@ -59,7 +59,10 @@ const AttendanceCard = ({ handleSave, handleFilter }: Props) => {
                     marginRight: 10,
                   }}
                 />
-                <span style={{ color: Colors[row.status] }} className={style.statusText}>
+                <span
+                  style={{ color: Colors[row.status] }}
+                  className={style.statusText}
+                >
                   {row.status}
                 </span>
               </div>
@@ -74,7 +77,9 @@ const AttendanceCard = ({ handleSave, handleFilter }: Props) => {
                 <TimePicker />
               </div>
             ),
-            tags: <Tags text={row.tags} boxColor="#7DA560" textColor="#E2E2EA" />,
+            tags: (
+              <Tags text={row.tags} boxColor="#7DA560" textColor="#E2E2EA" />
+            ),
           }))}
           minWidth="450px"
           headingText={style.columnText}
@@ -85,8 +90,8 @@ const AttendanceCard = ({ handleSave, handleFilter }: Props) => {
         <Button text="Save" handleClick={handleSave} />
       </div>
     </div>
-  );
-};
+  )
+}
 
 const columns = [
   {
@@ -96,13 +101,18 @@ const columns = [
   },
   { name: 'ID', key: 'id', width: '50px', alignText: 'center' },
   { name: 'Name', key: 'name', width: '50px', alignText: 'center' },
-  { name: 'Designation', key: 'designation', width: '50px', alignText: 'center' },
+  {
+    name: 'Designation',
+    key: 'designation',
+    width: '50px',
+    alignText: 'center',
+  },
   { name: 'Check in', key: 'checkIn', width: '50px', alignText: 'center' },
   { name: 'Checkout', key: 'checkout', width: '50px', alignText: 'center' },
   { name: 'Status', key: 'status', width: '50px' },
   { name: 'Tags', key: 'tags', width: '50px', alignText: 'center' },
-];
-export default AttendanceCard;
+]
+export default AttendanceCard
 
 const data = [
   {
@@ -150,4 +160,4 @@ const data = [
     status: 'Present',
     tags: 'On Time',
   },
-];
+]

@@ -1,36 +1,40 @@
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction } from 'react'
 
-import Button from 'components/button';
-import TextField from 'components/textfield';
-import Table from 'components/table';
-import ProfileUpload from 'components/profile-upload';
-import Select from 'components/select';
-import SkillLevel from 'components/skill-level';
+import Button from 'components/button'
+import TextField from 'components/textfield'
+import Table from 'components/table'
+import ProfileUpload from 'components/profile-upload'
+import SkillLevel from 'components/skill-level'
 
-import { columns, selectRates, useCerificate } from './helper';
+import { columns, useCerificate } from './helper'
 
-import tick from 'assets/tick.svg';
-import style from './certificate.module.scss';
+import tick from 'assets/tick.svg'
+import style from './certificate.module.scss'
 
 interface Props {
-  formData: any;
-  setFormData: any;
-  employeeId: string;
-  setCertificate: Dispatch<SetStateAction<Certificate[] | []>>;
+  formData: any
+  setFormData: any
+  employeeId: string
+  setCertificate: Dispatch<SetStateAction<Certificate[] | []>>
 }
 
 export interface Certificate {
-  certificateName?: string;
-  skillLevel?: string;
-  skills?: string;
-  name?: string;
-  platform?: string;
-  year?: number;
-  letter?: string;
-  file: string;
+  certificateName?: string
+  skillLevel?: string
+  skills?: string
+  name?: string
+  platform?: string
+  year?: number
+  letter?: string
+  file: string
 }
 
-const Certificate = ({ formData, setFormData, employeeId, setCertificate }: Props) => {
+const Certificate = ({
+  formData,
+  setFormData,
+  employeeId,
+  setCertificate,
+}: Props) => {
   const {
     handleSubmit,
     register,
@@ -50,7 +54,7 @@ const Certificate = ({ formData, setFormData, employeeId, setCertificate }: Prop
     setFormData,
     employeeId,
     setCertificate,
-  });
+  })
 
   return (
     <>
@@ -121,9 +125,7 @@ const Certificate = ({ formData, setFormData, employeeId, setCertificate }: Prop
         </div>
       </form>
     </>
-  );
-};
+  )
+}
 
-export default Certificate;
-
-const skills = ['Novice', 'Intermediate', 'Proficient', 'Expert'];
+export default Certificate

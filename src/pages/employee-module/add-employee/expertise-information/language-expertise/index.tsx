@@ -1,35 +1,39 @@
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction } from 'react'
 
-import Button from 'components/button';
-import TextField from 'components/textfield';
-import Table from 'components/table';
-import ProfileUpload from 'components/profile-upload';
-import Select from 'components/select';
-import SkillLevel from 'components/skill-level';
-import SearchSelect from 'components/search-select';
+import Button from 'components/button'
+import TextField from 'components/textfield'
+import Table from 'components/table'
+import ProfileUpload from 'components/profile-upload'
+import SkillLevel from 'components/skill-level'
+import SearchSelect from 'components/search-select'
 
-import { columns, selectRates, useLanguage, languageArray } from './helper';
+import { columns, useLanguage, languageArray } from './helper'
 
-import tick from 'assets/tick.svg';
-import style from './language.module.scss';
+import tick from 'assets/tick.svg'
+import style from './language.module.scss'
 
 interface Props {
-  formData: any;
-  setFormData: any;
-  employeeId: string;
-  setLanguage: Dispatch<SetStateAction<Language[] | []>>;
+  formData: any
+  setFormData: any
+  employeeId: string
+  setLanguage: Dispatch<SetStateAction<Language[] | []>>
 }
 
 export interface Language {
-  skills?: string;
-  language?: string;
-  rate?: string;
-  year?: number;
-  letter?: string;
-  file: string;
+  skills?: string
+  language?: string
+  rate?: string
+  year?: number
+  letter?: string
+  file: string
 }
 
-const LanguageExpertise = ({ formData, setFormData, employeeId, setLanguage }: Props) => {
+const LanguageExpertise = ({
+  formData,
+  setFormData,
+  employeeId,
+  setLanguage,
+}: Props) => {
   const {
     handleSubmit,
     register,
@@ -50,7 +54,7 @@ const LanguageExpertise = ({ formData, setFormData, employeeId, setLanguage }: P
     setFormData,
     employeeId,
     setLanguage,
-  });
+  })
 
   return (
     <>
@@ -125,9 +129,7 @@ const LanguageExpertise = ({ formData, setFormData, employeeId, setLanguage }: P
         </div>
       </form>
     </>
-  );
-};
+  )
+}
 
-export default LanguageExpertise;
-
-const skills = ['Novice', 'Intermediate', 'Proficient', 'Expert'];
+export default LanguageExpertise

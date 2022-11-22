@@ -1,12 +1,13 @@
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
 
 export const AddUserHelper = () => {
-  const [imgBlob, setImgBlob] = useState();
-  const { register, handleSubmit, errors, control, reset, watch, setValue, setError, clearErrors } =
-    useForm();
+  const [imgBlob, setImgBlob] = useState()
+  const { register, handleSubmit, control, clearErrors } = useForm()
 
-  const onSubmit = (data) => {};
+  const onSubmit = () => {
+    return
+  }
 
   return {
     register,
@@ -16,5 +17,5 @@ export const AddUserHelper = () => {
     onSubmit,
     imgBlob,
     setImgBlob,
-  };
-};
+  }
+}

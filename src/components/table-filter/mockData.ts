@@ -1,6 +1,6 @@
-import squareIcon from 'assets/settings-page/square.png';
-import filterIcon from 'assets/settings-page/filter-line.png';
-import sortAZIcon from 'assets/settings-page/down.svg';
+import squareIcon from 'assets/settings-page/square.png'
+import filterIcon from 'assets/settings-page/filter-line.png'
+import sortAZIcon from 'assets/settings-page/down.svg'
 
 export const sortData = [
   {
@@ -18,7 +18,7 @@ export const sortData = [
     title: 'Date Filter',
     sortIcon: filterIcon,
   },
-];
+]
 
 export const selectFilter = [
   {
@@ -57,26 +57,26 @@ export const selectFilter = [
     key: 'hackerDictionary1',
     label: 'Hacker Dictionary1',
   },
-];
+]
 
 export const selectAllCheckboxToggle = (booleanVal: boolean, obj: any) => {
-  let tempObj = { ...obj };
-  for (let key in tempObj) {
-    tempObj[key] = booleanVal;
+  const tempObj = { ...obj }
+  for (const key in tempObj) {
+    tempObj[key] = booleanVal
   }
 
-  return tempObj;
-};
+  return tempObj
+}
 export const checkAllCheckboxBoolean = (obj: any) => {
-  let tempObj = JSON.parse(JSON.stringify({ ...obj }));
-  let tempBoolean = false;
-  for (let key in tempObj) {
+  const tempObj = JSON.parse(JSON.stringify({ ...obj }))
+  let tempBoolean = false
+  for (const key in tempObj) {
     if (tempObj[key] === false) {
-      tempBoolean = false;
-      return false;
+      tempBoolean = false
+      return false
     } else {
-      tempBoolean = true;
+      tempBoolean = true
     }
   }
-  return tempBoolean;
-};
+  return tempBoolean
+}

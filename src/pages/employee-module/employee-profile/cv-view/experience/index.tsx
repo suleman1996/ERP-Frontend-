@@ -1,13 +1,13 @@
-import style from './exp.module.scss';
+import style from './exp.module.scss'
 
 interface Props {
-  date?: string;
-  company?: string;
-  job?: string;
-  intro?: string;
+  date?: string
+  company?: string
+  job?: string
+  intro?: string
 }
 
-const Experience = ({ date, company, job, intro }: Props) => {
+const Experience = ({ date, company, job }: Props) => {
   return (
     <div className={style.parent}>
       <div className={style.innerSec1}>
@@ -20,7 +20,7 @@ const Experience = ({ date, company, job, intro }: Props) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Experience;
+export default Experience

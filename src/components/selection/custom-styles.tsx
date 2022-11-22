@@ -15,10 +15,16 @@ export const SelectionStyle = {
   option: (styles: any, { data, isDisabled, isFocused, isSelected }: any) => {
     return {
       ...styles,
-      backgroundColor: isDisabled ? 'black' : isSelected ? '#57B894' : isFocused ? 'white' : null,
+      backgroundColor: isDisabled
+        ? 'black'
+        : isSelected
+        ? '#57B894'
+        : isFocused
+        ? 'white'
+        : null,
       color: isDisabled ? '#ccc' : isSelected ? 'white' : data.color,
       cursor: isDisabled ? 'not-allowed' : 'default',
-    };
+    }
   },
   placeholder: (styles: any) => ({
     ...styles,
@@ -26,14 +32,14 @@ export const SelectionStyle = {
     color: '#CACACA',
   }),
 
-  valueContainer: (provided, state) => ({
+  valueContainer: (provided) => ({
     ...provided,
     whiteSpace: 'nowrap',
     overflow: 'hidden',
     flexWrap: 'wrap',
   }),
-  input: (provided, state) => ({
+  input: (provided) => ({
     ...provided,
     minWidth: '20%',
   }),
-};
+}

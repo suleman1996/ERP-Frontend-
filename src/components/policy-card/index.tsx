@@ -1,12 +1,10 @@
-import React, { useRef } from 'react';
-import moment from 'moment';
+import React, { useRef } from 'react'
+import moment from 'moment'
 
-import { useOutsideAlerter } from 'hooks/useOutsideClick';
+import { useOutsideAlerter } from 'hooks/useOutsideClick'
 
-import PolicyService from 'services/policy-service';
-
-import style from './request.module.scss';
-import menu from 'assets/menu.svg';
+import style from './request.module.scss'
+import menu from 'assets/menu.svg'
 
 const RenderPolicy = ({
   setSelectedTab,
@@ -18,18 +16,17 @@ const RenderPolicy = ({
   handleEdit,
   type,
 }: any) => {
-  const [isMenuVisible, setIsMenuVisible] = React.useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-  useOutsideAlerter(ref, () => setIsMenuVisible(false));
+  const [isMenuVisible, setIsMenuVisible] = React.useState(false)
+  const ref = useRef<HTMLDivElement>(null)
+  useOutsideAlerter(ref, () => setIsMenuVisible(false))
 
   const handleObseletePolicy = async () => {
     try {
-      const result = await PolicyService.addObseletePolicyApi(data?._id);
-      setSelectedTab(1);
+      setSelectedTab(1)
     } catch (error) {
-      console.error(error);
+      console.error(error)
     }
-  };
+  }
 
   return (
     <div className={style.policyView}>
@@ -38,12 +35,12 @@ const RenderPolicy = ({
           {type !== 'Obselete' && (
             <div
               onClick={() => {
-                setOpenAddPolice(true);
-                setIsMenuVisible(false);
+                setOpenAddPolice(true)
+                setIsMenuVisible(false)
 
-                setEditPolicy({ bool: false, label: 'Update Policy' });
-                handleEdit(data);
-                setSelectedPolicy(data);
+                setEditPolicy({ bool: false, label: 'Update Policy' })
+                handleEdit(data)
+                setSelectedPolicy(data)
               }}
               className={style.menuViewBox}
             >
@@ -52,8 +49,8 @@ const RenderPolicy = ({
           )}
           <div
             onClick={() => {
-              setOpen(true);
-              setSelectedPolicy(data);
+              setOpen(true)
+              setSelectedPolicy(data)
             }}
             className={style.menuViewBox}
           >
@@ -62,11 +59,11 @@ const RenderPolicy = ({
           {type !== 'Obselete' && (
             <div
               onClick={() => {
-                setOpenAddPolice(true);
-                setIsMenuVisible(false);
-                handleEdit(data);
-                setEditPolicy({ bool: true, label: 'Add Revision' });
-                setSelectedPolicy(data);
+                setOpenAddPolice(true)
+                setIsMenuVisible(false)
+                handleEdit(data)
+                setEditPolicy({ bool: true, label: 'Add Revision' })
+                setSelectedPolicy(data)
               }}
               className={style.menuViewBox}
             >
@@ -78,8 +75,8 @@ const RenderPolicy = ({
             <div className={style.menuViewBox}>
               <p
                 onClick={() => {
-                  setIsMenuVisible(false);
-                  handleObseletePolicy();
+                  setIsMenuVisible(false)
+                  handleObseletePolicy()
                 }}
                 className={style.menuText}
               >
@@ -96,10 +93,13 @@ const RenderPolicy = ({
           </p>
           {data?.effectiveDate ? (
             <p className={style.policyCardDate}>
-              Effective Date: {moment(data?.effectiveDate).format('DD MMM, YYYY')}
+              Effective Date:{' '}
+              {moment(data?.effectiveDate).format('DD MMM, YYYY')}
             </p>
           ) : (
-            <p className={style.policyCardDate}>Effective Date: 10 April, 2022</p>
+            <p className={style.policyCardDate}>
+              Effective Date: 10 April, 2022
+            </p>
           )}
         </div>
         <div className={style.policyMenuView}>
@@ -122,13 +122,30 @@ const RenderPolicy = ({
             { q: 'Reviewed by', v: data?.reviewers[0]?.fullName },
             { q: 'Approved by', v: data?.approvedBy?.fullName },
             { q: 'Added by', v: data?.addedBy[0]?.name },
-          ].map((item) => (
-            <div style={{ display: 'flex' }}>
+          ].map((item, index) => (
+            <div key={index} style={{ display: 'flex' }}>
               <div style={{ width: '50%' }}>
-                <p style={{ fontSize: '10px', fontWeight: 400, color: '#2D2D32' }}>{item?.q}</p>
+                <p
+                  style={{
+                    fontSize: '10px',
+                    fontWeight: 400,
+                    color: '#2D2D32',
+                  }}
+                >
+                  {item?.q}
+                </p>
               </div>
-              <div style={{ width: '50%', display: 'flex', justifyContent: 'flex-end' }}>
-                <p className={style.policyFormValue} title={item?.v?.length >= 14 && item?.v}>
+              <div
+                style={{
+                  width: '50%',
+                  display: 'flex',
+                  justifyContent: 'flex-end',
+                }}
+              >
+                <p
+                  className={style.policyFormValue}
+                  title={item?.v?.length >= 14 && item?.v}
+                >
                   {item?.v}
                 </p>
               </div>
@@ -142,13 +159,18 @@ const RenderPolicy = ({
 
       <div className={style.policyButtonView}>
         <div className={style.policyButton}>
-          <a className={style.viewPolicyBtn} target={'_blank'} href={data?.fileId[0]?.file}>
+          <a
+            className={style.viewPolicyBtn}
+            rel="noreferrer"
+            target={'_blank'}
+            href={data?.fileId[0]?.file}
+          >
             <p className={style.viewPolicyText}>View Policy</p>
           </a>
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default RenderPolicy;
+export default RenderPolicy

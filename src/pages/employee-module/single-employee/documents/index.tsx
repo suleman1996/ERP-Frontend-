@@ -1,33 +1,22 @@
-import { useState, useEffect } from 'react';
-import { saveAs } from 'file-saver';
-import fileDownload from 'js-file-download';
-import { useParams } from 'react-router-dom';
-import CardContainer from 'components/card-container';
-import Table from 'components/table';
+import { useEffect } from 'react'
+import {} from 'file-saver'
+import CardContainer from 'components/card-container'
+import Table from 'components/table'
 
-import { rows, columns } from './helper';
-import EmployeeService from 'services/employee-service';
+import { columns } from './helper'
+import EmployeeService from 'services/employee-service'
 
-import style from './document.module.scss';
-import editIcon from 'assets/table-edit.svg';
-import view from 'assets/viewIconnew.svg';
-import deleteIcon from 'assets/table-delete.svg';
-import downloadIcon from 'assets/downlaod.svg';
-import pdf from 'assets/employee-page/print.svg';
-import axios from 'axios';
+import style from './document.module.scss'
+import editIcon from 'assets/table-edit.svg'
+import view from 'assets/viewIconnew.svg'
+import deleteIcon from 'assets/table-delete.svg'
+import downloadIcon from 'assets/downlaod.svg'
+import axios from 'axios'
 
-interface Props {
-  setOpen: () => void;
-  setDocId: () => void;
-  setDocument: () => void;
-  document: any;
-  getAllDocuments: () => void;
-}
-
-const Documents = ({ setOpen, setDocId, setDocument, document, getAllDocuments }: any) => {
+const Documents = ({ setOpen, setDocId, document, getAllDocuments }: any) => {
   useEffect(() => {
-    getAllDocuments();
-  }, []);
+    getAllDocuments()
+  }, [])
 
   return (
     <>
@@ -39,13 +28,17 @@ const Documents = ({ setOpen, setDocId, setDocument, document, getAllDocuments }
         <Table
           rows={document?.map((e: any) => ({
             ...e,
-            fileType: e?.fileType ? (e?.fileType.includes('image') ? e?.fileType : 'pdf') : '---',
+            fileType: e?.fileType
+              ? e?.fileType.includes('image')
+                ? e?.fileType
+                : 'pdf'
+              : '---',
             documentActions: (
               <div style={{ display: 'flex', justifyContent: 'center' }}>
                 <div
                   onClick={() => {
-                    setOpen(true);
-                    setDocId(e._id);
+                    setOpen(true)
+                    setDocId(e._id)
                   }}
                   style={{ marginRight: '10px' }}
                 >
@@ -53,9 +46,9 @@ const Documents = ({ setOpen, setDocId, setDocument, document, getAllDocuments }
                 </div>
                 <div
                   onClick={async () => {
-                    const res = await EmployeeService.deleteDocument(e._id);
+                    const res = await EmployeeService.deleteDocument(e._id)
                     if (res.status === 200) {
-                      getAllDocuments();
+                      getAllDocuments()
                     }
                   }}
                   style={{ marginRight: '10px' }}
@@ -64,7 +57,7 @@ const Documents = ({ setOpen, setDocId, setDocument, document, getAllDocuments }
                 </div>
                 <div
                   onClick={() => {
-                    viewURI(e.file, e.name);
+                    viewURI(e.file, e.name)
                   }}
                   style={{ marginRight: '10px' }}
                 >
@@ -72,7 +65,7 @@ const Documents = ({ setOpen, setDocId, setDocument, document, getAllDocuments }
                 </div>
                 <div
                   onClick={() => {
-                    downloadURL(e.file, e.name, e.fileType);
+                    downloadURL(e.file, e.name, e.fileType)
                   }}
                   style={{ marginRight: '10px' }}
                 >
@@ -85,32 +78,32 @@ const Documents = ({ setOpen, setDocId, setDocument, document, getAllDocuments }
           columns={columns}
           minWidth="750px"
           handleEdit={(e) => {
-            setOpen(true);
-            setDocId(e);
+            setOpen(true)
+            setDocId(e)
           }}
           handleDelete={async (e: any) => {
-            const res = await EmployeeService.deleteDocument(e);
+            const res = await EmployeeService.deleteDocument(e)
             if (res.status === 200) {
-              getAllDocuments();
+              getAllDocuments()
             }
           }}
         />
       </CardContainer>
     </>
-  );
-};
+  )
+}
 
-export default Documents;
+export default Documents
 
 function viewURI(uri: string, name: string) {
-  const link = document.createElement('a');
-  link.download = name;
-  link.setAttribute('download', name);
-  link.href = uri;
-  link.target = '_blank';
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
+  const link = document.createElement('a')
+  link.download = name
+  link.setAttribute('download', name)
+  link.href = uri
+  link.target = '_blank'
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
 }
 
 function downloadURL(uri: any, name: string, type: string) {
@@ -119,14 +112,16 @@ function downloadURL(uri: any, name: string, type: string) {
     method: 'GET',
     responseType: 'blob',
   }).then((response) => {
-    const href = URL.createObjectURL(response.data);
-    const link = document.createElement('a');
-    link.href = href;
+    const href = URL.createObjectURL(response.data)
+    const link = document.createElement('a')
+    link.href = href
     link.setAttribute(
       'download',
-      `${name}.${type.includes('image') ? type.split('/')[1] : type.toLowerCase()}`,
-    );
-    document.body.appendChild(link);
-    link.click();
-  });
+      `${name}.${
+        type.includes('image') ? type.split('/')[1] : type.toLowerCase()
+      }`
+    )
+    document.body.appendChild(link)
+    link.click()
+  })
 }

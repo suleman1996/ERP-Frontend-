@@ -1,30 +1,18 @@
-import { Dispatch, SetStateAction } from 'react';
-import Button from 'components/button';
-import TextField from 'components/textfield';
-import Select from 'components/select';
-import TextArea from 'components/textarea';
-import Checkbox from 'components/checkbox';
-import SearchSelect from 'components/search-select';
+import Button from 'components/button'
+import TextField from 'components/textfield'
+import TextArea from 'components/textarea'
+import Checkbox from 'components/checkbox'
+import SearchSelect from 'components/search-select'
 
-import { useAddressInfo } from './helper';
-import countries from 'assets/countries.json';
+import { useAddressInfo } from './helper'
+import countries from 'assets/countries.json'
 
-import arrowRight from 'assets/arrowBtnRight.svg';
-import arrowLeft from 'assets/backBtn.svg';
-import style from './address-information.module.scss';
-import { useEmployeeForms } from '../context';
+import arrowRight from 'assets/arrowBtnRight.svg'
+import arrowLeft from 'assets/backBtn.svg'
+import style from './address-information.module.scss'
+import { useEmployeeForms } from '../context'
 
-interface Props {
-  formData: any;
-  setFormData: any;
-  employeeId: string;
-  handleBack: (data?: string) => void;
-  handleNext: (data?: string) => void;
-  employeeDocId?: string;
-  setEmployeeDocId?: Dispatch<SetStateAction<string>>;
-}
-
-countries.sort((a, b) => (a.name < b.name ? -1 : 1));
+countries.sort((a, b) => (a.name < b.name ? -1 : 1))
 
 const AddressInformation = () => {
   const {
@@ -32,11 +20,10 @@ const AddressInformation = () => {
     setFormData,
     employeeDocId,
     formData,
-    setEmployeeId,
     setEmployeeDocId,
     handleBack,
     employeeId,
-  }: any = useEmployeeForms();
+  }: any = useEmployeeForms()
 
   const {
     btnLoader,
@@ -62,7 +49,7 @@ const AddressInformation = () => {
     employeeId,
     employeeDocId,
     setEmployeeDocId,
-  });
+  })
   return (
     <div className={style.mainForm}>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -81,7 +68,7 @@ const AddressInformation = () => {
             onChange={(value) => {
               getData('currentCountryData', {
                 country: value,
-              });
+              })
             }}
           />
           <SearchSelect
@@ -93,7 +80,7 @@ const AddressInformation = () => {
             options={currentCountryData?.map(({ name }) => name)}
             label="State"
             onChange={(value) => {
-              getCities('currentCitiesData', currentCountryData, value);
+              getCities('currentCitiesData', currentCountryData, value)
             }}
           />
           <SearchSelect
@@ -145,7 +132,7 @@ const AddressInformation = () => {
             onChange={(value) => {
               getData('permanentCountryData', {
                 country: value,
-              });
+              })
             }}
           />
           <SearchSelect
@@ -157,7 +144,7 @@ const AddressInformation = () => {
             options={permanentCountryData?.map(({ name }) => name)}
             label="State"
             onChange={(value) => {
-              getCities('permanentCitiesData', permanentCountryData, value);
+              getCities('permanentCitiesData', permanentCountryData, value)
             }}
           />
           <SearchSelect
@@ -197,11 +184,16 @@ const AddressInformation = () => {
             iconStart={arrowLeft}
             handleClick={() => handleBack('Personal')}
           />
-          <Button isLoading={btnLoader} text="Next" iconEnd={arrowRight} type="submit" />
+          <Button
+            isLoading={btnLoader}
+            text="Next"
+            iconEnd={arrowRight}
+            type="submit"
+          />
         </div>
       </form>
     </div>
-  );
-};
+  )
+}
 
-export default AddressInformation;
+export default AddressInformation
