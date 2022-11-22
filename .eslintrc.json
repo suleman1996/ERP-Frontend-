@@ -22,9 +22,12 @@
     "semi": 0,
     "comma-dangle": 0,
     "prettier/prettier": "error",
+    "import/no-unresolved": "off",
+    "react/jsx-uses-react": "error",
+    "react/jsx-uses-vars": "error",
     "react/jsx-filename-extension": [
       1,
-      { "extensions": [".js", ".jsx", ".tsx", ".ts"] }
+      { "allow": "as-needed", "extensions": [".js", ".jsx", ".ts", ".tsx"] }
     ]
   }
 }
