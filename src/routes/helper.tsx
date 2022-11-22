@@ -1,16 +1,8 @@
 import { ReactElement } from 'react';
-
-// import Applications from 'pages/applications';
 import Attendance from 'pages/attendance';
 import Policy from 'pages/policy';
-// import ClientInfo from 'pages/client-info';
 import DashBoard from 'pages/dashboard';
-// import ExpenseManagement from 'pages/expense-management';
-// import Payroll from 'pages/payroll';
-// import ProjectDetails from 'pages/project-details';
-// import SalesManagement from 'pages/sales-management';
 import Settings from 'pages/new-settings';
-// import Tax from 'pages/tax';
 import Login from 'pages/login';
 import ForgetPassword from 'pages/forget';
 import ResetPassword from 'pages/reset-password';
@@ -71,36 +63,6 @@ export const routes: RouteInterface[] = [
     component: <SingleEmployee />,
     role: [...roles.all],
   },
-  // {
-  //   path: '/payroll',
-  //   component: <Payroll />,
-  //   role: [...roles.adminHr],
-  // },
-  // {
-  //   path: '/tax',
-  //   component: <Tax />,
-  //   role: [...roles.all],
-  // },
-  // {
-  //   path: '/clients-info',
-  //   component: <ClientInfo />,
-  //   role: [...roles.adminHr],
-  // },
-  // {
-  //   path: '/project-details',
-  //   component: <ProjectDetails />,
-  //   role: [...roles.adminHr],
-  // },
-  // {
-  //   path: '/expense-management',
-  //   component: <ExpenseManagement />,
-  //   role: [...roles.admin],
-  // },
-  // {
-  //   path: '/sales-management',
-  //   component: <SalesManagement />,
-  //   role: [...roles.adminHr],
-  // },
   {
     path: '/calender',
     component: <Calender />,

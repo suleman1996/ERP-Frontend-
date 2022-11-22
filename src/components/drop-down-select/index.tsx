@@ -4,12 +4,7 @@ import Select from 'components/select';
 export const DropDownSelect = () => {
   return (
     <div>
-      <Select
-        label="Roaster"
-        name={'roaster'}
-        // errorMessage={errors?.roaster?.message}
-        // register={register}
-      >
+      <Select label="Roaster" name={'roaster'}>
         <option value="">Select</option>
         <>
           {roster &&

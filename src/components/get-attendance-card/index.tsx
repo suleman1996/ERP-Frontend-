@@ -151,7 +151,3 @@ const data = [
     tags: 'On Time',
   },
 ];
-
-// const tagsColors: any = {
-//   'On Time': 'red',
-// };

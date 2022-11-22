@@ -67,7 +67,7 @@ const Policy = () => {
         })),
       );
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -82,7 +82,7 @@ const Policy = () => {
         });
       });
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -94,7 +94,7 @@ const Policy = () => {
         result?.data?.policyCategory?.map((item: any) => ({ value: item?._id, label: item?.name })),
       );
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -139,12 +139,11 @@ const Policy = () => {
   const deletePolicy = async () => {
     try {
       const result = await PolicyService.deletePolicy(selectedPolicy?._id);
-      console.log('HEre is the delete policy result  ', result);
       selectedTab == 0 ? setRender(!render) : setRenderObselete(!renderObselete);
 
       setOpen(false);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -202,15 +201,13 @@ const Policy = () => {
       };
 
       const result = await PolicyService.updatePolicyApi(policyData, selectedPolicy?._id);
-
-      console.log('Here is the success add update policy ', result);
       setRender(!render);
       setOpenAddPolice(false);
       setIsLoading(false);
       setSelectedFileName('');
     } catch (err: any) {
       setIsLoading(false);
-      console.log('error from add policy ', err?.response?.data);
+      console.error('error from add policy ', err?.response?.data);
       if (err?.response?.data?.error) {
         setErrors(err?.response?.data?.error, setError);
       }
@@ -241,15 +238,13 @@ const Policy = () => {
         selectedPolicy?._id,
         revisionPolicyData,
       );
-
-      console.log('Here is the success revision policy msg ', result);
       setRender(!render);
       setOpenAddPolice(false);
       setIsLoading(false);
       setSelectedFileName('');
     } catch (err: any) {
       setIsLoading(false);
-      console.log('error from add policy ', err?.response?.data);
+      console.error('error from add policy ', err?.response?.data);
       if (err?.response?.data?.error) {
         setErrors(err?.response?.data?.error, setError);
       }
@@ -383,7 +378,7 @@ const Policy = () => {
               placeholder="Select"
               options={policyCategory}
               star=" *"
-              onChange={(item) => console.log(item)}
+              onChange={(item) => {}}
               name="categoryId"
               errorMessage={errors?.categoryId?.message}
               control={control}
@@ -407,7 +402,7 @@ const Policy = () => {
               placeholder="Select Any"
               options={employees}
               star=" *"
-              onChange={(item) => console.log(item)}
+              onChange={(item) => {}}
               name="preparedBy"
             />
           </div>
@@ -421,7 +416,7 @@ const Policy = () => {
               placeholder="Select Any"
               options={employees}
               star=" *"
-              onChange={(item) => console.log(item)}
+              onChange={(item) => {}}
             />
 
             <Selection
@@ -432,7 +427,7 @@ const Policy = () => {
               placeholder="Select Any"
               options={employees}
               star=" *"
-              onChange={(item) => console.log(item)}
+              onChange={(item) => {}}
               name="approvedBy"
             />
           </div>
@@ -471,11 +466,10 @@ const Policy = () => {
             <TextArea
               label="Description"
               placeholder="Enter Description"
-              // star=" *"
               register={register}
               name="description"
               errorMessage={errors?.description?.message}
-              row={2}
+              row={3}
             />
           </div>
         </form>

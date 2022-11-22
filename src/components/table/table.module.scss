@@ -9,16 +9,11 @@
   background: #ffffff;
   overflow: hidden;
 
-  // &:hover {
-  //   overflow-x: auto;
-  //   overflow-y: auto;
-  // }
-
   &::-webkit-scrollbar:vertical {
     display: none;
     overflow-x: scroll;
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 
   .table {

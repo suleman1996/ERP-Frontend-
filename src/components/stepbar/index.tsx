@@ -28,7 +28,6 @@ const StepBar = ({ activeTab, controlWidth, setStepBarActive, setActive, tabs = 
                   }}
                   onClick={() => {
                     if (isActive) {
-                      // setStepBarActive([ele]);
                       setActive && setActive(index);
                     }
                   }}

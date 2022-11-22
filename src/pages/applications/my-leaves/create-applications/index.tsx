@@ -151,7 +151,10 @@ const CreateApplicationModal = ({
           wraperSelect={style.wraperSelect}
           label="HR By"
           placeholder="Select"
-          options={data?.hr?.map((el: any) => ({ label: el.fullName, value: el._id }))}
+          options={data?.employeeOnlyName?.map((el: any) => ({
+            label: el.fullName,
+            value: el._id,
+          }))}
           name="hrBy"
           errorMessage={errors?.hrBy?.message}
           control={control}

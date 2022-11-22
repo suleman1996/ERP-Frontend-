@@ -183,7 +183,6 @@ const TableFilter = ({
                 flexDirection: 'column',
               }}
             >
-              {/*Put the scroll bar always on the bottom*/}
               <InfiniteScroll
                 dataLength={20}
                 next={() => {
@@ -195,7 +194,7 @@ const TableFilter = ({
                     count,
                   });
                 }}
-                style={{ display: 'flex', flexDirection: 'column' }} //To put endMessage and loader to the top.
+                style={{ display: 'flex', flexDirection: 'column' }}
                 inverse={false}
                 hasMore={hasMore}
                 scrollableTarget="scrollableDiv"

@@ -10,7 +10,6 @@ import advanceSalaryLoanImg from 'assets/white/policies.svg';
 import applicationImg from 'assets/white/application.svg';
 import roaster from 'assets/white/roaster.svg';
 
-// Green Img
 import gEmployeeDetailsImg from 'assets/green/profile.svg';
 import gPayRollImg from 'assets/green/payroll.svg';
 import gTaxImg from 'assets/green/tax.svg';
@@ -23,7 +22,6 @@ import gAdvanceSalaryLoanImg from 'assets/green/policies.svg';
 import gapplicationImg from 'assets/green/application.svg';
 import gRoaster from 'assets/green/roaster.svg';
 
-// form Hr and Admin Role
 const roles: { all: string[]; adminHr: string[]; admin: string[] } = {
   all: ['Admin', 'Human Resource', 'Employee'],
   adminHr: ['Admin', 'Human Resource'],
@@ -121,7 +119,6 @@ export const adminListArr = [
   },
 ];
 
-// for Employee Role
 export const employeeListArr = [
   {
     path: '/profile-setting',

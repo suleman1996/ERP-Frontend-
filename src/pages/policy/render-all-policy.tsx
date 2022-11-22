@@ -46,11 +46,10 @@ const RenderAllPolicies = ({
         ...(search?.categoryId && { category: search?.categoryId?.label }),
         ...(search?.addedBy && { addedBy: search?.addedBy?.value }),
       });
-      console.log('Here are all policies ', result?.data?.data);
       setPolicies(result?.data?.data);
       setLoading(false);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       setLoading(false);
     }
   };

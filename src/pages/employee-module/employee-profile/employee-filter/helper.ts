@@ -26,17 +26,11 @@ export const useEmployeeFilter = ({ setOpen, setEmployees, setCount }: Props) =>
   const [designation, setDesignation] = useState<any>();
 
   const departmentChangeHandler = async (e: any) => {
-    console.log('value', e.target.value);
-
-    console.log('name : ', departments[Number(e.target?.value)]?.name);
-
     setDepName(e.target?.value ? departments[Number(e.target?.value)]?.name : '');
     await getAllDesignations(departments[e.target?.value]?._id);
-    console.log('handler', depName);
   };
 
   const onSubmit = async (data: any) => {
-    console.log('submit', data);
     setLoading(true);
     const filterData = {
       ...data,

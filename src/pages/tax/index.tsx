@@ -79,7 +79,4 @@ const Tax = () => {
 
 export default Tax;
 
-const links = [
-  // { title: 'Tax-Calculation', left: '41px' },
-  { title: 'Tax-Slab', left: '60px' },
-];
+const links = [{ title: 'Tax-Slab', left: '60px' }];

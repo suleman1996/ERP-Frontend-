@@ -28,8 +28,6 @@ export default class SettingsService {
     return res;
   }
 
-  //////////////   designation ////////////////////
-
   static async getDesignation(id?: string | number) {
     const res = await ApiService.get(`${SettingsService.baseUrl[0]}/designation-setting/all`);
     return res;
@@ -52,8 +50,6 @@ export default class SettingsService {
     );
     return res;
   }
-
-  ////////////////////////////////////////////////////////////////////////////
 
   static async getUserData(id: string | number) {
     const res = await ApiService.get(`${SettingsService.baseUrl[0]}/${id}`);

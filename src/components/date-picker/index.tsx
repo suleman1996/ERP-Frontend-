@@ -123,7 +123,6 @@ const DatePicker = ({
                   maxDate={maxDate && maxDate}
                   minDate={minDate && minDate}
                   readOnly={readOnly}
-                  // showMonthYearPicker={showMonthYearPicker && true}
                   dateFormat={showTimeInput ? 'MM/dd/yyyy h:mm aa' : 'MM/dd/yyyy'}
                   timeFormat="HH:mm"
                   timeCaption="Time"

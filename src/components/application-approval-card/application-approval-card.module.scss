@@ -4,7 +4,6 @@
 
 .applicationCard {
   border: 1px solid yellow;
-  // width: 344px;
 
   background: linear-gradient(0deg, #ffffff, #ffffff), #d9d9d9;
   border-radius: 10.3205px;
@@ -33,6 +32,7 @@
       font-size: 22px;
       line-height: 33px;
       color: #2d2d32;
+      text-transform: capitalize;
     }
   }
   .middle {
@@ -58,9 +58,6 @@
       line-height: 14px;
       color: #2d2d32;
     }
-    // display: flex;
-    // align-items: center;
-    // justify-content: center;
   }
   .last {
     margin: 15px 0 0 26px;
@@ -93,7 +90,6 @@
     display: flex;
     margin-top: 15px;
     margin-bottom: 15px;
-    // align-items: center;
     justify-content: center;
     gap: 8px;
     .approve {
@@ -142,6 +138,5 @@
     background: #57b894;
     border-radius: 11.0046px;
     height: 7.7px;
-    width: 80%;
   }
 }

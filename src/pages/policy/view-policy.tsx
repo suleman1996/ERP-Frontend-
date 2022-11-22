@@ -2,7 +2,6 @@ import { Dispatch, SetStateAction } from 'react';
 
 import Modal from 'components/modal';
 import Button from 'components/button';
-// import NavLinks from 'components/nav-links';
 
 import { useViewPolicy } from './helper';
 
@@ -46,8 +45,6 @@ const ViewPolicy = ({
       <Modal open={open} className={style.modalWrapper} handleClose={() => setOpen(false)}>
         <form>
           <div className={style.modal}>
-            {/* <NavLinks links={[{ title: 'Policy', left: '65px' }]} /> */}
-
             <img
               src={cross}
               alt=""
