@@ -81,6 +81,22 @@
       "last 1 safari version"
     ]
   },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ],
+    "overrides": [
+      {
+        "files": [
+          "**/*.stories.*"
+        ],
+        "rules": {
+          "import/no-anonymous-default-export": "off"
+        }
+      }
+    ]
+  },
   "description": "ERP App",
   "main": "index.js",
   "devDependencies": {
@@ -105,6 +121,7 @@
     "eslint-config-react-app": "^7.0.1",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.31.11",
+    "eslint-plugin-unused-imports": "^2.0.0",
     "husky": "^8.0.0",
     "lint-staged": "^13.0.3",
     "prettier": "^2.7.1"
@@ -116,7 +133,7 @@
   },
   "lint-staged": {
     "**/*.{js,jsx,ts,tsx}": [
-      "npm run lint",
+      "eslint --fix",
       "prettier --write"
     ]
   },
