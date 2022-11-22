@@ -1,7 +1,8 @@
 import Table from 'components/table'
 import style from './index.module.scss'
 
-import editIcon from 'assets/edit-icon-application.svg'
+import editIcon from 'assets/newEdit.svg'
+// import editIcon from 'assets/edit-icon.svg'
 import cancel from 'assets/cancel.svg'
 import view from 'assets/viewIconnew.svg'
 import Button from 'components/button'

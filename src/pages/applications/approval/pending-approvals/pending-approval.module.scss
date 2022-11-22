@@ -9,3 +9,10 @@
   margin: 40px 40px 0 40px;
   overflow: scroll;
 }
+
+@media (max-width: $xxs) {
+  .container {
+    margin: 20px 20px 0 20px;
+    overflow: scroll;
+  }
+}
