@@ -28,8 +28,6 @@ export default class SettingsService {
     return res;
   }
 
-  //////////////   designation ////////////////////
-
   static async getDesignation(id?: string | number) {
     const res = await ApiService.get(`${SettingsService.baseUrl[0]}/designation-setting/all`);
     return res;
@@ -52,8 +50,6 @@ export default class SettingsService {
     );
     return res;
   }
-
-  ////////////////////////////////////////////////////////////////////////////
 
   static async getUserData(id: string | number) {
     const res = await ApiService.get(`${SettingsService.baseUrl[0]}/${id}`);
@@ -88,6 +84,21 @@ export default class SettingsService {
 
   static async deleteEmployee(id: string | number) {
     const res = await ApiService.delete(`${SettingsService.baseUrl[0]}/${id}`);
+    return res;
+  }
+
+  ///////////// Account Setting //////////
+
+  static async updateAccount(data: any) {
+    const res = await ApiService.put(`${SettingsService.baseUrl[0]}/accountSetting/`, data);
+    return res;
+  }
+
+  static async resendEmail(data: any) {
+    const res = await ApiService.post(
+      `${SettingsService.baseUrl[0]}/resendConfirmationEmail/`,
+      data,
+    );
     return res;
   }
 }

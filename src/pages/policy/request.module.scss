@@ -122,7 +122,6 @@
   }
 }
 
-// all modals
 .modalWrapper {
   max-width: 950px !important;
   max-height: 80vh;
@@ -181,7 +180,6 @@ p {
   font-size: 14px;
   color: $header;
   font-weight: 400;
-  // margin: 20px 0px;
 }
 .iconsSection {
   margin-top: 15px;
@@ -226,7 +224,6 @@ p {
 
 .policyMainView {
   background-color: #ffffff;
-  // height: 500px;
   border: 1px solid #e2e2ea;
   border-radius: 5px;
 }
@@ -254,11 +251,9 @@ p {
   align-items: center;
   display: flex;
   justify-content: space-around;
-  // background-color: red;
 }
 
 .policyView {
-  // backgroundColor: 'red',
   width: 235.59px;
   height: 240.62px;
   border: 1px solid #e2e2ea;
@@ -268,7 +263,6 @@ p {
 }
 .policyHeaderView {
   width: 100%;
-  // height: 25%;
   border-bottom: 1px solid #e2e2ea;
   display: flex;
 }
@@ -281,7 +275,6 @@ p {
 .policyHeaderTitleView {
   width: 80%;
   display: flex;
-  // alignItems: 'center',
   justify-content: center;
   padding-left: 20px;
   flex-direction: column;
@@ -322,7 +315,6 @@ p {
 
 .menuBox {
   width: 85px;
-  // height: 55px;
   background-color: #ffffff;
   border-radius: 3px;
   position: absolute;
@@ -350,11 +342,6 @@ p {
     width: 7px;
     height: 7px;
   }
-  // justify-content: 'center';
-  // justify-content: space-between;
-  // text-align: center;
-  // background-color: red;
-  // border: 1px solid;
 }
 
 ul {
@@ -367,11 +354,9 @@ ul {
 }
 
 .delView {
-  // height: 40%;
   width: 30%;
   background-color: #ffffff;
   border-radius: 5px;
-  // padding: 40px;
   align-items: center;
   justify-content: center;
   display: flex;
@@ -415,13 +400,10 @@ ul {
 }
 
 .datePicker {
-  // padding-top: 0px;
   background-color: #265828;
-  // border-radius: 5px;
 }
 
 .gridView {
-  // display: flex;
   @include gridTwo(50, 50);
   margin-bottom: 20px;
   @media (max-width: $sm) {
@@ -434,7 +416,6 @@ ul {
 }
 
 .wraperSelect {
-  // margin-top: 10px;
 }
 
 .policyGridView {

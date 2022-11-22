@@ -123,7 +123,6 @@ export const useCerificate = ({ formData, setFormData, employeeId, setCertificat
     id && getUser();
     if (formData?.certificateData !== undefined && Object.keys(formData?.certificateData)?.length) {
       setEducations([...formData?.certificateData]);
-      // setCertificate((current) => [...current, ...formData?.certificateData]);
     }
   }, []);
 

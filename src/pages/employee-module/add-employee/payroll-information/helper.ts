@@ -88,7 +88,7 @@ export const usePayrollDetail = ({ employeeId, employeeDocId }: Props) => {
       }
     } catch (err: any) {
       setErrors(err?.response?.data?.error, setError);
-      console.log(err);
+      console.error(err);
     }
     setBtnLoader(false);
   };

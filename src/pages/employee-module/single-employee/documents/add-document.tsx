@@ -53,7 +53,7 @@ const AddDocument = ({ open, setOpen, docId, setDocId, getAllDocuments }: Props)
         }
       }
     } catch (err) {
-      console.log(err);
+      console.error(err);
       if (err?.response?.data?.error) {
         setErrors(err?.response?.data?.error, setError);
       }

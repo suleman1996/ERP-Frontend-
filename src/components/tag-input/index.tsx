@@ -1,8 +1,4 @@
-// import { any } from 'joi';
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
-// import { useAppSelector } from 'store/hooks';
-// // import style from './input.module.scss';
-// import { options } from './../../pages/employee-details/single-employee/employee-data-helper';
 import style from './tagInput.module.scss';
 
 interface Props {

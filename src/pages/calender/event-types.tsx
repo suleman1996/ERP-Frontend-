@@ -22,12 +22,12 @@ export const options = [
 ];
 
 export const category = [
-  { label: 'Warning', value: 'Warning', color: '#E92424' },
-  { label: 'Success', value: 'Success', color: '#5CB85C' },
-  { label: 'Info', value: 'Info', color: '#67C1F3' },
-  { label: 'Inverse', value: 'Inverse', color: '#F5D561' },
-  { label: 'Primary', value: 'Primary', color: '#57B894' },
-  { label: 'Purple', value: 'Purple', color: '#CF6BF2' },
-  { label: 'Pink', value: 'Pink', color: '#FD9BFF' },
-  { label: 'Orange', value: 'Orange', color: '#EE9555' },
+  { label: 'Warning', value: 'Warning', color: '#F59999', border: '4px solid #E92424' },
+  { label: 'Success', value: 'Success', color: '#B0DECD', border: '4px solid #79C38C' },
+  { label: 'Info', value: 'Info', color: '#E5F5FF', border: '4px solid #66C3FF' },
+  { label: 'Inverse', value: 'Inverse', color: '#FFF3C7', border: '4px solid #FFDA55' },
+  { label: 'Primary', value: 'Primary', color: '#D1EAD8', border: '4px solid #57B894' },
+  { label: 'Purple', value: 'Purple', color: '#EAEFFA', border: '4px solid #829EE3' },
+  { label: 'Pink', value: 'Pink', color: '#FDE7EB', border: '4px solid #FAB8C4' },
+  { label: 'Orange', value: 'Orange', color: '#F7CEB0', border: '4px solid #EE9555' },
 ];

@@ -33,7 +33,6 @@ const PayrollInformation = () => {
       employeeId,
       employeeDocId,
     });
-  console.log(errors);
   return (
     <div className={style.mainForm}>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -52,7 +51,6 @@ const PayrollInformation = () => {
             name="houseRent"
             min={'0'}
             label="House Rent"
-            // star={' *'}
             type="number"
             register={register}
             errorMessage={errors?.payrollDetails?.houseRent?.message}
@@ -66,7 +64,6 @@ const PayrollInformation = () => {
                     name={data.name}
                     label={`${data.name} Allowence`}
                     min={'0'}
-                    // star={' *'}
                     type="number"
                     register={register}
                     errorMessage={errors?.data?.name.message}
@@ -78,7 +75,6 @@ const PayrollInformation = () => {
           <TextField
             name="bankName"
             label="Bank Name"
-            // star={' *'}
             type="text"
             register={register}
             errorMessage={errors?.bankName?.message}
@@ -87,7 +83,6 @@ const PayrollInformation = () => {
           <TextField
             name="accountHolderName"
             label="Account Holder Name"
-            // star={' *'}
             type="text"
             register={register}
             errorMessage={errors?.accountHolderName?.message}
@@ -97,7 +92,6 @@ const PayrollInformation = () => {
             name="accountNumber"
             label="Account Number"
             min={'0'}
-            // star={' *'}
             type="number"
             register={register}
             errorMessage={errors?.accountNumber?.message}

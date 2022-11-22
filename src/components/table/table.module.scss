@@ -9,16 +9,11 @@
   background: #ffffff;
   overflow: hidden;
 
-  // &:hover {
-  //   overflow-x: auto;
-  //   overflow-y: auto;
-  // }
-
   &::-webkit-scrollbar:vertical {
     display: none;
     overflow-x: scroll;
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 
   .table {
@@ -42,6 +37,11 @@
           font-size: 15px;
           line-height: 160%;
           color: #2d2d32;
+
+          @media (max-width: $md) {
+            font-weight: 500;
+            font-size: 12px;
+          }
         }
 
         .sortIcon {

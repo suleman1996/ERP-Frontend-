@@ -6,9 +6,7 @@ export const AddUserHelper = () => {
   const { register, handleSubmit, errors, control, reset, watch, setValue, setError, clearErrors } =
     useForm();
 
-  const onSubmit = (data) => {
-    console.log('submit', data);
-  };
+  const onSubmit = (data) => {};
 
   return {
     register,

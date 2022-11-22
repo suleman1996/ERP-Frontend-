@@ -2,9 +2,6 @@ export const removeKey = (data: any) => {
   const keys = ['confirmEmail', 'confirmPassword', '_id'];
 
   for (const key in data) {
-    // if (keys.includes(key) || !data[key]) {
-    //   delete data[key];
-    // }
     (keys.includes(key) || !data[key]) && delete data[key];
   }
   return data;

@@ -10,7 +10,6 @@ import EmployeeService from 'services/employee-service';
 import { useEffect, useState } from 'react';
 
 const RenderPolicySearchView = ({
-  // control,
   policyCategory,
   setSearch,
 }: {
@@ -37,7 +36,7 @@ const RenderPolicySearchView = ({
         })),
       );
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -49,7 +48,7 @@ const RenderPolicySearchView = ({
         addedBy: data?.addedBy,
       });
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -72,19 +71,14 @@ const RenderPolicySearchView = ({
           placeholder="Enter Name & Number"
           name="nameNumber"
         />
-        {/* <DropDownSelect /> */}
         <Selection
           control={control}
           wraperSelect={style.wraperSelect}
           label="Category"
           placeholder="Category"
           options={policyCategory}
-          // star=" *"
-          onChange={(item) => console.log(item)}
+          onChange={(item) => {}}
           name="categoryId"
-          // errorMessage={errors?.categoryId?.message}
-
-          // isDisabled={editPoplicy?.bool}
         />
         <Selection
           control={control}
@@ -92,8 +86,7 @@ const RenderPolicySearchView = ({
           label="Added By"
           placeholder="Added By"
           options={employees}
-          // star=" *"
-          onChange={(item) => console.log(item)}
+          onChange={(item) => {}}
           name="addedBy"
         />
         <div

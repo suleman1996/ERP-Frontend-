@@ -5,7 +5,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 import { addSlabColumns } from './tax-helper';
 import Modal from 'components/modal';
-// import Modal from 'components/modal';
 import MobileButton from 'components/button/mobile-button';
 
 import style from '../tax.module.scss';
@@ -51,8 +50,6 @@ const AddAttendance = ({
 }: Props) => {
   const [loading, setLoading] = useState(false);
   const [update, setUpdate] = useState<any>({ check: false, index: null });
-  // const [slabs, setSlab] = useState<any>([]);
-  // const [categories, setCategories] = useState();
 
   const { register, handleSubmit, errors, reset, control, watch, setValue } = useForm({
     resolver: yupResolver(schema),
@@ -263,7 +260,6 @@ const AddAttendance = ({
               <TextField
                 name="taxRate"
                 label="Tax Rate"
-                // type="number"
                 placeholder="Enter tax rate"
                 register={register}
                 container={style.inputContainer}

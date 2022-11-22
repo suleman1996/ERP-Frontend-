@@ -9,7 +9,7 @@ const NotificationPopup = ({ plainText, hyperlink, open, handleClick }) => {
         className={`${style.wrapper}   `}
         style={{
           position: 'absolute',
-          top: open ? '150px' : '-100%',
+          top: open ? '55px' : '-100%',
         }}
       >
         <span>

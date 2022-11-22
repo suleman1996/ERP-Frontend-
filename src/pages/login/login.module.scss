@@ -4,6 +4,7 @@
 
 .downMd {
   display: block;
+
   @media (max-width: $md) {
     display: none;
   }
@@ -11,12 +12,11 @@
 
 .upMd {
   display: none;
+
   @media (max-width: $md) {
     display: block;
   }
 }
-
-// web
 
 .loginMain {
   background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
@@ -54,6 +54,69 @@
   display: flex;
   flex-direction: column;
   padding: 32px 112px;
+  width: 687px;
+}
+
+.popUpScreen {
+  background: #313131;
+  border-radius: 13px;
+  padding: 50px 50px;
+  max-width: 687px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  @media (max-width: $md) {
+    max-width: 100%;
+  }
+
+  p {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 21px;
+    line-height: 32px;
+    text-align: center;
+    color: #ffffff;
+
+    @media (max-width: $md) {
+      font-weight: 400;
+      font-size: 17px;
+      line-height: 28px;
+    }
+  }
+
+  .btnClass {
+    background-color: #4a4a4a;
+    margin-top: 20px;
+
+    @media (max-width: $md) {
+      padding: 15px 18px;
+    }
+  }
+
+  .btnTextClass {
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 21.9404px;
+    line-height: 33px;
+    color: #ffffff;
+
+    @media (max-width: $md) {
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 28px;
+    }
+  }
+}
+
+.iconClass {
+  @media (max-width: $md) {
+    top: 9px !important;
+  }
 }
 
 .loginInput {
@@ -64,6 +127,7 @@
   font-size: 13px;
   width: 100%;
   color: #dcdcdc;
+
   &:focus {
     outline: 0;
   }
@@ -120,6 +184,7 @@
   padding: 8px 80px;
   color: white;
   cursor: pointer;
+
   &:hover {
     background-color: #ffffff25;
   }
@@ -129,13 +194,8 @@
   }
 }
 
-// mobile
-
 .bg {
   display: none;
-  @media (max-width: $md) {
-    display: flex;
-  }
   position: absolute;
   top: 0;
   background-color: $bg;
@@ -143,12 +203,16 @@
   min-height: 100vh;
   justify-content: center;
   align-items: center;
-
   padding: 0px 100px;
+
+  @media (max-width: $md) {
+    display: flex;
+  }
 
   @media (max-width: $sm) {
     padding: 20px 50px;
   }
+
   @media (max-width: $xxs) {
     padding: 20px 15px;
   }
@@ -160,12 +224,14 @@
     animation: formLogo 1s linear 3.5s forwards;
     visibility: hidden;
   }
+
   form {
     .logo {
       display: flex;
       justify-content: center;
       align-items: center;
     }
+
     h4 {
       margin-top: 63px;
       font-family: Roboto;
@@ -180,8 +246,10 @@
 
     .loginDiv {
       margin-top: 37px;
+
       .secondDiv {
         margin-top: 20px;
+
         p {
           font-size: 12px;
           line-height: 14px;
@@ -191,11 +259,13 @@
         }
       }
     }
+
     .btn {
       width: 210px;
       height: 35px;
       margin-top: 90px;
       display: flex;
+
       @media (max-width: 350px) {
         margin-top: 20px;
       }
@@ -203,7 +273,6 @@
     animation: formAnimation 1s linear 4.5s forwards;
     visibility: hidden;
   }
-  // animation: formDiv 2s linear forwards;
 }
 
 .opacityLogo {
@@ -216,6 +285,7 @@
   align-items: center;
   background-color: $bg;
   overflow-x: hidden;
+
   &::before {
     position: absolute;
     content: '';
@@ -232,17 +302,21 @@
   from {
     left: 0%;
   }
+
   to {
     left: 100%;
   }
 }
+
 @keyframes opacityImg {
   from {
     visibility: visible;
   }
+
   70% {
     opacity: 1;
   }
+
   100% {
     opacity: 0;
     visibility: hidden;
@@ -269,9 +343,11 @@
     visibility: hidden;
     opacity: 0;
   }
+
   70% {
     opacity: 1;
   }
+
   to {
     visibility: visible;
   }

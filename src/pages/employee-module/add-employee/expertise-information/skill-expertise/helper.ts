@@ -50,7 +50,6 @@ export const useSkill = ({ formData, setFormData, employeeId, setSkillData, skil
     const skillData = {
       ...data,
       skillLevel: data?.skills,
-      // ...(fileBase64 && { file: `${fileBase64}` }),
       ...(selectedFileName && data.file && { file: data.file[0] ? fileBase64 : data.file }),
     };
     if (!skillData.file || Object.keys(skillData.file).length === 0) {
@@ -127,7 +126,6 @@ export const useSkill = ({ formData, setFormData, employeeId, setSkillData, skil
     id && getUser();
     if (formData?.setSkillData !== undefined && Object.keys(formData?.setSkillData)?.length) {
       setEducations([...formData?.setSkillData]);
-      // setSkillData((current) => [...current, ...formData?.setSkillData]);
     }
   }, [id]);
 

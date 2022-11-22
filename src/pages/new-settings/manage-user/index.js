@@ -1,15 +1,15 @@
-import CardContainer from 'components/card-container';
-import Table from 'components/table';
-import React, { useState } from 'react';
-import Tags from 'components/tags';
-import DeletePopup from 'components/delete-modal';
-
-import style from './manage.module.scss';
-import { ColumnsData, RowsData } from './helper';
-import Switch from 'components/switch';
-import AddUser from './add-user/index';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
+import Table from 'components/table';
+import Switch from 'components/switch';
+import AddUser from './add-user/index';
+import DeletePopup from 'components/delete-modal';
+import CardContainer from 'components/card-container';
+
+import { ColumnsData, RowsData } from './helper';
+
+import style from './manage.module.scss';
 import dummy from 'assets/dummyPic.svg';
 
 const ManageUser = ({ newUser, setNewUser }) => {
@@ -44,9 +44,9 @@ const ManageUser = ({ newUser, setNewUser }) => {
               </div>
             ),
           }))}
-          minWidth="1150px"
+          minWidth="1300px"
           headingText={style.columnText}
-          handleDelete={(id) => console.log(id)}
+          handleDelete={(id) => {}}
           handleEducation={(index) => setEditIndex(index)}
           handleEdit={(id) => setEditIndex(id)}
           handleModalOpen={() => setDeletePopUp(true)}

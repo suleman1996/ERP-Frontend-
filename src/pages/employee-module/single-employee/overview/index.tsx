@@ -12,7 +12,6 @@ import { useParams } from 'react-router';
 import { useEffect, useState } from 'react';
 
 const Overview = ({ user }: any) => {
-  console.log('user', user);
   const [copy, setCopy] = useState('');
   const overviewDetails = [
     {
@@ -101,7 +100,6 @@ const Overview = ({ user }: any) => {
           minWidth="800px"
         />
       </CardContainer>
-      {console.log('user', user?.education)}
     </>
   );
 };
