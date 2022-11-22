@@ -12,8 +12,8 @@
     font-family: 'Poppins';
     font-style: normal;
     color: #2d2d32;
-    margin-bottom: calc(5px + (12 - 5) * (100vw - 280px) / (2560 - 280));
     text-transform: capitalize;
+    margin-bottom: calc(5px + (12 - 5) * (100vw - 280px) / (2560 - 280));
   }
 
   textarea {
@@ -22,15 +22,18 @@
     outline: none;
     border-radius: 6px;
     width: 100%;
-    padding: 20px;
+    padding-left: calc(10px + (25 - 10) * (100vw - 280px) / (2560 - 280));
+    padding-right: calc(10px + (25 - 10) * (100vw - 280px) / (2560 - 280));
+    padding-top: calc(10px + (25 - 10) * (100vw - 280px) / (2560 - 280));
+    padding-bottom: calc(10px + (25 - 10) * (100vw - 280px) / (2560 - 280));
     resize: none;
     box-sizing: border-box;
-
     @include font20;
+
     &::placeholder {
       color: #cacaca;
       text-transform: capitalize;
-      @include font18;
+      @include font20;
     }
   }
 }

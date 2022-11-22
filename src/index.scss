@@ -15,12 +15,15 @@ html {
   outline: none;
   color: #2d2d32;
   font-family: Poppins;
+  // overflow-wrap: anywhere;
 }
 
 body {
   font-family: Poppins;
   overflow-x: hidden;
   margin: 0px;
+  background-color: #fafafa;
+  height: 100vh;
   color: #2d2d32;
 }
 

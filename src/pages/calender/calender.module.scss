@@ -29,7 +29,6 @@
   background-color: #edf1fb;
   align-items: center;
   padding: 10px;
-  border-left: 2px solid red;
 }
 .mainDiv2 {
   background-color: #edf1fb;
@@ -64,10 +63,9 @@
 .title {
   font-family: 'Poppins';
   font-style: normal;
-  font-weight: 700;
+  font-weight: 400;
   font-size: 16px;
   color: #2d2d32;
-  padding: 10px;
 }
 .titleDiv {
   border-bottom: 1px solid #e2e2ea;
@@ -191,5 +189,14 @@
 .fullDiv {
   border: 1px solid #e2e2ea;
   border-radius: 4px;
+  padding-top: 10px;
+  padding: 20px;
+}
+.fc .fc-button:focus {
+  box-shadow: none !important;
+}
+.sectionView {
+  border: 1px solid #e2e2ea;
+  border-radius: 3px;
   padding-top: 10px;
 }

@@ -11,7 +11,7 @@ import Button from 'components/button';
 
 interface Props {
   setImg?: Dispatch<SetStateAction<unknown>>;
-  img?: unknown;
+  img: unknown;
   name?: string;
   register?: any;
   errorMessage?: string;
@@ -21,9 +21,9 @@ interface Props {
 }
 
 const ImageUpload = ({
-  img,
+  img = '',
   setImg,
-  name,
+  name = 'Default Name',
   register,
   errorMessage,
   label,

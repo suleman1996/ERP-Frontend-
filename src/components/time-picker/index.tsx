@@ -1,5 +1,4 @@
-import Input from 'components/input';
-import React from 'react';
+import TextField from 'components/textfield';
 
 import style from './time.module.scss';
 interface Props {
@@ -18,7 +17,7 @@ const TimePicker = ({ placeholder, label, name, register, errorMessage, star }: 
     <>
       <div className={style.main}>
         <div className={style.inpDiv}>
-          <Input
+          <TextField
             label={label}
             star={star}
             type="time"

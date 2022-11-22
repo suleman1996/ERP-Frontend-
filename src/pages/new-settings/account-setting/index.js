@@ -43,7 +43,6 @@ const AccountSetting = () => {
         ...(img && { img }),
         _id: userData?.id,
       };
-
       const res = await SettingsService.updateAccount(newData);
       if (res.status === 201) {
         if (res.data.emailSent === true) {

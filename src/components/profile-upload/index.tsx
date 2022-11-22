@@ -67,14 +67,17 @@ const ProfileUpload = ({
   return (
     <div>
       {label && (
-        <label className={classNameLabel} style={{ color: errorMessage ? '#ff5050' : '#2d2d32' }}>
+        <label
+          className={`${style.label} ${classNameLabel}`}
+          style={{ color: errorMessage ? '#ff5050' : '#2d2d32' }}
+        >
           {label}
-          <b style={{ color: 'red' }}>{star}</b>
+          <b style={{ color: '#ff5050' }}>{star}</b>
         </label>
       )}
       <div
         className={`${style.wraper} ${className}`}
-        style={{ border: errorMessage ? '1.2px solid #ff5050' : ' 1.2px solid #e2e2ea' }}
+        style={{ border: errorMessage ? '1px solid #ff5050' : '1px solid #E2E2EA' }}
       >
         <input
           type={'file'}
