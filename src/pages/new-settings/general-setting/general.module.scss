@@ -8,6 +8,10 @@
   margin-left: 1px;
   margin-right: 5px;
   border-radius: 8px;
+
+  @media (max-width: $md) {
+    margin-top: 41px !important;
+  }
 }
 
 .titleClass {

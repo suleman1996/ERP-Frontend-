@@ -3,7 +3,7 @@ import { GeneralSettingUpdateUser } from 'pages/settings/general-settings/helper
 import { ManageAccountsEditEmployee } from 'pages/settings/manage-accounts/manage-accounts-helper';
 
 export default class SettingsService {
-  static baseUrl = ['settings'];
+  static baseUrl = ['settings', ''];
 
   static async addDepartment(data: any) {
     const res = await ApiService.post(`${SettingsService.baseUrl[0]}/department-setting`, data);
@@ -68,6 +68,13 @@ export default class SettingsService {
     return res;
   }
 
+  static async getAllCustomRoles(data?: any) {
+    const res = await ApiService.get(`${SettingsService.baseUrl[0]}/customRoles`, {
+      params: data,
+    });
+    return res;
+  }
+
   static async editEmployee(id: string, employeeData: ManageAccountsEditEmployee) {
     const res = await ApiService.put(
       `${SettingsService.baseUrl[0]}/${id}/manage-account`,
@@ -99,6 +106,11 @@ export default class SettingsService {
       `${SettingsService.baseUrl[0]}/resendConfirmationEmail/`,
       data,
     );
+    return res;
+  }
+
+  static async addUser(data: any) {
+    const res = await ApiService.post(`${SettingsService.baseUrl[1]}/users`, data);
     return res;
   }
 }
