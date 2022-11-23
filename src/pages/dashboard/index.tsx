@@ -25,6 +25,7 @@ import SearchSelect from 'components/select-and-search-select'
 import Checkbox from 'components/checkbox'
 import Pagination from 'components/pagination'
 import CountryInput from 'components/country-input'
+import EmployeeProfileCard from 'components/employee-profile-card'
 
 const DashBoard = () => {
   const { control, register, watch } = useForm()
@@ -71,7 +72,7 @@ const DashBoard = () => {
 
       <div style={{ marginTop: '10px' }}>
         <Selection
-          label="Recurrence"
+          label="Use Selection Component only for multi select"
           options={recurrenceTypes}
           name="recurrence"
           control={control}
@@ -168,9 +169,15 @@ const DashBoard = () => {
           setToggle={setToggle}
         />
       </div>
-      {/* <div style={{ marginTop: '10px' }}>
-        <EmployeeProfileCard />
-      </div> */}
+      <div style={{ margin: '10px 0px' }}>
+        <EmployeeProfileCard
+          department="UI Designer"
+          designation="Senior software engineer"
+          phone="0300-9876567"
+          id="SPX001"
+          name="SprintX"
+        />
+      </div>
     </Container>
   )
 }
