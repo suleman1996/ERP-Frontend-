@@ -9,7 +9,7 @@ import Select from 'components/select'
 import { AddUserHelper } from './addUser-helper'
 import { convertBase64Image } from 'main-helper'
 
-const AddUser = ({ setNewUser, customRoles }) => {
+const AddUser = ({ setNewUser, customRoles, allIDs }) => {
   const {
     register,
     handleSubmit,
@@ -18,7 +18,6 @@ const AddUser = ({ setNewUser, customRoles }) => {
     onSubmit,
     imgBlob,
     setImgBlob,
-    allIDs,
     errors,
     setBase64,
   } = AddUserHelper(setNewUser)

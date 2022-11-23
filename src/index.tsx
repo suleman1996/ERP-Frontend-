@@ -1,13 +1,15 @@
-import ReactDOM from 'react-dom';
-import { BrowserRouter as Router } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import { NotificationContainer } from 'react-notifications';
+import ReactDOM from 'react-dom'
+import { Provider } from 'react-redux'
+import { BrowserRouter as Router } from 'react-router-dom'
 
-import { store } from './store';
-import App from 'app';
+import App from 'app'
 
-import './index.scss';
-import 'react-notifications/lib/notifications.css';
+import { NotificationContainer } from 'react-notifications'
+
+import { store } from './store'
+
+import './index.scss'
+import 'react-notifications/lib/notifications.css'
 
 ReactDOM.render(
   <Router>
@@ -16,5 +18,5 @@ ReactDOM.render(
       <NotificationContainer />
     </Provider>
   </Router>,
-  document.getElementById('root'),
-);
+  document.getElementById('root')
+)

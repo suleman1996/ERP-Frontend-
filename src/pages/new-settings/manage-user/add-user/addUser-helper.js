@@ -1,7 +1,6 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
-import EmployeeService from 'services/employee-service'
 import { setErrors } from '../../../../helper/index'
 import { createNotification } from 'common/create-notification'
 import SettingsService from 'services/settings-service'
@@ -18,17 +17,7 @@ export const AddUserHelper = ({ setNewUser }) => {
   } = useForm()
 
   const [imgBlob, setImgBlob] = useState()
-  const [allIDs, setAllIDs] = useState()
   const [base64, setBase64] = useState()
-
-  useEffect(() => {
-    getAllIds()
-  }, [])
-
-  const getAllIds = async () => {
-    const result = await EmployeeService.getOnlyEmployees()
-    setAllIDs(result?.data)
-  }
 
   const onSubmit = async (data) => {
     try {
@@ -64,7 +53,7 @@ export const AddUserHelper = ({ setNewUser }) => {
     onSubmit,
     imgBlob,
     setImgBlob,
-    allIDs,
+
     errors,
     setBase64,
   }
