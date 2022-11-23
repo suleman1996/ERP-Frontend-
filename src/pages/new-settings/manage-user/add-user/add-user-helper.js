@@ -18,8 +18,10 @@ export const AddUserHelper = ({ setNewUser }) => {
 
   const [imgBlob, setImgBlob] = useState()
   const [base64, setBase64] = useState()
+  const [btnLoader, setBtnLoader] = useState(false)
 
   const onSubmit = async (data) => {
+    setBtnLoader(true)
     try {
       const userData = {
         ...data,
@@ -29,7 +31,7 @@ export const AddUserHelper = ({ setNewUser }) => {
       }
       data?.employeeId === '' && delete userData?.employeeId
       const res = await SettingsService.addUser(userData)
-      if (res.status === 200) {
+      if (res?.status === 200) {
         setNewUser(false)
       }
     } catch (err) {
@@ -42,7 +44,9 @@ export const AddUserHelper = ({ setNewUser }) => {
           err?.response?.data?.msg || err?.response?.data?.message
         )
       }
+      setBtnLoader(false)
     }
+    setBtnLoader(false)
   }
 
   return {
@@ -53,7 +57,7 @@ export const AddUserHelper = ({ setNewUser }) => {
     onSubmit,
     imgBlob,
     setImgBlob,
-
+    btnLoader,
     errors,
     setBase64,
   }

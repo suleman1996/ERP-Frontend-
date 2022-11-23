@@ -6,7 +6,7 @@ import cam from 'assets/whiteCam.svg'
 import style from './add-user.module.scss'
 import Switch from 'components/switch'
 import Select from 'components/select'
-import { AddUserHelper } from './addUser-helper'
+import { AddUserHelper } from './add-user-helper'
 import { convertBase64Image } from 'main-helper'
 
 const AddUser = ({ setNewUser, customRoles, allIDs }) => {
@@ -20,7 +20,8 @@ const AddUser = ({ setNewUser, customRoles, allIDs }) => {
     setImgBlob,
     errors,
     setBase64,
-  } = AddUserHelper(setNewUser)
+    btnLoader,
+  } = AddUserHelper({ setNewUser })
 
   return (
     <>
@@ -114,7 +115,12 @@ const AddUser = ({ setNewUser, customRoles, allIDs }) => {
             className={style.btnText}
             handleClick={() => setNewUser(false)}
           />
-          <Button text="Add" type="submit" btnClass={style.addBtn} />
+          <Button
+            text="Add"
+            type="submit"
+            btnClass={style.addBtn}
+            isLoading={btnLoader}
+          />
         </div>
       </form>
     </>
