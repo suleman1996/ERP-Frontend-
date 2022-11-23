@@ -89,7 +89,7 @@ const RenderPoliciesTab = ({
               cursor: 'pointer',
               height: 35,
               width: 35,
-              marginRight: '25px',
+              marginRight: '5px',
             }}
             src={filter}
             alt=""

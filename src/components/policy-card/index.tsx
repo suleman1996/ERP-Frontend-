@@ -5,6 +5,7 @@ import { useOutsideAlerter } from 'hooks/useOutsideClick'
 
 import style from './request.module.scss'
 import menu from 'assets/menu.svg'
+import PolicyService from 'services/policy-service'
 
 const RenderPolicy = ({
   setSelectedTab,
@@ -22,6 +23,7 @@ const RenderPolicy = ({
 
   const handleObseletePolicy = async () => {
     try {
+      await PolicyService.addObseletePolicyApi(data?._id)
       setSelectedTab(1)
     } catch (error) {
       console.error(error)

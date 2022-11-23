@@ -1,4 +1,3 @@
-import Tags from 'components/tags'
 import { ChangeEvent, useState } from 'react'
 import { Controller } from 'react-hook-form'
 
@@ -36,7 +35,7 @@ interface Props {
   isDisabled?: any
   defaultValue?: any
   placeHolderStyle?: any
-  showNumber?: boolean
+  isSearchable?: boolean
 }
 
 const Selection = ({
@@ -53,7 +52,7 @@ const Selection = ({
   isDisabled,
   defaultValue,
   placeHolderStyle,
-  showNumber,
+  isSearchable,
 }: Props) => {
   const [customErr] = useState<string | undefined>()
 
@@ -66,6 +65,34 @@ const Selection = ({
       color: placeHolderStyle.color,
     })
   }
+
+  // const LimitedChipsContainer = ({ children, hasValue, ...props }) => {
+  //   if (!hasValue) {
+  //     return (
+  //       <components.ValueContainer {...props}>
+  //         {children}
+  //       </components.ValueContainer>
+  //     )
+  //   }
+
+  //   const CHIPS_LIMIT = 2
+  //   const [chips, otherChildren] = children
+  //   const overflowCounter = chips.slice(CHIPS_LIMIT).length
+  //   const displayChips = chips.slice(
+  //     overflowCounter,
+  //     overflowCounter + CHIPS_LIMIT
+  //   )
+
+  //   return (
+  //     <components.ValueContainer {...props}>
+  //       {displayChips}
+
+  //       {overflowCounter > 0 && `+ ${overflowCounter}`}
+
+  //       {otherChildren}
+  //     </components.ValueContainer>
+  //   )
+  // }
 
   const formatOptionLabel = (
     {
@@ -139,31 +166,39 @@ const Selection = ({
                         </p>
                       </div>
                     ),
-                    ...(showNumber && {
-                      MultiValue: (props) => {
-                        const { getValue, data } = props
-                        const selectedOptions = getValue()
-                        const currentOptionIdx = selectedOptions.findIndex(
-                          (option) => option?.value === data?.value
-                        )
-                        if (selectedOptions.length > 1) {
-                          return currentOptionIdx === 0 ? (
-                            <Tags boxColor={'red'}></Tags>
-                          ) : (
-                            <></>
-                          )
-                        } else {
-                          return currentOptionIdx === 0 ? (
-                            <Tags
-                              text={data?.label}
-                              boxColor={'#39695B'}
-                            ></Tags>
-                          ) : (
-                            <></>
-                          )
-                        }
-                      },
-                    }),
+
+                    //AS working on it currently it's pending
+                    // ...(showNumber && {
+                    //   MultiValue: (props) => {
+                    //     const { getValue, data } = props;
+                    //     const selectedOptions = getValue();
+                    //     const currentOptionIdx = selectedOptions.findIndex(
+                    //       (option) => option?.value === data?.value,
+                    //     );
+                    //     if (selectedOptions.length > 1) {
+                    //       return currentOptionIdx === 0 ? (
+                    //         <Tags
+                    //           // isCircularNumber={true}
+                    //           boxColor={'red'}
+                    //           // numberCircular={selectedOptions?.length}
+                    //         ></Tags>
+                    //       ) : (
+                    //         <></>
+                    //       );
+                    //     } else {
+                    //       return currentOptionIdx === 0 ? (
+                    //         <Tags
+                    //           text={data?.label}
+                    //           boxColor={'#39695B'}
+                    //           // isCircular={true}
+                    //         ></Tags>
+                    //       ) : (
+                    //         <></>
+                    //       );
+                    //     }
+                    //   },
+                    // }),
+                    // ValueContainer: LimitedChipsContainer,
                   }}
                   hideSelectedOptions={false}
                   closeMenuOnSelect={closeMenuOnSelect}
@@ -177,6 +212,7 @@ const Selection = ({
                   formatOptionLabel={(data, metaData) =>
                     formatOptionLabel(data, metaData, true)
                   }
+                  isSearchable={isSearchable}
                 />
               </>
             )

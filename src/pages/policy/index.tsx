@@ -471,6 +471,7 @@ const Policy = () => {
               isMulti={true}
               name="appliesTo"
               defaultValue={null}
+              isSearchable={false}
             />
             <div>
               <div style={{ display: 'flex' }}>
