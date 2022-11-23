@@ -35,12 +35,9 @@ export const AddUserHelper = ({ setNewUser }) => {
         setNewUser(false)
       }
     } catch (err) {
-      console.log('errrrrrrrrrrrrrrrr')
       if (err?.response?.data?.error) {
-        console.log('if')
         setErrors(err?.response?.data?.error, setError)
       } else {
-        console.log('else')
         createNotification(
           'error',
           'Error',
