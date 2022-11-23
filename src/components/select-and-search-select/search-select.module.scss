@@ -58,3 +58,10 @@
     }
   }
 }
+.noDatas {
+  padding: 10px;
+  p {
+    text-align: center;
+    @include font18;
+  }
+}

@@ -29,11 +29,16 @@
   .rightFlex {
     display: flex;
     align-items: center;
+    span {
+      display: flex;
+      align-items: center;
+    }
     p {
       font-weight: 400;
       @include font16;
       color: #2d2d32;
       margin-left: 10px;
+      cursor: pointer;
     }
 
     img {
@@ -48,13 +53,14 @@
 
     .p {
       @include font16;
-
+      cursor: pointer;
       @media (max-width: $xs) {
         display: none;
       }
     }
     b {
       @include font16;
+      cursor: pointer;
     }
   }
 }

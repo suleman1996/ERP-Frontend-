@@ -16,9 +16,9 @@
   z-index: 2500;
   top: 60px;
   flex-direction: column;
-  border-top: 1px solid $borderColor;
-  border-left: 1px solid $borderColor;
-  border-right: 1px solid $borderColor;
+  border-top: 1px solid $dark-gray;
+  border-left: 1px solid $dark-gray;
+  border-right: 1px solid $dark-gray;
   border-bottom: none;
   border-radius: 5px;
   background-color: $white;
@@ -34,7 +34,7 @@
     height: 0;
     border-style: solid;
     border-width: 0 10px 19px 10px;
-    border-color: transparent transparent $borderColor transparent;
+    border-color: transparent transparent $dark-gray transparent;
     z-index: 9999;
   }
 }
@@ -43,7 +43,7 @@
   font-size: 14px;
   font-weight: 400;
   padding: 0.5rem;
-  color: $primary;
+  color: $black;
 }
 
 .notificationMenuDayContainer {
@@ -52,14 +52,14 @@
 
 .notificationMenuDay {
   padding: 0.3rem 0.5rem 0.3rem 0;
-  border-top: 1px solid $borderColor;
+  border-top: 1px solid $dark-gray;
 }
 
 .notificationMenuDayTitle {
   display: flex;
   font-size: 11px;
   padding-left: 0.5rem;
-  color: $primary;
+  color: $black;
   margin-bottom: 0.5rem;
 }
 
@@ -91,12 +91,12 @@
 
 .postUserName {
   font-size: 16px;
-  color: $primary;
+  color: $black;
 }
 
 .postDate {
   font-size: 11px;
-  color: $header;
+  color: $black;
 }
 
 .postText {

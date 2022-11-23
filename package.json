@@ -137,6 +137,9 @@
       "prettier --write"
     ]
   },
+  "overrides": {
+    "react-error-overlay": "6.0.9"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC"
