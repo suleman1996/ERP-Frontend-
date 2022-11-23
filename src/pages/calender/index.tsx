@@ -1,139 +1,153 @@
-/* eslint-disable jsx-a11y/alt-text */
-import { createRef, useEffect, useRef, useState } from 'react';
-import { useForm } from 'react-hook-form';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
 
-import { CalendarApi } from '@fullcalendar/react';
-import FullCalendar from '@fullcalendar/react';
-import dayGridPlugin from '@fullcalendar/daygrid';
-import timeGridPlugin from '@fullcalendar/timegrid';
-import interactionPlugin from '@fullcalendar/interaction';
-import listPlugin from '@fullcalendar/list';
-import $ from 'jquery';
-import CalenderService from 'services/calender-service';
-import EmployeeService from 'services/employee-service';
-import { createNotification } from 'common/create-notification';
-import moment from 'moment';
+import FullCalendar from '@fullcalendar/react'
+import dayGridPlugin from '@fullcalendar/daygrid'
+import timeGridPlugin from '@fullcalendar/timegrid'
+import interactionPlugin from '@fullcalendar/interaction'
+import listPlugin from '@fullcalendar/list'
+import $ from 'jquery'
+import CalenderService from 'services/calender-service'
+import EmployeeService from 'services/employee-service'
+import { createNotification } from 'common/create-notification'
+import moment from 'moment'
 
-import { convertBase64Image } from 'main-helper';
-import { setErrors } from 'helper';
+import { convertBase64Image } from 'main-helper'
+import { setErrors } from 'helper'
 
-import Button from 'components/button';
-import Modal from 'components/modal';
-import TextField from 'components/textfield';
-import DatePicker from 'components/date-picker';
-import Selection from 'components/selection';
-import ProfileUpload from 'components/profile-upload';
-import Container from 'components/container';
-import EventModal from 'components/event-modal';
-import TextArea from 'components/textarea';
-import DeleteModal from 'components/delete-modal';
+import Button from 'components/button'
+import Modal from 'components/modal'
+import TextField from 'components/textfield'
+import DatePicker from 'components/date-picker'
+import Selection from 'components/selection'
+import ProfileUpload from 'components/profile-upload'
+import Container from 'components/container'
+import EventModal from 'components/modal'
+import TextArea from 'components/textarea'
+import DeleteModal from 'components/delete-modal'
 
-import { eventTypes, recurrenceTypes, category } from './event-types';
+import { eventTypes, recurrenceTypes, category, eventName } from './event-types'
 
-import location from 'assets/location.svg';
-import noimage from 'assets/NoImage.svg';
-import cross from 'assets/cross-Icon.svg';
-import deleteIcon from 'assets/delete-Icon.svg';
-import edit from 'assets/edit-icon.png';
-import plus from 'assets/plusIcon.svg';
-import bucketIcon from 'assets/Bucket.svg';
+import location from 'assets/location.svg'
+import noimage from 'assets/NoImage.svg'
+import cross from 'assets/cross-Icon.svg'
+import deleteIcon from 'assets/delete-Icon.svg'
+import edit from 'assets/edit-icon.png'
+import plus from 'assets/plusIcon.svg'
+import bucketIcon from 'assets/Bucket.svg'
 
-import style from './calender.module.scss';
-import './calendar.scss';
-import Radio from 'components/radio';
+import style from './calender.module.scss'
+import './calendar.scss'
+import Radio from 'components/radio'
 
 const Calender = () => {
-  let month = 'dayGridMonth';
-  let week = 'timeGridWeek';
-  let day = 'timeGridDay';
-  let list = 'listWeek';
+  const month = 'dayGridMonth'
+  const week = 'timeGridWeek'
+  const day = 'timeGridDay'
+  const list = 'listWeek'
 
-  const [openModal, setOpenModal] = useState(false);
-  const [check, setCheck] = useState(false);
-  const [eventId, setEventId] = useState('');
-  const [customTooltip, setCustomTooltip] = useState<number | string | undefined | boolean>();
-  const [selectedFileNameBack, setSelectedFileNameBack] = useState<any>();
-  const [btnLoader, setBtnLoader] = useState(false);
-  const [allEvent, setAllEvent] = useState([]);
-  const [singleEventData, setSingleEventData] = useState<any>('');
-  const [attendeesPic, setAttendeesPic] = useState([]);
-  const [delModal, setDelModal] = useState(false);
-  const [view, setView] = useState('Daily');
-  const [delRecurring, setDelRecurring] = useState(false);
-  const [employeesWithDep] = useState<any>([]);
+  const [openModal, setOpenModal] = useState(false)
+  const [check, setCheck] = useState(false)
+  const [eventId, setEventId] = useState('')
+  const [customTooltip, setCustomTooltip] = useState<
+    number | string | undefined | boolean
+  >()
+  const [selectedFileNameBack, setSelectedFileNameBack] = useState<any>()
+  const [btnLoader, setBtnLoader] = useState(false)
+  const [allEvent, setAllEvent] = useState([])
+  const [singleEventData, setSingleEventData] = useState<any>('')
+  const [attendeesPic, setAttendeesPic] = useState([])
+  const [delModal, setDelModal] = useState(false)
+  const [view, setView] = useState('Daily')
+  const [delRecurring, setDelRecurring] = useState(false)
+  const [employeesWithDep] = useState<any>([])
 
-  const placeholderImage = noimage;
+  const placeholderImage = noimage
   const onImageError = (e: any) => {
-    e.target.src = placeholderImage;
-  };
+    e.target.src = placeholderImage
+  }
 
-  const { register, handleSubmit, errors, reset, watch, control, setError, clearErrors } = useForm({
+  const {
+    register,
+    handleSubmit,
+    errors,
+    reset,
+    control,
+    setError,
+    clearErrors,
+  } = useForm({
     mode: 'all',
-  });
+  })
 
   useEffect(() => {
-    getEmployeesWithDep();
+    getEmployeesWithDep()
     $('.fc-timeGridDay-button').click(function () {
-      setView('Daily');
-    });
+      setView('Daily')
+    })
     $('.fc-timeGridWeek-button').click(function () {
-      setView('Weekly');
-    });
+      setView('Weekly')
+    })
 
     $('.fc-dayGridMonth-button').click(function () {
-      setView('Monthly');
-    });
+      setView('Monthly')
+    })
 
     $('.fc-next-button').click(function (e) {
-      console.log(e);
-    });
-  }, []);
+      console.log(e)
+    })
+  }, [])
 
   useEffect(() => {
-    getAllEvents();
-    console.log({ view });
-  }, [view]);
+    getAllEvents()
+    console.log({ view })
+  }, [view])
 
   useEffect(() => {
-    updateEventData();
-    if (singleEventData === '') setCheck(false);
-  }, [singleEventData]);
+    updateEventData()
+    if (singleEventData === '') setCheck(false)
+  }, [singleEventData])
 
   const getEmployeesWithDep = async () => {
     try {
-      const result = await EmployeeService.getEmployeesWithDepApi();
+      const result = await EmployeeService.getEmployeesWithDepApi()
       result?.data?.employeesWithDepartment?.map((item: any) => {
         employeesWithDep.push({
-          options: item?.employees?.map((ite: any) => ({ value: ite?._id, label: ite?.fullName })),
+          options: item?.employees?.map((ite: any) => ({
+            value: ite?._id,
+            label: ite?.fullName,
+          })),
           label: item?._id?.name,
-        });
-      });
-    } catch (error) {}
-  };
+        })
+      })
+    } catch (error) {
+      console.error(error)
+    }
+  }
 
   const getAllEvents = async () => {
     const res = await CalenderService.getAllEvents({
       view: view,
-    });
-    setAllEvent(res?.data?.events);
-  };
+    })
+    setAllEvent(res?.data?.events)
+  }
 
   const handleDelete = async () => {
-    setBtnLoader(true);
+    setBtnLoader(true)
     try {
-      const res = await CalenderService.deleteEvent(eventId);
+      const res = await CalenderService.deleteEvent(eventId)
       if (res.status === 200) {
-        setBtnLoader(true);
-        createNotification('success', 'success', res?.data?.msg);
-        getAllEvents();
-        setCustomTooltip(false);
-        setDelModal(!delModal);
+        setBtnLoader(true)
+        createNotification('success', 'success', res?.data?.msg)
+        getAllEvents()
+        setCustomTooltip(false)
+        setDelModal(!delModal)
       }
-      setBtnLoader(false);
+      setBtnLoader(false)
     } catch (err) {
-      setBtnLoader(false);
+      setBtnLoader(false)
     }
-  };
+  }
 
   const updateEventData = () => {
     const {
@@ -148,9 +162,9 @@ const Calender = () => {
       category,
       allDay,
       fileId,
-    } = singleEventData;
-    fileId?.name && setSelectedFileNameBack(fileId?.name);
-    setCheck(allDay === true ? true : false);
+    } = singleEventData
+    fileId?.name && setSelectedFileNameBack(fileId?.name)
+    setCheck(allDay === true ? true : false)
     reset({
       title,
       venue: venue ? venue : '',
@@ -159,28 +173,34 @@ const Calender = () => {
       allDay: allDay === true ? true : false,
       attendees: attendees
         ? attendees?.map(({ _id, fullName }: any) => {
-            return { label: fullName, value: _id };
+            return { label: fullName, value: _id }
           })
         : [],
       type: type ? { label: type, value: type } : '',
       recurrence: recurrence ? { label: recurrence, value: recurrence } : '',
       start: start ? new Date(start.replace('Z', '')) : '',
       end: end ? new Date(end.replace('Z', '')) : '',
-    });
-  };
+    })
+  }
 
   const RenderEventHandler = (eventInfo: any) => {
-    const allDay = eventInfo?.event?._def?.allDay;
-    const catogery = eventInfo?.event?.extendedProps?.category;
+    const allDay = eventInfo?.event?._def?.allDay
+    const catogery = eventInfo?.event?.extendedProps?.category
     return (
       <>
         <div
           className={style.mainDiv}
           style={{
-            backgroundColor: category.find(({ value }) => value === catogery)?.color || 'red',
-            borderLeft: category.find(({ value }) => value === catogery)?.border || 'red',
+            backgroundColor:
+              category.find(({ value }) => value === catogery)?.color || 'red',
+            borderLeft:
+              category.find(({ value }) => value === catogery)?.border || 'red',
             padding:
-              allDay === true ? '0px' : eventInfo?.view?.type === 'dayGridMonth' ? '0px' : '',
+              allDay === true
+                ? '0px'
+                : eventInfo?.view?.type === 'dayGridMonth'
+                ? '0px'
+                : '',
             display: 'flex',
             width: '100%',
             alignItems: 'center',
@@ -193,14 +213,19 @@ const Calender = () => {
           <div
             className={style.mainDiv2}
             style={{
-              backgroundColor: category?.find(({ value }) => value === catogery)?.color,
+              backgroundColor: category?.find(({ value }) => value === catogery)
+                ?.color,
               width: '100%',
               paddingLeft: '2px',
             }}
           >
             <span
               className={style.title}
-              style={{ textOverflow: 'ellipsis', whiteSpace: 'nowrap', overflow: 'hidden' }}
+              style={{
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+              }}
             >
               {eventInfo?.event?.title && eventInfo?.event?.title}
             </span>
@@ -208,30 +233,35 @@ const Calender = () => {
               <div className={style.descDiv}>
                 <img src={eventInfo?.event?.extendedProps?.venue && location} />
                 <p className={style.description}>
-                  {eventInfo?.event?.extendedProps?.venue && eventInfo?.event?.extendedProps?.venue}
+                  {eventInfo?.event?.extendedProps?.venue &&
+                    eventInfo?.event?.extendedProps?.venue}
                 </p>
               </div>
             )}
           </div>
 
-          {(eventInfo?.view?.type === 'timeGridDay' || eventInfo?.view?.type === 'timeGridWeek') &&
+          {(eventInfo?.view?.type === 'timeGridDay' ||
+            eventInfo?.view?.type === 'timeGridWeek') &&
           allDay === false ? (
             <div className={style.plusView}>
-              {eventInfo?.event?.extendedProps?.attendees?.slice(0, 3)?.map((i: any) => (
-                <img
-                  src={i?.profilePicture && i?.profilePicture}
-                  onError={onImageError}
-                  height={28}
-                  width={28}
-                  style={{
-                    borderRadius: '30px',
-                    height: '30px',
-                    width: '30px',
-                    marginLeft: '-10px',
-                    border: '1px solid white',
-                  }}
-                />
-              ))}
+              {eventInfo?.event?.extendedProps?.attendees
+                ?.slice(0, 3)
+                ?.map((i: any, index: any) => (
+                  <img
+                    key={index}
+                    src={i?.profilePicture && i?.profilePicture}
+                    onError={onImageError}
+                    height={28}
+                    width={28}
+                    style={{
+                      borderRadius: '30px',
+                      height: '30px',
+                      width: '30px',
+                      marginLeft: '-10px',
+                      border: '1px solid white',
+                    }}
+                  />
+                ))}
               {eventInfo?.event?.extendedProps?.attendees?.length > 3 && (
                 <div className={style.plusIcon}>
                   <p className={style.plusText}>
@@ -245,27 +275,31 @@ const Calender = () => {
           ) : null}
         </div>
       </>
-    );
-  };
+    )
+  }
 
   const handleMouseEnter = async ({ event }: any) => {
-    const res = await CalenderService.getEventById(event._def.extendedProps._id);
-    setSingleEventData(res?.data?.event);
-    setAttendeesPic(res?.data?.event?.attendees);
-    setCustomTooltip(event._def.extendedProps._id);
-    setEventId(event._def.extendedProps._id);
-  };
+    const res = await CalenderService.getEventById(event._def.extendedProps._id)
+    setSingleEventData(res?.data?.event)
+    setAttendeesPic(res?.data?.event?.attendees)
+    setCustomTooltip(event._def.extendedProps._id)
+    setEventId(event._def.extendedProps._id)
+  }
 
   const onSubmit = async (data: any) => {
-    setBtnLoader(true);
+    setBtnLoader(true)
     try {
       const transformData = {
         title: data?.title,
         start: data?.start
-          ? `${moment(data?.start).format('YYYY-MM-DD')}T${moment(data?.start).format('HH:mm')}Z`
+          ? `${moment(data?.start).format('YYYY-MM-DD')}T${moment(
+              data?.start
+            ).format('HH:mm')}Z`
           : '',
         end: data?.end
-          ? `${moment(data?.end).format('YYYY-MM-DD')}T${moment(data?.end).format('HH:mm')}Z`
+          ? `${moment(data?.end).format('YYYY-MM-DD')}T${moment(
+              data?.end
+            ).format('HH:mm')}Z`
           : '',
         recurrence: data?.recurrence?.value,
         category: data?.category?.value,
@@ -280,35 +314,36 @@ const Calender = () => {
           selectedFileNameBack && {
             file: await convertBase64Image(data?.uploadFile[0]),
           }),
-      };
+      }
       if (singleEventData) {
-        delete transformData?.uploadFile;
-        const res = await CalenderService.updateEvent(singleEventData?._id, transformData);
+        delete transformData?.uploadFile
+        const res = await CalenderService.updateEvent(
+          singleEventData?._id,
+          transformData
+        )
         if (res?.status === 201) {
-          setOpenModal(!openModal);
-          createNotification('success', 'success', res?.data?.msg);
-          getAllEvents();
+          setOpenModal(!openModal)
+          createNotification('success', 'success', res?.data?.msg)
+          getAllEvents()
         }
-        setBtnLoader(false);
+        setBtnLoader(false)
       } else {
-        delete transformData?.uploadFile;
-        const res = await CalenderService.addEvent(transformData);
+        delete transformData?.uploadFile
+        const res = await CalenderService.addEvent(transformData)
         if (res?.status === 200) {
-          getAllEvents();
-          createNotification('success', 'success', res?.data?.msg);
-          setOpenModal(!openModal);
+          getAllEvents()
+          createNotification('success', 'success', res?.data?.msg)
+          setOpenModal(!openModal)
         }
-        setBtnLoader(false);
+        setBtnLoader(false)
       }
     } catch (err: any) {
       if (err?.response?.data?.error) {
-        setErrors(err?.response?.data?.error, setError);
-      } else {
+        setErrors(err?.response?.data?.error, setError)
       }
-      createNotification('error', 'Error', err?.response?.data?.msg);
-      setBtnLoader(false);
+      setBtnLoader(false)
     }
-  };
+  }
 
   return (
     <div className={style.calenderMain}>
@@ -318,10 +353,10 @@ const Calender = () => {
             <Button
               text="Add Event"
               handleClick={() => {
-                setOpenModal(true);
-                setSingleEventData('');
-                setSelectedFileNameBack('');
-                setCheck(false);
+                setOpenModal(true)
+                setSingleEventData('')
+                setSelectedFileNameBack('')
+                setCheck(false)
               }}
               iconStart={plus}
             />
@@ -330,7 +365,12 @@ const Calender = () => {
           <div className={style.fullDiv}>
             <div className={style.sectionView}>
               <FullCalendar
-                plugins={[interactionPlugin, timeGridPlugin, dayGridPlugin, listPlugin]}
+                plugins={[
+                  interactionPlugin,
+                  timeGridPlugin,
+                  dayGridPlugin,
+                  listPlugin,
+                ]}
                 initialView={day}
                 headerToolbar={{
                   right: `${list} ${day} ${week} ${month}`,
@@ -372,7 +412,7 @@ const Calender = () => {
         <Modal
           open={openModal}
           handleClose={() => {
-            setOpenModal(!openModal);
+            setOpenModal(!openModal)
           }}
           title={singleEventData ? 'Edit Event' : 'Add Event'}
           text={singleEventData ? 'Save' : 'Add Event'}
@@ -383,8 +423,8 @@ const Calender = () => {
           <div className={style.formDiv}>
             <form
               onSubmit={(e) => {
-                clearErrors();
-                handleSubmit(onSubmit)(e);
+                clearErrors()
+                handleSubmit(onSubmit)(e)
               }}
               id="hello"
             >
@@ -424,7 +464,7 @@ const Calender = () => {
                   switchName="allDay"
                   register={register}
                   handleSwitchChange={(checked) => {
-                    setCheck(checked);
+                    setCheck(checked)
                   }}
                 />
                 <DatePicker
@@ -468,7 +508,12 @@ const Calender = () => {
                   errorMessage={errors?.category?.message}
                   placeholder="Select"
                 />
-                <TextField label="Venue" placeholder="Venue" name="venue" register={register} />
+                <TextField
+                  label="Venue"
+                  placeholder="Venue"
+                  name="venue"
+                  register={register}
+                />
               </div>
               <TextArea
                 label="Description"
@@ -513,8 +558,8 @@ const Calender = () => {
                     height={20}
                     className={style.icon}
                     onClick={() => {
-                      setCustomTooltip(!customTooltip);
-                      setOpenModal(true);
+                      setCustomTooltip(!customTooltip)
+                      setOpenModal(true)
                     }}
                   />
                   <img
@@ -522,8 +567,8 @@ const Calender = () => {
                     height={20}
                     className={style.icon}
                     onClick={() => {
-                      setCustomTooltip(!customTooltip);
-                      setDelModal(true);
+                      setCustomTooltip(!customTooltip)
+                      setDelModal(true)
                     }}
                   />
                   <img
@@ -536,15 +581,30 @@ const Calender = () => {
               </div>
               <div className={style.durationView}>
                 <p className={style.title2}>
-                  {moment(singleEventData?.start?.replace('Z', '')).format('MMM Do YYYY')}
-                  {moment(singleEventData?.start?.replace('Z', '')).format('MMM Do YYYY') !==
-                    moment(singleEventData?.end?.replace('Z', '')).format('MMM Do YYYY') &&
-                    ' To ' + moment(singleEventData?.end?.replace('Z', '')).format('MMM Do YYYY')}
+                  {moment(singleEventData?.start?.replace('Z', '')).format(
+                    'MMM Do YYYY'
+                  )}
+                  {moment(singleEventData?.start?.replace('Z', '')).format(
+                    'MMM Do YYYY'
+                  ) !==
+                    moment(singleEventData?.end?.replace('Z', '')).format(
+                      'MMM Do YYYY'
+                    ) &&
+                    ' To ' +
+                      moment(singleEventData?.end?.replace('Z', '')).format(
+                        'MMM Do YYYY'
+                      )}
                   {!singleEventData?.allDay && (
                     <span>
                       {' '}
-                      | {moment(singleEventData?.start?.replace('Z', '')).format('h:mm a')} -{' '}
-                      {moment(singleEventData?.end?.replace('Z', '')).format('h:mm a')}
+                      |{' '}
+                      {moment(singleEventData?.start?.replace('Z', '')).format(
+                        'h:mm a'
+                      )}{' '}
+                      -{' '}
+                      {moment(singleEventData?.end?.replace('Z', '')).format(
+                        'h:mm a'
+                      )}
                     </span>
                   )}
                 </p>
@@ -558,7 +618,9 @@ const Calender = () => {
                 Description
               </p>
               <p className={style.description} style={{ marginTop: -15 }}>
-                {singleEventData?.description ? singleEventData.description : '-'}
+                {singleEventData?.description
+                  ? singleEventData.description
+                  : '-'}
               </p>
 
               <div className={style.leftDiv}>
@@ -588,11 +650,14 @@ const Calender = () => {
                   {singleEventData?.fileId?.name ? (
                     <a
                       href={singleEventData?.fileId?.file}
+                      rel="noreferrer"
                       target={'_blank'}
                       style={{ textDecoration: 'none' }}
                     >
                       <p className={style.attachFile}>
-                        {singleEventData?.fileId?.name ? singleEventData?.fileId?.name : '-'}
+                        {singleEventData?.fileId?.name
+                          ? singleEventData?.fileId?.name
+                          : '-'}
                       </p>
                     </a>
                   ) : (
@@ -624,12 +689,13 @@ const Calender = () => {
                             key={i}
                           />
                         </>
-                      );
+                      )
                     })}
                     {attendeesPic?.length > 3 && (
                       <div className={style.plusIcon}>
                         <p className={style.plusText}>
-                          {attendeesPic?.length > 3 && attendeesPic?.length - 3}+
+                          {attendeesPic?.length > 3 && attendeesPic?.length - 3}
+                          +
                         </p>
                       </div>
                     )}
@@ -651,17 +717,37 @@ const Calender = () => {
         <Modal
           open={delRecurring}
           handleClose={() => {
-            setDelRecurring(!delRecurring);
+            setDelRecurring(!delRecurring)
           }}
           title={'Delete Recurring event'}
           type="submit"
+          className={style.body}
         >
           <div>
-            <Radio label="This Event" />
+            {eventName.map((item, index) => (
+              <>
+                <div style={{ padding: '10px', marginTop: '2px' }}>
+                  <Radio
+                    label={item?.name}
+                    handleClick={() => console.log(index)}
+                    name="radio"
+                  />
+                </div>
+              </>
+            ))}
+            <div className={style.btnDiv}>
+              <Button
+                text="Cancel"
+                btnClass={style.cnclBtn}
+                className={style.cnclText}
+                handleClick={() => setDelRecurring(!delRecurring)}
+              />
+              <Button text="Delete" />
+            </div>
           </div>
         </Modal>
       </Container>
     </div>
-  );
-};
-export default Calender;
+  )
+}
+export default Calender

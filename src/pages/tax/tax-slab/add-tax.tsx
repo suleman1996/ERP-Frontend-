@@ -1,39 +1,36 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import * as yup from 'yup';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
+import * as yup from 'yup'
+import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
 
-import { addSlabColumns } from './tax-helper';
-import Modal from 'components/modal';
-import MobileButton from 'components/button/mobile-button';
+import { addSlabColumns } from './tax-helper'
+import Modal from 'components/modal'
 
-import style from '../tax.module.scss';
-import back from 'assets/employee-page/Group 1996.png';
-import TaxService from 'services/tax-service';
-import Select from 'components/select';
-import TextField from 'components/textfield';
-import Button from 'components/button';
-import Table from 'components/table';
+import style from '../tax.module.scss'
+import TaxService from 'services/tax-service'
+import Select from 'components/select'
+import TextField from 'components/textfield'
+import Button from 'components/button'
+import Table from 'components/table'
 
-import editIcon from 'assets/table-edit.svg';
-import deleteIcon from 'assets/table-delete.svg';
-import DatePicker from 'components/date-picker';
-import { createNotification } from 'common/create-notification';
-import MonthYearPicker from 'components/range-month-picker';
-import moment from 'moment';
+import editIcon from 'assets/table-edit.svg'
+import deleteIcon from 'assets/table-delete.svg'
+import { createNotification } from 'common/create-notification'
+import MonthYearPicker from 'components/range-month-picker'
+import moment from 'moment'
 
 interface Props {
-  open: boolean;
-  setOpen: Dispatch<SetStateAction<boolean>>;
-  setViewModal: Dispatch<SetStateAction<boolean>>;
-  getTaxSlabsData: () => void;
-  updateId: string;
-  setSingleId?: Dispatch<SetStateAction<any>>;
-  newSlab?: any;
-  newSlabUpdate?: any;
-  viewModal?: boolean;
-  slabs: any;
-  setSlab: Dispatch<SetStateAction<any>>;
+  open: boolean
+  setOpen: Dispatch<SetStateAction<boolean>>
+  setViewModal: Dispatch<SetStateAction<boolean>>
+  getTaxSlabsData: () => void
+  updateId: string
+  setSingleId?: Dispatch<SetStateAction<any>>
+  newSlab?: any
+  newSlabUpdate?: any
+  viewModal?: boolean
+  slabs: any
+  setSlab: Dispatch<SetStateAction<any>>
 }
 
 const AddAttendance = ({
@@ -48,30 +45,31 @@ const AddAttendance = ({
   setSlab,
   setViewModal,
 }: Props) => {
-  const [loading, setLoading] = useState(false);
-  const [update, setUpdate] = useState<any>({ check: false, index: null });
+  const [loading, setLoading] = useState(false)
+  const [update, setUpdate] = useState<any>({ check: false, index: null })
 
-  const { register, handleSubmit, errors, reset, control, watch, setValue } = useForm({
-    resolver: yupResolver(schema),
-    mode: 'onSubmit',
-  });
+  const { register, handleSubmit, errors, reset, control, watch, setValue } =
+    useForm({
+      resolver: yupResolver(schema),
+      mode: 'onSubmit',
+    })
 
   const onSubmit = async (data: any) => {
     if (update.check) {
-      let newSlab = [...slabs];
-      newSlab[update.index] = { ...newSlab[update.index], ...data };
-      setSlab(newSlab);
-      setUpdate({ check: false, index: null });
+      const newSlab = [...slabs]
+      newSlab[update.index] = { ...newSlab[update.index], ...data }
+      setSlab(newSlab)
+      setUpdate({ check: false, index: null })
     } else {
-      const slabsCopy = [...slabs];
-      slabsCopy.push(data);
-      setSlab(slabsCopy);
+      const slabsCopy = [...slabs]
+      slabsCopy.push(data)
+      setSlab(slabsCopy)
 
-      let sortSlab = slabsCopy.sort(function (a: any, b: any) {
-        return a.lower - b.lower;
-      });
+      const sortSlab = slabsCopy.sort(function (a: any, b: any) {
+        return a.lower - b.lower
+      })
 
-      setSlab(sortSlab);
+      setSlab(sortSlab)
     }
 
     reset({
@@ -81,14 +79,14 @@ const AddAttendance = ({
       fixTax: '',
       taxRate: '',
       lessLimit: '',
-    });
-  };
+    })
+  }
 
   const handleEditSlab = (index: number) => {
-    setUpdate({ check: true, index: index });
+    setUpdate({ check: true, index: index })
     const data = slabs?.find((slab: any, ind: number) => {
-      return ind === index;
-    });
+      return ind === index
+    })
 
     !updateId
       ? reset({ ...data })
@@ -97,22 +95,26 @@ const AddAttendance = ({
           taxGroupName: newSlabUpdate?.groupName,
           category: newSlabUpdate?.category,
           financialYearStart:
-            newSlabUpdate?.financialYearStart && new Date(newSlabUpdate?.financialYearStart),
+            newSlabUpdate?.financialYearStart &&
+            new Date(newSlabUpdate?.financialYearStart),
           financialYearEnd:
-            newSlabUpdate?.financialYearEnd && new Date(newSlabUpdate?.financialYearEnd),
-        });
-  };
+            newSlabUpdate?.financialYearEnd &&
+            new Date(newSlabUpdate?.financialYearEnd),
+        })
+  }
 
   const handleDeleteSlab = (index: any) => {
-    slabs?.splice(index, 1);
-    setSlab([...slabs]);
-  };
+    slabs?.splice(index, 1)
+    setSlab([...slabs])
+  }
 
   const handleSave = async () => {
-    setLoading(true);
+    setLoading(true)
     try {
       const data = {
-        financialYearStart: moment(slabs[0].financialYearStart).format('YYYY/MM'),
+        financialYearStart: moment(slabs[0].financialYearStart).format(
+          'YYYY/MM'
+        ),
         financialYearEnd: moment(slabs[0].financialYearEnd).format('YYYY/MM'),
         groupName: slabs[0]?.taxGroupName,
         category: slabs[0]?.category,
@@ -123,31 +125,31 @@ const AddAttendance = ({
             fixTax: item.fixTax,
             taxRate: item.taxRate,
             lessLimit: item.lessLimit,
-          };
+          }
         }),
-      };
+      }
 
       if (updateId) {
-        const res = await TaxService.updateTaxSlab(updateId, data);
+        const res = await TaxService.updateTaxSlab(updateId, data)
         if (res.status === 200) {
-          setSingleId('');
-          getTaxSlabsData();
-          setOpen(false);
+          setSingleId('')
+          getTaxSlabsData()
+          setOpen(false)
         }
-        setSingleId('');
+        setSingleId('')
       } else {
-        const res = await TaxService.AddTaxSlab(data);
+        const res = await TaxService.AddTaxSlab(data)
         if (res.status === 200) {
-          setOpen(false);
-          getTaxSlabsData();
+          setOpen(false)
+          getTaxSlabsData()
         }
       }
     } catch (err) {
-      createNotification('error', 'Error', err?.response?.data?.msg);
-      setLoading(false);
+      createNotification('error', 'Error', err?.response?.data?.msg)
+      setLoading(false)
     }
-    setLoading(false);
-  };
+    setLoading(false)
+  }
 
   useEffect(() => {
     updateId &&
@@ -155,23 +157,29 @@ const AddAttendance = ({
         taxGroupName: newSlabUpdate?.groupName,
         category: newSlabUpdate?.category,
         financialYearStart:
-          newSlabUpdate?.financialYearStart && new Date(newSlabUpdate?.financialYearStart),
+          newSlabUpdate?.financialYearStart &&
+          new Date(newSlabUpdate?.financialYearStart),
         financialYearEnd:
-          newSlabUpdate?.financialYearEnd && new Date(newSlabUpdate?.financialYearEnd),
-      });
+          newSlabUpdate?.financialYearEnd &&
+          new Date(newSlabUpdate?.financialYearEnd),
+      })
 
-    updateId && newSlabUpdate && setSlab([...newSlabUpdate?.slabs]);
-  }, []);
+    updateId && newSlabUpdate && setSlab([...newSlabUpdate?.slabs])
+  }, [])
 
-  const financialYearStart = watch('financialYearStart');
-  const financialYearEnd = watch('financialYearEnd');
+  const financialYearStart = watch('financialYearStart')
+  const financialYearEnd = watch('financialYearEnd')
   useEffect(() => {
     if (financialYearStart && !financialYearEnd) {
-      setValue('financialYearEnd', new Date(moment(financialYearStart).add(1, 'year').format()), {
-        shouldValidate: true,
-      });
+      setValue(
+        'financialYearEnd',
+        new Date(moment(financialYearStart).add(1, 'year').format()),
+        {
+          shouldValidate: true,
+        }
+      )
     }
-  }, [financialYearEnd, financialYearStart]);
+  }, [financialYearEnd, financialYearStart])
 
   return (
     <>
@@ -180,8 +188,8 @@ const AddAttendance = ({
         title={`${updateId ? 'Edit' : 'Add'} Tax Group`}
         className={style.modalWrapper}
         handleClose={() => {
-          setOpen(false);
-          setViewModal(false);
+          setOpen(false)
+          setViewModal(false)
         }}
       >
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -278,7 +286,9 @@ const AddAttendance = ({
           </div>
 
           <div className={style.webBtnDiv}>
-            {!viewModal && <Button text={'Add Slab'} btnClass={style.btn} type="submit" />}
+            {!viewModal && (
+              <Button text={'Add Slab'} btnClass={style.btn} type="submit" />
+            )}
           </div>
 
           {/* <div className={style.mobileBtnDiv}>
@@ -304,20 +314,28 @@ const AddAttendance = ({
                   Actions: (
                     <div style={{ display: 'flex' }}>
                       <div style={{ marginRight: '10px' }}>
-                        <img src={editIcon} width={30} onClick={() => handleEditSlab(index)} />
+                        <img
+                          src={editIcon}
+                          width={30}
+                          onClick={() => handleEditSlab(index)}
+                        />
                       </div>
                       <div style={{ marginRight: '10px' }}>
-                        <img src={deleteIcon} width={30} onClick={() => handleDeleteSlab(index)} />
+                        <img
+                          src={deleteIcon}
+                          width={30}
+                          onClick={() => handleDeleteSlab(index)}
+                        />
                       </div>
                     </div>
                   ),
-                };
+                }
               })
             }
             minWidth="250px"
             tableHeight={style.taxSlabTableHeight}
-            handleEdit={(id: string) => {
-              setOpen(true);
+            handleEdit={() => {
+              setOpen(true)
             }}
           />
         </div>
@@ -336,10 +354,10 @@ const AddAttendance = ({
         </div>
       </Modal>
     </>
-  );
-};
+  )
+}
 
-export default AddAttendance;
+export default AddAttendance
 
 const schema = yup.object().shape({
   taxGroupName: yup.string().required('Tax group name is required'),
@@ -354,11 +372,16 @@ const schema = yup.object().shape({
     .typeError('Tax Rate is required')
     .max(100, 'Should be less or equal to 100')
     .min(0, 'Invalid value')
-    .test('maxDigitsAfterDecimal', 'Must have 2 digits after decimal or less', (number) =>
-      /^\d+(\.\d{1,2})?$/.test(number),
+    .test(
+      'maxDigitsAfterDecimal',
+      'Must have 2 digits after decimal or less',
+      (number) => /^\d+(\.\d{1,2})?$/.test(number)
     ),
-  lessLimit: yup.number().typeError('Less Limit is required').min(0, 'Invalid value'),
-});
+  lessLimit: yup
+    .number()
+    .typeError('Less Limit is required')
+    .min(0, 'Invalid value'),
+})
 
 const categories = [
   { name: 'Local', value: 'Local' },
@@ -369,4 +392,4 @@ const categories = [
     value: 'Married Individuals filing joint returns',
   },
   { name: 'For Heads of House Hold', value: 'For Heads of House Hold' },
-];
+]

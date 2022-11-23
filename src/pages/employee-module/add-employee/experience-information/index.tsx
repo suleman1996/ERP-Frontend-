@@ -1,31 +1,21 @@
-import moment from 'moment';
+import moment from 'moment'
 
-import Button from 'components/button';
-import TextField from 'components/textfield';
-import DatePicker from 'components/date-picker';
-import Table from 'components/table';
-import ProfileUpload from 'components/profile-upload';
-import Select from 'components/select';
-import SearchSelect from 'components/search-select';
-import Checkbox from 'components/checkbox';
+import Button from 'components/button'
+import TextField from 'components/textfield'
+import DatePicker from 'components/date-picker'
+import Table from 'components/table'
+import ProfileUpload from 'components/profile-upload'
+import SearchSelect from 'components/search-select'
+import Checkbox from 'components/checkbox'
 
-import { selectCountry, rows, columns, useExperience } from './helper';
-import countries from 'assets/countries.json';
+import { columns, useExperience } from './helper'
+import countries from 'assets/countries.json'
 
-import tick from 'assets/tick.svg';
-import arrowRight from 'assets/arrowBtnRight.svg';
-import arrowLeft from 'assets/backBtn.svg';
-import style from './experience.module.scss';
-import { useEmployeeForms } from '../context';
-
-interface Props {
-  formData: any;
-  setFormData: any;
-  employeeId: string;
-  handleBack: (data?: string) => void;
-  handleNext: (data?: string) => void;
-  employeeDocId?: any;
-}
+import tick from 'assets/tick.svg'
+import arrowRight from 'assets/arrowBtnRight.svg'
+import arrowLeft from 'assets/backBtn.svg'
+import style from './experience.module.scss'
+import { useEmployeeForms } from '../context'
 
 const ExperienceDetails = () => {
   const {
@@ -33,23 +23,18 @@ const ExperienceDetails = () => {
     setFormData,
     employeeDocId,
     formData,
-    setEmployeeId,
-    setEmployeeDocId,
     handleBack,
     employeeId,
-  }: any = useEmployeeForms();
+  }: any = useEmployeeForms()
 
   const {
     handleAddEduction,
     onSubmit,
     handleSubmit,
     register,
-    reset,
     errors,
     control,
     educations,
-    openTenure,
-    setOpenTenure,
     setOnGoing,
     onGoing,
     handleEducation,
@@ -59,7 +44,6 @@ const ExperienceDetails = () => {
     watch,
     cities,
     startDate,
-    currentCountryData,
     selectedFileName,
     setSelectedFileName,
   } = useExperience({
@@ -69,7 +53,7 @@ const ExperienceDetails = () => {
     setFormData,
     employeeId,
     employeeDocId,
-  });
+  })
 
   return (
     <>
@@ -96,7 +80,7 @@ const ExperienceDetails = () => {
               onChange={(value) => {
                 getData({
                   country: value,
-                });
+                })
               }}
             />
             <SearchSelect
@@ -175,7 +159,7 @@ const ExperienceDetails = () => {
                   education.jobStartDate && education.jobEndDate
                     ? `${moment(education.jobEndDate).diff(
                         education.jobStartDate,
-                        'months',
+                        'months'
                       )} Months`
                     : 'On Going',
               }))}
@@ -204,7 +188,7 @@ const ExperienceDetails = () => {
         </form>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default ExperienceDetails;
+export default ExperienceDetails

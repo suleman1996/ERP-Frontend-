@@ -1,20 +1,18 @@
-import Button from 'components/button';
+import Button from 'components/button'
 
-import plusIcon from 'assets/plusIcon.svg';
-import filter from 'assets/filter.svg';
+import plusIcon from 'assets/plusIcon.svg'
+import filter from 'assets/filter.svg'
 
-import style from './request.module.scss';
+import style from './request.module.scss'
 
-import RenderPolicySearchView from './policies-search';
+import RenderPolicySearchView from './policies-search'
 
 const RenderPoliciesTab = ({
   selectedTab,
   setSelectedTab,
   setShowFilterView,
   showFilterView,
-  control,
   setOpenAddPolice,
-  options,
   setEditPolicy,
   reset,
   policyCategory,
@@ -22,17 +20,17 @@ const RenderPoliciesTab = ({
   setSearch,
   ObseleteLength,
 }: {
-  selectedTab: any;
-  setSelectedTab: any;
-  setShowFilterView: any;
-  showFilterView: any;
-  control: any;
-  setOpenAddPolice: any;
-  options: any;
-  setEditPolicy: any;
-  length: any;
-  setSearch: any;
-  ObseleteLength: any;
+  selectedTab: any
+  setSelectedTab: any
+  setShowFilterView: any
+  showFilterView: any
+  control: any
+  setOpenAddPolice: any
+  options: any
+  setEditPolicy: any
+  length: any
+  setSearch: any
+  ObseleteLength: any
 }) => {
   return (
     <>
@@ -87,16 +85,21 @@ const RenderPoliciesTab = ({
         <div className={style.addPolicyView}>
           <img
             onClick={() => setShowFilterView(!showFilterView)}
-            style={{ cursor: 'pointer', height: 35, width: 35, marginRight: '25px' }}
+            style={{
+              cursor: 'pointer',
+              height: 35,
+              width: 35,
+              marginRight: '5px',
+            }}
             src={filter}
             alt=""
             className={style.img}
           />
           <Button
             handleClick={() => {
-              reset({});
-              setOpenAddPolice(true);
-              setEditPolicy({ bool: false, label: 'Add Policy' });
+              reset({})
+              setOpenAddPolice(true)
+              setEditPolicy({ bool: false, label: 'Add Policy' })
             }}
             iconStart={plusIcon}
             text="Add Policy"
@@ -104,10 +107,13 @@ const RenderPoliciesTab = ({
         </div>
       </div>
       {showFilterView && (
-        <RenderPolicySearchView policyCategory={policyCategory} setSearch={setSearch} />
+        <RenderPolicySearchView
+          policyCategory={policyCategory}
+          setSearch={setSearch}
+        />
       )}
     </>
-  );
-};
+  )
+}
 
-export default RenderPoliciesTab;
+export default RenderPoliciesTab

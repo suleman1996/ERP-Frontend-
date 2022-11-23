@@ -15,12 +15,15 @@ html {
   outline: none;
   color: #2d2d32;
   font-family: Poppins;
+  // overflow-wrap: anywhere;
 }
 
 body {
   font-family: Poppins;
   overflow-x: hidden;
   margin: 0px;
+  background-color: #fafafa;
+  height: 100vh;
   color: #2d2d32;
 }
 
@@ -104,4 +107,25 @@ input::-webkit-inner-spin-button {
 .react-tel-input .country-list {
   left: 10px;
   top: 100%;
+}
+.css-1okebmr-indicatorSeparator {
+  width: 0px !important;
+}
+
+.react-tel-input .flag-dropdown {
+  border: 1px solid transparent !important;
+  background-color: transparent !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.react-tel-input .selected-flag {
+  width: 60px !important;
+  padding: 0px 7px !important;
+  border-right: 1px solid #e2e2ea !important;
+  height: 30px !important;
+}
+
+.react-tel-input .selected-flag .flag {
+  margin-left: 6px !important;
 }

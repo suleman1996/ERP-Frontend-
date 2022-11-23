@@ -1,43 +1,25 @@
-import { useEffect, useState } from 'react';
-import * as yup from 'yup';
-import { useForm } from 'react-hook-form';
-import { useNavigate, useParams } from 'react-router-dom';
-import { yupResolver } from '@hookform/resolvers/yup';
+import { useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { useNavigate, useParams } from 'react-router-dom'
 
-import EmployeeService from 'services/employee-service';
-import { setErrors } from 'helper';
-import { useDispatch, useSelector } from 'react-redux';
-import { getAllAllowence } from 'store/actions';
-
-interface Data {
-  basicSalary: string;
-  houseRent: string;
-  conveyanceAllowance: string;
-  medicalAllowance: string;
-  specialAllowance: string;
-  bankName: string;
-  accountHolderName: string;
-  accountNumber: string;
-  overtimeApplicable: string;
-  paytype: string;
-  payrolltype: string;
-  roaster: string;
-}
-
+import EmployeeService from 'services/employee-service'
+import { setErrors } from 'helper'
+import { useDispatch, useSelector } from 'react-redux'
+import { getAllAllowence } from 'store/actions'
 interface Props {
-  employeeId?: string;
-  employeeDocId: string;
+  employeeId?: string
+  employeeDocId: string
 }
 
-export const usePayrollDetail = ({ employeeId, employeeDocId }: Props) => {
-  const { id } = useParams();
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const [btnLoader, setBtnLoader] = useState(false);
+export const usePayrollDetail = ({ employeeDocId }: Props) => {
+  const { id } = useParams()
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const [btnLoader, setBtnLoader] = useState(false)
 
-  const { register, handleSubmit, errors, control, reset, setError } = useForm();
+  const { register, handleSubmit, errors, control, reset, setError } = useForm()
 
-  const allowence = useSelector((state) => state.app?.allowence);
+  const allowence = useSelector((state) => state.app?.allowence)
 
   const onSubmit = async (data: any) => {
     const {
@@ -45,9 +27,15 @@ export const usePayrollDetail = ({ employeeId, employeeDocId }: Props) => {
       bankName,
       accountNumber,
       accountHolderName,
-      payrollDetails: { basicSalary, payType, payRollType, overtimeApplicable, roaster },
-    } = data;
-    setBtnLoader(true);
+      payrollDetails: {
+        basicSalary,
+        payType,
+        payRollType,
+        overtimeApplicable,
+        roaster,
+      },
+    } = data
+    setBtnLoader(true)
     try {
       const userData = {
         payrollDetails: {
@@ -64,44 +52,49 @@ export const usePayrollDetail = ({ employeeId, employeeDocId }: Props) => {
             return {
               allowanceId: item?._id,
               amount: data[item.name],
-            };
+            }
           }),
         },
-      };
+      }
 
       if (id) {
-        const res = await EmployeeService.addPostPayroll(userData, id);
+        const res = await EmployeeService.addPostPayroll(userData, id)
         if (res?.response?.data?.error && res?.response?.status === 422) {
-          setErrors(res.response.data.error, setError);
+          setErrors(res.response.data.error, setError)
         }
         if (res.status === 200) {
-          navigate('/employee');
+          navigate('/employee')
         }
       } else {
-        const res = await EmployeeService.addPostPayroll({ ...userData }, employeeDocId);
+        const res = await EmployeeService.addPostPayroll(
+          { ...userData },
+          employeeDocId
+        )
         if (res?.response?.data?.error && res?.response?.status === 422) {
-          setErrors(res.response.data.error, setError);
+          setErrors(res.response.data.error, setError)
         }
         if (res.status === 200) {
-          navigate('/employee');
+          navigate('/employee')
         }
       }
     } catch (err: any) {
-      setErrors(err?.response?.data?.error, setError);
-      console.error(err);
+      setErrors(err?.response?.data?.error, setError)
+      console.error(err)
     }
-    setBtnLoader(false);
-  };
+    setBtnLoader(false)
+  }
 
   const getUser = async () => {
-    const res = await EmployeeService.getPayrollEmployee(id ? id : employeeDocId);
+    const res = await EmployeeService.getPayrollEmployee(
+      id ? id : employeeDocId
+    )
     reset({
       ...res?.data?.Payroll,
       ...allowence?.reduce((acc: { [key: string]: any }, data: any) => {
         const allowanceData = res?.data?.Payroll?.allownce?.find(
-          (e: any) => e.allowanceId === data._id,
-        );
-        return { ...acc, [data.name]: allowanceData?.amount };
+          (e: any) => e.allowanceId === data._id
+        )
+        return { ...acc, [data.name]: allowanceData?.amount }
       }, {}),
       payrollDetails: {
         basicSalary: res?.data?.Payroll?.basicSalary,
@@ -110,16 +103,16 @@ export const usePayrollDetail = ({ employeeId, employeeDocId }: Props) => {
         overtimeApplicable: res?.data?.Payroll?.overtimeApplicable,
         roaster: res?.data?.Payroll?.roaster,
       },
-    });
-  };
+    })
+  }
 
   useEffect(() => {
-    id && getUser();
-  }, [allowence, id]);
+    id && getUser()
+  }, [allowence, id])
 
   useEffect(() => {
-    dispatch(getAllAllowence());
-  }, []);
+    dispatch(getAllAllowence())
+  }, [])
 
   return {
     onSubmit,
@@ -129,8 +122,8 @@ export const usePayrollDetail = ({ employeeId, employeeDocId }: Props) => {
     control,
     allowence,
     btnLoader,
-  };
-};
+  }
+}
 
 export const selectCountry = [
   {
@@ -145,7 +138,7 @@ export const selectCountry = [
     value: 'admin',
     description: 'Admin',
   },
-];
+]
 export const roster = [
   {
     value: 'Fixed',
@@ -155,7 +148,7 @@ export const roster = [
     value: 'Variable',
     description: 'Variable',
   },
-];
+]
 
 export const payType = [
   {
@@ -174,7 +167,7 @@ export const payType = [
     value: 'Daily',
     description: 'Daily',
   },
-];
+]
 export const payrollType = [
   {
     value: 'Fixed',
@@ -188,7 +181,7 @@ export const payrollType = [
     value: 'Attendance Based',
     description: 'Attendance Based',
   },
-];
+]
 
 export const department = [
   {
@@ -199,4 +192,4 @@ export const department = [
     value: 'Backend-developer',
     description: 'Backend-developer',
   },
-];
+]

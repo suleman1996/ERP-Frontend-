@@ -1,3 +1,6 @@
+@import 'styles/_breakpoints.scss';
+@import 'styles/_colors.scss';
+@import 'styles/_mixin.scss';
 .card {
   border: none !important;
   padding: 15px 15px 30px 15px !important ;
@@ -14,4 +17,9 @@
   font-size: 15px !important;
   line-height: 22px;
   color: #2d2d32;
+
+  @media (max-width: $md) {
+    font-weight: 400 !important;
+    font-size: 12px !important;
+  }
 }

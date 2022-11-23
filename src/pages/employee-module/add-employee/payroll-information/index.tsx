@@ -1,38 +1,23 @@
-import Button from 'components/button';
-import TextField from 'components/textfield';
-import Select from 'components/select';
-import Radio from 'components/radio';
+import Button from 'components/button'
+import TextField from 'components/textfield'
+import Select from 'components/select'
+import Radio from 'components/radio'
 
-import { selectCountry, usePayrollDetail, payrollType, payType, roster } from './helper';
+import { usePayrollDetail, payrollType, payType, roster } from './helper'
 
-import tick from 'assets/tick.svg';
-import arrowLeft from 'assets/backBtn.svg';
-import style from './payroll.module.scss';
-import { useEmployeeForms } from '../context';
-
-interface Props {
-  handleBack: (data?: string) => void;
-  employeeId?: string;
-  employeeDocId: string;
-}
+import tick from 'assets/tick.svg'
+import arrowLeft from 'assets/backBtn.svg'
+import style from './payroll.module.scss'
+import { useEmployeeForms } from '../context'
 
 const PayrollInformation = () => {
-  const {
-    handleNext,
-    setFormData,
-    employeeDocId,
-    formData,
-    setEmployeeId,
-    setEmployeeDocId,
-    handleBack,
-    employeeId,
-  }: any = useEmployeeForms();
+  const { employeeDocId, handleBack, employeeId }: any = useEmployeeForms()
 
-  const { onSubmit, register, handleSubmit, errors, control, allowence, btnLoader } =
+  const { onSubmit, register, handleSubmit, errors, allowence, btnLoader } =
     usePayrollDetail({
       employeeId,
       employeeDocId,
-    });
+    })
   return (
     <div className={style.mainForm}>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -57,9 +42,9 @@ const PayrollInformation = () => {
             placeholder="House Rent"
           />
           {allowence.length > 0 &&
-            allowence?.map((data: any) => {
+            allowence?.map((data: any, index) => {
               return (
-                <div>
+                <div key={index}>
                   <TextField
                     name={data.name}
                     label={`${data.name} Allowence`}
@@ -70,7 +55,7 @@ const PayrollInformation = () => {
                     placeholder={data.name}
                   />
                 </div>
-              );
+              )
             })}
           <TextField
             name="bankName"
@@ -187,11 +172,16 @@ const PayrollInformation = () => {
             iconStart={arrowLeft}
             handleClick={() => handleBack('Expertise')}
           />
-          <Button text="Done" iconEnd={tick} type={'submit'} isLoading={btnLoader} />
+          <Button
+            text="Done"
+            iconEnd={tick}
+            type={'submit'}
+            isLoading={btnLoader}
+          />
         </div>
       </form>
     </div>
-  );
-};
+  )
+}
 
-export default PayrollInformation;
+export default PayrollInformation

@@ -1,90 +1,102 @@
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import moment from 'moment';
-import { useForm } from 'react-hook-form';
+import { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
+import moment from 'moment'
+import { useForm } from 'react-hook-form'
 
-import EmployeeService from 'services/employee-service';
-import { removeKeys } from 'helper';
-import { setErrors } from '../../../../helper/index';
-import { useDispatch, useSelector } from 'react-redux';
-import { getAllDepartments, getAllSettings } from 'store/actions';
-import { getAllLeaves } from '../../../../store/actions';
-import CompanyInformation from './../../../../pages/employee-details/add-employee/company-information/index';
+import EmployeeService from 'services/employee-service'
+import { removeKeys } from 'helper'
+import { setErrors } from '../../../../helper/index'
+import { useDispatch, useSelector } from 'react-redux'
+import { getAllDepartments } from 'store/actions'
+import { getAllLeaves } from '../../../../store/actions'
 
 interface Props {
-  handleBack: (data?: string) => void;
-  handleNext: (data?: string) => void;
-  formData: any;
-  setFormData: any;
-  employeeId: string;
-  employeeDocId?: string | any;
+  handleBack: (data?: string) => void
+  handleNext: (data?: string) => void
+  formData: any
+  setFormData: any
+  employeeId: string
+  employeeDocId?: string | any
 }
 interface Leave {
-  _id: string;
-  name: string;
-  createdAt: Date;
-  updatedAt: Date;
+  _id: string
+  name: string
+  createdAt: Date
+  updatedAt: Date
 }
 interface Data {
-  startDate: string;
-  endDate: string;
-  joiningDate: string;
-  checkOut: string;
-  checkIn: string;
-  workingTime?: string;
-  probation: string;
-  workingHours?: any;
-  department?: any;
-  designation?: any;
-  [key: string]: any;
+  startDate: string
+  endDate: string
+  joiningDate: string
+  checkOut: string
+  checkIn: string
+  workingTime?: string
+  probation: string
+  workingHours?: any
+  department?: any
+  designation?: any
+  [key: string]: any
 }
 
-export const useCompanyInfo = ({ handleNext, formData, setFormData, employeeDocId }: Props) => {
-  const { id } = useParams();
-  const dispatch = useDispatch();
-  const [type, setType] = useState('per-day');
-  const [customErr, setCustomErr] = useState();
+export const useCompanyInfo = ({
+  handleNext,
+  formData,
+  setFormData,
+  employeeDocId,
+}: Props) => {
+  const { id } = useParams()
+  const dispatch = useDispatch()
+  const [type, setType] = useState('per-day')
+  const [customErr, setCustomErr] = useState()
 
-  const [probation, setProbation] = useState(false);
-  const [designation, setDesignation] = useState<any>();
-  const [check, setCheck] = useState<number[]>([]);
-  const [btnLoader, setBtnLoader] = useState(false);
-  const { register, handleSubmit, errors, control, reset, watch, setError, clearErrors } =
-    useForm();
+  const [probation, setProbation] = useState(false)
+  const [designation, setDesignation] = useState<any>()
+  const [check, setCheck] = useState<number[]>([])
+  const [btnLoader, setBtnLoader] = useState(false)
+  const {
+    register,
+    handleSubmit,
+    errors,
+    control,
+    reset,
+    watch,
+    setError,
+    clearErrors,
+  } = useForm()
 
-  const state = useSelector((state) => state.app);
-  const { departments, leaves } = state;
+  const state = useSelector((state) => state.app)
+  const { departments, leaves } = state
 
   const departmentChangeHandler = async (e: any) => {
-    await getAllDesignations(e.target.value);
-  };
+    await getAllDesignations(e.target.value)
+  }
 
   useEffect(() => {
-    id && leaves && getSingleEmployeeData();
-  }, [leaves]);
+    id && leaves && getSingleEmployeeData()
+  }, [leaves])
 
   const init = async () => {
-    if (!formData?.companyInformation) return;
-    await getAllDepartments();
-    await getAllDesignations(formData?.companyInformation.departmentId);
+    if (!formData?.companyInformation) return
+    await getAllDepartments()
+    await getAllDesignations(formData?.companyInformation.departmentId)
     formData?.companyInformation &&
       reset({
         ...formData?.companyInformation,
         workingHours: formData?.companyInformation?.workingHoursType,
-      });
-    setCheck(formData?.companyInformation.workingDaysInWeek);
-    setProbation(formData?.companyInformation?.probation);
-    setType(formData?.companyInformation?.workingHoursType);
-  };
+      })
+    setCheck(formData?.companyInformation.workingDaysInWeek)
+    setProbation(formData?.companyInformation?.probation)
+    setType(formData?.companyInformation?.workingHoursType)
+  }
   useEffect(() => {
-    init();
-  }, []);
+    init()
+  }, [])
 
   const getSingleEmployeeData = async () => {
-    const res = await EmployeeService.getCompanyEmployee(id || employeeDocId);
+    const res = await EmployeeService.getCompanyEmployee(id || employeeDocId)
 
     if (res?.data?.company?.departmentId)
-      await getAllDesignations(res?.data?.company?.departmentId);
+      await getAllDesignations(res?.data?.company?.departmentId)
     reset({
       ...res?.data?.company,
       joiningDate: moment(res?.data?.company?.joiningDate).toDate(),
@@ -92,34 +104,40 @@ export const useCompanyInfo = ({ handleNext, formData, setFormData, employeeDocI
       employmentInfo: {
         workingHours: res?.data?.company?.workingHours,
         checkIn: moment(res?.data?.company?.checkIn, 'hh:mm a').format('HH:mm'),
-        checkOut: moment(res?.data?.company?.checkOut, 'hh:mm a').format('HH:mm'),
+        checkOut: moment(res?.data?.company?.checkOut, 'hh:mm a').format(
+          'HH:mm'
+        ),
       },
       ...leaves?.reduce((acc: { [key: string]: any }, leave: any) => {
-        const leaveData = res?.data?.company?.leaves?.find((e: any) => e.leaveId === leave._id);
-        return { ...acc, [leave.name]: leaveData?.quantity };
+        const leaveData = res?.data?.company?.leaves?.find(
+          (e: any) => e.leaveId === leave._id
+        )
+        return { ...acc, [leave.name]: leaveData?.quantity }
       }, {}),
-    });
+    })
 
-    setCheck(res?.data?.company?.workingDaysInWeek);
-    setType(res?.data?.company?.workingHoursType);
+    setCheck(res?.data?.company?.workingDaysInWeek)
+    setType(res?.data?.company?.workingHoursType)
     setTimeout(() => {
-      setProbation(res?.data?.company?.active);
-    }, 800);
-  };
+      setProbation(res?.data?.company?.active)
+    }, 800)
+  }
 
   const onSubmit = async (data: Data) => {
-    setBtnLoader(true);
+    setBtnLoader(true)
     try {
-      removeKeys(data, ['startDate', 'endDate']);
-      const { joiningDate, checkIn, probation, checkOut } = data;
+      removeKeys(data, ['startDate', 'endDate'])
+      const { joiningDate, probation } = data
 
-      let user: any = {
+      const user: any = {
         ...data,
-        joiningDate: joiningDate ? moment(joiningDate).format('YYYY-MM-DD') : undefined,
+        joiningDate: joiningDate
+          ? moment(joiningDate).format('YYYY-MM-DD')
+          : undefined,
         departmentId: data?.departmentId,
         designationId: data?.designationId,
         leaves: leaves.map((leave: Leave, index: number) => {
-          return { leaveId: leave?._id, quantity: data.leaves[index].quantity };
+          return { leaveId: leave?._id, quantity: data.leaves[index].quantity }
         }),
         employmentInfo: {
           checkIn:
@@ -138,8 +156,10 @@ export const useCompanyInfo = ({ handleNext, formData, setFormData, employeeDocI
         },
         workingDaysInWeek: check,
         probation: probation ? Boolean(probation) : false,
-        ...(probation && { probationDurationDays: data?.probationDurationDays }),
-      };
+        ...(probation && {
+          probationDurationDays: data?.probationDurationDays,
+        }),
+      }
 
       setFormData({
         ...formData,
@@ -148,49 +168,53 @@ export const useCompanyInfo = ({ handleNext, formData, setFormData, employeeDocI
           workingDaysInWeek: check,
           workingHoursType: user?.employmentInfo?.workingHoursType,
         },
-      });
+      })
 
-      removeKeys(user, ['department', 'designation', ...leaves.map((leave: Leave) => leave.name)]);
+      removeKeys(user, [
+        'department',
+        'designation',
+        ...leaves.map((leave: Leave) => leave.name),
+      ])
       if (id) {
-        const res = await EmployeeService.addPostCompany(user, id);
+        const res = await EmployeeService.addPostCompany(user, id)
         if (res.status === 200) {
-          handleNext('Education');
+          handleNext('Education')
         }
         if (res?.response?.data?.error && res.response.status === 422) {
-          setErrors(res?.response?.data?.error, setError);
+          setErrors(res?.response?.data?.error, setError)
         }
       } else {
-        const res = await EmployeeService.addPostCompany(user, employeeDocId);
+        const res = await EmployeeService.addPostCompany(user, employeeDocId)
         if (res.status === 200) {
-          handleNext('Education');
+          handleNext('Education')
         }
         if (res?.response?.data?.error && res.response.status === 422) {
-          setErrors(res?.response?.data?.error, setError);
+          setErrors(res?.response?.data?.error, setError)
         }
       }
     } catch (err: any) {
       if (err.response?.data?.error) {
-        setErrors(err.response.data.error, setError);
+        setErrors(err.response.data.error, setError)
       }
     }
-    !customErr && setCustomErr('Required field');
+    !customErr && setCustomErr('Required field')
 
-    setBtnLoader(false);
-  };
+    setBtnLoader(false)
+  }
 
   const getAllDesignations = async (id: string) => {
     try {
-      const res = await EmployeeService.getDesignation(id);
-      setDesignation(res?.data?.Designation);
+      const res = await EmployeeService.getDesignation(id)
+      setDesignation(res?.data?.Designation)
     } catch (e) {
-      console.error('designation not get yet');
+      console.error('designation not get yet')
     }
-  };
+  }
 
   useEffect(() => {
-    dispatch(getAllDepartments());
-    dispatch(getAllLeaves());
-  }, []);
+    dispatch(getAllDepartments())
+    dispatch(getAllLeaves())
+  }, [])
 
   return {
     onSubmit,
@@ -213,8 +237,8 @@ export const useCompanyInfo = ({ handleNext, formData, setFormData, employeeDocI
     clearErrors,
     customErr,
     setCustomErr,
-  };
-};
+  }
+}
 
 export const employmentType = [
   {
@@ -225,4 +249,4 @@ export const employmentType = [
     value: 'Part-Time',
     description: 'Part-Time',
   },
-];
+]

@@ -1,30 +1,32 @@
-import { Dispatch, SetStateAction } from 'react';
-import { useForm } from 'react-hook-form';
+import { Dispatch, SetStateAction } from 'react'
+import { useForm } from 'react-hook-form'
 
-import Modal from 'components/modal';
-import TextField from 'components/textfield';
-import Select from 'components/select';
-import TimePicker from 'components/time-picker';
+import Modal from 'components/modal'
+import TextField from 'components/textfield'
+import Select from 'components/select'
+import TimePicker from 'components/time-picker'
 
-import { referenceOptions, conditionOptions, colorOptions } from './helper';
+import { referenceOptions, conditionOptions, colorOptions } from './helper'
 
-import tick from 'assets/tick.svg';
-import style from './profile-settings.module.scss';
+import tick from 'assets/tick.svg'
+import style from './profile-settings.module.scss'
 
 interface Props {
-  open: boolean;
-  setOpen: Dispatch<SetStateAction<boolean>>;
+  open: boolean
+  setOpen: Dispatch<SetStateAction<boolean>>
 }
 
 interface Data {
-  value: string;
-  description: string;
+  value: string
+  description: string
 }
 
 const AddProfileTag = ({ open, setOpen }: Props) => {
-  const { register, handleSubmit, errors } = useForm();
+  const { register, handleSubmit, errors } = useForm()
 
-  const onSubmit = (data: any) => {};
+  const onSubmit = () => {
+    return
+  }
 
   return (
     <>
@@ -104,7 +106,7 @@ const AddProfileTag = ({ open, setOpen }: Props) => {
         </form>
       </Modal>
     </>
-  );
-};
+  )
+}
 
-export default AddProfileTag;
+export default AddProfileTag

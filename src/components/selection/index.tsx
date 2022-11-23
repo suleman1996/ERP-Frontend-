@@ -1,42 +1,41 @@
-import Tags from 'components/tags';
-import { ChangeEvent, useState } from 'react';
-import { Controller } from 'react-hook-form';
+import { ChangeEvent, useState } from 'react'
+import { Controller } from 'react-hook-form'
 
-import Select from 'react-select';
+import Select from 'react-select'
 
-import { SelectionStyle } from './custom-styles';
+import { SelectionStyle } from './custom-styles'
 
-import style from './select.module.scss';
+import style from './select.module.scss'
 
 interface Props {
-  label?: string;
-  name?: string;
-  name1?: string;
-  children?: JSX.Element[] | JSX.Element;
-  onChange?: (event: ChangeEvent<HTMLSelectElement>) => void;
-  register?: any;
-  errorMessage?: string;
-  placeholder?: string;
-  disable?: boolean;
-  star?: string;
-  selectContainer?: string;
-  wraperSelect?: string;
-  newSelect?: boolean;
-  withInput?: boolean;
-  userId?: any;
-  marksType?: string;
-  classNameLabel?: string;
-  setMarkVal?: any;
-  marksVal?: any;
-  options?: any;
-  value?: any;
-  closeMenuOnSelect?: boolean;
-  isMulti?: boolean;
-  control: any;
-  isDisabled?: any;
-  defaultValue?: any;
-  placeHolderStyle?: any;
-  showNumber?: Boolean;
+  label?: string
+  name?: string
+  name1?: string
+  children?: JSX.Element[] | JSX.Element
+  onChange?: (event: ChangeEvent<HTMLSelectElement>) => void
+  register?: any
+  errorMessage?: string
+  placeholder?: string
+  disable?: boolean
+  star?: string
+  selectContainer?: string
+  wraperSelect?: string
+  newSelect?: boolean
+  withInput?: boolean
+  userId?: any
+  marksType?: string
+  classNameLabel?: string
+  setMarkVal?: any
+  marksVal?: any
+  options?: any
+  value?: any
+  closeMenuOnSelect?: boolean
+  isMulti?: boolean
+  control: any
+  isDisabled?: any
+  defaultValue?: any
+  placeHolderStyle?: any
+  isSearchable?: boolean
 }
 
 const Selection = ({
@@ -51,56 +50,81 @@ const Selection = ({
   name,
   control,
   isDisabled,
-  classNameLabel,
   defaultValue,
   placeHolderStyle,
-  showNumber,
+  isSearchable,
 }: Props) => {
-  const [customErr, setCustomErr] = useState<string | undefined>();
+  const [customErr] = useState<string | undefined>()
 
-  const CustomStyle = SelectionStyle;
+  const CustomStyle = SelectionStyle
 
   if (placeHolderStyle) {
     CustomStyle.placeholder = (styles: any) => ({
       ...styles,
       fontSize: '13px',
       color: placeHolderStyle.color,
-    });
+    })
   }
+
+  // const LimitedChipsContainer = ({ children, hasValue, ...props }) => {
+  //   if (!hasValue) {
+  //     return (
+  //       <components.ValueContainer {...props}>
+  //         {children}
+  //       </components.ValueContainer>
+  //     )
+  //   }
+
+  //   const CHIPS_LIMIT = 2
+  //   const [chips, otherChildren] = children
+  //   const overflowCounter = chips.slice(CHIPS_LIMIT).length
+  //   const displayChips = chips.slice(
+  //     overflowCounter,
+  //     overflowCounter + CHIPS_LIMIT
+  //   )
+
+  //   return (
+  //     <components.ValueContainer {...props}>
+  //       {displayChips}
+
+  //       {overflowCounter > 0 && `+ ${overflowCounter}`}
+
+  //       {otherChildren}
+  //     </components.ValueContainer>
+  //   )
+  // }
 
   const formatOptionLabel = (
     {
       label,
-      value,
       color,
-      checkbox,
-      box,
     }: { label: any; value: any; color: any; checkbox: any; box: any },
-    { context, selectValue }: { context: any; selectValue: any },
-    badge: any,
+    { context }: { context: any; selectValue: any }
   ): any => {
     return (
-      <>
+      <div>
         {context === 'label' ? (
           <div>{label}</div>
         ) : (
           <div style={{ display: 'flex' }}>
-            <div
-              style={{
-                height: '10px',
-                width: '10px',
-                borderRadius: '50%',
-                background: color,
-                marginRight: '10px',
-                marginTop: '5px',
-              }}
-            />
+            {color && (
+              <div
+                style={{
+                  height: '10px',
+                  width: '10px',
+                  borderRadius: '50%',
+                  background: color,
+                  marginRight: '10px',
+                  marginTop: '5px',
+                }}
+              />
+            )}
             {label}
           </div>
         )}
-      </>
-    );
-  };
+      </div>
+    )
+  }
 
   return (
     <div style={{ position: 'relative' }}>
@@ -114,8 +138,8 @@ const Selection = ({
       )}
       <div
         style={{
-          border: !errorMessage ? '1px solid #E2E2EA' : '1px solid red',
-          borderRadius: '5PX',
+          border: errorMessage ? '1px solid #ff5050' : '1px solid #E2E2EA',
+          borderRadius: '6px',
         }}
         className={!isDisabled ? wraperSelect : style.disabledSelection}
       >
@@ -131,33 +155,52 @@ const Selection = ({
                     GroupHeading: (e) => (
                       <div
                         onClick={() => {
-                          const set = new Set([...(value || ''), ...e.data.options]);
-                          handleChange([...set]);
+                          const set = new Set([
+                            ...(value || ''),
+                            ...e.data.options,
+                          ])
+                          handleChange([...set])
                         }}
                       >
                         <p className={style.groupHeading}>
-                          {e?.children?.charAt(0)?.toUpperCase() + e?.children?.slice(1)}
+                          {e?.children?.charAt(0)?.toUpperCase() +
+                            e?.children?.slice(1)}
                         </p>
                       </div>
                     ),
-                    ...(showNumber && {
-                      MultiValue: (props) => {
-                        const { getValue, data } = props;
-                        const selectedOptions = getValue();
-                        const currentOptionIdx = selectedOptions.findIndex(
-                          (option) => option?.value === data?.value,
-                        );
-                        if (selectedOptions.length > 1) {
-                          return currentOptionIdx === 0 ? <Tags boxColor={'red'}></Tags> : <></>;
-                        } else {
-                          return currentOptionIdx === 0 ? (
-                            <Tags text={data?.label} boxColor={'#39695B'}></Tags>
-                          ) : (
-                            <></>
-                          );
-                        }
-                      },
-                    }),
+
+                    //AS working on it currently it's pending
+                    // ...(showNumber && {
+                    //   MultiValue: (props) => {
+                    //     const { getValue, data } = props;
+                    //     const selectedOptions = getValue();
+                    //     const currentOptionIdx = selectedOptions.findIndex(
+                    //       (option) => option?.value === data?.value,
+                    //     );
+                    //     if (selectedOptions.length > 1) {
+                    //       return currentOptionIdx === 0 ? (
+                    //         <Tags
+                    //           // isCircularNumber={true}
+                    //           boxColor={'red'}
+                    //           // numberCircular={selectedOptions?.length}
+                    //         ></Tags>
+                    //       ) : (
+                    //         <></>
+                    //       );
+                    //     } else {
+                    //       return currentOptionIdx === 0 ? (
+                    //         <Tags
+                    //           text={data?.label}
+                    //           boxColor={'#39695B'}
+                    //           // isCircular={true}
+                    //         ></Tags>
+                    //       ) : (
+                    //         <></>
+                    //       );
+                    //     }
+                    //   },
+                    // }),
+                    // ValueContainer: LimitedChipsContainer,
                   }}
                   hideSelectedOptions={false}
                   closeMenuOnSelect={closeMenuOnSelect}
@@ -168,17 +211,22 @@ const Selection = ({
                   styles={CustomStyle}
                   placeholder={placeholder}
                   isDisabled={isDisabled || false}
-                  formatOptionLabel={(data, metaData) => formatOptionLabel(data, metaData, true)}
+                  formatOptionLabel={(data, metaData) =>
+                    formatOptionLabel(data, metaData, true)
+                  }
+                  isSearchable={isSearchable}
                 />
               </>
-            );
+            )
           }}
         />
       </div>
-      {errorMessage && <span className={style.errorMessage}>{errorMessage}</span>}
+      {errorMessage && (
+        <span className={style.errorMessage}>{errorMessage}</span>
+      )}
       {customErr && <span className={style.errorMessage}>{customErr}</span>}
     </div>
-  );
-};
+  )
+}
 
-export default Selection;
+export default Selection

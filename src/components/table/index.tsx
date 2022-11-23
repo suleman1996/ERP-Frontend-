@@ -1,63 +1,61 @@
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react'
 
-import TableFilter from 'components/table-filter';
-import NoData from 'components/no-data-found-card';
-import AddUser from 'pages/new-settings/manage-user/add-user';
+import NoData from 'components/no-data-found-card'
+import AddUser from 'pages/new-settings/manage-user/add-user'
 
-import editIcon from 'assets/newEdit.svg';
-import reloadIcon from 'assets/reset.png';
-import deleteIcon from 'assets/table-delete.svg';
-import eye from 'assets/table-view.svg';
-import pdf from 'assets/employee-page/print.svg';
-import style from './table.module.scss';
+import editIcon from 'assets/new-edit.svg'
+import reloadIcon from 'assets/reset.png'
+import deleteIcon from 'assets/table-delete.svg'
+import eye from 'assets/table-view.svg'
+import pdf from 'assets/employee-page/print.svg'
+import style from './table.module.scss'
+import FiltersComponent from 'components/filters'
 
 interface Props {
-  rows: any[];
-  total?: any[];
-  loading?: boolean;
-  tableClass?: string;
-  rowText?: string;
-  setRowIndex?: Dispatch<SetStateAction<number | undefined>>;
+  rows: any[]
+  total?: any[]
+  loading?: boolean
+  tableClass?: string
+  rowText?: string
+  setRowIndex?: Dispatch<SetStateAction<number | undefined>>
   columns: {
-    key: string;
-    name: string;
-    icon?: string;
-    selectedIcon?: string;
-    eyeIcon?: boolean;
-    width?: string;
-    alignText?: any;
-    toLocalString?: any;
-    currency?: boolean;
-  }[];
-  handleEducation?: (index: number) => void;
-  handleDeleteIndex?: (id: number) => void;
-  handleDelete?: (id: string) => void;
-  handleEdit?: (id: string) => void;
-  handleView?: (id: string) => void;
-  onPrint?: (id: string) => void;
-  handleModalOpen?: () => void;
-  colWidth?: string;
-  minWidth?: string;
-  width?: string;
-  tableHeight?: string;
-  overFlow?: string;
-  className?: string;
-  apiCall?: string;
-  filters?: boolean;
-  setFilters?: boolean;
-  sorts?: boolean;
-  setSorts?: boolean;
-  headingText?: string;
-  editIndex?: boolean;
-  setEditIndex?: Dispatch<SetStateAction<number>>;
-  setNewUser?: Dispatch<SetStateAction<boolean>>;
-  tableHeaderClass?: string;
+    key: string
+    name: string
+    icon?: string
+    selectedIcon?: string
+    eyeIcon?: boolean
+    width?: string
+    alignText?: any
+    toLocalString?: any
+    currency?: boolean
+  }[]
+  handleEducation?: (index: number) => void
+  handleDeleteIndex?: (id: number) => void
+  handleDelete?: (id: string) => void
+  handleEdit?: (id: string) => void
+  handleView?: (id: string) => void
+  onPrint?: (id: string) => void
+  handleModalOpen?: () => void
+  colWidth?: string
+  minWidth?: string
+  width?: string
+  tableHeight?: string
+  overFlow?: string
+  className?: string
+  apiCall?: string
+  filters?: boolean
+  setFilters?: boolean
+  sorts?: boolean
+  setSorts?: boolean
+  headingText?: string
+  editIndex?: boolean
+  setEditIndex?: Dispatch<SetStateAction<number>>
+  setNewUser?: Dispatch<SetStateAction<boolean>>
+  tableHeaderClass?: string
 }
 
 const Table = ({
   rows,
-  total,
-  loading,
   columns,
   minWidth,
   className,
@@ -69,43 +67,27 @@ const Table = ({
   handleModalOpen,
   handleDeleteIndex,
   tableHeight,
-  setFilters,
-  setSorts,
-  apiCall,
-  filters,
-  sorts,
   headingText,
   rowText,
   editIndex,
-  setEditIndex,
   setNewUser,
   tableHeaderClass,
   tableClass,
 }: Props) => {
-  const [tblScroll, setTblScroll] = useState(false);
-  const [isFilter, setIsFilter] = useState<string | number>('');
-  const [isFilterSelected, setIsFilterSelected] = useState<string | number>('');
-
-  const toggleFilter = (index: number) => {
-    isFilter === index ? setIsFilter('') : setIsFilter(index);
-    setIsFilterSelected(index);
-  };
-
-  const clearFilter = () => {
-    setIsFilter('');
-    setIsFilterSelected('');
-  };
+  const [tblScroll, setTblScroll] = useState(false)
+  const [isFilter] = useState<string | number>('')
+  const [isFilterSelected] = useState<string | number>('')
 
   const handlePencilIcon = ({ id, index }: { id: string; index: number }) => {
-    handleEdit && handleEdit(id);
-    handleEducation && handleEducation(index);
-  };
+    handleEdit && handleEdit(id)
+    handleEducation && handleEducation(index)
+  }
 
   const handleDeleteIcon = ({ id, index }: { id: string; index: number }) => {
-    handleDelete && handleDelete(id);
-    handleDeleteIndex && handleDeleteIndex(index);
-    handleModalOpen && handleModalOpen();
-  };
+    handleDelete && handleDelete(id)
+    handleDeleteIndex && handleDeleteIndex(index)
+    handleModalOpen && handleModalOpen()
+  }
 
   return (
     <>
@@ -124,7 +106,10 @@ const Table = ({
             className={`${style.table} ${tableClass}`}
             style={{ minWidth: minWidth || '1200px' }}
           >
-            <div className={`${style.thead}  ${tableHeaderClass}`} style={{ display: 'flex' }}>
+            <div
+              className={`${style.thead}  ${tableHeaderClass}`}
+              style={{ display: 'flex' }}
+            >
               {columns.map((column, index) => (
                 <div
                   key={index}
@@ -137,10 +122,16 @@ const Table = ({
                   }}
                 >
                   <p>
-                    <span className={`${style.headingTitle} ${headingText}`}>{column.name}</span>
+                    <span className={`${style.headingTitle} ${headingText}`}>
+                      {column.name}
+                    </span>
                     {column.icon && (
                       <img
-                        src={isFilterSelected === index ? column.selectedIcon : column.icon}
+                        src={
+                          isFilterSelected === index
+                            ? column.selectedIcon
+                            : column.icon
+                        }
                         className={style.sortIcon}
                         alt=""
                         style={{
@@ -151,22 +142,7 @@ const Table = ({
                       />
                     )}
                   </p>
-                  {isFilter === index && (
-                    <TableFilter
-                      filterKey={column.key}
-                      toggleFilter={() => {
-                        toggleFilter(index);
-                      }}
-                      clearFilter={() => {
-                        clearFilter();
-                      }}
-                      apiCall={apiCall}
-                      filters={filters}
-                      setFilters={setFilters}
-                      sorts={sorts}
-                      setSorts={setSorts}
-                    />
-                  )}
+                  {isFilter === index && <FiltersComponent />}
                 </div>
               ))}
             </div>
@@ -192,7 +168,9 @@ const Table = ({
                           }}
                           className={`${style.td}  ${className}`}
                         >
-                          <span className={`${rowText}`}>{row[column.key]}</span>
+                          <span className={`${rowText}`}>
+                            {row[column.key]}
+                          </span>
                           {column.key === 'actions' &&
                             !column?.eyeIcon &&
                             (row?.isActive !== false ? (
@@ -200,7 +178,9 @@ const Table = ({
                                 <img
                                   className={style.pencilIcon}
                                   data-testid="edit-element"
-                                  onClick={() => handlePencilIcon({ id: row?._id, index })}
+                                  onClick={() =>
+                                    handlePencilIcon({ id: row?._id, index })
+                                  }
                                   src={editIcon}
                                   alt="editIcon"
                                 />
@@ -208,13 +188,17 @@ const Table = ({
                                   <img
                                     className={style.pencilIcon}
                                     data-testid="edit-element"
-                                    onClick={() => handlePencilIcon({ id: row._id, index })}
+                                    onClick={() =>
+                                      handlePencilIcon({ id: row._id, index })
+                                    }
                                     src={reloadIcon}
                                     alt="editIcon"
                                   />
                                 )}
                                 <img
-                                  onClick={() => handleDeleteIcon({ id: row._id, index })}
+                                  onClick={() =>
+                                    handleDeleteIcon({ id: row._id, index })
+                                  }
                                   className={style.pencilIcon}
                                   src={deleteIcon}
                                   alt="deleteIcon"
@@ -230,7 +214,7 @@ const Table = ({
                                 alt=""
                                 className={style.pencilIcon}
                                 onClick={() => {
-                                  handleView && handleView(row.id);
+                                  handleView && handleView(row.id)
                                 }}
                               />
                               <img
@@ -238,7 +222,7 @@ const Table = ({
                                 alt=""
                                 className={style.pencilIcon}
                                 onClick={() => {
-                                  onPrint && onPrint(row.id);
+                                  onPrint && onPrint(row.id)
                                 }}
                               />
                             </>
@@ -273,7 +257,7 @@ const Table = ({
         </div>
       )}
     </>
-  );
-};
+  )
+}
 
-export default Table;
+export default Table

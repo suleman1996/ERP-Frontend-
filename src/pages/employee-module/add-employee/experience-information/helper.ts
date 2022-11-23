@@ -1,100 +1,99 @@
-import { useEffect, useRef, useState } from 'react';
-import moment from 'moment';
-import * as yup from 'yup';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useParams } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react'
+import moment from 'moment'
+import * as yup from 'yup'
+import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { useParams } from 'react-router-dom'
 
-import EmployeeService from 'services/employee-service';
-import { convertBase64Image } from 'main-helper';
-import { removeKeys } from 'helper';
-import AddressService from 'services/address-service';
-import { legacy_createStore } from '@reduxjs/toolkit';
-import { LoginCredentials } from '../../../../interfaces/login-credentials';
+import EmployeeService from 'services/employee-service'
+import { convertBase64Image } from 'main-helper'
+import { removeKeys } from 'helper'
+import AddressService from 'services/address-service'
 
 interface Props {
-  formData: any;
-  setFormData: any;
-  employeeId: string;
-  handleBack: (data?: string) => void;
-  handleNext: (data?: string) => void;
-  employeeDocId: string;
+  formData: any
+  setFormData: any
+  employeeId: string
+  handleBack: (data?: string) => void
+  handleNext: (data?: string) => void
+  employeeDocId: string
 }
 
 export interface Experince {
-  company: string;
-  country: string;
-  city: string;
-  jobTitle?: string;
-  tenure?: string;
-  letter: string;
-  jobStartDate?: string;
-  jobEndDate?: string;
-  ongoing?: boolean;
+  company: string
+  country: string
+  city: string
+  jobTitle?: string
+  tenure?: string
+  letter: string
+  jobStartDate?: string
+  jobEndDate?: string
+  ongoing?: boolean
 }
 
 export const useExperience = ({
   formData,
   setFormData,
-  employeeId,
-  handleBack,
   handleNext,
   employeeDocId,
 }: Props) => {
-  const { id } = useParams();
-  const educationIndex = useRef(-1);
-  const [btnLoader, setBtnLoader] = useState(false);
-  const [currentCountryData, setCurrentCountryData] = useState([]);
-  const [openTenure, setOpenTenure] = useState(false);
-  const [selectedFileName, setSelectedFileName] = useState('');
-  const [onGoing, setOnGoing] = useState(false);
-  const [cities, setCities] = useState([]);
-  const [educations, setEducations] = useState<Experince[] | []>([]);
-  const [updateEdu, setUpdateEdu] = useState({
+  const { id } = useParams()
+  const educationIndex = useRef(-1)
+  const [btnLoader, setBtnLoader] = useState(false)
+  const [currentCountryData] = useState([])
+  const [openTenure, setOpenTenure] = useState(false)
+  const [selectedFileName, setSelectedFileName] = useState('')
+  const [onGoing, setOnGoing] = useState(false)
+  const [cities, setCities] = useState([])
+  const [educations, setEducations] = useState<Experince[] | []>([])
+  const [, setUpdateEdu] = useState({
     update: false,
     editInd: -1,
-  });
+  })
 
-  const { register, handleSubmit, errors, control, reset, watch, setValue, clearErrors } = useForm({
-    resolver: yupResolver(schema),
-  });
+  const { register, handleSubmit, errors, control, reset, watch, clearErrors } =
+    useForm({
+      resolver: yupResolver(schema),
+    })
 
   const onSubmit = async () => {
-    setBtnLoader(true);
+    setBtnLoader(true)
     try {
-      setFormData({ ...formData, educationDetails: [...educations] });
+      setFormData({ ...formData, educationDetails: [...educations] })
 
       if (id) {
         const res = await EmployeeService.addPostExperience(
           {
             experienceDetails: [...educations],
           },
-          id,
-        );
+          id
+        )
         if (res.status === 200) {
-          handleNext && handleNext('Expertise');
+          handleNext && handleNext('Expertise')
         }
       } else {
         const res = await EmployeeService.addPostExperience(
           {
             experienceDetails: [...educations],
           },
-          employeeDocId,
-        );
+          employeeDocId
+        )
         if (res.status === 200) {
-          handleNext && handleNext('Expertise');
+          handleNext && handleNext('Expertise')
         }
       }
     } catch (err) {
-      console.error('err', err);
+      console.error('err', err)
     }
-    setBtnLoader(false);
-  };
+    setBtnLoader(false)
+  }
 
   const handleAddEduction = async (data: Experince) => {
-    const newEducations: any = [...educations];
+    const newEducations: any = [...educations]
     const fileBase64 =
-      data?.letter && data?.letter?.length > 0 && (await convertBase64Image(data.letter[0]));
+      data?.letter &&
+      data?.letter?.length > 0 &&
+      (await convertBase64Image(data.letter[0]))
 
     const tempObj = {
       ...data,
@@ -105,37 +104,38 @@ export const useExperience = ({
         ? { experienceLetter: selectedFileName && `${fileBase64}` }
         : {
             experienceLetter:
-              newEducations && newEducations[educationIndex.current]?.experienceLetter,
+              newEducations &&
+              newEducations[educationIndex.current]?.experienceLetter,
           }),
-    };
-    !selectedFileName && removeKeys(tempObj, ['experienceLetter']);
-    removeKeys(tempObj, ['letter']);
-    onGoing && removeKeys(tempObj, ['jobEndDate']);
+    }
+    !selectedFileName && removeKeys(tempObj, ['experienceLetter'])
+    removeKeys(tempObj, ['letter'])
+    onGoing && removeKeys(tempObj, ['jobEndDate'])
     if (educationIndex.current < 0) {
-      newEducations.push(tempObj);
+      newEducations.push(tempObj)
     } else {
-      newEducations[educationIndex.current] = { ...tempObj };
-      setUpdateEdu({ update: false, editInd: -1 });
+      newEducations[educationIndex.current] = { ...tempObj }
+      setUpdateEdu({ update: false, editInd: -1 })
     }
 
-    let sortedEducations = newEducations.sort(function (a: any, b) {
-      return new Date(b.jobStartDate) - new Date(a.jobStartDate);
-    });
-    setEducations([...sortedEducations]);
+    const sortedEducations = newEducations.sort(function (a: any, b) {
+      return new Date(b.jobStartDate) - new Date(a.jobStartDate)
+    })
+    setEducations([...sortedEducations])
 
-    setFormData({ ...formData, experienceDetails: [...newEducations] });
-    reset({ country: '', city: '', jobStartDate: null, jobEndDate: null });
-    clearErrors();
-    educationIndex.current = -1;
-    setOnGoing(false);
-    setSelectedFileName('');
-  };
+    setFormData({ ...formData, experienceDetails: [...newEducations] })
+    reset({ country: '', city: '', jobStartDate: null, jobEndDate: null })
+    clearErrors()
+    educationIndex.current = -1
+    setOnGoing(false)
+    setSelectedFileName('')
+  }
 
   const handleEducation = (index: number) => {
-    educationIndex.current = index;
-    const data = educations.find((data, i) => i === index);
+    educationIndex.current = index
+    const data = educations.find((data, i) => i === index)
 
-    data?.experienceLetter && setSelectedFileName('experience letter');
+    data?.experienceLetter && setSelectedFileName('experience letter')
     reset({
       company: data?.company,
       country: data?.country,
@@ -144,48 +144,54 @@ export const useExperience = ({
       ongoing: data?.ongoing,
       jobStartDate: data?.jobStartDate && new Date(data?.jobStartDate),
       jobEndDate: data?.jobEndDate && new Date(data?.jobEndDate),
-    });
-    setOnGoing(!!data?.ongoing);
-  };
+    })
+    setOnGoing(!!data?.ongoing)
+  }
 
   const handleDeleteIndex = (index: number) => {
-    const delEdu = [...educations];
-    delEdu.splice(index, 1);
-    setEducations([...delEdu]);
-  };
+    const delEdu = [...educations]
+    delEdu.splice(index, 1)
+    setEducations([...delEdu])
+  }
 
   const getData = async (data: { country?: string }) => {
     if (data?.country) {
-      const res = await AddressService.getCountryStateCityData(data);
+      const res = await AddressService.getCountryStateCityData(data)
       if (res.status === 200) {
-        if (res.data.address.length == 0) return;
-        const { states } = res.data?.address[0];
+        if (res.data.address.length == 0) return
+        const { states } = res.data?.address[0]
         const cities = states.reduce(
-          (acc: any[], data: any) => [...acc, ...data.cities.map((e: any) => e.name)],
-          [],
-        );
-        setCities(cities);
+          (acc: any[], data: any) => [
+            ...acc,
+            ...data.cities.map((e: any) => e.name),
+          ],
+          []
+        )
+        setCities(cities)
       }
     }
-  };
+  }
 
   useEffect(() => {
-    (id || employeeDocId) && getUser();
-  }, [id]);
+    if (id || employeeDocId) getUser()
+  }, [id])
 
   const getUser = async () => {
-    const res = await EmployeeService.getExperienceEmployee(id ? id : employeeDocId);
+    const res = await EmployeeService.getExperienceEmployee(
+      id ? id : employeeDocId
+    )
     const newArr = res?.data?.Experience.map((item: any) => {
       return {
         ...item,
         jobStartDate: moment(item?.jobStartDate).format('YYYY-MM-DD'),
-        jobEndDate: item?.jobEndDate && moment(item?.jobEndDate).format('YYYY-MM-DD'),
-      };
-    });
-    setEducations([...newArr]);
-  };
+        jobEndDate:
+          item?.jobEndDate && moment(item?.jobEndDate).format('YYYY-MM-DD'),
+      }
+    })
+    setEducations([...newArr])
+  }
 
-  const startDate = watch('jobStartDate');
+  const startDate = watch('jobStartDate')
 
   return {
     handleAddEduction,
@@ -210,8 +216,8 @@ export const useExperience = ({
     currentCountryData,
     selectedFileName,
     setSelectedFileName,
-  };
-};
+  }
+}
 
 export const selectCountry = [
   {
@@ -226,7 +232,7 @@ export const selectCountry = [
     value: 'admin',
     description: 'Admin',
   },
-];
+]
 
 export const department = [
   {
@@ -237,7 +243,7 @@ export const department = [
     value: 'Backend-developer',
     description: 'Backend-developer',
   },
-];
+]
 
 export const columns = [
   {
@@ -271,7 +277,7 @@ export const columns = [
     width: '250px',
   },
   { key: 'actions', name: 'Actions', alignText: 'center', width: '200px' },
-];
+]
 
 export const rows = [
   {
@@ -288,7 +294,7 @@ export const rows = [
     jobTitle: 'Designer',
     tenure: '10 Jun, 2021-10 Jun, 2022',
   },
-];
+]
 
 export const schema = yup.object().shape({
   company: yup.string().required('Company is required'),
@@ -303,4 +309,4 @@ export const schema = yup.object().shape({
       is: 'false',
       then: yup.string().nullable().required('End date is required.'),
     }),
-});
+})

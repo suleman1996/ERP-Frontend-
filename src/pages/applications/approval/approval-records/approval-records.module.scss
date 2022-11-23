@@ -8,6 +8,12 @@
   height: 100vh;
 }
 
+@media (max-width: $xxs) {
+  .approvalRecordsContainer {
+    margin: 10px 10px 0 10px;
+  }
+}
+
 .position {
   position: fixed;
   bottom: 7px;

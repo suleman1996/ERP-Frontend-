@@ -19,27 +19,31 @@
     background: #ffffff;
     border-radius: 6px;
     width: 100%;
-    padding-left: 20px;
-    @include font20;
+    box-sizing: border-box;
+    padding-left: calc(10px + (25 - 10) * (100vw - 280px) / (2560 - 280));
+    padding-right: calc(10px + (25 - 10) * (100vw - 280px) / (2560 - 280));
     color: #2d2d32;
+    @include font20;
     margin-top: calc(5px + (12 - 5) * (100vw - 280px) / (2560 - 280));
     height: calc(30px + (55 - 30) * (100vw - 280px) / (2560 - 280));
   }
 
   .inpDiv {
-    background: transparent;
+    background: #ffffff;
     border-radius: 6px;
     width: 100%;
-    padding-left: 20px;
-    border: 1.2px solid rgb(226, 226, 234);
-    @include font20;
+    border: 1px solid #e2e2ea;
+    box-sizing: border-box;
+    padding-left: calc(10px + (25 - 10) * (100vw - 280px) / (2560 - 280));
+    padding-right: calc(10px + (25 - 10) * (100vw - 280px) / (2560 - 280));
     color: #2d2d32;
+    @include font20;
     margin-top: calc(5px + (12 - 5) * (100vw - 280px) / (2560 - 280));
     height: calc(30px + (55 - 30) * (100vw - 280px) / (2560 - 280));
     &::placeholder {
-      color: lightgray;
-      font-size: 14px;
-      font-weight: 600;
+      color: #cacaca;
+      text-transform: capitalize;
+      @include font20;
     }
   }
 }
@@ -81,13 +85,13 @@
 
   p {
     font-weight: 500;
-    font-size: 19px;
+    @include font20;
     color: #57b894;
   }
 }
 
 .inputField {
-  border: 1.2px solid rgb(226, 226, 234);
-  border-radius: 5.44737px;
+  border: 1px solid #e2e2ea;
+  border-radius: 6px;
   padding: 10px;
 }

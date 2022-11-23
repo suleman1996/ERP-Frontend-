@@ -1,32 +1,27 @@
-import { Dispatch, SetStateAction } from 'react';
+import Button from 'components/button'
+import DatePicker from 'components/date-picker'
+import ImageUpload from 'components/image-upload'
+import TextField from 'components/textfield'
+import ProfileUpload from 'components/profile-upload'
+import CountryInput from 'components/country-input'
+import Select from 'components/select'
+import Loading from 'components/loading'
 
-import Button from 'components/button';
-import DatePicker from 'components/date-picker';
-import ImageUpload from 'components/image-upload';
-import TextField from 'components/textfield';
-import ProfileUpload from 'components/profile-upload';
-import CountryInput from 'components/country-input';
-import Select from 'components/select';
-import Loading from 'components/loading';
+import { usePersonalInfo } from './helper'
+import { useEmployeeForms } from '../context'
 
-import { usePersonalInfo } from './helper';
-import { useEmployeeForms } from '../context';
-
-import arrowRight from 'assets/arrowBtnRight.svg';
-import style from './personal-information.module.scss';
-
-interface ContextProps {
-  handleNext: (data?: string) => void;
-  formData: any;
-  setFormData: any;
-  employeeDocId: string;
-  setEmployeeId: Dispatch<SetStateAction<string>>;
-  setEmployeeDocId: Dispatch<SetStateAction<string>>;
-}
+import arrowRight from 'assets/arrowBtnRight.svg'
+import style from './personal-information.module.scss'
 
 const PersonalInformation = () => {
-  const { handleNext, setFormData, employeeDocId, formData, setEmployeeId, setEmployeeDocId }: any =
-    useEmployeeForms();
+  const {
+    handleNext,
+    setFormData,
+    employeeDocId,
+    formData,
+    setEmployeeId,
+    setEmployeeDocId,
+  }: any = useEmployeeForms()
   const {
     onSubmit,
     register,
@@ -54,7 +49,7 @@ const PersonalInformation = () => {
     formData,
     setEmployeeId,
     setEmployeeDocId,
-  });
+  })
 
   return (
     <>
@@ -62,7 +57,11 @@ const PersonalInformation = () => {
         {loader ? (
           <div
             className={style.bgCHeight}
-            style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
           >
             <Loading loaderClass={style.loader} />
           </div>
@@ -70,8 +69,8 @@ const PersonalInformation = () => {
           <form
             className={style.form}
             onSubmit={(e) => {
-              clearErrors();
-              handleSubmit(onSubmit)(e);
+              clearErrors()
+              handleSubmit(onSubmit)(e)
             }}
           >
             <ImageUpload
@@ -133,7 +132,9 @@ const PersonalInformation = () => {
               <div>
                 <label
                   className={style.label}
-                  style={{ color: errors?.phoneNumber?.message ? '#ff5050' : '#2d2d32' }}
+                  style={{
+                    color: errors?.phoneNumber?.message ? '#ff5050' : '#2d2d32',
+                  }}
                 >
                   Phone Number
                   <b style={{ color: 'red' }}>{' *'}</b>
@@ -173,7 +174,7 @@ const PersonalInformation = () => {
                 onChange={(e) => {
                   e?.target?.value && e?.target?.value?.split('').length > 13
                     ? setCustomValidation('Only 13 digits are allowed')
-                    : setCustomValidation('');
+                    : setCustomValidation('')
                 }}
                 customValidation={customValidation}
                 errorMessage={errors?.cnic?.message}
@@ -222,13 +223,18 @@ const PersonalInformation = () => {
               </Select>
             </div>
             <div className={style.btnContainer}>
-              <Button text="Next" iconEnd={arrowRight} type="submit" isLoading={btnLoader} />
+              <Button
+                text="Next"
+                iconEnd={arrowRight}
+                type="submit"
+                isLoading={btnLoader}
+              />
             </div>
           </form>
         )}
       </div>
     </>
-  );
-};
+  )
+}
 
-export default PersonalInformation;
+export default PersonalInformation

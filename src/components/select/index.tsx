@@ -1,26 +1,26 @@
-import TextField from 'components/textfield';
-import { ChangeEvent, useEffect, useState } from 'react';
-import style from './select.module.scss';
+import TextField from 'components/textfield'
+import { ChangeEvent, useEffect, useState } from 'react'
+import style from './select.module.scss'
 interface Props {
-  label?: string;
-  value?: string;
-  name?: string;
-  name1?: string;
-  children?: JSX.Element[] | JSX.Element;
-  onChange?: (event: ChangeEvent<HTMLSelectElement>) => void;
-  register?: any;
-  errorMessage?: string;
-  placeholder?: string;
-  disable?: boolean;
-  star?: string;
-  selectContainer?: string;
-  wraperSelect?: string;
-  newSelect?: boolean;
-  withInput?: boolean;
-  userId?: any;
-  marksType?: string;
-  setMarkVal?: any;
-  marksVal?: any;
+  label?: string
+  value?: string
+  name?: string
+  name1?: string
+  children?: JSX.Element[] | JSX.Element
+  onChange?: (event: ChangeEvent<HTMLSelectElement>) => void
+  register?: any
+  errorMessage?: string
+  placeholder?: string
+  disable?: boolean
+  star?: string
+  selectContainer?: string
+  wraperSelect?: string
+  newSelect?: boolean
+  withInput?: boolean
+  userId?: any
+  marksType?: string
+  setMarkVal?: any
+  marksVal?: any
 }
 const Select = ({
   label,
@@ -41,24 +41,26 @@ const Select = ({
   withInput,
   marksType,
   marksVal,
-  setMarkVal,
 }: Props) => {
-  const [customErr, setCustomErr] = useState<string | undefined>();
+  const [customErr, setCustomErr] = useState<string | undefined>()
   useEffect(() => {
     if (marksType === 'percentage') {
       if (marksVal > 100) {
-        setCustomErr('Percentage should be less than 100%');
-      } else setCustomErr('');
+        setCustomErr('Percentage should be less than 100%')
+      } else setCustomErr('')
     } else if (marksType === 'cgpa') {
       if (marksVal > 4) {
-        setCustomErr('CGPA should be less than or equal to 4');
-      } else setCustomErr('');
+        setCustomErr('CGPA should be less than or equal to 4')
+      } else setCustomErr('')
     }
-  }, [marksType, marksVal]);
+  }, [marksType, marksVal])
   return (
     <div style={{ position: 'relative' }}>
       {label && (
-        <label className={style.label} style={{ color: errorMessage ? '#000' : '' }}>
+        <label
+          className={style.label}
+          style={{ color: errorMessage ? '#000' : '' }}
+        >
           {label} <b style={{ color: 'red' }}>{star}</b>{' '}
         </label>
       )}
@@ -92,8 +94,12 @@ const Select = ({
         )}
       </div>
       {customErr && <span className={style.errorMessage}>{customErr}</span>}
-      {!customErr ? errorMessage && <span className={style.errorMessage}>{errorMessage}</span> : ''}
+      {!customErr
+        ? errorMessage && (
+            <span className={style.errorMessage}>{errorMessage}</span>
+          )
+        : ''}
     </div>
-  );
-};
-export default Select;
+  )
+}
+export default Select

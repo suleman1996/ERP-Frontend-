@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react'
 
-import RenderPolicy from 'components/policy-card';
+import RenderPolicy from 'components/policy-card'
 
-import RenderPoliciesTab from './policy-tab';
-import PolicyService from 'services/policy-service';
-import CardContainer from 'components/card-container';
+import RenderPoliciesTab from './policy-tab'
+import PolicyService from 'services/policy-service'
+import CardContainer from 'components/card-container'
 
-import style from './request.module.scss';
+import style from './request.module.scss'
 
 const RenderObsolete = ({
   setOpen,
@@ -27,30 +27,34 @@ const RenderObsolete = ({
   policyCategory,
   setLoading,
 }: {
-  [key: string]: any;
+  [key: string]: any
 }) => {
-  const [obseletePolicies, setObseletePolicies] = useState([]);
-  const [search, setSearch] = React.useState({ nameNumber: '', addedBy: '', categoryId: '' });
+  const [obseletePolicies, setObseletePolicies] = useState([])
+  const [search, setSearch] = React.useState({
+    nameNumber: '',
+    addedBy: '',
+    categoryId: '',
+  })
 
   useEffect(() => {
-    getObseletePolocies();
-  }, [renderObselete, search]);
+    getObseletePolocies()
+  }, [renderObselete, search])
 
   const getObseletePolocies = async () => {
     try {
-      setLoading(true);
+      setLoading(true)
       const result = await PolicyService.getAllPolicies({
         obselete: true,
         ...(search?.nameNumber && { search: search?.nameNumber }),
         ...(search?.categoryId && { category: search?.categoryId?.label }),
         ...(search?.addedBy && { addedBy: search?.addedBy?.value }),
-      });
-      setObseletePolicies(result?.data?.data);
-      setLoading(false);
+      })
+      setObseletePolicies(result?.data?.data)
+      setLoading(false)
     } catch (error) {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   return (
     <CardContainer className={style.className}>
@@ -66,12 +70,15 @@ const RenderObsolete = ({
         setEditPolicy={setEditPolicy}
         policyCategory={policyCategory}
         setSearch={setSearch}
-        ObseleteLength={obseletePolicies?.length > 0 && obseletePolicies?.length}
+        ObseleteLength={
+          obseletePolicies?.length > 0 && obseletePolicies?.length
+        }
       />
       <div className={style.policyGridView}>
         {obseletePolicies?.length > 0 ? (
-          obseletePolicies?.map((item) => (
+          obseletePolicies?.map((item, index) => (
             <RenderPolicy
+              key={index}
               setRenderObselete={setRenderObselete}
               type={type}
               setSelectedPolicy={setSelectedPolicy}
@@ -88,7 +95,7 @@ const RenderObsolete = ({
         )}
       </div>
     </CardContainer>
-  );
-};
+  )
+}
 
-export default RenderObsolete;
+export default RenderObsolete

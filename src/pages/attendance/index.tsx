@@ -1,51 +1,53 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 
-import Button from 'components/button';
-import CardContainer from 'components/card-container';
-import MenuPopup from 'components/menu-popup';
-import Pagination from 'components/pagination';
-import AttendanceDetail from './attendance-detail';
-import AddAttendance from './add-attendance';
+import Button from 'components/button'
+import CardContainer from 'components/card-container'
+import MenuPopup from 'components/menu-popup'
+import Pagination from 'components/pagination'
+import AttendanceDetail from './attendance-detail'
+import AddAttendance from './add-attendance'
 
-import exportIcon from 'assets/export.svg';
+import exportIcon from 'assets/export.svg'
 
-import style from './attendance.module.scss';
+import style from './attendance.module.scss'
 
 export interface AttendanceInt {
-  id: string;
-  date: string;
-  employeeId: string;
-  loginTime: string;
-  logoutTime: string;
-  name: string;
-  status: string;
-  totalHours: string;
+  id: string
+  date: string
+  employeeId: string
+  loginTime: string
+  logoutTime: string
+  name: string
+  status: string
+  totalHours: string
 }
 const Attendance = () => {
-  const [openMenu, setOpenMenu] = useState(false);
-  const [active, setActive] = useState<number>(1);
+  const [openMenu, setOpenMenu] = useState(false)
+  const [active, setActive] = useState<number>(1)
 
   const handleTab = (index: number) => {
-    setActive(index);
-  };
+    setActive(index)
+  }
 
   const ActiveView = () => {
     switch (active) {
       case 1:
-        return <p>Summary</p>;
+        return <p>Summary</p>
       case 2:
-        return <AttendanceDetail setActive={setActive} />;
+        return <AttendanceDetail setActive={setActive} />
       case 3:
-        return <AddAttendance />;
+        return <AddAttendance />
       default:
-        return null;
+        return null
     }
-  };
+  }
 
   return (
     <>
-      <CardContainer containerClass={style.container} className={style.containerClass}>
+      <CardContainer
+        containerClass={style.container}
+        className={style.containerClass}
+      >
         <div className={style.div}>
           <div style={{ display: 'flex' }}>
             <p
@@ -72,7 +74,9 @@ const Attendance = () => {
           </div>
           <div className={style.topDiv}>
             <div style={{ position: 'relative' }}>
-              {openMenu && <MenuPopup handleExcel={undefined} handlePdf={undefined} />}
+              {openMenu && (
+                <MenuPopup handleExcel={undefined} handlePdf={undefined} />
+              )}
             </div>
             <Button
               text="Export"
@@ -94,6 +98,6 @@ const Attendance = () => {
         )}
       </CardContainer>
     </>
-  );
-};
-export default Attendance;
+  )
+}
+export default Attendance

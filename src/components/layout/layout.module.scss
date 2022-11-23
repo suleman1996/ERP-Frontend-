@@ -3,8 +3,6 @@
 @import 'styles/_mixin.scss';
 
 .layoutWrapper {
-  background-color: #fafafa;
-  height: 100vh;
   header {
     height: calc(100vh - 14px);
     position: fixed;
@@ -45,13 +43,8 @@
 }
 
 .mainSection {
-  margin-left: 145px;
-  @media (max-width: $lg) {
-    margin-left: 150px;
-  }
-  @media (max-width: $md) {
-    margin-left: 143px;
-  }
+  margin-left: 115px;
+
   @media (max-width: $tab) {
     margin-left: 0px;
   }

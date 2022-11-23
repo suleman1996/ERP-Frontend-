@@ -1,33 +1,32 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { useState } from 'react';
+import { useState } from 'react'
 
-import Table from 'components/table';
-import Tags from 'components/tags';
-import DeletePopup from 'components/delete-modal';
+import Table from 'components/table'
+import Tags from 'components/tags'
+import DeletePopup from 'components/delete-modal'
 
-import { ColumnsData } from '../columns-data';
-import { Colors } from '../columns-data';
-import { RowsData } from '../columns-data';
+import { ColumnsData } from '../columns-data'
+import { Colors } from '../columns-data'
+import { RowsData } from '../columns-data'
 
-import style from './attendance-detail.module.scss';
+import style from './attendance-detail.module.scss'
 
 export interface AttendanceInt {
-  id: string;
-  date: string;
-  employeeId: string;
-  loginTime: string;
-  logoutTime: string;
-  name: string;
-  status: string;
-  totalHours: string;
+  id: string
+  date: string
+  employeeId: string
+  loginTime: string
+  logoutTime: string
+  name: string
+  status: string
+  totalHours: string
 }
 
 interface Props {
-  setActive: any;
+  setActive: any
 }
 
 const AttendanceDetail = ({ setActive }: Props) => {
-  const [deletePopUp, setDeletePopUp] = useState(false);
+  const [deletePopUp, setDeletePopUp] = useState(false)
 
   return (
     <>
@@ -54,13 +53,18 @@ const AttendanceDetail = ({ setActive }: Props) => {
                     marginRight: 10,
                   }}
                 />
-                <span style={{ color: Colors[row.status] }} className={style.statusText}>
+                <span
+                  style={{ color: Colors[row.status] }}
+                  className={style.statusText}
+                >
                   {row.status}
                 </span>
               </div>
             ),
             checkin: (
-              <span style={{ color: row.checkin === '12:00 AM' ? 'red' : 'black' }}>
+              <span
+                style={{ color: row.checkin === '12:00 AM' ? 'red' : 'black' }}
+              >
                 {row.checkin}
               </span>
             ),
@@ -68,14 +72,16 @@ const AttendanceDetail = ({ setActive }: Props) => {
           }))}
           minWidth="1700px"
           headingText={style.columnText}
-          handleDelete={(id) => {}}
           handleEducation={() => setActive(3)}
-          handleEdit={(id) => {}}
           handleModalOpen={() => setDeletePopUp(true)}
         />
-        <DeletePopup open={deletePopUp} setOpen={setDeletePopUp} handleDelete={undefined} />
+        <DeletePopup
+          open={deletePopUp}
+          setOpen={setDeletePopUp}
+          handleDelete={undefined}
+        />
       </div>
     </>
-  );
-};
-export default AttendanceDetail;
+  )
+}
+export default AttendanceDetail

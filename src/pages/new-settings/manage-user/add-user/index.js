@@ -1,22 +1,29 @@
-import Button from 'components/button';
-import Input from 'components/input';
+import Button from 'components/button'
+import Input from 'components/textfield'
 
-import cam from 'assets/whiteCam.svg';
-import style from './add-user.module.scss';
-import Switch from 'components/switch';
-import Select from 'components/select';
-import { AddUserHelper } from './addUser-helper';
+import cam from 'assets/whiteCam.svg'
+import style from './add-user.module.scss'
+import Switch from 'components/switch'
+import Select from 'components/select'
+import { AddUserHelper } from './addUser-helper'
 
 const AddUser = ({ setNewUser }) => {
-  const { register, handleSubmit, clearErrors, control, onSubmit, imgBlob, setImgBlob } =
-    AddUserHelper();
+  const {
+    register,
+    handleSubmit,
+    clearErrors,
+    control,
+    onSubmit,
+    imgBlob,
+    setImgBlob,
+  } = AddUserHelper()
 
   return (
     <>
       <form
         onSubmit={(e) => {
-          clearErrors();
-          handleSubmit(onSubmit)(e);
+          clearErrors()
+          handleSubmit(onSubmit)(e)
         }}
       >
         <div className={style.addParent}>
@@ -39,9 +46,9 @@ const AddUser = ({ setNewUser }) => {
               hidden
               accept="image/png, image/gif, image/jpeg"
               onChange={(e) => {
-                const url = URL.createObjectURL(e.target.files[0]);
-                console.error('e', url);
-                setImgBlob(url);
+                const url = URL.createObjectURL(e.target.files[0])
+                console.error('e', url)
+                setImgBlob(url)
               }}
             />
           </div>
@@ -103,10 +110,10 @@ const AddUser = ({ setNewUser }) => {
         </div>
       </form>
     </>
-  );
-};
+  )
+}
 
-export default AddUser;
+export default AddUser
 
 const categories = [
   { name: 'Local', value: 'Local' },
@@ -117,4 +124,4 @@ const categories = [
     value: 'Married Individuals filing joint returns',
   },
   { name: 'For Heads of House Hold', value: 'For Heads of House Hold' },
-];
+]
