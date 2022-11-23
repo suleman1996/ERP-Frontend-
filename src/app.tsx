@@ -1,19 +1,18 @@
 import { useEffect, useState } from 'react'
 
 import Routes from 'routes'
-
-import { useAppDispatch, useAppSelector } from 'store/hooks'
-import { setCurrentUser, setNotificationData } from 'store'
+import { getAllSettings } from 'store/actions'
 import AuthService from 'services/auth-service'
+import { setCurrentUser, setNotificationData } from 'store'
+import { useAppDispatch, useAppSelector } from 'store/hooks'
 import NotificationService from 'services/notification-service'
 
 import 'bootstrap-daterangepicker/daterangepicker.css'
-import { getAllSettings } from 'store/actions'
-//only for the hamza
+
 const App = () => {
   const dispatch = useAppDispatch()
-  const { user_id, currentUser, token } = useAppSelector((state) => state?.app)
 
+  const { user_id, currentUser, token } = useAppSelector((state) => state?.app)
   const [loader, setLoader] = useState(false)
 
   useEffect(() => {
@@ -27,7 +26,6 @@ const App = () => {
       dispatch(setCurrentUser(res?.data))
       setLoader(false)
     }
-
     if (token && user_id) {
       fetchUserData(user_id)
       fetchNotificationsData()
@@ -42,12 +40,10 @@ const App = () => {
       )
     }
   }
-
   return (
     <>
       <Routes token={token} role={currentUser?.role} loader={loader} />
     </>
   )
 }
-
 export default App
