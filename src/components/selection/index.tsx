@@ -102,25 +102,27 @@ const Selection = ({
     { context }: { context: any; selectValue: any }
   ): any => {
     return (
-      <>
+      <div>
         {context === 'label' ? (
           <div>{label}</div>
         ) : (
           <div style={{ display: 'flex' }}>
-            <div
-              style={{
-                height: '10px',
-                width: '10px',
-                borderRadius: '50%',
-                background: color,
-                marginRight: '10px',
-                marginTop: '5px',
-              }}
-            />
+            {color && (
+              <div
+                style={{
+                  height: '10px',
+                  width: '10px',
+                  borderRadius: '50%',
+                  background: color,
+                  marginRight: '10px',
+                  marginTop: '5px',
+                }}
+              />
+            )}
             {label}
           </div>
         )}
-      </>
+      </div>
     )
   }
 
@@ -136,8 +138,8 @@ const Selection = ({
       )}
       <div
         style={{
-          border: !errorMessage ? '1px solid #E2E2EA' : '1px solid red',
-          borderRadius: '5PX',
+          border: errorMessage ? '1px solid #ff5050' : '1px solid #E2E2EA',
+          borderRadius: '6px',
         }}
         className={!isDisabled ? wraperSelect : style.disabledSelection}
       >

@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form'
 
 import Container from 'components/container'
 import Selection from 'components/selection'
-import Input from 'components/input'
+import Input from 'components/textfield'
 import DatePicker from 'components/date-picker'
 import AttendanceCard from 'components/get-attendance-card'
 import Button from 'components/button'

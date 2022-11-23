@@ -2,7 +2,7 @@ import Button from 'components/button'
 import Select from 'components/select'
 import TextField from 'components/textfield'
 
-import { Props, useEmployeeFilter } from './helper'
+import { useEmployeeFilter } from './helper'
 
 import style from '../employee-profile.module.scss'
 

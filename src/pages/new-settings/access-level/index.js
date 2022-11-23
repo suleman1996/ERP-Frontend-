@@ -6,7 +6,7 @@ import AccordianSwitch from 'components/accordian'
 import addIcon from 'assets/add.svg'
 import threeDots from 'assets/three.svg'
 import style from './access.module.scss'
-import Input from 'components/input'
+import Input from 'components/textfield'
 import Button from 'components/button'
 
 const AccessLevel = () => {

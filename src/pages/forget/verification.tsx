@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Input from 'components/input';
+import Input from 'components/textfield';
 import Button from 'components/button';
 
 import style from './forget.module.scss';

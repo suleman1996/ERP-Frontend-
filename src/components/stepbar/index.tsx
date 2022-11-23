@@ -6,7 +6,7 @@ interface Props {
   activeTab: any
   setStepBarActive: Dispatch<SetStateAction<string[]>>
   setActive: Dispatch<SetStateAction<any>>
-  controlWidth: number
+  controlWidth: string
   tabs: any
 }
 

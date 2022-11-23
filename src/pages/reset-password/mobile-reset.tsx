@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
-import Input from 'components/input';
+import Input from 'components/textfield';
 import Button from 'components/button';
 import AuthService from 'services/auth-service';
 

@@ -1,15 +1,15 @@
 import { Dispatch, SetStateAction, useState } from 'react'
 
-import TableFilter from 'components/table-filter'
 import NoData from 'components/no-data-found-card'
 import AddUser from 'pages/new-settings/manage-user/add-user'
 
-import editIcon from 'assets/newEdit.svg'
+import editIcon from 'assets/new-edit.svg'
 import reloadIcon from 'assets/reset.png'
 import deleteIcon from 'assets/table-delete.svg'
 import eye from 'assets/table-view.svg'
 import pdf from 'assets/employee-page/print.svg'
 import style from './table.module.scss'
+import FiltersComponent from 'components/filters'
 
 interface Props {
   rows: any[]
@@ -67,11 +67,6 @@ const Table = ({
   handleModalOpen,
   handleDeleteIndex,
   tableHeight,
-  setFilters,
-  setSorts,
-  apiCall,
-  filters,
-  sorts,
   headingText,
   rowText,
   editIndex,
@@ -80,18 +75,8 @@ const Table = ({
   tableClass,
 }: Props) => {
   const [tblScroll, setTblScroll] = useState(false)
-  const [isFilter, setIsFilter] = useState<string | number>('')
-  const [isFilterSelected, setIsFilterSelected] = useState<string | number>('')
-
-  const toggleFilter = (index: number) => {
-    isFilter === index ? setIsFilter('') : setIsFilter(index)
-    setIsFilterSelected(index)
-  }
-
-  const clearFilter = () => {
-    setIsFilter('')
-    setIsFilterSelected('')
-  }
+  const [isFilter] = useState<string | number>('')
+  const [isFilterSelected] = useState<string | number>('')
 
   const handlePencilIcon = ({ id, index }: { id: string; index: number }) => {
     handleEdit && handleEdit(id)
@@ -157,22 +142,7 @@ const Table = ({
                       />
                     )}
                   </p>
-                  {isFilter === index && (
-                    <TableFilter
-                      filterKey={column.key}
-                      toggleFilter={() => {
-                        toggleFilter(index)
-                      }}
-                      clearFilter={() => {
-                        clearFilter()
-                      }}
-                      apiCall={apiCall}
-                      filters={filters}
-                      setFilters={setFilters}
-                      sorts={sorts}
-                      setSorts={setSorts}
-                    />
-                  )}
+                  {isFilter === index && <FiltersComponent />}
                 </div>
               ))}
             </div>

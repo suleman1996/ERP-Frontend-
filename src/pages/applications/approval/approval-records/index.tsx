@@ -379,7 +379,6 @@ const ApprovalRecords = () => {
       </div>
       <div className={style.position}>
         <Pagination
-          hide={false}
           setCount={setPageSize}
           count={pageSize}
           totalCount={totalCount}

@@ -1,7 +1,21 @@
-import React from 'react'
 import { Controller } from 'react-hook-form'
 
 import style from './switch.module.scss'
+
+interface Props {
+  label?: any
+  title?: any
+  control?: any
+  register?: any
+  name?: any
+  className?: any
+  checked?: any
+  handleClick?: any
+  switchContainer?: any
+  onChange?: any
+  errorMessage?: any
+  handleSwitchChange?: any
+}
 
 const Switch = ({
   label,
@@ -14,7 +28,7 @@ const Switch = ({
   errorMessage,
   handleSwitchChange,
   ...restOfProps
-}) => {
+}: Props) => {
   return (
     <div>
       {label && <p className={style.titleClass}>{label}</p>}

@@ -4,9 +4,7 @@
 
 .tableWrapper {
   max-height: 775px;
-
   flex: 1;
-  background: #ffffff;
   overflow: hidden;
 
   &::-webkit-scrollbar:vertical {
@@ -25,17 +23,15 @@
       position: sticky;
       top: 0;
       background: #fafafa;
-      border: 1.6px solid #e2e2ea;
+      border: 1px solid #e2e2ea;
       border-radius: 8px;
 
       .heading {
         padding: 15px 10px;
 
         .headingTitle {
-          font-style: normal;
-          font-weight: 600;
-          font-size: 15px;
-          line-height: 160%;
+          font-weight: 600 !important;
+          @include font29;
           color: #2d2d32;
 
           @media (max-width: $md) {
@@ -56,27 +52,22 @@
 .tr {
   width: 100%;
   border-bottom: 1px solid #f2f4f3;
+  &:last-child {
+    border-bottom: none;
+  }
 }
 
 .td {
-  @include font18;
+  @include font20;
   font-weight: 400;
   text-transform: capitalize;
 }
 
 .pencilIcon {
   cursor: pointer;
-  height: 40px;
-  width: 47px;
+  height: calc(20px + (37 - 20) * (100vw - 280px) / (2560 - 280));
+  width: calc(25px + (44 - 25) * (100vw - 280px) / (2560 - 280));
   margin: 0px 5px;
-  @media (max-width: $md) {
-    height: 22px;
-    width: 25px;
-  }
-  @media (max-width: $tab) {
-    height: 20px;
-    width: 25px;
-  }
 }
 
 table {
