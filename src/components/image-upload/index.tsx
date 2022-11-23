@@ -114,7 +114,13 @@ const ImageUpload = ({
               are allowed upto 3 MB in size.It will us recognize you.
             </p>
           )}
-          {btnText && <Button text={btnText} />}
+          {btnText && (
+            <Button
+              text={btnText}
+              type={'button'}
+              handleClick={() => setImg('')}
+            />
+          )}
         </div>
       </div>
       <div className={style.smallImg}>
