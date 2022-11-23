@@ -1,31 +1,30 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { MouseEventHandler, useEffect, useRef, useState } from 'react';
-import { useController } from 'react-hook-form';
+import { MouseEventHandler, useEffect, useRef, useState } from 'react'
+import { useController } from 'react-hook-form'
 
-import TextField from 'components/textfield';
-import Checkbox from 'components/checkbox';
+import TextField from 'components/textfield'
+import Checkbox from 'components/checkbox'
 
-import edit from 'assets/edit.svg';
-import delIcon from 'assets/delete.svg';
-import arrow from 'assets/arrow-left.svg';
-import arrowDown from 'assets/opposite-icon.svg';
-import style from './search-select.module.scss';
+import edit from 'assets/edit.svg'
+import delIcon from 'assets/delete.svg'
+import arrow from 'assets/arrow-left.svg'
+import style from './search-select.module.scss'
 
 interface Props {
-  label?: string;
-  className?: string;
-  icons?: string;
-  placeholder?: string;
-  handleEdit?: MouseEventHandler<HTMLImageElement>;
-  handleDelete?: MouseEventHandler<HTMLImageElement>;
-  options?: string[];
-  name?: string;
-  errorMessage?: string;
-  control?: any;
-  register?: any;
-  value?: string;
-  star?: string;
-  onChange?: (value: any) => void;
+  label?: string
+  className?: string
+  icons?: string
+  placeholder?: string
+  handleEdit?: MouseEventHandler<HTMLImageElement>
+  handleDelete?: MouseEventHandler<HTMLImageElement>
+  options?: string[]
+  name?: string
+  errorMessage?: string
+  control?: any
+  register?: any
+  value?: string
+  star?: string
+  onChange?: (value: any) => void
 }
 
 const SearchSelect = ({
@@ -46,43 +45,43 @@ const SearchSelect = ({
 }: Props) => {
   const {
     field: { onChange },
-  } = useController({ control, name: name || '' });
+  } = useController({ control, name: name || '' })
 
-  const [open, setOpen] = useState(false);
-  const [list, setList] = useState(options);
-  const [selectValue, setSelectValue] = useState('');
-  const timerRef = useRef<NodeJS.Timeout>();
+  const [open, setOpen] = useState(false)
+  const [list, setList] = useState(options)
+  const [selectValue, setSelectValue] = useState('')
+  const timerRef = useRef<NodeJS.Timeout>()
 
   useEffect(() => {
-    if (value == selectValue) return;
+    if (value == selectValue) return
     if (value) {
-      setSelectValue(value);
+      setSelectValue(value)
     } else {
-      setSelectValue('');
+      setSelectValue('')
     }
-  }, [value]);
+  }, [value])
 
   useEffect(() => {
-    changeHandler && changeHandler(selectValue);
-    onChange(selectValue);
-  }, [selectValue]);
+    changeHandler && changeHandler(selectValue)
+    onChange(selectValue)
+  }, [selectValue])
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectValue(e.target.value);
-    timerRef.current && clearTimeout(timerRef.current);
+    setSelectValue(e.target.value)
+    timerRef.current && clearTimeout(timerRef.current)
     timerRef.current = setTimeout(() => {
       if (e.target.value === '') {
-        setOpen(false);
+        setOpen(false)
       } else {
-        setOpen(true);
+        setOpen(true)
         setList(
           options?.filter((ele: string) =>
-            ele?.toLowerCase().includes(e.target.value.toLowerCase()),
-          ),
-        );
+            ele?.toLowerCase().includes(e.target.value.toLowerCase())
+          )
+        )
       }
-    }, 100);
-  };
+    }, 100)
+  }
 
   return (
     <div className={`${style.searchSelect} ${className}`}>
@@ -94,6 +93,7 @@ const SearchSelect = ({
         placeholder={placeholder}
         value={selectValue}
         type="text"
+        icon={arrow}
         onChange={(e) => handleSearch(e)}
         onClick={() => setOpen(!open)}
         className={style.field}
@@ -104,19 +104,21 @@ const SearchSelect = ({
             <div className={style.innerDiv} key={index}>
               <p
                 onClick={(e: any) => {
-                  setOpen(false);
-                  setSelectValue(ele);
+                  setOpen(false)
+                  setSelectValue(ele)
                 }}
               >
                 {ele}
               </p>
               {icons && (
                 <div className={style.icons}>
-                  <div>
-                    <Checkbox />
-                  </div>
+                  <Checkbox />
                   <img src={edit} alt="" onClick={handleEdit && handleEdit} />
-                  <img src={delIcon} alt="" onClick={handleDelete && handleDelete} />
+                  <img
+                    src={delIcon}
+                    alt=""
+                    onClick={handleDelete && handleDelete}
+                  />
                 </div>
               )}
             </div>
@@ -124,7 +126,7 @@ const SearchSelect = ({
         </div>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default SearchSelect;
+export default SearchSelect

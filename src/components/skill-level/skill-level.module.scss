@@ -3,7 +3,7 @@
 @import 'styles/_breakpoints.scss';
 
 .label {
-  @include font29;
+  @include font24;
   font-family: 'Poppins';
   font-style: normal;
   color: #2d2d32;
@@ -11,10 +11,9 @@
 }
 
 .skillLevel {
-  margin-top: 20px;
-
+  position: relative;
   .innerDiv {
-    margin-top: 15px;
+    margin-top: 5px;
     display: flex;
     align-items: center;
     flex-wrap: wrap;
@@ -32,12 +31,14 @@
       p {
         color: c.$btn;
         @include font16;
+        text-transform: capitalize;
       }
     }
   }
 }
 
 .errorMessage {
+  position: absolute;
   display: block;
   margin-left: 5px;
   color: #ff5050;
@@ -47,6 +48,7 @@
 .activeBorder {
   background-color: c.$btn;
   padding: 10px;
+  border: 1px solid c.$btn;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -55,5 +57,6 @@
   p {
     color: c.$white !important;
     @include font16;
+    text-transform: capitalize;
   }
 }

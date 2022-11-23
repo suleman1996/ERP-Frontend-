@@ -1,33 +1,33 @@
-import { useState, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
+import { useState, useEffect } from 'react'
+import { useForm } from 'react-hook-form'
 
-import Table from 'components/table';
-import Switch from 'components/switch';
-import AddUser from './add-user/index';
-import DeletePopup from 'components/delete-modal';
-import CardContainer from 'components/card-container';
+import Table from 'components/table'
+import Switch from 'components/switch'
+import AddUser from './add-user/index'
+import DeletePopup from 'components/delete-modal'
+import CardContainer from 'components/card-container'
 
-import { ColumnsData, RowsData } from './helper';
-import SettingsService from 'services/settings-service';
+import { ColumnsData, RowsData } from './helper'
+import SettingsService from 'services/settings-service'
 
-import dummy from 'assets/dummyPic.svg';
-import style from './manage.module.scss';
+import dummy from 'assets/dummyPic.svg'
+import style from './manage.module.scss'
 
 const ManageUser = ({ newUser, setNewUser }) => {
-  const { control } = useForm();
+  const { control } = useForm()
 
-  const [deletePopUp, setDeletePopUp] = useState(false);
-  const [editIndex, setEditIndex] = useState(-1);
-  const [customRoles, setCustomRoles] = useState();
+  const [deletePopUp, setDeletePopUp] = useState(false)
+  const [editIndex, setEditIndex] = useState(-1)
+  const [customRoles, setCustomRoles] = useState()
 
   useEffect(() => {
-    getCustomRoles();
-  }, []);
+    getCustomRoles()
+  }, [])
 
   const getCustomRoles = async () => {
-    const res = await SettingsService.getAllCustomRoles();
-    setCustomRoles(res?.data?.customRoles);
-  };
+    const res = await SettingsService.getAllCustomRoles()
+    setCustomRoles(res?.data?.customRoles)
+  }
 
   return (
     <CardContainer className={style.card}>
@@ -58,16 +58,21 @@ const ManageUser = ({ newUser, setNewUser }) => {
           }))}
           minWidth="1300px"
           headingText={style.columnText}
-          handleDelete={(id) => {}}
           handleEducation={(index) => setEditIndex(index)}
           handleEdit={(id) => setEditIndex(id)}
           handleModalOpen={() => setDeletePopUp(true)}
         />
-        {newUser && <AddUser setNewUser={setNewUser} customRoles={customRoles} />}
-        <DeletePopup open={deletePopUp} setOpen={setDeletePopUp} handleDelete={undefined} />
+        {newUser && (
+          <AddUser setNewUser={setNewUser} customRoles={customRoles} />
+        )}
+        <DeletePopup
+          open={deletePopUp}
+          setOpen={setDeletePopUp}
+          handleDelete={undefined}
+        />
       </div>
     </CardContainer>
-  );
-};
+  )
+}
 
-export default ManageUser;
+export default ManageUser

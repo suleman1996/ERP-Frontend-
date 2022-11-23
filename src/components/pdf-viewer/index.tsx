@@ -1,41 +1,17 @@
-import { SetStateAction, useState } from 'react';
+import Modal from 'components/modal'
+import { pdfjs } from 'react-pdf'
 
-import Modal from 'components/modal';
-import { Document, Page, pdfjs } from 'react-pdf';
+import 'react-pdf/dist/esm/Page/AnnotationLayer.css'
 
-import Button from 'components/button';
-import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
-import { samplePdf2 } from 'pages/policy/pdfSample';
-
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`
 
 interface Props {
-  openPolicyPdfView: any;
-  setOpenViewPdfPolicy: any;
-  pdf: any;
+  openPolicyPdfView: any
+  setOpenViewPdfPolicy: any
+  pdf?: any
 }
 
-const PdfViewModal = ({ openPolicyPdfView, setOpenViewPdfPolicy, pdf }: Props) => {
-  const [numPages, setNumPages] = useState(null);
-  const [pageNumber, setPageNumber] = useState(1);
-
-  const onDocumentLoadSuccess = ({ numPages }: any) => {
-    setNumPages(numPages);
-    setPageNumber(1);
-  };
-
-  const changePage = (offset: any) => {
-    setPageNumber((prevPageNumber) => prevPageNumber + offset);
-  };
-
-  const previousPage = () => {
-    changePage(-1);
-  };
-
-  const nextPage = () => {
-    changePage(1);
-  };
-
+const PdfViewModal = ({ openPolicyPdfView, setOpenViewPdfPolicy }: Props) => {
   return (
     <>
       <Modal
@@ -50,6 +26,7 @@ const PdfViewModal = ({ openPolicyPdfView, setOpenViewPdfPolicy, pdf }: Props) =
         </Document> */}
         <a
           target={'_blank'}
+          rel="noreferrer"
           href="https://erp-bucket-sprintx.s3.amazonaws.com/Leave%20Policy-SPX1-v1"
         >
           <p>hello</p>
@@ -66,7 +43,7 @@ const PdfViewModal = ({ openPolicyPdfView, setOpenViewPdfPolicy, pdf }: Props) =
         </div> */}
       </Modal>
     </>
-  );
-};
+  )
+}
 
-export default PdfViewModal;
+export default PdfViewModal

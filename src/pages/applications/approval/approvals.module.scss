@@ -1,3 +1,7 @@
+@import 'styles/_colors.scss';
+@import 'styles/_mixin.scss';
+@import 'styles/_breakpoints.scss';
+
 .mainApprovalContainer {
   display: flex;
   align-items: center;
@@ -27,6 +31,34 @@
     span {
       border: 0.864706px solid #2d2d32;
       color: #2d2d32;
+    }
+  }
+  @media (max-width: $xxs) {
+    p {
+      font-weight: 500;
+      font-size: 12px;
+      line-height: 12px;
+      color: #cacaca;
+      cursor: pointer;
+      span {
+        display: inline-block;
+        text-align: center;
+        color: #cacaca;
+        width: 40px;
+        margin-left: 3px;
+        border: 0.864706px solid #cacaca;
+        border-radius: 9.88235px;
+      }
+    }
+    .active {
+      font-weight: 600;
+      font-size: 13px;
+      line-height: 13px;
+      color: #2d2d32;
+      span {
+        border: 0.864706px solid #2d2d32;
+        color: #2d2d32;
+      }
     }
   }
 }

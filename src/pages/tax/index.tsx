@@ -1,20 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 
-import TaxSlab from './tax-slab';
-import CardContainer from 'components/card-container';
-import style from './tax.module.scss';
-import Loading from 'components/loading';
+import TaxSlab from './tax-slab'
+import CardContainer from 'components/card-container'
+import style from './tax.module.scss'
+import Loading from 'components/loading'
 
-import Button from 'components/button';
-import MobileButton from 'components/button/mobile-button';
-import plusIcon from 'assets/plusIcon.svg';
+import Button from 'components/button'
+import MobileButton from 'components/button/mobile-button'
+import plusIcon from 'assets/plusIcon.svg'
 
 const Tax = () => {
-  const [active, setActive] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
-  const [open, setOpen] = useState<boolean>(false);
-  const [singleId, setSingleId] = useState('');
-  const [slabs, setSlab] = useState<any>([]);
+  const [active] = useState(0)
+  const [isLoading, setIsLoading] = useState(false)
+  const [open, setOpen] = useState<boolean>(false)
+  const [singleId, setSingleId] = useState('')
+  const [slabs, setSlab] = useState<any>([])
 
   return (
     <>
@@ -35,9 +35,9 @@ const Tax = () => {
                     text="Add Tax Group"
                     iconStart={plusIcon}
                     handleClick={() => {
-                      setSingleId('');
-                      setOpen(true);
-                      setSlab([]);
+                      setSingleId('')
+                      setOpen(true)
+                      setSlab([])
                     }}
                   />
                 </div>
@@ -47,9 +47,9 @@ const Tax = () => {
                 <MobileButton
                   mobileIcon={plusIcon}
                   handleClick={() => {
-                    setSingleId('');
-                    setOpen(true);
-                    setSlab([]);
+                    setSingleId('')
+                    setOpen(true)
+                    setSlab([])
                   }}
                 />
               </div>
@@ -74,9 +74,7 @@ const Tax = () => {
         )}
       </CardContainer>
     </>
-  );
-};
+  )
+}
 
-export default Tax;
-
-const links = [{ title: 'Tax-Slab', left: '60px' }];
+export default Tax

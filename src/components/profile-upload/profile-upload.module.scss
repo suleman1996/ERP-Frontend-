@@ -3,35 +3,36 @@
 @import 'styles/_mixin.scss';
 
 .wraper {
-  display: flex;
-  border: 1px solid #e2e2ea;
-  background-color: #ffffff;
-  border-radius: 6.35px;
-  margin-top: calc(5px + (12 - 5) * (100vw - 280px) / (2560 - 280));
-  position: relative;
   cursor: pointer !important;
-  padding: 0px 12px 0px 20px;
+  display: flex;
+  position: relative;
+  background: #ffffff;
+  border-radius: 6px;
+  width: 100%;
+  box-sizing: border-box;
+  padding-left: calc(10px + (25 - 10) * (100vw - 280px) / (2560 - 280));
+  padding-right: calc(10px + (25 - 10) * (100vw - 280px) / (2560 - 280));
+  color: #2d2d32;
+  margin-top: calc(5px + (12 - 5) * (100vw - 280px) / (2560 - 280));
   height: calc(30px + (55 - 30) * (100vw - 280px) / (2560 - 280));
+  @include font20;
 
   .labelTag {
     display: flex;
     align-items: center;
-    background: #ffffff;
-    border-radius: 6px;
-    width: 100%;
     margin-bottom: 0px;
     cursor: pointer;
-    color: #cacaca;
     text-transform: capitalize;
+    width: 100%;
+    color: #2d2d32;
     @include font20;
-    color: #cacaca;
     &:focus {
       outline: none;
     }
     &::placeholder {
       color: #cacaca;
-      @include font18;
       text-transform: capitalize;
+      @include font20;
     }
   }
 
@@ -51,4 +52,11 @@
     color: #ff5050 !important;
     @include font14;
   }
+}
+.label {
+  @include font24;
+  font-family: 'Poppins';
+  font-style: normal;
+  color: #2d2d32;
+  text-transform: capitalize;
 }

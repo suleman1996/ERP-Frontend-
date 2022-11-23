@@ -1,20 +1,20 @@
-import CardContainer from 'components/card-container';
-import React, { useState } from 'react';
+import CardContainer from 'components/card-container'
+import React, { useState } from 'react'
 
-import AccordianSwitch from 'components/accordian';
+import AccordianSwitch from 'components/accordian'
 
-import addIcon from 'assets/add.svg';
-import threeDots from 'assets/three.svg';
-import style from './access.module.scss';
-import Input from 'components/input';
-import Button from 'components/button';
+import addIcon from 'assets/add.svg'
+import threeDots from 'assets/three.svg'
+import style from './access.module.scss'
+import Input from 'components/textfield'
+import Button from 'components/button'
 
 const AccessLevel = () => {
-  const [toggle, setToggle] = useState(0);
-  const [newUser, setNewUser] = useState(false);
-  const [menu, setMenu] = useState(false);
+  const [toggle, setToggle] = useState(0)
+  const [newUser, setNewUser] = useState(false)
+  const [menu, setMenu] = useState(false)
 
-  const [openAccordian, setOpenAccordian] = useState(-1);
+  const [openAccordian, setOpenAccordian] = useState(-1)
 
   return (
     <div style={{ padding: '20px' }}>
@@ -35,7 +35,10 @@ const AccessLevel = () => {
               {roles?.map((role, index) => {
                 return (
                   <div
-                    className={`${style.blocks}  ${toggle === index ? style.activeClass : ''} `}
+                    key={index}
+                    className={`${style.blocks}  ${
+                      toggle === index ? style.activeClass : ''
+                    } `}
                     onClick={() => setToggle(index)}
                   >
                     {role}
@@ -44,12 +47,14 @@ const AccessLevel = () => {
                       {menu && toggle === index && (
                         <div className={style.menuOptions}>
                           <div className={style.optionBorder}>Rename</div>
-                          <div className={style.optionWithoutBorder}>Delete</div>
+                          <div className={style.optionWithoutBorder}>
+                            Delete
+                          </div>
                         </div>
                       )}
                     </div>
                   </div>
-                );
+                )
               })}
 
               {newUser && (
@@ -73,9 +78,10 @@ const AccessLevel = () => {
 
           <div className={style.accessHeader}>
             <p>Access</p>
-            {totalAccordian?.map((data) => {
+            {totalAccordian?.map((data, index) => {
               return (
                 <AccordianSwitch
+                  key={index}
                   title={'Profile'}
                   switchBtn
                   bodyData={addProfileData}
@@ -83,7 +89,7 @@ const AccessLevel = () => {
                   openAccordian={openAccordian}
                   setOpenAccordian={setOpenAccordian}
                 />
-              );
+              )
             })}
           </div>
         </div>
@@ -93,10 +99,10 @@ const AccessLevel = () => {
         </div>
       </CardContainer>
     </div>
-  );
-};
+  )
+}
 
-export default AccessLevel;
+export default AccessLevel
 
 const roles = [
   'CEO',
@@ -109,7 +115,7 @@ const roles = [
   'UX | UI Designer',
   'SQA Engineer',
   'SQA Engineer',
-];
+]
 
 const addProfileData = [
   { name: 'Add Employee' },
@@ -118,10 +124,10 @@ const addProfileData = [
   { name: 'Delete Employee' },
   { name: 'CV View' },
   { name: 'Profile View' },
-];
+]
 
 const totalAccordian = [
   { name: '1', id: 1 },
   { name: '1', id: 2 },
   { name: '1', id: 3 },
-];
+]

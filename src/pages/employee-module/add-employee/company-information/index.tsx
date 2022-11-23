@@ -1,30 +1,20 @@
-import moment from 'moment';
+import moment from 'moment'
 
-import Button from 'components/button';
-import TextField from 'components/textfield';
-import Select from 'components/select';
-import DatePicker from 'components/date-picker';
-import TimePicker from 'components/time-picker';
-import Checkbox from 'components/checkbox';
-import CustomTimePicker from 'components/custom-time-picker';
+import Button from 'components/button'
+import TextField from 'components/textfield'
+import Select from 'components/select'
+import DatePicker from 'components/date-picker'
+import TimePicker from 'components/time-picker'
+import Checkbox from 'components/checkbox'
+import CustomTimePicker from 'components/custom-time-picker'
 
-import { employmentType, useCompanyInfo } from './helper';
+import { employmentType, useCompanyInfo } from './helper'
 
-import arrowRight from 'assets/arrowBtnRight.svg';
-import arrowLeft from 'assets/backBtn.svg';
-import style from './company-information.module.scss';
-import WeekDay from 'components/week-day';
-import { useEffect } from 'react';
-import { useEmployeeForms } from '../context';
-
-interface Props {
-  handleBack: (data?: string) => void;
-  handleNext: (data?: string) => void;
-  formData: any;
-  setFormData: any;
-  employeeId: string;
-  employeeDocId?: string | any;
-}
+import arrowRight from 'assets/arrowBtnRight.svg'
+import arrowLeft from 'assets/backBtn.svg'
+import style from './company-information.module.scss'
+import WeekDay from 'components/week-day'
+import { useEmployeeForms } from '../context'
 
 const CompanyInformation = () => {
   const {
@@ -32,11 +22,9 @@ const CompanyInformation = () => {
     setFormData,
     employeeDocId,
     formData,
-    setEmployeeId,
-    setEmployeeDocId,
     handleBack,
     employeeId,
-  }: any = useEmployeeForms();
+  }: any = useEmployeeForms()
 
   const {
     onSubmit,
@@ -66,14 +54,14 @@ const CompanyInformation = () => {
     setFormData,
     employeeId,
     employeeDocId,
-  });
+  })
 
   return (
     <div className={style.mainForm}>
       <form
         onSubmit={(e) => {
-          clearErrors();
-          handleSubmit(onSubmit)(e);
+          clearErrors()
+          handleSubmit(onSubmit)(e)
         }}
       >
         <div className={style.grid}>
@@ -133,11 +121,13 @@ const CompanyInformation = () => {
                     type="number"
                     register={register}
                     min={'0'}
-                    errorMessage={errors.leaves && errors.leaves[index]?.quantity?.message}
+                    errorMessage={
+                      errors.leaves && errors.leaves[index]?.quantity?.message
+                    }
                     placeholder={`${data?.name} Leave`}
                   />
                 </div>
-              );
+              )
             })}
         </div>
         <div style={{ marginTop: '20px' }}>
@@ -170,7 +160,10 @@ const CompanyInformation = () => {
               name="startDate"
               star={' *'}
               id="10"
-              placeholder={watch().joiningDate && moment(watch().joiningDate).format('MM/DD/YYYY')}
+              placeholder={
+                watch().joiningDate &&
+                moment(watch().joiningDate).format('MM/DD/YYYY')
+              }
               control={control}
               errorMessage={errors?.startDate?.message}
               readOnly
@@ -255,11 +248,16 @@ const CompanyInformation = () => {
             iconStart={arrowLeft}
             handleClick={() => handleBack('Address')}
           />
-          <Button isLoading={btnLoader} type={'submit'} text="Next" iconEnd={arrowRight} />
+          <Button
+            isLoading={btnLoader}
+            type={'submit'}
+            text="Next"
+            iconEnd={arrowRight}
+          />
         </div>
       </form>
     </div>
-  );
-};
+  )
+}
 
-export default CompanyInformation;
+export default CompanyInformation

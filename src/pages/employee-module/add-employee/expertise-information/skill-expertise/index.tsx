@@ -1,36 +1,42 @@
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction } from 'react'
 
-import Button from 'components/button';
-import TextField from 'components/textfield';
-import Table from 'components/table';
-import ProfileUpload from 'components/profile-upload';
-import SkillLevel from 'components/skill-level';
+import Button from 'components/button'
+import TextField from 'components/textfield'
+import Table from 'components/table'
+import ProfileUpload from 'components/profile-upload'
+import SkillLevel from 'components/skill-level'
 
-import { columns, useSkill } from './helper';
+import { columns, useSkill } from './helper'
 
-import tick from 'assets/tick.svg';
-import style from './skill.module.scss';
+import tick from 'assets/tick.svg'
+import style from './skill.module.scss'
 
 export interface Skill {
-  skillLevel: string;
-  skills: string;
-  experince: number;
-  year?: number;
-  letter?: string;
-  file: string;
-  _id?: string | number;
-  experience: any;
+  skillLevel: string
+  skills: string
+  experince: number
+  year?: number
+  letter?: string
+  file: string
+  _id?: string | number
+  experience: any
 }
 
 interface Props {
-  formData: any;
-  setFormData: any;
-  employeeId: string;
-  setSkillData: Dispatch<SetStateAction<Skill[] | []>>;
-  skillData: any;
+  formData: any
+  setFormData: any
+  employeeId: string
+  setSkillData: Dispatch<SetStateAction<Skill[] | []>>
+  skillData: any
 }
 
-const SkillExpertise = ({ formData, setFormData, employeeId, setSkillData, skillData }: Props) => {
+const SkillExpertise = ({
+  formData,
+  setFormData,
+  employeeId,
+  setSkillData,
+  skillData,
+}: Props) => {
   const {
     handleSubmit,
     register,
@@ -51,7 +57,7 @@ const SkillExpertise = ({ formData, setFormData, employeeId, setSkillData, skill
     employeeId,
     setSkillData,
     skillData,
-  });
+  })
 
   return (
     <>
@@ -123,9 +129,7 @@ const SkillExpertise = ({ formData, setFormData, employeeId, setSkillData, skill
         </div>
       </form>
     </>
-  );
-};
+  )
+}
 
-export default SkillExpertise;
-
-const skills = ['Novice', 'Intermediate', 'Proficient', 'Expert'];
+export default SkillExpertise

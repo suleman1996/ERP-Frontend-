@@ -7,8 +7,8 @@
   align-items: center;
   width: 100%;
   position: relative;
-  border: 1.19506px dashed #e2e2ea;
-  border-radius: 8.36544px;
+  border: 1px dashed #e2e2ea;
+  border-radius: 8px;
   background-color: #ffffff;
   margin-top: calc(10px + (30 - 10) * (100vw - 280px) / (2560 - 280));
   padding: 20px;
@@ -18,10 +18,12 @@
 
   button {
     background: #cacaca;
-    border-radius: 2.34504px;
+    border-radius: 2px;
     padding: 7px 9px;
     margin-top: 8px;
     height: auto !important;
+    max-width: fit-content;
+
     span {
       font-size: 8px !important;
     }
@@ -77,7 +79,10 @@
 
 .smallImg {
   display: none;
-  margin: 10px;
+  padding: 5px 10px;
+  background: #ffffff;
+  border: 1px solid #e2e2ea;
+  border-radius: 3px;
   @media (max-width: $xxs) {
     display: block;
   }

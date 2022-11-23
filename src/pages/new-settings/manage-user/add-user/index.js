@@ -1,13 +1,13 @@
-import Button from 'components/button';
-import Input from 'components/input';
-import SearchSelect from 'components/search-select';
+import Button from 'components/button'
+import Input from 'components/textfield'
+import SearchSelect from 'components/search-select'
 
-import cam from 'assets/whiteCam.svg';
-import style from './add-user.module.scss';
-import Switch from 'components/switch';
-import Select from 'components/select';
-import { AddUserHelper } from './addUser-helper';
-import { convertBase64Image } from 'main-helper';
+import cam from 'assets/whiteCam.svg'
+import style from './add-user.module.scss'
+import Switch from 'components/switch'
+import Select from 'components/select'
+import { AddUserHelper } from './addUser-helper'
+import { convertBase64Image } from 'main-helper'
 
 const AddUser = ({ setNewUser, customRoles }) => {
   const {
@@ -21,14 +21,14 @@ const AddUser = ({ setNewUser, customRoles }) => {
     allIDs,
     errors,
     setBase64,
-  } = AddUserHelper(setNewUser);
+  } = AddUserHelper(setNewUser)
 
   return (
     <>
       <form
         onSubmit={(e) => {
-          clearErrors();
-          handleSubmit(onSubmit)(e);
+          clearErrors()
+          handleSubmit(onSubmit)(e)
         }}
       >
         <div className={style.addParent}>
@@ -51,10 +51,10 @@ const AddUser = ({ setNewUser, customRoles }) => {
               hidden
               accept="image/png, image/gif, image/jpeg"
               onChange={async (e) => {
-                const url = URL.createObjectURL(e.target.files[0]);
-                const base64 = await convertBase64Image(e.target.files[0]);
-                setBase64(base64);
-                setImgBlob(url);
+                const url = URL.createObjectURL(e.target.files[0])
+                const base64 = await convertBase64Image(e.target.files[0])
+                setBase64(base64)
+                setImgBlob(url)
               }}
             />
           </div>
@@ -119,18 +119,7 @@ const AddUser = ({ setNewUser, customRoles }) => {
         </div>
       </form>
     </>
-  );
-};
+  )
+}
 
-export default AddUser;
-
-const categories = [
-  { name: 'Local', value: 'Local' },
-  { name: 'Expat', value: 'Expat' },
-  { name: 'Single Filers', value: 'Single Filers' },
-  {
-    name: 'Married Individuals filing joint returns',
-    value: 'Married Individuals filing joint returns',
-  },
-  { name: 'For Heads of House Hold', value: 'For Heads of House Hold' },
-];
+export default AddUser

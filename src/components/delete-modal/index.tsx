@@ -1,29 +1,28 @@
-import React, { Dispatch, memo, SetStateAction } from 'react';
+import React, { Dispatch, memo, SetStateAction } from 'react'
 
-import Modal from 'components/modal';
-import Button from 'components/button';
+import Modal from 'components/modal'
+import Button from 'components/button'
 
-import cross from 'assets/delete-cross.svg';
-import style from './delete-modal.module.scss';
+import cross from 'assets/delete-cross.svg'
+import style from './delete-modal.module.scss'
 
 interface Props {
-  open: boolean;
-  setOpen: Dispatch<SetStateAction<boolean>>;
-  handleDelete?: () => void;
-  btnLoader?: boolean;
-  bucket?: any;
-  heading?: any;
-  description?: any;
-  cancelModal?: any;
-  isLoading?: any;
-  btnLoaderClass?: any;
+  open: boolean
+  setOpen: Dispatch<SetStateAction<boolean>>
+  handleDelete?: () => void
+  btnLoader?: boolean
+  bucket?: any
+  heading?: any
+  description?: any
+  cancelModal?: any
+  isLoading?: any
+  btnLoaderClass?: any
 }
 
 const DeletePopup = ({
   open,
   setOpen,
   handleDelete,
-  btnLoader,
   bucket,
   heading,
   description,
@@ -33,12 +32,22 @@ const DeletePopup = ({
 }: Props) => {
   return (
     <>
-      <Modal open={open} handleClose={() => setOpen(false)} className={style.wrapperModal}>
+      <Modal
+        open={open}
+        handleClose={() => setOpen(false)}
+        className={style.wrapperModal}
+      >
         <div className={style.emailPopupContentDiv}>
           <div className={style.headerDiv}>
             {bucket ? <img src={bucket} alt="" /> : <img src={cross} alt="" />}
-            <h1>{heading ? heading : `Are you sure you want to delete this?`}</h1>
-            <p>{description ? description : `If you delete this you can’t recover it`}</p>
+            <h1>
+              {heading ? heading : `Are you sure you want to delete this?`}
+            </h1>
+            <p>
+              {description
+                ? description
+                : `If you delete this you can’t recover it`}
+            </p>
           </div>
           <div className={style.flex}>
             <Button
@@ -49,7 +58,7 @@ const DeletePopup = ({
             <Button
               text={cancelModal ? 'Yes' : 'Delete'}
               handleClick={() => {
-                handleDelete && handleDelete();
+                handleDelete && handleDelete()
               }}
               btnClass={style.button}
               isLoading={isLoading}
@@ -59,6 +68,6 @@ const DeletePopup = ({
         </div>
       </Modal>
     </>
-  );
-};
-export default memo(DeletePopup);
+  )
+}
+export default memo(DeletePopup)

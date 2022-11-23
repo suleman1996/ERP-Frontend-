@@ -1,37 +1,37 @@
-import React, { useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
+import React, { useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from 'yup'
 
-import Input from 'components/input';
-import Button from 'components/button';
-import AuthService from 'services/auth-service';
+import Input from 'components/textfield'
+import Button from 'components/button'
+import AuthService from 'services/auth-service'
 
-import style from './reset-password.module.scss';
-import logo from 'assets/sprintx.svg';
-import eye from 'assets/eye.svg';
+import style from './reset-password.module.scss'
+import logo from 'assets/sprintx.svg'
+import eye from 'assets/eye.svg'
 
 const MobileResetPassword = () => {
-  const [passwordVisible, setPasswordVisible] = useState(false);
-  const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
+  const [passwordVisible, setPasswordVisible] = useState(false)
+  const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false)
 
-  const navigate = useNavigate();
-  const { token } = useParams();
-  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate()
+  const { token } = useParams()
+  const [isLoading, setIsLoading] = useState(false)
 
   const { register, handleSubmit, errors } = useForm({
     resolver: yupResolver(schema),
-  });
+  })
 
   const onSubmit = async ({ password }: { password: string }) => {
-    setIsLoading(true);
-    const res = token && (await AuthService.resetPassword({ password, token }));
+    setIsLoading(true)
+    const res = token && (await AuthService.resetPassword({ password, token }))
     if (res.status === 200) {
-      navigate('/login');
+      navigate('/login')
     }
-    setIsLoading(false);
-  };
+    setIsLoading(false)
+  }
 
   return (
     <>
@@ -73,11 +73,16 @@ const MobileResetPassword = () => {
         </form>
       </div>
     </>
-  );
-};
-export default MobileResetPassword;
+  )
+}
+export default MobileResetPassword
 
 const schema = yup.object().shape({
-  password: yup.string().required().min(8, 'password must be at least 8 characters'),
-  confirmPassword: yup.string().oneOf([yup.ref('password'), null], 'passwords must match'),
-});
+  password: yup
+    .string()
+    .required()
+    .min(8, 'password must be at least 8 characters'),
+  confirmPassword: yup
+    .string()
+    .oneOf([yup.ref('password'), null], 'passwords must match'),
+})

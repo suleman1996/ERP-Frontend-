@@ -1,27 +1,37 @@
-import React, { useState } from 'react';
-import { useController } from 'react-hook-form';
+import { useController } from 'react-hook-form'
 
-import style from './skill-level.module.scss';
+import style from './skill-level.module.scss'
 
 interface Props {
-  errors?: string;
-  control?: any;
-  name: string;
-  activeEdit?: number | string;
-  star?: string;
-  setToggle?: any;
-  toggle?: number;
+  errors?: string
+  control?: any
+  name: string
+  activeEdit?: number | string
+  star?: string
+  setToggle?: any
+  toggle?: number
 }
 
-const SkillLevel = ({ errors, control, name, activeEdit, star, setToggle, toggle }: Props) => {
+const SkillLevel = ({
+  errors,
+  control,
+  name,
+  activeEdit,
+  star,
+  setToggle,
+  toggle,
+}: Props) => {
   const { field } = useController({
     control,
     name,
-  });
+  })
 
   return (
     <div className={style.skillLevel}>
-      <label className={style.label} style={{ color: errors ? '#ff5050' : '#2d2d32' }}>
+      <label
+        className={style.label}
+        style={{ color: errors ? '#ff5050' : '#2d2d32' }}
+      >
         Skill Level
         <b style={{ color: 'red' }}>{star}</b>
       </label>
@@ -29,12 +39,14 @@ const SkillLevel = ({ errors, control, name, activeEdit, star, setToggle, toggle
         {skills.map((ele, index) => (
           <div
             className={
-              toggle === index || ele === activeEdit ? style.activeBorder : style.borderDiv
+              toggle === index || ele === activeEdit
+                ? style.activeBorder
+                : style.borderDiv
             }
             key={index}
             onClick={() => {
-              field.onChange(ele);
-              setToggle(index);
+              field.onChange(ele)
+              setToggle(index)
             }}
           >
             <p>{ele}</p>
@@ -43,9 +55,9 @@ const SkillLevel = ({ errors, control, name, activeEdit, star, setToggle, toggle
       </div>
       {errors && <span className={style.errorMessage}>{errors}</span>}
     </div>
-  );
-};
+  )
+}
 
-export default SkillLevel;
+export default SkillLevel
 
-const skills = ['novice', 'intermediate', 'proficient', 'expert'];
+const skills = ['novice', 'intermediate', 'proficient', 'expert']

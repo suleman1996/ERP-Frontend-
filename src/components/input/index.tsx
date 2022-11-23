@@ -1,35 +1,35 @@
-import React from 'react';
+import React from 'react'
 
-import style from './input.module.scss';
+import style from './input.module.scss'
 
 interface Props {
-  label?: string;
-  onChange?: (e: any) => void;
-  value?: string;
-  name?: string;
-  option?: any;
-  control?: any;
-  type?: React.HTMLInputTypeAttribute;
-  placeholder?: string;
-  icon?: string;
-  inputClass?: string;
-  iconClass?: string;
-  onClick?: () => void;
-  onBlur?: () => void;
-  containerClass?: string;
-  error?: any;
-  list?: any;
-  errorMessage?: string;
-  inputRef?: any;
-  readOnly?: boolean;
-  isDisable?: boolean;
-  id?: string;
-  step?: string;
-  required?: boolean;
-  star?: string;
-  extension?: string;
-  files?: any[];
-  register?: any;
+  label?: string
+  onChange?: (e: any) => void
+  value?: string
+  name?: string
+  option?: any
+  control?: any
+  type?: React.HTMLInputTypeAttribute
+  placeholder?: string
+  icon?: string
+  inputClass?: string
+  iconClass?: string
+  onClick?: () => void
+  onBlur?: () => void
+  containerClass?: string
+  error?: any
+  list?: any
+  errorMessage?: string
+  inputRef?: any
+  readOnly?: boolean
+  isDisable?: boolean
+  id?: string
+  step?: string
+  required?: boolean
+  star?: string
+  extension?: string
+  files?: any[]
+  register?: any
 }
 
 const Input = ({
@@ -45,15 +45,15 @@ const Input = ({
   error,
   errorMessage,
   icon,
-  files,
+
   inputClass,
   iconClass,
   containerClass,
-  inputRef,
+
   readOnly,
   isDisable,
   required,
-  id,
+
   step,
   star,
   extension,
@@ -69,14 +69,21 @@ const Input = ({
             <span style={{ color: 'red' }}>{star}</span>
           </label>
         )}
-        <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+        <div
+          style={{
+            position: 'relative',
+            display: 'flex',
+            alignItems: 'center',
+          }}
+        >
           <input
             className={inputClass}
             list={list}
             style={{
               border: errorMessage ? '1px solid #ff5050' : ' 1px solid #d9d9d9',
               color: error ? '#ff5050' : '#6e6d6d',
-              backgroundColor: readOnly || isDisable ? 'rgb(245 245 245)' : '#fff',
+              backgroundColor:
+                readOnly || isDisable ? 'rgb(245 245 245)' : '#fff',
             }}
             name={name}
             value={value}
@@ -102,10 +109,12 @@ const Input = ({
             />
           )}
         </div>
-        {(error || errorMessage) && <span className={style.errorMessage}>{errorMessage}</span>}
+        {(error || errorMessage) && (
+          <span className={style.errorMessage}>{errorMessage}</span>
+        )}
       </div>
     </>
-  );
-};
+  )
+}
 
-export default Input;
+export default Input
