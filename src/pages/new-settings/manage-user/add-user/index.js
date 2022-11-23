@@ -1,22 +1,35 @@
-import Button from 'components/button';
-import Input from 'components/textfield';
+import Switch from 'components/switch'
+import Select from 'components/select'
+import Button from 'components/button'
+import Input from 'components/textfield'
+import SearchSelect from 'components/search-select'
 
-import cam from 'assets/whiteCam.svg';
-import style from './add-user.module.scss';
-import Switch from 'components/switch';
-import Select from 'components/select';
-import { AddUserHelper } from './addUser-helper';
+import { convertBase64Image } from 'main-helper'
+import { AddUserHelper } from './add-user-helper'
 
-const AddUser = ({ setNewUser }) => {
-  const { register, handleSubmit, clearErrors, control, onSubmit, imgBlob, setImgBlob } =
-    AddUserHelper();
+import cam from 'assets/whiteCam.svg'
+import style from './add-user.module.scss'
+
+const AddUser = ({ setNewUser, customRoles, allIDs }) => {
+  const {
+    register,
+    handleSubmit,
+    clearErrors,
+    control,
+    onSubmit,
+    imgBlob,
+    setImgBlob,
+    errors,
+    setBase64,
+    btnLoader,
+  } = AddUserHelper({ setNewUser })
 
   return (
     <>
       <form
         onSubmit={(e) => {
-          clearErrors();
-          handleSubmit(onSubmit)(e);
+          clearErrors()
+          handleSubmit(onSubmit)(e)
         }}
       >
         <div className={style.addParent}>
@@ -38,10 +51,11 @@ const AddUser = ({ setNewUser }) => {
               type={'file'}
               hidden
               accept="image/png, image/gif, image/jpeg"
-              onChange={(e) => {
-                const url = URL.createObjectURL(e.target.files[0]);
-                console.error('e', url);
-                setImgBlob(url);
+              onChange={async (e) => {
+                const url = URL.createObjectURL(e.target.files[0])
+                const base64 = await convertBase64Image(e.target.files[0])
+                setBase64(base64)
+                setImgBlob(url)
               }}
             />
           </div>
@@ -49,6 +63,7 @@ const AddUser = ({ setNewUser }) => {
             <Input
               label="Name"
               name={'name'}
+              errorMessage={errors?.name?.message}
               register={register}
               placeholder={'Enter user name'}
               containerClass={style.containerClassInput}
@@ -56,32 +71,38 @@ const AddUser = ({ setNewUser }) => {
             <Input
               label="Email"
               name={'email'}
+              errorMessage={errors?.email?.message}
               register={register}
               placeholder={'Enter email'}
               containerClass={style.containerClassInput}
             />
-            <Select label="Role" name={'category'} register={register}>
+            <Select
+              label="Role"
+              name={'roleId'}
+              errorMessage={errors?.roleId?.message}
+              register={register}
+            >
               <option value="">Select</option>
               <>
-                {categories &&
-                  categories?.map((ele: any) => (
-                    <option key={ele.name} value={ele?.value}>
+                {customRoles &&
+                  customRoles?.map((ele) => (
+                    <option key={ele.name} value={ele?._id}>
                       {ele.name}
                     </option>
                   ))}
               </>
             </Select>
-            <Input
+            <SearchSelect
+              name={'employeeId'}
+              errorMessage={errors?.employeeId?.message}
+              control={control}
+              options={allIDs?.map(({ employeeId }) => employeeId)}
               label="ID"
-              name={'id'}
-              register={register}
-              placeholder={'Enter id'}
-              containerClass={style.containerClassInput}
             />
             <div className={style.customLabel}>
               <label>Status</label>
               <div>
-                <Switch title={'Active'} name={'switch'} control={control} />
+                <Switch title={'Active'} name={'status'} control={control} />
               </div>
             </div>
           </div>
@@ -90,6 +111,7 @@ const AddUser = ({ setNewUser }) => {
         <div className={style.btns}>
           <Button
             text="Cancel"
+            type="button"
             btnClass={style.cancelBtn}
             className={style.btnText}
             handleClick={() => setNewUser(false)}
@@ -98,23 +120,12 @@ const AddUser = ({ setNewUser }) => {
             text="Add"
             type="submit"
             btnClass={style.addBtn}
-            handleClick={() => setNewUser(false)}
+            isLoading={btnLoader}
           />
         </div>
       </form>
     </>
-  );
-};
+  )
+}
 
-export default AddUser;
-
-const categories = [
-  { name: 'Local', value: 'Local' },
-  { name: 'Expat', value: 'Expat' },
-  { name: 'Single Filers', value: 'Single Filers' },
-  {
-    name: 'Married Individuals filing joint returns',
-    value: 'Married Individuals filing joint returns',
-  },
-  { name: 'For Heads of House Hold', value: 'For Heads of House Hold' },
-];
+export default AddUser

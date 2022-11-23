@@ -6,6 +6,7 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import listPlugin from '@fullcalendar/list'
+import $ from 'jquery'
 import CalenderService from 'services/calender-service'
 import EmployeeService from 'services/employee-service'
 import { createNotification } from 'common/create-notification'
@@ -24,8 +25,9 @@ import Container from 'components/container'
 import EventModal from 'components/modal'
 import TextArea from 'components/textarea'
 import DeleteModal from 'components/delete-modal'
+import Radio from 'components/radio'
 
-import { eventTypes, recurrenceTypes, category } from './event-types'
+import { eventTypes, recurrenceTypes, category, eventName } from './event-types'
 
 import location from 'assets/location.svg'
 import noimage from 'assets/NoImage.svg'
@@ -56,6 +58,8 @@ const Calender = () => {
   const [singleEventData, setSingleEventData] = useState<any>('')
   const [attendeesPic, setAttendeesPic] = useState([])
   const [delModal, setDelModal] = useState(false)
+  const [view, setView] = useState('Daily')
+  const [delRecurring, setDelRecurring] = useState(false)
   const [employeesWithDep] = useState<any>([])
 
   const placeholderImage = noimage
@@ -76,9 +80,26 @@ const Calender = () => {
   })
 
   useEffect(() => {
-    getAllEvents()
     getEmployeesWithDep()
+    $('.fc-timeGridDay-button').click(function () {
+      setView('Daily')
+    })
+    $('.fc-timeGridWeek-button').click(function () {
+      setView('Weekly')
+    })
+
+    $('.fc-dayGridMonth-button').click(function () {
+      setView('Monthly')
+    })
+
+    $('.fc-next-button').click(function () {
+      //
+    })
   }, [])
+
+  useEffect(() => {
+    getAllEvents()
+  }, [view])
 
   useEffect(() => {
     updateEventData()
@@ -104,9 +125,9 @@ const Calender = () => {
 
   const getAllEvents = async () => {
     const res = await CalenderService.getAllEvents({
-      view: 'Daily' && 'Weekly' && 'Monthly',
+      view: view,
     })
-    setAllEvent(res.data.events)
+    setAllEvent(res?.data?.events)
   }
 
   const handleDelete = async () => {
@@ -175,9 +196,9 @@ const Calender = () => {
             padding:
               allDay === true
                 ? '0px'
-                : eventInfo?.view?.type == 'dayGridMonth'
+                : eventInfo?.view?.type === 'dayGridMonth'
                 ? '0px'
-                : null,
+                : '',
             display: 'flex',
             width: '100%',
             alignItems: 'center',
@@ -318,7 +339,6 @@ const Calender = () => {
       if (err?.response?.data?.error) {
         setErrors(err?.response?.data?.error, setError)
       }
-      createNotification('error', 'Error', err?.response?.data?.msg)
       setBtnLoader(false)
     }
   }
@@ -326,7 +346,7 @@ const Calender = () => {
   return (
     <div className={style.calenderMain}>
       <Container>
-        <div className={style.fullDiv}>
+        <div className={style.fullDiv1}>
           <div className={style.topBtn}>
             <Button
               text="Add Event"
@@ -339,49 +359,52 @@ const Calender = () => {
               iconStart={plus}
             />
           </div>
-          <div className={style.sectionView}>
-            <FullCalendar
-              plugins={[
-                interactionPlugin,
-                timeGridPlugin,
-                dayGridPlugin,
-                listPlugin,
-              ]}
-              initialView={day}
-              headerToolbar={{
-                right: `${list} ${day} ${week} ${month}`,
-                left: 'prev title next today',
-              }}
-              buttonText={{
-                list: 'Events',
-                month: 'Monthly',
-                week: 'Weekly',
-                day: 'Daily',
-              }}
-              titleFormat={{
-                day: 'numeric',
-                year: 'numeric',
-                month: 'short',
-              }}
-              dayMaxEvents={2}
-              expandRows={true}
-              allDayMaintainDuration={true}
-              eventContent={RenderEventHandler}
-              slotLabelInterval={{ hours: 1 }}
-              events={allEvent?.map((e: any) => ({
-                ...e,
-                start: e.start.replace('Z', ''),
-                end: e.end.replace('Z', ''),
-              }))}
-              handleWindowResize={true}
-              contentHeight="auto"
-              contentWidth="auto"
-              nowIndicator
-              eventClick={handleMouseEnter}
-              slotEventOverlap={false}
-              allDaySlot={true}
-              allDayText="all-day"
-            />
+          <p onClick={() => setDelRecurring(true)}>Delete Recuring</p>
+          <div className={style.fullDiv}>
+            <div className={style.sectionView}>
+              <FullCalendar
+                plugins={[
+                  interactionPlugin,
+                  timeGridPlugin,
+                  dayGridPlugin,
+                  listPlugin,
+                ]}
+                initialView={day}
+                headerToolbar={{
+                  right: `${list} ${day} ${week} ${month}`,
+                  left: 'prev title next today',
+                }}
+                buttonText={{
+                  list: 'Events',
+                  month: 'Monthly',
+                  week: 'Weekly',
+                  day: 'Daily',
+                }}
+                titleFormat={{
+                  day: 'numeric',
+                  year: 'numeric',
+                  month: 'short',
+                }}
+                dayMaxEvents={2}
+                expandRows={true}
+                allDayMaintainDuration={true}
+                eventContent={RenderEventHandler}
+                slotLabelInterval={{ hours: 1 }}
+                events={allEvent?.map((e: any) => ({
+                  ...e,
+                  start: e.start.replace('Z', ''),
+                  end: e.end.replace('Z', ''),
+                }))}
+                handleWindowResize={true}
+                contentHeight="auto"
+                contentWidth="auto"
+                nowIndicator
+                eventClick={handleMouseEnter}
+                slotEventOverlap={false}
+                allDaySlot={true}
+                allDayText="all-day"
+              />
+            </div>
           </div>
         </div>
         <Modal
@@ -688,6 +711,35 @@ const Calender = () => {
           bucket={bucketIcon}
           isLoading={btnLoader}
         />
+
+        <Modal
+          open={delRecurring}
+          handleClose={() => {
+            setDelRecurring(!delRecurring)
+          }}
+          title={'Delete Recurring event'}
+          type="submit"
+          className={style.body}
+        >
+          <div>
+            {eventName.map((item) => (
+              <>
+                <div style={{ padding: '10px', marginTop: '2px' }}>
+                  <Radio label={item?.name} name="radio" />
+                </div>
+              </>
+            ))}
+            <div className={style.btnDiv}>
+              <Button
+                text="Cancel"
+                btnClass={style.cnclBtn}
+                className={style.cnclText}
+                handleClick={() => setDelRecurring(!delRecurring)}
+              />
+              <Button text="Delete" />
+            </div>
+          </div>
+        </Modal>
       </Container>
     </div>
   )

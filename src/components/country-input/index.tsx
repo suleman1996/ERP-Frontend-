@@ -1,24 +1,33 @@
-import React from 'react';
-import { Controller } from 'react-hook-form';
-import ReactPhoneInput from 'react-phone-input-2';
+import { Controller } from 'react-hook-form'
+import ReactPhoneInput from 'react-phone-input-2'
 
-import 'react-phone-input-2/lib/style.css';
-import style from './country.module.scss';
+import 'react-phone-input-2/lib/style.css'
+import style from './country.module.scss'
 
 interface Props {
-  name?: any;
-  placeholder?: any;
-  control?: any;
-  errorMessage?: any;
-  label?: string;
-  star?: string;
+  name?: string
+  placeholder?: string
+  control?: any
+  errorMessage?: string
+  label?: string
+  star?: string
 }
 
-const CountryInput = ({ name, placeholder, control, errorMessage, label, star }: Props) => {
+const CountryInput = ({
+  name,
+  placeholder,
+  control,
+  errorMessage,
+  label,
+  star,
+}: Props) => {
   return (
     <>
       {label && (
-        <label className={style.label} style={{ color: errorMessage ? '#ff5050' : '' }}>
+        <label
+          className={style.label}
+          style={{ color: errorMessage ? '#ff5050' : '' }}
+        >
           {label}
           <b style={{ color: '#ff5050' }}>{star}</b>
         </label>
@@ -28,17 +37,22 @@ const CountryInput = ({ name, placeholder, control, errorMessage, label, star }:
         control={control}
         render={({ onChange, value }) => {
           return (
-            <div className={style.wraper} style={{ border: errorMessage && '1px solid  #ff5050' }}>
+            <div
+              className={style.wraper}
+              style={{ border: errorMessage && '1px solid  #ff5050' }}
+            >
               <ReactPhoneInput
                 inputStyle={{
-                  height: 'calc(30px + (55 - 30) * (100vw - 280px) / (2560 - 280))',
+                  height:
+                    'calc(30px + (55 - 30) * (100vw - 280px) / (2560 - 280))',
                   width: '100%',
                   background: '#FFFFFF',
                   border: '1px solid #E2E2EA',
                   borderRadius: '6px',
                   paddingLeft: '55px',
                   color: '#2D2D32',
-                  fontSize: 'calc(12px + (18 - 12) * (100vw - 280px) / (2560 - 280))',
+                  fontSize:
+                    'calc(12px + (18 - 12) * (100vw - 280px) / (2560 - 280))',
                 }}
                 buttonClass={style.buttonStyle}
                 country={'pk'}
@@ -48,12 +62,14 @@ const CountryInput = ({ name, placeholder, control, errorMessage, label, star }:
                 placeholder={placeholder}
               />
             </div>
-          );
+          )
         }}
       />
-      {errorMessage && <span className={style.errorMessage}>{errorMessage}</span>}
+      {errorMessage && (
+        <span className={style.errorMessage}>{errorMessage}</span>
+      )}
     </>
-  );
-};
+  )
+}
 
-export default CountryInput;
+export default CountryInput

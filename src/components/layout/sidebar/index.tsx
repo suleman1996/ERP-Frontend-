@@ -1,68 +1,70 @@
-import React, { useEffect, useState, Dispatch, SetStateAction } from 'react';
-import { useLocation, useNavigate } from 'react-router';
+import { useEffect, useState, Dispatch, SetStateAction } from 'react'
+import { useLocation, useNavigate } from 'react-router'
 
-import { adminListArr } from './list-script';
-import { useAppDispatch, useAppSelector } from 'store/hooks';
-import { setLogout } from 'store';
+import { adminListArr } from './list-script'
+import { useAppDispatch, useAppSelector } from 'store/hooks'
+import { setLogout } from 'store'
 
-import leftArrow from 'assets/sidebar-icon.svg';
-import right from 'assets/right.svg';
-import logoImg2 from 'assets/sidebar-logo.svg';
-import smallImg from 'assets/onlyX.svg';
-import logoutImg from 'assets/logout-sidebar.svg';
-import profileImg from 'assets/profileImg.png';
-import profileImg2 from 'assets/profileImg2.svg';
-import style from './sidebar.module.scss';
+import leftArrow from 'assets/sidebar-icon.svg'
+import right from 'assets/right.svg'
+import logoImg2 from 'assets/sidebar-logo.svg'
+import smallImg from 'assets/onlyX.svg'
+import logoutImg from 'assets/logout-sidebar.svg'
+import profileImg from 'assets/profileImg.png'
+import profileImg2 from 'assets/profileImg2.svg'
+import style from './sidebar.module.scss'
 
 interface Props {
-  open?: boolean;
-  setOpen: Dispatch<SetStateAction<boolean>>;
+  open?: boolean
+  setOpen: Dispatch<SetStateAction<boolean>>
 }
 
 interface ListArr {
-  path: string;
-  active: string;
-  title: string;
-  img1: string;
-  img2: string;
+  path: string
+  active: string
+  title: string
+  img1: string
+  img2: string
 }
 
 const Sidebar = ({ open, setOpen }: Props) => {
-  const navigate = useNavigate();
-  const { pathname } = useLocation();
-  const dispatch = useAppDispatch();
-  const { currentUser } = useAppSelector((state) => state.app);
+  const navigate = useNavigate()
+  const { pathname } = useLocation()
+  const dispatch = useAppDispatch()
+  const { currentUser } = useAppSelector((state) => state.app)
 
-  const [sideBarListArr, setSideBarListArr] = useState<ListArr[] | []>([]);
-  const [pathName, setPathName] = useState<string>('');
+  const [sideBarListArr, setSideBarListArr] = useState<ListArr[] | []>([])
+  const [pathName, setPathName] = useState<string>('')
 
   useEffect(() => {
     if (pathname === '/') {
-      setPathName('dashboard');
+      setPathName('dashboard')
     } else {
-      const tempPath = pathname && pathname?.split('/')[1];
-      setPathName(tempPath);
+      const tempPath = pathname && pathname?.split('/')[1]
+      setPathName(tempPath)
     }
-  }, [pathname]);
+  }, [pathname])
 
   useEffect(() => {
     if (currentUser?.role) {
-      const setList = adminListArr?.filter((ele: any) => ele.role.includes(currentUser?.role));
-      setSideBarListArr([...setList]);
+      const setList = adminListArr?.filter((ele: any) =>
+        ele.role.includes(currentUser?.role)
+      )
+      setSideBarListArr([...setList])
     }
-  }, [currentUser?.role]);
+  }, [currentUser?.role])
 
   const handleLogout = () => {
-    dispatch(setLogout(''));
-  };
+    dispatch(setLogout(''))
+  }
 
   const handleNavigate = (path: string, active: string) => {
     if (active === 'employee' && currentUser?.role === 'Employee') {
-      navigate(`${path}/${currentUser?.id}`);
+      navigate(`${path}/${currentUser?.id}`)
     } else {
-      navigate(path);
+      navigate(path)
     }
-  };
+  }
 
   return (
     <>
@@ -103,7 +105,7 @@ const Sidebar = ({ open, setOpen }: Props) => {
                 className={style.profileContentDiv}
                 style={{ display: !open ? 'block' : 'none' }}
               >
-                <h1>{`${currentUser?.firstName} ${currentUser?.lastName}`}</h1>
+                <h1>{`${currentUser?.name}`}</h1>
                 <p>{currentUser?.designation}</p>
               </div>
             </div>
@@ -143,7 +145,11 @@ const Sidebar = ({ open, setOpen }: Props) => {
         {/* Logout  */}
         <div className={style.logoutDiv}>
           <div onClick={handleLogout} className={style.smallLogoutDiv}>
-            <img src={logoutImg} alt="!error" className={open ? style.iconsClass1 : style.img} />
+            <img
+              src={logoutImg}
+              alt="!error"
+              className={open ? style.iconsClass1 : style.img}
+            />
             <p
               style={{
                 display: open ? 'none' : 'block',
@@ -156,7 +162,7 @@ const Sidebar = ({ open, setOpen }: Props) => {
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default Sidebar;
+export default Sidebar

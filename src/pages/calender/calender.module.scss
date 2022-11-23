@@ -187,10 +187,14 @@
   padding-left: 10px;
 }
 .fullDiv {
+  border-radius: 4px;
+  padding-top: 10px;
+  margin: 20px;
+}
+.fullDiv1 {
   border: 1px solid #e2e2ea;
   border-radius: 4px;
   padding-top: 10px;
-  padding: 20px;
 }
 .fc .fc-button:focus {
   box-shadow: none !important;
@@ -199,4 +203,24 @@
   border: 1px solid #e2e2ea;
   border-radius: 3px;
   padding-top: 10px;
+}
+.btnDiv {
+  display: flex;
+  justify-content: flex-end;
+}
+.cnclBtn {
+  margin-right: 10px;
+  background-color: white !important;
+  border: 1px solid #57b894;
+}
+.cnclText {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 13px;
+  color: #57b894 !important;
+}
+.body {
+  padding-top: 0px !important;
+  padding-bottom: 15px !important;
 }

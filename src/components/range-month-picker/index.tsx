@@ -1,25 +1,25 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import ReactDatePicker from 'react-datepicker';
-import { Controller } from 'react-hook-form';
+import ReactDatePicker from 'react-datepicker'
+import { Controller } from 'react-hook-form'
 
-import style from './date.module.scss';
-import 'react-datepicker/dist/react-datepicker.css';
-import singleArrowRight from 'assets/2.svg';
-import singleArrowLeft from 'assets/3.svg';
-import './data.css';
+import style from './date.module.scss'
+import 'react-datepicker/dist/react-datepicker.css'
+import singleArrowRight from 'assets/2.svg'
+import singleArrowLeft from 'assets/3.svg'
+import './data.css'
 
 interface Props {
-  label?: string;
-  id?: string;
-  className?: string;
-  name?: string;
-  errorMessage?: string;
-  min?: any;
-  max?: any;
-  watch?: any;
-  control?: any;
-  defaultVal?: string;
-  star?: string;
+  label?: string
+  id?: string
+  className?: string
+  name?: string
+  errorMessage?: string
+  min?: any
+  max?: any
+  watch?: any
+  control?: any
+  defaultVal?: string
+  star?: string
 }
 
 const MonthYearPicker = ({
@@ -38,7 +38,10 @@ const MonthYearPicker = ({
     <>
       <div className={`${style.main} ${className}`}>
         {label && (
-          <label style={{ color: errorMessage && '#000' }} className={style.label}>
+          <label
+            style={{ color: errorMessage && '#000' }}
+            className={style.label}
+          >
             {label}
             <b style={{ color: 'red' }}>{star}</b>
           </label>
@@ -91,14 +94,18 @@ const MonthYearPicker = ({
                   )}
                 />
               </>
-            );
+            )
           }}
         />
 
-        {errorMessage ? <span className={style.errorMessage}>{errorMessage}</span> : ''}
+        {errorMessage ? (
+          <span className={style.errorMessage}>{errorMessage}</span>
+        ) : (
+          ''
+        )}
       </div>
     </>
-  );
-};
+  )
+}
 
-export default MonthYearPicker;
+export default MonthYearPicker

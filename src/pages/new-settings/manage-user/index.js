@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 
 import Table from 'components/table'
@@ -8,14 +8,34 @@ import DeletePopup from 'components/delete-modal'
 import CardContainer from 'components/card-container'
 
 import { ColumnsData, RowsData } from './helper'
+import SettingsService from 'services/settings-service'
+import EmployeeService from 'services/employee-service'
 
-import style from './manage.module.scss'
 import dummy from 'assets/dummyPic.svg'
+import style from './manage.module.scss'
 
 const ManageUser = ({ newUser, setNewUser }) => {
+  const { control } = useForm()
+
   const [deletePopUp, setDeletePopUp] = useState(false)
   const [editIndex, setEditIndex] = useState(-1)
-  const { control } = useForm()
+  const [customRoles, setCustomRoles] = useState()
+  const [allIDs, setAllIDs] = useState()
+
+  useEffect(() => {
+    getCustomRoles()
+    getAllIds()
+  }, [])
+
+  const getAllIds = async () => {
+    const result = await EmployeeService.getOnlyEmployees()
+    setAllIDs(result?.data)
+  }
+
+  const getCustomRoles = async () => {
+    const res = await SettingsService.getAllCustomRoles()
+    setCustomRoles(res?.data?.customRoles)
+  }
 
   return (
     <CardContainer className={style.card}>
@@ -50,7 +70,13 @@ const ManageUser = ({ newUser, setNewUser }) => {
           handleEdit={(id) => setEditIndex(id)}
           handleModalOpen={() => setDeletePopUp(true)}
         />
-        {newUser && <AddUser setNewUser={setNewUser} />}
+        {newUser && (
+          <AddUser
+            setNewUser={setNewUser}
+            customRoles={customRoles}
+            allIDs={allIDs}
+          />
+        )}
         <DeletePopup
           open={deletePopUp}
           setOpen={setDeletePopUp}
