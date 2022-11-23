@@ -93,13 +93,12 @@ const Calender = () => {
     })
 
     $('.fc-next-button').click(function () {
-      undefined
+      //
     })
   }, [])
 
   useEffect(() => {
     getAllEvents()
-    console.log({ view })
   }, [view])
 
   useEffect(() => {
@@ -723,14 +722,10 @@ const Calender = () => {
           className={style.body}
         >
           <div>
-            {eventName.map((item, index) => (
+            {eventName.map((item) => (
               <>
                 <div style={{ padding: '10px', marginTop: '2px' }}>
-                  <Radio
-                    label={item?.name}
-                    handleClick={() => console.log(index)}
-                    name="radio"
-                  />
+                  <Radio label={item?.name} name="radio" />
                 </div>
               </>
             ))}
