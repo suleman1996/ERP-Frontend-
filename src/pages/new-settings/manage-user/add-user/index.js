@@ -6,7 +6,7 @@ import cam from 'assets/whiteCam.svg'
 import style from './add-user.module.scss'
 import Switch from 'components/switch'
 import Select from 'components/select'
-import { AddUserHelper } from './addUser-helper'
+import { AddUserHelper } from './add-user-helper'
 import { convertBase64Image } from 'main-helper'
 
 const AddUser = ({ setNewUser, customRoles, allIDs }) => {
