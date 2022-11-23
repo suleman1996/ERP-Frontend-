@@ -76,7 +76,7 @@ const SearchSelect = ({
         setOpen(true)
         setList(
           options?.filter((ele: string) =>
-            ele.toLowerCase().includes(e.target.value.toLowerCase())
+            ele?.toLowerCase().includes(e.target.value.toLowerCase())
           )
         )
       }

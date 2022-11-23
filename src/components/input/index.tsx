@@ -80,7 +80,7 @@ const Input = ({
             className={inputClass}
             list={list}
             style={{
-              border: error ? '1px solid #ff5050' : ' 1px solid #d9d9d9',
+              border: errorMessage ? '1px solid #ff5050' : ' 1px solid #d9d9d9',
               color: error ? '#ff5050' : '#6e6d6d',
               backgroundColor:
                 readOnly || isDisable ? 'rgb(245 245 245)' : '#fff',

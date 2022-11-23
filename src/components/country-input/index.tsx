@@ -1,4 +1,3 @@
-import React from 'react'
 import { Controller } from 'react-hook-form'
 import ReactPhoneInput from 'react-phone-input-2'
 
@@ -6,10 +5,10 @@ import 'react-phone-input-2/lib/style.css'
 import style from './country.module.scss'
 
 interface Props {
-  name?: any
-  placeholder?: any
+  name?: string
+  placeholder?: string
   control?: any
-  errorMessage?: any
+  errorMessage?: string
   label?: string
   star?: string
 }
