@@ -13,12 +13,11 @@ const AccessLevel = () => {
   const [toggle, setToggle] = useState(0)
   const [newUser, setNewUser] = useState(false)
   const [menu, setMenu] = useState(false)
-
   const [openAccordian, setOpenAccordian] = useState(-1)
 
   return (
-    <div style={{ padding: '20px' }}>
-      <CardContainer>
+    <div>
+      <CardContainer className={style.card}>
         <div className={style.innderDivs}>
           <div>
             <div className={style.rolesAddText}>
