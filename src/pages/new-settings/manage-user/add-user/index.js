@@ -2,7 +2,7 @@ import Switch from 'components/switch'
 import Select from 'components/select'
 import Button from 'components/button'
 import Input from 'components/textfield'
-import SearchSelect from 'components/search-select'
+import SearchSelect from 'components/select-and-search-select'
 
 import { convertBase64Image } from 'main-helper'
 import { AddUserHelper } from './add-user-helper'
