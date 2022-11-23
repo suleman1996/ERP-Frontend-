@@ -98,6 +98,7 @@ const AccountSetting = () => {
             img={img}
             setImg={setImg}
             accountSetting
+            btnText="Remove Photo"
           />
           <div className={style.customInputs}>
             <Input
@@ -130,7 +131,7 @@ const AccountSetting = () => {
               register={register}
             />
             <Input
-              label={'ConfirmPassword'}
+              label={'Confirm Password'}
               name={'confirmPassword'}
               errorMessage={errors?.confirmPassword?.message}
               type={confirmNewpass ? 'text' : 'password'}
