@@ -1,24 +1,24 @@
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { schema } from './forget-helper';
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { schema } from './forget-helper'
 
-import Input from 'components/textfield';
-import Button from 'components/button';
+import Input from 'components/textfield'
+import Button from 'components/button'
 
-import style from './forget.module.scss';
-import logo from 'assets/sprintx.svg';
+import style from './forget.module.scss'
+import logo from 'assets/sprintx.svg'
 
 const MobileForgot = ({ handleForgot }: any) => {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false)
 
   const { register, handleSubmit, errors } = useForm({
     resolver: yupResolver(schema),
-  });
+  })
 
   const onSubmit = async (data: { email: string }) => {
-    handleForgot(data, setIsLoading);
-  };
+    handleForgot(data, setIsLoading)
+  }
 
   return (
     <>
@@ -40,11 +40,16 @@ const MobileForgot = ({ handleForgot }: any) => {
             />
           </div>
           <div className={style.logo}>
-            <Button type={'submit'} text="SEND" btnClass={style.btn} isLoading={isLoading} />
+            <Button
+              type={'submit'}
+              text="SEND"
+              btnClass={style.btn}
+              isLoading={isLoading}
+            />
           </div>
         </form>
       </div>
     </>
-  );
-};
-export default MobileForgot;
+  )
+}
+export default MobileForgot

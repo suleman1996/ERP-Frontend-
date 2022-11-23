@@ -1,34 +1,38 @@
-import { useState, Dispatch, SetStateAction } from 'react';
-import { Link } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
+import { useState, Dispatch, SetStateAction } from 'react'
+import { Link } from 'react-router-dom'
+import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
 
-import Input from 'components/textfield';
-import Button from 'components/button';
-import { schema } from './login-helper';
-import { LoginCredentials } from 'interfaces/login-credentials';
+import Input from 'components/textfield'
+import Button from 'components/button'
+import { schema } from './login-helper'
+import { LoginCredentials } from 'interfaces/login-credentials'
 
-import eye from 'assets/eye.svg';
-import logo from 'assets/sprintx.svg';
-import style from './login.module.scss';
+import eye from 'assets/eye.svg'
+import logo from 'assets/sprintx.svg'
+import style from './login.module.scss'
 
 interface Props {
-  handleLogin?: () => void;
-  openNotification?: boolean;
-  setOpenNotification?: Dispatch<SetStateAction<boolean>>;
+  handleLogin?: () => void
+  openNotification?: boolean
+  setOpenNotification?: Dispatch<SetStateAction<boolean>>
 }
 
-const MobileLogin = ({ handleLogin, openNotification, setOpenNotification }: Props) => {
+const MobileLogin = ({
+  handleLogin,
+  openNotification,
+  setOpenNotification,
+}: Props) => {
   const { register, handleSubmit, errors } = useForm({
     resolver: yupResolver(schema),
-  });
+  })
 
-  const [isLoading, setIsLoading] = useState(false);
-  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(false)
+  const [passwordVisible, setPasswordVisible] = useState(false)
 
   const onSubmit = async (data: LoginCredentials) => {
-    handleLogin(data, setIsLoading);
-  };
+    handleLogin(data, setIsLoading)
+  }
 
   return (
     <>
@@ -44,8 +48,8 @@ const MobileLogin = ({ handleLogin, openNotification, setOpenNotification }: Pro
           {openNotification ? (
             <div className={style.popUpScreen}>
               <p>
-                You are an inactive user. if you want to use erp please contact with your system
-                admin.
+                You are an inactive user. if you want to use erp please contact
+                with your system admin.
               </p>
               <Button
                 text="Go Back"
@@ -85,13 +89,17 @@ const MobileLogin = ({ handleLogin, openNotification, setOpenNotification }: Pro
                 </div>
               </div>
               <div className={style.logo}>
-                <Button text="LOG IN" btnClass={style.btn} isLoading={isLoading} />
+                <Button
+                  text="LOG IN"
+                  btnClass={style.btn}
+                  isLoading={isLoading}
+                />
               </div>
             </form>
           )}
         </div>
       </div>
     </>
-  );
-};
-export default MobileLogin;
+  )
+}
+export default MobileLogin
