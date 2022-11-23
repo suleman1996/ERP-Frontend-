@@ -1,30 +1,24 @@
-import { useEffect } from 'react';
+import Button from 'components/button'
+import Select from 'components/select'
+import TextField from 'components/textfield'
 
-import Card from 'components/card';
-import Input from 'components/textfield';
-import Button from 'components/button';
-import Select from 'components/select';
-import TextField from 'components/textfield';
+import { useEmployeeFilter } from './helper'
 
-import { Props, useEmployeeFilter } from './helper';
-
-import style from '../employee-profile.module.scss';
-import cross from 'assets/employee-page/Path 307.svg';
+import style from '../employee-profile.module.scss'
 
 interface Props {
-  setOpen?: any;
-  setEmployees?: any;
-  open?: any;
-  getData: any;
-  getEmployeesData: () => void;
+  setOpen?: any
+  setEmployees?: any
+  open?: any
+  getData: any
+  getEmployeesData: () => void
 }
 
-const EmployeeFilter = ({ setOpen, setEmployees, open, getEmployeesData }: Props) => {
+const EmployeeFilter = ({ setOpen, setEmployees, open }: Props) => {
   const {
     register,
     handleSubmit,
     onSubmit,
-    cancelHandler,
     departments,
     designation,
     departmentChangeHandler,
@@ -32,7 +26,7 @@ const EmployeeFilter = ({ setOpen, setEmployees, open, getEmployeesData }: Props
   } = useEmployeeFilter({
     setOpen,
     setEmployees,
-  });
+  })
 
   return (
     <form
@@ -70,7 +64,12 @@ const EmployeeFilter = ({ setOpen, setEmployees, open, getEmployeesData }: Props
             </>
           </Select>
 
-          <Select label="Designation" star={' *'} register={register} name="designation">
+          <Select
+            label="Designation"
+            star={' *'}
+            register={register}
+            name="designation"
+          >
             <option value="">Designation</option>
             <>
               {designation &&
@@ -92,7 +91,7 @@ const EmployeeFilter = ({ setOpen, setEmployees, open, getEmployeesData }: Props
         </div>
       </div>
     </form>
-  );
-};
+  )
+}
 
-export default EmployeeFilter;
+export default EmployeeFilter

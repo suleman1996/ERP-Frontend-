@@ -1,4 +1,3 @@
-import flagImg from 'assets/flag/pakFlag.svg';
 export const columns = [
   {
     key: 'date',
@@ -37,7 +36,7 @@ export const columns = [
     width: '150px',
   },
   { key: 'actions', name: 'Actions', alignText: 'center', width: '200px' },
-];
+]
 
 export const rows = [
   {
@@ -48,7 +47,7 @@ export const rows = [
     days: '22',
     fatherName: 'Baig Family',
   },
-];
+]
 
 export const recurrenceTypes = [
   { value: 'Daily', label: 'Daily' },
@@ -56,7 +55,7 @@ export const recurrenceTypes = [
   { value: 'Monthly', label: 'Monthly' },
   { value: 'Yearly', label: 'Yearly' },
   { value: 'No Recurrence', label: 'No Recurrence' },
-];
+]
 
 export const tabs: any = [
   { key: 'Personal', title: 'Personal Information' },
@@ -66,6 +65,12 @@ export const tabs: any = [
   { key: 'Experience', title: 'Personal Information' },
   { key: 'Expertise', title: 'Personal Information' },
   { key: 'Payroll', title: 'Personal Information' },
-];
+]
 
-export const languageArray = ['Abkhazian', 'Afar', 'Afrikaans', 'Somali', 'Sotho, Southern'];
+export const languageArray = [
+  'Abkhazian',
+  'Afar',
+  'Afrikaans',
+  'Somali',
+  'Sotho, Southern',
+]

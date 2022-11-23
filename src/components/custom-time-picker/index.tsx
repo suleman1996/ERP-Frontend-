@@ -1,20 +1,20 @@
-import { useState, useEffect } from 'react';
-import { useController } from 'react-hook-form';
+import { useEffect } from 'react'
+import { useController } from 'react-hook-form'
 
-import Select from 'components/select';
+import Select from 'components/select'
 
-import style from './time.module.scss';
+import style from './time.module.scss'
 
 interface Props {
-  control?: any;
-  name?: any;
-  errorMessage?: any;
-  setCustomErr?: any;
-  customErr?: any;
-  setType?: any;
-  type?: any;
-  star?: any;
-  label?: string;
+  control?: any
+  name?: any
+  errorMessage?: any
+  setCustomErr?: any
+  customErr?: any
+  setType?: any
+  type?: any
+  star?: any
+  label?: string
 }
 
 const CustomTimePicker = ({
@@ -23,36 +23,35 @@ const CustomTimePicker = ({
   label,
   errorMessage,
   setCustomErr,
-  customErr,
   setType,
   type,
   star,
 }: Props) => {
-  const { field } = useController({ control, name, defaultValue: 'HH:MM' });
+  const { field } = useController({ control, name, defaultValue: 'HH:MM' })
 
   useEffect(() => {
     if (type === 'per-day') {
       if (field.value.split(':')[0] > 23 || field.value.split(':')[1] > 59) {
-        setCustomErr('Hours should be less or equal to 23:59');
+        setCustomErr('Hours should be less or equal to 23:59')
       } else {
-        setCustomErr('');
+        setCustomErr('')
       }
     }
     if (type === 'per-week') {
       if (field.value.split(':')[0] > 167 || field.value.split(':')[1] > 59) {
-        setCustomErr('Hours should be less or equal to 167:59');
+        setCustomErr('Hours should be less or equal to 167:59')
       } else {
-        setCustomErr('');
+        setCustomErr('')
       }
     }
     if (type === 'per-month') {
       if (field.value.split(':')[0] > 719 || field.value.split(':')[1] > 59) {
-        setCustomErr('Hours should be less or equal to 719:59');
+        setCustomErr('Hours should be less or equal to 719:59')
       } else {
-        setCustomErr('');
+        setCustomErr('')
       }
     }
-  }, [field.value, type, selectHoursDuration]);
+  }, [field.value, type, selectHoursDuration])
   return (
     <div>
       <label style={{ color: errorMessage ? '#ff5050' : '' }}>
@@ -80,23 +79,27 @@ const CustomTimePicker = ({
           type="number"
           placeholder="HH"
           value={field.value.split(':')[0]}
-          onChange={(e) => field.onChange(e.target.value + ':' + field.value.split(':')[1])}
+          onChange={(e) =>
+            field.onChange(e.target.value + ':' + field.value.split(':')[1])
+          }
         />
         <div className={style.centerDiv}>:</div>
         <input
           type="number"
           placeholder="MM"
           value={field.value.split(':')[1]}
-          onChange={(e) => field.onChange(field.value.split(':')[0] + ':' + e.target.value)}
+          onChange={(e) =>
+            field.onChange(field.value.split(':')[0] + ':' + e.target.value)
+          }
         />
       </div>
       {/* {customErr && <p className={style.error}>{customErr}</p>} */}
       {errorMessage && <p className={style.error}>{errorMessage}</p>}
     </div>
-  );
-};
+  )
+}
 
-export default CustomTimePicker;
+export default CustomTimePicker
 
 export const selectHoursDuration = [
   {
@@ -111,4 +114,4 @@ export const selectHoursDuration = [
     value: 'per-month',
     description: 'Per Month ',
   },
-];
+]

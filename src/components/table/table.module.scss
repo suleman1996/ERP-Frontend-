@@ -33,6 +33,11 @@
           font-weight: 600 !important;
           @include font29;
           color: #2d2d32;
+
+          @media (max-width: $md) {
+            font-weight: 500;
+            font-size: 12px;
+          }
         }
 
         .sortIcon {

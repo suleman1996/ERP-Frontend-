@@ -1,21 +1,20 @@
-import React from 'react';
-import Loading from '../loading';
-import style from './button.module.scss';
+import React from 'react'
+import Loading from '../loading'
+import style from './button.module.scss'
 interface Props {
-  mobileIcon?: string;
-  handleClick?: () => void;
-  type?: any;
-  isLoading?: boolean;
-  btnClass?: string;
-  disabled?: any;
-  btnLoaderClass?: string;
-  className?: any;
+  mobileIcon?: string
+  handleClick?: () => void
+  type?: any
+  isLoading?: boolean
+  btnClass?: string
+  disabled?: any
+  btnLoaderClass?: string
+  className?: any
 }
 const MobileButton = ({
   mobileIcon,
   handleClick,
   type,
-  className,
   isLoading,
   btnClass,
   disabled,
@@ -36,10 +35,14 @@ const MobileButton = ({
         {isLoading ? (
           <Loading loaderClass={btnLoaderClass} />
         ) : (
-          <>{mobileIcon && <img src={mobileIcon} alt="" className={style.img} />}</>
+          <>
+            {mobileIcon && (
+              <img src={mobileIcon} alt="" className={style.img} />
+            )}
+          </>
         )}
       </button>
     </>
-  );
-};
-export default MobileButton;
+  )
+}
+export default MobileButton

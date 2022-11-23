@@ -20,10 +20,6 @@
       font-weight: 500;
       font-size: 13px;
       line-height: 20px;
-      /* identical to box height */
-
-      /* heading */
-
       color: #2d2d32 !important;
     }
   }
@@ -176,6 +172,11 @@
   font-size: 14px !important;
   line-height: 22px;
   color: #2d2d32;
+
+  @media (max-width: $md) {
+    font-weight: 400 !important;
+    font-size: 12px !important;
+  }
 }
 
 .rowText {
@@ -184,9 +185,5 @@
   font-weight: 400 !important;
   font-size: 13px !important;
   line-height: 22px;
-  /* identical to box height, or 172% */
-
-  /* heading */
-
   color: #2d2d32;
 }

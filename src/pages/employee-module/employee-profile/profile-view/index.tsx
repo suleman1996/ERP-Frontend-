@@ -1,37 +1,37 @@
-import { Dispatch, SetStateAction, useState, useEffect } from 'react';
-import moment from 'moment-timezone';
+import { Dispatch, SetStateAction, useState, useEffect } from 'react'
+import moment from 'moment-timezone'
 
-import EmployeeService from 'services/employee-service';
+import EmployeeService from 'services/employee-service'
 
-import Button from 'components/button';
-import Container from 'components/container';
-import Modal from 'components/modal';
+import Button from 'components/button'
+import Container from 'components/container'
+import Modal from 'components/modal'
 
-import style from './employee-profile.module.scss';
+import style from './employee-profile.module.scss'
 
 interface Props {
-  setOpenModalProfile: Dispatch<SetStateAction<boolean>>;
-  openModalProfile: boolean;
-  id?: string;
+  setOpenModalProfile: Dispatch<SetStateAction<boolean>>
+  openModalProfile: boolean
+  id?: string
 }
 
 type User = {
-  [key: string]: any;
-};
+  [key: string]: any
+}
 
 const ProfileView = ({ openModalProfile, setOpenModalProfile, id }: Props) => {
-  const [user, setUser] = useState<User>();
+  const [user, setUser] = useState<User>()
 
   const getSingleEmployeeData = async () => {
-    const res = await EmployeeService.getEmployee(id);
+    const res = await EmployeeService.getEmployee(id)
     if (res.status === 200) {
-      setUser(res?.data);
+      setUser(res?.data)
     }
-  };
+  }
 
   useEffect(() => {
-    if (id) getSingleEmployeeData();
-  }, [id]);
+    if (id) getSingleEmployeeData()
+  }, [id])
   return (
     <>
       <Modal
@@ -45,7 +45,9 @@ const ProfileView = ({ openModalProfile, setOpenModalProfile, id }: Props) => {
           <div className={style.header}>
             <Container container={style.container}>
               <h1>Employee Profile</h1>
-              <p className={style.datePrint}>Date Printed : MOnday, 08 Augest 2022 2:44 PM</p>
+              <p className={style.datePrint}>
+                Date Printed : MOnday, 08 Augest 2022 2:44 PM
+              </p>
             </Container>
           </div>
           <div>
@@ -57,9 +59,12 @@ const ProfileView = ({ openModalProfile, setOpenModalProfile, id }: Props) => {
                 <div className={style.userData}>
                   <p>{user?.personalInformation?.employeeId}</p>
                   <h3>
-                    {user?.personalInformation?.firstName} {user?.personalInformation?.lastName}
+                    {user?.personalInformation?.firstName}{' '}
+                    {user?.personalInformation?.lastName}
                   </h3>
-                  <span className={style.emailText}>{user?.personalInformation?.email}</span>
+                  <span className={style.emailText}>
+                    {user?.personalInformation?.email}
+                  </span>
                   <div className={style.leadDiv}>
                     <span>{user?.companyInformation?.department}</span>
                   </div>
@@ -87,22 +92,36 @@ const ProfileView = ({ openModalProfile, setOpenModalProfile, id }: Props) => {
                 </div>
                 <div className={style.gridElement}>
                   Joining Date :{' '}
-                  {moment(user?.companyInformation?.joiningDate).format('DD-MM-YYYY')}
+                  {moment(user?.companyInformation?.joiningDate).format(
+                    'DD-MM-YYYY'
+                  )}
                 </div>
                 <div className={style.gridElement}>
                   Phone Number: {user?.personalInformation?.phoneNumber}
                 </div>
                 <div className={style.gridElement}>
-                  Date of Birth: {moment(user?.companyInformation?.dob).format('DD-MM-YYYY')}
+                  Date of Birth:{' '}
+                  {moment(user?.companyInformation?.dob).format('DD-MM-YYYY')}
                 </div>
                 <div className={style.gridElement}>Job Type: Permanent</div>
-                <div className={style.gridElement}>Contract Type: Attendance</div>
+                <div className={style.gridElement}>
+                  Contract Type: Attendance
+                </div>
                 <div className={style.gridElement}>Pay Type: Monthly</div>
               </div>
-              <Button text={'EDUCATIONAL INFORMATION'} btnClass={style.btnClass} />
+              <Button
+                text={'EDUCATIONAL INFORMATION'}
+                btnClass={style.btnClass}
+              />
               <div className={style.tb2}>
                 {user?.educationDetails?.map(
-                  ({ degree, institute, startDate, endDate, percentageCgpa }: any) => {
+                  ({
+                    degree,
+                    institute,
+                    startDate,
+                    endDate,
+                    percentageCgpa,
+                  }: any) => {
                     return (
                       <>
                         <div className={style.gridElement2}>{degree}</div>
@@ -113,10 +132,12 @@ const ProfileView = ({ openModalProfile, setOpenModalProfile, id }: Props) => {
                         <div className={style.gridElement2}>
                           {moment(endDate).format('DD-MM-YYYY')}
                         </div>
-                        <div className={style.gridElement2}>{percentageCgpa}</div>
+                        <div className={style.gridElement2}>
+                          {percentageCgpa}
+                        </div>
                       </>
-                    );
-                  },
+                    )
+                  }
                 )}
               </div>
               <Button text={'SALARY INFORMATION'} btnClass={style.btnClass} />
@@ -128,18 +149,27 @@ const ProfileView = ({ openModalProfile, setOpenModalProfile, id }: Props) => {
                 <div className={style.gridElement3}>Type</div>
                 <div className={style.gridElement3}>Gross Salary</div>
                 {tableThreeData.map(
-                  ({ effecticeData, increament, incr, designation, type, grossSalary }) => {
+                  ({
+                    effecticeData,
+                    increament,
+                    incr,
+                    designation,
+                    type,
+                    grossSalary,
+                  }) => {
                     return (
                       <>
-                        <div className={style.gridElement3}>{effecticeData}</div>
+                        <div className={style.gridElement3}>
+                          {effecticeData}
+                        </div>
                         <div className={style.gridElement3}>{increament}</div>
                         <div className={style.gridElement3}>{incr}</div>
                         <div className={style.gridElement3}>{designation}</div>
                         <div className={style.gridElement3}>{type}</div>
                         <div className={style.gridElement3}>{grossSalary}</div>
                       </>
-                    );
-                  },
+                    )
+                  }
                 )}
               </div>
             </Container>
@@ -147,36 +177,10 @@ const ProfileView = ({ openModalProfile, setOpenModalProfile, id }: Props) => {
         </div>
       </Modal>
     </>
-  );
-};
+  )
+}
 
-export default ProfileView;
-
-const tableTwoData = [
-  {
-    percentage: 'percentage/Cgpa',
-    degree: 'Masters in Computer Science',
-    institute: 'Fast',
-    startDate: '10 jan,2020',
-    endDate: '10 jan,2021',
-    gpa: 3.95,
-  },
-  {
-    percentage: 'percentage/Cgpa',
-    degree: 'Masters in Computer Science',
-    institute: 'Fast',
-    startDate: '10 jan,2020',
-    endDate: '10 jan,2021',
-    gpa: 3.95,
-  },
-  {
-    degree: 'Masters in Computer Science',
-    institute: 'Fast',
-    startDate: '10 jan,2020',
-    endDate: '10 jan,2021',
-    gpa: 3.95,
-  },
-];
+export default ProfileView
 
 const tableThreeData = [
   {
@@ -203,4 +207,4 @@ const tableThreeData = [
     type: 'incr & Pr',
     grossSalary: 150000,
   },
-];
+]

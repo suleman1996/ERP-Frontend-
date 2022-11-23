@@ -1,35 +1,35 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
 
-import Modal from 'components/modal';
-import ProfileUpload from 'components/profile-upload';
-import TextField from 'components/textfield';
+import Modal from 'components/modal'
+import ProfileUpload from 'components/profile-upload'
+import TextField from 'components/textfield'
 
-import EmployeeService from 'services/employee-service';
-import { removeKeys, setErrors } from '../../../../helper/index';
+import EmployeeService from 'services/employee-service'
+import { removeKeys, setErrors } from '../../../../helper/index'
 
-import tick from 'assets/tick.svg';
-import style from './document.module.scss';
-import { useParams } from 'react-router';
-import { convertBase64Image } from 'main-helper';
+import tick from 'assets/tick.svg'
+import style from './document.module.scss'
+import { useParams } from 'react-router'
+import { convertBase64Image } from 'main-helper'
 
 interface Props {
-  open: boolean;
-  setOpen: Dispatch<SetStateAction<boolean>>;
-  docId?: any;
-  setDocId?: any;
-  getAllDocuments?: () => void;
+  open: boolean
+  setOpen: Dispatch<SetStateAction<boolean>>
+  docId?: any
+  setDocId?: any
+  getAllDocuments?: () => void
 }
 
-const AddDocument = ({ open, setOpen, docId, setDocId, getAllDocuments }: Props) => {
-  const { id } = useParams();
-  const { register, handleSubmit, errors, control, reset, setError, clearErrors } = useForm();
-  const [selectedFileName, setSelectedFileName] = useState('');
-  const [loader, setLoader] = useState(false);
+const AddDocument = ({ open, setOpen, docId, getAllDocuments }: Props) => {
+  const { id } = useParams()
+  const { register, handleSubmit, errors, reset, setError, clearErrors } =
+    useForm()
+  const [selectedFileName, setSelectedFileName] = useState('')
+  const [loader, setLoader] = useState(false)
 
   const onSubmit = async (data: any) => {
-    setLoader(true);
+    setLoader(true)
     try {
       const userDoc = {
         ...data,
@@ -37,43 +37,43 @@ const AddDocument = ({ open, setOpen, docId, setDocId, getAllDocuments }: Props)
         ...(data.file.length > 0 && {
           file: selectedFileName && (await convertBase64Image(data.file[0])),
         }),
-      };
-      data.file.length <= 0 && removeKeys(userDoc, ['file']);
+      }
+      data.file.length <= 0 && removeKeys(userDoc, ['file'])
       if (docId) {
-        const res = await EmployeeService.updateDocument(userDoc, docId);
+        const res = await EmployeeService.updateDocument(userDoc, docId)
         if (res.status === 200) {
-          setOpen(false);
-          getAllDocuments && getAllDocuments();
+          setOpen(false)
+          getAllDocuments && getAllDocuments()
         }
       } else {
-        const res = await EmployeeService.addDocument(userDoc);
+        const res = await EmployeeService.addDocument(userDoc)
         if (res.status === 200) {
-          setOpen(false);
-          getAllDocuments && getAllDocuments();
+          setOpen(false)
+          getAllDocuments && getAllDocuments()
         }
       }
     } catch (err) {
-      console.error(err);
+      console.error(err)
       if (err?.response?.data?.error) {
-        setErrors(err?.response?.data?.error, setError);
+        setErrors(err?.response?.data?.error, setError)
       }
-      setLoader(false);
+      setLoader(false)
     }
-    setLoader(false);
-  };
+    setLoader(false)
+  }
 
   const getDocById = async () => {
-    const res = await EmployeeService.getByIdDocument(docId);
+    const res = await EmployeeService.getByIdDocument(docId)
     reset({
       documentName: res?.data?.name,
       category: res?.data?.category,
-    });
-    setSelectedFileName(res?.data?.fileFor);
-  };
+    })
+    setSelectedFileName(res?.data?.fileFor)
+  }
 
   useEffect(() => {
-    docId && getDocById();
-  }, [docId]);
+    docId && getDocById()
+  }, [docId])
 
   return (
     <>
@@ -90,8 +90,8 @@ const AddDocument = ({ open, setOpen, docId, setDocId, getAllDocuments }: Props)
         <form
           id="addDoc"
           onSubmit={(e) => {
-            clearErrors();
-            handleSubmit(onSubmit)(e);
+            clearErrors()
+            handleSubmit(onSubmit)(e)
           }}
         >
           <div className={style.grid}>
@@ -105,7 +105,10 @@ const AddDocument = ({ open, setOpen, docId, setDocId, getAllDocuments }: Props)
               placeholder="Name"
             />
             <div>
-              <label className={style.label} style={{ color: errors?.documentName && '#ff5050' }}>
+              <label
+                className={style.label}
+                style={{ color: errors?.documentName && '#ff5050' }}
+              >
                 Document <b style={{ color: 'red' }}>*</b>
               </label>
               <ProfileUpload
@@ -130,7 +133,7 @@ const AddDocument = ({ open, setOpen, docId, setDocId, getAllDocuments }: Props)
         </form>
       </Modal>
     </>
-  );
-};
+  )
+}
 
-export default AddDocument;
+export default AddDocument

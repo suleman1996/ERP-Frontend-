@@ -1,36 +1,28 @@
-import dashboardImg from 'assets/white/dashboard.svg';
-import employeeDetailsImg from 'assets/white/profile.svg';
-import payRollImg from 'assets/white/payroll.svg';
-import taxImg from 'assets/white/tax.svg';
-import clientInfoImg from 'assets/white/expense.svg';
-import projectDetailImg from 'assets/white/projects.svg';
-import expenseManagementImg from 'assets/white/expense.svg';
-import salesOrderManagementImg from 'assets/white/sales.svg';
-import calenderImg from 'assets/white/calender.svg';
-import attendanceImg from 'assets/white/attendance.svg';
-import advanceSalaryLoanImg from 'assets/white/policies.svg';
-import settingsImg from 'assets/white/settings.svg';
-import applicationImg from 'assets/white/application.svg';
+import dashboardImg from 'assets/white/dashboard.svg'
+import employeeDetailsImg from 'assets/white/profile.svg'
+import payRollImg from 'assets/white/payroll.svg'
+import taxImg from 'assets/white/tax.svg'
+import calenderImg from 'assets/white/calender.svg'
+import attendanceImg from 'assets/white/attendance.svg'
+import advanceSalaryLoanImg from 'assets/white/policies.svg'
+import settingsImg from 'assets/white/settings.svg'
+import applicationImg from 'assets/white/application.svg'
 
-import gDashboardImg from 'assets/green/dashboard.svg';
-import gEmployeeDetailsImg from 'assets/green/profile.svg';
-import gPayRollImg from 'assets/green/payroll.svg';
-import gTaxImg from 'assets/green/tax.svg';
-import gClientInfoImg from 'assets/green/expense.svg';
-import gProjectDetailImg from 'assets/green/projects.svg';
-import gExpenseManagementImg from 'assets/green/expense.svg';
-import gSalesOrderManagementImg from 'assets/green/sales.svg';
-import gCalenderImg from 'assets/green/calender.svg';
-import gAttendanceImg from 'assets/green/attendance.svg';
-import gAdvanceSalaryLoanImg from 'assets/green/policies.svg';
-import gSettingsImg from 'assets/green/settings.svg';
-import gapplicationImg from 'assets/green/application.svg';
+import gDashboardImg from 'assets/green/dashboard.svg'
+import gEmployeeDetailsImg from 'assets/green/profile.svg'
+import gPayRollImg from 'assets/green/payroll.svg'
+import gTaxImg from 'assets/green/tax.svg'
+import gCalenderImg from 'assets/green/calender.svg'
+import gAttendanceImg from 'assets/green/attendance.svg'
+import gAdvanceSalaryLoanImg from 'assets/green/policies.svg'
+import gSettingsImg from 'assets/green/settings.svg'
+import gapplicationImg from 'assets/green/application.svg'
 
 const roles: { all: string[]; adminHr: string[]; admin: string[] } = {
   all: ['Admin', 'Human Resource', 'Employee'],
   adminHr: ['Admin', 'Human Resource'],
   admin: ['Admin'],
-};
+}
 
 export const adminListArr = [
   {
@@ -105,7 +97,7 @@ export const adminListArr = [
     img2: gSettingsImg,
     role: [...roles.all],
   },
-];
+]
 
 export const employeeListArr = [
   {
@@ -150,4 +142,4 @@ export const employeeListArr = [
     img1: settingsImg,
     img2: gSettingsImg,
   },
-];
+]

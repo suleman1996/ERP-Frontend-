@@ -1,18 +1,14 @@
-import moment from 'moment';
+import moment from 'moment'
 
-import CardContainer from 'components/card-container';
-import Table from 'components/table';
+import CardContainer from 'components/card-container'
+import Table from 'components/table'
 
-import { columns } from './helper';
-import EmployeeService from 'services/employee-service';
+import { columns } from './helper'
 
-import over from 'assets/overview.svg';
-import style from './overview.module.scss';
-import { useParams } from 'react-router';
-import { useEffect, useState } from 'react';
+import over from 'assets/overview.svg'
+import style from './overview.module.scss'
 
 const Overview = ({ user }: any) => {
-  const [copy, setCopy] = useState('');
   const overviewDetails = [
     {
       title: 'Employee ID:',
@@ -48,7 +44,7 @@ const Overview = ({ user }: any) => {
       title: 'Permanent Address:',
       subtitle: user?.addresses?.permanentAddress?.address,
     },
-  ];
+  ]
 
   return (
     <>
@@ -70,7 +66,7 @@ const Overview = ({ user }: any) => {
                       onClick={() => {
                         ele.title.includes('Employee ')
                           ? navigator.clipboard.writeText(user?.employeeId)
-                          : navigator.clipboard.writeText(user?.fullName);
+                          : navigator.clipboard.writeText(user?.fullName)
                       }}
                     />
                   )}
@@ -88,7 +84,8 @@ const Overview = ({ user }: any) => {
               ...education,
               ...(education?.endDate
                 ? {
-                    endDate: moment(education.endDate).format('Do MMMM YYYY') || '---',
+                    endDate:
+                      moment(education.endDate).format('Do MMMM YYYY') || '---',
                   }
                 : { endDate: 'On Going' }),
 
@@ -101,7 +98,7 @@ const Overview = ({ user }: any) => {
         />
       </CardContainer>
     </>
-  );
-};
+  )
+}
 
-export default Overview;
+export default Overview

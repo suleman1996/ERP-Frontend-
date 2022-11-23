@@ -1,7 +1,6 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { User } from '../interfaces/user';
-import { Notification } from '../interfaces/notifications';
-import EmployeeService from 'services/employee-service';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { User } from '../interfaces/user'
+import { Notification } from '../interfaces/notifications'
 
 const currentUser = {
   id: '',
@@ -13,7 +12,7 @@ const currentUser = {
   role: '',
   img: '',
   designation: '',
-};
+}
 
 const notificationData = {
   count: 0,
@@ -29,25 +28,25 @@ const notificationData = {
       employee: [{ img: '' }],
     },
   ],
-};
-
-export interface AppSliceState {
-  currentUser: User;
-  token: string;
-  user_id: string;
-  loading: boolean;
-  containerLoader: boolean;
-  notificationCount: number;
-  notificationData: Notification;
-  gender: any;
-  series: any;
-  departments: any;
-  leaves: any;
-  allowence: any;
-  designation: any;
 }
 
-const sessionNotifyCount = Number(sessionStorage.getItem('notificationCount'));
+export interface AppSliceState {
+  currentUser: User
+  token: string
+  user_id: string
+  loading: boolean
+  containerLoader: boolean
+  notificationCount: number
+  notificationData: Notification
+  gender: any
+  series: any
+  departments: any
+  leaves: any
+  allowence: any
+  designation: any
+}
+
+const sessionNotifyCount = Number(sessionStorage.getItem('notificationCount'))
 
 const initialState: AppSliceState = {
   currentUser,
@@ -63,66 +62,66 @@ const initialState: AppSliceState = {
   designation: [],
   leaves: [],
   allowence: [],
-};
+}
 
 export const appSlice = createSlice({
   name: 'app',
   initialState,
   reducers: {
     setAllGenders(state, action: PayloadAction<any>) {
-      state.gender = action.payload;
+      state.gender = action.payload
     },
     setAllSeries(state, action: PayloadAction<any>) {
-      state.series = action.payload;
+      state.series = action.payload
     },
     setAllDepartments(state, action: PayloadAction<any>) {
-      state.departments = action.payload;
+      state.departments = action.payload
     },
     setAllDesignation(state, action: PayloadAction<any>) {
-      state.designation = action.payload;
+      state.designation = action.payload
     },
     setAllLeaves(state, action: PayloadAction<any>) {
-      state.leaves = action.payload;
+      state.leaves = action.payload
     },
     setAllAllowence(state, action: PayloadAction<any>) {
-      state.allowence = action.payload;
+      state.allowence = action.payload
     },
 
     setCurrentUser(state, action: PayloadAction<User>) {
-      state.currentUser = action.payload;
+      state.currentUser = action.payload
     },
     setToken(state, action: PayloadAction<string>) {
-      localStorage.setItem('token', action.payload);
-      state.token = action.payload;
+      localStorage.setItem('token', action.payload)
+      state.token = action.payload
     },
     setLoading(state, action: PayloadAction<boolean>) {
-      state.loading = action.payload;
+      state.loading = action.payload
     },
     setContainerLoader(state, action: PayloadAction<boolean>) {
-      state.containerLoader = action.payload;
+      state.containerLoader = action.payload
     },
     setUserId(state, action: PayloadAction<string>) {
-      localStorage.setItem('user_id', action.payload);
-      state.user_id = action.payload;
+      localStorage.setItem('user_id', action.payload)
+      state.user_id = action.payload
     },
     setNotificationCount(state) {
-      const count = state.notificationCount + 1;
-      sessionStorage.setItem('notificationCount', count?.toString());
-      state.notificationCount = state.notificationCount + 1;
+      const count = state.notificationCount + 1
+      sessionStorage.setItem('notificationCount', count?.toString())
+      state.notificationCount = state.notificationCount + 1
     },
     setNotificationReset(state) {
-      sessionStorage.removeItem('notificationCount');
-      state.notificationCount = 0;
+      sessionStorage.removeItem('notificationCount')
+      state.notificationCount = 0
     },
     setNotificationData(state, action: PayloadAction<Notification>) {
-      state.notificationData = action.payload;
+      state.notificationData = action.payload
     },
     setLogout(state, action: PayloadAction<string>) {
-      localStorage.removeItem('user_id');
-      localStorage.removeItem('token');
-      state.user_id = action?.payload;
-      state.token = action?.payload;
-      state.currentUser = currentUser;
+      localStorage.removeItem('user_id')
+      localStorage.removeItem('token')
+      state.user_id = action?.payload
+      state.token = action?.payload
+      state.currentUser = currentUser
     },
   },
-});
+})

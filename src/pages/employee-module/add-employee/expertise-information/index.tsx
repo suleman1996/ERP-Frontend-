@@ -1,59 +1,49 @@
-import { useParams } from 'react-router';
-import { useEffect, useState } from 'react';
+import { useParams } from 'react-router'
+import { useState } from 'react'
 
-import Button from 'components/button';
-import SkillExpertise from './skill-expertise';
-import Certificate from './certificate';
-import LanguageExpertise from './language-expertise';
+import Button from 'components/button'
+import SkillExpertise from './skill-expertise'
+import Certificate from './certificate'
+import LanguageExpertise from './language-expertise'
 
-import EmployeeService from 'services/employee-service';
-import { removeKeys } from 'helper';
+import EmployeeService from 'services/employee-service'
 
-import SvgImg from './svg-img';
-import arrowLeft from 'assets/backBtn.svg';
-import tickArrow from 'assets/expertise-tick.svg';
-import numImg from 'assets/1.png';
-import numImg1 from 'assets/2.png';
-import numImg2 from 'assets/3.png';
-import arrowRight from 'assets/arrowBtnRight.svg';
-import style from './expertise.module.scss';
-import { useEmployeeForms } from '../context';
-
-interface Props {
-  handleBack: (data?: string) => void;
-  handleNext: (data?: string) => void;
-  formData: any;
-  setFormData: any;
-  employeeId: string;
-  employeeDocId: string;
-}
+import SvgImg from './svg-img'
+import arrowLeft from 'assets/backBtn.svg'
+import tickArrow from 'assets/expertise-tick.svg'
+import numImg from 'assets/1.png'
+import numImg1 from 'assets/2.png'
+import numImg2 from 'assets/3.png'
+import arrowRight from 'assets/arrowBtnRight.svg'
+import style from './expertise.module.scss'
+import { useEmployeeForms } from '../context'
 
 export interface Skill {
-  skills: string;
-  experince: number;
-  year?: number;
-  letter?: string;
-  file: string;
-  skillLevel: string;
+  skills: string
+  experince: number
+  year?: number
+  letter?: string
+  file: string
+  skillLevel: string
 }
 
 export interface Language {
-  language?: string;
-  rate?: string;
-  year?: number;
-  letter?: string;
-  file: string;
+  language?: string
+  rate?: string
+  year?: number
+  letter?: string
+  file: string
 }
 
 interface Certificate {
-  certificateName?: string;
-  skillLevel?: string;
-  skills?: string;
-  name?: string;
-  platform?: string;
-  year?: number;
-  letter?: string;
-  file: string;
+  certificateName?: string
+  skillLevel?: string
+  skills?: string
+  name?: string
+  platform?: string
+  year?: number
+  letter?: string
+  file: string
 }
 
 const ExpertiseInformation = () => {
@@ -62,21 +52,19 @@ const ExpertiseInformation = () => {
     setFormData,
     employeeDocId,
     formData,
-    setEmployeeId,
-    setEmployeeDocId,
     handleBack,
     employeeId,
-  }: any = useEmployeeForms();
+  }: any = useEmployeeForms()
 
-  const { id } = useParams();
-  const [btnLoader, setBtnLoader] = useState(false);
-  const [active, setActive] = useState(0);
-  const [skillData, setSkillData] = useState<Skill[] | []>([]);
-  const [language, setLanguage] = useState<Language[] | []>([]);
-  const [certificate, setCertificate] = useState<Certificate[] | []>([]);
+  const { id } = useParams()
+  const [btnLoader, setBtnLoader] = useState(false)
+  const [active, setActive] = useState(0)
+  const [skillData, setSkillData] = useState<Skill[] | []>([])
+  const [language, setLanguage] = useState<Language[] | []>([])
+  const [certificate, setCertificate] = useState<Certificate[] | []>([])
 
   const onSubmit = async () => {
-    setBtnLoader(true);
+    setBtnLoader(true)
     try {
       const userData = {
         expertiseDetails: {
@@ -84,34 +72,33 @@ const ExpertiseInformation = () => {
           languages: language.length > 0 ? language : [],
           certificates: certificate.length > 0 ? certificate : [],
         },
-      };
+      }
       if (id) {
-        const res = await EmployeeService.addPostExperties(userData, id);
+        const res = await EmployeeService.addPostExperties(userData, id)
         if (res.status === 200) {
-          handleNext('Payroll');
+          handleNext('Payroll')
         }
       } else {
         if (skillData.length > 0) {
-          setActive(1);
+          setActive(1)
         }
         if (language.length > 0) {
-          setActive(2);
+          setActive(2)
         }
 
-        const res = await EmployeeService.addPostExperties({ ...userData }, employeeDocId);
+        const res = await EmployeeService.addPostExperties(
+          { ...userData },
+          employeeDocId
+        )
         if (res.status === 200) {
-          handleNext('Payroll');
+          handleNext('Payroll')
         }
       }
     } catch (err) {
-      console.error(err);
+      console.error(err)
     }
-    setBtnLoader(false);
-  };
-
-  const getUser = async () => {
-    const res = await EmployeeService.getExpertiesEmployee(employeeDocId);
-  };
+    setBtnLoader(false)
+  }
 
   return (
     <div className={style.mainForm}>
@@ -186,10 +173,15 @@ const ExpertiseInformation = () => {
           iconStart={arrowLeft}
           handleClick={() => handleBack('Experience')}
         />
-        <Button isLoading={btnLoader} text="Next" iconEnd={arrowRight} handleClick={onSubmit} />
+        <Button
+          isLoading={btnLoader}
+          text="Next"
+          iconEnd={arrowRight}
+          handleClick={onSubmit}
+        />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ExpertiseInformation;
+export default ExpertiseInformation

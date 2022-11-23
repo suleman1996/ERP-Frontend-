@@ -1,31 +1,29 @@
-import { createNotification } from 'common/create-notification';
-import { convertBase64Image } from 'main-helper';
-import { ChangeEvent } from 'react';
+import { ChangeEvent } from 'react'
 
-import style from './input.module.scss';
+import style from './input.module.scss'
 
 interface Props {
-  label?: string;
-  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
-  value?: string;
-  name?: string;
-  type?: React.HTMLInputTypeAttribute;
-  placeholder?: string;
-  icon?: string;
-  onClick?: () => void;
-  errorMessage?: string;
-  register?: any;
-  className?: string;
-  readOnly?: boolean;
-  isDisable?: boolean;
-  id?: string;
-  star?: string;
-  min?: any;
-  max?: any;
-  customValidation?: string;
-  iconClass?: any;
-  step?: string;
-  container?: string;
+  label?: string
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void
+  value?: string
+  name?: string
+  type?: React.HTMLInputTypeAttribute
+  placeholder?: string
+  icon?: string
+  onClick?: () => void
+  errorMessage?: string
+  register?: any
+  className?: string
+  readOnly?: boolean
+  isDisable?: boolean
+  id?: string
+  star?: string
+  min?: any
+  max?: any
+  customValidation?: string
+  iconClass?: any
+  step?: string
+  container?: string
 }
 
 const TextField = ({
@@ -92,11 +90,13 @@ const TextField = ({
           )}
         </div>
         {(errorMessage || customValidation) && (
-          <span className={style.errorMessage}>{errorMessage || customValidation}</span>
+          <span className={style.errorMessage}>
+            {errorMessage || customValidation}
+          </span>
         )}
       </div>
     </>
-  );
-};
+  )
+}
 
-export default TextField;
+export default TextField

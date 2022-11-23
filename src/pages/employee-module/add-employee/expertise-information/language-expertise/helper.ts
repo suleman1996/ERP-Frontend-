@@ -1,63 +1,64 @@
-import moment from 'moment';
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
-import * as yup from 'yup';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useLocation, useParams } from 'react-router-dom';
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react'
+import * as yup from 'yup'
+import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { useParams } from 'react-router-dom'
 
-import EmployeeService from 'services/employee-service';
-import { convertBase64Image } from 'main-helper';
-import { removeKeys } from 'helper';
+import EmployeeService from 'services/employee-service'
+import { convertBase64Image } from 'main-helper'
+import { removeKeys } from 'helper'
 
 interface Props {
-  formData: any;
-  setFormData: any;
-  employeeId: string;
-  setLanguage: Dispatch<SetStateAction<Language[] | []>>;
+  formData: any
+  setFormData: any
+  employeeId: string
+  setLanguage: Dispatch<SetStateAction<Language[] | []>>
 }
 
 export interface Language {
-  skills?: string;
-  skillLevel?: any;
-  language?: string;
-  rate?: string;
-  year?: number;
-  letter?: string;
-  file: string;
-  experince: any;
+  skills?: string
+  skillLevel?: any
+  language?: string
+  rate?: string
+  year?: number
+  letter?: string
+  file: string
+  experince: any
 }
 
-export const useLanguage = ({ formData, setFormData, employeeId, setLanguage }: Props) => {
-  const languageIndex = useRef(-1);
-  const { id } = useParams();
-  const [toggle, setToggle] = useState<number>();
-  const [educations, setEducations] = useState<Language[] | []>([]);
-  const [selectedFileName, setSelectedFileName] = useState('');
-  const [activeEdit, setActiveEdit] = useState('');
-  const [updateEducation, setUpdateEducation] = useState({
+export const useLanguage = ({ formData, setFormData, setLanguage }: Props) => {
+  const languageIndex = useRef(-1)
+  const { id } = useParams()
+  const [toggle, setToggle] = useState<number>()
+  const [educations, setEducations] = useState<Language[] | []>([])
+  const [selectedFileName, setSelectedFileName] = useState('')
+  const [activeEdit, setActiveEdit] = useState('')
+  const [, setUpdateEducation] = useState({
     update: false,
     editInd: -1,
-  });
+  })
   const { register, handleSubmit, errors, control, reset, watch } = useForm({
     resolver: yupResolver(schema),
-  });
+  })
 
   const handleAddEduction = async (data: Language) => {
     const fileBase64 =
-      data?.file && data?.file?.length > 0 && (await convertBase64Image(data.file[0]));
+      data?.file &&
+      data?.file?.length > 0 &&
+      (await convertBase64Image(data.file[0]))
     const languageData = {
       ...data,
       skillLevel: data?.skills,
       ...(fileBase64 ? { file: `${fileBase64}` } : {}),
-    };
-
-    !selectedFileName && removeKeys(languageData, ['file']);
-    if (!languageData.file || Object.keys(languageData.file).length === 0) {
-      removeKeys(languageData, ['file']);
     }
-    removeKeys(languageData, ['skills']);
-    setLanguage((current) => [...current, languageData]);
-    const newEducations: Language[] = [...educations];
+
+    !selectedFileName && removeKeys(languageData, ['file'])
+    if (!languageData.file || Object.keys(languageData.file).length === 0) {
+      removeKeys(languageData, ['file'])
+    }
+    removeKeys(languageData, ['skills'])
+    setLanguage((current) => [...current, languageData])
+    const newEducations: Language[] = [...educations]
     const tempObj = {
       ...data,
       skillLevel: data?.skills,
@@ -66,68 +67,71 @@ export const useLanguage = ({ formData, setFormData, employeeId, setLanguage }: 
         : {
             file: newEducations && newEducations[languageIndex.current]?.file,
           }),
-    };
+    }
 
-    !selectedFileName && removeKeys(tempObj, ['file']);
+    !selectedFileName && removeKeys(tempObj, ['file'])
     if (tempObj?.file?.length === 0) {
-      removeKeys(tempObj, ['file']);
+      removeKeys(tempObj, ['file'])
     }
     if (languageIndex.current < 0) {
-      newEducations.push(tempObj);
+      newEducations.push(tempObj)
     } else {
-      newEducations[languageIndex.current] = { ...tempObj };
-      setUpdateEducation({ update: false, editInd: -1 });
+      newEducations[languageIndex.current] = { ...tempObj }
+      setUpdateEducation({ update: false, editInd: -1 })
     }
-    setEducations([...newEducations]);
-    setFormData({ ...formData, languageData: [...newEducations] });
-    reset({ language: '', skills: '' });
-    setToggle(-1);
-    setActiveEdit('');
-    languageIndex.current = -1;
-    setSelectedFileName('');
-  };
+    setEducations([...newEducations])
+    setFormData({ ...formData, languageData: [...newEducations] })
+    reset({ language: '', skills: '' })
+    setToggle(-1)
+    setActiveEdit('')
+    languageIndex.current = -1
+    setSelectedFileName('')
+  }
 
   const handleEducation = (index: number) => {
-    languageIndex.current = index;
+    languageIndex.current = index
 
-    const data = educations.find((data, i) => i === index);
-    data?.file && setSelectedFileName('file');
-    setActiveEdit(`${data?.skillLevel}`);
+    const data = educations.find((data, i) => i === index)
+    data?.file && setSelectedFileName('file')
+    setActiveEdit(`${data?.skillLevel}`)
     reset({
       language: data?.language,
       year: data?.year,
       rate: data?.rate,
       skills: data?.skillLevel,
       experince: data?.experince,
-    });
-  };
+    })
+  }
 
   const handleDeleteIndex = (index: number) => {
-    const delLang = [...educations];
-    delLang.splice(index, 1);
-    setEducations([...delLang]);
-    setLanguage([...delLang]);
-    setFormData({ ...formData, languageData: [...delLang] });
-  };
+    const delLang = [...educations]
+    delLang.splice(index, 1)
+    setEducations([...delLang])
+    setLanguage([...delLang])
+    setFormData({ ...formData, languageData: [...delLang] })
+  }
 
   const getUser = async () => {
-    const res = await EmployeeService.getExpertiesEmployee(id);
-    setEducations(res?.data?.languages);
+    const res = await EmployeeService.getExpertiesEmployee(id)
+    setEducations(res?.data?.languages)
 
     const data = res?.data?.languages.map((item: any) => {
-      removeKeys(item, ['_id']);
-      return item;
-    });
+      removeKeys(item, ['_id'])
+      return item
+    })
 
-    setLanguage(data);
-  };
+    setLanguage(data)
+  }
 
   useEffect(() => {
-    id && getUser();
-    if (formData?.languageData !== undefined && Object.keys(formData?.languageData)?.length) {
-      setEducations([...formData?.languageData]);
+    id && getUser()
+    if (
+      formData?.languageData !== undefined &&
+      Object.keys(formData?.languageData)?.length
+    ) {
+      setEducations([...formData?.languageData])
     }
-  }, [id]);
+  }, [id])
 
   return {
     handleSubmit,
@@ -144,8 +148,8 @@ export const useLanguage = ({ formData, setFormData, employeeId, setLanguage }: 
     watch,
     selectedFileName,
     setSelectedFileName,
-  };
-};
+  }
+}
 
 export const schema = yup.object().shape({
   language: yup.string().required('Language  is a required field'),
@@ -158,7 +162,7 @@ export const schema = yup.object().shape({
     .required('Experince is a required field')
     .typeError('Experince is required & should be a number'),
   skills: yup.string().required('Skill level is a required field'),
-});
+})
 
 export const columns = [
   {
@@ -187,7 +191,7 @@ export const columns = [
   },
 
   { key: 'actions', name: 'Actions', alignText: 'center', width: '200px' },
-];
+]
 
 export const selectRates = [
   {
@@ -202,7 +206,7 @@ export const selectRates = [
     value: '80 Percent',
     description: '80 Percent',
   },
-];
+]
 
 export const languageArray = [
   'Abkhazian',
@@ -389,4 +393,4 @@ export const languageArray = [
   'Yoruba',
   'Zhuang, Chuang',
   'Zulu',
-];
+]

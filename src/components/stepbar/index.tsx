@@ -1,24 +1,27 @@
-import { Dispatch, Fragment, SetStateAction } from 'react';
+import { Dispatch, Fragment, SetStateAction } from 'react'
 
-import style from './stepbar.module.scss';
+import style from './stepbar.module.scss'
 
 interface Props {
-  activeTab: any;
-  setStepBarActive: Dispatch<SetStateAction<string[]>>;
-  setActive: Dispatch<SetStateAction<any>>;
-  controlWidth: string;
-  tabs: any;
+  activeTab: any
+  setStepBarActive: Dispatch<SetStateAction<string[]>>
+  setActive: Dispatch<SetStateAction<any>>
+  controlWidth: string
+  tabs: any
 }
 
-const StepBar = ({ activeTab, controlWidth, setStepBarActive, setActive, tabs = {} }: Props) => {
+const StepBar = ({ activeTab, controlWidth, setActive, tabs = {} }: Props) => {
   return (
     <div className={style.wrapper}>
       <ul className={style.ul}>
         {tabs?.map(({ key }: any, index: number) => {
-          const isActive = activeTab?.includes(key);
+          const isActive = activeTab?.includes(key)
           return (
             <Fragment key={key}>
-              <div style={{ width: `${controlWidth}%` }} className={style.afterDiv}></div>
+              <div
+                style={{ width: `${controlWidth}%` }}
+                className={style.afterDiv}
+              ></div>
               <li className={style.li}>
                 <div
                   className={style.round}
@@ -28,7 +31,7 @@ const StepBar = ({ activeTab, controlWidth, setStepBarActive, setActive, tabs = 
                   }}
                   onClick={() => {
                     if (isActive) {
-                      setActive && setActive(index);
+                      setActive && setActive(index)
                     }
                   }}
                 >
@@ -50,11 +53,11 @@ const StepBar = ({ activeTab, controlWidth, setStepBarActive, setActive, tabs = 
                 </p>
               </li>
             </Fragment>
-          );
+          )
         })}
       </ul>
     </div>
-  );
-};
+  )
+}
 
-export default StepBar;
+export default StepBar

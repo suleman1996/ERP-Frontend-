@@ -1,45 +1,39 @@
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
 
-import FiltersComponent from 'components/filters';
-import ImageUpload from 'components/image-upload';
-import FiltersComponentByDate from 'components/filters/filter-for-dates';
-import TextField from 'components/textfield';
-import Container from 'components/container';
-import TextArea from 'components/textarea';
-import ProfileUpload from 'components/profile-upload';
-import TimePicker from 'components/time-picker';
-import Tags from 'components/tags';
-import Button from 'components/button';
-import Table from 'components/table';
+import FiltersComponent from 'components/filters'
+import ImageUpload from 'components/image-upload'
+import FiltersComponentByDate from 'components/filters/filter-for-dates'
+import TextField from 'components/textfield'
+import Container from 'components/container'
+import TextArea from 'components/textarea'
+import ProfileUpload from 'components/profile-upload'
+import TimePicker from 'components/time-picker'
+import Tags from 'components/tags'
+import Button from 'components/button'
+import Table from 'components/table'
 
-import { rows, columns, recurrenceTypes, languageArray } from './helper';
-import Switch from 'components/switch';
-import SkillLevel from 'components/skill-level';
-import Selection from 'components/selection';
-import MonthYearPicker from 'components/range-month-picker';
-import DatePicker from 'components/date-picker';
-import Radio from 'components/radio';
-import ProgressBar from 'components/progress-bar';
-import SearchSelect from 'components/search-select';
-import Checkbox from 'components/checkbox';
-import Pagination from 'components/pagination';
-import CountryInput from 'components/country-input';
-import CustomTimePicker from 'components/custom-time-picker';
-import EmployeeProfileCard from 'components/employee-profile-card';
+import { rows, columns, recurrenceTypes, languageArray } from './helper'
+import Switch from 'components/switch'
+import SkillLevel from 'components/skill-level'
+import Selection from 'components/selection'
+import MonthYearPicker from 'components/range-month-picker'
+import DatePicker from 'components/date-picker'
+import Radio from 'components/radio'
+import ProgressBar from 'components/progress-bar'
+import SearchSelect from 'components/search-select'
+import Checkbox from 'components/checkbox'
+import Pagination from 'components/pagination'
+import CountryInput from 'components/country-input'
 
 const DashBoard = () => {
-  const { control, register, watch } = useForm();
-  const [img, setImg] = useState<unknown>('');
-  const [open, setOpen] = useState(false);
-  const [selectedFileName, setSelectedFileName] = useState<any>();
-  const [setTags] = useState<any>();
-  const [stepBarActive, setStepBarActive] = useState(['Personal']);
-  const [active, setActive] = useState<number>(0);
-  const [toggle, setToggle] = useState<number>(0);
-  const [pageSize, setPageSize] = useState(10);
-  const [totalCount, setTotalCount] = useState();
-  const [page, setPage] = useState(1);
+  const { control, register, watch } = useForm()
+  const [img, setImg] = useState<unknown>('')
+  const [selectedFileName, setSelectedFileName] = useState<any>()
+  const [toggle, setToggle] = useState<number>(0)
+  const [pageSize, setPageSize] = useState(10)
+  const [totalCount] = useState()
+  const [page, setPage] = useState(1)
 
   return (
     <Container>
@@ -47,10 +41,20 @@ const DashBoard = () => {
         <Button text="Button" />
       </div>
       <div style={{ marginTop: '10px' }}>
-        <TextField label="TextField" register={register} placeholder="TextField" name="textField" />
+        <TextField
+          label="TextField"
+          register={register}
+          placeholder="TextField"
+          name="textField"
+        />
       </div>
       <div style={{ marginTop: '10px' }}>
-        <TextArea label="TextArea" register={register} placeholder="TextArea" name="textArea" />
+        <TextArea
+          label="TextArea"
+          register={register}
+          placeholder="TextArea"
+          name="textArea"
+        />
       </div>
       <div style={{ marginTop: '10px' }}>
         <DatePicker control={control} label="Date Picker" name="datePicker" />
@@ -165,13 +169,18 @@ const DashBoard = () => {
         <Switch label="Switch" control={control} title="Active" name="switch" />
       </div>
       <div style={{ marginTop: '10px' }}>
-        <SkillLevel name="skillLevel" control={control} toggle={toggle} setToggle={setToggle} />
+        <SkillLevel
+          name="skillLevel"
+          control={control}
+          toggle={toggle}
+          setToggle={setToggle}
+        />
       </div>
       {/* <div style={{ marginTop: '10px' }}>
         <EmployeeProfileCard />
       </div> */}
     </Container>
-  );
-};
+  )
+}
 
-export default DashBoard;
+export default DashBoard
