@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
@@ -26,6 +25,7 @@ import Container from 'components/container'
 import EventModal from 'components/modal'
 import TextArea from 'components/textarea'
 import DeleteModal from 'components/delete-modal'
+import Radio from 'components/radio'
 
 import { eventTypes, recurrenceTypes, category, eventName } from './event-types'
 
@@ -39,7 +39,6 @@ import bucketIcon from 'assets/Bucket.svg'
 
 import style from './calender.module.scss'
 import './calendar.scss'
-import Radio from 'components/radio'
 
 const Calender = () => {
   const month = 'dayGridMonth'
@@ -93,8 +92,8 @@ const Calender = () => {
       setView('Monthly')
     })
 
-    $('.fc-next-button').click(function (e) {
-      console.log(e)
+    $('.fc-next-button').click(function () {
+      undefined
     })
   }, [])
 
