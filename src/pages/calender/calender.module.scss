@@ -187,10 +187,16 @@
   padding-left: 10px;
 }
 .fullDiv {
+  // border: 1px solid #e2e2ea;
+  // border: 1px solid red;
+  border-radius: 4px;
+  padding-top: 10px;
+  margin: 20px;
+}
+.fullDiv1 {
   border: 1px solid #e2e2ea;
   border-radius: 4px;
   padding-top: 10px;
-  padding: 20px;
 }
 .fc .fc-button:focus {
   box-shadow: none !important;
