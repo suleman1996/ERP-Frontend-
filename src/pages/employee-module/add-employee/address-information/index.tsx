@@ -2,7 +2,7 @@ import Button from 'components/button'
 import TextField from 'components/textfield'
 import TextArea from 'components/textarea'
 import Checkbox from 'components/checkbox'
-import SearchSelect from 'components/search-select'
+import SearchSelect from 'components/select-and-search-select'
 
 import { useAddressInfo } from './helper'
 import countries from 'assets/countries.json'

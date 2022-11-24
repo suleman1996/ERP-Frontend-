@@ -10,11 +10,11 @@ import rightArrow from 'assets/single-arrow-right.svg'
 import style from './pagination.module.scss'
 
 interface Props {
-  count: any
+  count: number
   setCount: React.Dispatch<SetStateAction<number>>
-  totalCount: any
-  setPage: (value: any) => void
-  page: any
+  totalCount: number
+  setPage: (value: number) => void
+  page: number
 }
 
 const Pagination = ({ setCount, count, totalCount, setPage, page }: Props) => {

@@ -2,13 +2,12 @@
 import { MouseEventHandler, useEffect, useRef, useState } from 'react'
 import { useController } from 'react-hook-form'
 
+import NoData from 'components/no-data-found-card'
 import TextField from 'components/textfield'
-import Checkbox from 'components/checkbox'
 
-import edit from 'assets/edit.svg'
-import delIcon from 'assets/delete.svg'
 import arrow from 'assets/arrow-left.svg'
 import style from './search-select.module.scss'
+
 
 interface Props {
   label?: string
@@ -76,7 +75,7 @@ const SearchSelect = ({
         setOpen(true)
         setList(
           options?.filter((ele: string) =>
-            ele?.toLowerCase().includes(e.target.value.toLowerCase())
+            ele.toLowerCase().includes(e.target.value.toLowerCase())
           )
         )
       }
@@ -99,30 +98,35 @@ const SearchSelect = ({
         className={style.field}
       />
       {open && (
+        <div
+          onClick={() => setOpen(false)}
+          style={{
+            inset: 0,
+            backgroundColor: 'transparent',
+            position: 'fixed',
+          }}
+        ></div>
+      )}
+      {open && (
         <div className={style.searchDropdown}>
-          {list?.map((ele: string, index: number) => (
-            <div className={style.innerDiv} key={index}>
-              <p
-                onClick={(e: any) => {
-                  setOpen(false)
-                  setSelectValue(ele)
-                }}
-              >
-                {ele}
-              </p>
-              {icons && (
-                <div className={style.icons}>
-                  <Checkbox />
-                  <img src={edit} alt="" onClick={handleEdit && handleEdit} />
-                  <img
-                    src={delIcon}
-                    alt=""
-                    onClick={handleDelete && handleDelete}
-                  />
-                </div>
-              )}
+          {list?.length > 0 ? (
+            list?.map((ele: string, index: number) => (
+              <div className={style.innerDiv} key={index}>
+                <p
+                  onClick={(e: any) => {
+                    setOpen(false)
+                    setSelectValue(ele)
+                  }}
+                >
+                  {ele}
+                </p>
+              </div>
+            ))
+          ) : (
+            <div className={style.noDatas}>
+              <p>No data found</p>
             </div>
-          ))}
+          )}
         </div>
       )}
     </div>

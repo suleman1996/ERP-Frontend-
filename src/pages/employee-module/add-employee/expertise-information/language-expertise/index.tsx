@@ -5,7 +5,7 @@ import TextField from 'components/textfield'
 import Table from 'components/table'
 import ProfileUpload from 'components/profile-upload'
 import SkillLevel from 'components/skill-level'
-import SearchSelect from 'components/search-select'
+import SearchSelect from 'components/select-and-search-select'
 
 import { columns, useLanguage, languageArray } from './helper'
 
