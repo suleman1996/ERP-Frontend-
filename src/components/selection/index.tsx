@@ -130,7 +130,7 @@ const Selection = ({
     <div style={{ position: 'relative' }}>
       {label && (
         <div style={{ marginBottom: 7.31 }}>
-          <label style={{ color: errorMessage ? '#000' : '#2d2d32' }}>
+          <label>
             {label}
             <b style={{ color: 'red' }}>{star}</b>
           </label>
