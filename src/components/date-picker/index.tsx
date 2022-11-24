@@ -135,6 +135,7 @@ const DatePicker = ({
             render={({ onChange, value, name }) => {
               return (
                 <ReactDatePicker
+                  onBlur={console.log}
                   selected={value == 'Invalid Date' ? null : value || null}
                   maxDate={maxDate && maxDate}
                   minDate={minDate && minDate}
