@@ -63,6 +63,9 @@ const Selection = ({
       ...styles,
       fontSize: '13px',
       color: placeHolderStyle.color,
+      ...(placeHolderStyle?.fontSize && {
+        fontSize: placeHolderStyle?.fontSize,
+      }),
     })
   }
 

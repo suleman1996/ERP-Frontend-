@@ -7,12 +7,15 @@ import Approvals from './approval'
 import Button from 'components/button'
 import CreateApplicationModal from './my-leaves/create-applications'
 import EmployeeService from 'services/employee-service'
+import LeaveQuota from './leave-quota'
+import AddQuotaModal from './leave-quota/add-quota'
 
 const Applications = () => {
   const [active, setActive] = useState(1)
   const [data, setData] = useState({})
   const [renderState, setRenderState] = useState(false)
   const [openModal, setOpenModal] = useState(false)
+  const [openModalQuota, setOpenModalQuota] = useState(false)
 
   const handleTab = (index: number) => {
     setActive(index)
@@ -51,6 +54,8 @@ const Applications = () => {
       case 2:
         return <Approvals />
       case 3:
+        return <LeaveQuota />
+      case 4:
         return <LeaveBalance />
       default:
         return <MyLeaves data={data} parentRenderState={renderState} />
@@ -63,6 +68,14 @@ const Applications = () => {
         <CreateApplicationModal
           openModal={openModal}
           setOpenModal={setOpenModal}
+          data={data}
+          setRender={setRenderState}
+        />
+      )}
+      {openModalQuota && (
+        <AddQuotaModal
+          openModal={openModalQuota}
+          setOpenModal={setOpenModalQuota}
           data={data}
           setRender={setRenderState}
         />
@@ -89,7 +102,13 @@ const Applications = () => {
               className={active === 3 ? style.active : ''}
               onClick={() => handleTab(3)}
             >
-              Leave Balance
+              Leave Quota
+            </p>
+            <p
+              className={active === 4 ? style.active : ''}
+              onClick={() => handleTab(4)}
+            >
+              Leave Types
             </p>
           </div>
           {active === 1 && (
@@ -97,6 +116,13 @@ const Applications = () => {
               text="Apply Leave"
               btnClass={style.btnClass}
               handleClick={() => setOpenModal(true)}
+            />
+          )}
+          {active === 3 && (
+            <Button
+              text="Add Quota"
+              btnClass={style.btnClass}
+              handleClick={() => setOpenModalQuota(true)}
             />
           )}
         </div>
