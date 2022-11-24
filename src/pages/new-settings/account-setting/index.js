@@ -50,7 +50,7 @@ const AccountSetting = () => {
         ...(watch('confirmPassword') && {
           confirmPassword: data?.confirmPassword,
         }),
-        ...(img && { img }),
+        ...((img || userData.img) && { img: img || userData.img }),
         _id: userData?.id,
       }
       const res = await SettingsService.updateAccount(newData)
@@ -58,6 +58,7 @@ const AccountSetting = () => {
         if (res.data.emailSent === true) {
           setNotificationPopUP(true)
         }
+        setBtnLoader(false)
       }
     } catch (err) {
       if (err?.response?.data?.error) {

@@ -35,7 +35,6 @@ const SearchSelect = ({
   handleEdit,
   icons,
   options,
-  value,
   name,
   errorMessage,
   control,
@@ -44,7 +43,7 @@ const SearchSelect = ({
   onChange: changeHandler,
 }: Props) => {
   const {
-    field: { onChange },
+    field: { value, onChange },
   } = useController({ control, name: name || '' })
 
   const [open, setOpen] = useState(false)

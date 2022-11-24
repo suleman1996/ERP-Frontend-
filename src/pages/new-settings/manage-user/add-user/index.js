@@ -9,7 +9,14 @@ import Select from 'components/select'
 import { AddUserHelper } from './add-user-helper'
 import { convertBase64Image } from 'main-helper'
 
-const AddUser = ({ setNewUser, customRoles, allIDs }) => {
+const AddUser = ({
+  setNewUser,
+  customRoles,
+  allIDs,
+  setEditIndex,
+  singleUser,
+  getAllUsers,
+}) => {
   const {
     register,
     handleSubmit,
@@ -21,7 +28,7 @@ const AddUser = ({ setNewUser, customRoles, allIDs }) => {
     errors,
     setBase64,
     btnLoader,
-  } = AddUserHelper({ setNewUser })
+  } = AddUserHelper({ setNewUser, singleUser, setEditIndex, getAllUsers })
 
   return (
     <>
@@ -113,7 +120,10 @@ const AddUser = ({ setNewUser, customRoles, allIDs }) => {
             type="button"
             btnClass={style.cancelBtn}
             className={style.btnText}
-            handleClick={() => setNewUser(false)}
+            handleClick={() => {
+              setNewUser(false)
+              setEditIndex && setEditIndex(-1)
+            }}
           />
           <Button
             text="Add"

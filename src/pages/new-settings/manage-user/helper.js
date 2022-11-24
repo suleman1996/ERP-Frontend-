@@ -1,4 +1,4 @@
-import filterIcon from 'assets/filterIcon.svg';
+import filterIcon from 'assets/filterIcon.svg'
 
 export const ColumnsData = [
   {
@@ -21,7 +21,7 @@ export const ColumnsData = [
     width: '300px',
   },
   {
-    key: 'role',
+    key: 'rolee',
     name: 'Role',
     alignText: 'center',
     icon: filterIcon,
@@ -40,36 +40,11 @@ export const ColumnsData = [
     alignText: 'center',
     width: '100px',
   },
-  { key: 'actions', name: 'Actions', alignText: 'center', lockIcon: 'true', width: '200px' },
-];
-
-export const RowsData = [
   {
-    name: 'Raja Mohammad Faizan Akhtar',
-    email: 'rajafaizan@gmail.com',
-    role: 'Team Lead',
-    id: 'SPX0021',
-    status: 'switch component',
+    key: 'actions',
+    name: 'Actions',
+    alignText: 'center',
+    lockIcon: 'true',
+    width: '200px',
   },
-  {
-    name: 'Raja Mohammad Faizan Akhtar',
-    email: 'rajafaizan@gmail.com',
-    role: 'Team Lead',
-    id: 'SPX0021',
-    status: 'switch component',
-  },
-  {
-    name: 'Raja Mohammad Faizan Akhtar',
-    email: 'rajafaizan@gmail.com',
-    role: 'Team Lead',
-    id: 'SPX0021',
-    status: 'switch component',
-  },
-  {
-    name: 'Raja Mohammad Faizan Akhtar',
-    email: 'rajafaizan@gmail.com',
-    role: 'Team Lead',
-    id: 'SPX0021',
-    status: 'switch component',
-  },
-];
+]

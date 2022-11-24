@@ -42,6 +42,26 @@ export default class SettingsService {
     return res
   }
 
+  static async getUsers() {
+    const res = await ApiService.get(`${SettingsService.baseUrl[1]}/users`)
+    return res
+  }
+
+  static async updateUser(data, id) {
+    const res = await ApiService.put(
+      `${SettingsService.baseUrl[1]}/users/${id}`,
+      data
+    )
+    return res
+  }
+
+  static async getUserById(id?: string | number) {
+    const res = await ApiService.get(
+      `${SettingsService.baseUrl[1]}/users/${id}`
+    )
+    return res
+  }
+
   static async addDesignation(data: any) {
     const res = await ApiService.post(
       `${SettingsService.baseUrl[0]}/designation-setting/`,
