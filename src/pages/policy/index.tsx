@@ -146,7 +146,6 @@ const Policy = () => {
       if (err?.response?.data?.error) {
         setErrors(err?.response?.data?.error, setError)
       }
-      // createNotification('error', 'Error', err?.response?.data?.msg)
 
       setIsLoading(false)
     }
