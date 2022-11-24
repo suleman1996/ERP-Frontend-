@@ -18,6 +18,7 @@ const ManageUser = ({ newUser, setNewUser }) => {
   const { control } = useForm()
 
   const [deletePopUp, setDeletePopUp] = useState(false)
+  const [btnLoader, setBtnLoader] = useState(false)
   const [editIndex, setEditIndex] = useState(-1)
   const [customRoles, setCustomRoles] = useState()
   const [allIDs, setAllIDs] = useState()
@@ -48,6 +49,17 @@ const ManageUser = ({ newUser, setNewUser }) => {
   const editHandler = async (id) => {
     const res = await SettingsService.getUserById(id)
     setSingleUser(res?.data?.user)
+  }
+
+  const handleDeleteClick = async () => {
+    setBtnLoader(true)
+    const res = await SettingsService.deleteUser(editIndex)
+    if (res.status === 200) {
+      setEditIndex(-1)
+      setDeletePopUp(false)
+      setBtnLoader(false)
+      getAllUsers()
+    }
   }
 
   return (
@@ -94,6 +106,7 @@ const ManageUser = ({ newUser, setNewUser }) => {
           minWidth="1300px"
           headingText={style.columnText}
           handleEducation={(index) => setEditIndex(index)}
+          handleDelete={(id) => setEditIndex(id)}
           handleEdit={(id) => {
             setEditIndex(id)
             editHandler(id)
@@ -105,12 +118,14 @@ const ManageUser = ({ newUser, setNewUser }) => {
             setNewUser={setNewUser}
             customRoles={customRoles}
             allIDs={allIDs}
+            getAllUsers={getAllUsers}
           />
         )}
         <DeletePopup
           open={deletePopUp}
           setOpen={setDeletePopUp}
-          handleDelete={undefined}
+          handleDelete={() => handleDeleteClick()}
+          btnLoader={btnLoader}
         />
       </div>
     </CardContainer>

@@ -56,6 +56,7 @@ export const AddUserHelper = ({
         const res = await SettingsService.addUser(userData)
         if (res?.status === 200) {
           setNewUser(false)
+          getAllUsers()
         }
       }
     } catch (err) {
