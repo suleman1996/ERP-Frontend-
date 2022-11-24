@@ -24,10 +24,7 @@ const CountryInput = ({
   return (
     <>
       {label && (
-        <label
-          className={style.label}
-          style={{ color: errorMessage ? '#ff5050' : '' }}
-        >
+        <label className={style.label}>
           {label}
           <b style={{ color: '#ff5050' }}>{star}</b>
         </label>

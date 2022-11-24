@@ -1,22 +1,22 @@
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent } from 'react'
 
-import style from './textarea.module.scss';
+import style from './textarea.module.scss'
 
 interface Props {
-  label?: string;
-  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
-  name?: string;
-  type?: React.HTMLInputTypeAttribute;
-  placeholder?: string;
-  icon?: string;
-  onClick?: () => void;
-  errorMessage?: string;
-  register?: any;
-  readOnly?: boolean;
-  isDisable?: boolean;
-  className?: string;
-  star?: string;
-  row?: any;
+  label?: string
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void
+  name?: string
+  type?: React.HTMLInputTypeAttribute
+  placeholder?: string
+  icon?: string
+  onClick?: () => void
+  errorMessage?: string
+  register?: any
+  readOnly?: boolean
+  isDisable?: boolean
+  className?: string
+  star?: string
+  row?: any
 }
 
 const TextArea = ({
@@ -34,13 +34,15 @@ const TextArea = ({
     <>
       <div className={`${style.note} ${className}`}>
         {label && (
-          <label style={{ color: errorMessage ? '#ff5050' : '#2d2d32' }}>
+          <label>
             {label} <b style={{ color: 'red' }}>{star}</b>{' '}
           </label>
         )}
         <textarea
           style={{
-            border: errorMessage ? '1.2px solid #ff5050' : ' 1.2px solid #e2e2ea',
+            border: errorMessage
+              ? '1.2px solid #ff5050'
+              : ' 1.2px solid #e2e2ea',
           }}
           placeholder={placeholder}
           name={name}
@@ -49,11 +51,15 @@ const TextArea = ({
           disabled={isDisable || false}
         ></textarea>
         <span>
-          {errorMessage ? <span className={style.errorMessage}>{errorMessage}</span> : ''}
+          {errorMessage ? (
+            <span className={style.errorMessage}>{errorMessage}</span>
+          ) : (
+            ''
+          )}
         </span>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default TextArea;
+export default TextArea
