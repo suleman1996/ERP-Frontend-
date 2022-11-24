@@ -7,7 +7,7 @@ import AddUser from './add-user/index'
 import DeletePopup from 'components/delete-modal'
 import CardContainer from 'components/card-container'
 
-import { ColumnsData, RowsData } from './helper'
+import { ColumnsData } from './helper'
 import SettingsService from 'services/settings-service'
 import EmployeeService from 'services/employee-service'
 
@@ -21,11 +21,19 @@ const ManageUser = ({ newUser, setNewUser }) => {
   const [editIndex, setEditIndex] = useState(-1)
   const [customRoles, setCustomRoles] = useState()
   const [allIDs, setAllIDs] = useState()
+  const [allUsers, setAllUsers] = useState([])
+  const [singleUser, setSingleUser] = useState()
 
   useEffect(() => {
     getCustomRoles()
     getAllIds()
+    getAllUsers()
   }, [])
+
+  const getAllUsers = async () => {
+    const result = await SettingsService.getUsers()
+    setAllUsers(result?.data?.users)
+  }
 
   const getAllIds = async () => {
     const result = await EmployeeService.getOnlyEmployees()
@@ -37,19 +45,33 @@ const ManageUser = ({ newUser, setNewUser }) => {
     setCustomRoles(res?.data?.customRoles)
   }
 
+  const editHandler = async (id) => {
+    const res = await SettingsService.getUserById(id)
+    setSingleUser(res?.data?.user)
+  }
+
   return (
     <CardContainer className={style.card}>
       <div style={{ padding: '0 10px', paddingBottom: '60px' }}>
         <Table
+          getAllUsers={getAllUsers}
+          singleUser={singleUser}
           setNewUser={setNewUser}
+          customRoles={customRoles}
+          allIDs={allIDs}
           columns={ColumnsData}
           editIndex={editIndex}
           setEditIndex={setEditIndex}
-          rows={RowsData.map((row) => ({
+          rows={allUsers?.map((row) => ({
             ...row,
+            rolee: row.role[0].name,
+            id: row?.employeeId ? row?.employeeId : '---',
             image: (
               <div className={style.image}>
-                <img src={dummy} />
+                <img
+                  src={row?.img[0]?.file ? row?.img[0]?.file : dummy}
+                  style={{ borderRadius: '50%' }}
+                />
               </div>
             ),
             status: (
@@ -60,14 +82,22 @@ const ManageUser = ({ newUser, setNewUser }) => {
                   alignItems: 'center',
                 }}
               >
-                <Switch title={'Active'} name={'active'} control={control} />
+                <Switch
+                  title={'Active'}
+                  name={'active'}
+                  control={control}
+                  checked={row?.status}
+                />
               </div>
             ),
           }))}
           minWidth="1300px"
           headingText={style.columnText}
           handleEducation={(index) => setEditIndex(index)}
-          handleEdit={(id) => setEditIndex(id)}
+          handleEdit={(id) => {
+            setEditIndex(id)
+            editHandler(id)
+          }}
           handleModalOpen={() => setDeletePopUp(true)}
         />
         {newUser && (
