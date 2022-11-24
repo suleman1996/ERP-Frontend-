@@ -34,19 +34,19 @@
 .checkMark {
   position: absolute;
   left: 0;
-  width: calc(13px + (20 - 13) * (100vw - 280px) / (2560 - 280));
-  height: calc(13px + (20 - 13) * (100vw - 280px) / (2560 - 280));
+  width: 17px;
+  height: 17px;
   border-radius: 50%;
   border: 2px solid #d9d9d9;
-  border-color: #b9b9b9;
+  border-color: #d9d9d9;
 }
 
 /* On mouse-over, add a grey background color */
 
 /* When the checkbox is checked, add a blue background */
 .container input:checked ~ .checkMark {
-  background-color: #57b894;
-  border-color: #ffffff;
+  background-color: #ffffff;
+  border-color: #57b894;
 }
 
 /* Create the checkMark/indicator (hidden when not checked) */
@@ -63,5 +63,10 @@
 
 /* Style the checkMark/indicator */
 .container .checkMark:after {
-  border-color: #57b894;
+  background-color: #57b894;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  top: 2px;
+  left: 2px;
 }

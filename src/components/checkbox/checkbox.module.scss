@@ -34,8 +34,8 @@
 .checkMark {
   position: absolute;
   left: 0;
-  height: calc(12px + (20 - 12) * (100vw - 280px) / (2560 - 280));
-  width: calc(12px + (20 - 12) * (100vw - 280px) / (2560 - 280));
+  height: 17px;
+  width: 17px;
   border: 1px solid #e2e2ea;
   border-radius: 1.44px;
 }
@@ -64,8 +64,9 @@
 .container .checkMark:after {
   width: 4px;
   height: 10px;
+  top: 2px;
+  left: 1px;
   border: solid #ffffff;
-  top: 1px;
   border-width: 0 1.3px 1.3px 0;
   transform: translate(70%, -13%) rotate(45deg);
 }

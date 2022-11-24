@@ -21,10 +21,11 @@ import MonthYearPicker from 'components/range-month-picker'
 import DatePicker from 'components/date-picker'
 import Radio from 'components/radio'
 import ProgressBar from 'components/progress-bar'
-import SearchSelect from 'components/search-select'
+import SearchSelect from 'components/select-and-search-select'
 import Checkbox from 'components/checkbox'
 import Pagination from 'components/pagination'
 import CountryInput from 'components/country-input'
+import EmployeeProfileCard from 'components/employee-profile-card'
 
 const DashBoard = () => {
   const { control, register, watch } = useForm()
@@ -38,7 +39,7 @@ const DashBoard = () => {
   return (
     <Container>
       <div style={{ marginTop: '10px' }}>
-        <Button text="Button" />
+        <Button text="Button very long" />
       </div>
       <div style={{ marginTop: '10px' }}>
         <TextField
@@ -65,26 +66,18 @@ const DashBoard = () => {
           control={control}
           value={watch('searchSelectWithicons')}
           options={languageArray}
-          label="Custom Search Select "
+          label="Custom Search Select + Select  "
         />
       </div>
-      <div style={{ marginTop: '10px' }}>
-        <SearchSelect
-          name={'searchSelectWithicons'}
-          control={control}
-          value={watch('searchSelectWithicons')}
-          options={languageArray}
-          label="Search Select With Icons"
-          icons="true"
-        />
-      </div>
+
       <div style={{ marginTop: '10px' }}>
         <Selection
-          label="Recurrence"
+          label="Use Selection Component only for multi select"
           options={recurrenceTypes}
           name="recurrence"
           control={control}
           placeholder="Select"
+          isMulti={true}
         />
       </div>
       <div style={{ marginTop: '10px' }}>
@@ -176,9 +169,15 @@ const DashBoard = () => {
           setToggle={setToggle}
         />
       </div>
-      {/* <div style={{ marginTop: '10px' }}>
-        <EmployeeProfileCard />
-      </div> */}
+      <div style={{ margin: '10px 0px' }}>
+        <EmployeeProfileCard
+          department="UI Designer"
+          designation="Senior software engineer"
+          phone="0300-9876567"
+          id="SPX001"
+          name="SprintX"
+        />
+      </div>
     </Container>
   )
 }
