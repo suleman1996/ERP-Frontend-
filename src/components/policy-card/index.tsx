@@ -160,7 +160,13 @@ const RenderPolicy = ({
       </div>
 
       <div className={style.policyButtonView}>
-        <div className={style.policyButton}>
+        <div
+          className={`${style.policyButton}`}
+          style={{
+            backgroundColor: data?.fileId[0]?.file ? '#57b894' : '#57b89450',
+            cursor: data?.fileId[0]?.file ? 'pointer' : 'no-drop',
+          }}
+        >
           <a
             className={style.viewPolicyBtn}
             rel="noreferrer"
