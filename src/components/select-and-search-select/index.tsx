@@ -2,11 +2,12 @@
 import { MouseEventHandler, useEffect, useRef, useState } from 'react'
 import { useController } from 'react-hook-form'
 
+import NoData from 'components/no-data-found-card'
 import TextField from 'components/textfield'
 
 import arrow from 'assets/arrow-left.svg'
 import style from './search-select.module.scss'
-import NoData from 'components/no-data-found-card'
+
 
 interface Props {
   label?: string
