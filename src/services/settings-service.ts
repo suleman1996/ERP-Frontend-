@@ -55,6 +55,13 @@ export default class SettingsService {
     return res
   }
 
+  static async deleteUser(id) {
+    const res = await ApiService.delete(
+      `${SettingsService.baseUrl[1]}/users/${id}`
+    )
+    return res
+  }
+
   static async getUserById(id?: string | number) {
     const res = await ApiService.get(
       `${SettingsService.baseUrl[1]}/users/${id}`
