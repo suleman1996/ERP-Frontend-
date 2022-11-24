@@ -146,7 +146,7 @@ const Policy = () => {
       if (err?.response?.data?.error) {
         setErrors(err?.response?.data?.error, setError)
       }
-      createNotification('error', 'Error', err?.response?.data?.msg)
+      // createNotification('error', 'Error', err?.response?.data?.msg)
 
       setIsLoading(false)
     }
@@ -154,11 +154,13 @@ const Policy = () => {
 
   const deletePolicy = async () => {
     try {
+      setIsLoading(true)
       await PolicyService.deletePolicy(selectedPolicy?._id)
       selectedTab == 0 ? setRender(!render) : setRenderObselete(!renderObselete)
-
+      setIsLoading(false)
       setOpen(false)
     } catch (error) {
+      setIsLoading(false)
       console.error(error)
     }
   }
@@ -330,6 +332,7 @@ const Policy = () => {
         handleDelete={() => deletePolicy()}
         setOpen={setOpen}
         open={open}
+        isLoading={isLoading}
       />
 
       <Modal
