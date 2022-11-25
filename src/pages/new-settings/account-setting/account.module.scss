@@ -8,6 +8,7 @@
   height: calc(100vh - 170px) !important;
 }
 .customInputs {
+  margin-top: 20px;
   @include gridTwo(20, 20);
 }
 .iconClass {

@@ -1,5 +1,22 @@
 @import './_breakpoints.scss';
 
+@mixin gridOne($gap_y: 0, $gap_x: 0) {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  grid-gap: $gap_y + px $gap_x + px;
+  grid-auto-rows: auto;
+  @media (max-width: $md) {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  @media (max-width: $sm) {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  @media (max-width: $xs) {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
 @mixin gridTwo($gap_y: 0, $gap_x: 0) {
   width: 100%;
   display: grid;

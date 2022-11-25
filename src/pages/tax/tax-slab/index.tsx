@@ -30,6 +30,10 @@ const TaxSlab = ({
 
   const { control } = useForm()
 
+  useEffect(() => {
+    getTaxSlabsData()
+  }, [])
+
   const deleteTaxSlab = async (id: string) => {
     setDeleteLoading(true)
     const res = await TaxService.deleteTaxSlab(id)
@@ -44,18 +48,13 @@ const TaxSlab = ({
   const getTaxSlabsData = async () => {
     setIsLoading(true)
     const res = await TaxService.getAllTaxSlabsData()
-
     if (res.status === 200) {
       setTaxSlabsData(res?.data?.data)
     }
     setIsLoading(false)
   }
 
-  useEffect(() => {
-    getTaxSlabsData()
-  }, [])
-
-  const handleEdit = async (id) => {
+  const handleEdit = async (id: string) => {
     setSingleId(id)
     const res = await TaxService.getTaxSlabById(id)
     setNewSlab(res?.data?.tax)
@@ -86,7 +85,7 @@ const TaxSlab = ({
                     <div>
                       <Switch
                         control={control}
-                        title={item.Status === true ? 'Active' : 'InActive'}
+                        title={item.Status === true ? 'Active' : 'In Active'}
                         checked={item?.Status}
                         name={item._id}
                         handleClick={() => handleSwitch(item?._id, item)}

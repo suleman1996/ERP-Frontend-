@@ -1,31 +1,31 @@
-import { ReactElement } from 'react';
-import Attendance from 'pages/attendance';
-import Policy from 'pages/policy';
-import DashBoard from 'pages/dashboard';
-import Settings from 'pages/new-settings';
-import Login from 'pages/login';
-import ForgetPassword from 'pages/forget';
-import ResetPassword from 'pages/reset-password';
-import MobileForgotVerification from 'pages/forget/verification';
-import EmployeeProfileDetails from 'pages/employee-module/employee-profile';
-import AddEmployee from 'pages/employee-module/add-employee';
-import SingleEmployee from 'pages/employee-module/single-employee';
-import ProfileSetting from 'pages/settings/profile-settings';
-import TaxSlab from 'pages/tax';
-import Calender from 'pages/calender';
-import Applications from 'pages/applications';
+import { ReactElement } from 'react'
+import Attendance from 'pages/attendance'
+import Policy from 'pages/policy'
+import DashBoard from 'pages/dashboard'
+import Settings from 'pages/new-settings'
+import Login from 'pages/login'
+import ForgetPassword from 'pages/forget'
+import ResetPassword from 'pages/reset-password'
+import MobileForgotVerification from 'pages/forget/verification'
+import EmployeeProfileDetails from 'pages/employee-module/employee-profile'
+import AddEmployee from 'pages/employee-module/add-employee'
+import SingleEmployee from 'pages/employee-module/single-employee'
+import ProfileSetting from 'pages/settings/profile-settings'
+import TaxSlab from 'pages/tax'
+import Calender from 'pages/calender'
+import Applications from 'pages/applications'
 
 export interface RouteInterface {
-  path: string;
-  component: ReactElement;
-  role?: string[];
+  path: string
+  component: ReactElement
+  role?: string[]
 }
 
 const roles: any = {
   all: ['Admin', 'Human Resource', 'Employee'],
   adminHr: ['Admin', 'Human Resource'],
   admin: ['Admin'],
-};
+}
 
 export const routes: RouteInterface[] = [
   {
@@ -103,7 +103,7 @@ export const routes: RouteInterface[] = [
     component: <Settings />,
     role: [...roles.adminHr],
   },
-];
+]
 
 export const publicRoute: RouteInterface[] = [
   {
@@ -115,6 +115,10 @@ export const publicRoute: RouteInterface[] = [
     component: <ResetPassword />,
   },
   {
+    path: '/reset',
+    component: <ResetPassword />,
+  },
+  {
     path: '/forgot',
     component: <ForgetPassword />,
   },
@@ -122,4 +126,4 @@ export const publicRoute: RouteInterface[] = [
     path: '/verification',
     component: <MobileForgotVerification />,
   },
-];
+]
