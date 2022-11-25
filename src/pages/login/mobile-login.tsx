@@ -28,8 +28,8 @@ interface Props {
 
 const MobileLogin = ({ openNotification, setOpenNotification }: Props) => {
   const { setError, register, handleSubmit, errors } = useForm()
-  const [isLoading, setIsLoading] = useState(false)
   const [passwordVisible, setPasswordVisible] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
 
