@@ -62,6 +62,13 @@ const ManageUser = ({ newUser, setNewUser }) => {
     }
   }
 
+  const handleSwitch = async (id, item) => {
+    const res = await SettingsService.switchUser(id, item)
+    if (res.status === 200) {
+      getAllUsers()
+    }
+  }
+
   return (
     <CardContainer className={style.card}>
       <div style={{ padding: '0 10px', paddingBottom: '60px' }}>
@@ -99,6 +106,7 @@ const ManageUser = ({ newUser, setNewUser }) => {
                   name={'active'}
                   control={control}
                   checked={row?.status}
+                  handleClick={() => handleSwitch(row?._id, row)}
                 />
               </div>
             ),
