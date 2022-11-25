@@ -54,12 +54,16 @@ const TextField = ({
     <>
       <div className={`${style.inputContainer} ${container} `}>
         {label && (
-          <label style={{ color: errorMessage ? '#ff5050' : '' }}>
+          <label>
             {label}
             <b style={{ color: '#ff5050' }}>{star}</b>
           </label>
         )}
-        <div style={{ position: 'relative' }} className={className}>
+        <div
+          style={{ position: 'relative' }}
+          className={className}
+          onClick={onClick}
+        >
           <input
             style={{
               border: errorMessage ? '1px solid #ff5050' : '1px solid #E2E2EA',

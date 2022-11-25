@@ -52,6 +52,10 @@ interface Props {
   setEditIndex?: Dispatch<SetStateAction<number>>
   setNewUser?: Dispatch<SetStateAction<boolean>>
   tableHeaderClass?: string
+  customRoles?: any
+  allIDs?: any
+  singleUser?: any
+  getAllUsers?: any
 }
 
 const Table = ({
@@ -70,9 +74,14 @@ const Table = ({
   headingText,
   rowText,
   editIndex,
+  setEditIndex,
   setNewUser,
   tableHeaderClass,
   tableClass,
+  customRoles,
+  allIDs,
+  singleUser,
+  getAllUsers,
 }: Props) => {
   const [tblScroll, setTblScroll] = useState(false)
   const [isFilter] = useState<string | number>('')
@@ -154,7 +163,14 @@ const Table = ({
                   key={index}
                 >
                   {editIndex === index ? (
-                    <AddUser setNewUser={setNewUser} />
+                    <AddUser
+                      singleUser={singleUser}
+                      customRoles={customRoles}
+                      allIDs={allIDs}
+                      setNewUser={setNewUser}
+                      setEditIndex={setEditIndex}
+                      getAllUsers={getAllUsers}
+                    />
                   ) : (
                     <>
                       {columns.map((column, colIndex) => (

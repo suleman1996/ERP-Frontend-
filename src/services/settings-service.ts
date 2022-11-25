@@ -3,7 +3,15 @@ import { GeneralSettingUpdateUser } from 'pages/settings/general-settings/helper
 import { ManageAccountsEditEmployee } from 'pages/settings/manage-accounts/manage-accounts-helper'
 
 export default class SettingsService {
-  static baseUrl = ['settings']
+  static baseUrl = ['settings', '']
+
+  static async switchUser(id, data) {
+    const res = await ApiService.put(
+      `${SettingsService.baseUrl[1]}/users/toggle/${id}`,
+      data
+    )
+    return res
+  }
 
   static async addDepartment(data: any) {
     const res = await ApiService.post(
@@ -38,6 +46,33 @@ export default class SettingsService {
   static async getDesignation() {
     const res = await ApiService.get(
       `${SettingsService.baseUrl[0]}/designation-setting/all`
+    )
+    return res
+  }
+
+  static async getUsers() {
+    const res = await ApiService.get(`${SettingsService.baseUrl[1]}/users`)
+    return res
+  }
+
+  static async updateUser(data, id) {
+    const res = await ApiService.put(
+      `${SettingsService.baseUrl[1]}/users/${id}`,
+      data
+    )
+    return res
+  }
+
+  static async deleteUser(id) {
+    const res = await ApiService.delete(
+      `${SettingsService.baseUrl[1]}/users/${id}`
+    )
+    return res
+  }
+
+  static async getUserById(id?: string | number) {
+    const res = await ApiService.get(
+      `${SettingsService.baseUrl[1]}/users/${id}`
     )
     return res
   }
@@ -84,6 +119,16 @@ export default class SettingsService {
     return res
   }
 
+  static async getAllCustomRoles(data?: any) {
+    const res = await ApiService.get(
+      `${SettingsService.baseUrl[0]}/customRoles`,
+      {
+        params: data,
+      }
+    )
+    return res
+  }
+
   static async editEmployee(
     id: string,
     employeeData: ManageAccountsEditEmployee
@@ -125,6 +170,14 @@ export default class SettingsService {
   static async resendEmail(data: any) {
     const res = await ApiService.post(
       `${SettingsService.baseUrl[0]}/resendConfirmationEmail/`,
+      data
+    )
+    return res
+  }
+
+  static async addUser(data: any) {
+    const res = await ApiService.post(
+      `${SettingsService.baseUrl[1]}/users`,
       data
     )
     return res

@@ -4,10 +4,10 @@
 
 .card {
   border-radius: 0%;
+  height: calc(100vh - 170px) !important;
 }
 .innderDivs {
   @include gridTwo(20, 20);
-  margin-top: 70px;
 
   .rolesAddText {
     display: flex;

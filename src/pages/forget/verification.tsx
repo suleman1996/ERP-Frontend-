@@ -1,10 +1,10 @@
-import React from 'react';
+import React from 'react'
 
-import Input from 'components/textfield';
-import Button from 'components/button';
+import Input from 'components/textfield'
+import Button from 'components/button'
 
-import style from './forget.module.scss';
-import logo from 'assets/sprintx.svg';
+import style from './forget.module.scss'
+import logo from 'assets/sprintx.svg'
 
 const MobileForgotVerification = () => {
   return (
@@ -15,13 +15,17 @@ const MobileForgotVerification = () => {
         </div>
         <h4>Forgot Password</h4>
         <div className={style.loginDiv}>
-          <Input placeholder="Verification Code" label="Verification Code" type="number" />
+          <Input
+            placeholder="Verification Code"
+            label="Verification Code"
+            type="number"
+          />
         </div>
         <div className={style.logo}>
           <Button text="NEXT" btnClass={style.btn} />
         </div>
       </div>
     </>
-  );
-};
-export default MobileForgotVerification;
+  )
+}
+export default MobileForgotVerification

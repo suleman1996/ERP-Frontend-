@@ -50,7 +50,7 @@ const AccountSetting = () => {
         ...(watch('confirmPassword') && {
           confirmPassword: data?.confirmPassword,
         }),
-        ...(img && { img }),
+        ...((img || userData.img) && { img: img || userData.img }),
         _id: userData?.id,
       }
       const res = await SettingsService.updateAccount(newData)
@@ -58,6 +58,7 @@ const AccountSetting = () => {
         if (res.data.emailSent === true) {
           setNotificationPopUP(true)
         }
+        setBtnLoader(false)
       }
     } catch (err) {
       if (err?.response?.data?.error) {
@@ -98,6 +99,7 @@ const AccountSetting = () => {
             img={img}
             setImg={setImg}
             accountSetting
+            btnText="Remove Photo"
           />
           <div className={style.customInputs}>
             <Input
@@ -130,7 +132,7 @@ const AccountSetting = () => {
               register={register}
             />
             <Input
-              label={'ConfirmPassword'}
+              label={'Confirm Password'}
               name={'confirmPassword'}
               errorMessage={errors?.confirmPassword?.message}
               type={confirmNewpass ? 'text' : 'password'}

@@ -1,25 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 
-import Checkbox from 'components/checkbox';
-import PlusMinusCheckbox from './plus-checkbox';
+import Checkbox from 'components/checkbox'
+import PlusMinusCheckbox from './plus-checkbox'
 
-import style from './filter.module.scss';
+import style from './filter.module.scss'
 
 interface Props {
-  list?: any;
-  childArr?: any;
+  list?: any
+  childArr?: any
 }
 
 export const MonthsYearFilter = ({ list }: Props) => {
-  const [monthState, setMonthState] = useState(null);
+  const [monthState, setMonthState] = useState(null)
 
   const handleClick = (e: any, index: any) => {
     if (index === monthState) {
-      setMonthState(null);
+      setMonthState(null)
     } else {
-      setMonthState(index);
+      setMonthState(index)
     }
-  };
+  }
 
   return (
     <>
@@ -32,17 +32,19 @@ export const MonthsYearFilter = ({ list }: Props) => {
           />
           {ele.child && (
             <div style={{ marginLeft: '19px', marginTop: '7px' }}>
-              {index === monthState && <MonthsDateFilter childArr={ele.child} />}
+              {index === monthState && (
+                <MonthsDateFilter childArr={ele.child} />
+              )}
             </div>
           )}
         </div>
       ))}
     </>
-  );
-};
+  )
+}
 
 export const MonthsDateFilter = ({ childArr }: Props) => {
-  const [dateState, setDateState] = useState(-1);
+  const [dateState, setDateState] = useState(-1)
 
   return (
     <>
@@ -58,7 +60,9 @@ export const MonthsDateFilter = ({ childArr }: Props) => {
             label={ele.name}
             checked={index === dateState}
             onClick={(e: any) => e.stopPropagation()}
-            handleChange={() => setDateState((prev) => (index === prev ? -1 : index))}
+            handleChange={() =>
+              setDateState((prev) => (index === prev ? -1 : index))
+            }
           />
           {ele.child && (
             <div
@@ -73,8 +77,8 @@ export const MonthsDateFilter = ({ childArr }: Props) => {
         </div>
       ))}
     </>
-  );
-};
+  )
+}
 
 export const DayDateFilter = ({ childArr }: Props) => {
   return (
@@ -88,5 +92,5 @@ export const DayDateFilter = ({ childArr }: Props) => {
         </div>
       ))}
     </>
-  );
-};
+  )
+}

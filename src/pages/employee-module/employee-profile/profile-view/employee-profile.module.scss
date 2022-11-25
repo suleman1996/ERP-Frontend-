@@ -8,7 +8,7 @@
   }
 
   p {
-    color: $title;
+    color: $black;
   }
 
   .header {
@@ -20,7 +20,7 @@
   }
 
   .datePrint {
-    color: $title;
+    color: $black;
     font-size: 11px;
     font-weight: 600;
   }
@@ -54,8 +54,8 @@
       .leadDiv {
         margin-top: 10px;
         padding: 6px 20px;
-        border: 1px solid $secondary;
-        color: $secondary;
+        border: 1px solid $btn;
+        color: $btn;
         background-color: $white;
         border-radius: 6px;
       }
