@@ -3,6 +3,7 @@
 @import 'styles/_breakpoints.scss';
 
 .card {
+  margin: 15px 10px;
   border-radius: 0%;
   height: calc(100vh - 170px) !important;
 }

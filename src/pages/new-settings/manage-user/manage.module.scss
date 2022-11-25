@@ -32,3 +32,33 @@
     }
   }
 }
+
+.modalParent {
+  max-width: 750px !important;
+
+  .modalWraper {
+    @include gridOne(20, 10);
+
+    .modalBtnSection {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 40px;
+
+      .cancelBtn {
+        max-width: 190px !important;
+        margin-right: 10px;
+        background-color: $white;
+        border: 1px solid $btn;
+      }
+
+      .CancelBtnText {
+        color: $btn;
+      }
+
+      .savebtn {
+        max-width: 190px !important;
+      }
+    }
+  }
+}

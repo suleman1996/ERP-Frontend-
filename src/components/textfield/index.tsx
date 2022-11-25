@@ -11,6 +11,7 @@ interface Props {
   placeholder?: string
   icon?: string
   onClick?: () => void
+  parentClick?: () => void
   errorMessage?: string
   register?: any
   className?: string
@@ -33,6 +34,7 @@ const TextField = ({
   name,
   register,
   onClick,
+  parentClick,
   type,
   id,
   className,
@@ -62,7 +64,7 @@ const TextField = ({
         <div
           style={{ position: 'relative' }}
           className={className}
-          onClick={onClick}
+          onClick={parentClick}
         >
           <input
             style={{

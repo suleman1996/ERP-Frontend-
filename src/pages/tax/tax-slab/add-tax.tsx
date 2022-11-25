@@ -312,22 +312,28 @@ const AddAttendance = ({
                   sr: index + 1,
                   taxRate: `${item.taxRate} %`,
                   Actions: (
-                    <div style={{ display: 'flex' }}>
-                      <div style={{ marginRight: '10px' }}>
-                        <img
-                          src={editIcon}
-                          width={30}
-                          onClick={() => handleEditSlab(index)}
-                        />
-                      </div>
-                      <div style={{ marginRight: '10px' }}>
-                        <img
-                          src={deleteIcon}
-                          width={30}
-                          onClick={() => handleDeleteSlab(index)}
-                        />
-                      </div>
-                    </div>
+                    <>
+                      {!viewModal ? (
+                        <div style={{ display: 'flex' }}>
+                          <div style={{ marginRight: '10px' }}>
+                            <img
+                              src={editIcon}
+                              width={30}
+                              onClick={() => handleEditSlab(index)}
+                            />
+                          </div>
+                          <div style={{ marginRight: '10px' }}>
+                            <img
+                              src={deleteIcon}
+                              width={30}
+                              onClick={() => handleDeleteSlab(index)}
+                            />
+                          </div>
+                        </div>
+                      ) : (
+                        'view mode'
+                      )}
+                    </>
                   ),
                 }
               })

@@ -33,6 +33,7 @@ interface Props {
   handleDeleteIndex?: (id: number) => void
   handleDelete?: (id: string) => void
   handleEdit?: (id: string) => void
+  handleResetIconClick?: (id: string, index: number) => void
   handleView?: (id: string) => void
   onPrint?: (id: string) => void
   handleModalOpen?: () => void
@@ -66,6 +67,7 @@ const Table = ({
   onPrint,
   handleView,
   handleEdit,
+  handleResetIconClick,
   handleDelete,
   handleEducation,
   handleModalOpen,
@@ -90,6 +92,10 @@ const Table = ({
   const handlePencilIcon = ({ id, index }: { id: string; index: number }) => {
     handleEdit && handleEdit(id)
     handleEducation && handleEducation(index)
+  }
+
+  const handleResetIcon = ({ id, index }: { id: string; index: number }) => {
+    handleResetIconClick && handleResetIconClick(id, index)
   }
 
   const handleDeleteIcon = ({ id, index }: { id: string; index: number }) => {
@@ -205,7 +211,7 @@ const Table = ({
                                     className={style.pencilIcon}
                                     data-testid="edit-element"
                                     onClick={() =>
-                                      handlePencilIcon({ id: row._id, index })
+                                      handleResetIcon({ id: row._id, index })
                                     }
                                     src={reloadIcon}
                                     alt="editIcon"
