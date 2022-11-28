@@ -48,9 +48,6 @@ const Attendance = () => {
         containerClass={style.container}
         className={style.containerClass}
       >
-        <a href="http://127.0.0.1:5500/src/pages/attendance/attendance-pdf/attandance.html">
-          pdf
-        </a>
         <div className={style.div}>
           <div style={{ display: 'flex' }}>
             <p

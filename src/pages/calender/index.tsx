@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
@@ -31,9 +30,6 @@ import { eventTypes, recurrenceTypes, category, eventName } from './event-types'
 
 import location from 'assets/location.svg'
 import noimage from 'assets/NoImage.svg'
-import cross from 'assets/cross-Icon.svg'
-import deleteIcon from 'assets/delete-Icon.svg'
-import edit from 'assets/edit-icon.png'
 import plus from 'assets/plusIcon.svg'
 import bucketIcon from 'assets/Bucket.svg'
 
@@ -396,14 +392,11 @@ const Calender = () => {
                 allDayMaintainDuration={true}
                 eventContent={RenderEventHandler}
                 slotLabelInterval={{ hours: 1 }}
-                events={
-                  // dummyEvent
-                  allEvent?.map((e: any) => ({
-                    ...e,
-                    start: e.start.replace('Z', ''),
-                    end: e.end.replace('Z', ''),
-                  }))
-                }
+                events={allEvent?.map((e: any) => ({
+                  ...e,
+                  start: e.start.replace('Z', ''),
+                  end: e.end.replace('Z', ''),
+                }))}
                 handleWindowResize={true}
                 contentHeight="auto"
                 contentWidth="auto"
@@ -727,14 +720,3 @@ const Calender = () => {
   )
 }
 export default Calender
-
-const dummyEvent = [
-  {
-    title: 'Event',
-    daysOfWeek: [0, 1, 2, 3, 4, 5, 6],
-    startTime: '02:00',
-    endTime: '04:00',
-    startRecur: '2022-11-28',
-    endRecur: '2022-11-28',
-  },
-]

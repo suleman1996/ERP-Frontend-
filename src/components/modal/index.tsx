@@ -62,18 +62,22 @@ const Modal = ({
                 <div className={`${style.header} ${customHeader}`}>
                   <p>{title}</p>
                   <div className={style.iconDiv}>
-                    <img
-                      src={edit}
-                      alt="edit icon"
-                      onClick={handleEdit}
-                      className={style.delIcon}
-                    />
-                    <img
-                      src={deleteIcon}
-                      alt="delete icon"
-                      onClick={handleDelete}
-                      className={style.delIcon}
-                    />
+                    {handleEdit && (
+                      <img
+                        src={edit}
+                        alt="edit icon"
+                        onClick={handleEdit}
+                        className={style.delIcon}
+                      />
+                    )}
+                    {handleDelete && (
+                      <img
+                        src={deleteIcon}
+                        alt="delete icon"
+                        onClick={handleDelete}
+                        className={style.delIcon}
+                      />
+                    )}
                     <img src={cross} alt="close icon" onClick={handleClose} />
                   </div>
                 </div>
