@@ -102,6 +102,7 @@ const TaxSlab = ({
                     <div>
                       <Switch
                         control={control}
+                        className={style.switchClass}
                         title={item.Status === true ? 'Active' : 'In Active'}
                         checked={item?.Status}
                         name={item._id}
@@ -112,12 +113,20 @@ const TaxSlab = ({
                     </div>
                   ),
                   taxActions: (
-                    <div style={{ display: 'flex' }}>
+                    <div style={{ display: 'flex', justifyContent: 'center' }}>
                       <div style={{ marginRight: '10px' }}>
                         <img
                           src={view}
                           width={30}
                           onClick={(item) => handleClick(item)}
+                        />
+                      </div>
+
+                      <div style={{ marginRight: '10px' }}>
+                        <img
+                          src={editIcon}
+                          width={30}
+                          onClick={() => handleEdit(item?._id)}
                         />
                       </div>
                       <div style={{ marginRight: '10px' }}>
@@ -128,13 +137,6 @@ const TaxSlab = ({
                             setDeleteModalOpen(true)
                             setSingleId(item?._id)
                           }}
-                        />
-                      </div>
-                      <div style={{ marginRight: '10px' }}>
-                        <img
-                          src={editIcon}
-                          width={30}
-                          onClick={() => handleEdit(item?._id)}
                         />
                       </div>
                     </div>
@@ -165,7 +167,7 @@ const TaxSlab = ({
         open={deleteModalOpen}
         setOpen={setDeleteModalOpen}
         handleDelete={() => deleteTaxSlab(singleId)}
-        btnLoader={deleteLoading}
+        isLoading={deleteLoading}
       ></DeleteModal>
     </>
   )

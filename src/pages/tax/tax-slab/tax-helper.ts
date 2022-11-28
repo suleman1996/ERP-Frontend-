@@ -2,31 +2,31 @@ export const columns = [
   {
     key: 'TaxGroupName',
     name: 'Group Name',
-    alignText: 'left',
+    alignText: 'center',
     width: '100px',
   },
   {
     key: 'FinancialYear',
     name: 'Financial Year',
-    alignText: 'left',
+    alignText: 'center',
     width: '100px',
   },
   {
     key: 'TaxCategory',
     name: 'Category',
-    alignText: 'left',
+    alignText: 'center',
     width: '100px',
   },
   {
     key: 'Status',
     name: 'Status',
-    alignText: 'left',
+    alignText: 'center',
     width: '100px',
   },
   {
     key: 'taxActions',
     name: 'Action',
-    alignText: 'left',
+    alignText: 'center',
     width: '100px',
   },
 ]

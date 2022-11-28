@@ -61,7 +61,7 @@
 }
 
 .modalWrapper {
-  max-width: 950px !important;
+  max-width: 980px !important;
   padding: 0px !important;
   position: relative;
 
@@ -173,4 +173,10 @@
 
 img {
   cursor: pointer;
+}
+
+.switchClass {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

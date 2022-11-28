@@ -166,7 +166,7 @@ const AddAttendance = ({
   const financialYearStart = watch('financialYearStart')
   const financialYearEnd = watch('financialYearEnd')
   useEffect(() => {
-    if (financialYearStart && !financialYearEnd) {
+    if (financialYearStart) {
       setValue(
         'financialYearEnd',
         new Date(moment(financialYearStart).add(1, 'year').format()),
@@ -227,7 +227,7 @@ const AddAttendance = ({
                   control={control}
                   label={'End Year'}
                   name={'financialYearEnd'}
-                  errorMessage={errors?.financialYearStart?.message}
+                  errorMessage={errors?.financialYearEnd?.message}
                   min={watch().financialYearStart}
                   watch={watch}
                 />
@@ -352,8 +352,8 @@ export default AddAttendance
 
 const schema = yup.object().shape({
   taxGroupName: yup.string().required('Tax group name is required'),
-  financialYearStart: yup.date().typeError('Financial year is required'),
-  financialYearEnd: yup.date().typeError('Financial year is required'),
+  financialYearStart: yup.date().typeError('Financial start year is required'),
+  financialYearEnd: yup.date().typeError('Financial end year is required'),
   category: yup.string().required('Category  is required'),
   fixTax: yup.number().typeError('Fix Tax is required').min(0, 'Invalid value'),
   lower: yup.number().typeError('Lower is required').min(0, 'Invalid value'),
