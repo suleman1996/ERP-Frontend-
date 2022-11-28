@@ -24,9 +24,6 @@
     height: auto !important;
     max-width: fit-content;
 
-    span {
-      font-size: 10px !important;
-    }
     &:hover {
       background: #cacaca;
     }
@@ -104,9 +101,11 @@
 }
 
 .para {
+  color: #afafaf !important;
   @include font24;
   span {
     font-weight: 600;
+    color: #afafaf !important;
   }
   .span1 {
     font-weight: 600;

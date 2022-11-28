@@ -22,7 +22,6 @@ import DatePicker from 'components/date-picker'
 import Selection from 'components/selection'
 import ProfileUpload from 'components/profile-upload'
 import Container from 'components/container'
-import EventModal from 'components/modal'
 import TextArea from 'components/textarea'
 import DeleteModal from 'components/delete-modal'
 import Radio from 'components/radio'
@@ -31,9 +30,6 @@ import { eventTypes, recurrenceTypes, category, eventName } from './event-types'
 
 import location from 'assets/location.svg'
 import noimage from 'assets/NoImage.svg'
-import cross from 'assets/cross-Icon.svg'
-import deleteIcon from 'assets/delete-Icon.svg'
-import edit from 'assets/edit-icon.png'
 import plus from 'assets/plusIcon.svg'
 import bucketIcon from 'assets/Bucket.svg'
 
@@ -52,6 +48,10 @@ const Calender = () => {
   const [customTooltip, setCustomTooltip] = useState<
     number | string | undefined | boolean
   >()
+  const [dateRange, setDateRange] = useState({
+    startDate: '',
+    endDate: '',
+  })
   const [selectedFileNameBack, setSelectedFileNameBack] = useState<any>()
   const [btnLoader, setBtnLoader] = useState(false)
   const [allEvent, setAllEvent] = useState([])
@@ -99,7 +99,7 @@ const Calender = () => {
 
   useEffect(() => {
     getAllEvents()
-  }, [view])
+  }, [dateRange, view])
 
   useEffect(() => {
     updateEventData()
@@ -126,6 +126,8 @@ const Calender = () => {
   const getAllEvents = async () => {
     const res = await CalenderService.getAllEvents({
       view: view,
+      startDate: dateRange.startDate,
+      endDate: dateRange.endDate,
     })
     setAllEvent(res?.data?.events)
   }
@@ -403,6 +405,13 @@ const Calender = () => {
                 slotEventOverlap={false}
                 allDaySlot={true}
                 allDayText="all-day"
+                datesSet={(e) => {
+                  console.log(e)
+                  setDateRange({
+                    startDate: e.startStr,
+                    endDate: e.endStr,
+                  })
+                }}
               />
             </div>
           </div>
@@ -535,174 +544,140 @@ const Calender = () => {
           </div>
         </Modal>
 
-        <>
-          <EventModal open={customTooltip}>
-            <div className={style.eventDiv}>
-              <div className={style.titleDiv}>
-                <p
-                  className={style.title}
-                  style={{
-                    textOverflow: 'ellipsis',
-                    whiteSpace: 'nowrap',
-                    overflow: 'hidden',
-                    padding: '10px',
-                  }}
+        <Modal
+          open={customTooltip}
+          title={singleEventData?.title && singleEventData?.title}
+          className={style.modalClass}
+          handleEdit={() => {
+            setOpenModal(true), setCustomTooltip(!customTooltip)
+          }}
+          handleDelete={() => {
+            setCustomTooltip(!customTooltip)
+            setDelModal(true)
+          }}
+          handleClose={() => setCustomTooltip(!customTooltip)}
+        >
+          <div className={style.durationView}>
+            <p className={style.title2}>
+              {moment(singleEventData?.start?.replace('Z', '')).format(
+                'MMM Do YYYY'
+              )}
+              {moment(singleEventData?.start?.replace('Z', '')).format(
+                'MMM Do YYYY'
+              ) !==
+                moment(singleEventData?.end?.replace('Z', '')).format(
+                  'MMM Do YYYY'
+                ) &&
+                ' To ' +
+                  moment(singleEventData?.end?.replace('Z', '')).format(
+                    'MMM Do YYYY'
+                  )}
+              {!singleEventData?.allDay && (
+                <span>
+                  {' '}
+                  |{' '}
+                  {moment(singleEventData?.start?.replace('Z', '')).format(
+                    'h:mm a'
+                  )}{' '}
+                  -{' '}
+                  {moment(singleEventData?.end?.replace('Z', '')).format(
+                    'h:mm a'
+                  )}
+                </span>
+              )}
+            </p>
+            <p className={style.title2}>
+              {singleEventData?.allDay
+                ? 'All Day'
+                : singleEventData?.duration && singleEventData?.duration}
+            </p>
+          </div>
+          <p className={style.title2} style={{ marginTop: -10 }}>
+            Description
+          </p>
+          <p className={style.description} style={{ marginTop: -15 }}>
+            {singleEventData?.description ? singleEventData.description : '-'}
+          </p>
+
+          <div className={style.leftDiv}>
+            <p className={style.categories}>Venue</p>
+            <p className={style.categorieData}>
+              {singleEventData?.venue ? singleEventData?.venue : '-'}
+            </p>
+          </div>
+
+          <div className={style.leftDiv}>
+            <p className={style.categories}>Category</p>
+            <p className={style.categorieData}>
+              {singleEventData?.category ? singleEventData?.category : '-'}
+            </p>
+          </div>
+
+          <div className={style.leftDiv}>
+            <p className={style.categories}>Event Type</p>
+            <p className={style.categorieData}>
+              {singleEventData?.type ? singleEventData?.type : '-'}
+            </p>
+          </div>
+
+          <div className={style.leftDiv}>
+            <p className={style.categories}>Attachment</p>
+            <p className={style.categorieData}>
+              {singleEventData?.fileId?.name ? (
+                <a
+                  href={singleEventData?.fileId?.file}
+                  rel="noreferrer"
+                  target={'_blank'}
+                  style={{ textDecoration: 'none' }}
                 >
-                  {singleEventData?.title && singleEventData?.title}
-                </p>
-                <div className={style.iconView}>
-                  <img
-                    src={edit}
-                    height={20}
-                    className={style.icon}
-                    onClick={() => {
-                      setCustomTooltip(!customTooltip)
-                      setOpenModal(true)
-                    }}
-                  />
-                  <img
-                    src={deleteIcon}
-                    height={20}
-                    className={style.icon}
-                    onClick={() => {
-                      setCustomTooltip(!customTooltip)
-                      setDelModal(true)
-                    }}
-                  />
-                  <img
-                    src={cross}
-                    height={20}
-                    onClick={() => setCustomTooltip(!customTooltip)}
-                    className={style.icon}
-                  />
-                </div>
-              </div>
-              <div className={style.durationView}>
-                <p className={style.title2}>
-                  {moment(singleEventData?.start?.replace('Z', '')).format(
-                    'MMM Do YYYY'
-                  )}
-                  {moment(singleEventData?.start?.replace('Z', '')).format(
-                    'MMM Do YYYY'
-                  ) !==
-                    moment(singleEventData?.end?.replace('Z', '')).format(
-                      'MMM Do YYYY'
-                    ) &&
-                    ' To ' +
-                      moment(singleEventData?.end?.replace('Z', '')).format(
-                        'MMM Do YYYY'
-                      )}
-                  {!singleEventData?.allDay && (
-                    <span>
-                      {' '}
-                      |{' '}
-                      {moment(singleEventData?.start?.replace('Z', '')).format(
-                        'h:mm a'
-                      )}{' '}
-                      -{' '}
-                      {moment(singleEventData?.end?.replace('Z', '')).format(
-                        'h:mm a'
-                      )}
-                    </span>
-                  )}
-                </p>
-                <p className={style.title2}>
-                  {singleEventData?.allDay
-                    ? 'All Day'
-                    : singleEventData?.duration && singleEventData?.duration}
-                </p>
-              </div>
-              <p className={style.title2} style={{ marginTop: -10 }}>
-                Description
-              </p>
-              <p className={style.description} style={{ marginTop: -15 }}>
-                {singleEventData?.description
-                  ? singleEventData.description
-                  : '-'}
-              </p>
+                  <p className={style.attachFile}>
+                    {singleEventData?.fileId?.name
+                      ? singleEventData?.fileId?.name
+                      : '-'}
+                  </p>
+                </a>
+              ) : (
+                '-'
+              )}
+            </p>
+          </div>
 
-              <div className={style.leftDiv}>
-                <p className={style.categories}>Venue</p>
-                <p className={style.categorieData}>
-                  {singleEventData?.venue ? singleEventData?.venue : '-'}
-                </p>
-              </div>
-
-              <div className={style.leftDiv}>
-                <p className={style.categories}>Category</p>
-                <p className={style.categorieData}>
-                  {singleEventData?.category ? singleEventData?.category : '-'}
-                </p>
-              </div>
-
-              <div className={style.leftDiv}>
-                <p className={style.categories}>Event Type</p>
-                <p className={style.categorieData}>
-                  {singleEventData?.type ? singleEventData?.type : '-'}
-                </p>
-              </div>
-
-              <div className={style.leftDiv}>
-                <p className={style.categories}>Attachment</p>
-                <p className={style.categorieData}>
-                  {singleEventData?.fileId?.name ? (
-                    <a
-                      href={singleEventData?.fileId?.file}
-                      rel="noreferrer"
-                      target={'_blank'}
-                      style={{ textDecoration: 'none' }}
-                    >
-                      <p className={style.attachFile}>
-                        {singleEventData?.fileId?.name
-                          ? singleEventData?.fileId?.name
-                          : '-'}
-                      </p>
-                    </a>
-                  ) : (
-                    '-'
-                  )}
-                </p>
-              </div>
-
-              <div className={style.leftDiv}>
-                <p className={style.categories}>Attendees</p>
-                <p className={style.categorieData}>
-                  <div className={style.plusView}>
-                    {attendeesPic?.slice(0, 3)?.map((i: any) => {
-                      return (
-                        <>
-                          <img
-                            src={i?.profilePicture && i?.profilePicture}
-                            height={30}
-                            onError={onImageError}
-                            width={30}
-                            style={{
-                              borderRadius: '30px',
-                              height: '30px',
-                              width: '30px',
-                              marginLeft: -10,
-                              margin: 0,
-                              border: '1px solid white',
-                            }}
-                            key={i}
-                          />
-                        </>
-                      )
-                    })}
-                    {attendeesPic?.length > 3 && (
-                      <div className={style.plusIcon}>
-                        <p className={style.plusText}>
-                          {attendeesPic?.length > 3 && attendeesPic?.length - 3}
-                          +
-                        </p>
-                      </div>
-                    )}
+          <div className={style.leftDiv}>
+            <p className={style.categories}>Attendees</p>
+            <p className={style.categorieData}>
+              <div className={style.plusView}>
+                {attendeesPic?.slice(0, 3)?.map((i: any) => {
+                  return (
+                    <>
+                      <img
+                        src={i?.profilePicture && i?.profilePicture}
+                        height={30}
+                        onError={onImageError}
+                        width={30}
+                        style={{
+                          borderRadius: '30px',
+                          height: '30px',
+                          width: '30px',
+                          marginLeft: -10,
+                          margin: 0,
+                          border: '1px solid white',
+                        }}
+                        key={i}
+                      />
+                    </>
+                  )
+                })}
+                {attendeesPic?.length > 3 && (
+                  <div className={style.plusIcon}>
+                    <p className={style.plusText}>
+                      {attendeesPic?.length > 3 && attendeesPic?.length - 3}+
+                    </p>
                   </div>
-                </p>
+                )}
               </div>
-            </div>
-          </EventModal>
-        </>
+            </p>
+          </div>
+        </Modal>
 
         <DeleteModal
           open={delModal}
