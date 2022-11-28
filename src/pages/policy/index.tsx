@@ -25,6 +25,7 @@ import { convertBase64Image } from 'main-helper'
 import SettingsService from 'services/settings-service'
 
 import style from './request.module.scss'
+// import SearchSelect from 'components/select-and-search-select'
 
 const Policy = () => {
   const [selectedTab, setSelectedTab] = useState(0)
@@ -54,6 +55,7 @@ const Policy = () => {
     clearErrors,
     handleSubmit,
     reset,
+    // watch,
   } = useForm({
     mode: 'all',
   })
@@ -113,6 +115,8 @@ const Policy = () => {
   }
 
   const handleAddPolicy = async (data: any) => {
+    console.log('addd policy data ', data)
+
     try {
       setIsLoading(true)
       const pdffile = await convertBase64Image(data?.pdf[0])
@@ -413,8 +417,22 @@ const Policy = () => {
               name="categoryId"
               errorMessage={errors?.categoryId?.message}
               control={control}
-              isDisabled={editPoplicy?.bool}
+              // isSelected={editPoplicy?.bool}
             />
+            {/* <SearchSelect
+              label="Category"
+              placeholder="Select"
+              options={policyCategory}
+              star=" *"
+              onChange={() => {
+                return
+              }}
+              name="categoryId"
+              errorMessage={errors?.categoryId?.message}
+              control={control}
+              isDisable={editPoplicy?.bool}
+              value={watch('searchSelectWithicons')}
+            /> */}
           </div>
           <div className={style.gridView}>
             <DatePicker
