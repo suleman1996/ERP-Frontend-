@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import ReactDatePicker from 'react-datepicker'
 import { Controller } from 'react-hook-form'
 
@@ -14,8 +13,8 @@ interface Props {
   className?: string
   name?: string
   errorMessage?: string
-  min?: any
-  max?: any
+  min?: string
+  max?: string
   watch?: any
   control?: any
   defaultVal?: string
