@@ -20,7 +20,7 @@ import eye from 'assets/setting-icons/eye.svg'
 import eyeClose from 'assets/setting-icons/corss-eye.svg'
 import style from './manage.module.scss'
 
-const ManageUser = ({ newUser, setNewUser }) => {
+const ManageUser = ({ newUser, setNewUser, setBtnHideShow }) => {
   const { control, register, handleSubmit, errors, clearErrors, setError } =
     useForm()
 
@@ -156,6 +156,7 @@ const ManageUser = ({ newUser, setNewUser }) => {
         {newUser && (
           <AddUser
             setNewUser={setNewUser}
+            setBtnHideShow={setBtnHideShow}
             customRoles={customRoles}
             allIDs={allIDs}
             getAllUsers={getAllUsers}

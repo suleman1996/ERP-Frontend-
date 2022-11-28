@@ -17,6 +17,7 @@ const AddUser = ({
   setEditIndex,
   singleUser,
   getAllUsers,
+  setBtnHideShow,
 }) => {
   const {
     register,
@@ -29,7 +30,13 @@ const AddUser = ({
     errors,
     setBase64,
     btnLoader,
-  } = AddUserHelper({ setNewUser, singleUser, setEditIndex, getAllUsers })
+  } = AddUserHelper({
+    setNewUser,
+    singleUser,
+    setEditIndex,
+    getAllUsers,
+    setBtnHideShow,
+  })
 
   return (
     <>
@@ -123,6 +130,7 @@ const AddUser = ({
             className={style.btnText}
             handleClick={() => {
               setNewUser(false)
+              setBtnHideShow(false)
               setEditIndex && setEditIndex(-1)
             }}
           />

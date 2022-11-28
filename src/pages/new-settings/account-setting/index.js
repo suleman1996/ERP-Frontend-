@@ -8,9 +8,11 @@ import ImageUpload from 'components/image-upload'
 import CardContainer from 'components/card-container'
 import NotificationPopup from 'components/notification-popup'
 
+import { setCurrentUser } from 'store'
+import { useAppDispatch } from 'store/hooks'
 import { setErrors } from './../../../helper/index'
-import { createNotification } from 'common/create-notification'
 import SettingsService from 'services/settings-service'
+import { createNotification } from 'common/create-notification'
 
 import eye from 'assets/eye.svg'
 import eyeCross from 'assets/eyeCross.svg'
@@ -28,6 +30,7 @@ const AccountSetting = () => {
     errors,
     watch,
   } = useForm()
+  const dispatch = useAppDispatch()
 
   const [img, setImg] = useState('')
   const [newpass, setNewPass] = useState(false)
@@ -53,8 +56,11 @@ const AccountSetting = () => {
         ...((img || userData.img) && { img: img || userData.img }),
         _id: userData?.id,
       }
+
       const res = await SettingsService.updateAccount(newData)
       if (res.status === 201) {
+        let userNewData = { ...userData, ...newData }
+        dispatch(setCurrentUser(userNewData))
         if (res.data.emailSent === true) {
           setNotificationPopUP(true)
         }
