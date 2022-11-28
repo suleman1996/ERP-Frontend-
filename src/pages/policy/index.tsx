@@ -54,7 +54,6 @@ const Policy = () => {
     clearErrors,
     handleSubmit,
     reset,
-    // watch,
   } = useForm({
     mode: 'all',
   })
@@ -114,8 +113,6 @@ const Policy = () => {
   }
 
   const handleAddPolicy = async (data: any) => {
-    console.log('addd policy data ', data)
-
     try {
       setIsLoading(true)
       const pdffile = await convertBase64Image(data?.pdf[0])
@@ -416,7 +413,6 @@ const Policy = () => {
               name="categoryId"
               errorMessage={errors?.categoryId?.message}
               control={control}
-              // isSelected={editPoplicy?.bool}
             />
           </div>
           <div className={style.gridView}>
