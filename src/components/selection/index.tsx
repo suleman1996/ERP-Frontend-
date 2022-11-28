@@ -102,14 +102,22 @@ const Selection = ({
       label,
       color,
     }: { label: any; value: any; color: any; checkbox: any; box: any },
-    { context }: { context: any; selectValue: any }
+    { context, selectValue }: { context: any; selectValue: any }
   ): any => {
     return (
       <div>
         {context === 'label' ? (
           <div>{label}</div>
         ) : (
-          <div style={{ display: 'flex' }}>
+          <div
+            style={{
+              display: 'flex',
+              ...(context === 'menu' &&
+                selectValue?.some((el: any) => el?.label === label) && {
+                  color: 'white',
+                }),
+            }}
+          >
             {color && (
               <div
                 style={{

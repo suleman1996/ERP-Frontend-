@@ -8,7 +8,6 @@ import TextField from 'components/textfield'
 import arrow from 'assets/arrow-left.svg'
 import style from './search-select.module.scss'
 
-
 interface Props {
   label?: string
   className?: string
@@ -23,6 +22,7 @@ interface Props {
   register?: any
   value?: string
   star?: string
+  isDisable?: any
   onChange?: (value: any) => void
 }
 
@@ -37,7 +37,7 @@ const SearchSelect = ({
   name,
   errorMessage,
   control,
-  register,
+  isDisable,
   star,
   onChange: changeHandler,
 }: Props) => {
@@ -74,7 +74,7 @@ const SearchSelect = ({
         setOpen(true)
         setList(
           options?.filter((ele: string) =>
-            ele.toLowerCase().includes(e.target.value.toLowerCase())
+            ele?.value?.toLowerCase().includes(e.target.value.toLowerCase())
           )
         )
       }
@@ -89,8 +89,9 @@ const SearchSelect = ({
         name={name}
         errorMessage={errorMessage}
         placeholder={placeholder}
-        value={selectValue}
+        value={selectValue?.label}
         type="text"
+        isDisable={isDisable}
         icon={arrow}
         onChange={(e) => handleSearch(e)}
         onClick={() => setOpen(!open)}
@@ -109,15 +110,16 @@ const SearchSelect = ({
       {open && (
         <div className={style.searchDropdown}>
           {list?.length > 0 ? (
-            list?.map((ele: string, index: number) => (
+            list?.map((ele: any, index: number) => (
               <div className={style.innerDiv} key={index}>
                 <p
+                  id={ele?.value}
                   onClick={(e: any) => {
                     setOpen(false)
                     setSelectValue(ele)
                   }}
                 >
-                  {ele}
+                  {ele?.label}
                 </p>
               </div>
             ))
