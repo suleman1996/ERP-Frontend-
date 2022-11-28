@@ -46,7 +46,7 @@ const AddAttendance = ({
   setViewModal,
 }: Props) => {
   const [loading, setLoading] = useState(false)
-  const [update, setUpdate] = useState<any>({ check: false, index: null })
+  const [update, setUpdate] = useState({ check: false, index: null })
 
   const { register, handleSubmit, errors, reset, control, watch, setValue } =
     useForm({
@@ -84,7 +84,7 @@ const AddAttendance = ({
 
   const handleEditSlab = (index: number) => {
     setUpdate({ check: true, index: index })
-    const data = slabs?.find((slab: any, ind: number) => {
+    const data = slabs?.find((slab, ind) => {
       return ind === index
     })
 

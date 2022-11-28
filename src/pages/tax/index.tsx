@@ -1,12 +1,12 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 
 import TaxSlab from './tax-slab'
 import CardContainer from 'components/card-container'
 import style from './tax.module.scss'
 import Loading from 'components/loading'
-
 import Button from 'components/button'
 import MobileButton from 'components/button/mobile-button'
+
 import plusIcon from 'assets/plusIcon.svg'
 
 const Tax = () => {

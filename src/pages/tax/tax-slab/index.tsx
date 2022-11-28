@@ -1,17 +1,19 @@
+import { useForm } from 'react-hook-form'
 import { useState, useEffect } from 'react'
-import AddTaxSlab from './add-tax'
-import { columns } from './tax-helper'
-import TaxService from 'services/tax-service'
-import style from '../tax.module.scss'
 
-import editIcon from 'assets/table-edit.svg'
-import view from 'assets/viewIconnew.svg'
-import deleteIcon from 'assets/table-delete.svg'
+import AddTaxSlab from './add-tax'
 import Table from 'components/table'
 import Switch from 'components/switch'
-import { useForm } from 'react-hook-form'
 import Container from 'components/container'
 import DeleteModal from 'components/delete-modal'
+
+import { columns } from './tax-helper'
+import TaxService from 'services/tax-service'
+
+import deleteIcon from 'assets/table-delete.svg'
+import view from 'assets/viewIconnew.svg'
+import editIcon from 'assets/table-edit.svg'
+import style from '../tax.module.scss'
 
 interface Item {
   FinancialYear: string
@@ -31,7 +33,7 @@ const TaxSlab = ({
   setSlab,
 }: any) => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false)
-  const [taxSlabsData, setTaxSlabsData] = useState<any[]>([])
+  const [taxSlabsData, setTaxSlabsData] = useState([])
   const [deleteLoading, setDeleteLoading] = useState(false)
   const [viewModal, setViewModal] = useState(false)
   const [newSlab, setNewSlab] = useState()
