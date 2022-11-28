@@ -1,6 +1,8 @@
 import Button from 'components/button'
 
 import cross from 'assets/cross.svg'
+import deleteIcon from 'assets/delete-Icon.svg'
+import edit from 'assets/edit-icon.png'
 
 import style from './modal.module.scss'
 interface Props {
@@ -18,6 +20,8 @@ interface Props {
   form?: string
   customHeader?: string
   loader?: boolean
+  handleEdit?: any
+  handleDelete?: any
 }
 
 const Modal = ({
@@ -35,6 +39,8 @@ const Modal = ({
   form,
   loader,
   customHeader,
+  handleEdit,
+  handleDelete,
 }: Props) => {
   const handleClickWrapper = (event: React.MouseEvent<HTMLElement>): void => {
     event.nativeEvent.stopImmediatePropagation()
@@ -55,7 +61,21 @@ const Modal = ({
               <div className={style.fixedClass}>
                 <div className={`${style.header} ${customHeader}`}>
                   <p>{title}</p>
-                  <img src={cross} alt="close icon" onClick={handleClose} />
+                  <div className={style.iconDiv}>
+                    <img
+                      src={edit}
+                      alt="edit icon"
+                      onClick={handleEdit}
+                      className={style.delIcon}
+                    />
+                    <img
+                      src={deleteIcon}
+                      alt="delete icon"
+                      onClick={handleDelete}
+                      className={style.delIcon}
+                    />
+                    <img src={cross} alt="close icon" onClick={handleClose} />
+                  </div>
                 </div>
               </div>
             )}
