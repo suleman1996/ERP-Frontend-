@@ -26,7 +26,7 @@ interface Props {
   getTaxSlabsData: () => void
   updateId: string
   setSingleId?: Dispatch<SetStateAction<any>>
-  newSlab?: []
+  newSlab?: string[]
   newSlabUpdate?: string[]
   viewModal?: boolean
   slabs: string[]
@@ -292,7 +292,7 @@ const AddAttendance = ({
             columns={addSlabColumns}
             rows={
               slabs &&
-              slabs.map((item: any, index: number) => {
+              slabs.map((item, index) => {
                 return {
                   ...item,
                   sr: index + 1,

@@ -79,6 +79,13 @@ const TaxSlab = ({
     }
   }
 
+  const handleClick = (item) => {
+    setOpen(true)
+    handleEdit(item?._id)
+    setSingleId(item?._id)
+    setViewModal(true)
+  }
+
   return (
     <>
       <Container container={style.innerContainer}>
@@ -110,12 +117,7 @@ const TaxSlab = ({
                         <img
                           src={view}
                           width={30}
-                          onClick={() => {
-                            setOpen(true)
-                            handleEdit(item?._id)
-                            setSingleId(item?._id)
-                            setViewModal(true)
-                          }}
+                          onClick={(item) => handleClick(item)}
                         />
                       </div>
                       <div style={{ marginRight: '10px' }}>
