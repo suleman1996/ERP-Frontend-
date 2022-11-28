@@ -1,23 +1,23 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
+import { Dispatch, SetStateAction, useEffect, useState } from 'react'
+import moment from 'moment'
 import * as yup from 'yup'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 
-import { addSlabColumns } from './tax-helper'
 import Modal from 'components/modal'
-
-import style from '../tax.module.scss'
-import TaxService from 'services/tax-service'
 import Select from 'components/select'
 import TextField from 'components/textfield'
 import Button from 'components/button'
 import Table from 'components/table'
+import MonthYearPicker from 'components/range-month-picker'
+
+import TaxService from 'services/tax-service'
+import { addSlabColumns } from './tax-helper'
+import { createNotification } from 'common/create-notification'
 
 import editIcon from 'assets/table-edit.svg'
 import deleteIcon from 'assets/table-delete.svg'
-import { createNotification } from 'common/create-notification'
-import MonthYearPicker from 'components/range-month-picker'
-import moment from 'moment'
+import style from '../tax.module.scss'
 
 interface Props {
   open: boolean
@@ -26,10 +26,10 @@ interface Props {
   getTaxSlabsData: () => void
   updateId: string
   setSingleId?: Dispatch<SetStateAction<any>>
-  newSlab?: any
-  newSlabUpdate?: any
+  newSlab?: []
+  newSlabUpdate?: string[]
   viewModal?: boolean
-  slabs: any
+  slabs: string[]
   setSlab: Dispatch<SetStateAction<any>>
 }
 
@@ -45,16 +45,16 @@ const AddAttendance = ({
   setSlab,
   setViewModal,
 }: Props) => {
-  const [loading, setLoading] = useState(false)
-  const [update, setUpdate] = useState({ check: false, index: null })
-
   const { register, handleSubmit, errors, reset, control, watch, setValue } =
     useForm({
       resolver: yupResolver(schema),
       mode: 'onSubmit',
     })
 
-  const onSubmit = async (data: any) => {
+  const [loading, setLoading] = useState(false)
+  const [update, setUpdate] = useState({ check: false, index: null })
+
+  const onSubmit = async (data) => {
     if (update.check) {
       const newSlab = [...slabs]
       newSlab[update.index] = { ...newSlab[update.index], ...data }
@@ -64,11 +64,9 @@ const AddAttendance = ({
       const slabsCopy = [...slabs]
       slabsCopy.push(data)
       setSlab(slabsCopy)
-
-      const sortSlab = slabsCopy.sort(function (a: any, b: any) {
+      const sortSlab = slabsCopy.sort(function (a, b) {
         return a.lower - b.lower
       })
-
       setSlab(sortSlab)
     }
 
@@ -87,7 +85,6 @@ const AddAttendance = ({
     const data = slabs?.find((slab, ind) => {
       return ind === index
     })
-
     !updateId
       ? reset({ ...data })
       : reset({
@@ -103,7 +100,7 @@ const AddAttendance = ({
         })
   }
 
-  const handleDeleteSlab = (index: any) => {
+  const handleDeleteSlab = (index: string | number) => {
     slabs?.splice(index, 1)
     setSlab([...slabs])
   }
@@ -118,7 +115,7 @@ const AddAttendance = ({
         financialYearEnd: moment(slabs[0].financialYearEnd).format('YYYY/MM'),
         groupName: slabs[0]?.taxGroupName,
         category: slabs[0]?.category,
-        slabs: slabs?.map((item: any) => {
+        slabs: slabs?.map((item) => {
           return {
             lower: item.lower,
             upper: item.upper,
@@ -128,7 +125,6 @@ const AddAttendance = ({
           }
         }),
       }
-
       if (updateId) {
         const res = await TaxService.updateTaxSlab(updateId, data)
         if (res.status === 200) {
@@ -291,7 +287,6 @@ const AddAttendance = ({
             )}
           </div>
         </form>
-
         <div style={{ padding: '0 10px' }}>
           <Table
             columns={addSlabColumns}
@@ -336,7 +331,6 @@ const AddAttendance = ({
             }}
           />
         </div>
-
         <div className={style.webBtnDiv}>
           {!viewModal && (
             <Button

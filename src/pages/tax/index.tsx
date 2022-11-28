@@ -2,12 +2,12 @@ import { useState } from 'react'
 
 import TaxSlab from './tax-slab'
 import CardContainer from 'components/card-container'
-import style from './tax.module.scss'
 import Loading from 'components/loading'
 import Button from 'components/button'
 import MobileButton from 'components/button/mobile-button'
 
 import plusIcon from 'assets/plusIcon.svg'
+import style from './tax.module.scss'
 
 const Tax = () => {
   const [active] = useState(0)
@@ -15,6 +15,12 @@ const Tax = () => {
   const [open, setOpen] = useState<boolean>(false)
   const [singleId, setSingleId] = useState('')
   const [slabs, setSlab] = useState<any>([])
+
+  const clickHanlder = () => {
+    setSingleId('')
+    setOpen(true)
+    setSlab([])
+  }
 
   return (
     <>
@@ -34,23 +40,14 @@ const Tax = () => {
                   <Button
                     text="Add Tax Group"
                     iconStart={plusIcon}
-                    handleClick={() => {
-                      setSingleId('')
-                      setOpen(true)
-                      setSlab([])
-                    }}
+                    handleClick={clickHanlder}
                   />
                 </div>
               </div>
-
               <div className={style.mobileAddTaxBtnDiv}>
                 <MobileButton
                   mobileIcon={plusIcon}
-                  handleClick={() => {
-                    setSingleId('')
-                    setOpen(true)
-                    setSlab([])
-                  }}
+                  handleClick={clickHanlder}
                 />
               </div>
             </div>
