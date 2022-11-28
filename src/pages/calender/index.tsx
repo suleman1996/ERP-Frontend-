@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
@@ -52,6 +53,10 @@ const Calender = () => {
   const [customTooltip, setCustomTooltip] = useState<
     number | string | undefined | boolean
   >()
+  const [dateRange, setDateRange] = useState({
+    startDate: '',
+    endDate: '',
+  })
   const [selectedFileNameBack, setSelectedFileNameBack] = useState<any>()
   const [btnLoader, setBtnLoader] = useState(false)
   const [allEvent, setAllEvent] = useState([])
@@ -99,7 +104,7 @@ const Calender = () => {
 
   useEffect(() => {
     getAllEvents()
-  }, [view])
+  }, [dateRange, view])
 
   useEffect(() => {
     updateEventData()
@@ -126,6 +131,8 @@ const Calender = () => {
   const getAllEvents = async () => {
     const res = await CalenderService.getAllEvents({
       view: view,
+      startDate: dateRange.startDate,
+      endDate: dateRange.endDate,
     })
     setAllEvent(res?.data?.events)
   }
@@ -390,11 +397,34 @@ const Calender = () => {
                 allDayMaintainDuration={true}
                 eventContent={RenderEventHandler}
                 slotLabelInterval={{ hours: 1 }}
-                events={allEvent?.map((e: any) => ({
-                  ...e,
-                  start: e.start.replace('Z', ''),
-                  end: e.end.replace('Z', ''),
-                }))}
+                events={
+                  // [
+                  //   // {
+                  //   //   start: '2022-11-25',
+                  //   //   // endTime: '2022-11-26',
+                  //   //   title: 'My repeating event',
+                  //   //   daysOfWeek: [0, 1, 2, 5, 6],
+                  //   // },
+                  //   {
+                  //     daysOfWeek: [3, 4, 5], // Monday, Tuesday, Wednesday
+                  //     // start: '2022-11-25',
+                  //     // end: '2022-11-25',
+                  //     title: 'Azaab',
+                  //     ranges: [
+                  //       {
+                  //         start: moment(new Date()),
+                  //         // start: '11-25-2022',
+                  //         end: null,
+                  //       },
+                  //     ],
+                  //   },
+                  // ]
+                  allEvent?.map((e: any) => ({
+                    ...e,
+                    start: e.start.replace('Z', ''),
+                    end: e.end.replace('Z', ''),
+                  }))
+                }
                 handleWindowResize={true}
                 contentHeight="auto"
                 contentWidth="auto"
@@ -403,6 +433,13 @@ const Calender = () => {
                 slotEventOverlap={false}
                 allDaySlot={true}
                 allDayText="all-day"
+                datesSet={(e) => {
+                  console.log(e)
+                  setDateRange({
+                    startDate: e.startStr,
+                    endDate: e.endStr,
+                  })
+                }}
               />
             </div>
           </div>

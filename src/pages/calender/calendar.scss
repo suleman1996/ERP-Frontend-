@@ -1,3 +1,7 @@
+@import 'styles/_colors.scss';
+@import 'styles/_mixin.scss';
+@import 'styles/_breakpoints.scss';
+
 .fc-direction-ltr .fc-button-group > .fc-button:not(:first-child) {
   margin-left: 1px !important;
   border-top-left-radius: none !important;
@@ -67,6 +71,7 @@ th {
 
 .fc-toolbar-chunk {
   display: flex;
+  align-items: center;
 }
 .fc-icon-chevron-right:before {
   content: url('../../assets/right-forward.svg');
@@ -77,14 +82,19 @@ th {
   background-repeat: no-repeat;
 }
 .fc .fc-button .fc-icon {
-  vertical-align: middle !important;
   font-size: none !important;
+  vertical-align: super !important;
+  @media (max-width: $sm) {
+  }
 }
 .fc .fc-button-primary {
   background-color: transparent;
 }
 .fc-direction-ltr .fc-toolbar > * > :not(:first-child) {
   margin-left: 0px !important;
+  @media (max-width: $sm) {
+    font-size: 14px !important;
+  }
 }
 .fc-icon {
   height: none !important;
@@ -92,4 +102,10 @@ th {
 }
 .fc .fc-button-primary:focus {
   box-shadow: none !important;
+}
+
+.fc .fc-toolbar {
+  @media (max-width: $sm) {
+    flex-direction: column;
+  }
 }

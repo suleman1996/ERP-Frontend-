@@ -1,23 +1,23 @@
-import Button from 'components/button';
+import Button from 'components/button'
 
-import cross from 'assets/cross.svg';
+import cross from 'assets/cross.svg'
 
-import style from './modal.module.scss';
+import style from './modal.module.scss'
 interface Props {
-  open?: boolean;
-  children?: JSX.Element[] | JSX.Element;
-  className?: string;
-  title?: string;
-  btnClass?: string;
-  handleClose?: () => void;
-  text?: string;
-  type?: 'button' | 'submit' | 'reset' | undefined;
-  iconStart?: string;
-  iconEnd?: string;
-  handleClick?: () => void;
-  form?: string;
-  customHeader?: string;
-  loader?: boolean;
+  open?: boolean
+  children?: JSX.Element[] | JSX.Element
+  className?: string
+  title?: string
+  btnClass?: string
+  handleClose?: () => void
+  text?: string
+  type?: 'button' | 'submit' | 'reset' | undefined
+  iconStart?: string
+  iconEnd?: string
+  handleClick?: () => void
+  form?: string
+  customHeader?: string
+  loader?: boolean
 }
 
 const Modal = ({
@@ -37,13 +37,16 @@ const Modal = ({
   customHeader,
 }: Props) => {
   const handleClickWrapper = (event: React.MouseEvent<HTMLElement>): void => {
-    event.nativeEvent.stopImmediatePropagation();
-    handleClose?.();
-  };
+    event.nativeEvent.stopImmediatePropagation()
+    handleClose?.()
+  }
   return (
     <>
       {open && (
-        <div className={style.modalWrapper} onClick={(e) => handleClickWrapper(e)}>
+        <div
+          className={style.modalWrapper}
+          onClick={(e) => handleClickWrapper(e)}
+        >
           <div
             className={`${style.modalContentWrapper} ${className}`}
             onClick={(e) => e.stopPropagation()}
@@ -76,7 +79,7 @@ const Modal = ({
         </div>
       )}
     </>
-  );
-};
+  )
+}
 
-export default Modal;
+export default Modal
