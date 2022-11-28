@@ -290,15 +290,6 @@ const AddAttendance = ({
               <Button text={'Add Slab'} btnClass={style.btn} type="submit" />
             )}
           </div>
-
-          {/* <div className={style.mobileBtnDiv}>
-            <MobileButton
-              mobileIcon={tickIcon}
-              btnClass={style.mobileBtn}
-              type="submit"
-              isLoading={loading}
-            />
-          </div> */}
         </form>
 
         <div style={{ padding: '0 10px' }}>

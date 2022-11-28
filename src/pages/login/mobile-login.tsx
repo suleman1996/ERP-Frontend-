@@ -65,7 +65,10 @@ const MobileLogin = ({ openNotification, setOpenNotification }: Props) => {
         setErrors(err?.response?.data?.error, setError)
       }
       if (err?.response?.status === 404) {
-        if (err?.response?.data?.msg?.includes('Invalid')) {
+        if (
+          err?.response?.data?.msg?.includes('Invalid') ||
+          err?.response?.data?.msg?.includes('email')
+        ) {
           createNotification('error', 'Error', err?.response?.data?.msg)
         } else {
           setOpenNotification(true)

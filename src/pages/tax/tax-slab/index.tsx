@@ -13,6 +13,14 @@ import { useForm } from 'react-hook-form'
 import Container from 'components/container'
 import DeleteModal from 'components/delete-modal'
 
+interface Item {
+  FinancialYear: string
+  Status: boolean
+  TaxCategory: string
+  TaxGroupName: string
+  _id: string
+}
+
 const TaxSlab = ({
   setIsLoading,
   open,
@@ -62,7 +70,7 @@ const TaxSlab = ({
     setOpen(true)
   }
 
-  const handleSwitch = async (id, item) => {
+  const handleSwitch = async (id: string, item: Item) => {
     const res = await TaxService.switchTaxSlab(id, item)
     if (res.status === 200) {
       getTaxSlabsData()
@@ -88,7 +96,9 @@ const TaxSlab = ({
                         title={item.Status === true ? 'Active' : 'In Active'}
                         checked={item?.Status}
                         name={item._id}
-                        handleClick={() => handleSwitch(item?._id, item)}
+                        handleSwitchChange={() => {
+                          handleSwitch(item?._id, item)
+                        }}
                       />
                     </div>
                   ),
