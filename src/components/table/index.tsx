@@ -33,6 +33,7 @@ interface Props {
   handleDeleteIndex?: (id: number) => void
   handleDelete?: (id: string) => void
   handleEdit?: (id: string) => void
+  handleResetIconClick?: (id: string, index: number) => void
   handleView?: (id: string) => void
   onPrint?: (id: string) => void
   handleModalOpen?: () => void
@@ -52,6 +53,10 @@ interface Props {
   setEditIndex?: Dispatch<SetStateAction<number>>
   setNewUser?: Dispatch<SetStateAction<boolean>>
   tableHeaderClass?: string
+  customRoles?: any
+  allIDs?: any
+  singleUser?: any
+  getAllUsers?: any
 }
 
 const Table = ({
@@ -62,6 +67,7 @@ const Table = ({
   onPrint,
   handleView,
   handleEdit,
+  handleResetIconClick,
   handleDelete,
   handleEducation,
   handleModalOpen,
@@ -70,9 +76,14 @@ const Table = ({
   headingText,
   rowText,
   editIndex,
+  setEditIndex,
   setNewUser,
   tableHeaderClass,
   tableClass,
+  customRoles,
+  allIDs,
+  singleUser,
+  getAllUsers,
 }: Props) => {
   const [tblScroll, setTblScroll] = useState(false)
   const [isFilter] = useState<string | number>('')
@@ -81,6 +92,10 @@ const Table = ({
   const handlePencilIcon = ({ id, index }: { id: string; index: number }) => {
     handleEdit && handleEdit(id)
     handleEducation && handleEducation(index)
+  }
+
+  const handleResetIcon = ({ id, index }: { id: string; index: number }) => {
+    handleResetIconClick && handleResetIconClick(id, index)
   }
 
   const handleDeleteIcon = ({ id, index }: { id: string; index: number }) => {
@@ -154,7 +169,14 @@ const Table = ({
                   key={index}
                 >
                   {editIndex === index ? (
-                    <AddUser setNewUser={setNewUser} />
+                    <AddUser
+                      singleUser={singleUser}
+                      customRoles={customRoles}
+                      allIDs={allIDs}
+                      setNewUser={setNewUser}
+                      setEditIndex={setEditIndex}
+                      getAllUsers={getAllUsers}
+                    />
                   ) : (
                     <>
                       {columns.map((column, colIndex) => (
@@ -189,7 +211,7 @@ const Table = ({
                                     className={style.pencilIcon}
                                     data-testid="edit-element"
                                     onClick={() =>
-                                      handlePencilIcon({ id: row._id, index })
+                                      handleResetIcon({ id: row._id, index })
                                     }
                                     src={reloadIcon}
                                     alt="editIcon"

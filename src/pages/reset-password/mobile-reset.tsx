@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import * as yup from 'yup'
+import { useSearchParams } from 'react-router-dom'
 
-import Input from 'components/textfield'
+import TextField from 'components/textfield'
 import Button from 'components/button'
+
 import AuthService from 'services/auth-service'
+import { setErrors } from 'helper'
 
 import style from './reset-password.module.scss'
 import logo from 'assets/sprintx.svg'
@@ -17,18 +19,32 @@ const MobileResetPassword = () => {
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false)
 
   const navigate = useNavigate()
-  const { token } = useParams()
+  const search = useSearchParams()
   const [isLoading, setIsLoading] = useState(false)
 
   const { register, handleSubmit, errors } = useForm({
     resolver: yupResolver(schema),
   })
 
-  const onSubmit = async ({ password }: { password: string }) => {
+  const onSubmit = async ({
+    password,
+    confirmPassword,
+  }: {
+    password: string
+    confirmPassword: string
+  }) => {
     setIsLoading(true)
-    const res = token && (await AuthService.resetPassword({ password, token }))
-    if (res.status === 200) {
-      navigate('/login')
+    try {
+      const data = { password, confirmPassword, otp: search[0].get('otp') }
+      const res = await AuthService.resetPassword(data)
+      if (res?.status === 200) {
+        navigate('/login')
+        setIsLoading(false)
+      }
+    } catch (err: any) {
+      if (err?.response?.data?.error) {
+        setErrors(err?.response?.data?.error, setError)
+      }
     }
     setIsLoading(false)
   }
@@ -42,25 +58,23 @@ const MobileResetPassword = () => {
         <h4>Reset Password</h4>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className={style.loginDiv}>
-            <Input
+            <TextField
               placeholder="New Password"
               label="New Password"
               type={passwordVisible ? 'text' : 'password'}
               name="password"
-              inputRef={register}
-              error={errors?.password}
+              register={register}
               errorMessage={errors?.password?.message}
               icon={eye}
               onClick={() => setPasswordVisible((prev) => !prev)}
             />
             <div className={style.secondDiv}>
-              <Input
+              <TextField
                 placeholder="Confirm Password"
                 type={confirmPasswordVisible ? 'text' : 'password'}
                 label="Confirm Password"
                 name="confirmPassword"
-                inputRef={register}
-                error={errors?.confirmPassword}
+                register={register}
                 errorMessage={errors?.confirmPassword?.message}
                 icon={eye}
                 onClick={() => setConfirmPasswordVisible((prev) => !prev)}
@@ -76,13 +90,3 @@ const MobileResetPassword = () => {
   )
 }
 export default MobileResetPassword
-
-const schema = yup.object().shape({
-  password: yup
-    .string()
-    .required()
-    .min(8, 'password must be at least 8 characters'),
-  confirmPassword: yup
-    .string()
-    .oneOf([yup.ref('password'), null], 'passwords must match'),
-})

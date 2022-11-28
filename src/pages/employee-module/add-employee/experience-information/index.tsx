@@ -5,7 +5,7 @@ import TextField from 'components/textfield'
 import DatePicker from 'components/date-picker'
 import Table from 'components/table'
 import ProfileUpload from 'components/profile-upload'
-import SearchSelect from 'components/search-select'
+import SearchSelect from 'components/select-and-search-select'
 import Checkbox from 'components/checkbox'
 
 import { columns, useExperience } from './helper'

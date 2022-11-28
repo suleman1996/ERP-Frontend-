@@ -2,7 +2,7 @@ import Switch from 'components/switch'
 import Select from 'components/select'
 import Button from 'components/button'
 import Input from 'components/textfield'
-import SearchSelect from 'components/search-select'
+import SearchSelect from 'components/select-and-search-select'
 
 import { convertBase64Image } from 'main-helper'
 import { AddUserHelper } from './add-user-helper'
@@ -10,7 +10,14 @@ import { AddUserHelper } from './add-user-helper'
 import cam from 'assets/whiteCam.svg'
 import style from './add-user.module.scss'
 
-const AddUser = ({ setNewUser, customRoles, allIDs }) => {
+const AddUser = ({
+  setNewUser,
+  customRoles,
+  allIDs,
+  setEditIndex,
+  singleUser,
+  getAllUsers,
+}) => {
   const {
     register,
     handleSubmit,
@@ -22,7 +29,7 @@ const AddUser = ({ setNewUser, customRoles, allIDs }) => {
     errors,
     setBase64,
     btnLoader,
-  } = AddUserHelper({ setNewUser })
+  } = AddUserHelper({ setNewUser, singleUser, setEditIndex, getAllUsers })
 
   return (
     <>
@@ -114,7 +121,10 @@ const AddUser = ({ setNewUser, customRoles, allIDs }) => {
             type="button"
             btnClass={style.cancelBtn}
             className={style.btnText}
-            handleClick={() => setNewUser(false)}
+            handleClick={() => {
+              setNewUser(false)
+              setEditIndex && setEditIndex(-1)
+            }}
           />
           <Button
             text="Add"

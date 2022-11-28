@@ -1,8 +1,8 @@
-import { useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form'
 
-import SearchSelect from 'components/search-select';
+import SearchSelect from 'components/select-and-search-select'
 
-import arrow from 'assets/arrow-left.svg';
+import arrow from 'assets/arrow-left.svg'
 
 export default {
   title: 'SearchSelect',
@@ -11,21 +11,21 @@ export default {
     handleDelete: { action: 'Handle Delete' },
     handleEdit: { action: 'Handle Edit' },
   },
-};
+}
 
 const Template = (args: any) => {
-  const { control } = useForm();
+  const { control } = useForm()
 
   return (
     <>
       <SearchSelect {...args} control={control} />
     </>
-  );
-};
+  )
+}
 
-const options = ['search 1', 'search 2', 'search 3'];
+const options = ['search 1', 'search 2', 'search 3']
 
-export const Search_Select: any = Template.bind({});
+export const Search_Select: any = Template.bind({})
 Search_Select.args = {
   label: 'Seacrh Select',
   placeholder: 'Please Select',
@@ -33,4 +33,4 @@ Search_Select.args = {
   name: '',
   icons: arrow,
   options,
-};
+}

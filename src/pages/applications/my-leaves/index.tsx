@@ -86,14 +86,21 @@ const ColumnsData1 = [
   },
 ]
 
-const MyLeaves = ({ data }: { data: any; parentRenderState: any }) => {
+const MyLeaves = ({
+  data,
+  parentRenderState,
+}: {
+  data: any
+  parentRenderState: any
+}) => {
   const [loading, setLoading] = useState(false)
   const [pageSize, setPageSize] = useState(10)
   const [openModal, setOpenModal] = useState(false)
   const [selectedId, setSelectedId] = useState('')
   const [editData, setEditData] = useState('')
   const [cancelModal, setCancelModal] = useState(false)
-  const [totalCount, setTotalCount] = useState()
+  const [cancelModalLoading, setCancelModalLoading] = useState(false)
+  const [totalCount, setTotalCount] = useState<number>()
   const [RowsData, setRowsData] = useState([])
   const [leaveRowsData, setLeaveRowsData] = useState([])
   const [defaultLeaveType, setDefaultLeaveType] = useState({})
@@ -194,15 +201,18 @@ const MyLeaves = ({ data }: { data: any; parentRenderState: any }) => {
   useEffect(() => {
     getHistory()
     getAllLeaveApplications()
-  }, [pageSize, page, render])
+  }, [pageSize, page, render, parentRenderState])
 
   const handleCancel = async () => {
+    setCancelModalLoading(true)
     const res = await ApplicationService.deleteApplication(selectedId)
     if (res?.response?.status === 400) {
+      setCancelModalLoading(false)
       createNotification('error', 'Error', res?.response?.data?.message)
       setCancelModal(false)
     }
     if (res?.data) {
+      setCancelModalLoading(false)
       createNotification('success', 'success', 'Canceled')
       setCancelModal(false)
       setRender((prev) => !prev)
@@ -224,6 +234,7 @@ const MyLeaves = ({ data }: { data: any; parentRenderState: any }) => {
           description={`If you cancel this you can’t reverse it.`}
           handleDelete={handleCancel}
           cancelModal
+          isLoading={cancelModalLoading}
         />
       )}
       {openModal && (

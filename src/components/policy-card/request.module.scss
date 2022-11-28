@@ -53,7 +53,7 @@
           .title {
             font-size: 20px;
             font-weight: 500;
-            color: $primary;
+            color: $black;
             margin-bottom: 0px;
             text-transform: capitalize;
           }
@@ -105,7 +105,7 @@
       h4 {
         font-size: 22px;
         font-weight: 500;
-        color: $primary;
+        color: $black;
         text-transform: capitalize;
         text-align: center;
         margin-top: 5px;
@@ -113,7 +113,7 @@
       }
 
       h5 {
-        color: $text;
+        color: $black;
         font-size: 16px;
         font-weight: 200;
         text-align: center;
@@ -172,7 +172,7 @@
   outline: none;
   text-align: center;
   border: none;
-  color: $header;
+  color: $black;
   width: 50px;
   &:focus {
     outline: none;
@@ -186,7 +186,7 @@
 
 p {
   font-size: 14px;
-  color: $header;
+  color: $black;
   font-weight: 400;
 }
 
@@ -356,12 +356,10 @@ p {
 .policyButton {
   width: 100%;
   height: 25px;
-  background-color: #57b894;
   border-radius: 3px;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
 }
 
 .menuBox {

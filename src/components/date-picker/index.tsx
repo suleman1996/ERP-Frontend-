@@ -108,10 +108,7 @@ const DatePicker = ({
       <div className={`${style.main} ${className}`}>
         <div className={style.switchDiv}>
           {label && (
-            <label
-              style={{ color: errorMessage && '#000' }}
-              className={style.label}
-            >
+            <label className={style.label}>
               {label}
               <b style={{ color: 'red' }}>{star}</b>
             </label>
@@ -135,6 +132,7 @@ const DatePicker = ({
             render={({ onChange, value, name }) => {
               return (
                 <ReactDatePicker
+                  onBlur={console.log}
                   selected={value == 'Invalid Date' ? null : value || null}
                   maxDate={maxDate && maxDate}
                   minDate={minDate && minDate}

@@ -54,7 +54,7 @@
   padding-left: calc(15px + (45 - 15) * (100vw - 280px) / (2560 - 280));
   padding-right: calc(15px + (45 - 15) * (100vw - 280px) / (2560 - 280));
   border-bottom: 0.55939px solid #e2e2ea;
-  height: 60px;
+  min-height: 63px;
 
   h6 {
     @include font32;

@@ -1,34 +1,46 @@
-import React, { useState } from 'react';
-import * as yup from 'yup';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useParams, useNavigate } from 'react-router';
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router'
+import { useSearchParams } from 'react-router-dom'
 
-import Loading from 'components/loading';
+import Loading from 'components/loading'
+import MobileForgotPassword from './mobile-reset'
 
-import AuthService from 'services/auth-service';
+import AuthService from 'services/auth-service'
+import { setErrors } from 'helper'
 
-import LogoImage from 'assets/logo.svg';
-import style from './reset-password.module.scss';
-import MobileForgotPassword from './mobile-reset';
+import LogoImage from 'assets/sprintx.svg'
+import style from './reset-password.module.scss'
 
 const ResetPassword = () => {
-  const navigate = useNavigate();
-  const { token } = useParams();
-  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate()
+  const search = useSearchParams()
+  const [isLoading, setIsLoading] = useState(false)
 
-  const { register, handleSubmit, errors } = useForm({
-    resolver: yupResolver(schema),
-  });
+  const { register, handleSubmit, errors, setError, clearErrors } = useForm()
 
-  const onSubmit = async ({ password }: { password: string }) => {
-    setIsLoading(true);
-    const res = token && (await AuthService.resetPassword({ password, token }));
-    if (res.status === 200) {
-      navigate('/login');
+  const onSubmit = async ({
+    password,
+    confirmPassword,
+  }: {
+    password: string
+    confirmPassword: string
+  }) => {
+    setIsLoading(true)
+    try {
+      const data = { password, confirmPassword, otp: search[0].get('otp') }
+      const res = await AuthService.resetPassword(data)
+      if (res?.status === 200) {
+        navigate('/login')
+        setIsLoading(false)
+      }
+    } catch (err: any) {
+      if (err?.response?.data?.error) {
+        setErrors(err?.response?.data?.error, setError)
+      }
     }
-    setIsLoading(false);
-  };
+    setIsLoading(false)
+  }
 
   return (
     <>
@@ -39,7 +51,13 @@ const ResetPassword = () => {
               <div className={style.loginContent}>
                 <img src={LogoImage} width="110px" alt="logo" />
                 <span className={style.loginTitle}>Reset Password</span>
-                <form className={style.loginForm} onSubmit={handleSubmit(onSubmit)}>
+                <form
+                  className={style.loginForm}
+                  onSubmit={(e) => {
+                    clearErrors()
+                    handleSubmit(onSubmit)(e)
+                  }}
+                >
                   <div>
                     <label
                       className={style.loginLabel}
@@ -47,7 +65,7 @@ const ResetPassword = () => {
                         color: errors?.password ? '#ff5050' : '#dcdcdc',
                       }}
                     >
-                      Enter New Password
+                      New Password
                       <input
                         type="password"
                         style={{
@@ -62,7 +80,9 @@ const ResetPassword = () => {
                     </label>
                   </div>
                   {errors?.password && (
-                    <span style={{ color: '#ff2020' }}>{errors?.password?.message}</span>
+                    <span style={{ color: '#ff2020' }}>
+                      {errors?.password?.message}
+                    </span>
                   )}
                   <div>
                     <label
@@ -71,12 +91,14 @@ const ResetPassword = () => {
                         color: errors?.confirmPassword ? '#ff5050' : '#dcdcdc',
                       }}
                     >
-                      Re Enter Password
+                      Confirm New Password
                       <input
                         type="password"
                         style={{
                           color: errors?.confirmPassword ? '#ff5050' : 'white',
-                          borderColor: errors?.confirmPassword ? '#ff5050' : 'gray',
+                          borderColor: errors?.confirmPassword
+                            ? '#ff5050'
+                            : 'gray',
                         }}
                         className={style.loginInput}
                         name="confirmPassword"
@@ -97,7 +119,11 @@ const ResetPassword = () => {
                     disabled={isLoading || false}
                     style={{ pointerEvents: isLoading ? 'none' : 'auto' }}
                   >
-                    {isLoading ? <Loading loaderClass={style.btnLoader} /> : 'Submit'}
+                    {isLoading ? (
+                      <Loading loaderClass={style.btnLoader} />
+                    ) : (
+                      'Submit'
+                    )}
                   </button>
                 </form>
               </div>
@@ -108,11 +134,6 @@ const ResetPassword = () => {
 
       <MobileForgotPassword />
     </>
-  );
-};
-export default ResetPassword;
-
-const schema = yup.object().shape({
-  password: yup.string().required().min(8, 'password must be at least 8 characters'),
-  confirmPassword: yup.string().oneOf([yup.ref('password'), null], 'passwords must match'),
-});
+  )
+}
+export default ResetPassword

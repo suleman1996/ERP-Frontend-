@@ -5,6 +5,22 @@ import { ManageAccountsEditEmployee } from 'pages/settings/manage-accounts/manag
 export default class SettingsService {
   static baseUrl = ['settings', '']
 
+  static async switchUser(id, data) {
+    const res = await ApiService.put(
+      `${SettingsService.baseUrl[1]}/users/toggle/${id}`,
+      data
+    )
+    return res
+  }
+
+  static async resetPasswordAdmin(id, data) {
+    const res = await ApiService.put(
+      `${SettingsService.baseUrl[1]}/users/reset/${id}`,
+      data
+    )
+    return res
+  }
+
   static async addDepartment(data: any) {
     const res = await ApiService.post(
       `${SettingsService.baseUrl[0]}/department-setting`,
@@ -38,6 +54,33 @@ export default class SettingsService {
   static async getDesignation() {
     const res = await ApiService.get(
       `${SettingsService.baseUrl[0]}/designation-setting/all`
+    )
+    return res
+  }
+
+  static async getUsers() {
+    const res = await ApiService.get(`${SettingsService.baseUrl[1]}/users`)
+    return res
+  }
+
+  static async updateUser(data, id) {
+    const res = await ApiService.put(
+      `${SettingsService.baseUrl[1]}/users/${id}`,
+      data
+    )
+    return res
+  }
+
+  static async deleteUser(id) {
+    const res = await ApiService.delete(
+      `${SettingsService.baseUrl[1]}/users/${id}`
+    )
+    return res
+  }
+
+  static async getUserById(id?: string | number) {
+    const res = await ApiService.get(
+      `${SettingsService.baseUrl[1]}/users/${id}`
     )
     return res
   }

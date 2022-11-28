@@ -38,10 +38,7 @@ const MonthYearPicker = ({
     <>
       <div className={`${style.main} ${className}`}>
         {label && (
-          <label
-            style={{ color: errorMessage && '#000' }}
-            className={style.label}
-          >
+          <label className={style.label}>
             {label}
             <b style={{ color: 'red' }}>{star}</b>
           </label>
