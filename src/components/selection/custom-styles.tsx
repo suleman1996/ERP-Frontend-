@@ -25,9 +25,12 @@ export const SelectionStyle = {
         ? '#57B894'
         : isFocused
         ? 'white'
-        : null,
-      color: isDisabled ? '#ccc' : isSelected ? 'red' : data.color,
+        : 'white',
+      color: isDisabled ? '#ccc' : isSelected ? 'red  !important' : data.color,
       cursor: isDisabled ? 'not-allowed' : 'default',
+      '&:active': {
+        backgroundColor: 'white',
+      },
     }
   },
   placeholder: (styles: any) => ({

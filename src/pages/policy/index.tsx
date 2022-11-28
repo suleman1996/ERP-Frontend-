@@ -413,7 +413,6 @@ const Policy = () => {
               name="categoryId"
               errorMessage={errors?.categoryId?.message}
               control={control}
-              isDisabled={editPoplicy?.bool}
             />
           </div>
           <div className={style.gridView}>

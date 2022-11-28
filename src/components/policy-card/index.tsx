@@ -163,7 +163,6 @@ const RenderPolicy = ({
         <div
           className={`${style.policyButton}`}
           style={{
-            backgroundColor: data?.fileId[0]?.file ? '#57b894' : '#57b89450',
             cursor: data?.fileId[0]?.file ? 'pointer' : 'no-drop',
           }}
         >
