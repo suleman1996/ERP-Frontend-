@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
 import { useSearchParams } from 'react-router-dom'
 
 import TextField from 'components/textfield'
@@ -10,9 +9,9 @@ import Button from 'components/button'
 import AuthService from 'services/auth-service'
 import { setErrors } from 'helper'
 
-import style from './reset-password.module.scss'
-import logo from 'assets/sprintx.svg'
 import eye from 'assets/eye.svg'
+import logo from 'assets/sprintx.svg'
+import style from './reset-password.module.scss'
 
 const MobileResetPassword = () => {
   const [passwordVisible, setPasswordVisible] = useState(false)
@@ -22,9 +21,7 @@ const MobileResetPassword = () => {
   const search = useSearchParams()
   const [isLoading, setIsLoading] = useState(false)
 
-  const { register, handleSubmit, errors } = useForm({
-    resolver: yupResolver(schema),
-  })
+  const { register, handleSubmit, errors, setError } = useForm()
 
   const onSubmit = async ({
     password,
