@@ -10,6 +10,7 @@ export const AddUserHelper = ({
   singleUser,
   setEditIndex,
   getAllUsers,
+  setBtnHideShow,
 }) => {
   const {
     register,
@@ -57,11 +58,17 @@ export const AddUserHelper = ({
         if (res?.status === 200) {
           setNewUser(false)
           getAllUsers()
+          setBtnHideShow(false)
         }
       }
     } catch (err) {
+      if (err?.response?.status === 400) {
+        setImgBlob('')
+        setBase64('')
+      }
       if (err?.response?.data?.error) {
         setErrors(err?.response?.data?.error, setError)
+        setBtnHideShow(false)
       } else {
         createNotification(
           'error',

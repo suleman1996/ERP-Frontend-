@@ -13,7 +13,6 @@ import style from './table.module.scss'
 
 interface Props {
   rows: any[]
-  total?: any[]
   loading?: boolean
   tableClass?: string
   rowText?: string
@@ -25,8 +24,8 @@ interface Props {
     selectedIcon?: string
     eyeIcon?: boolean
     width?: string
-    alignText?: any
-    toLocalString?: any
+    alignText?: string
+    toLocalString?: string
     currency?: boolean
   }[]
   handleEducation?: (index: number) => void
@@ -53,10 +52,10 @@ interface Props {
   setEditIndex?: Dispatch<SetStateAction<number>>
   setNewUser?: Dispatch<SetStateAction<boolean>>
   tableHeaderClass?: string
-  customRoles?: any
-  allIDs?: any
-  singleUser?: any
-  getAllUsers?: any
+  customRoles?: any[]
+  allIDs?: string[]
+  singleUser?: any[]
+  getAllUsers?: () => void
 }
 
 const Table = ({

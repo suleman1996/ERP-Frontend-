@@ -6,6 +6,7 @@ import SearchSelect from 'components/select-and-search-select'
 
 import { convertBase64Image } from 'main-helper'
 import { AddUserHelper } from './add-user-helper'
+import { createNotification } from 'common/create-notification'
 
 import cam from 'assets/whiteCam.svg'
 import style from './add-user.module.scss'
@@ -68,8 +69,19 @@ const AddUser = ({
               onChange={async (e) => {
                 const url = URL.createObjectURL(e.target.files[0])
                 const base64 = await convertBase64Image(e.target.files[0])
-                setBase64(base64)
-                setImgBlob(url)
+                console.log('file size ', e.target.files[0].size / 1024 / 1024)
+                if (e.target.files[0].size / 1024 / 1024 > 3) {
+                  setBase64('')
+                  setImgBlob('')
+                  createNotification(
+                    'error',
+                    'Error',
+                    'File size shoulde be equal or less than 3mb'
+                  )
+                } else {
+                  setBase64(base64)
+                  setImgBlob(url)
+                }
               }}
             />
           </div>
@@ -121,7 +133,6 @@ const AddUser = ({
             </div>
           </div>
         </div>
-
         <div className={style.btns}>
           <Button
             text="Cancel"

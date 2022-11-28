@@ -149,7 +149,6 @@ const AccountSetting = () => {
               register={register}
             />
           </div>
-
           <div className={style.btnClass}>
             <Button text="Save Changes" type="submit" isLoading={btnLoader} />
           </div>

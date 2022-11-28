@@ -6,10 +6,12 @@
   padding: 10px 0px !important;
   margin: 0px !important;
   height: calc(100vh - 105px);
+
   @media (max-width: $md) {
     margin: 10px !important;
   }
 }
+
 .innerContainer {
   padding: 20px;
   margin: 20px;
@@ -24,10 +26,12 @@
   padding: 10px;
   padding-bottom: 15px;
   border-bottom: 0.800512px solid #e2e2ea !important;
+
   h2 {
     @media (max-width: $md) {
       font-size: 20px;
     }
+
     @media (max-width: $sm) {
       font-size: 15px;
     }
@@ -36,6 +40,7 @@
 
 .taxCalculationTable {
   height: calc(100vh - 214px);
+
   @media (max-width: $md) {
     height: calc(100vh - 182px);
   }
@@ -49,22 +54,27 @@
 
 .mobileAddTaxBtnDiv {
   display: none;
+
   @media (max-width: $md) {
     display: block;
   }
 }
+
 .modalWrapper {
   max-width: 950px !important;
   padding: 0px !important;
   position: relative;
+
   @media (max-width: $xs) {
     height: 90vh;
   }
+
   .modal {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 20px;
+
     .img {
       margin-right: 20px;
       margin-top: -25px;
@@ -74,22 +84,25 @@
 
   .add {
     padding: 20px 50px;
+
     .twoGrid {
       margin-top: 20px;
       @include gridTwo(8, 15);
     }
+
     .fiveGrid {
       @include gridFive();
       grid-gap: 10px;
       margin-top: 25px;
     }
+
     @media (max-width: $md) {
       padding: 20px;
     }
+
     .label {
       font-size: 11px;
       color: $black;
-
       text-transform: capitalize;
     }
 
@@ -97,11 +110,13 @@
       display: flex;
       align-items: center;
       margin-top: 7px;
+
       .sec {
         margin-left: 50px;
       }
     }
   }
+
   .webBtnDiv {
     display: flex;
     justify-content: flex-end;
@@ -112,13 +127,16 @@
       width: max-content;
     }
   }
+
   .mobileBtnDiv {
     display: none;
     margin: 20px;
+
     @media (max-width: $md) {
       display: flex;
       justify-content: flex-end;
     }
+
     .mobileBtn {
       position: relative;
       left: 0;
@@ -135,6 +153,7 @@
   inset: 0;
   background-color: #fafafa;
   z-index: 200;
+
   .loadingStyle {
     width: 40px;
     height: 40px;

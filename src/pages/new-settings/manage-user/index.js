@@ -130,7 +130,7 @@ const ManageUser = ({ newUser, setNewUser, setBtnHideShow }) => {
                 }}
               >
                 <Switch
-                  title={'Active'}
+                  title={row?.status ? 'Active' : 'In Active'}
                   name={'active'}
                   control={control}
                   checked={row?.status}
