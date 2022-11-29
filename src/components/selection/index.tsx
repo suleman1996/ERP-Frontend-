@@ -4,6 +4,7 @@ import { Controller } from 'react-hook-form'
 import Select from 'react-select'
 
 import { SelectionStyle } from './custom-styles'
+import Tags from 'components/tags'
 
 import style from './select.module.scss'
 
@@ -36,6 +37,7 @@ interface Props {
   defaultValue?: any
   placeHolderStyle?: any
   isSearchable?: boolean
+  showNumber?: boolean
 }
 
 const Selection = ({
@@ -53,6 +55,7 @@ const Selection = ({
   defaultValue,
   placeHolderStyle,
   isSearchable,
+  showNumber,
 }: Props) => {
   const [customErr] = useState<string | undefined>()
 
@@ -68,34 +71,6 @@ const Selection = ({
       }),
     })
   }
-
-  // const LimitedChipsContainer = ({ children, hasValue, ...props }) => {
-  //   if (!hasValue) {
-  //     return (
-  //       <components.ValueContainer {...props}>
-  //         {children}
-  //       </components.ValueContainer>
-  //     )
-  //   }
-
-  //   const CHIPS_LIMIT = 2
-  //   const [chips, otherChildren] = children
-  //   const overflowCounter = chips.slice(CHIPS_LIMIT).length
-  //   const displayChips = chips.slice(
-  //     overflowCounter,
-  //     overflowCounter + CHIPS_LIMIT
-  //   )
-
-  //   return (
-  //     <components.ValueContainer {...props}>
-  //       {displayChips}
-
-  //       {overflowCounter > 0 && `+ ${overflowCounter}`}
-
-  //       {otherChildren}
-  //     </components.ValueContainer>
-  //   )
-  // }
 
   const formatOptionLabel = (
     {
@@ -180,37 +155,40 @@ const Selection = ({
                       </div>
                     ),
 
-                    //AS working on it currently it's pending
-                    // ...(showNumber && {
-                    //   MultiValue: (props) => {
-                    //     const { getValue, data } = props;
-                    //     const selectedOptions = getValue();
-                    //     const currentOptionIdx = selectedOptions.findIndex(
-                    //       (option) => option?.value === data?.value,
-                    //     );
-                    //     if (selectedOptions.length > 1) {
-                    //       return currentOptionIdx === 0 ? (
-                    //         <Tags
-                    //           // isCircularNumber={true}
-                    //           boxColor={'red'}
-                    //           // numberCircular={selectedOptions?.length}
-                    //         ></Tags>
-                    //       ) : (
-                    //         <></>
-                    //       );
-                    //     } else {
-                    //       return currentOptionIdx === 0 ? (
-                    //         <Tags
-                    //           text={data?.label}
-                    //           boxColor={'#39695B'}
-                    //           // isCircular={true}
-                    //         ></Tags>
-                    //       ) : (
-                    //         <></>
-                    //       );
-                    //     }
-                    //   },
-                    // }),
+                    ...(showNumber && {
+                      MultiValue: (props) => {
+                        const { getValue, data } = props
+                        const selectedOptions = getValue()
+                        const currentOptionIdx = selectedOptions.findIndex(
+                          (option) => option?.value === data?.value
+                        )
+                        if (selectedOptions.length > 1) {
+                          return currentOptionIdx === 0 ? (
+                            <>
+                              <Tags
+                                text={data?.label}
+                                boxColor={'#57B894'}
+                                textColor={'#ffffff'}
+                              />
+                              <Tags
+                                text={`+ ${selectedOptions.length - 1} more`}
+                                boxColor={'pink'}
+                              />
+                            </>
+                          ) : null
+                        } else {
+                          return currentOptionIdx === 0 ? (
+                            <Tags
+                              text={data?.label}
+                              boxColor={'#57B894'}
+                              textColor={'#ffffff'}
+                            />
+                          ) : (
+                            <></>
+                          )
+                        }
+                      },
+                    }),
                     // ValueContainer: LimitedChipsContainer,
                   }}
                   hideSelectedOptions={false}
