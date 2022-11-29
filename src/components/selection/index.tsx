@@ -95,13 +95,9 @@ const Selection = ({
           >
             {color && (
               <div
+                className={style.label}
                 style={{
-                  height: '10px',
-                  width: '10px',
-                  borderRadius: '50%',
                   background: color,
-                  marginRight: '10px',
-                  marginTop: '5px',
                 }}
               />
             )}
