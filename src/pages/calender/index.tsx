@@ -91,10 +91,6 @@ const Calender = () => {
     $('.fc-dayGridMonth-button').click(function () {
       setView('Monthly')
     })
-
-    $('.fc-next-button').click(function () {
-      //
-    })
   }, [])
 
   useEffect(() => {
@@ -406,7 +402,6 @@ const Calender = () => {
                 allDaySlot={true}
                 allDayText="all-day"
                 datesSet={(e) => {
-                  console.log(e)
                   setDateRange({
                     startDate: e.startStr,
                     endDate: e.endStr,

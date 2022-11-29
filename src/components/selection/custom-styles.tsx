@@ -12,10 +12,12 @@ export const SelectionStyle = {
     paddingRight:
       'calc(2px + (7 - 2) * (100vw - 280px) / (2560 - 280)) !important',
     borderColor: 'none !important',
+    cursor: 'pointer',
     '&:hover': {
       outline: state.isFocused ? 0 : 0,
     },
   }),
+
   option: (styles: any, { data, isDisabled, isFocused, isSelected }: any) => {
     return {
       ...styles,

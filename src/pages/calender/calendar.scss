@@ -6,12 +6,24 @@
   margin-left: 1px !important;
   border-top-left-radius: none !important;
   border-bottom-left-radius: none !important;
+  &:hover {
+    & div {
+      display: none !important;
+      background-color: red;
+    }
+  }
 }
 .fc .fc-button-primary {
   background-color: #ffffff;
   color: #717579;
   border-color: 1px solid #e9e9ef;
   border: none;
+  &:hover {
+    & div {
+      display: none !important;
+      background-color: red;
+    }
+  }
 }
 .fc-day-today {
   background-color: #ffffff !important;
@@ -22,6 +34,12 @@
   color: #ffffff;
   background-color: #57b894;
   margin-right: 5px;
+  &:hover {
+    & div {
+      display: none !important;
+      background-color: red;
+    }
+  }
 }
 
 tr:nth-child(even) {
@@ -59,11 +77,23 @@ th {
 .fc .fc-button-primary:not(:disabled):active:focus,
 .fc .fc-button-primary:not(:disabled).fc-button-active:focus {
   box-shadow: none;
+  &:hover {
+    & div {
+      display: none !important;
+      background-color: red;
+    }
+  }
 }
 .fc .fc-button-primary:hover {
   border-color: none !important;
   background-color: transparent !important;
   color: #717579 !important;
+  &:hover {
+    & div {
+      display: none !important;
+      background-color: red;
+    }
+  }
 }
 .fc-theme-standard .fc-list-day-cushion {
   background-color: #e2e2ea !important;
@@ -84,24 +114,55 @@ th {
 .fc .fc-button .fc-icon {
   font-size: none !important;
   vertical-align: super !important;
+  &:hover {
+    & div {
+      display: none !important;
+      background-color: red;
+    }
+  }
   @media (max-width: $sm) {
   }
 }
 .fc .fc-button-primary {
   background-color: transparent;
+  &:hover {
+    & div {
+      display: none !important;
+      background-color: red;
+    }
+  }
 }
 .fc-direction-ltr .fc-toolbar > * > :not(:first-child) {
   margin-left: 0px !important;
   @media (max-width: $sm) {
     font-size: 14px !important;
   }
+  &:hover {
+    & div {
+      display: none !important;
+      background-color: red;
+    }
+  }
 }
-.fc-icon {
+
+.fc-direction-ltr .fc-toolbar > * > :not(:first-child) .fc-icon {
   height: none !important;
   list-style: 0 !important;
+  &:hover {
+    & div {
+      display: none !important;
+      background-color: red;
+    }
+  }
 }
 .fc .fc-button-primary:focus {
   box-shadow: none !important;
+  &:hover {
+    & div {
+      display: none !important;
+      background-color: red;
+    }
+  }
 }
 
 .fc .fc-toolbar {
