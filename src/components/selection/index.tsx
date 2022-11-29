@@ -189,7 +189,6 @@ const Selection = ({
                         }
                       },
                     }),
-                    // ValueContainer: LimitedChipsContainer,
                   }}
                   hideSelectedOptions={false}
                   closeMenuOnSelect={closeMenuOnSelect}
