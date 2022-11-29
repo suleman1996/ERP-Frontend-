@@ -1,10 +1,10 @@
 import { ChangeEvent, useState } from 'react'
+import Select from 'react-select'
 import { Controller } from 'react-hook-form'
 
-import Select from 'react-select'
+import Tags from 'components/tags'
 
 import { SelectionStyle } from './custom-styles'
-import Tags from 'components/tags'
 
 import style from './select.module.scss'
 
