@@ -65,6 +65,7 @@ const AccountSetting = () => {
           setNotificationPopUP(true)
         }
         setBtnLoader(false)
+        createNotification('success', 'Success', res?.data?.msg)
       }
     } catch (err) {
       if (err?.response?.data?.error) {

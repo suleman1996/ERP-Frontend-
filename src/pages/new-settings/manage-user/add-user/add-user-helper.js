@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
+import SettingsService from 'services/settings-service'
 import { setErrors } from '../../../../helper/index'
 import { createNotification } from 'common/create-notification'
-import SettingsService from 'services/settings-service'
+import { convertBase64Image } from 'main-helper'
 
 export const AddUserHelper = ({
   setNewUser,
@@ -26,27 +27,56 @@ export const AddUserHelper = ({
   const [imgBlob, setImgBlob] = useState()
   const [base64, setBase64] = useState()
   const [btnLoader, setBtnLoader] = useState(false)
+  const [btnToggle, setBtnToggle] = useState(false)
 
   useEffect(() => {
     setImgBlob(singleUser?.img?.file)
     reset({
       ...singleUser,
-      roleId: singleUser?.role._id,
-      employeeId: singleUser?.employeeId,
+      roleId: { value: singleUser?.role?._id, label: singleUser?.role?.name },
+      employeeId: {
+        value: singleUser?.employeeId,
+        label: singleUser?.employeeId,
+      },
     })
   }, [singleUser])
 
+  const handleChange = async (e) => {
+    const url = URL.createObjectURL(e.target.files[0])
+    const base64 = await convertBase64Image(e.target.files[0])
+    var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i
+    if (!allowedExtensions.exec(e.target.value)) {
+      setBase64('')
+      setImgBlob('')
+      createNotification('error', 'Error', 'Invalid type')
+      return false
+    }
+    if (e.target.files[0].size / 1024 / 1024 > 3) {
+      setBase64('')
+      setImgBlob('')
+      createNotification(
+        'error',
+        'Error',
+        'File size shoulde be equal or less than 3mb'
+      )
+    } else {
+      setBase64(base64)
+      setImgBlob(url)
+    }
+  }
+
   const onSubmit = async (data) => {
     setBtnLoader(true)
+    const userData = {
+      ...data,
+      roleId: data?.roleId?.value,
+      employeeId: data?.employeeId?.label,
+      ...(watch()?.status === undefined && { status: false }),
+      ...(watch()?.status === true && { status: true }),
+      ...(base64 && { img: base64 }),
+    }
+    data?.employeeId === '' && delete userData?.employeeId
     try {
-      const userData = {
-        ...data,
-        ...(watch()?.status === undefined && { status: false }),
-        ...(watch()?.status === true && { status: true }),
-        ...(base64 && { img: base64 }),
-      }
-      data?.employeeId === '' && delete userData?.employeeId
-
       if (singleUser) {
         const res = await SettingsService.updateUser(userData, singleUser?._id)
         if (res.status === 200) {
@@ -92,5 +122,8 @@ export const AddUserHelper = ({
     btnLoader,
     errors,
     setBase64,
+    btnToggle,
+    setBtnToggle,
+    handleChange,
   }
 }

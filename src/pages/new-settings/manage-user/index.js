@@ -14,6 +14,7 @@ import { ColumnsData } from './helper'
 import { setErrors } from 'helper'
 import SettingsService from 'services/settings-service'
 import EmployeeService from 'services/employee-service'
+import { createNotification } from 'common/create-notification'
 
 import dummy from 'assets/dummyPic.svg'
 import eye from 'assets/setting-icons/eye.svg'
@@ -64,13 +65,20 @@ const ManageUser = ({ newUser, setNewUser, setBtnHideShow }) => {
 
   const handleDeleteClick = async () => {
     setBtnLoader(true)
-    const res = await SettingsService.deleteUser(editIndex)
-    if (res.status === 200) {
-      setEditIndex(-1)
-      setDeletePopUp(false)
-      setBtnLoader(false)
-      getAllUsers()
+
+    if (allUsers.find((item) => item._id === editIndex).status) {
+      createNotification('error', 'Error', 'Active User Cannot Be Deleted!')
+    } else {
+      const res = await SettingsService.deleteUser(editIndex)
+      if (res.status === 200) {
+        setEditIndex(-1)
+        setDeletePopUp(false)
+        setBtnLoader(false)
+        getAllUsers()
+        setBtnLoader(false)
+      }
     }
+    setBtnLoader(false)
   }
 
   const handleSwitch = async (id, item) => {
@@ -130,7 +138,7 @@ const ManageUser = ({ newUser, setNewUser, setBtnHideShow }) => {
                 }}
               >
                 <Switch
-                  title={row?.status ? 'Active' : 'In Active'}
+                  title={row?.status ? 'Active' : 'Inactive'}
                   name={'active'}
                   control={control}
                   checked={row?.status}
@@ -166,9 +174,8 @@ const ManageUser = ({ newUser, setNewUser, setBtnHideShow }) => {
           open={deletePopUp}
           setOpen={setDeletePopUp}
           handleDelete={() => handleDeleteClick()}
-          btnLoader={btnLoader}
+          isLoading={btnLoader}
         />
-
         <Modal
           open={resetPopUp}
           handleClose={() => setResetPopUp(false)}

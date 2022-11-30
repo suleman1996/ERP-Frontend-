@@ -1,12 +1,9 @@
 import Switch from 'components/switch'
-import Select from 'components/select'
 import Button from 'components/button'
 import Input from 'components/textfield'
-import SearchSelect from 'components/select-and-search-select'
+import Selection from 'components/selection'
 
-import { convertBase64Image } from 'main-helper'
 import { AddUserHelper } from './add-user-helper'
-import { createNotification } from 'common/create-notification'
 
 import cam from 'assets/whiteCam.svg'
 import style from './add-user.module.scss'
@@ -27,10 +24,11 @@ const AddUser = ({
     control,
     onSubmit,
     imgBlob,
-    setImgBlob,
     errors,
-    setBase64,
     btnLoader,
+    btnToggle,
+    setBtnToggle,
+    handleChange,
   } = AddUserHelper({
     setNewUser,
     singleUser,
@@ -65,23 +63,8 @@ const AddUser = ({
               id={'imgUpload'}
               type={'file'}
               hidden
-              accept="image/png, image/gif, image/jpeg"
-              onChange={async (e) => {
-                const url = URL.createObjectURL(e.target.files[0])
-                const base64 = await convertBase64Image(e.target.files[0])
-                if (e.target.files[0].size / 1024 / 1024 > 3) {
-                  setBase64('')
-                  setImgBlob('')
-                  createNotification(
-                    'error',
-                    'Error',
-                    'File size shoulde be equal or less than 3mb'
-                  )
-                } else {
-                  setBase64(base64)
-                  setImgBlob(url)
-                }
-              }}
+              accept="image/*"
+              onChange={async (e) => handleChange(e)}
             />
           </div>
           <div className={style.wraper}>
@@ -101,33 +84,37 @@ const AddUser = ({
               placeholder={'Enter email'}
               containerClass={style.containerClassInput}
             />
-            <Select
+            <Selection
               label="Role"
               name={'roleId'}
               errorMessage={errors?.roleId?.message}
-              register={register}
-            >
-              <option value="">Select</option>
-              <>
-                {customRoles &&
-                  customRoles?.map((ele) => (
-                    <option key={ele.name} value={ele?._id}>
-                      {ele.name}
-                    </option>
-                  ))}
-              </>
-            </Select>
-            <SearchSelect
+              control={control}
+              options={customRoles?.map((item) => {
+                return { label: item?.name, value: item?._id }
+              })}
+            />
+
+            <Selection
               name={'employeeId'}
               errorMessage={errors?.employeeId?.message}
               control={control}
-              options={allIDs?.map(({ employeeId }) => employeeId)}
+              options={allIDs?.map((item) => {
+                return { label: item?.employeeId, value: item?.empoyeeId }
+              })}
               label="ID"
+              isSearchable
             />
             <div className={style.customLabel}>
               <label>Status</label>
               <div>
-                <Switch title={'Active'} name={'status'} control={control} />
+                <Switch
+                  title={btnToggle ? 'Active' : 'Inactive'}
+                  handleClick={(e) => {
+                    setBtnToggle(e.target.checked)
+                  }}
+                  name={'status'}
+                  control={control}
+                />
               </div>
             </div>
           </div>
@@ -140,7 +127,7 @@ const AddUser = ({
             className={style.btnText}
             handleClick={() => {
               setNewUser(false)
-              setBtnHideShow(false)
+              setBtnHideShow && setBtnHideShow(false)
               setEditIndex && setEditIndex(-1)
             }}
           />
