@@ -8,7 +8,7 @@ import { removeKeys } from 'helper'
 import { removeKey, convertBase64Image } from 'main-helper'
 import { createNotification } from 'common/create-notification'
 import EmployeeService from 'services/employee-service'
-import { setErrors } from '../../../../helper/index'
+import { setErrors } from 'helper/index'
 
 interface Data {
   firstName: string

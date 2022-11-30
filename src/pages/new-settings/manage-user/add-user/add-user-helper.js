@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 import SettingsService from 'services/settings-service'
-import { setErrors } from '../../../../helper/index'
+import { setErrors } from 'helper/index'
 import { createNotification } from 'common/create-notification'
 import { convertBase64Image } from 'main-helper'
 
