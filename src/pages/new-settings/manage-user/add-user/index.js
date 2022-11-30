@@ -80,8 +80,8 @@ const AddUser = ({
               label="Email"
               name={'email'}
               errorMessage={errors?.email?.message}
-              register={register}
               placeholder={'Enter email'}
+              register={register}
               containerClass={style.containerClassInput}
             />
             <Selection
