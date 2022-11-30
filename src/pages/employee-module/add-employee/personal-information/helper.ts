@@ -2,33 +2,33 @@ import { useState, useEffect, Dispatch, SetStateAction } from 'react'
 import moment from 'moment'
 import { useForm } from 'react-hook-form'
 import { useParams } from 'react-router'
+import { useSelector } from 'react-redux'
 
 import { removeKeys } from 'helper'
 import { removeKey, convertBase64Image } from 'main-helper'
-
-import EmployeeService from 'services/employee-service'
-import { setErrors } from '../../../../helper/index'
 import { createNotification } from 'common/create-notification'
-import { useSelector } from 'react-redux'
+import EmployeeService from 'services/employee-service'
+import { setErrors } from 'helper/index'
 
 interface Data {
   firstName: string
+  fullname: string
   lastName: string
   employeeId: string
   phoneNumber: number
   email: string
   cnic: number
-  gender: boolean
+  gender: string
   dob: string
   frontPic: string
   backPic: string
-  id?: any
+  id?: string
 }
 
 interface Props {
   handleNext: (data?: string) => void
-  setFormData: any
-  formData: any
+  setFormData: Dispatch<SetStateAction<any>>
+  formData: any[]
   employeeDocId: string
   setEmployeeId: Dispatch<SetStateAction<string>>
   setEmployeeDocId: Dispatch<SetStateAction<string>>
@@ -112,7 +112,13 @@ export const usePersonalInfo = ({
         email: res?.data?.employeePersonalInformation?.email,
         dob: new Date(res?.data?.employeePersonalInformation?.dob),
         cnic: res?.data?.employeePersonalInformation?.cnic,
-        gender: res?.data?.employeePersonalInformation?.gender,
+        gender: {
+          value: res?.data?.employeePersonalInformation?.gender,
+          label: gender.find(
+            (item) =>
+              item?._id === res?.data?.employeePersonalInformation?.gender
+          ).name,
+        },
       })
       setLoader(false)
     } else if (id) {
@@ -143,7 +149,13 @@ export const usePersonalInfo = ({
         email: res?.data?.employeePersonalInformation?.email,
         dob: new Date(res?.data?.employeePersonalInformation?.dob),
         cnic: res?.data?.employeePersonalInformation?.cnic,
-        gender: res?.data?.employeePersonalInformation?.gender,
+        gender: {
+          value: res?.data?.employeePersonalInformation?.gender,
+          label: gender.find(
+            (item) =>
+              item?._id === res?.data?.employeePersonalInformation?.gender
+          ).name,
+        },
       })
     }
   }
@@ -152,13 +164,17 @@ export const usePersonalInfo = ({
     setBtnLoader(true)
     try {
       const { dob, cnic, frontPic, backPic, employeeId } = data
-
       const temp = {
-        ...data,
+        phone: data?.phone,
+        email: data?.email,
+        fullName: data?.fullName,
+        lastName: data?.lastName,
+        firstName: data?.firstName,
         profilePicture: img,
         dob: dob && moment(dob).format('YYYY-MM-DD'),
         cnic: cnic.toString(),
         employeeId: employeeId + userId,
+        gender: data?.gender?.value,
         cnicFront:
           selectedFileName &&
           frontPic &&
@@ -176,7 +192,6 @@ export const usePersonalInfo = ({
         employeeId: obj.employeeId,
         type: 1,
       }
-
       if (employeeDocId || id) {
         removeKeys(temp, ['backPic', 'frontPic'])
         const res = await EmployeeService.updateAddedEmployee(

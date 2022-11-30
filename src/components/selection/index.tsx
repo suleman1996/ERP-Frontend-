@@ -21,9 +21,7 @@ interface Props {
   star?: string
   selectContainer?: string
   wraperSelect?: string
-  newSelect?: boolean
   withInput?: boolean
-  userId?: any
   marksType?: string
   classNameLabel?: string
   setMarkVal?: any
@@ -37,6 +35,8 @@ interface Props {
   defaultValue?: any
   placeHolderStyle?: any
   isSearchable?: boolean
+  newSelect?: boolean
+  userId?: any
   showNumber?: boolean
 }
 
@@ -200,6 +200,7 @@ const Selection = ({
                   }
                   isSearchable={isSearchable}
                 />
+                {/* {newSelect && <p className={style.labelClass1}>{userId}</p>} */}
               </>
             )
           }}
