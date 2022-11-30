@@ -473,6 +473,7 @@ const Policy = () => {
               name="appliesTo"
               defaultValue={null}
               isSearchable={false}
+              showNumber
             />
             <div>
               <div style={{ display: 'flex' }}>
