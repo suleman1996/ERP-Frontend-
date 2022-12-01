@@ -68,7 +68,6 @@ const TaxSlab = ({
     setSingleId(id)
     const res = await TaxService.getTaxSlabById(id)
     setNewSlab(res?.data?.tax)
-
     setOpen(true)
   }
 

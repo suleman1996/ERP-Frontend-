@@ -17,7 +17,15 @@ export const usePayrollDetail = ({ employeeDocId }: Props) => {
   const navigate = useNavigate()
   const [btnLoader, setBtnLoader] = useState(false)
 
-  const { register, handleSubmit, errors, control, reset, setError } = useForm()
+  const {
+    register,
+    handleSubmit,
+    errors,
+    control,
+    reset,
+    setError,
+    clearErrors,
+  } = useForm()
 
   const allowence = useSelector((state) => state.app?.allowence)
 
@@ -27,13 +35,7 @@ export const usePayrollDetail = ({ employeeDocId }: Props) => {
       bankName,
       accountNumber,
       accountHolderName,
-      payrollDetails: {
-        basicSalary,
-        payType,
-        payRollType,
-        overtimeApplicable,
-        roaster,
-      },
+      payrollDetails: { basicSalary, overtimeApplicable, roaster },
     } = data
     setBtnLoader(true)
     try {
@@ -44,10 +46,12 @@ export const usePayrollDetail = ({ employeeDocId }: Props) => {
           bankName,
           accountHolderName,
           accountNumber: accountNumber.toString(),
-          payType: payType,
-          payRollType: payRollType,
+          payType: data?.payrollDetails?.payType?.value,
+          payRollType: data?.payrollDetails?.payRollType?.value
+            ? data?.payrollDetails?.payRollType?.value
+            : '',
           overtimeApplicable: overtimeApplicable,
-          roaster,
+          roaster: roaster?.value,
           allownce: allowence.map((item: any) => {
             return {
               allowanceId: item?._id,
@@ -98,10 +102,19 @@ export const usePayrollDetail = ({ employeeDocId }: Props) => {
       }, {}),
       payrollDetails: {
         basicSalary: res?.data?.Payroll?.basicSalary,
-        payType: res?.data?.Payroll?.payType,
-        payRollType: res?.data?.Payroll?.payRollType,
+        payType: {
+          label: res?.data?.Payroll?.payType,
+          value: res?.data?.Payroll?.payType,
+        },
+        payRollType: {
+          label: res?.data?.Payroll?.payRollType,
+          value: payrollType,
+        },
         overtimeApplicable: res?.data?.Payroll?.overtimeApplicable,
-        roaster: res?.data?.Payroll?.roaster,
+        roaster: {
+          label: res?.data?.Payroll?.roaster,
+          value: res?.data?.Payroll?.roaster,
+        },
       },
     })
   }
@@ -122,6 +135,8 @@ export const usePayrollDetail = ({ employeeDocId }: Props) => {
     control,
     allowence,
     btnLoader,
+    control,
+    clearErrors,
   }
 }
 

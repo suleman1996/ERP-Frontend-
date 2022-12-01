@@ -15,6 +15,7 @@ import arrowLeft from 'assets/backBtn.svg'
 import style from './company-information.module.scss'
 import WeekDay from 'components/week-day'
 import { useEmployeeForms } from '../context'
+import Selection from 'components/selection'
 
 const CompanyInformation = () => {
   const {
@@ -75,15 +76,18 @@ const CompanyInformation = () => {
             errorMessage={errors?.joiningDate?.message}
             maxDate={moment(new Date()).add(3, 'M').toDate()}
           />
-          <Select
+          <Selection
             label="Department"
             star={' *'}
             errorMessage={errors?.departmentId?.message}
-            register={register}
+            control={control}
             name="departmentId"
-            onChange={departmentChangeHandler}
-          >
-            <option value="">Department</option>
+            changeHandler={departmentChangeHandler}
+            options={departments?.map((item) => {
+              return { label: item?.name, value: item?._id }
+            })}
+          />
+          {/* <option value="">Department</option>
             <>
               {departments &&
                 departments.map((data: any) => (
@@ -92,7 +96,7 @@ const CompanyInformation = () => {
                   </option>
                 ))}
             </>
-          </Select>
+          </Select> */}
           <Select
             label="Designation"
             star={' *'}

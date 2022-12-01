@@ -21,6 +21,7 @@ interface Props {
 
 export interface Experince {
   company: string
+  label: string
   country: string
   city: string
   jobTitle?: string
@@ -100,6 +101,8 @@ export const useExperience = ({
       jobStartDate: moment(data?.jobStartDate).format('YYYY-MM-DD'),
       jobEndDate: moment(data?.jobEndDate).format('YYYY-MM-DD'),
       ongoing: onGoing,
+      country: data?.country?.label,
+      city: data?.city?.label,
       ...(fileBase64
         ? { experienceLetter: selectedFileName && `${fileBase64}` }
         : {
@@ -138,8 +141,8 @@ export const useExperience = ({
     data?.experienceLetter && setSelectedFileName('experience letter')
     reset({
       company: data?.company,
-      country: data?.country,
-      city: data?.city,
+      country: { label: data?.country, value: data?.country },
+      city: { label: data?.city, value: data?.city },
       jobTitle: data?.jobTitle,
       ongoing: data?.ongoing,
       jobStartDate: data?.jobStartDate && new Date(data?.jobStartDate),
@@ -298,8 +301,8 @@ export const rows = [
 
 export const schema = yup.object().shape({
   company: yup.string().required('Company is required'),
-  country: yup.string().required('Country is required'),
-  city: yup.string().required('City is required'),
+  country: yup.object().required('Country is required'),
+  city: yup.object().required('City is required'),
   jobTitle: yup.string().required('Job is required'),
   jobStartDate: yup.string().nullable().required('Start date is required'),
   jobEndDate: yup
