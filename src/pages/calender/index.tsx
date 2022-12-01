@@ -391,8 +391,8 @@ const Calender = () => {
                   ...(e?.recurrence !== 'No Recurrence' && {
                     rrule: {
                       freq: e?.recurrence?.toLowerCase(),
-                      dtstart: e?.start.replace('Z', ''),
-                      until: e?.recursionEnd.replace('Z', ''),
+                      dtstart: e?.start?.replace('Z', ''),
+                      until: e?.recursionEnd?.replace('Z', ''),
                     },
                     exdate: e?.excludedEvents,
                     duration: e?.duration,
