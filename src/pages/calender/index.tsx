@@ -1,19 +1,13 @@
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-
+import moment from 'moment'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
+import rrulePlugin from '@fullcalendar/rrule'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import listPlugin from '@fullcalendar/list'
 import $ from 'jquery'
-import CalenderService from 'services/calender-service'
-import EmployeeService from 'services/employee-service'
-import { createNotification } from 'common/create-notification'
-import moment from 'moment'
-
-import { convertBase64Image } from 'main-helper'
-import { setErrors } from 'helper'
 
 import Button from 'components/button'
 import Modal from 'components/modal'
@@ -26,15 +20,18 @@ import TextArea from 'components/textarea'
 import DeleteModal from 'components/delete-modal'
 import Radio from 'components/radio'
 
+import CalenderService from 'services/calender-service'
+import EmployeeService from 'services/employee-service'
+import { convertBase64Image } from 'main-helper'
+import { setErrors } from 'helper'
+import { createNotification } from 'common/create-notification'
 import { eventTypes, recurrenceTypes, category, eventName } from './event-types'
 
 import location from 'assets/location.svg'
-import noimage from 'assets/NoImage.svg'
 import plus from 'assets/plusIcon.svg'
 import bucketIcon from 'assets/Bucket.svg'
-
-import style from './calender.module.scss'
 import './calendar.scss'
+import style from './calender.module.scss'
 
 const Calender = () => {
   const month = 'dayGridMonth'
@@ -61,11 +58,7 @@ const Calender = () => {
   const [view, setView] = useState('Daily')
   const [delRecurring, setDelRecurring] = useState(false)
   const [employeesWithDep] = useState<any>([])
-
-  const placeholderImage = noimage
-  const onImageError = (e: any) => {
-    e.target.src = placeholderImage
-  }
+  const [year, setYear] = useState<any>()
 
   const {
     register,
@@ -90,10 +83,6 @@ const Calender = () => {
 
     $('.fc-dayGridMonth-button').click(function () {
       setView('Monthly')
-    })
-
-    $('.fc-next-button').click(function () {
-      //
     })
   }, [])
 
@@ -125,7 +114,8 @@ const Calender = () => {
 
   const getAllEvents = async () => {
     const res = await CalenderService.getAllEvents({
-      view: view,
+      view: 'Yearly',
+      year: year,
       startDate: dateRange.startDate,
       endDate: dateRange.endDate,
     })
@@ -246,11 +236,10 @@ const Calender = () => {
             <div className={style.plusView}>
               {eventInfo?.event?.extendedProps?.attendees
                 ?.slice(0, 3)
-                ?.map((i: any, index: any) => (
+                ?.map((i: any, index: number) => (
                   <img
                     key={index}
                     src={i?.profilePicture && i?.profilePicture}
-                    onError={onImageError}
                     height={28}
                     width={28}
                     style={{
@@ -338,10 +327,13 @@ const Calender = () => {
         setBtnLoader(false)
       }
     } catch (err: any) {
+      setBtnLoader(false)
       if (err?.response?.data?.error) {
         setErrors(err?.response?.data?.error, setError)
       }
-      setBtnLoader(false)
+      if (err?.response?.data?.msg) {
+        createNotification('error', 'Error', err?.response?.data?.msg)
+      }
     }
   }
 
@@ -370,6 +362,7 @@ const Calender = () => {
                   timeGridPlugin,
                   dayGridPlugin,
                   listPlugin,
+                  rrulePlugin,
                 ]}
                 initialView={day}
                 headerToolbar={{
@@ -394,8 +387,16 @@ const Calender = () => {
                 slotLabelInterval={{ hours: 1 }}
                 events={allEvent?.map((e: any) => ({
                   ...e,
-                  start: e.start.replace('Z', ''),
-                  end: e.end.replace('Z', ''),
+                  title: e?.title,
+                  ...(e?.recurrence !== 'No Recurrence' && {
+                    rrule: {
+                      freq: e?.recurrence?.toLowerCase(),
+                      dtstart: e?.start.replace('Z', ''),
+                      until: e?.recursionEnd.replace('Z', ''),
+                    },
+                    exdate: e?.excludedEvents,
+                    duration: e?.duration,
+                  }),
                 }))}
                 handleWindowResize={true}
                 contentHeight="auto"
@@ -406,11 +407,11 @@ const Calender = () => {
                 allDaySlot={true}
                 allDayText="all-day"
                 datesSet={(e) => {
-                  console.log(e)
-                  setDateRange({
-                    startDate: e.startStr,
-                    endDate: e.endStr,
-                  })
+                  setYear(e.start.toString().split(' ')[3]),
+                    setDateRange({
+                      startDate: e.startStr,
+                      endDate: e.endStr,
+                    })
                 }}
               />
             </div>
@@ -652,7 +653,6 @@ const Calender = () => {
                       <img
                         src={i?.profilePicture && i?.profilePicture}
                         height={30}
-                        onError={onImageError}
                         width={30}
                         style={{
                           borderRadius: '30px',
