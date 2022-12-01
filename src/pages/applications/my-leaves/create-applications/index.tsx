@@ -78,7 +78,8 @@ const CreateApplicationModal = ({
           approvedBy: data?.approvedBy?.value,
           ...(dateFrom && { dateFrom }),
           ...(dateTo && { dateTo }),
-          ...(data?.attachment && { attachment: data?.attachment }),
+          ...(data?.attachment &&
+            selectedFileName && { attachment: data?.attachment }),
           reason: data?.reason,
           hrBy: data?.hrBy?.value,
         })
@@ -88,7 +89,8 @@ const CreateApplicationModal = ({
           approvedBy: data?.approvedBy?.value,
           ...(dateFrom && { dateFrom }),
           ...(dateTo && { dateTo }),
-          ...(data?.attachment && { attachment: data?.attachment }),
+          ...(data?.attachment &&
+            selectedFileName && { attachment: data?.attachment }),
           reason: data?.reason,
           hrBy: data?.hrBy?.value,
         })
