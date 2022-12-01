@@ -8,6 +8,7 @@ import Button from 'components/button'
 
 import AuthService from 'services/auth-service'
 import { setErrors } from 'helper'
+import { createNotification } from 'common/create-notification'
 
 import eye from 'assets/eye.svg'
 import logo from 'assets/sprintx.svg'
@@ -39,6 +40,9 @@ const MobileResetPassword = () => {
         setIsLoading(false)
       }
     } catch (err: any) {
+      if (err?.response?.data?.msg?.includes('Expired')) {
+        createNotification('error', 'Error', err?.response?.data?.msg)
+      }
       if (err?.response?.data?.error) {
         setErrors(err?.response?.data?.error, setError)
       }

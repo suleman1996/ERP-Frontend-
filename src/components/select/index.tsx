@@ -1,4 +1,3 @@
-import TextField from 'components/textfield'
 import { ChangeEvent, useEffect, useState } from 'react'
 import style from './select.module.scss'
 interface Props {
@@ -16,8 +15,8 @@ interface Props {
   selectContainer?: string
   wraperSelect?: string
   newSelect?: boolean
-  withInput?: boolean
   userId?: any
+  withInput?: boolean
   marksType?: string
   setMarkVal?: any
   marksVal?: any
@@ -26,7 +25,6 @@ const Select = ({
   label,
   value,
   name,
-  name1,
   onChange,
   register,
   errorMessage,
@@ -38,7 +36,6 @@ const Select = ({
   wraperSelect,
   newSelect,
   userId,
-  withInput,
   marksType,
   marksVal,
 }: Props) => {
@@ -77,18 +74,6 @@ const Select = ({
           {children}
         </select>
         {newSelect && <p>{userId}</p>}
-        {withInput && (
-          <div style={{ flex: '1' }}>
-            <TextField
-              star={' *'}
-              type="text"
-              name={name1}
-              register={register}
-              className={style.inputClass}
-              placeholder="Marks"
-            />
-          </div>
-        )}
       </div>
       {customErr && <span className={style.errorMessage}>{customErr}</span>}
       {!customErr
