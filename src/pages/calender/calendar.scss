@@ -6,6 +6,7 @@
   margin-left: 1px !important;
   border-top-left-radius: none !important;
   border-bottom-left-radius: none !important;
+
   &:hover {
     & div {
       display: none !important;
@@ -13,6 +14,7 @@
     }
   }
 }
+
 .fc .fc-button-primary {
   background-color: #ffffff;
   color: #717579;
@@ -25,9 +27,11 @@
     }
   }
 }
+
 .fc-day-today {
   background-color: #ffffff !important;
 }
+
 .fc .fc-button-primary:not(:disabled):active,
 .fc .fc-button-primary:not(:disabled).fc-button-active {
   border: none;
@@ -46,34 +50,44 @@ tr:nth-child(even) {
   background-color: #ffffff;
   border-bottom: 1px solid #717579;
 }
+
 .fc table {
   table-layout: auto;
 }
+
 .fc-timegrid-event .fc-event-main {
   padding: 0px;
 }
+
 .fc .fc-timegrid-slot-minor {
   border-top-style: none;
 }
+
 .fc .fc-timegrid-slot {
   height: 50px;
 }
+
 tr:nth-child(even) {
   border: 1px dotted #696974;
 }
+
 td,
 th {
   border: none;
 }
+
 .fc-theme-standard td,
 .fc-theme-standard th {
 }
+
 .fc-theme-standard .fc-scrollgrid {
   border: none;
 }
+
 .fc-v-event {
   border: none;
 }
+
 .fc .fc-button-primary:not(:disabled):active:focus,
 .fc .fc-button-primary:not(:disabled).fc-button-active:focus {
   box-shadow: none;
@@ -84,6 +98,7 @@ th {
     }
   }
 }
+
 .fc .fc-button-primary:hover {
   border-color: none !important;
   background-color: transparent !important;
