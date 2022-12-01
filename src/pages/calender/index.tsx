@@ -391,8 +391,8 @@ const Calender = () => {
                   ...(e?.recurrence !== 'No Recurrence' && {
                     rrule: {
                       freq: e?.recurrence?.toLowerCase(),
-                      dtstart: e?.start.replace('Z', ''),
-                      until: e?.recursionEnd.replace('Z', ''),
+                      dtstart: e?.start?.replace('Z', ''),
+                      until: e?.recursionEnd?.replace('Z', ''),
                     },
                     exdate: e?.excludedEvents,
                     duration: e?.duration,
@@ -407,10 +407,10 @@ const Calender = () => {
                 allDaySlot={true}
                 allDayText="all-day"
                 datesSet={(e) => {
-                  setYear(e.start.toString().split(' ')[3]),
+                  setYear(e?.start?.toString()?.split(' ')[3]),
                     setDateRange({
-                      startDate: e.startStr,
-                      endDate: e.endStr,
+                      startDate: e?.startStr,
+                      endDate: e?.endStr,
                     })
                 }}
               />
