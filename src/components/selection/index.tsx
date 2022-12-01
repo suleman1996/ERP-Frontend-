@@ -37,6 +37,16 @@ interface Props {
   isSearchable?: boolean
   newSelect?: boolean
   userId?: any
+  propChange?: any
+  getStates?: any
+  getCities?: any
+  permanentCountryData?: any
+  permanentCountryDataa?: any
+  currentCountryData?: any
+  permanentCitiesData?: any
+  changeHandler?: any
+  getDataLabel?: string
+  getCitiesLabel?: string
   showNumber?: boolean
 }
 
@@ -56,6 +66,16 @@ const Selection = ({
   placeHolderStyle,
   isSearchable,
   showNumber,
+  propChange,
+  getStates,
+  getCities,
+  currentCountryData,
+  permanentCountryData,
+  permanentCountryDataa,
+  permanentCitiesData,
+  getDataLabel,
+  getCitiesLabel,
+  changeHandler,
 }: Props) => {
   const [customErr] = useState<string | undefined>()
 
@@ -190,7 +210,35 @@ const Selection = ({
                   closeMenuOnSelect={closeMenuOnSelect}
                   isMulti={isMulti}
                   value={value}
-                  onChange={handleChange}
+                  onChange={(e) => {
+                    changeHandler && changeHandler(e.value)
+                    propChange && propChange({ country: e.label })
+
+                    getStates &&
+                      getStates(`${getDataLabel}`, {
+                        country: e.label,
+                      })
+
+                    getCities &&
+                      getCities(
+                        `${getCitiesLabel}`,
+                        currentCountryData && currentCountryData,
+                        e.label
+                      )
+
+                    permanentCountryData &&
+                      permanentCountryData('permanentCountryData', {
+                        country: e?.label,
+                      })
+
+                    permanentCitiesData &&
+                      permanentCitiesData(
+                        'permanentCitiesData',
+                        permanentCountryDataa,
+                        e.label
+                      )
+                    handleChange(e)
+                  }}
                   options={options}
                   styles={CustomStyle}
                   placeholder={placeholder}

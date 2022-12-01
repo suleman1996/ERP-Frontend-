@@ -2,7 +2,7 @@ import Button from 'components/button'
 import TextField from 'components/textfield'
 import TextArea from 'components/textarea'
 import Checkbox from 'components/checkbox'
-import SearchSelect from 'components/select-and-search-select'
+// import SearchSelect from 'components/select-and-search-select'
 
 import { useAddressInfo } from './helper'
 import countries from 'assets/countries.json'
@@ -11,6 +11,7 @@ import arrowRight from 'assets/arrowBtnRight.svg'
 import arrowLeft from 'assets/backBtn.svg'
 import style from './address-information.module.scss'
 import { useEmployeeForms } from '../context'
+import Selection from 'components/selection'
 
 countries.sort((a, b) => (a.name < b.name ? -1 : 1))
 
@@ -41,6 +42,7 @@ const AddressInformation = () => {
     getData,
     watch,
     control,
+    clearErrors,
   } = useAddressInfo({
     handleNext,
     handleBack,
@@ -52,44 +54,61 @@ const AddressInformation = () => {
   })
   return (
     <div className={style.mainForm}>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form
+        onSubmit={(e) => {
+          clearErrors()
+          handleSubmit(onSubmit)(e)
+        }}
+      >
         <div>
           <h1>Current Address</h1>
         </div>
         <div className={style.grid}>
-          <SearchSelect
+          <Selection
             name={'currentAddress.country'}
             star={' *'}
             control={control}
             value={watch('currentAddress.country')}
             errorMessage={errors?.currentAddress?.country?.message}
-            options={countries?.map(({ name }) => name)}
+            options={countries?.map(({ name }) => {
+              return { label: name, value: name }
+            })}
             label="Country"
-            onChange={(value) => {
-              getData('currentCountryData', {
-                country: value,
-              })
-            }}
+            getStates={getData}
+            getDataLabel={'currentCountryData'}
+            // onChange={(value) => {
+            //   getData('currentCountryData', {
+            //     country: value,
+            //   })
+            // }}
           />
-          <SearchSelect
+          <Selection
             name={'currentAddress.state'}
             star={' *'}
             control={control}
             value={watch('currentAddress.state')}
             errorMessage={errors?.currentAddress?.state?.message}
-            options={currentCountryData?.map(({ name }) => name)}
+            // options={currentCountryData?.map(({ name }) => name)}
+            options={currentCountryData?.map(({ name }) => {
+              return { label: name, value: name }
+            })}
             label="State"
-            onChange={(value) => {
-              getCities('currentCitiesData', currentCountryData, value)
-            }}
+            getCities={getCities}
+            getCitiesLabel={'currentCitiesData'}
+            currentCountryData={currentCountryData}
+            // onChange={(value) => {
+            //   getCities('currentCitiesData', currentCountryData, value)
+            // }}
           />
-          <SearchSelect
+          <Selection
             name={'currentAddress.city'}
             star={' *'}
             control={control}
             value={watch('currentAddress.city')}
             errorMessage={errors?.currentAddress?.city?.message}
-            options={currentCitiesData?.map(({ name }) => name)}
+            options={currentCitiesData?.map(({ name }) => {
+              return { label: name, value: name }
+            })}
             label="City"
           />
           <TextField
@@ -121,40 +140,51 @@ const AddressInformation = () => {
           />
         </div>
         <div className={style.grid}>
-          <SearchSelect
+          <Selection
             name={'permanentAddress.country'}
             star={' *'}
             control={control}
             value={watch('permanentAddress.country')}
             errorMessage={errors?.permanentAddress?.country?.message}
-            options={countries?.map(({ name }) => name)}
+            options={countries?.map(({ name }) => {
+              return { label: name, value: name }
+            })}
             label="Country"
-            onChange={(value) => {
-              getData('permanentCountryData', {
-                country: value,
-              })
-            }}
+            getStates={getData}
+            getDataLabel={'permanentCountryData'}
+            // onChange={(value) => {
+            //   getData('permanentCountryData', {
+            //     country: value,
+            //   })
+            // }}
           />
-          <SearchSelect
+          <Selection
             name={'permanentAddress.state'}
             star={' *'}
             control={control}
             value={watch('permanentAddress.state')}
             errorMessage={errors?.permanentAddress?.state?.message}
-            options={permanentCountryData?.map(({ name }) => name)}
+            options={permanentCountryData?.map(({ name }) => {
+              return { label: name, value: name }
+            })}
             label="State"
-            onChange={(value) => {
-              getCities('permanentCitiesData', permanentCountryData, value)
-            }}
+            getCities={getCities}
+            getCitiesLabel={'permanentCitiesData'}
+            currentCountryData={permanentCountryData}
+            // onChange={(value) => {
+            //   getCities('permanentCitiesData', permanentCountryData, value)
+            // }}
           />
-          <SearchSelect
+          <Selection
             label="City"
             star={' *'}
             name={'permanentAddress.city'}
             value={watch('permanentAddress.city')}
             control={control}
             errorMessage={errors?.permanentAddress?.city?.message}
-            options={permanentCitiesData.map(({ name }) => name)}
+            options={permanentCitiesData.map(({ name }) => {
+              return { label: name, value: name }
+            })}
           />
           <TextField
             name="permanentAddress.postalCode"

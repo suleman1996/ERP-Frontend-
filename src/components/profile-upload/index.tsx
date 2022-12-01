@@ -82,14 +82,17 @@ const ProfileUpload = ({
         }}
       >
         <label htmlFor={id} className={style.labelTag}>
-          {selectedFileName
-            ? `${selectedFileName}`
-            : placeholder
-            ? `${placeholder}`
-            : 'Attach Transcript'}
+          {selectedFileName ? (
+            `${selectedFileName}`
+          ) : placeholder ? (
+            `${placeholder}`
+          ) : (
+            <span style={{ color: '#cacaca' }}>Attach Transcript</span>
+          )}
           <input
             type={'file'}
             name={name}
+            placeholder={'Attach Transcriptttttt'}
             onChange={(e) => {
               setSelectedFileName &&
                 e.target.value &&

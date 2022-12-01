@@ -5,11 +5,11 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 
 import Modal from 'components/modal'
-import Select from 'components/select'
 import TextField from 'components/textfield'
 import Button from 'components/button'
 import Table from 'components/table'
 import MonthYearPicker from 'components/range-month-picker'
+import Selection from 'components/selection'
 
 import TaxService from 'services/tax-service'
 import { addSlabColumns } from './tax-helper'
@@ -55,14 +55,18 @@ const AddAttendance = ({
   const [update, setUpdate] = useState({ check: false, index: null })
 
   const onSubmit = async (data) => {
+    const newData = {
+      ...data,
+      category: data?.category?.value,
+    }
     if (update.check) {
       const newSlab = [...slabs]
-      newSlab[update.index] = { ...newSlab[update.index], ...data }
+      newSlab[update.index] = { ...newSlab[update.index], ...newData }
       setSlab(newSlab)
       setUpdate({ check: false, index: null })
     } else {
       const slabsCopy = [...slabs]
-      slabsCopy.push(data)
+      slabsCopy.push(newData)
       setSlab(slabsCopy)
       const sortSlab = slabsCopy.sort(function (a, b) {
         return a.lower - b.lower
@@ -72,6 +76,7 @@ const AddAttendance = ({
 
     reset({
       ...data,
+      category: data?.category,
       lower: '',
       upper: '',
       fixTax: '',
@@ -86,11 +91,20 @@ const AddAttendance = ({
       return ind === index
     })
     !updateId
-      ? reset({ ...data })
+      ? reset({
+          ...data,
+          category: {
+            label: data?.category,
+            value: data?.category,
+          },
+        })
       : reset({
           ...data,
           taxGroupName: newSlabUpdate?.groupName,
-          category: newSlabUpdate?.category,
+          category: {
+            label: newSlabUpdate.category,
+            value: newSlabUpdate.category,
+          },
           financialYearStart:
             newSlabUpdate?.financialYearStart &&
             new Date(newSlabUpdate?.financialYearStart),
@@ -151,7 +165,10 @@ const AddAttendance = ({
     updateId &&
       reset({
         taxGroupName: newSlabUpdate?.groupName,
-        category: newSlabUpdate?.category,
+        category: {
+          label: newSlabUpdate?.category,
+          value: newSlabUpdate.category,
+        },
         financialYearStart:
           newSlabUpdate?.financialYearStart &&
           new Date(newSlabUpdate?.financialYearStart),
@@ -198,13 +215,16 @@ const AddAttendance = ({
               errorMessage={errors?.taxGroupName?.message}
             />
             <div className={style.twoGrid}>
-              <Select
+              <Selection
                 label="Category"
                 name={'category'}
                 errorMessage={errors?.category?.message}
-                register={register}
-              >
-                <option value="">Select</option>
+                control={control}
+                options={categories.map((item) => {
+                  return { label: item?.name, value: item?.name }
+                })}
+              />
+              {/* <option value="">Select</option>
                 <>
                   {categories &&
                     categories?.map((ele: any) => (
@@ -213,7 +233,7 @@ const AddAttendance = ({
                       </option>
                     ))}
                 </>
-              </Select>
+              </Select> */}
               <div className={style.gridTwo}>
                 <MonthYearPicker
                   control={control}
@@ -354,7 +374,7 @@ const schema = yup.object().shape({
   taxGroupName: yup.string().required('Tax group name is required'),
   financialYearStart: yup.date().typeError('Financial start year is required'),
   financialYearEnd: yup.date().typeError('Financial end year is required'),
-  category: yup.string().required('Category  is required'),
+  category: yup.object().required('Category  is required'),
   fixTax: yup.number().typeError('Fix Tax is required').min(0, 'Invalid value'),
   lower: yup.number().typeError('Lower is required').min(0, 'Invalid value'),
   upper: yup.number().typeError('Upper is required').min(0, 'Invalid value'),

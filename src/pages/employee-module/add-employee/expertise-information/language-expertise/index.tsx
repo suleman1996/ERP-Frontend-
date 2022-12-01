@@ -5,12 +5,13 @@ import TextField from 'components/textfield'
 import Table from 'components/table'
 import ProfileUpload from 'components/profile-upload'
 import SkillLevel from 'components/skill-level'
-import SearchSelect from 'components/select-and-search-select'
+// import SearchSelect from 'components/select-and-search-select'
 
 import { columns, useLanguage, languageArray } from './helper'
 
 import tick from 'assets/tick.svg'
 import style from './language.module.scss'
+import Selection from 'components/selection'
 
 interface Props {
   formData: any
@@ -60,14 +61,15 @@ const LanguageExpertise = ({
     <>
       <form onSubmit={handleSubmit(handleAddEduction)}>
         <div className={style.grid}>
-          <SearchSelect
+          <Selection
             name={'language'}
             star={' *'}
-            register={register}
             control={control}
             value={watch('language')}
             errorMessage={errors?.language?.message}
-            options={languageArray}
+            options={languageArray.map((item) => {
+              return { label: item, value: item }
+            })}
             label="Language"
           />
           <TextField

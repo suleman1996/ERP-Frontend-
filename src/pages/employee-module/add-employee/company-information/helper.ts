@@ -68,7 +68,7 @@ export const useCompanyInfo = ({
   const { departments, leaves } = state
 
   const departmentChangeHandler = async (e: any) => {
-    await getAllDesignations(e.target.value)
+    await getAllDesignations(e)
   }
 
   useEffect(() => {
@@ -99,6 +99,10 @@ export const useCompanyInfo = ({
       await getAllDesignations(res?.data?.company?.departmentId)
     reset({
       ...res?.data?.company,
+      departmentId: {
+        label: res?.data?.company?.departmentId,
+        value: res?.data?.company?.departmentId,
+      },
       joiningDate: moment(res?.data?.company?.joiningDate).toDate(),
       probation: Boolean(res?.data?.company?.probation?.employeeId),
       employmentInfo: {
@@ -134,7 +138,7 @@ export const useCompanyInfo = ({
         joiningDate: joiningDate
           ? moment(joiningDate).format('YYYY-MM-DD')
           : undefined,
-        departmentId: data?.departmentId,
+        departmentId: data?.departmentId.value,
         designationId: data?.designationId,
         leaves: leaves.map((leave: Leave, index: number) => {
           return { leaveId: leave?._id, quantity: data.leaves[index].quantity }
