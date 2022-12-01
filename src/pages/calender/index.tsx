@@ -407,10 +407,10 @@ const Calender = () => {
                 allDaySlot={true}
                 allDayText="all-day"
                 datesSet={(e) => {
-                  setYear(e.start.toString().split(' ')[3]),
+                  setYear(e?.start?.toString().split(' ')[3]),
                     setDateRange({
-                      startDate: e.startStr,
-                      endDate: e.endStr,
+                      startDate: e?.startStr,
+                      endDate: e?.endStr,
                     })
                 }}
               />
