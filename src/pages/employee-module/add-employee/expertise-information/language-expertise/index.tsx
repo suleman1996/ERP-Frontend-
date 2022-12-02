@@ -5,13 +5,12 @@ import TextField from 'components/textfield'
 import Table from 'components/table'
 import ProfileUpload from 'components/profile-upload'
 import SkillLevel from 'components/skill-level'
-// import SearchSelect from 'components/select-and-search-select'
+import Selection from 'components/selection'
 
 import { columns, useLanguage, languageArray } from './helper'
 
 import tick from 'assets/tick.svg'
 import style from './language.module.scss'
-import Selection from 'components/selection'
 
 interface Props {
   formData: any

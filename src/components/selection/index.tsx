@@ -90,8 +90,6 @@ const Selection = ({
   marksType,
   marksVal,
 }: Props) => {
-  console.log('user ', userId)
-
   const [customErr, setCustomErr] = useState<string | undefined>()
   useEffect(() => {
     if (marksType?.value === 'percentage') {
@@ -282,6 +280,7 @@ const Selection = ({
                       star={' *'}
                       type="text"
                       name={name1}
+                      value={userId && userId}
                       register={register}
                       className={style.inputClass}
                       placeholder="Marks"

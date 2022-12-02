@@ -7,7 +7,7 @@ import DatePicker from 'components/date-picker'
 import Table from 'components/table'
 import ProfileUpload from 'components/profile-upload'
 import Checkbox from 'components/checkbox'
-// import Select from 'components/select'
+import Selection from 'components/selection'
 
 import { columns, useEducationDetail } from './helper'
 import { useEmployeeForms } from '../context'
@@ -16,7 +16,6 @@ import tick from 'assets/tick.svg'
 import arrowLeft from 'assets/backBtn.svg'
 import arrowRight from 'assets/arrowBtnRight.svg'
 import style from './education.module.scss'
-import Selection from 'components/selection'
 
 const EducationalDetails = () => {
   const {
@@ -55,8 +54,6 @@ const EducationalDetails = () => {
     employeeId,
     employeeDocId,
   })
-
-  console.log({ errors })
 
   return (
     <div className={style.mainForm}>
@@ -134,17 +131,6 @@ const EducationalDetails = () => {
             control={control}
             options={selectOptions}
           />
-          {/* <>
-              {selectOptions &&
-                selectOptions.map((ele) => (
-                  <>
-                    <option key={ele.value} value={ele.value}>
-                      {ele.description}
-                    </option>
-                  </>
-                ))}
-            </>
-          </Select> */}
           <div>
             <label
               style={{ color: errors?.transcript?.message && '#ff5050' }}

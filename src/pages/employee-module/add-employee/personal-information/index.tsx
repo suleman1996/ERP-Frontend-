@@ -4,7 +4,6 @@ import ImageUpload from 'components/image-upload'
 import TextField from 'components/textfield'
 import ProfileUpload from 'components/profile-upload'
 import CountryInput from 'components/country-input'
-// import Select from 'components/select'
 import Loading from 'components/loading'
 import Selection from 'components/selection'
 
@@ -51,8 +50,6 @@ const PersonalInformation = () => {
     setEmployeeId,
     setEmployeeDocId,
   })
-
-  console.log('index', userId)
 
   return (
     <>
@@ -124,17 +121,6 @@ const PersonalInformation = () => {
                   return { label: item?.name, value: item?._id }
                 })}
               />
-              {/* <>
-                  {series &&
-                    series.map((ele: any) => (
-                      <>
-                        <option key={ele.name} value={ele?.name}>
-                          {ele.name}
-                        </option>
-                      </>
-                    ))}
-                </>
-              </Select> */}
               <div>
                 <label
                   className={style.label}

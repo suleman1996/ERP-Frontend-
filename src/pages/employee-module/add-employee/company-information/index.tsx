@@ -63,7 +63,6 @@ const CompanyInformation = () => {
     <div className={style.mainForm}>
       <form
         onSubmit={(e) => {
-          console.log(errors)
           clearErrors()
           handleSubmit(onSubmit)(e)
         }}
@@ -140,7 +139,6 @@ const CompanyInformation = () => {
               name="probationDurationDays"
               options={probationDurationData}
             />
-
             <DatePicker
               label="Start Date"
               name="startDate"

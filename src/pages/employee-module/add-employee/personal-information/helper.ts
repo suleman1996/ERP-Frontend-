@@ -76,9 +76,9 @@ export const usePersonalInfo = ({
 
   useEffect(() => {
     if (!employeeDocId) {
-      watch().employeeId && getEmployeeID()
+      watch().employeeId?.value && getEmployeeID()
     }
-  }, [watch().employeeId])
+  }, [watch()?.employeeId?.label])
 
   useEffect(() => {
     if (employeeDocId || id) getSingleEmployeeData()
@@ -175,7 +175,7 @@ export const usePersonalInfo = ({
         profilePicture: img,
         dob: dob && moment(dob).format('YYYY-MM-DD'),
         cnic: cnic.toString(),
-        employeeId: employeeId + userId,
+        employeeId: employeeId?.label + userId,
         gender: data?.gender?.value,
         cnicFront:
           selectedFileName &&

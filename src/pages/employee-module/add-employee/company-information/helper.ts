@@ -5,10 +5,10 @@ import { useForm } from 'react-hook-form'
 
 import EmployeeService from 'services/employee-service'
 import { removeKeys } from 'helper'
-import { setErrors } from '../../../../helper/index'
+import { setErrors } from 'helper/index'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAllDepartments } from 'store/actions'
-import { getAllLeaves } from '../../../../store/actions'
+import { getAllLeaves } from 'store/actions'
 
 interface Props {
   handleBack: (data?: string) => void
