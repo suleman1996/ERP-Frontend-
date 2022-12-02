@@ -328,6 +328,7 @@ const Policy = () => {
         </div>
       )}
       <DeletePopup
+        heading="Are you sure you want to delete this policy?"
         handleDelete={() => deletePolicy()}
         setOpen={setOpen}
         open={open}

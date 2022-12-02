@@ -52,7 +52,7 @@ const Applications = () => {
       case 1:
         return <MyLeaves data={data} parentRenderState={renderState} />
       case 2:
-        return <Approvals />
+        return <Approvals data={data} />
       case 3:
         return <LeaveQuota />
       case 4:
