@@ -26,6 +26,7 @@ import Pagination from 'components/pagination'
 import CountryInput from 'components/country-input'
 import EmployeeProfileCard from 'components/employee-profile-card'
 import EmployeeDropdown from 'components/employee-card-dropdown'
+import RenderPolicy from 'components/policy-card'
 
 import plus from 'assets/path-plus.svg'
 
@@ -183,6 +184,9 @@ const DashBoard = () => {
       </div>
       <div style={{ margin: '10px 0px' }}>
         <EmployeeDropdown />
+      </div>
+      <div style={{ margin: '10px 0px' }}>
+        <RenderPolicy />
       </div>
     </Container>
   )
