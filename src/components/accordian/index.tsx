@@ -160,7 +160,7 @@ const AccordianSwitch = ({
   }
 
   return (
-    <>
+    <div className={style.mainCard}>
       <div
         className={`${style.container} ${accordianContainer} `}
         onClick={() => {
@@ -511,7 +511,7 @@ const AccordianSwitch = ({
           <Button text="Add Document " />
         </div>
       </Modal>
-    </>
+    </div>
   )
 }
 
