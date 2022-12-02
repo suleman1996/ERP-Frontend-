@@ -1,6 +1,6 @@
 import Button from 'components/button'
-import Select from 'components/select'
 import TextField from 'components/textfield'
+import Selection from 'components/selection'
 
 import { useEmployeeFilter } from './helper'
 
@@ -11,6 +11,7 @@ interface Props {
   setEmployees?: any
   open?: any
   getData: any
+  control: any
   getEmployeesData: () => void
 }
 
@@ -23,6 +24,7 @@ const EmployeeFilter = ({ setOpen, setEmployees, open }: Props) => {
     designation,
     departmentChangeHandler,
     loading,
+    control,
   } = useEmployeeFilter({
     setOpen,
     setEmployees,
@@ -47,39 +49,24 @@ const EmployeeFilter = ({ setOpen, setEmployees, open }: Props) => {
             placeholder="Search by All"
             register={register}
           />
-          <Select
+          <Selection
             label="Department"
-            register={register}
+            control={control}
             name="department"
-            onChange={departmentChangeHandler}
-          >
-            <option value="">Department</option>
-            <>
-              {departments &&
-                departments.map((data: any, index: any) => (
-                  <option key={data?._id} id={data?._id} value={index}>
-                    {data.name}
-                  </option>
-                ))}
-            </>
-          </Select>
-
-          <Select
+            changeHandler={departmentChangeHandler}
+            options={departments?.map((item) => {
+              return { label: item?.name, value: item?._id }
+            })}
+          />
+          <Selection
             label="Designation"
             star={' *'}
-            register={register}
+            control={control}
             name="designation"
-          >
-            <option value="">Designation</option>
-            <>
-              {designation &&
-                designation.map((data: any) => (
-                  <option key={data?._id} value={data?.name}>
-                    {data.name}
-                  </option>
-                ))}
-            </>
-          </Select>
+            options={designation?.map((item) => {
+              return { label: item?.name, value: item?._id }
+            })}
+          />
           <div className={style.btn}>
             <label className={style.label}>Clear Filter</label>
             <Button text="Search" isLoading={loading} />

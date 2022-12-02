@@ -12,7 +12,6 @@ import Button from 'components/button'
 import Tags from 'components/tags'
 import Modal from 'components/modal'
 import Input from 'components/textfield'
-import Select from 'components/select'
 
 import SettingsService from 'services/settings-service'
 
@@ -301,42 +300,6 @@ const AccordianSwitch = ({
               errorMessage={errors?.name?.message}
               containerClass={style.containerClass}
             />
-            <Select
-              label="Department Parent"
-              name={'employeeId'}
-              selectContainer={style.selectContainer}
-              wraperSelect={style.wraperSelect}
-            >
-              <>
-                <option value={''}>Select Department Parent</option>
-                {series &&
-                  series.map((ele: any) => (
-                    <>
-                      <option key={ele.name} value={ele?.name}>
-                        {ele.name}
-                      </option>
-                    </>
-                  ))}
-              </>
-            </Select>
-            <Select
-              label="Department Head"
-              name={'employeeId'}
-              selectContainer={style.selectContainer}
-              wraperSelect={style.wraperSelect}
-            >
-              <>
-                <option value={''}>Select Department Head</option>
-                {series &&
-                  series.map((ele: any) => (
-                    <>
-                      <option key={ele.name} value={ele?.name}>
-                        {ele.name}
-                      </option>
-                    </>
-                  ))}
-              </>
-            </Select>
           </div>
           <div
             style={{
@@ -445,98 +408,7 @@ const AccordianSwitch = ({
             </div>
           </div>
         </div>
-        <div className={style.fiveGrid}>
-          <Select
-            label="Designation Name"
-            name={'employeeId'}
-            selectContainer={style.selectContainer}
-            wraperSelect={style.wraperSelect}
-          >
-            <>
-              <option value={''}>Select</option>
-              {series &&
-                series.map((ele: any) => (
-                  <>
-                    <option key={ele.name} value={ele?.name}>
-                      {ele.name}
-                    </option>
-                  </>
-                ))}
-            </>
-          </Select>
-          <Select
-            label="Designation Name"
-            name={'employeeId'}
-            selectContainer={style.selectContainer}
-            wraperSelect={style.wraperSelect}
-          >
-            <>
-              <option value={''}>Select</option>
-              {series &&
-                series.map((ele: any) => (
-                  <>
-                    <option key={ele.name} value={ele?.name}>
-                      {ele.name}
-                    </option>
-                  </>
-                ))}
-            </>
-          </Select>
-          <Select
-            label="Designation Name"
-            name={'employeeId'}
-            selectContainer={style.selectContainer}
-            wraperSelect={style.wraperSelect}
-          >
-            <>
-              <option value={''}>Select</option>
-              {series &&
-                series.map((ele: any) => (
-                  <>
-                    <option key={ele.name} value={ele?.name}>
-                      {ele.name}
-                    </option>
-                  </>
-                ))}
-            </>
-          </Select>
-          <Select
-            label="Designation Name"
-            name={'employeeId'}
-            selectContainer={style.selectContainer}
-            wraperSelect={style.wraperSelect}
-          >
-            <>
-              <option value={''}>Select</option>
-              {series &&
-                series.map((ele: any) => (
-                  <>
-                    <option key={ele.name} value={ele?.name}>
-                      {ele.name}
-                    </option>
-                  </>
-                ))}
-            </>
-          </Select>
-          <Select
-            label="Designation Name"
-            name={'employeeId'}
-            selectContainer={style.selectContainer}
-            wraperSelect={style.wraperSelect}
-          >
-            <>
-              <option value={''}>Select</option>
-              {series &&
-                series.map((ele: any) => (
-                  <>
-                    <option key={ele.name} value={ele?.name}>
-                      {ele.name}
-                    </option>
-                  </>
-                ))}
-            </>
-          </Select>
-        </div>
+        <div className={style.fiveGrid}></div>
         <div
           style={{
             display: 'flex',
@@ -559,24 +431,6 @@ const AccordianSwitch = ({
             placeholder="Enter Leave Type"
             containerClass={style.containerClass}
           />
-          <Select
-            label="Balance"
-            name={'employeeId'}
-            selectContainer={style.selectContainer}
-            wraperSelect={style.wraperSelect}
-          >
-            <>
-              <option value={''}>Select</option>
-              {series &&
-                series.map((ele: any) => (
-                  <>
-                    <option key={ele.name} value={ele?.name}>
-                      {ele.name}
-                    </option>
-                  </>
-                ))}
-            </>
-          </Select>
         </div>
         <div
           style={{
@@ -686,12 +540,6 @@ const Comp = ({ name, checkAll }: any) => {
 }
 
 export default AccordianSwitch
-
-const series = [
-  { name: 'sdasd', value: 'adad' },
-  { name: 'sdasd', value: 'adad' },
-  { name: 'sdasd', value: 'adad' },
-]
 
 export const departmentSchema = yup.object().shape({
   name: yup.string().required('Department name  is a required field'),

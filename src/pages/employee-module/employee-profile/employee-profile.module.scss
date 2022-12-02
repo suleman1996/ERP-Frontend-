@@ -69,25 +69,10 @@
 }
 
 .position {
-  position: fixed;
+  position: sticky;
   bottom: 0px;
-  left: 418px;
-  right: 7px;
   background-color: #fafafa;
   padding: 10px 0px;
-  @media (max-width: $xl) {
-    left: 315px;
-  }
-  @media (max-width: $lg) {
-    left: 300px;
-  }
-  @media (max-width: $md) {
-    left: 220px;
-  }
-  @media (max-width: $tab) {
-    left: 0px;
-    right: 0px;
-  }
 }
 
 .loaderDiv {
