@@ -128,6 +128,7 @@ const DashBoard = () => {
           totalCount={totalCount}
           setPage={setPage}
           page={page}
+          control={control}
         />
       </div>
       <div style={{ marginTop: '10px' }}>

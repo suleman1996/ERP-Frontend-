@@ -1,10 +1,8 @@
 import { useEffect } from 'react'
 import { useController } from 'react-hook-form'
-
-// import Select from 'components/select'
+import Selection from 'components/selection'
 
 import style from './time.module.scss'
-import Selection from 'components/selection'
 
 interface Props {
   control?: any

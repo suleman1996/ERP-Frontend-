@@ -1,13 +1,12 @@
-import style from './filter.module.scss'
+import TextField from 'components/textfield'
+import Checkbox from 'components/checkbox'
+import Button from 'components/button'
 
 import sortLower from 'assets/sort-lower.svg'
 import sortUpper from 'assets/sort-uppar.svg'
 import clearFilter from 'assets/clear-filter.png'
 import search from 'assets/search-icon.svg'
-
-import TextField from 'components/textfield'
-import Checkbox from 'components/checkbox'
-import Button from 'components/button'
+import style from './filter.module.scss'
 
 const FiltersComponent = () => {
   return (
