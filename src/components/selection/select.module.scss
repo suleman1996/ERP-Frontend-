@@ -96,3 +96,10 @@ select option:checked {
     margin-top: 5px;
   }
 }
+.inputClass {
+  border: none !important;
+  input {
+    border: none !important;
+    width: 100%;
+  }
+}

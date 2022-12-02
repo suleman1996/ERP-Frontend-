@@ -4,7 +4,7 @@ import ImageUpload from 'components/image-upload'
 import TextField from 'components/textfield'
 import ProfileUpload from 'components/profile-upload'
 import CountryInput from 'components/country-input'
-import Select from 'components/select'
+// import Select from 'components/select'
 import Loading from 'components/loading'
 import Selection from 'components/selection'
 
@@ -51,6 +51,8 @@ const PersonalInformation = () => {
     setEmployeeId,
     setEmployeeDocId,
   })
+
+  console.log('index', userId)
 
   return (
     <>
@@ -108,18 +110,21 @@ const PersonalInformation = () => {
                 placeholder="Enter Full Name"
                 star={'*'}
               />
-              <Select
+              <Selection
+                control={control}
                 label="Employee ID"
                 name={'employeeId'}
                 userId={userId}
                 selectContainer={style.selectContainer}
                 wraperSelect={style.wraperSelect}
-                newSelect
+                withInput
                 star={' *'}
                 errorMessage={errors?.employeeId?.message}
-                register={register}
-              >
-                <>
+                options={series.map((item) => {
+                  return { label: item?.name, value: item?._id }
+                })}
+              />
+              {/* <>
                   {series &&
                     series.map((ele: any) => (
                       <>
@@ -129,7 +134,7 @@ const PersonalInformation = () => {
                       </>
                     ))}
                 </>
-              </Select>
+              </Select> */}
               <div>
                 <label
                   className={style.label}

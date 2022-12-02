@@ -2,13 +2,12 @@ import moment from 'moment'
 
 import Button from 'components/button'
 import TextField from 'components/textfield'
-import Select from 'components/select'
 import DatePicker from 'components/date-picker'
 import TimePicker from 'components/time-picker'
 import Checkbox from 'components/checkbox'
 import CustomTimePicker from 'components/custom-time-picker'
 
-import { employmentType, useCompanyInfo } from './helper'
+import { useCompanyInfo } from './helper'
 
 import arrowRight from 'assets/arrowBtnRight.svg'
 import arrowLeft from 'assets/backBtn.svg'
@@ -48,6 +47,9 @@ const CompanyInformation = () => {
     departmentChangeHandler,
     setCustomErr,
     customErr,
+    probationDurationData,
+    employmentTypeData,
+    selectHoursDuration,
   } = useCompanyInfo({
     handleBack,
     handleNext,
@@ -61,6 +63,7 @@ const CompanyInformation = () => {
     <div className={style.mainForm}>
       <form
         onSubmit={(e) => {
+          console.log(errors)
           clearErrors()
           handleSubmit(onSubmit)(e)
         }}
@@ -87,33 +90,16 @@ const CompanyInformation = () => {
               return { label: item?.name, value: item?._id }
             })}
           />
-          {/* <option value="">Department</option>
-            <>
-              {departments &&
-                departments.map((data: any) => (
-                  <option key={data?._id} value={data?._id}>
-                    {data.name}
-                  </option>
-                ))}
-            </>
-          </Select> */}
-          <Select
+          <Selection
             label="Designation"
             star={' *'}
-            register={register}
+            control={control}
             name="designationId"
             errorMessage={errors?.designationId?.message}
-          >
-            <option value="">Designation</option>
-            <>
-              {designation &&
-                designation.map((data: any) => (
-                  <option key={data?.departmentSettingId} value={data?._id}>
-                    {data.name}
-                  </option>
-                ))}
-            </>
-          </Select>
+            options={designation?.map((item) => {
+              return { label: item?.name, value: item?._id }
+            })}
+          />
           {leaves &&
             leaves.map((data: any, index: number) => {
               return (
@@ -146,19 +132,15 @@ const CompanyInformation = () => {
         </div>
         {probation && (
           <div className={style.grid1}>
-            <Select
+            <Selection
               label="Probation Duration"
               star={' *'}
-              register={register}
+              control={control}
               errorMessage={errors?.probationDurationDays?.message}
               name="probationDurationDays"
-            >
-              <option value="60">2 Months</option>
-              <option value="90">3 Months</option>
-              <option value="120">4 Months</option>
-              <option value="150">5 Months</option>
-              <option value="180">6 Months</option>
-            </Select>
+              options={probationDurationData}
+            />
+
             <DatePicker
               label="Start Date"
               name="startDate"
@@ -190,24 +172,17 @@ const CompanyInformation = () => {
           </div>
         )}
         <div className={style.grid}>
-          <Select
+          <Selection
             label="Employment Type"
             name="employmentType"
             name1="type"
             star={' *'}
-            register={register}
+            control={control}
             errorMessage={errors?.employmentType?.message}
-          >
-            <>
-              {employmentType.length &&
-                employmentType.map(({ value, description }) => (
-                  <option key={value} value={value}>
-                    {description}
-                  </option>
-                ))}
-            </>
-          </Select>
-          {watch().employmentType === 'Full-Time' ? (
+            options={employmentTypeData}
+          />
+
+          {watch()?.employmentType?.label === 'Full-Time' ? (
             <>
               <TimePicker
                 label="Check in"
@@ -234,6 +209,7 @@ const CompanyInformation = () => {
               type={type}
               setType={setType}
               star={' *'}
+              selectHoursDuration={selectHoursDuration}
             />
           )}
         </div>

@@ -5,6 +5,7 @@ export const SelectionStyle = {
     borderRadius: 6,
     boxShadow: 'none',
     border: 'transparent !important',
+    fontSize: 'calc(12px + (18 - 12) * (100vw - 280px) / (2560 - 280))',
     minHeight:
       'calc(30px + (55 - 30) * (100vw - 280px) / (2560 - 280)) !important',
     paddingLeft:

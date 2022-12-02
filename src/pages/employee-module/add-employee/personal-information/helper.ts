@@ -66,7 +66,9 @@ export const usePersonalInfo = ({
   const [userId, setUserId] = useState()
 
   const getEmployeeID = async () => {
-    const res = await EmployeeService.getAllEmployeesID(watch().employeeId)
+    const res = await EmployeeService.getAllEmployeesID(
+      watch().employeeId?.value
+    )
     if (res.status === 200) {
       !userId && setUserId(res?.data?.newEmployeeId)
     }
