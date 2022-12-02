@@ -18,8 +18,8 @@ interface Data {
   phoneNumber: number
   email: string
   cnic: number
-  gender: string
   dob: string
+  gender: string
   frontPic: string
   backPic: string
   id?: string
