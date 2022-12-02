@@ -18,8 +18,8 @@ interface Data {
   phoneNumber: number
   email: string
   cnic: number
-  gender: string
   dob: string
+  gender: string
   frontPic: string
   backPic: string
   id?: string
@@ -66,7 +66,9 @@ export const usePersonalInfo = ({
   const [userId, setUserId] = useState()
 
   const getEmployeeID = async () => {
-    const res = await EmployeeService.getAllEmployeesID(watch().employeeId)
+    const res = await EmployeeService.getAllEmployeesID(
+      watch().employeeId?.value
+    )
     if (res.status === 200) {
       !userId && setUserId(res?.data?.newEmployeeId)
     }
@@ -74,9 +76,9 @@ export const usePersonalInfo = ({
 
   useEffect(() => {
     if (!employeeDocId) {
-      watch().employeeId && getEmployeeID()
+      watch().employeeId?.value && getEmployeeID()
     }
-  }, [watch().employeeId])
+  }, [watch()?.employeeId?.label])
 
   useEffect(() => {
     if (employeeDocId || id) getSingleEmployeeData()
@@ -173,7 +175,7 @@ export const usePersonalInfo = ({
         profilePicture: img,
         dob: dob && moment(dob).format('YYYY-MM-DD'),
         cnic: cnic.toString(),
-        employeeId: employeeId + userId,
+        employeeId: employeeId?.label + userId,
         gender: data?.gender?.value,
         cnicFront:
           selectedFileName &&

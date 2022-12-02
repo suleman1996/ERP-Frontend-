@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 import Select from 'react-select'
 import { Controller } from 'react-hook-form'
 
@@ -7,6 +7,7 @@ import Tags from 'components/tags'
 import { SelectionStyle } from './custom-styles'
 
 import style from './select.module.scss'
+import TextField from 'components/textfield'
 
 interface Props {
   label?: string
@@ -45,9 +46,13 @@ interface Props {
   currentCountryData?: any
   permanentCitiesData?: any
   changeHandler?: any
+  setType?: any
   getDataLabel?: string
   getCitiesLabel?: string
   showNumber?: boolean
+  marksType?: any
+  setMarkVal?: any
+  marksVal?: any
 }
 
 const Selection = ({
@@ -76,8 +81,27 @@ const Selection = ({
   getDataLabel,
   getCitiesLabel,
   changeHandler,
+  setType,
+  newSelect,
+  userId,
+  withInput,
+  name1,
+  register,
+  marksType,
+  marksVal,
 }: Props) => {
-  const [customErr] = useState<string | undefined>()
+  const [customErr, setCustomErr] = useState<string | undefined>()
+  useEffect(() => {
+    if (marksType?.value === 'percentage') {
+      if (marksVal > 100) {
+        setCustomErr('Percentage should be less than 100%')
+      } else setCustomErr('')
+    } else if (marksType?.value === 'cgpa') {
+      if (marksVal > 4) {
+        setCustomErr('CGPA should be less than or equal to 4')
+      } else setCustomErr('')
+    }
+  }, [marksType, marksVal])
 
   const CustomStyle = SelectionStyle
 
@@ -211,6 +235,7 @@ const Selection = ({
                   isMulti={isMulti}
                   value={value}
                   onChange={(e) => {
+                    setType && setType(e?.value)
                     changeHandler && changeHandler(e.value)
                     propChange && propChange({ country: e.label })
 
@@ -248,16 +273,31 @@ const Selection = ({
                   }
                   isSearchable={isSearchable}
                 />
-                {/* {newSelect && <p className={style.labelClass1}>{userId}</p>} */}
+                {newSelect && <p className={style.labelClass1}>{userId}</p>}
+                {withInput && (
+                  <div style={{ flex: '1' }}>
+                    <TextField
+                      star={' *'}
+                      type="text"
+                      name={name1}
+                      value={userId && userId}
+                      register={register}
+                      className={style.inputClass}
+                      placeholder="Marks"
+                    />
+                  </div>
+                )}
               </>
             )
           }}
         />
       </div>
-      {errorMessage && (
-        <span className={style.errorMessage}>{errorMessage}</span>
-      )}
       {customErr && <span className={style.errorMessage}>{customErr}</span>}
+      {!customErr
+        ? errorMessage && (
+            <span className={style.errorMessage}>{errorMessage}</span>
+          )
+        : ''}
     </div>
   )
 }

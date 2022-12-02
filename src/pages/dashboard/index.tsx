@@ -13,7 +13,7 @@ import Tags from 'components/tags'
 import Button from 'components/button'
 import Table from 'components/table'
 
-import { rows, columns, recurrenceTypes, languageArray } from './helper'
+import { rows, columns, recurrenceTypes } from './helper'
 import Switch from 'components/switch'
 import SkillLevel from 'components/skill-level'
 import Selection from 'components/selection'
@@ -21,7 +21,6 @@ import MonthYearPicker from 'components/range-month-picker'
 import DatePicker from 'components/date-picker'
 import Radio from 'components/radio'
 import ProgressBar from 'components/progress-bar'
-import SearchSelect from 'components/select-and-search-select'
 import Checkbox from 'components/checkbox'
 import Pagination from 'components/pagination'
 import CountryInput from 'components/country-input'
@@ -61,18 +60,17 @@ const DashBoard = () => {
         <DatePicker control={control} label="Date Picker" name="datePicker" />
       </div>
       <div style={{ marginTop: '10px' }}>
-        <SearchSelect
-          name={'searchSelect'}
+        <Selection
+          label="Use Selection Component for Search and simple select"
+          options={recurrenceTypes}
+          name="recurrence"
           control={control}
-          value={watch('searchSelectWithicons')}
-          options={languageArray}
-          label="Custom Search Select + Select  "
+          placeholder="Select"
         />
       </div>
-
       <div style={{ marginTop: '10px' }}>
         <Selection
-          label="Use Selection Component only for multi select"
+          label="Use Selection Component  multi select"
           options={recurrenceTypes}
           name="recurrence"
           control={control}
@@ -130,6 +128,7 @@ const DashBoard = () => {
           totalCount={totalCount}
           setPage={setPage}
           page={page}
+          control={control}
         />
       </div>
       <div style={{ marginTop: '10px' }}>
