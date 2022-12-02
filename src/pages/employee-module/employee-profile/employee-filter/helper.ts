@@ -18,28 +18,25 @@ export const useEmployeeFilter = ({
   setEmployees,
   setCount,
 }: Props) => {
-  const { register, handleSubmit, watch } = useForm({
+  const { register, handleSubmit, watch, control } = useForm({
     resolver: yupResolver(schema),
   })
 
-  const [depName, setDepName] = useState<string>()
   const [loading, setLoading] = useState()
 
   const [departments, setDepartments] = useState<any>()
   const [designation, setDesignation] = useState<any>()
 
   const departmentChangeHandler = async (e: any) => {
-    setDepName(
-      e.target?.value ? departments[Number(e.target?.value)]?.name : ''
-    )
-    await getAllDesignations(departments[e.target?.value]?._id)
+    await getAllDesignations(e)
   }
 
   const onSubmit = async (data: any) => {
     setLoading(true)
     const filterData = {
       ...data,
-      department: depName,
+      department: data?.department?.name,
+      designation: data?.designation?.name,
     }
     const res = await EmployeeService.getAllEmployees(filterData)
     if (res?.status === 200) {
@@ -51,8 +48,6 @@ export const useEmployeeFilter = ({
     } else {
       setLoading(false)
     }
-
-    setDepName('')
   }
 
   const cancelHandler = () => {
@@ -84,6 +79,7 @@ export const useEmployeeFilter = ({
     departmentChangeHandler,
     watch,
     loading,
+    control,
   }
 }
 
@@ -93,6 +89,6 @@ const schema = yup
   .object()
   .shape({
     name: yup.string().optional(),
-    department: yup.string().optional(),
+    department: yup.object().optional(),
   })
   .required()

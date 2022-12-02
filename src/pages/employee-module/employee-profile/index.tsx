@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useForm } from 'react-hook-form'
 
 import CvView from './cv-view'
 import ProfileView from './profile-view'
@@ -33,6 +34,7 @@ interface Employee {
 
 const EmployeeProfileDetails = () => {
   const navigate = useNavigate()
+  const { control } = useForm()
 
   const [open, setOpen] = useState(null)
   const [employees, setEmployees] = useState([])
@@ -171,6 +173,7 @@ const EmployeeProfileDetails = () => {
           totalCount={totalCount}
           setPage={setPage}
           page={page}
+          control={control}
         />
       </div>
       <CvView openModal={openModal} setOpenModal={setOpenModal} id={open} />
