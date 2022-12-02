@@ -2,16 +2,15 @@ import Button from 'components/button'
 import TextField from 'components/textfield'
 import TextArea from 'components/textarea'
 import Checkbox from 'components/checkbox'
-// import SearchSelect from 'components/select-and-search-select'
+import Selection from 'components/selection'
 
 import { useAddressInfo } from './helper'
 import countries from 'assets/countries.json'
+import { useEmployeeForms } from '../context'
 
 import arrowRight from 'assets/arrowBtnRight.svg'
 import arrowLeft from 'assets/backBtn.svg'
 import style from './address-information.module.scss'
-import { useEmployeeForms } from '../context'
-import Selection from 'components/selection'
 
 countries.sort((a, b) => (a.name < b.name ? -1 : 1))
 
@@ -76,11 +75,6 @@ const AddressInformation = () => {
             label="Country"
             getStates={getData}
             getDataLabel={'currentCountryData'}
-            // onChange={(value) => {
-            //   getData('currentCountryData', {
-            //     country: value,
-            //   })
-            // }}
           />
           <Selection
             name={'currentAddress.state'}
@@ -88,7 +82,6 @@ const AddressInformation = () => {
             control={control}
             value={watch('currentAddress.state')}
             errorMessage={errors?.currentAddress?.state?.message}
-            // options={currentCountryData?.map(({ name }) => name)}
             options={currentCountryData?.map(({ name }) => {
               return { label: name, value: name }
             })}
@@ -96,9 +89,6 @@ const AddressInformation = () => {
             getCities={getCities}
             getCitiesLabel={'currentCitiesData'}
             currentCountryData={currentCountryData}
-            // onChange={(value) => {
-            //   getCities('currentCitiesData', currentCountryData, value)
-            // }}
           />
           <Selection
             name={'currentAddress.city'}
@@ -152,11 +142,6 @@ const AddressInformation = () => {
             label="Country"
             getStates={getData}
             getDataLabel={'permanentCountryData'}
-            // onChange={(value) => {
-            //   getData('permanentCountryData', {
-            //     country: value,
-            //   })
-            // }}
           />
           <Selection
             name={'permanentAddress.state'}
@@ -171,9 +156,6 @@ const AddressInformation = () => {
             getCities={getCities}
             getCitiesLabel={'permanentCitiesData'}
             currentCountryData={permanentCountryData}
-            // onChange={(value) => {
-            //   getCities('permanentCitiesData', permanentCountryData, value)
-            // }}
           />
           <Selection
             label="City"

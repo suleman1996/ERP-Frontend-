@@ -27,8 +27,8 @@
     }
 
     img {
-      height: calc(40px + (110 - 40) * (100vw - 280px) / (2560 - 280));
-      width: calc(40px + (110 - 40) * (100vw - 280px) / (2560 - 280));
+      height: calc(70px + (110 - 70) * (100vw - 280px) / (2560 - 280));
+      width: calc(70px + (110 - 70) * (100vw - 280px) / (2560 - 280));
       border-radius: 50%;
     }
 
@@ -93,7 +93,7 @@
 
     h6 {
       font-weight: 400;
-      @include font20;
+      @include font18;
       color: #696974;
     }
 

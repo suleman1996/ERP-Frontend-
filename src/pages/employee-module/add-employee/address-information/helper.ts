@@ -103,7 +103,6 @@ export const useAddressInfo = ({
     const data = watch()
     if (e.target.checked) {
       const { currentAddress } = data
-      console.log('curr', currentAddress)
       await getData(
         'permanentCountryData',
         {

@@ -1,15 +1,14 @@
 import Button from 'components/button'
 import TextField from 'components/textfield'
-// import Select from 'components/select'
 import Radio from 'components/radio'
+import Selection from 'components/selection'
 
 import { usePayrollDetail, payrollType, payType, roster } from './helper'
+import { useEmployeeForms } from '../context'
 
 import tick from 'assets/tick.svg'
 import arrowLeft from 'assets/backBtn.svg'
 import style from './payroll.module.scss'
-import { useEmployeeForms } from '../context'
-import Selection from 'components/selection'
 
 const PayrollInformation = () => {
   const { employeeDocId, handleBack, employeeId }: any = useEmployeeForms()
