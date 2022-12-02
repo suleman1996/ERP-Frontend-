@@ -1,13 +1,12 @@
-import style from './filter.module.scss';
+import TextField from 'components/textfield'
+import Checkbox from 'components/checkbox'
+import Button from 'components/button'
 
-import sortLower from 'assets/sort-lower.svg';
-import sortUpper from 'assets/sort-uppar.svg';
-import clearFilter from 'assets/clear-filter.svg';
-import search from 'assets/search-icon.svg';
-
-import TextField from 'components/textfield';
-import Checkbox from 'components/checkbox';
-import Button from 'components/button';
+import sortLower from 'assets/sort-lower.svg'
+import sortUpper from 'assets/sort-uppar.svg'
+import clearFilter from 'assets/clear-filter.png'
+import search from 'assets/search-icon.svg'
+import style from './filter.module.scss'
 
 const FiltersComponent = () => {
   return (
@@ -25,7 +24,11 @@ const FiltersComponent = () => {
         <img src={clearFilter} alt="" />
       </div>
       <div className={style.input}>
-        <TextField placeholder="Search" iconClass={style.iconSearch} icon={search} />
+        <TextField
+          placeholder="Search"
+          iconClass={style.iconSearch}
+          icon={search}
+        />
       </div>
       <div className={style.checkDiv}>
         <Checkbox label="Select All" containerClass={style.checkbox} />
@@ -40,10 +43,10 @@ const FiltersComponent = () => {
         <Button text="Apply" />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default FiltersComponent;
+export default FiltersComponent
 
 const names = [
   'Micheal Dam',
@@ -54,4 +57,4 @@ const names = [
   'Micheal Dam',
   'Micheal Dam',
   'Micheal Dam',
-];
+]

@@ -4,8 +4,8 @@ import ImageUpload from 'components/image-upload'
 import TextField from 'components/textfield'
 import ProfileUpload from 'components/profile-upload'
 import CountryInput from 'components/country-input'
-import Select from 'components/select'
 import Loading from 'components/loading'
+import Selection from 'components/selection'
 
 import { usePersonalInfo } from './helper'
 import { useEmployeeForms } from '../context'
@@ -21,7 +21,7 @@ const PersonalInformation = () => {
     formData,
     setEmployeeId,
     setEmployeeDocId,
-  }: any = useEmployeeForms()
+  } = useEmployeeForms()
   const {
     onSubmit,
     register,
@@ -107,28 +107,20 @@ const PersonalInformation = () => {
                 placeholder="Enter Full Name"
                 star={'*'}
               />
-              <Select
+              <Selection
+                control={control}
                 label="Employee ID"
                 name={'employeeId'}
                 userId={userId}
                 selectContainer={style.selectContainer}
                 wraperSelect={style.wraperSelect}
-                newSelect
+                withInput
                 star={' *'}
                 errorMessage={errors?.employeeId?.message}
-                register={register}
-              >
-                <>
-                  {series &&
-                    series.map((ele: any) => (
-                      <>
-                        <option key={ele.name} value={ele?.name}>
-                          {ele.name}
-                        </option>
-                      </>
-                    ))}
-                </>
-              </Select>
+                options={series.map((item) => {
+                  return { label: item?.name, value: item?._id }
+                })}
+              />
               <div>
                 <label
                   className={style.label}
@@ -204,23 +196,17 @@ const PersonalInformation = () => {
                   setSelectedFileName={setSelectedFileNameBack}
                 />
               </div>
-              <Select
-                label="Gender"
-                star={' *'}
-                register={register}
-                name="gender"
+              <Selection
+                control={control}
                 errorMessage={errors?.gender?.message}
-              >
-                <option value="">--Gender--</option>
-                <>
-                  {gender &&
-                    gender.map((data: any) => (
-                      <option key={data?._id} value={data?._id}>
-                        {data.name}
-                      </option>
-                    ))}
-                </>
-              </Select>
+                label="Gender"
+                placeholder="Select Any"
+                options={gender?.map((item) => {
+                  return { label: item?.name, value: item?._id }
+                })}
+                star=" *"
+                name="gender"
+              />
             </div>
             <div className={style.btnContainer}>
               <Button

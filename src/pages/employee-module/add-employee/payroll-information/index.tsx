@@ -1,26 +1,40 @@
 import Button from 'components/button'
 import TextField from 'components/textfield'
-import Select from 'components/select'
 import Radio from 'components/radio'
+import Selection from 'components/selection'
 
 import { usePayrollDetail, payrollType, payType, roster } from './helper'
+import { useEmployeeForms } from '../context'
 
 import tick from 'assets/tick.svg'
 import arrowLeft from 'assets/backBtn.svg'
 import style from './payroll.module.scss'
-import { useEmployeeForms } from '../context'
 
 const PayrollInformation = () => {
   const { employeeDocId, handleBack, employeeId }: any = useEmployeeForms()
 
-  const { onSubmit, register, handleSubmit, errors, allowence, btnLoader } =
-    usePayrollDetail({
-      employeeId,
-      employeeDocId,
-    })
+  const {
+    onSubmit,
+    register,
+    handleSubmit,
+    errors,
+    allowence,
+    btnLoader,
+    control,
+    clearErrors,
+  } = usePayrollDetail({
+    employeeId,
+    employeeDocId,
+  })
+
   return (
     <div className={style.mainForm}>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form
+        onSubmit={(e) => {
+          clearErrors()
+          handleSubmit(onSubmit)(e)
+        }}
+      >
         <div className={style.grid}>
           <TextField
             name="payrollDetails.basicSalary"
@@ -82,40 +96,26 @@ const PayrollInformation = () => {
             errorMessage={errors?.accountNumber?.message}
             placeholder="Account Number"
           />
-          <Select
+          <Selection
             label="Pay Type"
             name={'payrollDetails.payType'}
             star={' *'}
             errorMessage={errors?.payrollDetails?.payType?.message}
-            register={register}
-          >
-            <option value="">Pay Type</option>
-            <>
-              {payType &&
-                payType.map((ele: any) => (
-                  <option key={ele.value} value={ele.value}>
-                    {ele.description}
-                  </option>
-                ))}
-            </>
-          </Select>
-          <Select
+            control={control}
+            options={payType.map((item) => {
+              return { label: item?.value, value: item?.value }
+            })}
+          />
+          <Selection
             label="Payroll Type"
             name={'payrollDetails.payRollType'}
             star={' *'}
             errorMessage={errors?.payrollDetails?.payRollType?.message}
-            register={register}
-          >
-            <option value="">Attendance</option>
-            <>
-              {payrollType &&
-                payrollType.map((ele: any) => (
-                  <option key={ele.value} value={ele.value}>
-                    {ele.description}
-                  </option>
-                ))}
-            </>
-          </Select>
+            control={control}
+            options={payrollType.map((item) => {
+              return { label: item?.value, value: item?.value }
+            })}
+          />
           <div className={style.flexClass}>
             <label className={style.label}>
               Overtime Applicable <b style={{ color: 'red' }}>{' *'}</b>{' '}
@@ -145,23 +145,16 @@ const PayrollInformation = () => {
               </p>
             )}
           </div>
-          <Select
+          <Selection
             label="Roaster"
             star={' *'}
             name={'payrollDetails.roaster'}
             errorMessage={errors?.payrollDetails?.roaster?.message}
-            register={register}
-          >
-            <option value="">Select</option>
-            <>
-              {roster &&
-                roster.map((ele: any) => (
-                  <option key={ele.value} value={ele.value}>
-                    {ele.description}
-                  </option>
-                ))}
-            </>
-          </Select>
+            control={control}
+            options={roster.map((item) => {
+              return { label: item?.value, value: item?.value }
+            })}
+          />
         </div>
 
         <div className={style.btnContainer}>

@@ -5,6 +5,7 @@ export const SelectionStyle = {
     borderRadius: 6,
     boxShadow: 'none',
     border: 'transparent !important',
+    fontSize: 'calc(12px + (18 - 12) * (100vw - 280px) / (2560 - 280))',
     minHeight:
       'calc(30px + (55 - 30) * (100vw - 280px) / (2560 - 280)) !important',
     paddingLeft:
@@ -12,10 +13,12 @@ export const SelectionStyle = {
     paddingRight:
       'calc(2px + (7 - 2) * (100vw - 280px) / (2560 - 280)) !important',
     borderColor: 'none !important',
+    cursor: 'pointer',
     '&:hover': {
       outline: state.isFocused ? 0 : 0,
     },
   }),
+
   option: (styles: any, { data, isDisabled, isFocused, isSelected }: any) => {
     return {
       ...styles,

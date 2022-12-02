@@ -1,13 +1,9 @@
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 
-import SettingsService from 'services/settings-service'
-
-import style from './accordian.module.scss'
-
-import arrow from 'assets/arrowup.svg'
-import { useEffect, useState } from 'react'
+import Selection from 'components/selection'
 import Switch from 'components/switch'
 import DeletePopup from 'components/delete-modal'
 import Table from 'components/table'
@@ -16,8 +12,12 @@ import Button from 'components/button'
 import Tags from 'components/tags'
 import Modal from 'components/modal'
 import Input from 'components/textfield'
-import Select from 'components/select'
+
+import SettingsService from 'services/settings-service'
+
 import statusIcon from 'assets/status.svg'
+import arrow from 'assets/arrowup.svg'
+import style from './accordian.module.scss'
 
 const AccordianSwitch = ({
   title,
@@ -108,10 +108,12 @@ const AccordianSwitch = ({
       setDesignationModal(true)
       setDepId(id)
       const data = designationRows?.find((item) => item._id === id)
-
       reset({
         ...data,
-        departmentId: data?.departmentSettingId?._id,
+        departmentId: {
+          label: data?.departmentSettingId?.name,
+          value: data?.departmentSettingId?._id,
+        },
       })
     }
   }
@@ -136,15 +138,19 @@ const AccordianSwitch = ({
   }
 
   const designationSubmit = async (data: any) => {
+    const newData = {
+      name: data?.name,
+      departmentId: data?.departmentId?.value,
+    }
     if (depId) {
-      const res = await SettingsService.updateDesignation(data, depId)
+      const res = await SettingsService.updateDesignation(newData, depId)
       if (res.status === 200) {
         setDesignationModal(false)
         getAllDesignations()
         reset({})
       }
     } else {
-      const res = await SettingsService.addDesignation(data)
+      const res = await SettingsService.addDesignation(newData)
       if (res.status === 200) {
         setDesignationModal(false)
         getAllDesignations()
@@ -294,42 +300,6 @@ const AccordianSwitch = ({
               errorMessage={errors?.name?.message}
               containerClass={style.containerClass}
             />
-            <Select
-              label="Department Parent"
-              name={'employeeId'}
-              selectContainer={style.selectContainer}
-              wraperSelect={style.wraperSelect}
-            >
-              <>
-                <option value={''}>Select Department Parent</option>
-                {series &&
-                  series.map((ele: any) => (
-                    <>
-                      <option key={ele.name} value={ele?.name}>
-                        {ele.name}
-                      </option>
-                    </>
-                  ))}
-              </>
-            </Select>
-            <Select
-              label="Department Head"
-              name={'employeeId'}
-              selectContainer={style.selectContainer}
-              wraperSelect={style.wraperSelect}
-            >
-              <>
-                <option value={''}>Select Department Head</option>
-                {series &&
-                  series.map((ele: any) => (
-                    <>
-                      <option key={ele.name} value={ele?.name}>
-                        {ele.name}
-                      </option>
-                    </>
-                  ))}
-              </>
-            </Select>
           </div>
           <div
             style={{
@@ -361,26 +331,15 @@ const AccordianSwitch = ({
               register={register}
               errorMessage={errors?.name?.message}
             />
-            <Select
+            <Selection
               label="Department Name"
               name={'departmentId'}
-              selectContainer={style.selectContainer}
-              wraperSelect={style.wraperSelect}
-              register={register}
+              control={control}
+              options={departmentRows?.map((item) => {
+                return { label: item?.name, value: item?._id }
+              })}
               errorMessage={errors?.departmentId?.message}
-            >
-              <>
-                <option value={''}>Select Department Parent</option>
-                {departmentRows &&
-                  departmentRows.map((ele: any) => (
-                    <>
-                      <option key={ele.name} value={ele?._id}>
-                        {ele.name}
-                      </option>
-                    </>
-                  ))}
-              </>
-            </Select>
+            />
           </div>
           <div
             style={{
@@ -449,98 +408,7 @@ const AccordianSwitch = ({
             </div>
           </div>
         </div>
-        <div className={style.fiveGrid}>
-          <Select
-            label="Designation Name"
-            name={'employeeId'}
-            selectContainer={style.selectContainer}
-            wraperSelect={style.wraperSelect}
-          >
-            <>
-              <option value={''}>Select</option>
-              {series &&
-                series.map((ele: any) => (
-                  <>
-                    <option key={ele.name} value={ele?.name}>
-                      {ele.name}
-                    </option>
-                  </>
-                ))}
-            </>
-          </Select>
-          <Select
-            label="Designation Name"
-            name={'employeeId'}
-            selectContainer={style.selectContainer}
-            wraperSelect={style.wraperSelect}
-          >
-            <>
-              <option value={''}>Select</option>
-              {series &&
-                series.map((ele: any) => (
-                  <>
-                    <option key={ele.name} value={ele?.name}>
-                      {ele.name}
-                    </option>
-                  </>
-                ))}
-            </>
-          </Select>
-          <Select
-            label="Designation Name"
-            name={'employeeId'}
-            selectContainer={style.selectContainer}
-            wraperSelect={style.wraperSelect}
-          >
-            <>
-              <option value={''}>Select</option>
-              {series &&
-                series.map((ele: any) => (
-                  <>
-                    <option key={ele.name} value={ele?.name}>
-                      {ele.name}
-                    </option>
-                  </>
-                ))}
-            </>
-          </Select>
-          <Select
-            label="Designation Name"
-            name={'employeeId'}
-            selectContainer={style.selectContainer}
-            wraperSelect={style.wraperSelect}
-          >
-            <>
-              <option value={''}>Select</option>
-              {series &&
-                series.map((ele: any) => (
-                  <>
-                    <option key={ele.name} value={ele?.name}>
-                      {ele.name}
-                    </option>
-                  </>
-                ))}
-            </>
-          </Select>
-          <Select
-            label="Designation Name"
-            name={'employeeId'}
-            selectContainer={style.selectContainer}
-            wraperSelect={style.wraperSelect}
-          >
-            <>
-              <option value={''}>Select</option>
-              {series &&
-                series.map((ele: any) => (
-                  <>
-                    <option key={ele.name} value={ele?.name}>
-                      {ele.name}
-                    </option>
-                  </>
-                ))}
-            </>
-          </Select>
-        </div>
+        <div className={style.fiveGrid}></div>
         <div
           style={{
             display: 'flex',
@@ -563,24 +431,6 @@ const AccordianSwitch = ({
             placeholder="Enter Leave Type"
             containerClass={style.containerClass}
           />
-          <Select
-            label="Balance"
-            name={'employeeId'}
-            selectContainer={style.selectContainer}
-            wraperSelect={style.wraperSelect}
-          >
-            <>
-              <option value={''}>Select</option>
-              {series &&
-                series.map((ele: any) => (
-                  <>
-                    <option key={ele.name} value={ele?.name}>
-                      {ele.name}
-                    </option>
-                  </>
-                ))}
-            </>
-          </Select>
         </div>
         <div
           style={{
@@ -691,17 +541,11 @@ const Comp = ({ name, checkAll }: any) => {
 
 export default AccordianSwitch
 
-const series = [
-  { name: 'sdasd', value: 'adad' },
-  { name: 'sdasd', value: 'adad' },
-  { name: 'sdasd', value: 'adad' },
-]
-
 export const departmentSchema = yup.object().shape({
   name: yup.string().required('Department name  is a required field'),
 })
 
 export const designationSchema = yup.object().shape({
   name: yup.string().required('Designation name  is a required field'),
-  departmentId: yup.string().required('Department name  is a required field'),
+  departmentId: yup.object().required('Department name  is a required field'),
 })

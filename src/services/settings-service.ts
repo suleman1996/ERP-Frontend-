@@ -13,6 +13,14 @@ export default class SettingsService {
     return res
   }
 
+  static async resetPasswordAdmin(id, data) {
+    const res = await ApiService.put(
+      `${SettingsService.baseUrl[1]}/users/reset/${id}`,
+      data
+    )
+    return res
+  }
+
   static async addDepartment(data: any) {
     const res = await ApiService.post(
       `${SettingsService.baseUrl[0]}/department-setting`,

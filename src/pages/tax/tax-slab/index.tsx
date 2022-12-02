@@ -1,17 +1,27 @@
+import { useForm } from 'react-hook-form'
 import { useState, useEffect } from 'react'
-import AddTaxSlab from './add-tax'
-import { columns } from './tax-helper'
-import TaxService from 'services/tax-service'
-import style from '../tax.module.scss'
 
-import editIcon from 'assets/table-edit.svg'
-import view from 'assets/viewIconnew.svg'
-import deleteIcon from 'assets/table-delete.svg'
+import AddTaxSlab from './add-tax'
 import Table from 'components/table'
 import Switch from 'components/switch'
-import { useForm } from 'react-hook-form'
 import Container from 'components/container'
 import DeleteModal from 'components/delete-modal'
+
+import { columns } from './tax-helper'
+import TaxService from 'services/tax-service'
+
+import deleteIcon from 'assets/table-delete.svg'
+import view from 'assets/viewIconnew.svg'
+import editIcon from 'assets/table-edit.svg'
+import style from '../tax.module.scss'
+
+interface Item {
+  FinancialYear: string
+  Status: boolean
+  TaxCategory: string
+  TaxGroupName: string
+  _id: string
+}
 
 const TaxSlab = ({
   setIsLoading,
@@ -23,12 +33,16 @@ const TaxSlab = ({
   setSlab,
 }: any) => {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false)
-  const [taxSlabsData, setTaxSlabsData] = useState<any[]>([])
+  const [taxSlabsData, setTaxSlabsData] = useState([])
   const [deleteLoading, setDeleteLoading] = useState(false)
   const [viewModal, setViewModal] = useState(false)
   const [newSlab, setNewSlab] = useState()
 
   const { control } = useForm()
+
+  useEffect(() => {
+    getTaxSlabsData()
+  }, [])
 
   const deleteTaxSlab = async (id: string) => {
     setDeleteLoading(true)
@@ -44,30 +58,31 @@ const TaxSlab = ({
   const getTaxSlabsData = async () => {
     setIsLoading(true)
     const res = await TaxService.getAllTaxSlabsData()
-
     if (res.status === 200) {
       setTaxSlabsData(res?.data?.data)
     }
     setIsLoading(false)
   }
 
-  useEffect(() => {
-    getTaxSlabsData()
-  }, [])
-
-  const handleEdit = async (id) => {
+  const handleEdit = async (id: string) => {
     setSingleId(id)
     const res = await TaxService.getTaxSlabById(id)
     setNewSlab(res?.data?.tax)
-
     setOpen(true)
   }
 
-  const handleSwitch = async (id, item) => {
+  const handleSwitch = async (id: string, item: Item) => {
     const res = await TaxService.switchTaxSlab(id, item)
     if (res.status === 200) {
       getTaxSlabsData()
     }
+  }
+
+  const handleClick = (item) => {
+    setOpen(true)
+    handleEdit(item?._id)
+    setSingleId(item?._id)
+    setViewModal(true)
   }
 
   return (
@@ -86,25 +101,31 @@ const TaxSlab = ({
                     <div>
                       <Switch
                         control={control}
-                        title={item.Status === true ? 'Active' : 'InActive'}
+                        className={style.switchClass}
+                        title={item.Status === true ? 'Active' : 'In Active'}
                         checked={item?.Status}
                         name={item._id}
-                        handleClick={() => handleSwitch(item?._id, item)}
+                        handleSwitchChange={() => {
+                          handleSwitch(item?._id, item)
+                        }}
                       />
                     </div>
                   ),
                   taxActions: (
-                    <div style={{ display: 'flex' }}>
+                    <div style={{ display: 'flex', justifyContent: 'center' }}>
                       <div style={{ marginRight: '10px' }}>
                         <img
                           src={view}
                           width={30}
-                          onClick={() => {
-                            setOpen(true)
-                            handleEdit(item?._id)
-                            setSingleId(item?._id)
-                            setViewModal(true)
-                          }}
+                          onClick={(item) => handleClick(item)}
+                        />
+                      </div>
+
+                      <div style={{ marginRight: '10px' }}>
+                        <img
+                          src={editIcon}
+                          width={30}
+                          onClick={() => handleEdit(item?._id)}
                         />
                       </div>
                       <div style={{ marginRight: '10px' }}>
@@ -115,13 +136,6 @@ const TaxSlab = ({
                             setDeleteModalOpen(true)
                             setSingleId(item?._id)
                           }}
-                        />
-                      </div>
-                      <div style={{ marginRight: '10px' }}>
-                        <img
-                          src={editIcon}
-                          width={30}
-                          onClick={() => handleEdit(item?._id)}
                         />
                       </div>
                     </div>
@@ -152,7 +166,7 @@ const TaxSlab = ({
         open={deleteModalOpen}
         setOpen={setDeleteModalOpen}
         handleDelete={() => deleteTaxSlab(singleId)}
-        btnLoader={deleteLoading}
+        isLoading={deleteLoading}
       ></DeleteModal>
     </>
   )

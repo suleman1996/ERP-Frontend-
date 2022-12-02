@@ -1,40 +1,44 @@
 export const removeKeys = (data: any, keysToDelete: string[]) => {
   for (const key in data) {
-    keysToDelete.includes(key) && delete data[key];
+    keysToDelete.includes(key) && delete data[key]
   }
-  return data;
-};
+  return data
+}
 
 export const setFormError = (res: any, setError: any) => {
   if (res.status === 422) {
-    const errorMessages = res.data.error;
+    const errorMessages = res.data.error
     if (errorMessages)
       for (const msg of errorMessages) {
         setError(msg?.context?.label, {
           message: prepareMessage(msg),
-        });
+        })
       }
   }
-};
+}
 
 const prepareMessage = (error: any) => {
   const {
     context: { key, label, value },
-  } = error;
-  let newErrorMessage = '';
-  newErrorMessage = error.message.replace(label, key);
+  } = error
+  let newErrorMessage = ''
+  newErrorMessage = error.message.replace(label, key)
   if (error?.context?.valids && error?.context.valids?.length) {
     if (value) {
-      newErrorMessage = `Invalid value for ${key}`;
+      newErrorMessage = `Invalid value for ${key}`
     }
   }
-  newErrorMessage = newErrorMessage.replaceAll('"', '');
-  newErrorMessage = newErrorMessage.charAt(0).toUpperCase() + newErrorMessage.slice(1);
-  return newErrorMessage;
-};
+  newErrorMessage = newErrorMessage.replaceAll('"', '')
+  newErrorMessage =
+    newErrorMessage.charAt(0).toUpperCase() + newErrorMessage.slice(1)
+  return newErrorMessage
+}
 
 export const setErrors = (errors: any, setError: any) => {
-  return Object.keys(errors).forEach((key) =>
-    setError(key, { type: 'custom', message: errors[key] }),
-  );
-};
+  return (
+    errors &&
+    Object.keys(errors)?.forEach((key) =>
+      setError(key, { type: 'custom', message: errors[key] })
+    )
+  )
+}

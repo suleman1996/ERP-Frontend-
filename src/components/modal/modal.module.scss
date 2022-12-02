@@ -33,10 +33,10 @@
       align-items: center;
       width: 100%;
       border-bottom: 1.2px solid #e2e2ea;
-      padding-top: calc(12px + (30 - 12) * (100vw - 280px) / (2560 - 280));
-      padding-bottom: calc(12px + (30 - 12) * (100vw - 280px) / (2560 - 280));
-      padding-left: calc(18px + (80 - 18) * (100vw - 280px) / (2560 - 280));
-      padding-right: calc(18px + (80 - 18) * (100vw - 280px) / (2560 - 280));
+      padding-top: calc(10px + (20 - 10) * (100vw - 280px) / (2560 - 280));
+      padding-bottom: calc(10px + (20 - 10) * (100vw - 280px) / (2560 - 280));
+      padding-left: calc(12px + (24 - 12) * (100vw - 280px) / (2560 - 280));
+      padding-right: calc(12px + (24 - 12) * (100vw - 280px) / (2560 - 280));
       box-sizing: border-box;
       p {
         font-style: normal;
@@ -53,10 +53,10 @@
     }
 
     .body {
-      padding-top: calc(12px + (89 - 12) * (100vw - 280px) / (2560 - 280));
-      padding-bottom: calc(12px + (67 - 12) * (100vw - 280px) / (2560 - 280));
-      padding-right: calc(18px + (65 - 18) * (100vw - 280px) / (2560 - 280));
-      padding-left: calc(18px + (61 - 18) * (100vw - 280px) / (2560 - 280));
+      padding-top: calc(10px + (20 - 10) * (100vw - 280px) / (2560 - 280));
+      padding-bottom: calc(10px + (20 - 10) * (100vw - 280px) / (2560 - 280));
+      padding-left: calc(12px + (24 - 12) * (100vw - 280px) / (2560 - 280));
+      padding-right: calc(12px + (24 - 12) * (100vw - 280px) / (2560 - 280));
 
       .btnClass {
         display: flex;
@@ -70,4 +70,9 @@
   position: sticky;
   background-color: #ffffff;
   z-index: 10;
+}
+.iconDiv {
+}
+.delIcon {
+  margin-right: 15px;
 }

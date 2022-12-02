@@ -81,8 +81,8 @@
     outline: none;
     margin-left: 8px;
     img {
-      height: 30px;
-      width: 30px;
+      height: calc(15px + (30 - 15) * (100vw - 280px) / (2560 - 280));
+      width: calc(15px + (30 - 15) * (100vw - 280px) / (2560 - 280));
     }
   }
 

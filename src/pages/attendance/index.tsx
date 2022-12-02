@@ -75,7 +75,10 @@ const Attendance = () => {
           <div className={style.topDiv}>
             <div style={{ position: 'relative' }}>
               {openMenu && (
-                <MenuPopup handleExcel={undefined} handlePdf={undefined} />
+                <MenuPopup
+                  handleExcel={undefined}
+                  // handlePdf={() => window.open('', '_blank')}
+                />
               )}
             </div>
             <Button

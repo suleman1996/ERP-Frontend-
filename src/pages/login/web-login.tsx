@@ -1,31 +1,80 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
+import { Dispatch, SetStateAction, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
 
-import Loading from 'components/loading';
-import Button from 'components/button';
+import Loading from 'components/loading'
+import Button from 'components/button'
 
-import { schema } from './login-helper';
-import { LoginCredentials } from 'interfaces/login-credentials';
+import { LoginCredentials } from 'interfaces/login-credentials'
+import { createNotification } from 'common/create-notification'
+import { useAppDispatch } from 'store/hooks'
+import AuthService from 'services/auth-service'
+import { setCurrentUser, setToken, setUserId } from 'store'
+import { setErrors } from 'helper'
 
-import LogoImage from 'assets/logo.svg';
-import eye from 'assets/employee-page/eye.svg';
-import eyeClose from 'assets/employee-page/eyeClose.svg';
-import style from './login.module.scss';
+import LogoImage from 'assets/logo.svg'
+import eye from 'assets/employee-page/eye.svg'
+import eyeClose from 'assets/employee-page/eyeClose.svg'
+import style from './login.module.scss'
 
-const WebLogin = ({ handleLogin, openNotification, setOpenNotification }: any) => {
-  const navigate = useNavigate();
-  const { register, handleSubmit, errors } = useForm({
-    resolver: yupResolver(schema),
-  });
+interface Props {
+  employeeId?: string
+  password?: string
+}
 
-  const [isLoading, setIsLoading] = useState(false);
-  const [passwordVisible, setPasswordVisible] = useState(false);
+const WebLogin = ({ openNotification, setOpenNotification }: any) => {
+  const navigate = useNavigate()
+  const { setError, register, handleSubmit, errors } = useForm()
+  const dispatch = useAppDispatch()
+
+  const [isLoading, setIsLoading] = useState(false)
+  const [passwordVisible, setPasswordVisible] = useState(false)
 
   const onSubmit = async (data: LoginCredentials) => {
-    handleLogin(data, setIsLoading);
-  };
+    handleLogin(data, setIsLoading)
+  }
+
+  const handleLogin = async (
+    data: Props,
+    setIsLoading: Dispatch<SetStateAction<boolean>>
+  ) => {
+    setIsLoading(true)
+    try {
+      const res = await AuthService.login(data)
+      if (res.status === 200) {
+        if (res.data.status) {
+          setIsLoading(false)
+          dispatch(setCurrentUser(res.data))
+          dispatch(setToken(res.headers.authorization))
+          dispatch(setUserId(res.data.id))
+          navigate('/')
+        }
+      } else {
+        createNotification('error', 'Error', 'Please Enter Valid Credentials')
+        setIsLoading(false)
+      }
+
+      if (res.status === 404) {
+        setOpenNotification(true)
+      }
+    } catch (err) {
+      if (err?.response?.data?.error) {
+        setErrors(err?.response?.data?.error, setError)
+      }
+      if (err?.response?.status === 404) {
+        if (
+          err?.response?.data?.msg?.includes('Invalid') ||
+          err?.response?.data?.msg?.includes('email')
+        ) {
+          createNotification('error', 'Error', err?.response?.data?.msg)
+        } else {
+          setOpenNotification(true)
+        }
+      }
+      setIsLoading(false)
+    }
+    setIsLoading(false)
+  }
 
   return (
     <div className={style.loginMain}>
@@ -35,8 +84,8 @@ const WebLogin = ({ handleLogin, openNotification, setOpenNotification }: any) =
             {openNotification ? (
               <div className={style.popUpScreen}>
                 <p>
-                  You are an inactive user. if you want to use erp please contact with your system
-                  admin.
+                  You are an inactive user. if you want to use erp please
+                  contact with your system admin.
                 </p>
                 <Button
                   text="Go Back"
@@ -50,7 +99,10 @@ const WebLogin = ({ handleLogin, openNotification, setOpenNotification }: any) =
                 <div>
                   <img src={LogoImage} width="110px" alt="logo" />
                   <span className={style.loginTitle}>Log in Your Account</span>
-                  <form className={style.loginForm} onSubmit={handleSubmit(onSubmit)}>
+                  <form
+                    className={style.loginForm}
+                    onSubmit={handleSubmit(onSubmit)}
+                  >
                     <div>
                       <label
                         className={style.loginLabel}
@@ -63,18 +115,21 @@ const WebLogin = ({ handleLogin, openNotification, setOpenNotification }: any) =
                           type="text"
                           style={{
                             color: errors?.employeeId ? '#ff5050' : 'white',
-                            borderColor: errors?.employeeId ? '#ff5050' : 'gray',
+                            borderColor: errors?.employeeId
+                              ? '#ff5050'
+                              : 'gray',
                           }}
                           className={style.loginInput}
                           name="employeeId"
                           placeholder="Enter Employee Id or Email"
                           ref={register}
+                          {...register('employeeId')}
                         />
                       </label>
                     </div>
-                    {errors?.employeeId && (
+                    {errors?.employeeId?.message && (
                       <span style={{ color: '#ff2020', fontSize: '12px' }}>
-                        EmployeeId is required
+                        {errors?.employeeId?.message}
                       </span>
                     )}
 
@@ -89,7 +144,9 @@ const WebLogin = ({ handleLogin, openNotification, setOpenNotification }: any) =
                         <input
                           type={passwordVisible ? 'text' : 'password'}
                           style={{
-                            borderColor: errors?.employeeId ? '#ff5050' : 'gray',
+                            borderColor: errors?.employeeId
+                              ? '#ff5050'
+                              : 'gray',
                           }}
                           className={style.loginInput}
                           name="password"
@@ -101,25 +158,38 @@ const WebLogin = ({ handleLogin, openNotification, setOpenNotification }: any) =
                             src={eyeClose}
                             alt=""
                             className={style.img}
-                            onClick={() => setPasswordVisible((prev: any) => !prev)}
+                            onClick={() =>
+                              setPasswordVisible((prev: any) => !prev)
+                            }
                           />
                         ) : (
                           <img
                             src={eye}
                             alt=""
                             className={style.img}
-                            onClick={() => setPasswordVisible((prev: any) => !prev)}
+                            onClick={() =>
+                              setPasswordVisible((prev: any) => !prev)
+                            }
                           />
                         )}
                       </label>
                     </div>
                     {errors?.password && (
-                      <span style={{ whiteSpace: 'pre-line', color: '#ff2020', fontSize: '12px' }}>
-                        Please enter a valid password
+                      <span
+                        style={{
+                          whiteSpace: 'pre-line',
+                          color: '#ff2020',
+                          fontSize: '12px',
+                        }}
+                      >
+                        {errors?.password?.message}
                       </span>
                     )}
                     <div className={style.loginFPassContainer}>
-                      <span className={style.loginForgetPass} onClick={() => navigate('/forgot')}>
+                      <span
+                        className={style.loginForgetPass}
+                        onClick={() => navigate('/forgot')}
+                      >
                         Forgot Password
                       </span>
                     </div>
@@ -129,7 +199,11 @@ const WebLogin = ({ handleLogin, openNotification, setOpenNotification }: any) =
                       disabled={isLoading || false}
                       style={{ pointerEvents: isLoading ? 'none' : 'auto' }}
                     >
-                      {isLoading ? <Loading loaderClass={style.btnLoader} /> : 'LOG IN'}
+                      {isLoading ? (
+                        <Loading loaderClass={style.btnLoader} />
+                      ) : (
+                        'LOG IN'
+                      )}
                     </button>
                   </form>
                 </div>
@@ -139,6 +213,6 @@ const WebLogin = ({ handleLogin, openNotification, setOpenNotification }: any) =
         </div>
       </div>
     </div>
-  );
-};
-export default WebLogin;
+  )
+}
+export default WebLogin

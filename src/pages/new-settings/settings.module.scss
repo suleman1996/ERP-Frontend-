@@ -55,6 +55,10 @@
   padding-right: calc(15px + (45 - 15) * (100vw - 280px) / (2560 - 280));
   border-bottom: 0.55939px solid #e2e2ea;
   min-height: 63px;
+  position: sticky;
+  top: 0px;
+  background: #fff;
+  z-index: 90;
 
   h6 {
     @include font32;

@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 import Select from 'react-select'
 import { Controller } from 'react-hook-form'
 
@@ -7,6 +7,7 @@ import Tags from 'components/tags'
 import { SelectionStyle } from './custom-styles'
 
 import style from './select.module.scss'
+import TextField from 'components/textfield'
 
 interface Props {
   label?: string
@@ -21,9 +22,7 @@ interface Props {
   star?: string
   selectContainer?: string
   wraperSelect?: string
-  newSelect?: boolean
   withInput?: boolean
-  userId?: any
   marksType?: string
   classNameLabel?: string
   setMarkVal?: any
@@ -37,7 +36,23 @@ interface Props {
   defaultValue?: any
   placeHolderStyle?: any
   isSearchable?: boolean
+  newSelect?: boolean
+  userId?: any
+  propChange?: any
+  getStates?: any
+  getCities?: any
+  permanentCountryData?: any
+  permanentCountryDataa?: any
+  currentCountryData?: any
+  permanentCitiesData?: any
+  changeHandler?: any
+  setType?: any
+  getDataLabel?: string
+  getCitiesLabel?: string
   showNumber?: boolean
+  marksType?: any
+  setMarkVal?: any
+  marksVal?: any
 }
 
 const Selection = ({
@@ -56,8 +71,37 @@ const Selection = ({
   placeHolderStyle,
   isSearchable,
   showNumber,
+  propChange,
+  getStates,
+  getCities,
+  currentCountryData,
+  permanentCountryData,
+  permanentCountryDataa,
+  permanentCitiesData,
+  getDataLabel,
+  getCitiesLabel,
+  changeHandler,
+  setType,
+  newSelect,
+  userId,
+  withInput,
+  name1,
+  register,
+  marksType,
+  marksVal,
 }: Props) => {
-  const [customErr] = useState<string | undefined>()
+  const [customErr, setCustomErr] = useState<string | undefined>()
+  useEffect(() => {
+    if (marksType?.value === 'percentage') {
+      if (marksVal > 100) {
+        setCustomErr('Percentage should be less than 100%')
+      } else setCustomErr('')
+    } else if (marksType?.value === 'cgpa') {
+      if (marksVal > 4) {
+        setCustomErr('CGPA should be less than or equal to 4')
+      } else setCustomErr('')
+    }
+  }, [marksType, marksVal])
 
   const CustomStyle = SelectionStyle
 
@@ -190,7 +234,36 @@ const Selection = ({
                   closeMenuOnSelect={closeMenuOnSelect}
                   isMulti={isMulti}
                   value={value}
-                  onChange={handleChange}
+                  onChange={(e) => {
+                    setType && setType(e?.value)
+                    changeHandler && changeHandler(e.value)
+                    propChange && propChange({ country: e.label })
+
+                    getStates &&
+                      getStates(`${getDataLabel}`, {
+                        country: e.label,
+                      })
+
+                    getCities &&
+                      getCities(
+                        `${getCitiesLabel}`,
+                        currentCountryData && currentCountryData,
+                        e.label
+                      )
+
+                    permanentCountryData &&
+                      permanentCountryData('permanentCountryData', {
+                        country: e?.label,
+                      })
+
+                    permanentCitiesData &&
+                      permanentCitiesData(
+                        'permanentCitiesData',
+                        permanentCountryDataa,
+                        e.label
+                      )
+                    handleChange(e)
+                  }}
                   options={options}
                   styles={CustomStyle}
                   placeholder={placeholder}
@@ -200,15 +273,31 @@ const Selection = ({
                   }
                   isSearchable={isSearchable}
                 />
+                {newSelect && <p className={style.labelClass1}>{userId}</p>}
+                {withInput && (
+                  <div style={{ flex: '1' }}>
+                    <TextField
+                      star={' *'}
+                      type="text"
+                      name={name1}
+                      value={userId && userId}
+                      register={register}
+                      className={style.inputClass}
+                      placeholder="Marks"
+                    />
+                  </div>
+                )}
               </>
             )
           }}
         />
       </div>
-      {errorMessage && (
-        <span className={style.errorMessage}>{errorMessage}</span>
-      )}
       {customErr && <span className={style.errorMessage}>{customErr}</span>}
+      {!customErr
+        ? errorMessage && (
+            <span className={style.errorMessage}>{errorMessage}</span>
+          )
+        : ''}
     </div>
   )
 }

@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction, useState } from 'react'
 
 import NoData from 'components/no-data-found-card'
+import FiltersComponent from 'components/filters'
 import AddUser from 'pages/new-settings/manage-user/add-user'
 
 import editIcon from 'assets/new-edit.svg'
@@ -9,11 +10,9 @@ import deleteIcon from 'assets/table-delete.svg'
 import eye from 'assets/table-view.svg'
 import pdf from 'assets/employee-page/print.svg'
 import style from './table.module.scss'
-import FiltersComponent from 'components/filters'
 
 interface Props {
   rows: any[]
-  total?: any[]
   loading?: boolean
   tableClass?: string
   rowText?: string
@@ -25,14 +24,15 @@ interface Props {
     selectedIcon?: string
     eyeIcon?: boolean
     width?: string
-    alignText?: any
-    toLocalString?: any
+    alignText?: string
+    toLocalString?: string
     currency?: boolean
   }[]
   handleEducation?: (index: number) => void
   handleDeleteIndex?: (id: number) => void
   handleDelete?: (id: string) => void
   handleEdit?: (id: string) => void
+  handleResetIconClick?: (id: string, index: number) => void
   handleView?: (id: string) => void
   onPrint?: (id: string) => void
   handleModalOpen?: () => void
@@ -52,10 +52,10 @@ interface Props {
   setEditIndex?: Dispatch<SetStateAction<number>>
   setNewUser?: Dispatch<SetStateAction<boolean>>
   tableHeaderClass?: string
-  customRoles?: any
-  allIDs?: any
-  singleUser?: any
-  getAllUsers?: any
+  customRoles?: any[]
+  allIDs?: string[]
+  singleUser?: any[]
+  getAllUsers?: () => void
 }
 
 const Table = ({
@@ -66,6 +66,7 @@ const Table = ({
   onPrint,
   handleView,
   handleEdit,
+  handleResetIconClick,
   handleDelete,
   handleEducation,
   handleModalOpen,
@@ -90,6 +91,10 @@ const Table = ({
   const handlePencilIcon = ({ id, index }: { id: string; index: number }) => {
     handleEdit && handleEdit(id)
     handleEducation && handleEducation(index)
+  }
+
+  const handleResetIcon = ({ id, index }: { id: string; index: number }) => {
+    handleResetIconClick && handleResetIconClick(id, index)
   }
 
   const handleDeleteIcon = ({ id, index }: { id: string; index: number }) => {
@@ -184,7 +189,10 @@ const Table = ({
                           }}
                           className={`${style.td}  ${className}`}
                         >
-                          <span className={`${rowText}`}>
+                          <span
+                            style={{ overflowWrap: 'anywhere' }}
+                            className={`${rowText}`}
+                          >
                             {row[column.key]}
                           </span>
                           {column.key === 'actions' &&
@@ -205,7 +213,7 @@ const Table = ({
                                     className={style.pencilIcon}
                                     data-testid="edit-element"
                                     onClick={() =>
-                                      handlePencilIcon({ id: row._id, index })
+                                      handleResetIcon({ id: row._id, index })
                                     }
                                     src={reloadIcon}
                                     alt="editIcon"

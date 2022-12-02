@@ -7,7 +7,7 @@ import DatePicker from 'components/date-picker'
 import Table from 'components/table'
 import ProfileUpload from 'components/profile-upload'
 import Checkbox from 'components/checkbox'
-import Select from 'components/select'
+import Selection from 'components/selection'
 
 import { columns, useEducationDetail } from './helper'
 import { useEmployeeForms } from '../context'
@@ -45,6 +45,7 @@ const EducationalDetails = () => {
     filename,
     selectedFileName,
     setSelectedFileName,
+    selectOptions,
   } = useEducationDetail({
     handleBack,
     handleNext,
@@ -117,28 +118,19 @@ const EducationalDetails = () => {
               containerClass={style.containerClass}
             />
           </div>
-          <Select
+          <Selection
             label="Percentage/CGPA"
             name={'marksType'}
             name1={'marks'}
             selectContainer={style.selectContainer}
             wraperSelect={style.wraperSelect}
-            withInput
             star={' *'}
-            errorMessage={errors?.marks?.message}
+            withInput
             register={register}
-          >
-            <>
-              {selectOptions &&
-                selectOptions.map((ele) => (
-                  <>
-                    <option key={ele.value} value={ele.value}>
-                      {ele.description}
-                    </option>
-                  </>
-                ))}
-            </>
-          </Select>
+            errorMessage={errors?.marks?.message}
+            control={control}
+            options={selectOptions}
+          />
           <div>
             <label
               style={{ color: errors?.transcript?.message && '#ff5050' }}
@@ -201,14 +193,3 @@ const EducationalDetails = () => {
 }
 
 export default EducationalDetails
-
-export const selectOptions = [
-  {
-    value: 'percentage',
-    description: 'Percentage',
-  },
-  {
-    value: 'cgpa',
-    description: 'CGPA',
-  },
-]

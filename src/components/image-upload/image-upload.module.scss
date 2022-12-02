@@ -24,9 +24,6 @@
     height: auto !important;
     max-width: fit-content;
 
-    span {
-      font-size: 10px !important;
-    }
     &:hover {
       background: #cacaca;
     }
@@ -63,10 +60,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    @media (max-width: $md) {
-      width: 15px;
-      height: 15px;
-    }
   }
 
   .selectFile {
@@ -104,9 +97,11 @@
 }
 
 .para {
+  color: #afafaf !important;
   @include font24;
   span {
     font-weight: 600;
+    color: #afafaf !important;
   }
   .span1 {
     font-weight: 600;

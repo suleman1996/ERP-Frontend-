@@ -8,9 +8,11 @@ import ImageUpload from 'components/image-upload'
 import CardContainer from 'components/card-container'
 import NotificationPopup from 'components/notification-popup'
 
+import { setCurrentUser } from 'store'
+import { useAppDispatch } from 'store/hooks'
 import { setErrors } from './../../../helper/index'
-import { createNotification } from 'common/create-notification'
 import SettingsService from 'services/settings-service'
+import { createNotification } from 'common/create-notification'
 
 import eye from 'assets/eye.svg'
 import eyeCross from 'assets/eyeCross.svg'
@@ -28,6 +30,7 @@ const AccountSetting = () => {
     errors,
     watch,
   } = useForm()
+  const dispatch = useAppDispatch()
 
   const [img, setImg] = useState('')
   const [newpass, setNewPass] = useState(false)
@@ -53,18 +56,22 @@ const AccountSetting = () => {
         ...((img || userData.img) && { img: img || userData.img }),
         _id: userData?.id,
       }
+
       const res = await SettingsService.updateAccount(newData)
       if (res.status === 201) {
+        let userNewData = { ...userData, ...newData }
+        dispatch(setCurrentUser(userNewData))
         if (res.data.emailSent === true) {
           setNotificationPopUP(true)
         }
         setBtnLoader(false)
+        createNotification('success', 'Success', res?.data?.msg)
       }
     } catch (err) {
       if (err?.response?.data?.error) {
         setErrors(err?.response?.data?.error, setError)
       } else {
-        createNotification('error', 'Error', err?.response?.data?.message)
+        createNotification('error', 'Error', err?.response?.data?.msg)
       }
       setBtnLoader(false)
     }
@@ -143,7 +150,6 @@ const AccountSetting = () => {
               register={register}
             />
           </div>
-
           <div className={style.btnClass}>
             <Button text="Save Changes" type="submit" isLoading={btnLoader} />
           </div>

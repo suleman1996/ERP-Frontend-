@@ -29,9 +29,11 @@ export const columns = [
     alignText: 'center',
     width: '100px',
   },
-];
+]
 
-export const taxRow = [{ group_name: 'abc', f_year: 2020, category: 'abc', status: 'true' }];
+export const taxRow = [
+  { group_name: 'abc', f_year: 2020, category: 'abc', status: 'true' },
+]
 
 export const rows = [
   {
@@ -114,7 +116,7 @@ export const rows = [
     tax: '5:00%',
     lessLimit: '--',
   },
-];
+]
 
 export const addSlabColumns = [
   {
@@ -159,4 +161,4 @@ export const addSlabColumns = [
     alignText: 'left',
     width: '100px',
   },
-];
+]

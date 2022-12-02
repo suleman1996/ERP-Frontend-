@@ -100,6 +100,7 @@
       .table td {
         padding: 20px 20px;
         text-align: center;
+       
       }
 
       tr:nth-child(odd) {
@@ -154,10 +155,7 @@
   <body>
     <div class="container">
       <div class="image">
-        <img
-          src="data:image/png;base64,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"
-          alt=""
-        />
+        <img src="../../../assets/blackIconX.png" alt="">
       </div>
       <div class="title">
         <div class="left"></div>
@@ -173,14 +171,14 @@
             <p>St.Work days:</p>
           </div>
           <div class="info-left2">
-            <p>22 june, 22-30june, 22</p>
+            <p>22 june, 22 - 30 june, 22</p>
             <p>Mon - Fri</p>
           </div>
         </div>
         <div class="display">
           <div class="info-right1">
-            <p>St. Check in:</p>
-            <p>St. Check out:</p>
+            <p>St.Check in:</p>
+            <p>St.Check out:</p>
           </div>
           <div class="info-right2">
             <p>10:00 AM</p>
@@ -265,7 +263,7 @@
 
       <div class="footer">
         <div class="f-left">
-          <p style="font-size: 14px">+92 309 7890374 | Johar Town, Block B, Lahore | sprintx.com</p>
+          <p style="font-size: 14px">+92 309 7890374  |  Johar Town, Block B, Lahore | sprintx.com</p>
         </div>
         <div class="f-mid">
           <p>Authorized Sign</p>
