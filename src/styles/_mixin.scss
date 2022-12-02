@@ -179,3 +179,8 @@
   font-weight: 500;
   font-size: calc(10px + (13 - 10) * (100vw - 280px) / (2560 - 280));
 }
+
+@mixin font10 {
+  font-weight: 500;
+  font-size: calc(8px + (10 - 8) * (100vw - 280px) / (2560 - 280));
+}

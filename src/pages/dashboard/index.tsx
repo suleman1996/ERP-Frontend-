@@ -26,6 +26,9 @@ import Checkbox from 'components/checkbox'
 import Pagination from 'components/pagination'
 import CountryInput from 'components/country-input'
 import EmployeeProfileCard from 'components/employee-profile-card'
+import EmployeeDropdown from 'components/employee-card-dropdown'
+
+import plus from 'assets/path-plus.svg'
 
 const DashBoard = () => {
   const { control, register, watch } = useForm()
@@ -38,6 +41,7 @@ const DashBoard = () => {
 
   return (
     <Container>
+      <Button text="Button with sign" type="button" iconStart={plus} />
       <div style={{ marginTop: '10px' }}>
         <Button text="Button very long" />
       </div>
@@ -177,6 +181,9 @@ const DashBoard = () => {
           id="SPX001"
           name="SprintX"
         />
+      </div>
+      <div style={{ margin: '10px 0px' }}>
+        <EmployeeDropdown />
       </div>
     </Container>
   )
