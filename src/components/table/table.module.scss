@@ -6,6 +6,13 @@
   max-height: 775px;
   flex: 1;
   overflow: hidden;
+  background: #ffffff;
+  border: 1px solid #e2e2ea;
+  border-radius: 6px;
+  padding-left: calc(12px + (25 - 12) * (100vw - 280px) / (2560 - 280));
+  padding-right: calc(12px + (25 - 12) * (100vw - 280px) / (2560 - 280));
+  padding-top: calc(12px + (25 - 12) * (100vw - 280px) / (2560 - 280));
+  padding-bottom: calc(12px + (25 - 12) * (100vw - 280px) / (2560 - 280));
 
   &::-webkit-scrollbar:vertical {
     display: none;
@@ -32,13 +39,8 @@
 
         .headingTitle {
           font-weight: 600 !important;
-          @include font29;
+          @include font24;
           color: #2d2d32;
-
-          @media (max-width: $md) {
-            font-weight: 500;
-            font-size: 12px;
-          }
         }
 
         .sortIcon {
@@ -60,7 +62,7 @@
 }
 
 .td {
-  @include font20;
+  @include font18;
   font-weight: 400;
   text-transform: capitalize;
 }

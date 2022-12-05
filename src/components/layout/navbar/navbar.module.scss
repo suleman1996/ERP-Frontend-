@@ -51,34 +51,25 @@ nav {
   .rightDiv {
     display: flex;
     align-items: center;
+    justify-content: flex-end;
     width: 100%;
-    max-width: 500px;
+    max-width: 400px;
 
     .imgDiv {
       display: none;
       @media (max-width: $xxs) {
         display: block;
         margin-right: 5px;
-        height: 19px;
-        width: 19px;
+        width: calc(30px + (55 - 30) * (100vw - 280px) / (2560 - 280));
+        height: calc(30px + (55 - 30) * (100vw - 280px) / (2560 - 280));
       }
     }
     @media (max-width: $md) {
       max-width: 300px;
     }
-    @media (max-width: $xxs) {
-      justify-content: flex-end;
-    }
 
     .searchDiv {
-      border: 1px solid #e2e2ea;
-      width: 80%;
-      padding-left: 10px;
-      border-radius: 7px;
-      background: white;
-      overflow: hidden;
-      height: calc(30px + (55 - 30) * (100vw - 280px) / (2560 - 280));
-      margin-right: calc(6px + (16 - 6) * (100vw - 280px) / (2560 - 280));
+      width: 100%;
       @media (max-width: $xxs) {
         display: none;
       }
@@ -86,12 +77,12 @@ nav {
       input {
         @include font18;
         color: $subtile;
-        background: white;
         width: 100%;
-        height: 100%;
+        height: calc(30px + (55 - 30) * (100vw - 280px) / (2560 - 280));
+        margin-top: 0px;
         border: none;
         @media (max-width: $md) {
-          background: white;
+          background: #ffffff;
           color: $subtile;
           &::placeholder {
             color: $subtile;
@@ -104,8 +95,10 @@ nav {
     .img {
       width: calc(30px + (55 - 30) * (100vw - 280px) / (2560 - 280));
       height: calc(30px + (55 - 30) * (100vw - 280px) / (2560 - 280));
+      margin-left: 15px;
       @media (max-width: $tab) {
         margin-right: 15px;
+        margin-left: 5px;
       }
       @media (max-width: $xxs) {
         margin-right: 10px;

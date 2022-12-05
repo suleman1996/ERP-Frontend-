@@ -234,6 +234,16 @@ const Table = ({
                                   src={editIcon}
                                   alt="editIcon"
                                 />
+                                {column?.editView && (
+                                  <img
+                                    src={eye}
+                                    alt=""
+                                    className={style.pencilIcon}
+                                    onClick={() => {
+                                      handleView && handleView(row.id)
+                                    }}
+                                  />
+                                )}
                                 {column?.lockIcon && (
                                   <img
                                     className={style.pencilIcon}

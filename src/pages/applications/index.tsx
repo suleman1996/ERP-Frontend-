@@ -1,27 +1,31 @@
-import CardContainer from '../../components/card-container'
-import style from './applications.module.scss'
 import { useEffect, useState } from 'react'
+
+import CardContainer from 'components/card-container'
+import Button from 'components/button'
 import MyLeaves from './my-leaves'
 import LeaveBalance from './leave-balance'
 import Approvals from './approval'
-import Button from 'components/button'
 import CreateApplicationModal from './my-leaves/create-applications'
-import EmployeeService from 'services/employee-service'
 import LeaveQuota from './leave-quota'
 import AddQuotaModal from './leave-quota/add-quota'
+import AddLeaveType from './add-leave-type'
+
+import EmployeeService from 'services/employee-service'
+
+import style from './applications.module.scss'
 
 const Applications = () => {
   const [active, setActive] = useState(1)
   const [data, setData] = useState({})
   const [renderState, setRenderState] = useState(false)
   const [openModal, setOpenModal] = useState(false)
+  const [openAddTypeModal, setOpenAddTypeModal] = useState(false)
+
   const [openModalQuota, setOpenModalQuota] = useState(false)
 
   const handleTab = (index: number) => {
     setActive(index)
   }
-
-  //only for commit
 
   const getAllData = async () => {
     let employeeWithDepartment: any =
@@ -81,11 +85,8 @@ const Applications = () => {
         />
       )}
       <CardContainer className={style.cardContainer}>
-        <div
-          className={style.headContainer}
-          style={{ justifyContent: 'space-between' }}
-        >
-          <div style={{ display: 'flex' }}>
+        <div className={style.headContainer}>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
             <p
               className={active === 1 ? style.active : ''}
               onClick={() => handleTab(1)}
@@ -125,9 +126,21 @@ const Applications = () => {
               handleClick={() => setOpenModalQuota(true)}
             />
           )}
+          {active === 4 && (
+            <Button
+              text="Add Leave Type"
+              btnClass={style.btnClass}
+              handleClick={() => setOpenAddTypeModal(true)}
+            />
+          )}
         </div>
-
-        {ActiveView()}
+        <div className={style.footerDiv}>{ActiveView()}</div>
+        <AddLeaveType
+          setOpenAddTypeModal={setOpenAddTypeModal}
+          openAddTypeModal={openAddTypeModal}
+          title="Add Leave Type"
+          text="Add"
+        />
       </CardContainer>
     </>
   )
