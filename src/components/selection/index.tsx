@@ -20,7 +20,7 @@ interface Props {
   placeholder?: string
   disable?: boolean
   star?: string
-  selectContainer?: string
+  backClass?: any
   wraperSelect?: string
   withInput?: boolean
   marksType?: string
@@ -89,7 +89,7 @@ const Selection = ({
   name1,
   register,
   marksType,
-  // backStyle,
+  backClass,
   marksVal,
 }: Props) => {
   const [customErr, setCustomErr] = useState<string | undefined>()
@@ -169,7 +169,9 @@ const Selection = ({
           border: errorMessage ? '1px solid #ff5050' : '1px solid #E2E2EA',
           borderRadius: '6px',
         }}
-        className={!isDisabled ? wraperSelect : style.disabledSelection}
+        className={`${backClass} ${
+          !isDisabled ? wraperSelect : style.disabledSelection
+        }`}
       >
         <Controller
           name={name}

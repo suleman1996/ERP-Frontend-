@@ -31,7 +31,6 @@ import RenderPolicy from 'components/policy-card'
 import plus from 'assets/path-plus.svg'
 import DeleteModal from 'components/delete-modal'
 import AccordianSwitch from 'components/accordian'
-import CustomTimePicker from 'components/custom-time-picker'
 
 const DashBoard = () => {
   const { control, register, watch } = useForm()
@@ -42,9 +41,6 @@ const DashBoard = () => {
   const [pageSize, setPageSize] = useState(10)
   const [totalCount] = useState()
   const [page, setPage] = useState(1)
-  const [type, setType] = useState('per-day')
-
-  const [customErr, setCustomErr] = useState()
   const [openAccordian, setOpenAccordian] = useState(-1)
 
   return (
@@ -216,19 +212,6 @@ const DashBoard = () => {
       <div style={{ margin: '10px 0px' }}>
         <RenderPolicy />
       </div>
-      <div style={{ margin: '10px 0px' }}>
-        <CustomTimePicker
-          label="Working Hours"
-          name={'employmentInfo.workingHours'}
-          control={control}
-          setCustomErr={setCustomErr}
-          customErr={customErr}
-          type={type}
-          setType={setType}
-          placeholder="Per Day"
-          selectHoursDuration={selectHoursDuration}
-        />
-      </div>
     </Container>
   )
 }
@@ -244,18 +227,4 @@ const addProfileData = [
   { name: 'Delete Employee' },
   { name: 'CV View' },
   { name: 'Profile View' },
-]
-const selectHoursDuration = [
-  {
-    value: 'per-day',
-    label: 'per Day',
-  },
-  {
-    value: 'per-week',
-    label: 'Per Week',
-  },
-  {
-    value: 'per-month',
-    label: 'Per Month ',
-  },
 ]

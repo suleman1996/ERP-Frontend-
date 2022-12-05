@@ -63,7 +63,6 @@ const CustomTimePicker = ({
       </label>
       <div className={style.wraper} style={{ border: ' 1.2px solid #e2e2ea' }}>
         <Selection
-          selectContainer={style.selectContainer}
           name={'selectHours'}
           control={control}
           value={type && type}
