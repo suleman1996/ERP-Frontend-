@@ -31,6 +31,7 @@ import RenderPolicy from 'components/policy-card'
 import plus from 'assets/path-plus.svg'
 import DeleteModal from 'components/delete-modal'
 import AccordianSwitch from 'components/accordian'
+import TimeProgress from 'components/time-progress'
 
 const DashBoard = () => {
   const { control, register, watch } = useForm()
@@ -211,6 +212,9 @@ const DashBoard = () => {
       </div>
       <div style={{ margin: '10px 0px' }}>
         <RenderPolicy />
+      </div>
+      <div style={{ margin: '10px 0px' }}>
+        <TimeProgress />
       </div>
     </Container>
   )
