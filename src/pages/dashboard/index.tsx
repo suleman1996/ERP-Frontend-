@@ -150,7 +150,7 @@ const DashBoard = () => {
       <div style={{ marginTop: '10px' }}>
         <FiltersComponentByDate />
       </div>
-      <div style={{ marginTop: '10px' }}>{/* <FiltersComponent /> */}</div>
+      <div style={{ marginTop: '10px' }}></div>
       <div style={{ marginTop: '10px' }}>
         <Table columns={columns} rows={rows} minWidth="1100px" />
       </div>

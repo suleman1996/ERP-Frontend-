@@ -205,12 +205,6 @@ export const usePersonalInfo = ({
             (await convertBase64Image(backPic[0])),
         }),
       }
-      // const obj = removeKey(temp)
-      // const userData = {
-      //   personalInformation: { ...obj },
-      //   employeeId: obj.employeeId?.label,
-      //   type: 1,
-      // }
       if (employeeDocId || id) {
         removeKeys(temp, ['backPic', 'frontPic'])
         const res = await EmployeeService.updateAddedEmployee(
