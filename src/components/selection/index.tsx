@@ -3,11 +3,11 @@ import Select from 'react-select'
 import { Controller } from 'react-hook-form'
 
 import Tags from 'components/tags'
+import TextField from 'components/textfield'
 
 import { SelectionStyle } from './custom-styles'
 
 import style from './select.module.scss'
-import TextField from 'components/textfield'
 
 interface Props {
   label?: string

@@ -5,7 +5,7 @@ import { useParams } from 'react-router'
 import { useSelector } from 'react-redux'
 
 import { removeKeys } from 'helper'
-import { removeKey, convertBase64Image } from 'main-helper'
+import { convertBase64Image } from 'main-helper'
 import { createNotification } from 'common/create-notification'
 import EmployeeService from 'services/employee-service'
 import { setErrors } from 'helper/index'
@@ -64,6 +64,7 @@ export const usePersonalInfo = ({
   const [selectedFileNameBack, setSelectedFileNameBack] = useState('')
   const [img, setImg] = useState<unknown>('')
   const [userId, setUserId] = useState()
+  const [seriesId, SetSeriesId] = useState()
 
   const getEmployeeID = async () => {
     const res = await EmployeeService.getAllEmployeesID(
@@ -88,6 +89,9 @@ export const usePersonalInfo = ({
     if (employeeDocId) {
       setLoader(true)
       const res = await EmployeeService.getEmployee(employeeDocId)
+      SetSeriesId(
+        res.data?.employeePersonalInformation?.employeeId.split('002')[0]
+      )
       setSelectedFileName(
         res.data?.employeePersonalInformation?.cnicFront?.name
       )
@@ -102,14 +106,21 @@ export const usePersonalInfo = ({
             .splice(3, 3)
             .join('')
       )
+
       reset({
         firstName: res?.data?.employeePersonalInformation?.firstName,
         lastName: res?.data?.employeePersonalInformation?.lastName,
         fullName: res?.data?.employeePersonalInformation?.fullName,
-        employeeId: res?.data?.employeePersonalInformation?.employeeId.substr(
-          0,
-          res?.data?.employeePersonalInformation?.employeeId.length - 3
-        ),
+        employeeId: {
+          label: res?.data?.employeePersonalInformation?.employeeId.substr(
+            0,
+            res?.data?.employeePersonalInformation?.employeeId.length - 3
+          ),
+          value: res?.data?.employeePersonalInformation?.employeeId.substr(
+            0,
+            res?.data?.employeePersonalInformation?.employeeId.length - 3
+          ),
+        },
         phone: res?.data?.employeePersonalInformation?.phone.toString(),
         email: res?.data?.employeePersonalInformation?.email,
         dob: new Date(res?.data?.employeePersonalInformation?.dob),
@@ -125,6 +136,7 @@ export const usePersonalInfo = ({
       setLoader(false)
     } else if (id) {
       const res = await EmployeeService.getEmployee(id)
+
       setSelectedFileName(
         res.data?.employeePersonalInformation?.cnicFront?.name.toString()
       )
@@ -139,14 +151,15 @@ export const usePersonalInfo = ({
             .splice(3, 3)
             .join('')
       )
+
       reset({
         firstName: res?.data?.employeePersonalInformation?.firstName,
         lastName: res?.data?.employeePersonalInformation?.lastName,
         fullName: res?.data?.employeePersonalInformation?.fullName,
-        employeeId: res?.data?.employeePersonalInformation?.employeeId.substr(
-          0,
-          res?.data?.employeePersonalInformation?.employeeId.length - 3
-        ),
+        employeeId: {
+          label: watch().employeeId.label,
+          value: watch()?.employeeId?.value,
+        },
         phone: res?.data?.employeePersonalInformation?.phone.toString(),
         email: res?.data?.employeePersonalInformation?.email,
         dob: new Date(res?.data?.employeePersonalInformation?.dob),
@@ -165,35 +178,39 @@ export const usePersonalInfo = ({
   const onSubmit = async (data: Data) => {
     setBtnLoader(true)
     try {
-      const { dob, cnic, frontPic, backPic, employeeId } = data
+      const { dob, cnic, frontPic, backPic } = data
       const temp = {
         phone: data?.phone,
         email: data?.email,
         fullName: data?.fullName,
         lastName: data?.lastName,
         firstName: data?.firstName,
-        profilePicture: img,
+        ...(img && { profilePicture: img }),
         dob: dob && moment(dob).format('YYYY-MM-DD'),
         cnic: cnic.toString(),
-        employeeId: employeeId?.label + userId,
+        employeeId: data?.employeeId?.label + userId,
         gender: data?.gender?.value,
-        cnicFront:
-          selectedFileName &&
-          frontPic &&
-          frontPic.length &&
-          (await convertBase64Image(frontPic[0])),
-        cnicBack:
-          selectedFileNameBack &&
-          backPic &&
-          backPic.length &&
-          (await convertBase64Image(backPic[0])),
+        ...(selectedFileName && {
+          cnicFront:
+            selectedFileName &&
+            frontPic &&
+            frontPic.length &&
+            (await convertBase64Image(frontPic[0])),
+        }),
+        ...(selectedFileNameBack && {
+          cnicBack:
+            selectedFileNameBack &&
+            backPic &&
+            backPic.length &&
+            (await convertBase64Image(backPic[0])),
+        }),
       }
-      const obj = removeKey(temp)
-      const userData = {
-        personalInformation: { ...obj },
-        employeeId: obj.employeeId,
-        type: 1,
-      }
+      // const obj = removeKey(temp)
+      // const userData = {
+      //   personalInformation: { ...obj },
+      //   employeeId: obj.employeeId?.label,
+      //   type: 1,
+      // }
       if (employeeDocId || id) {
         removeKeys(temp, ['backPic', 'frontPic'])
         const res = await EmployeeService.updateAddedEmployee(
@@ -202,10 +219,11 @@ export const usePersonalInfo = ({
         )
         if (res.status === 200) {
           handleNext('Address')
-          setFormData({ ...formData, personalInformation: { ...userData } })
+          setFormData({ ...formData, personalInformation: { ...temp } })
         }
       } else {
         removeKeys(temp, ['backPic', 'frontPic'])
+
         const res = await EmployeeService.addEmployee({ ...temp })
         if (res.status === 200) {
           setTimeout(() => {
@@ -249,5 +267,6 @@ export const usePersonalInfo = ({
     loader,
     customValidation,
     setCustomValidation,
+    seriesId,
   }
 }

@@ -117,6 +117,7 @@ const PersonalInformation = () => {
                 withInput
                 star={' *'}
                 errorMessage={errors?.employeeId?.message}
+                defaultValue={{ label: series[0]?.name, value: series[0]?._id }}
                 options={series.map((item) => {
                   return { label: item?.name, value: item?._id }
                 })}

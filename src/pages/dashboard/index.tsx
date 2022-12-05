@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
-import FiltersComponent from 'components/filters'
 import ImageUpload from 'components/image-upload'
 import FiltersComponentByDate from 'components/filters/filter-for-dates'
 import TextField from 'components/textfield'
@@ -12,8 +11,6 @@ import TimePicker from 'components/time-picker'
 import Tags from 'components/tags'
 import Button from 'components/button'
 import Table from 'components/table'
-
-import { rows, columns, recurrenceTypes } from './helper'
 import Switch from 'components/switch'
 import SkillLevel from 'components/skill-level'
 import Selection from 'components/selection'
@@ -25,6 +22,8 @@ import Checkbox from 'components/checkbox'
 import Pagination from 'components/pagination'
 import CountryInput from 'components/country-input'
 import EmployeeProfileCard from 'components/employee-profile-card'
+
+import { rows, columns, recurrenceTypes } from './helper'
 
 const DashBoard = () => {
   const { control, register, watch } = useForm()
@@ -151,9 +150,7 @@ const DashBoard = () => {
       <div style={{ marginTop: '10px' }}>
         <FiltersComponentByDate />
       </div>
-      <div style={{ marginTop: '10px' }}>
-        <FiltersComponent />
-      </div>
+      <div style={{ marginTop: '10px' }}>{/* <FiltersComponent /> */}</div>
       <div style={{ marginTop: '10px' }}>
         <Table columns={columns} rows={rows} minWidth="1100px" />
       </div>

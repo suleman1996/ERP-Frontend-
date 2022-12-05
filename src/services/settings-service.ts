@@ -58,8 +58,12 @@ export default class SettingsService {
     return res
   }
 
-  static async getUsers() {
-    const res = await ApiService.get(`${SettingsService.baseUrl[1]}/users`)
+  static async getUsers(data?: any) {
+    const res = await ApiService.get(`${SettingsService.baseUrl[1]}/users`, {
+      ...(data && {
+        params: data,
+      }),
+    })
     return res
   }
 
