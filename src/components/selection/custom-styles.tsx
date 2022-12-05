@@ -16,6 +16,8 @@ export const SelectionStyle = {
       'calc(2px + (7 - 2) * (100vw - 280px) / (2560 - 280)) !important',
     borderColor: 'none !important',
     cursor: 'pointer',
+    height:
+      'calc(30px + (55 - 30) * (100vw - 280px) / (2560 - 280)) !important',
     '&:hover': {
       outline: state.isFocused ? 0 : 0,
     },

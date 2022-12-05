@@ -157,17 +157,16 @@ const Selection = ({
   return (
     <div style={{ position: 'relative' }}>
       {label && (
-        <div style={{ marginBottom: 7.31 }}>
-          <label>
-            {label}
-            <b style={{ color: 'red' }}>{star}</b>
-          </label>
-        </div>
+        <label className={style.label}>
+          {label}
+          <b style={{ color: 'red' }}>{star}</b>
+        </label>
       )}
       <div
         style={{
           border: errorMessage ? '1px solid #ff5050' : '1px solid #E2E2EA',
           borderRadius: '6px',
+          marginTop: ' calc(5px + (12 - 5) * (100vw - 280px) / (2560 - 280))',
         }}
         className={`${backClass} ${
           !isDisabled ? wraperSelect : style.disabledSelection

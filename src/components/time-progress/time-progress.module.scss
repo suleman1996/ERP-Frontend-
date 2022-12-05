@@ -3,6 +3,6 @@
 @import 'styles/_mixin.scss';
 
 .main {
-  width: 200px;
-  height: 200px;
+  width: calc(150px + (200 - 150) * (100vw - 280px) / (2560 - 280));
+  height: calc(150px + (200 - 150) * (100vw - 280px) / (2560 - 280));
 }

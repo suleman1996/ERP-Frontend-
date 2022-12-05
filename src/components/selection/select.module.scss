@@ -38,7 +38,7 @@
   }
 }
 
-label {
+.label {
   @include font24;
   font-family: 'Poppins';
   font-style: normal;
@@ -61,6 +61,7 @@ select option:checked {
 
 .inputClass {
   border: none !important;
+
   input {
     width: 100%;
     border: none !important;
