@@ -60,10 +60,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    @media (max-width: $md) {
-      width: 15px;
-      height: 15px;
-    }
   }
 
   .selectFile {

@@ -137,45 +137,50 @@
 
 @mixin font40 {
   font-weight: 700;
-  font-size: calc(14px + (37 - 14) * (100vw - 280px) / (2560 - 280));
+  font-size: calc(17px + (37 - 17) * (100vw - 280px) / (2560 - 280));
 }
 
 @mixin font36 {
   font-weight: 600;
-  font-size: calc(12px + (32 - 12) * (100vw - 280px) / (2560 - 280));
+  font-size: calc(16px + (32 - 16) * (100vw - 280px) / (2560 - 280));
 }
 
 @mixin font32 {
   font-weight: 500;
-  font-size: calc(10px + (29 - 10) * (100vw - 280px) / (2560 - 280));
+  font-size: calc(15px + (29 - 15) * (100vw - 280px) / (2560 - 280));
 }
 
 @mixin font29 {
   font-weight: 400;
-  font-size: calc(10px + (25 - 10) * (100vw - 280px) / (2560 - 280));
+  font-size: calc(15px + (25 - 15) * (100vw - 280px) / (2560 - 280));
 }
 
 @mixin font24 {
   font-weight: 500;
-  font-size: calc(12px + (21 - 12) * (100vw - 280px) / (2560 - 280));
+  font-size: calc(14px + (21 - 14) * (100vw - 280px) / (2560 - 280));
 }
 
 @mixin font20 {
   font-weight: 500;
-  font-size: calc(12px + (18 - 12) * (100vw - 280px) / (2560 - 280));
+  font-size: calc(13px + (18 - 13) * (100vw - 280px) / (2560 - 280));
 }
 
 @mixin font18 {
   font-weight: 500;
-  font-size: calc(10px + (16 - 10) * (100vw - 280px) / (2560 - 280));
+  font-size: calc(13px + (16 - 13) * (100vw - 280px) / (2560 - 280));
 }
 
 @mixin font16 {
   font-weight: 500;
-  font-size: calc(10px + (14 - 10) * (100vw - 280px) / (2560 - 280));
+  font-size: calc(13px + (15 - 13) * (100vw - 280px) / (2560 - 280));
 }
 
 @mixin font14 {
   font-weight: 500;
-  font-size: calc(10px + (13 - 10) * (100vw - 280px) / (2560 - 280));
+  font-size: calc(12px + (14 - 12) * (100vw - 280px) / (2560 - 280));
+}
+
+@mixin font10 {
+  font-weight: 500;
+  font-size: calc(8px + (10 - 8) * (100vw - 280px) / (2560 - 280));
 }

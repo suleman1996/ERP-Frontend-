@@ -7,6 +7,7 @@ import Certificate from './certificate'
 import LanguageExpertise from './language-expertise'
 
 import EmployeeService from 'services/employee-service'
+import { useEmployeeForms } from '../context'
 
 import SvgImg from './svg-img'
 import arrowLeft from 'assets/backBtn.svg'
@@ -16,7 +17,6 @@ import numImg1 from 'assets/2.png'
 import numImg2 from 'assets/3.png'
 import arrowRight from 'assets/arrowBtnRight.svg'
 import style from './expertise.module.scss'
-import { useEmployeeForms } from '../context'
 
 export interface Skill {
   skills: string

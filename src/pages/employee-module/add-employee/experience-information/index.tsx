@@ -5,8 +5,9 @@ import TextField from 'components/textfield'
 import DatePicker from 'components/date-picker'
 import Table from 'components/table'
 import ProfileUpload from 'components/profile-upload'
-import SearchSelect from 'components/select-and-search-select'
 import Checkbox from 'components/checkbox'
+import Selection from 'components/selection'
+import { useEmployeeForms } from '../context'
 
 import { columns, useExperience } from './helper'
 import countries from 'assets/countries.json'
@@ -15,7 +16,6 @@ import tick from 'assets/tick.svg'
 import arrowRight from 'assets/arrowBtnRight.svg'
 import arrowLeft from 'assets/backBtn.svg'
 import style from './experience.module.scss'
-import { useEmployeeForms } from '../context'
 
 const ExperienceDetails = () => {
   const {
@@ -69,28 +69,29 @@ const ExperienceDetails = () => {
               errorMessage={errors?.company?.message}
               placeholder="company"
             />
-            <SearchSelect
+            <Selection
               name={'country'}
               star={' *'}
               control={control}
               value={watch('country')}
               errorMessage={errors?.country?.message}
-              options={countries?.map(({ name }) => name)}
+              options={countries?.map(({ name }) => {
+                return { label: name, value: name }
+              })}
               label="Country"
-              onChange={(value) => {
-                getData({
-                  country: value,
-                })
-              }}
+              propChange={getData}
+              propChangeLabel={'country'}
             />
-            <SearchSelect
+            <Selection
               name={'city'}
               star={' *'}
               register={register}
               control={control}
               value={watch('city')}
               errorMessage={errors?.city?.message}
-              options={cities}
+              options={cities?.map((name) => {
+                return { label: name, value: name }
+              })}
               label="City"
             />
             <TextField

@@ -24,6 +24,7 @@ export interface Language {
   letter?: string
   file: string
   experince: any
+  label: string
 }
 
 export const useLanguage = ({ formData, setFormData, setLanguage }: Props) => {
@@ -48,6 +49,7 @@ export const useLanguage = ({ formData, setFormData, setLanguage }: Props) => {
       (await convertBase64Image(data.file[0]))
     const languageData = {
       ...data,
+      language: data?.language?.label,
       skillLevel: data?.skills,
       ...(fileBase64 ? { file: `${fileBase64}` } : {}),
     }
@@ -62,6 +64,7 @@ export const useLanguage = ({ formData, setFormData, setLanguage }: Props) => {
     const tempObj = {
       ...data,
       skillLevel: data?.skills,
+      language: data?.language?.valueOf,
       ...(fileBase64
         ? { file: fileBase64 }
         : {
@@ -95,7 +98,7 @@ export const useLanguage = ({ formData, setFormData, setLanguage }: Props) => {
     data?.file && setSelectedFileName('file')
     setActiveEdit(`${data?.skillLevel}`)
     reset({
-      language: data?.language,
+      language: { label: data?.language, value: data?.language },
       year: data?.year,
       rate: data?.rate,
       skills: data?.skillLevel,
@@ -152,7 +155,7 @@ export const useLanguage = ({ formData, setFormData, setLanguage }: Props) => {
 }
 
 export const schema = yup.object().shape({
-  language: yup.string().required('Language  is a required field'),
+  language: yup.object().required('Language  is a required field'),
   year: yup
     .number()
     .required('Year is a required field')

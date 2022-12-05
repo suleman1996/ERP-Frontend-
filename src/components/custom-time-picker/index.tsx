@@ -1,7 +1,6 @@
 import { useEffect } from 'react'
 import { useController } from 'react-hook-form'
-
-import Select from 'components/select'
+import Selection from 'components/selection'
 
 import style from './time.module.scss'
 
@@ -14,6 +13,7 @@ interface Props {
   setType?: any
   type?: any
   star?: any
+  selectHoursDuration?: any
   label?: string
 }
 
@@ -26,8 +26,11 @@ const CustomTimePicker = ({
   setType,
   type,
   star,
+  selectHoursDuration,
 }: Props) => {
   const { field } = useController({ control, name, defaultValue: 'HH:MM' })
+
+  // console.log('inner type', type)
 
   useEffect(() => {
     if (type === 'per-day') {
@@ -59,26 +62,19 @@ const CustomTimePicker = ({
         <b style={{ color: '#ff5050' }}>{star}</b>
       </label>
       <div className={style.wraper} style={{ border: ' 1.2px solid #e2e2ea' }}>
-        <Select
+        <Selection
           selectContainer={style.selectContainer}
           name={'selectHours'}
           control={control}
           value={type && type}
-          onChange={(e) => setType(e.target.value)}
-        >
-          <>
-            {selectHoursDuration &&
-              selectHoursDuration.map(({ value, description }) => (
-                <option key={value} value={value}>
-                  {description}
-                </option>
-              ))}
-          </>
-        </Select>
+          setType={setType}
+          options={selectHoursDuration}
+        />
+
         <input
           type="number"
           placeholder="HH"
-          value={field.value.split(':')[0]}
+          value={field?.value?.split(':')[0]}
           onChange={(e) =>
             field.onChange(e.target.value + ':' + field.value.split(':')[1])
           }
@@ -87,7 +83,7 @@ const CustomTimePicker = ({
         <input
           type="number"
           placeholder="MM"
-          value={field.value.split(':')[1]}
+          value={field.value?.split(':')[1]}
           onChange={(e) =>
             field.onChange(field.value.split(':')[0] + ':' + e.target.value)
           }
@@ -100,18 +96,3 @@ const CustomTimePicker = ({
 }
 
 export default CustomTimePicker
-
-export const selectHoursDuration = [
-  {
-    value: 'per-day',
-    description: 'Per Day',
-  },
-  {
-    value: 'per-week',
-    description: 'Per Week',
-  },
-  {
-    value: 'per-month',
-    description: 'Per Month ',
-  },
-]

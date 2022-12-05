@@ -72,7 +72,7 @@ input::-webkit-inner-spin-button {
 .react-datepicker__year-text--keyboard-selected {
   background-color: #57b993 !important;
   border-radius: 5px !important;
-  font-size: 18px !important;
+  font-size: 12px !important;
   color: white !important;
 }
 
@@ -112,6 +112,9 @@ input::-webkit-inner-spin-button {
   width: 0px !important;
 }
 
+.css-1u9des2-indicatorSeparator {
+  width: 0px !important;
+}
 .react-tel-input .flag-dropdown {
   border: 1px solid transparent !important;
   background-color: transparent !important;

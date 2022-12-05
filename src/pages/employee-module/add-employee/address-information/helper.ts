@@ -42,8 +42,16 @@ export const useAddressInfo = ({
   const [permanentCitiesData, setPermanentCitiesData] = useState([])
   const [checkboxChecked, setCheckboxChecked] = useState(false)
 
-  const { register, control, handleSubmit, errors, reset, watch, setError } =
-    useForm()
+  const {
+    register,
+    control,
+    handleSubmit,
+    errors,
+    reset,
+    watch,
+    setError,
+    clearErrors,
+  } = useForm()
 
   useEffect(() => {
     if (id || employeeDocId) getSingleEmployeeData()
@@ -51,12 +59,41 @@ export const useAddressInfo = ({
 
   const getSingleEmployeeData = async () => {
     const res = await EmployeeService.getAddressEmployee(id || employeeDocId)
+    const { country, state, city } =
+      res.data?.employeeAddressInformation?.addresses?.currentAddress
     reset({
       currentAddress: {
         ...res.data?.employeeAddressInformation?.addresses?.currentAddress,
+        country: { label: country, value: country },
+        city: { label: city, value: city },
+        state: { label: state, value: state },
       },
       permanentAddress: {
         ...res.data?.employeeAddressInformation?.addresses?.permanentAddress,
+        country: {
+          label:
+            res.data?.employeeAddressInformation?.addresses?.permanentAddress
+              .country,
+          value:
+            res.data?.employeeAddressInformation?.addresses?.permanentAddress
+              .country,
+        },
+        city: {
+          label:
+            res.data?.employeeAddressInformation?.addresses?.permanentAddress
+              .city,
+          value:
+            res.data?.employeeAddressInformation?.addresses?.permanentAddress
+              .city,
+        },
+        state: {
+          label:
+            res.data?.employeeAddressInformation?.addresses?.permanentAddress
+              .state,
+          value:
+            res.data?.employeeAddressInformation?.addresses?.permanentAddress
+              .state,
+        },
       },
     })
   }
@@ -69,24 +106,45 @@ export const useAddressInfo = ({
       await getData(
         'permanentCountryData',
         {
-          country: currentAddress.country,
+          country: currentAddress.country.label,
         },
-        currentAddress.state
+        currentAddress.state.label
       )
       reset({
         ...data,
         permanentAddress: {
           ...currentAddress,
+          city: {
+            label: currentAddress.city.label,
+            value: currentAddress.city.label,
+          },
+          country: {
+            label: currentAddress.country.label,
+            value: currentAddress.country.label,
+          },
+          state: {
+            label: currentAddress.state.label,
+            value: currentAddress.state.label,
+          },
         },
       })
     } else {
       reset({
         ...data,
-        permanentCountry: '',
-        permanentState: '',
-        permanentCity: '',
-        permanentCode: '',
-        permanentAddress: '',
+        permanentAddress: {
+          city: {
+            label: '',
+            value: '',
+          },
+          country: {
+            label: '',
+            value: '',
+          },
+          state: {
+            label: '',
+            value: '',
+          },
+        },
       })
     }
   }
@@ -95,7 +153,20 @@ export const useAddressInfo = ({
     setBtnLoader(true)
     try {
       const userData = {
-        ...data,
+        currentAddress: {
+          city: data?.currentAddress?.city?.label,
+          country: data?.currentAddress?.country?.label,
+          state: data?.currentAddress?.state?.label,
+          address: data?.currentAddress?.address,
+          postalCode: data?.currentAddress?.postalCode,
+        },
+        permanentAddress: {
+          city: data?.permanentAddress?.city?.label,
+          country: data?.permanentAddress?.country?.label,
+          state: data?.permanentAddress?.state?.label,
+          address: data?.permanentAddress?.address,
+          postalCode: data?.permanentAddress?.postalCode,
+        },
       }
       if (id) {
         const res = await EmployeeService.addressAddPost(userData, id)
@@ -201,5 +272,6 @@ export const useAddressInfo = ({
     getData,
     watch,
     control,
+    clearErrors,
   }
 }

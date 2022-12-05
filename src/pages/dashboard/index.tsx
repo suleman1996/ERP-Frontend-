@@ -13,7 +13,7 @@ import Tags from 'components/tags'
 import Button from 'components/button'
 import Table from 'components/table'
 
-import { rows, columns, recurrenceTypes, languageArray } from './helper'
+import { rows, columns, recurrenceTypes } from './helper'
 import Switch from 'components/switch'
 import SkillLevel from 'components/skill-level'
 import Selection from 'components/selection'
@@ -21,26 +21,58 @@ import MonthYearPicker from 'components/range-month-picker'
 import DatePicker from 'components/date-picker'
 import Radio from 'components/radio'
 import ProgressBar from 'components/progress-bar'
-import SearchSelect from 'components/select-and-search-select'
 import Checkbox from 'components/checkbox'
 import Pagination from 'components/pagination'
 import CountryInput from 'components/country-input'
 import EmployeeProfileCard from 'components/employee-profile-card'
+import EmployeeDropdown from 'components/employee-card-dropdown'
+import RenderPolicy from 'components/policy-card'
+
+import plus from 'assets/path-plus.svg'
+import DeleteModal from 'components/delete-modal'
+import AccordianSwitch from 'components/accordian'
+import CustomTimePicker from 'components/custom-time-picker'
 
 const DashBoard = () => {
   const { control, register, watch } = useForm()
   const [img, setImg] = useState<unknown>('')
+  const [open, setOpen] = useState<boolean>(false)
   const [selectedFileName, setSelectedFileName] = useState<any>()
   const [toggle, setToggle] = useState<number>(0)
   const [pageSize, setPageSize] = useState(10)
   const [totalCount] = useState()
   const [page, setPage] = useState(1)
+  const [type, setType] = useState('per-day')
+
+  const [customErr, setCustomErr] = useState()
+  const [openAccordian, setOpenAccordian] = useState(-1)
 
   return (
     <Container>
+      <Button text="Button with sign" type="button" iconStart={plus} />
       <div style={{ marginTop: '10px' }}>
-        <Button text="Button very long" />
+        <p>Accordion</p>
+        {totalAccordian?.map((data, index) => {
+          return (
+            <AccordianSwitch
+              key={index}
+              title={'Profile'}
+              switchBtn
+              bodyData={addProfileData}
+              id={data?.id}
+              openAccordian={openAccordian}
+              setOpenAccordian={setOpenAccordian}
+            />
+          )
+        })}
       </div>
+      <div style={{ marginTop: '10px' }}>
+        <Button
+          text="Click Me for Open Delete Modal"
+          handleClick={() => setOpen(true)}
+        />
+      </div>
+      <DeleteModal open={open} setOpen={setOpen} />
       <div style={{ marginTop: '10px' }}>
         <TextField
           label="TextField"
@@ -61,18 +93,17 @@ const DashBoard = () => {
         <DatePicker control={control} label="Date Picker" name="datePicker" />
       </div>
       <div style={{ marginTop: '10px' }}>
-        <SearchSelect
-          name={'searchSelect'}
+        <Selection
+          label="Use Selection Component for Search and simple select"
+          options={recurrenceTypes}
+          name="recurrence"
           control={control}
-          value={watch('searchSelectWithicons')}
-          options={languageArray}
-          label="Custom Search Select + Select  "
+          placeholder="Select"
         />
       </div>
-
       <div style={{ marginTop: '10px' }}>
         <Selection
-          label="Use Selection Component only for multi select"
+          label="Use Selection Component  multi select"
           options={recurrenceTypes}
           name="recurrence"
           control={control}
@@ -130,6 +161,7 @@ const DashBoard = () => {
           totalCount={totalCount}
           setPage={setPage}
           page={page}
+          control={control}
         />
       </div>
       <div style={{ marginTop: '10px' }}>
@@ -178,8 +210,52 @@ const DashBoard = () => {
           name="SprintX"
         />
       </div>
+      <div style={{ margin: '10px 0px' }}>
+        <EmployeeDropdown />
+      </div>
+      <div style={{ margin: '10px 0px' }}>
+        <RenderPolicy />
+      </div>
+      <div style={{ margin: '10px 0px' }}>
+        <CustomTimePicker
+          label="Working Hours"
+          name={'employmentInfo.workingHours'}
+          control={control}
+          setCustomErr={setCustomErr}
+          customErr={customErr}
+          type={type}
+          setType={setType}
+          placeholder="Per Day"
+          selectHoursDuration={selectHoursDuration}
+        />
+      </div>
     </Container>
   )
 }
 
 export default DashBoard
+
+const totalAccordian = [{ name: '1', id: 1 }]
+
+const addProfileData = [
+  { name: 'Add Employee' },
+  { name: 'Edit Employee' },
+  { name: 'View Employee' },
+  { name: 'Delete Employee' },
+  { name: 'CV View' },
+  { name: 'Profile View' },
+]
+const selectHoursDuration = [
+  {
+    value: 'per-day',
+    label: 'per Day',
+  },
+  {
+    value: 'per-week',
+    label: 'Per Week',
+  },
+  {
+    value: 'per-month',
+    label: 'Per Month ',
+  },
+]

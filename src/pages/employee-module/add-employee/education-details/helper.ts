@@ -59,10 +59,21 @@ export const useEducationDetail = ({
       defaultValues: { endDate: null },
     })
 
+  const selectOptions = [
+    {
+      label: 'Percentage',
+      value: 'percentage',
+    },
+    {
+      label: 'CGPA',
+      value: 'cgpa',
+    },
+  ]
+
   const onSubmit = async () => {
     setBtnLoader(true)
+    setFormData({ ...formData, educationDetails: [...educations] })
     try {
-      setFormData({ ...formData, educationDetails: [...educations] })
       if (id) {
         const userData = {
           educationDetails: [...educations],
@@ -121,10 +132,11 @@ export const useEducationDetail = ({
             filename: newEducations[educationIndex.current]?.filename || '',
             transcript: newEducations[educationIndex.current]?.transcript || '',
           }),
-      ...(marksType === 'percentage' && { percentage: marksVal?.toString() }),
-      ...(marksType === 'cgpa' && {
-        cgpa: marksType === 'cgpa' && marksVal?.toString(),
-      }),
+      // ...(marksType === 'percentage' && { percentage: marksVal?.value?.toString() }),
+      // ...(marksType === 'cgpa' && {
+      //   cgpa: marksType === 'cgpa' && marksVal?.value?.toString(),
+      // }),
+      marksType: data?.marksType?.value,
     }
     !transcript && removeKeys(tempObj, ['transcript'])
     ongiong && removeKeys(tempObj, ['endDate'])
@@ -159,7 +171,7 @@ export const useEducationDetail = ({
       institute: data?.institute,
       degree: data?.degree,
       description: data?.description,
-      marksType: data?.marksType,
+      marksType: data?.marksType?.value,
       startDate: moment(data?.startDate, 'YYYY-MM-DD').toDate(),
       ...(!data?.ongoing && {
         endDate: moment(data?.endDate, 'YYYY-MM-DD').toDate(),
@@ -226,14 +238,15 @@ export const useEducationDetail = ({
     selectedFileName,
     setSelectedFileName,
     watch,
+    selectOptions,
   }
 }
 
 export const schema = yup.object().shape({
   institute: yup.string().required('Institute name is a required '),
   degree: yup.string().required('Degree is a required '),
-  marksType: yup.string().required(),
-  marks: yup.number().when('marksType', {
+  marksType: yup.object().required(),
+  marks: yup.number().when('marksType.value', {
     is: 'percentage',
     then: yup
       .number()

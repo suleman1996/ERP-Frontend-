@@ -1,22 +1,26 @@
-import style from './application-approval-card.module.scss';
-import image from 'assets/imgs/person.png';
-import Button from 'components/button';
-import moment from 'moment';
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react'
+import moment from 'moment'
+
+import Button from 'components/button'
+
+import image from 'assets/imgs/person.png'
+import style from './application-approval-card.module.scss'
 interface props {
-  className?: string;
-  data?: any;
-  history?: any;
+  className?: string
+  data?: any
+  history?: any
 }
 
 const ApplicationApprovalCard = ({ className, data, history }: props) => {
-  const [remaining, setRemaining] = useState<any>({});
+  const [remaining, setRemaining] = useState<any>({})
   useEffect(() => {
     if (Object.keys(history).length > 0) {
-      const responseHistory = history?.filter((el: any) => el.leaveId === data.leaveType._id);
-      setRemaining(responseHistory[0]);
+      const responseHistory = history?.filter(
+        (el: any) => el.leaveId === data.leaveType._id
+      )
+      setRemaining(responseHistory[0])
     }
-  }, [history, data]);
+  }, [history, data])
 
   return (
     <div className={`${className} ${style.applicationCard}`}>
@@ -25,7 +29,8 @@ const ApplicationApprovalCard = ({ className, data, history }: props) => {
         <div>
           <img src={image} alt="" />
           <span>
-            #{data?.employee?.employeeId} on {moment(data.applyDate).format('D MMM, YYYY')}
+            #{data?.employee?.employeeId} on{' '}
+            {moment(data.applyDate).format('D MMM, YYYY')}
           </span>
         </div>
       </div>
@@ -35,6 +40,7 @@ const ApplicationApprovalCard = ({ className, data, history }: props) => {
           {moment(data.dateFrom).format('D MMM, YYYY')} -{' '}
           {moment(data.dateTo).format('D MMM, YYYY')}
         </p>
+
         <div className={style.progressBar}>
           <div
             style={{
@@ -44,7 +50,8 @@ const ApplicationApprovalCard = ({ className, data, history }: props) => {
         </div>
         <p className={style.leaveCount}>
           {remaining?.remaining}{' '}
-          {data.leaveType.name[0].toUpperCase() + data.leaveType.name.slice(1)} Leaves Remaining
+          {data.leaveType.name[0].toUpperCase() + data.leaveType.name.slice(1)}{' '}
+          Leaves Remaining
         </p>
       </div>
       <div className={style.last}>
@@ -61,11 +68,21 @@ const ApplicationApprovalCard = ({ className, data, history }: props) => {
           btnClass={style.approve}
           className={style.approveText}
         />
-        <Button text="Reject" type="button" btnClass={style.reject} className={style.rejectText} />
-        <Button text="Update" type="button" btnClass={style.update} className={style.updateText} />
+        <Button
+          text="Reject"
+          type="button"
+          btnClass={style.reject}
+          className={style.rejectText}
+        />
+        <Button
+          text="Update"
+          type="button"
+          btnClass={style.update}
+          className={style.updateText}
+        />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ApplicationApprovalCard;
+export default ApplicationApprovalCard

@@ -3,7 +3,7 @@ import React, { Dispatch, memo, SetStateAction } from 'react'
 import Modal from 'components/modal'
 import Button from 'components/button'
 
-import cross from 'assets/delete-cross.svg'
+import cross from 'assets/del-modal.svg'
 import style from './delete-modal.module.scss'
 
 interface Props {

@@ -16,7 +16,7 @@ import SettingsService from 'services/settings-service'
 import EmployeeService from 'services/employee-service'
 import { createNotification } from 'common/create-notification'
 
-import dummy from 'assets/dummyPic.svg'
+import dummy from 'assets/avatar.jfif'
 import eye from 'assets/setting-icons/eye.svg'
 import eyeClose from 'assets/setting-icons/corss-eye.svg'
 import style from './manage.module.scss'

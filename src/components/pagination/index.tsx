@@ -1,6 +1,6 @@
 import { SetStateAction } from 'react'
 
-import Select from 'components/select'
+import Selection from 'components/selection'
 
 import left from 'assets/double-arrow-left.svg'
 import right from 'assets/double-arrow-right.svg'
@@ -15,22 +15,30 @@ interface Props {
   totalCount: number
   setPage: (value: number) => void
   page: number
+  control: any
 }
 
-const Pagination = ({ setCount, count, totalCount, setPage, page }: Props) => {
+const Pagination = ({
+  setCount,
+  count,
+  totalCount,
+  setPage,
+  page,
+  control,
+}: Props) => {
   return (
     <>
       <div className={style.pagination}>
         <div className={style.leftFlex}>
           <p style={{ marginLeft: '0px' }}>View</p>
-          <div style={{ maxWidth: '80px' }}>
-            <Select onChange={(e) => setCount(Number(e.target.value))}>
-              {selectOptions?.map(({ value, label }) => (
-                <option key={value} value={value}>
-                  {label}
-                </option>
-              ))}
-            </Select>
+          <div style={{ maxWidth: '100px' }}>
+            <Selection
+              control={control}
+              name={'pagination'}
+              options={selectOptions}
+              placeholder=""
+              changeHandler={setCount}
+            />
           </div>
           <p>user per page</p>
         </div>
