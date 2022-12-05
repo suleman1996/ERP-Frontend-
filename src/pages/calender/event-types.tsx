@@ -72,7 +72,7 @@ export const category = [
 ]
 
 export const eventName = [
-  { name: 'This Event' },
-  { name: 'This and following events' },
-  { name: 'All Event' },
+  { name: 'This Event', value: 'specific' },
+  { name: 'This and following events', value: 'future' },
+  { name: 'All Event', value: 'all' },
 ]
