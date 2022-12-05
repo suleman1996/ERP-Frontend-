@@ -120,8 +120,8 @@ const Calender = () => {
     const res = await CalenderService.getAllEvents({
       view: 'Yearly',
       year: year,
-      // startDate: dateRange.startDate,
-      // endDate: dateRange.endDate,
+      startDate: dateRange.startDate,
+      endDate: dateRange.endDate,
     })
     setAllEvent(res?.data?.events)
   }
