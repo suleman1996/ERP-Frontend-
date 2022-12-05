@@ -1,6 +1,6 @@
 import { ApiService } from './api-services'
-import { GeneralSettingUpdateUser } from 'pages/settings/general-settings/helper'
 import { ManageAccountsEditEmployee } from 'pages/settings/manage-accounts/manage-accounts-helper'
+import { GeneralSettingUpdateUser } from 'pages/settings/general-settings/helper'
 
 export default class SettingsService {
   static baseUrl = ['settings', '']
