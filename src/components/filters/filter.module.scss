@@ -5,6 +5,8 @@
   border: 0.723013px solid #e2e2ea;
   border-radius: 2.16904px;
   width: 185px;
+  position: relative;
+  z-index: 200;
   .sortingDiv {
     padding: 9px 7px;
     display: flex;
@@ -184,4 +186,11 @@
 .maxHeight {
   max-height: 200px;
   overflow-y: auto;
+}
+
+.backDrop{
+  inset: 0;
+  background-color: transparent;
+  position:fixed;
+  z-index: 100;
 }
