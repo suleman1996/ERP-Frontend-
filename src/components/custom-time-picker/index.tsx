@@ -70,15 +70,7 @@ const CustomTimePicker = ({
           setType={setType}
           options={selectHoursDuration}
         />
-        {/* <>
-            {selectHoursDuration &&
-              selectHoursDuration.map(({ value, description }) => (
-                <option key={value} value={value}>
-                  {description}
-                </option>
-              ))}
-          </>
-        </Select> */}
+
         <input
           type="number"
           placeholder="HH"
