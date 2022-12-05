@@ -9,7 +9,6 @@
   display: flex;
   width: 100%;
   height: 100%;
-  max-width: 365px;
   position: relative;
 
   .leftGrid {
@@ -57,7 +56,7 @@
     padding-bottom: calc(13px + (29 - 13) * (100vw - 280px) / (2560 - 280));
 
     h1 {
-      @include font29;
+      @include font32;
       width: 175px;
       white-space: nowrap;
       overflow: hidden;
@@ -65,7 +64,7 @@
       text-overflow: ellipsis;
       cursor: pointer;
       color: #171725;
-      font-weight: 700;
+      font-weight: 600;
 
       &:hover {
         & div {
@@ -98,7 +97,7 @@
     }
 
     .innerPara {
-      margin-top: 30px;
+      margin-top: 20px;
 
       p {
         font-style: normal;

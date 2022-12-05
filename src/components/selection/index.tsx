@@ -53,6 +53,7 @@ interface Props {
   marksType?: any
   setMarkVal?: any
   marksVal?: any
+  backStyle?: any
 }
 
 const Selection = ({
@@ -88,6 +89,7 @@ const Selection = ({
   name1,
   register,
   marksType,
+  // backStyle,
   marksVal,
 }: Props) => {
   const [customErr, setCustomErr] = useState<string | undefined>()

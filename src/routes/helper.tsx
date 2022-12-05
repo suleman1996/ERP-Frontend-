@@ -10,7 +10,6 @@ import MobileForgotVerification from 'pages/forget/verification'
 import EmployeeProfileDetails from 'pages/employee-module/employee-profile'
 import AddEmployee from 'pages/employee-module/add-employee'
 import SingleEmployee from 'pages/employee-module/single-employee'
-import ProfileSetting from 'pages/settings/profile-settings'
 import TaxSlab from 'pages/tax'
 import Calender from 'pages/calender'
 import Applications from 'pages/applications'
@@ -33,11 +32,7 @@ export const routes: RouteInterface[] = [
     component: <DashBoard />,
     role: [...roles.all],
   },
-  {
-    path: '/profile-setting',
-    component: <ProfileSetting />,
-    role: [...roles.all],
-  },
+
   {
     path: '/tax',
     component: <TaxSlab />,

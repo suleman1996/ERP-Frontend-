@@ -1,6 +1,8 @@
 export const SelectionStyle = {
   control: (styles: any, state: any) => ({
     ...styles,
+    // ...backStyle,
+
     backgroundColor: '#ffffff',
     borderRadius: 6,
     boxShadow: 'none',
@@ -30,6 +32,7 @@ export const SelectionStyle = {
         ? 'white'
         : 'white',
       color: isDisabled ? '#ccc' : isSelected ? 'red  !important' : data.color,
+      fontSize: 'calc(12px + (18 - 12) * (100vw - 280px) / (2560 - 280))',
       cursor: isDisabled ? 'not-allowed' : 'default',
       '&:active': {
         backgroundColor: 'white',

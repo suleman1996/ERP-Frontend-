@@ -1,9 +1,13 @@
+import React, { useState } from 'react'
+import { useForm } from 'react-hook-form'
+
 import Pagination from 'components/pagination'
 import Table from 'components/table'
-import React, { useState } from 'react'
-import style from './approval-records.module.scss'
+
 import view from 'assets/viewIconnew.svg'
 import deleteIcon from 'assets/table-delete.svg'
+
+import style from './approval-records.module.scss'
 
 const RowsData = [
   {
@@ -353,6 +357,7 @@ const ApprovalRecords = () => {
   const [pageSize, setPageSize] = useState(10)
   const [totalCount] = useState()
   const [page, setPage] = useState(1)
+  const { control } = useForm()
 
   return (
     <div className={style.approvalRecordsContainer}>
@@ -384,6 +389,7 @@ const ApprovalRecords = () => {
           totalCount={totalCount}
           setPage={setPage}
           page={page}
+          control={control}
         />
       </div>
     </div>

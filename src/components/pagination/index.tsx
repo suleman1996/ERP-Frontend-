@@ -15,6 +15,7 @@ interface Props {
   totalCount: number
   setPage: (value: number) => void
   page: number
+  control: any
 }
 
 const Pagination = ({
@@ -30,19 +31,14 @@ const Pagination = ({
       <div className={style.pagination}>
         <div className={style.leftFlex}>
           <p style={{ marginLeft: '0px' }}>View</p>
-          <div style={{ maxWidth: '80px' }}>
+          <div style={{ maxWidth: '100px' }}>
             <Selection
               control={control}
               name={'pagination'}
               options={selectOptions}
+              placeholder=""
               changeHandler={setCount}
             />
-            {/* {selectOptions?.map(({ value, label }) => (
-                <option key={value} value={value}>
-                  {label}
-                </option>
-              ))}
-            </Select> */}
           </div>
           <p>user per page</p>
         </div>

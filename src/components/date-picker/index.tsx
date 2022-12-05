@@ -205,7 +205,7 @@ const DatePicker = ({
               )
             }}
           />
-          <label htmlFor={id}>
+          <label htmlFor={id} className={style.labelDate}>
             <img src={date} alt="" className={style.icon} />
           </label>
         </div>
