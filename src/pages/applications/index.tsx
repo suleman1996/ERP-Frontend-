@@ -86,53 +86,57 @@ const Applications = () => {
       )}
       <CardContainer className={style.cardContainer}>
         <div className={style.headContainer}>
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <p
-              className={active === 1 ? style.active : ''}
-              onClick={() => handleTab(1)}
-            >
-              My Leaves
-            </p>
-            <p
-              className={active === 2 ? style.active : ''}
-              onClick={() => handleTab(2)}
-            >
-              Approvals
-            </p>
-            <p
-              className={active === 3 ? style.active : ''}
-              onClick={() => handleTab(3)}
-            >
-              Leave Quota
-            </p>
-            <p
-              className={active === 4 ? style.active : ''}
-              onClick={() => handleTab(4)}
-            >
-              Leave Types
-            </p>
+          <div>
+            <div className={style.topper}>
+              <p
+                className={active === 1 ? style.active : ''}
+                onClick={() => handleTab(1)}
+              >
+                My Leaves
+              </p>
+              <p
+                className={active === 2 ? style.active : ''}
+                onClick={() => handleTab(2)}
+              >
+                Approvals
+              </p>
+              <p
+                className={active === 3 ? style.active : ''}
+                onClick={() => handleTab(3)}
+              >
+                Leave Quota
+              </p>
+              <p
+                className={active === 4 ? style.active : ''}
+                onClick={() => handleTab(4)}
+              >
+                Leave Types
+              </p>
+            </div>
           </div>
-          {active === 1 && (
-            <Button
-              text="Apply Leave"
-              btnClass={style.btnClass}
-              handleClick={() => setOpenModal(true)}
-            />
-          )}
-          {active === 3 && (
-            <Button
-              text="Add Quota"
-              btnClass={style.btnClass}
-              handleClick={() => setOpenModalQuota(true)}
-            />
-          )}
-          {active === 4 && (
-            <Button
-              text="Add Leave Type"
-              btnClass={style.btnClass}
-              handleClick={() => setOpenAddTypeModal(true)}
-            />
-          )}
+          <div className={style.buttonClass}>
+            {active === 1 && (
+              <Button
+                text="Apply Leave"
+                btnClass={style.btnClass}
+                handleClick={() => setOpenModal(true)}
+              />
+            )}
+            {active === 3 && (
+              <Button
+                text="Add Leave Quota"
+                btnClass={style.btnClass}
+                handleClick={() => setOpenModalQuota(true)}
+              />
+            )}
+            {active === 4 && (
+              <Button
+                text="Add Leave Type"
+                btnClass={style.btnClass}
+                handleClick={() => setOpenAddTypeModal(true)}
+              />
+            )}
+          </div>
         </div>
         <div className={style.footerDiv}>{ActiveView()}</div>
         <AddLeaveType

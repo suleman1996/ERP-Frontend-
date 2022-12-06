@@ -9,7 +9,6 @@
   display: flex;
   height: calc(100vh - 120px);
   overflow-y: scroll;
-  overflow-x: hidden;
   position: relative;
   flex-direction: column;
   padding-top: calc(12px + (25 - 12) * (100vw - 280px) / (2560 - 280));

@@ -11,6 +11,7 @@
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  width: max-content;
 
   p {
     padding-left: calc(18px + (30 - 18) * (100vw - 280px) / (2560 - 280));

@@ -142,7 +142,7 @@ const AddQuotaModal = ({
   return (
     <Modal
       open={openModal}
-      text="Apply"
+      text="Add Quota"
       title={'Add Leave Quota'}
       handleClose={() => setOpenModal(false)}
       type="submit"
