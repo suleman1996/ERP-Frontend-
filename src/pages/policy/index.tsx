@@ -488,7 +488,6 @@ const Policy = () => {
                 errorMessage={errors?.pdf?.message}
                 selectedFileName={selectedFileName}
                 setSelectedFileName={setSelectedFileName}
-                placeholder="Attach File"
               />
             </div>
           </div>

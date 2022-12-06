@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import moment from 'moment'
@@ -30,6 +31,7 @@ import { eventTypes, recurrenceTypes, category, eventName } from './event-types'
 import location from 'assets/location.svg'
 import plus from 'assets/plusIcon.svg'
 import bucketIcon from 'assets/Bucket.svg'
+
 import './calendar.scss'
 import style from './calender.module.scss'
 
@@ -59,6 +61,9 @@ const Calender = () => {
   const [delRecurring, setDelRecurring] = useState(false)
   const [employeesWithDep] = useState<any>([])
   const [year, setYear] = useState<any>()
+  const [radioValue, setRadioValue] = useState('')
+  const [specificEvent, setSpecificEvent] = useState('')
+  const [noRecurrence, setNoRecurrence] = useState('')
 
   const {
     register,
@@ -114,7 +119,7 @@ const Calender = () => {
 
   const getAllEvents = async () => {
     const res = await CalenderService.getAllEvents({
-      view: 'Yearly',
+      view: view,
       year: year,
       startDate: dateRange.startDate,
       endDate: dateRange.endDate,
@@ -125,13 +130,24 @@ const Calender = () => {
   const handleDelete = async () => {
     setBtnLoader(true)
     try {
-      const res = await CalenderService.deleteEvent(eventId)
+      const deleteEventBody = {
+        deleteType: noRecurrence === 'No Recurrence' ? 'all' : radioValue,
+        recursionEnd:
+          radioValue === 'future'
+            ? specificEvent
+            : moment(singleEventData?.recursionEnd?.replace('Z', '')).format(
+                'YYYY-MM-DD'
+              ),
+        excludedDates: specificEvent && specificEvent,
+      }
+      const res = await CalenderService.deleteEvent(eventId, deleteEventBody)
       if (res.status === 200) {
         setBtnLoader(true)
         createNotification('success', 'success', res?.data?.msg)
         getAllEvents()
         setCustomTooltip(false)
-        setDelModal(!delModal)
+        setDelRecurring(false)
+        setDelModal(false)
       }
       setBtnLoader(false)
     } catch (err) {
@@ -273,6 +289,8 @@ const Calender = () => {
     setAttendeesPic(res?.data?.event?.attendees)
     setCustomTooltip(event._def.extendedProps._id)
     setEventId(event._def.extendedProps._id)
+    setSpecificEvent(moment(event._instance.range.start).format('YYYY-MM-DD'))
+    setNoRecurrence(event?._def?.extendedProps?.recurrence)
   }
 
   const onSubmit = async (data: any) => {
@@ -353,7 +371,6 @@ const Calender = () => {
               iconStart={plus}
             />
           </div>
-          <p onClick={() => setDelRecurring(true)}>Delete Recuring</p>
           <div className={style.fullDiv}>
             <div className={style.sectionView}>
               <FullCalendar
@@ -385,19 +402,23 @@ const Calender = () => {
                 allDayMaintainDuration={true}
                 eventContent={RenderEventHandler}
                 slotLabelInterval={{ hours: 1 }}
-                events={allEvent?.map((e: any) => ({
-                  ...e,
-                  title: e?.title,
-                  ...(e?.recurrence !== 'No Recurrence' && {
-                    rrule: {
-                      freq: e?.recurrence?.toLowerCase(),
-                      dtstart: e?.start?.replace('Z', ''),
-                      until: e?.recursionEnd?.replace('Z', ''),
-                    },
-                    exdate: e?.excludedEvents,
-                    duration: e?.duration,
-                  }),
-                }))}
+                events={allEvent?.map((e: any) => {
+                  return {
+                    ...e,
+                    title: e?.title,
+                    ...(e?.recurrence !== 'No Recurrence' && {
+                      rrule: {
+                        freq: e?.recurrence?.toLowerCase(),
+                        dtstart: e?.start?.replace('Z', ''),
+                        until: e?.recursionEnd?.replace('Z', ''),
+                      },
+                      exdate: e?.excludedEvents.map(
+                        (el: any) => el.split('T')[0]
+                      ),
+                      duration: e?.duration,
+                    }),
+                  }
+                })}
                 handleWindowResize={true}
                 contentHeight="auto"
                 contentWidth="auto"
@@ -456,6 +477,7 @@ const Calender = () => {
                   star=" *"
                   closeMenuOnSelect={false}
                   isMulti={true}
+                  showNumber
                 />
               </div>
 
@@ -467,7 +489,7 @@ const Calender = () => {
                   star=" *"
                   showTimeInput={check !== true}
                   errorMessage={errors?.start?.message}
-                  placeholder={'Start Date'}
+                  placeholder={'Select Start Date'}
                   allDayLabel={'All Day'}
                   switchName="allDay"
                   register={register}
@@ -482,7 +504,7 @@ const Calender = () => {
                   star=" *"
                   showTimeInput={check !== true}
                   errorMessage={errors?.end?.message}
-                  placeholder={'End Date'}
+                  placeholder={'Select End Date'}
                 />
               </div>
 
@@ -518,7 +540,7 @@ const Calender = () => {
                 />
                 <TextField
                   label="Venue"
-                  placeholder="Venue"
+                  placeholder="Enter Venue"
                   name="venue"
                   register={register}
                 />
@@ -526,7 +548,7 @@ const Calender = () => {
               <TextArea
                 label="Description"
                 row={2}
-                placeholder="Enter event discription.."
+                placeholder="Enter event discription"
                 name="description"
                 register={register}
               />
@@ -549,30 +571,45 @@ const Calender = () => {
           open={customTooltip}
           title={singleEventData?.title && singleEventData?.title}
           className={style.modalClass}
+          titleClass={style.titleClass}
           handleEdit={() => {
             setOpenModal(true), setCustomTooltip(!customTooltip)
           }}
           handleDelete={() => {
             setCustomTooltip(!customTooltip)
-            setDelModal(true)
+            {
+              noRecurrence === 'No Recurrence'
+                ? setDelModal(!delModal)
+                : setDelRecurring(!delRecurring)
+            }
           }}
           handleClose={() => setCustomTooltip(!customTooltip)}
         >
           <div className={style.durationView}>
             <p className={style.title2}>
-              {moment(singleEventData?.start?.replace('Z', '')).format(
-                'MMM Do YYYY'
-              )}
-              {moment(singleEventData?.start?.replace('Z', '')).format(
-                'MMM Do YYYY'
-              ) !==
-                moment(singleEventData?.end?.replace('Z', '')).format(
-                  'MMM Do YYYY'
-                ) &&
-                ' To ' +
-                  moment(singleEventData?.end?.replace('Z', '')).format(
+              {specificEvent ? (
+                <span>
+                  {moment(specificEvent?.replace('Z', '')).format(
                     'MMM Do YYYY'
                   )}
+                </span>
+              ) : (
+                <span>
+                  {moment(singleEventData?.start?.replace('Z', '')).format(
+                    'MMM Do YYYY'
+                  )}
+                  {moment(singleEventData?.start?.replace('Z', '')).format(
+                    'MMM Do YYYY'
+                  ) !==
+                    moment(singleEventData?.end?.replace('Z', '')).format(
+                      'MMM Do YYYY'
+                    ) &&
+                    ' To ' +
+                      moment(singleEventData?.end?.replace('Z', '')).format(
+                        'MMM Do YYYY'
+                      )}
+                </span>
+              )}
               {!singleEventData?.allDay && (
                 <span>
                   {' '}
@@ -700,7 +737,11 @@ const Calender = () => {
             {eventName.map((item) => (
               <>
                 <div style={{ padding: '10px', marginTop: '2px' }}>
-                  <Radio label={item?.name} name="radio" />
+                  <Radio
+                    label={item?.name}
+                    name="radio"
+                    handleChange={() => setRadioValue(item?.value)}
+                  />
                 </div>
               </>
             ))}
@@ -711,7 +752,11 @@ const Calender = () => {
                 className={style.cnclText}
                 handleClick={() => setDelRecurring(!delRecurring)}
               />
-              <Button text="Delete" />
+              <Button
+                text="Delete"
+                handleClick={handleDelete}
+                isLoading={btnLoader}
+              />
             </div>
           </div>
         </Modal>

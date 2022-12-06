@@ -55,6 +55,7 @@ const ApplicationApprovalCard = ({
           {moment(data.dateFrom).format('D MMM, YYYY')} -{' '}
           {moment(data.dateTo).format('D MMM, YYYY')}
         </p>
+
         <div className={style.progressBar}>
           <div
             style={{

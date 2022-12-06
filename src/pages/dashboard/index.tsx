@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
-import FiltersComponent from 'components/filters'
 import ImageUpload from 'components/image-upload'
 import FiltersComponentByDate from 'components/filters/filter-for-dates'
 import TextField from 'components/textfield'
@@ -12,8 +11,6 @@ import TimePicker from 'components/time-picker'
 import Tags from 'components/tags'
 import Button from 'components/button'
 import Table from 'components/table'
-
-import { rows, columns, recurrenceTypes } from './helper'
 import Switch from 'components/switch'
 import SkillLevel from 'components/skill-level'
 import Selection from 'components/selection'
@@ -25,21 +22,53 @@ import Checkbox from 'components/checkbox'
 import Pagination from 'components/pagination'
 import CountryInput from 'components/country-input'
 import EmployeeProfileCard from 'components/employee-profile-card'
+import EmployeeDropdown from 'components/employee-card-dropdown'
+import RenderPolicy from 'components/policy-card'
+
+import plus from 'assets/path-plus.svg'
+import DeleteModal from 'components/delete-modal'
+import AccordianSwitch from 'components/accordian'
+import TimeProgress from 'components/time-progress'
+
+import { rows, columns, recurrenceTypes } from './helper'
 
 const DashBoard = () => {
   const { control, register, watch } = useForm()
   const [img, setImg] = useState<unknown>('')
+  const [open, setOpen] = useState<boolean>(false)
   const [selectedFileName, setSelectedFileName] = useState<any>()
   const [toggle, setToggle] = useState<number>(0)
   const [pageSize, setPageSize] = useState(10)
   const [totalCount] = useState()
   const [page, setPage] = useState(1)
+  const [openAccordian, setOpenAccordian] = useState(-1)
 
   return (
     <Container>
+      <Button text="Button with sign" type="button" iconStart={plus} />
       <div style={{ marginTop: '10px' }}>
-        <Button text="Button very long" />
+        <p>Accordion</p>
+        {totalAccordian?.map((data, index) => {
+          return (
+            <AccordianSwitch
+              key={index}
+              title={'Profile'}
+              switchBtn
+              bodyData={addProfileData}
+              id={data?.id}
+              openAccordian={openAccordian}
+              setOpenAccordian={setOpenAccordian}
+            />
+          )
+        })}
       </div>
+      <div style={{ marginTop: '10px' }}>
+        <Button
+          text="Click Me for Open Delete Modal"
+          handleClick={() => setOpen(true)}
+        />
+      </div>
+      <DeleteModal open={open} setOpen={setOpen} />
       <div style={{ marginTop: '10px' }}>
         <TextField
           label="TextField"
@@ -151,9 +180,7 @@ const DashBoard = () => {
       <div style={{ marginTop: '10px' }}>
         <FiltersComponentByDate />
       </div>
-      <div style={{ marginTop: '10px' }}>
-        <FiltersComponent />
-      </div>
+      <div style={{ marginTop: '10px' }}></div>
       <div style={{ marginTop: '10px' }}>
         <Table columns={columns} rows={rows} minWidth="1100px" />
       </div>
@@ -177,8 +204,28 @@ const DashBoard = () => {
           name="SprintX"
         />
       </div>
+      <div style={{ margin: '10px 0px' }}>
+        <EmployeeDropdown />
+      </div>
+      <div style={{ margin: '10px 0px' }}>
+        <RenderPolicy />
+      </div>
+      <div style={{ margin: '10px 0px' }}>
+        <TimeProgress />
+      </div>
     </Container>
   )
 }
 
 export default DashBoard
+
+const totalAccordian = [{ name: '1', id: 1 }]
+
+const addProfileData = [
+  { name: 'Add Employee' },
+  { name: 'Edit Employee' },
+  { name: 'View Employee' },
+  { name: 'Delete Employee' },
+  { name: 'CV View' },
+  { name: 'Profile View' },
+]

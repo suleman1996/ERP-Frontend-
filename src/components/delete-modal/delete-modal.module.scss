@@ -10,19 +10,21 @@
     align-items: center;
 
     img {
-      height: calc(35px + (130 - 35) * (100vw - 280px) / (2560 - 280));
-      width: calc(35px + (130 - 35) * (100vw - 280px) / (2560 - 280));
+      height: calc(30px + (100 - 30) * (100vw - 280px) / (2560 - 280));
+      width: calc(30px + (100 - 30) * (100vw - 280px) / (2560 - 280));
     }
 
     h1 {
-      @include font40;
+      @include font36;
       color: #2d2d32;
-      margin: 25px 0px;
+      margin-top: calc(10px + (25 - 10) * (100vw - 280px) / (2560 - 280));
+      margin-bottom: calc(10px + (25 - 10) * (100vw - 280px) / (2560 - 280));
+
       text-align: center;
     }
 
     p {
-      @include font29;
+      @include font20;
       text-align: center;
       color: #2d2d32;
     }
@@ -33,7 +35,6 @@
     justify-content: center;
     align-items: center;
     margin-top: 25px;
-    padding: 0px 18px;
 
     .btn1 {
       border: 1px solid $btn;
@@ -52,7 +53,7 @@
     }
 
     .button {
-      margin-left: 30px;
+      margin-left: calc(10px + (30 - 10) * (100vw - 280px) / (2560 - 280));
       width: 100%;
       max-width: calc(120px + (250 - 120) * (100vw - 280px) / (2560 - 280));
     }
@@ -60,12 +61,9 @@
 }
 
 .wrapperModal {
-  max-width: 700px !important;
-  padding-top: calc(20px + (126 - 20) * (100vw - 280px) / (2560 - 280));
-  padding-bottom: calc(20px + (126 - 20) * (100vw - 280px) / (2560 - 280));
-  padding-left: calc(20px + (262 - 20) * (100vw - 280px) / (2560 - 280));
-  padding-right: calc(20px + (262 - 20) * (100vw - 280px) / (2560 - 280));
-  @media (max-width: $xl) {
-    padding: 50px;
-  }
+  max-width: 445px !important;
+  padding-top: calc(13px + (50 - 13) * (100vw - 280px) / (2560 - 280));
+  padding-bottom: calc(13px + (50 - 13) * (100vw - 280px) / (2560 - 280));
+  padding-left: calc(13px + (55 - 13) * (100vw - 280px) / (2560 - 280));
+  padding-right: calc(13px + (55 - 13) * (100vw - 280px) / (2560 - 280));
 }

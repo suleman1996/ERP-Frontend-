@@ -26,6 +26,7 @@ const ManageUser = ({ newUser, setNewUser, setBtnHideShow }) => {
     useForm()
 
   const [deletePopUp, setDeletePopUp] = useState(false)
+  const [isFilter, setIsFilter] = useState(false)
   const [resetPopUp, setResetPopUp] = useState(false)
   const [newPasswordEye, setNewPasswordEye] = useState(false)
   const [confirmPasswordEye, setConfirmPasswordEye] = useState(false)
@@ -105,17 +106,46 @@ const ManageUser = ({ newUser, setNewUser, setBtnHideShow }) => {
     setBtnLoader(false)
   }
 
+  const filterSubmit = async (data) => {
+    const result = await SettingsService.getUsers({
+      sortBy:
+        isFilter === 1
+          ? 'name'
+          : isFilter === 2
+          ? 'email'
+          : isFilter === 3
+          ? 'role'
+          : isFilter === 4
+          ? 'employeeId'
+          : '',
+      ...(isFilter === 1 && { name: data?.name && data?.name }),
+      ...(isFilter === 2 && { email: data?.name && data?.name }),
+      ...(isFilter === 3 && { role: data?.name && data?.name }),
+      ...(isFilter === 4 && { employeeId: data?.name && data?.name }),
+      ...(data?.asc != undefined && { sort: data?.asc }),
+    })
+
+    if (result.status === 200) {
+      setIsFilter(-1)
+      setAllUsers(result?.data?.users)
+    }
+  }
+
   return (
     <CardContainer className={style.card}>
       <div style={{ padding: '0 10px', paddingBottom: '60px' }}>
         <Table
+          onSubmit={filterSubmit}
           getAllUsers={getAllUsers}
+          allUsers={allUsers}
           singleUser={singleUser}
           setNewUser={setNewUser}
           customRoles={customRoles}
           allIDs={allIDs}
           columns={ColumnsData}
           editIndex={editIndex}
+          isFilter={isFilter}
+          setIsFilter={setIsFilter}
           setEditIndex={setEditIndex}
           rows={allUsers?.map((row) => ({
             ...row,
@@ -188,7 +218,7 @@ const ManageUser = ({ newUser, setNewUser, setBtnHideShow }) => {
             }}
           >
             <div className={style.modalWraper}>
-              <h1>Reset Password</h1>
+              <h2>Reset Password</h2>
               <TextField
                 placeholder="Enter new password"
                 label="New Password"

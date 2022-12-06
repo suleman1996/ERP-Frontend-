@@ -12,7 +12,12 @@
   padding: 10px !important;
   z-index: 1000 !important;
 }
-
+.react-datepicker__day,
+.react-datepicker__day--031,
+.react-datepicker__day--outside-month {
+  font-weight: 500 !important;
+  font-size: 12px !important;
+}
 .react-datepicker-popper[data-placement^='bottom']
   .react-datepicker__triangle::before,
 .react-datepicker-popper[data-placement^='bottom']
@@ -52,13 +57,6 @@
   font-weight: 500 !important;
   font-size: 12px !important;
   color: #afafaf !important;
-}
-
-.react-datepicker__day,
-.react-datepicker__day--031,
-.react-datepicker__day--outside-month {
-  font-weight: 500 !important;
-  font-size: 12px !important;
 }
 
 .react-datepicker__day {

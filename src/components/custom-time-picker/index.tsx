@@ -63,22 +63,13 @@ const CustomTimePicker = ({
       </label>
       <div className={style.wraper} style={{ border: ' 1.2px solid #e2e2ea' }}>
         <Selection
-          selectContainer={style.selectContainer}
           name={'selectHours'}
           control={control}
           value={type && type}
           setType={setType}
           options={selectHoursDuration}
         />
-        {/* <>
-            {selectHoursDuration &&
-              selectHoursDuration.map(({ value, description }) => (
-                <option key={value} value={value}>
-                  {description}
-                </option>
-              ))}
-          </>
-        </Select> */}
+
         <input
           type="number"
           placeholder="HH"

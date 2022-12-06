@@ -3,9 +3,10 @@ import moment from 'moment'
 
 import { useOutsideAlerter } from 'hooks/useOutsideClick'
 
-import style from './request.module.scss'
+import style from './policy-card.module.scss'
 import menu from 'assets/menu.svg'
 import PolicyService from 'services/policy-service'
+import Button from 'components/button'
 
 const RenderPolicy = ({
   setSelectedTab,
@@ -106,7 +107,6 @@ const RenderPolicy = ({
         </div>
         <div className={style.policyMenuView}>
           <img
-            style={{ cursor: 'pointer', padding: '10px' }}
             src={menu}
             alt=""
             className={style.img}
@@ -115,66 +115,42 @@ const RenderPolicy = ({
         </div>
       </div>
       <div className={style.policyDescriptionView}>
-        <ul>
-          {[
-            { q: 'Policy Number', v: data?.policyNumber },
-            { q: 'Version', v: data?.version },
-            { q: 'Category', v: data?.categoryId?.name },
-            { q: 'Prepared by ', v: data?.preparedBy?.fullName },
-            { q: 'Reviewed by', v: data?.reviewers[0]?.fullName },
-            { q: 'Approved by', v: data?.approvedBy?.fullName },
-            { q: 'Added by', v: data?.addedBy[0]?.name },
-          ].map((item, index) => (
-            <div key={index} style={{ display: 'flex' }}>
-              <div style={{ width: '50%' }}>
-                <p
-                  style={{
-                    fontSize: '10px',
-                    fontWeight: 400,
-                    color: '#2D2D32',
-                  }}
-                >
-                  {item?.q}
-                </p>
-              </div>
-              <div
-                style={{
-                  width: '50%',
-                  display: 'flex',
-                  justifyContent: 'flex-end',
-                }}
-              >
-                <p
-                  className={style.policyFormValue}
-                  title={item?.v?.length >= 14 && item?.v}
-                >
-                  {item?.v}
-                </p>
-              </div>
-            </div>
-          ))}
-        </ul>
+        {[
+          { q: 'Policy Number', v: data?.policyNumber },
+          { q: 'Version', v: data?.version },
+          { q: 'Category', v: data?.categoryId?.name },
+          { q: 'Prepared by ', v: data?.preparedBy?.fullName },
+          { q: 'Reviewed by', v: data?.reviewers[0]?.fullName },
+          { q: 'Approved by', v: data?.approvedBy?.fullName },
+          { q: 'Added by', v: data?.addedBy[0]?.name },
+        ].map((item, index) => (
+          <div key={index} className={style.innerDiv}>
+            <p>{item?.q}</p>
+            <p
+              className={style.policyFormValue}
+              title={item?.v?.length >= 14 && item?.v}
+            >
+              {item?.v}
+            </p>
+          </div>
+        ))}
 
         <div className={style.leftCircle} />
         <div className={style.rightCircle} />
       </div>
 
-      <div className={style.policyButtonView}>
-        <div
-          className={`${style.policyButton}`}
-          style={{
-            cursor: data?.fileId[0]?.file ? 'pointer' : 'no-drop',
-          }}
+      <div className={`${style.policyButton}`}>
+        <a
+          className={style.viewPolicyBtn}
+          rel="noreferrer"
+          target={'_blank'}
+          href={data?.fileId[0]?.file}
         >
-          <a
-            className={style.viewPolicyBtn}
-            rel="noreferrer"
-            target={'_blank'}
-            href={data?.fileId[0]?.file}
-          >
-            <p className={style.viewPolicyText}>View Policy</p>
-          </a>
-        </div>
+          <Button
+            btnClass={data?.fileId[0]?.file ? style.cursor : style.cursoeNone}
+            text="View Policy"
+          />
+        </a>
       </div>
     </div>
   )

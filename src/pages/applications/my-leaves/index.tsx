@@ -1,20 +1,23 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import Table from 'components/table'
-import style from './index.module.scss'
 
-import editIcon from 'assets/newEdit.svg'
-// import editIcon from 'assets/edit-icon.svg'
-import cancel from 'assets/cancel.svg'
-import view from 'assets/viewIconnew.svg'
+import Table from 'components/table'
 import Button from 'components/button'
 import Pagination from 'components/pagination'
-import { useEffect, useState } from 'react'
-import CreateApplicationModal from './create-applications'
-import ApplicationService from 'services/application-service'
-import moment from 'moment'
 import Loading from 'components/loading'
 import DeleteModal from 'components/delete-modal'
+import CreateApplicationModal from './create-applications'
+
+import ApplicationService from 'services/application-service'
 import { createNotification } from 'common/create-notification'
+
+import editIcon from 'assets/newEdit.svg'
+import cancel from 'assets/cancel.svg'
+import view from 'assets/viewIconnew.svg'
+
+import style from './index.module.scss'
+import moment from 'moment'
+import { useForm } from 'react-hook-form'
+import { useEffect, useState } from 'react'
 
 const ColumnsData = [
   {
@@ -107,6 +110,7 @@ const MyLeaves = ({
   const [defaultLeaveType, setDefaultLeaveType] = useState({})
   const [page, setPage] = useState(1)
   const [render, setRender] = useState<boolean>(false)
+  const { control } = useForm()
 
   const getHistory = async () => {
     setLoading(true)
@@ -317,14 +321,15 @@ const MyLeaves = ({
           />
         </div>
         <div className={style.position}>
-          {/* <Pagination
+          <Pagination
             hide={false}
             setCount={setPageSize}
             count={pageSize}
             totalCount={totalCount}
             setPage={setPage}
             page={page}
-          /> */}
+            control={control}
+          />
         </div>
       </div>
     </>
