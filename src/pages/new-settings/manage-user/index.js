@@ -108,11 +108,21 @@ const ManageUser = ({ newUser, setNewUser, setBtnHideShow }) => {
 
   const filterSubmit = async (data) => {
     const result = await SettingsService.getUsers({
-      sortBy: 'name',
-      sort: data?.asc ? 'asc' : 'desc',
+      sortBy:
+        isFilter === 1
+          ? 'name'
+          : isFilter === 2
+          ? 'email'
+          : isFilter === 3
+          ? 'role'
+          : isFilter === 4
+          ? 'employeeId'
+          : '',
       ...(isFilter === 1 && { name: data?.name && data?.name }),
+      ...(isFilter === 2 && { email: data?.name && data?.name }),
       ...(isFilter === 3 && { role: data?.name && data?.name }),
       ...(isFilter === 4 && { employeeId: data?.name && data?.name }),
+      ...(data?.asc != undefined && { sort: data?.asc }),
     })
 
     if (result.status === 200) {
@@ -208,7 +218,7 @@ const ManageUser = ({ newUser, setNewUser, setBtnHideShow }) => {
             }}
           >
             <div className={style.modalWraper}>
-              <h1>Reset Password</h1>
+              <h2>Reset Password</h2>
               <TextField
                 placeholder="Enter new password"
                 label="New Password"

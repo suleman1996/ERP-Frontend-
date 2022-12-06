@@ -46,19 +46,8 @@
   }
 }
 
-.addTaxBtnDiv {
-  @media (max-width: $md) {
-    display: none;
-  }
-}
 
-.mobileAddTaxBtnDiv {
-  display: none;
 
-  @media (max-width: $md) {
-    display: block;
-  }
-}
 
 .modalWrapper {
   max-width: 980px !important;

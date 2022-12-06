@@ -18,6 +18,7 @@ export const ColumnsData = [
     key: 'email',
     name: 'Email',
     alignText: 'center',
+    icon: filterIcon,
     width: '300px',
   },
   {

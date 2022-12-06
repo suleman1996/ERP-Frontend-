@@ -4,7 +4,6 @@ import TaxSlab from './tax-slab'
 import CardContainer from 'components/card-container'
 import Loading from 'components/loading'
 import Button from 'components/button'
-import MobileButton from 'components/button/mobile-button'
 
 import plusIcon from 'assets/plusIcon.svg'
 import style from './tax.module.scss'
@@ -43,12 +42,6 @@ const Tax = () => {
                     handleClick={clickHanlder}
                   />
                 </div>
-              </div>
-              <div className={style.mobileAddTaxBtnDiv}>
-                <MobileButton
-                  mobileIcon={plusIcon}
-                  handleClick={clickHanlder}
-                />
               </div>
             </div>
           </div>
