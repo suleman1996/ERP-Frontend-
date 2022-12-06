@@ -108,7 +108,6 @@ const Table = ({
     handleDeleteIndex && handleDeleteIndex(index)
     handleModalOpen && handleModalOpen()
   }
-
   return (
     <>
       {rows?.length >= 1 && (
@@ -169,9 +168,11 @@ const Table = ({
                         isFilter={isFilter}
                         setIsFilter={setIsFilter}
                         names={
-                          allUsers?.map(({ name, role, employeeId }) =>
+                          allUsers?.map(({ name, role, employeeId, email }) =>
                             isFilter === 1
                               ? name
+                              : isFilter === 2
+                              ? email
                               : isFilter === 3
                               ? role[0].name
                               : employeeId

@@ -145,6 +145,7 @@ const AddAttendance = ({
           setSingleId('')
           getTaxSlabsData()
           setOpen(false)
+          createNotification('success', 'Success', res?.data?.msg)
         }
         setSingleId('')
       } else {
@@ -152,6 +153,7 @@ const AddAttendance = ({
         if (res.status === 200) {
           setOpen(false)
           getTaxSlabsData()
+          createNotification('success', 'Success', res?.data?.msg)
         }
       }
     } catch (err) {
