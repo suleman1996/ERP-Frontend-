@@ -123,12 +123,16 @@ const AddAttendance = ({
     setLoading(true)
     try {
       const data = {
-        financialYearStart: moment(slabs[0].financialYearStart).format(
-          'YYYY/MM'
-        ),
-        financialYearEnd: moment(slabs[0].financialYearEnd).format('YYYY/MM'),
-        groupName: slabs[0]?.taxGroupName,
-        category: slabs[0]?.category,
+        financialYearStart: watch()?.financialYearStart
+          ? moment(watch()?.financialYearStart).format('YYYY/MM')
+          : moment(slabs[0].financialYearStart).format('YYYY/MM'),
+        financialYearEnd: watch()?.financialYearEnd
+          ? moment(watch()?.financialYearEnd).format('YYYY/MM')
+          : moment(slabs[0].financialYearEnd).format('YYYY/MM'),
+        groupName: watch()?.taxGroupName,
+        category: watch()?.category?.label
+          ? watch()?.category?.label
+          : slabs[0]?.category,
         slabs: slabs?.map((item) => {
           return {
             lower: item.lower,
@@ -226,16 +230,6 @@ const AddAttendance = ({
                   return { label: item?.name, value: item?.name }
                 })}
               />
-              {/* <option value="">Select</option>
-                <>
-                  {categories &&
-                    categories?.map((ele: any) => (
-                      <option key={ele.name} value={ele?.value}>
-                        {ele.name}
-                      </option>
-                    ))}
-                </>
-              </Select> */}
               <div className={style.gridTwo}>
                 <MonthYearPicker
                   control={control}
