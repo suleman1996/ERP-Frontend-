@@ -39,6 +39,10 @@
   .modalWraper {
     @include gridOne(20, 10);
 
+    h2{
+    @include font36
+    }
+
     .modalBtnSection {
       display: flex;
       justify-content: center;
@@ -50,6 +54,10 @@
         margin-right: 10px;
         background-color: $white;
         border: 1px solid $btn;
+        
+        @media (max-width: $sm) {
+          max-width: 150px !important;
+        }
       }
 
       .CancelBtnText {

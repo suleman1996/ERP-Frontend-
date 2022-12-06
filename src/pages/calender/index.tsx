@@ -31,6 +31,7 @@ import { eventTypes, recurrenceTypes, category, eventName } from './event-types'
 import location from 'assets/location.svg'
 import plus from 'assets/plusIcon.svg'
 import bucketIcon from 'assets/Bucket.svg'
+
 import './calendar.scss'
 import style from './calender.module.scss'
 
@@ -118,7 +119,7 @@ const Calender = () => {
 
   const getAllEvents = async () => {
     const res = await CalenderService.getAllEvents({
-      view: 'Yearly',
+      view: view,
       year: year,
       startDate: dateRange.startDate,
       endDate: dateRange.endDate,
@@ -570,6 +571,7 @@ const Calender = () => {
           open={customTooltip}
           title={singleEventData?.title && singleEventData?.title}
           className={style.modalClass}
+          titleClass={style.titleClass}
           handleEdit={() => {
             setOpenModal(true), setCustomTooltip(!customTooltip)
           }}
@@ -585,19 +587,29 @@ const Calender = () => {
         >
           <div className={style.durationView}>
             <p className={style.title2}>
-              {moment(singleEventData?.start?.replace('Z', '')).format(
-                'MMM Do YYYY'
-              )}
-              {moment(singleEventData?.start?.replace('Z', '')).format(
-                'MMM Do YYYY'
-              ) !==
-                moment(singleEventData?.end?.replace('Z', '')).format(
-                  'MMM Do YYYY'
-                ) &&
-                ' To ' +
-                  moment(singleEventData?.end?.replace('Z', '')).format(
+              {specificEvent ? (
+                <span>
+                  {moment(specificEvent?.replace('Z', '')).format(
                     'MMM Do YYYY'
                   )}
+                </span>
+              ) : (
+                <span>
+                  {moment(singleEventData?.start?.replace('Z', '')).format(
+                    'MMM Do YYYY'
+                  )}
+                  {moment(singleEventData?.start?.replace('Z', '')).format(
+                    'MMM Do YYYY'
+                  ) !==
+                    moment(singleEventData?.end?.replace('Z', '')).format(
+                      'MMM Do YYYY'
+                    ) &&
+                    ' To ' +
+                      moment(singleEventData?.end?.replace('Z', '')).format(
+                        'MMM Do YYYY'
+                      )}
+                </span>
+              )}
               {!singleEventData?.allDay && (
                 <span>
                   {' '}
@@ -740,7 +752,11 @@ const Calender = () => {
                 className={style.cnclText}
                 handleClick={() => setDelRecurring(!delRecurring)}
               />
-              <Button text="Delete" handleClick={handleDelete} />
+              <Button
+                text="Delete"
+                handleClick={handleDelete}
+                isLoading={btnLoader}
+              />
             </div>
           </div>
         </Modal>

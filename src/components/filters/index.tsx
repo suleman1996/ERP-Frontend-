@@ -22,7 +22,7 @@ const FiltersComponent = ({
   setIsFilter,
   isFilter,
 }: FiltersComponentProps) => {
-  const [asc, setAsc] = useState(true)
+  const [asc, setAsc] = useState()
   const [value, setValue] = useState('')
   const list = [...new Set([...names])]?.map((name) => ({
     name,
@@ -30,6 +30,7 @@ const FiltersComponent = ({
   }))
   const [selectedFilters, setSelectedFilters] = useState([...list] || [])
   const clearFilters = () => {
+    setAsc('')
     const copy = [...selectedFilters]
     for (let i = 0; i < copy.length; i++) {
       copy[i].checked = false
@@ -67,12 +68,20 @@ const FiltersComponent = ({
   return (
     isFilter && (
       <div className={style.filterMain}>
-        <div className={style.sortingDiv} onClick={() => setAsc(true)}>
-          <p>Sort A To Z {asc && 'Selected'}</p>
+        <div
+          className={style.sortingDiv}
+          onClick={() => setAsc('asc')}
+          style={{ backgroundColor: asc === 'asc' ? 'lightgray' : '' }}
+        >
+          <p>Sort A To Z </p>
           <img src={sortLower} alt="" />
         </div>
-        <div className={style.sortingDiv} onClick={() => setAsc(false)}>
-          <p>Sort Z To A {!asc && 'Selected'}</p>
+        <div
+          className={style.sortingDiv}
+          onClick={() => setAsc('desc')}
+          style={{ backgroundColor: asc === 'desc' ? 'lightgray' : '' }}
+        >
+          <p>Sort Z To A </p>
           <img src={sortUpper} alt="" />
         </div>
         <div

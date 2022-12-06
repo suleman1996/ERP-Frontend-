@@ -2,6 +2,8 @@
 import { useEffect, useState, SetStateAction, Dispatch } from 'react'
 import { useLocation } from 'react-router'
 
+import Container from 'components/container'
+import TextField from 'components/textfield'
 import NotificationMenu from '../notification-menu'
 
 import { navbarTitleList } from './navbar-title-script'
@@ -10,7 +12,6 @@ import bell from 'assets/bell.svg'
 import search from 'assets/small-search.svg'
 import hamburger from 'assets/hamburger.svg'
 import style from './navbar.module.scss'
-import TextField from 'components/textfield'
 
 interface Props {
   openSidebar?: boolean
@@ -37,41 +38,39 @@ const Navbar = ({ setOpenSidebar, openSidebar }: Props) => {
   }, [pathname])
 
   return (
-    <>
-      <div className={style.container}>
-        <nav>
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <img
-              src={hamburger}
-              alt="icon"
-              className={style.hamburger}
-              onClick={() => setOpenSidebar && setOpenSidebar(!openSidebar)}
-            />
-            <h1>{title}</h1>
+    <Container container={style.container}>
+      <nav>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <img
+            src={hamburger}
+            alt="icon"
+            className={style.hamburger}
+            onClick={() => setOpenSidebar && setOpenSidebar(!openSidebar)}
+          />
+          <h1>{title}</h1>
+        </div>
+        <div className={style.rightDiv}>
+          <img src={search} alt="" className={style.imgDiv} />
+          <div className={style.searchDiv}>
+            <TextField placeholder="Search" />
           </div>
-          <div className={style.rightDiv}>
-            <img src={search} alt="" className={style.imgDiv} />
-            <div className={style.searchDiv}>
-              <TextField placeholder="Search" />
-            </div>
-            <img
-              className={style.img}
-              src={bell}
-              alt="notification"
-              onMouseEnter={() => {
-                setNotificationHover(true)
-              }}
-              onMouseLeave={() => {
-                setNotificationHover(false)
-              }}
-            />
-            {notificationMenu && (
-              <NotificationMenu setNotificationMenu={setNotificationMenu} />
-            )}
-          </div>
-        </nav>
-      </div>
-    </>
+          <img
+            className={style.img}
+            src={bell}
+            alt="notification"
+            onMouseEnter={() => {
+              setNotificationHover(true)
+            }}
+            onMouseLeave={() => {
+              setNotificationHover(false)
+            }}
+          />
+          {notificationMenu && (
+            <NotificationMenu setNotificationMenu={setNotificationMenu} />
+          )}
+        </div>
+      </nav>
+    </Container>
   )
 }
 
