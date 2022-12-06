@@ -8,43 +8,43 @@ import deleteIcon from 'assets/table-delete.svg'
 const ColumnsData = [
   {
     key: 'quota',
-    name: 'Leave Type',
+    name: 'Quota',
     alignText: 'center',
     width: '60px',
   },
   {
     key: 'effectiveDate',
-    name: 'Applied On',
+    name: 'Effective Date',
     alignText: 'center',
-    width: '60px',
+    width: '150px',
   },
   {
     key: 'start',
-    name: 'From',
+    name: 'Start',
     alignText: 'center',
-    width: '60px',
+    width: '100px',
   },
   {
     key: 'end',
-    name: 'To',
+    name: 'End',
     alignText: 'center',
-    width: '60px',
+    width: '100px',
   },
   {
     key: 'sick',
-    name: 'Duration',
+    name: 'Sick',
     alignText: 'center',
     width: '60px',
   },
   {
     key: 'casual',
-    name: 'Status',
+    name: 'Casual',
     alignText: 'center',
     width: '60px',
   },
   {
     key: 'annual',
-    name: 'Action',
+    name: 'Annual',
     alignText: 'center',
     width: '60px',
   },
@@ -52,7 +52,7 @@ const ColumnsData = [
     key: 'action',
     name: 'Action',
     alignText: 'center',
-    width: '120px',
+    width: '200px',
   },
 ]
 
@@ -367,7 +367,7 @@ const LeaveQuota = () => {
         headingText={style.headingText}
         columns={ColumnsData}
         tableHeight={style.tableMaxHight}
-        minWidth="540"
+        minWidth="840px"
         rows={RowsData?.map((row: any) => ({
           ...row,
           action: (

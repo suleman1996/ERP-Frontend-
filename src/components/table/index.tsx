@@ -225,15 +225,6 @@ const Table = ({
                             !column?.eyeIcon &&
                             (row?.isActive !== false ? (
                               <>
-                                <img
-                                  className={style.pencilIcon}
-                                  data-testid="edit-element"
-                                  onClick={() =>
-                                    handlePencilIcon({ id: row?._id, index })
-                                  }
-                                  src={editIcon}
-                                  alt="editIcon"
-                                />
                                 {column?.editView && (
                                   <img
                                     src={eye}
@@ -244,6 +235,16 @@ const Table = ({
                                     }}
                                   />
                                 )}
+                                <img
+                                  className={style.pencilIcon}
+                                  data-testid="edit-element"
+                                  onClick={() =>
+                                    handlePencilIcon({ id: row?._id, index })
+                                  }
+                                  src={editIcon}
+                                  alt="editIcon"
+                                />
+
                                 {column?.lockIcon && (
                                   <img
                                     className={style.pencilIcon}

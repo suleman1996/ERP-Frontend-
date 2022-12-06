@@ -107,7 +107,7 @@ const AddDocument = ({ open, setOpen, docId, getAllDocuments }: Props) => {
             <div>
               <label
                 className={style.label}
-                style={{ color: errors?.documentName && '#ff5050' }}
+                style={{ color: errors?.documentName && 'black' }}
               >
                 Document <b style={{ color: 'red' }}>*</b>
               </label>
