@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import Table from 'components/table'
 import style from './index.module.scss'
 
@@ -316,14 +317,14 @@ const MyLeaves = ({
           />
         </div>
         <div className={style.position}>
-          <Pagination
+          {/* <Pagination
             hide={false}
             setCount={setPageSize}
             count={pageSize}
             totalCount={totalCount}
             setPage={setPage}
             page={page}
-          />
+          /> */}
         </div>
       </div>
     </>

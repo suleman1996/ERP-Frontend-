@@ -4,12 +4,13 @@ import Button from 'components/button'
 import moment from 'moment'
 import { useEffect, useState } from 'react'
 import CreateApplicationModal from 'pages/applications/my-leaves/create-applications'
-import { useSelector } from 'react-redux'
+
 interface props {
   className?: string
   data?: any
   history?: any
   formData?: any
+  getPendingLeaves?: any
 }
 
 const ApplicationApprovalCard = ({
@@ -17,15 +18,13 @@ const ApplicationApprovalCard = ({
   data,
   history,
   formData,
+  getPendingLeaves,
 }: props) => {
-  const userData = useSelector((state) => state)
-
   const [remaining, setRemaining] = useState<any>({})
   const [renderState, setRenderState] = useState(false)
   const [openModal, setOpenModal] = useState(false)
 
   useEffect(() => {
-    console.log('User Data : ', userData?.app?.currentUser)
     if (Object.keys(history).length > 0) {
       const responseHistory = history?.filter(
         (el: any) => el.leaveId === data.leaveType._id
@@ -35,7 +34,7 @@ const ApplicationApprovalCard = ({
   }, [history, data])
 
   useEffect(() => {
-    console.log('rendering')
+    getPendingLeaves()
   }, [renderState])
 
   return (
@@ -99,10 +98,12 @@ const ApplicationApprovalCard = ({
       </div>
       {openModal && (
         <CreateApplicationModal
+          value={data}
           openModal={openModal}
           setOpenModal={setOpenModal}
           data={formData}
           setRender={setRenderState}
+          type={{ name: 'approvalManager' }}
         />
       )}
     </div>

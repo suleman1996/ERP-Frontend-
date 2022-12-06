@@ -9,6 +9,8 @@ const PendingApproval = ({ formData }: any) => {
 
   const getPendingLeaves = async () => {
     const res = await ApplicationService.getPendingApplications()
+    console.log('pending leaves ', res?.data?.msg)
+
     const responseHistory = await ApplicationService.getLeaveHistory()
     setData(res.data)
     setHistory(responseHistory.data)
@@ -27,6 +29,7 @@ const PendingApproval = ({ formData }: any) => {
             key={el._id}
             data={el}
             history={history}
+            getPendingLeaves={getPendingLeaves}
           />
         ))}
       </div>
