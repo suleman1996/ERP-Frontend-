@@ -70,11 +70,10 @@ const AddLeaveType = ({
               control={control}
               name="carryForward"
             />
-            <Selection
+            <TextField
               label="Max Carry Forward"
-              options={paidOptions}
               placeholder="Select"
-              control={control}
+              register={register}
               name="maxCarryForward"
             />
           </div>
