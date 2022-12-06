@@ -49,6 +49,7 @@ interface Props {
   setFilters?: boolean
   sorts?: boolean
   setSorts?: boolean
+  loader?: boolean
   headingText?: string
   editIndex?: boolean
   setEditIndex?: Dispatch<SetStateAction<number>>
@@ -60,6 +61,8 @@ interface Props {
   getAllUsers?: () => void
   onSubmit?: any
   allUsers: any[]
+  newUser?: boolean
+  setBtnHideShow?: Dispatch<SetStateAction<boolean>>
 }
 
 const Table = ({
@@ -91,6 +94,9 @@ const Table = ({
   isFilter,
   allUsers,
   onSubmit,
+  loader,
+  newUser,
+  setBtnHideShow,
 }: Props) => {
   const [tblScroll, setTblScroll] = useState(false)
 
@@ -108,7 +114,6 @@ const Table = ({
     handleDeleteIndex && handleDeleteIndex(index)
     handleModalOpen && handleModalOpen()
   }
-
   return (
     <>
       {rows?.length >= 1 && (
@@ -169,9 +174,11 @@ const Table = ({
                         isFilter={isFilter}
                         setIsFilter={setIsFilter}
                         names={
-                          allUsers?.map(({ name, role, employeeId }) =>
+                          allUsers?.map(({ name, role, employeeId, email }) =>
                             isFilter === 1
                               ? name
+                              : isFilter === 2
+                              ? email
                               : isFilter === 3
                               ? role[0].name
                               : employeeId
@@ -186,46 +193,91 @@ const Table = ({
                 </div>
               ))}
             </div>
-            {rows?.map((row, index) => (
-              <>
-                <div
-                  className={style.tr}
-                  style={{ display: 'flex', alignItems: 'center' }}
-                  key={index}
-                >
-                  {editIndex === index ? (
-                    <AddUser
-                      singleUser={singleUser}
-                      customRoles={customRoles}
-                      allIDs={allIDs}
-                      setNewUser={setNewUser}
-                      setEditIndex={setEditIndex}
-                      getAllUsers={getAllUsers}
-                    />
-                  ) : (
-                    <>
-                      {columns.map((column, colIndex) => (
-                        <div
-                          key={colIndex}
-                          style={{
-                            minWidth: column?.width ? column?.width : '250px',
-                            textAlign: column?.alignText,
-                            padding: '12px 10px',
-                            width: '100%',
-                          }}
-                          className={`${style.td}  ${className}`}
-                        >
-                          <span
-                            style={{ overflowWrap: 'anywhere' }}
-                            className={`${rowText}`}
-                          >
-                            {row[column.key]}
-                          </span>
-                          {column.key === 'actions' &&
-                            !column?.eyeIcon &&
-                            (row?.isActive !== false ? (
-                              <>
-                                {column?.editView && (
+
+            <div style={{ maxHeight: '600px', overflowY: 'auto' }}>
+              <div style={{ height: '700px' }}>
+                {rows?.map((row, index) => (
+                  <>
+                    <div
+                      className={style.tr}
+                      style={{ display: 'flex', alignItems: 'center' }}
+                      key={index}
+                    >
+                      {editIndex === index ? (
+                        <AddUser
+                          singleUser={singleUser}
+                          customRoles={customRoles}
+                          allIDs={allIDs}
+                          setNewUser={setNewUser}
+                          setEditIndex={setEditIndex}
+                          getAllUsers={getAllUsers}
+                          loader={loader}
+                        />
+                      ) : (
+                        <>
+                          {columns.map((column, colIndex) => (
+                            <div
+                              key={colIndex}
+                              style={{
+                                minWidth: column?.width
+                                  ? column?.width
+                                  : '250px',
+                                textAlign: column?.alignText,
+                                padding: '12px 10px',
+                                width: '100%',
+                              }}
+                              className={`${style.td}  ${className}`}
+                            >
+                              <span
+                                style={{ overflowWrap: 'anywhere' }}
+                                className={`${rowText}`}
+                              >
+                                {row[column.key]}
+                              </span>
+                              {column.key === 'actions' &&
+                                !column?.eyeIcon &&
+                                (row?.isActive !== false ? (
+                                  <>
+                                    <img
+                                      className={style.pencilIcon}
+                                      data-testid="edit-element"
+                                      onClick={() =>
+                                        handlePencilIcon({
+                                          id: row?._id,
+                                          index,
+                                        })
+                                      }
+                                      src={editIcon}
+                                      alt="editIcon"
+                                    />
+                                    {column?.lockIcon && (
+                                      <img
+                                        className={style.pencilIcon}
+                                        data-testid="edit-element"
+                                        onClick={() =>
+                                          handleResetIcon({
+                                            id: row._id,
+                                            index,
+                                          })
+                                        }
+                                        src={reloadIcon}
+                                        alt="editIcon"
+                                      />
+                                    )}
+                                    <img
+                                      onClick={() =>
+                                        handleDeleteIcon({ id: row._id, index })
+                                      }
+                                      className={style.pencilIcon}
+                                      src={deleteIcon}
+                                      alt="deleteIcon"
+                                    />
+                                  </>
+                                ) : (
+                                  '-'
+                                ))}
+                              {column.key === 'actions' && column?.eyeIcon && (
+                                <>
                                   <img
                                     src={eye}
                                     alt=""
@@ -234,67 +286,34 @@ const Table = ({
                                       handleView && handleView(row.id)
                                     }}
                                   />
-                                )}
-                                <img
-                                  className={style.pencilIcon}
-                                  data-testid="edit-element"
-                                  onClick={() =>
-                                    handlePencilIcon({ id: row?._id, index })
-                                  }
-                                  src={editIcon}
-                                  alt="editIcon"
-                                />
-
-                                {column?.lockIcon && (
                                   <img
+                                    src={pdf}
+                                    alt=""
                                     className={style.pencilIcon}
-                                    data-testid="edit-element"
-                                    onClick={() =>
-                                      handleResetIcon({ id: row._id, index })
-                                    }
-                                    src={reloadIcon}
-                                    alt="editIcon"
+                                    onClick={() => {
+                                      onPrint && onPrint(row.id)
+                                    }}
                                   />
-                                )}
-                                <img
-                                  onClick={() =>
-                                    handleDeleteIcon({ id: row._id, index })
-                                  }
-                                  className={style.pencilIcon}
-                                  src={deleteIcon}
-                                  alt="deleteIcon"
-                                />
-                              </>
-                            ) : (
-                              '-'
-                            ))}
-                          {column.key === 'actions' && column?.eyeIcon && (
-                            <>
-                              <img
-                                src={eye}
-                                alt=""
-                                className={style.pencilIcon}
-                                onClick={() => {
-                                  handleView && handleView(row.id)
-                                }}
-                              />
-                              <img
-                                src={pdf}
-                                alt=""
-                                className={style.pencilIcon}
-                                onClick={() => {
-                                  onPrint && onPrint(row.id)
-                                }}
-                              />
-                            </>
-                          )}
-                        </div>
-                      ))}
-                    </>
-                  )}
-                </div>
-              </>
-            ))}
+                                </>
+                              )}
+                            </div>
+                          ))}
+                        </>
+                      )}
+                    </div>
+                  </>
+                ))}
+                {newUser && (
+                  <AddUser
+                    setNewUser={setNewUser}
+                    setBtnHideShow={setBtnHideShow}
+                    customRoles={customRoles}
+                    allIDs={allIDs}
+                    getAllUsers={getAllUsers}
+                  />
+                )}
+              </div>
+            </div>
           </div>
         </div>
       )}

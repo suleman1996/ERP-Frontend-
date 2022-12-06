@@ -9,6 +9,7 @@ import DeleteModal from 'components/delete-modal'
 
 import { columns } from './tax-helper'
 import TaxService from 'services/tax-service'
+import { createNotification } from 'common/create-notification'
 
 import deleteIcon from 'assets/table-delete.svg'
 import view from 'assets/viewIconnew.svg'
@@ -51,6 +52,7 @@ const TaxSlab = ({
       setDeleteModalOpen(false)
       setDeleteLoading(false)
       getTaxSlabsData()
+      createNotification('success', 'Success', res?.data?.msg)
     }
     setDeleteLoading(false)
   }

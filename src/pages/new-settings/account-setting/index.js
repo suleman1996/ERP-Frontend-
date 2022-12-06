@@ -36,7 +36,6 @@ const AccountSetting = () => {
   const [newpass, setNewPass] = useState(false)
   const [btnLoader, setBtnLoader] = useState(false)
   const [confirmNewpass, setConfirmNewPass] = useState(false)
-  const [notificationPopup, setNotificationPopUP] = useState(false)
 
   useEffect(() => {
     setImg(userData?.img)
@@ -53,17 +52,20 @@ const AccountSetting = () => {
         ...(watch('confirmPassword') && {
           confirmPassword: data?.confirmPassword,
         }),
-        ...((img || userData.img) && { img: img || userData.img }),
+        ...((img || userData.img) && {
+          img: !img ? null : img || userData.img,
+        }),
         _id: userData?.id,
       }
 
       const res = await SettingsService.updateAccount(newData)
       if (res.status === 201) {
-        let userNewData = { ...userData, ...newData }
-        dispatch(setCurrentUser(userNewData))
-        if (res.data.emailSent === true) {
-          setNotificationPopUP(true)
+        let userNewData = {
+          ...userData,
+          ...newData,
+          ...(newData.email !== userData.email && { emailVerified: false }),
         }
+        dispatch(setCurrentUser(userNewData))
         setBtnLoader(false)
         createNotification('success', 'Success', res?.data?.msg)
       }
@@ -82,7 +84,6 @@ const AccountSetting = () => {
     const res = await SettingsService.resendEmail()
     if (res.status === 201) {
       createNotification('success', 'Success', res?.data?.msg)
-      setNotificationPopUP(false)
     }
   }
 
@@ -91,7 +92,7 @@ const AccountSetting = () => {
       <NotificationPopup
         plainText={'Please verify your email. Didn’t receive an email?'}
         hyperlink={' Resend confirmation '}
-        open={notificationPopup}
+        open={!userData?.emailVerified}
         handleClick={resendEmail}
       />
       <CardContainer className={style.card}>
