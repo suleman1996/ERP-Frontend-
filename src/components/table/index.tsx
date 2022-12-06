@@ -49,6 +49,7 @@ interface Props {
   setFilters?: boolean
   sorts?: boolean
   setSorts?: boolean
+  loader?: boolean
   headingText?: string
   editIndex?: boolean
   setEditIndex?: Dispatch<SetStateAction<number>>
@@ -60,6 +61,8 @@ interface Props {
   getAllUsers?: () => void
   onSubmit?: any
   allUsers: any[]
+  newUser?: boolean
+  setBtnHideShow?: Dispatch<SetStateAction<boolean>>
 }
 
 const Table = ({
@@ -91,6 +94,9 @@ const Table = ({
   isFilter,
   allUsers,
   onSubmit,
+  loader,
+  newUser,
+  setBtnHideShow,
 }: Props) => {
   const [tblScroll, setTblScroll] = useState(false)
 
@@ -202,6 +208,7 @@ const Table = ({
                       setNewUser={setNewUser}
                       setEditIndex={setEditIndex}
                       getAllUsers={getAllUsers}
+                      loader={loader}
                     />
                   ) : (
                     <>
@@ -285,6 +292,15 @@ const Table = ({
                 </div>
               </>
             ))}
+            {newUser && (
+              <AddUser
+                setNewUser={setNewUser}
+                setBtnHideShow={setBtnHideShow}
+                customRoles={customRoles}
+                allIDs={allIDs}
+                getAllUsers={getAllUsers}
+              />
+            )}
           </div>
         </div>
       )}

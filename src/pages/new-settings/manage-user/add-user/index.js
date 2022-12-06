@@ -7,6 +7,7 @@ import { AddUserHelper } from './add-user-helper'
 
 import cam from 'assets/whiteCam.svg'
 import style from './add-user.module.scss'
+import Loading from 'components/loading'
 
 const AddUser = ({
   setNewUser,
@@ -16,6 +17,7 @@ const AddUser = ({
   singleUser,
   getAllUsers,
   setBtnHideShow,
+  loader,
 }) => {
   const {
     register,
@@ -38,7 +40,12 @@ const AddUser = ({
   })
 
   return (
-    <>
+    <div style={{ position: 'relative' }}>
+      {loader && (
+        <div className={style.loaderDiv}>
+          <Loading loaderClass={style.loadingStyle} />
+        </div>
+      )}
       <form
         onSubmit={(e) => {
           clearErrors()
@@ -139,7 +146,7 @@ const AddUser = ({
           />
         </div>
       </form>
-    </>
+    </div>
   )
 }
 
