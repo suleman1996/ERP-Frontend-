@@ -22,6 +22,7 @@ interface Props {
   loader?: boolean
   handleEdit?: any
   handleDelete?: any
+  titleClass?: string
 }
 
 const Modal = ({
@@ -41,6 +42,7 @@ const Modal = ({
   customHeader,
   handleEdit,
   handleDelete,
+  titleClass,
 }: Props) => {
   const handleClickWrapper = (event: React.MouseEvent<HTMLElement>): void => {
     event.nativeEvent.stopImmediatePropagation()
@@ -60,7 +62,7 @@ const Modal = ({
             {title && (
               <div className={style.fixedClass}>
                 <div className={`${style.header} ${customHeader}`}>
-                  <p>{title}</p>
+                  <p className={titleClass}>{title}</p>
                   <div className={style.iconDiv}>
                     {handleEdit && (
                       <img
@@ -105,5 +107,4 @@ const Modal = ({
     </>
   )
 }
-
 export default Modal
