@@ -54,48 +54,72 @@ export const useAddressInfo = ({
   } = useForm()
 
   useEffect(() => {
-    if (id || employeeDocId) getSingleEmployeeData()
+    if (id || employeeDocId) {
+      getSingleEmployeeData()
+    }
   }, [])
 
   const getSingleEmployeeData = async () => {
     const res = await EmployeeService.getAddressEmployee(id || employeeDocId)
-    const { country, state, city } =
-      res.data?.employeeAddressInformation?.addresses?.currentAddress
-    reset({
-      currentAddress: {
-        ...res.data?.employeeAddressInformation?.addresses?.currentAddress,
-        country: { label: country, value: country },
-        city: { label: city, value: city },
-        state: { label: state, value: state },
-      },
-      permanentAddress: {
-        ...res.data?.employeeAddressInformation?.addresses?.permanentAddress,
-        country: {
-          label:
-            res.data?.employeeAddressInformation?.addresses?.permanentAddress
-              .country,
-          value:
-            res.data?.employeeAddressInformation?.addresses?.permanentAddress
-              .country,
+
+    if (res.data?.employeeAddressInformation) {
+      reset({
+        currentAddress: {
+          ...res.data?.employeeAddressInformation?.addresses?.currentAddress,
+          country: {
+            label:
+              res.data?.employeeAddressInformation?.addresses?.currentAddress
+                ?.country,
+            value:
+              res.data?.employeeAddressInformation?.addresses?.currentAddress
+                ?.country,
+          },
+          city: {
+            label:
+              res.data?.employeeAddressInformation?.addresses?.currentAddress
+                ?.city,
+            value:
+              res.data?.employeeAddressInformation?.addresses?.currentAddress
+                ?.city,
+          },
+          state: {
+            label:
+              res.data?.employeeAddressInformation?.addresses?.currentAddress
+                ?.state,
+            value:
+              res.data?.employeeAddressInformation?.addresses?.currentAddress
+                ?.state,
+          },
         },
-        city: {
-          label:
-            res.data?.employeeAddressInformation?.addresses?.permanentAddress
-              .city,
-          value:
-            res.data?.employeeAddressInformation?.addresses?.permanentAddress
-              .city,
+        permanentAddress: {
+          ...res.data?.employeeAddressInformation?.addresses?.permanentAddress,
+          country: {
+            label:
+              res.data?.employeeAddressInformation?.addresses?.permanentAddress
+                .country,
+            value:
+              res.data?.employeeAddressInformation?.addresses?.permanentAddress
+                .country,
+          },
+          city: {
+            label:
+              res.data?.employeeAddressInformation?.addresses?.permanentAddress
+                .city,
+            value:
+              res.data?.employeeAddressInformation?.addresses?.permanentAddress
+                .city,
+          },
+          state: {
+            label:
+              res.data?.employeeAddressInformation?.addresses?.permanentAddress
+                .state,
+            value:
+              res.data?.employeeAddressInformation?.addresses?.permanentAddress
+                .state,
+          },
         },
-        state: {
-          label:
-            res.data?.employeeAddressInformation?.addresses?.permanentAddress
-              .state,
-          value:
-            res.data?.employeeAddressInformation?.addresses?.permanentAddress
-              .state,
-        },
-      },
-    })
+      })
+    }
   }
 
   const handleCheck = async (e: React.ChangeEvent<HTMLInputElement>) => {

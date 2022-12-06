@@ -10,6 +10,7 @@ import bell from 'assets/bell.svg'
 import search from 'assets/small-search.svg'
 import hamburger from 'assets/hamburger.svg'
 import style from './navbar.module.scss'
+import TextField from 'components/textfield'
 
 interface Props {
   openSidebar?: boolean
@@ -51,7 +52,7 @@ const Navbar = ({ setOpenSidebar, openSidebar }: Props) => {
           <div className={style.rightDiv}>
             <img src={search} alt="" className={style.imgDiv} />
             <div className={style.searchDiv}>
-              <input type="text" placeholder="Search" />
+              <TextField placeholder="Search" />
             </div>
             <img
               className={style.img}

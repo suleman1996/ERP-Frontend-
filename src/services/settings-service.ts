@@ -1,6 +1,6 @@
 import { ApiService } from './api-services'
-import { GeneralSettingUpdateUser } from 'pages/settings/general-settings/helper'
 import { ManageAccountsEditEmployee } from 'pages/settings/manage-accounts/manage-accounts-helper'
+import { GeneralSettingUpdateUser } from 'pages/settings/general-settings/helper'
 
 export default class SettingsService {
   static baseUrl = ['settings', '']
@@ -58,8 +58,12 @@ export default class SettingsService {
     return res
   }
 
-  static async getUsers() {
-    const res = await ApiService.get(`${SettingsService.baseUrl[1]}/users`)
+  static async getUsers(data?: any) {
+    const res = await ApiService.get(`${SettingsService.baseUrl[1]}/users`, {
+      ...(data && {
+        params: data,
+      }),
+    })
     return res
   }
 

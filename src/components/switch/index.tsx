@@ -57,7 +57,7 @@ const Switch = ({
 
           <span className={`${style.slider} ${style.round}`}></span>
         </label>
-        <h6>{title}</h6>
+        {title && <h6>{title}</h6>}
       </div>
       {errorMessage ? (
         <span className={style.errorMessage}>{errorMessage}</span>

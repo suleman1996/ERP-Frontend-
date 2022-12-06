@@ -3,110 +3,47 @@
 @import 'styles/_breakpoints.scss';
 
 .cardContainer {
-  margin: 0px 14px 12px 16.09px;
-  background-color: #fff;
-  height: calc(100vh - 110px);
-  padding: 30px 0;
-  @media (max-width: $md) {
-    padding: 20px 0;
-    margin: 0px 4px 2px 6.09px;
-  }
+  padding: 0px;
 }
 
 .headContainer {
-  max-height: 52px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  padding-left: calc(12px + (25 - 12) * (100vw - 280px) / (2560 - 280));
+  padding-right: calc(12px + (25 - 12) * (100vw - 280px) / (2560 - 280));
+  padding-top: calc(12px + (25 - 12) * (100vw - 280px) / (2560 - 280));
+  padding-bottom: calc(12px + (25 - 12) * (100vw - 280px) / (2560 - 280));
   border-bottom: 1px solid #e2e2ea;
-  padding-bottom: 18.45px;
-  padding-left: 52px;
-  padding-right: 52px;
+  max-height: 66px;
+  position: sticky;
+  top: 0px;
+  background: #fff;
+  z-index: 90;
   p {
-    cursor: pointer;
-    margin-right: 39px;
-    line-height: 40px;
     font-weight: 500;
-    font-size: 27px;
+    @include font24;
     color: #cacaca;
-    display: flex;
-    align-items: center;
-    img {
-      width: 22.29px;
-      height: 26px;
-      margin-left: 6.7px;
-    }
+    margin-right: calc(10px + (35 - 10) * (100vw - 280px) / (2560 - 280));
   }
   .active {
     font-weight: 600;
-    font-size: 27px;
     color: #2d2d32;
   }
-  @media (max-width: $md) {
-    padding-bottom: 12.45px;
-    padding-left: 32px;
-    padding-right: 32px;
-    p {
-      margin-right: 20px;
-      font-weight: 500;
-      font-size: 16px;
-      line-height: 24px;
-      color: #cacaca;
-      display: flex;
-      align-items: center;
-      img {
-        width: 15.29px;
-        height: 20px;
-        margin-left: 3.7px;
-      }
-    }
-    .active {
-      font-weight: 600;
-      font-size: 16px;
-      line-height: 24px;
-      color: #2d2d32;
-    }
-  }
-  @media (max-width: $xxs) {
-    p {
-      margin-right: 14px;
-      font-weight: 500;
-      font-size: 15px;
-      line-height: 14px;
-      color: #cacaca;
-      display: flex;
-      align-items: center;
-      img {
-        width: 15.29px;
-        height: 20px;
-        margin-left: 3.7px;
-      }
-    }
-    .active {
-      font-weight: 600;
-      font-size: 15px;
-      line-height: 14px;
-      color: #2d2d32;
-    }
+  .btnClass {
+    padding-top: calc(5px + (10 - 5) * (100vw - 280px) / (2560 - 280));
+    padding-bottom: calc(5px + (10 - 5) * (100vw - 280px) / (2560 - 280));
+    padding-left: calc(11px + (30 - 11) * (100vw - 280px) / (2560 - 280));
+    padding-right: calc(11px + (30 - 11) * (100vw - 280px) / (2560 - 280));
   }
 }
-
-.gridView {
-  @include gridTwo(22, 22);
+.footerDiv {
+  padding-left: calc(12px + (25 - 12) * (100vw - 280px) / (2560 - 280));
+  padding-right: calc(12px + (25 - 12) * (100vw - 280px) / (2560 - 280));
+  padding-top: calc(12px + (25 - 12) * (100vw - 280px) / (2560 - 280));
+  padding-bottom: calc(12px + (25 - 12) * (100vw - 280px) / (2560 - 280));
 }
-
-.modelContainer {
-  padding-top: 35px !important;
-}
-
-.textAreaGrid {
-  grid-column: 1 / -1;
-}
-
-.fileUpload {
-  margin-top: 0 !important;
-}
-
-.classNameLabel {
-  display: inline-block;
-  margin-bottom: 12px;
+.grid {
+  @include gridTwo(20, 20);
+  margin-bottom: calc(12px + (25 - 12) * (100vw - 280px) / (2560 - 280));
 }

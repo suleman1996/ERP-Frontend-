@@ -17,6 +17,8 @@ interface Props {
   tableClass?: string
   rowText?: string
   setRowIndex?: Dispatch<SetStateAction<number | undefined>>
+  setIsFilter?: Dispatch<SetStateAction<number | undefined>>
+  isFilter?: number
   columns: {
     key: string
     name: string
@@ -56,6 +58,8 @@ interface Props {
   allIDs?: string[]
   singleUser?: any[]
   getAllUsers?: () => void
+  onSubmit?: any
+  allUsers: any[]
 }
 
 const Table = ({
@@ -83,10 +87,12 @@ const Table = ({
   allIDs,
   singleUser,
   getAllUsers,
+  setIsFilter,
+  isFilter,
+  allUsers,
+  onSubmit,
 }: Props) => {
   const [tblScroll, setTblScroll] = useState(false)
-  const [isFilter] = useState<string | number>('')
-  const [isFilterSelected] = useState<string | number>('')
 
   const handlePencilIcon = ({ id, index }: { id: string; index: number }) => {
     handleEdit && handleEdit(id)
@@ -141,11 +147,10 @@ const Table = ({
                     </span>
                     {column.icon && (
                       <img
-                        src={
-                          isFilterSelected === index
-                            ? column.selectedIcon
-                            : column.icon
-                        }
+                        onClick={() => {
+                          setIsFilter(index)
+                        }}
+                        src={column.icon}
                         className={style.sortIcon}
                         alt=""
                         style={{
@@ -156,7 +161,28 @@ const Table = ({
                       />
                     )}
                   </p>
-                  {isFilter === index && <FiltersComponent />}
+                  {isFilter === index && (
+                    <div
+                      style={{ position: 'absolute', top: '50px', zIndex: 200 }}
+                    >
+                      <FiltersComponent
+                        isFilter={isFilter}
+                        setIsFilter={setIsFilter}
+                        names={
+                          allUsers?.map(({ name, role, employeeId }) =>
+                            isFilter === 1
+                              ? name
+                              : isFilter === 3
+                              ? role[0].name
+                              : employeeId
+                              ? employeeId
+                              : ''
+                          ) || []
+                        }
+                        onSubmit={onSubmit}
+                      />
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
@@ -208,6 +234,16 @@ const Table = ({
                                   src={editIcon}
                                   alt="editIcon"
                                 />
+                                {column?.editView && (
+                                  <img
+                                    src={eye}
+                                    alt=""
+                                    className={style.pencilIcon}
+                                    onClick={() => {
+                                      handleView && handleView(row.id)
+                                    }}
+                                  />
+                                )}
                                 {column?.lockIcon && (
                                   <img
                                     className={style.pencilIcon}

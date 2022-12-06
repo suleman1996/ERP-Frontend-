@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
-import FiltersComponent from 'components/filters'
 import ImageUpload from 'components/image-upload'
 import FiltersComponentByDate from 'components/filters/filter-for-dates'
 import TextField from 'components/textfield'
@@ -12,8 +11,6 @@ import TimePicker from 'components/time-picker'
 import Tags from 'components/tags'
 import Button from 'components/button'
 import Table from 'components/table'
-
-import { rows, columns, recurrenceTypes } from './helper'
 import Switch from 'components/switch'
 import SkillLevel from 'components/skill-level'
 import Selection from 'components/selection'
@@ -31,7 +28,9 @@ import RenderPolicy from 'components/policy-card'
 import plus from 'assets/path-plus.svg'
 import DeleteModal from 'components/delete-modal'
 import AccordianSwitch from 'components/accordian'
-import CustomTimePicker from 'components/custom-time-picker'
+import TimeProgress from 'components/time-progress'
+
+import { rows, columns, recurrenceTypes } from './helper'
 
 const DashBoard = () => {
   const { control, register, watch } = useForm()
@@ -42,9 +41,6 @@ const DashBoard = () => {
   const [pageSize, setPageSize] = useState(10)
   const [totalCount] = useState()
   const [page, setPage] = useState(1)
-  const [type, setType] = useState('per-day')
-
-  const [customErr, setCustomErr] = useState()
   const [openAccordian, setOpenAccordian] = useState(-1)
 
   return (
@@ -184,9 +180,7 @@ const DashBoard = () => {
       <div style={{ marginTop: '10px' }}>
         <FiltersComponentByDate />
       </div>
-      <div style={{ marginTop: '10px' }}>
-        <FiltersComponent />
-      </div>
+      <div style={{ marginTop: '10px' }}></div>
       <div style={{ marginTop: '10px' }}>
         <Table columns={columns} rows={rows} minWidth="1100px" />
       </div>
@@ -217,17 +211,7 @@ const DashBoard = () => {
         <RenderPolicy />
       </div>
       <div style={{ margin: '10px 0px' }}>
-        <CustomTimePicker
-          label="Working Hours"
-          name={'employmentInfo.workingHours'}
-          control={control}
-          setCustomErr={setCustomErr}
-          customErr={customErr}
-          type={type}
-          setType={setType}
-          placeholder="Per Day"
-          selectHoursDuration={selectHoursDuration}
-        />
+        <TimeProgress />
       </div>
     </Container>
   )
@@ -244,18 +228,4 @@ const addProfileData = [
   { name: 'Delete Employee' },
   { name: 'CV View' },
   { name: 'Profile View' },
-]
-const selectHoursDuration = [
-  {
-    value: 'per-day',
-    label: 'per Day',
-  },
-  {
-    value: 'per-week',
-    label: 'Per Week',
-  },
-  {
-    value: 'per-month',
-    label: 'Per Month ',
-  },
 ]

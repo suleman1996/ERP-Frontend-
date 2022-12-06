@@ -3,11 +3,11 @@ import Select from 'react-select'
 import { Controller } from 'react-hook-form'
 
 import Tags from 'components/tags'
+import TextField from 'components/textfield'
 
 import { SelectionStyle } from './custom-styles'
 
 import style from './select.module.scss'
-import TextField from 'components/textfield'
 
 interface Props {
   label?: string
@@ -20,7 +20,7 @@ interface Props {
   placeholder?: string
   disable?: boolean
   star?: string
-  selectContainer?: string
+  backClass?: any
   wraperSelect?: string
   withInput?: boolean
   marksType?: string
@@ -89,7 +89,7 @@ const Selection = ({
   name1,
   register,
   marksType,
-  // backStyle,
+  backClass,
   marksVal,
 }: Props) => {
   const [customErr, setCustomErr] = useState<string | undefined>()
@@ -157,19 +157,20 @@ const Selection = ({
   return (
     <div style={{ position: 'relative' }}>
       {label && (
-        <div style={{ marginBottom: 7.31 }}>
-          <label>
-            {label}
-            <b style={{ color: 'red' }}>{star}</b>
-          </label>
-        </div>
+        <label className={style.label}>
+          {label}
+          <b style={{ color: 'red' }}>{star}</b>
+        </label>
       )}
       <div
         style={{
           border: errorMessage ? '1px solid #ff5050' : '1px solid #E2E2EA',
           borderRadius: '6px',
+          marginTop: ' calc(5px + (12 - 5) * (100vw - 280px) / (2560 - 280))',
         }}
-        className={!isDisabled ? wraperSelect : style.disabledSelection}
+        className={`${backClass} ${
+          !isDisabled ? wraperSelect : style.disabledSelection
+        }`}
       >
         <Controller
           name={name}
