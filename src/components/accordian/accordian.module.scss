@@ -2,50 +2,58 @@
 @import 'styles/_mixin.scss';
 @import 'styles/_breakpoints.scss';
 
+.mainCard {
+  background: #ffffff;
+  border: 1px solid #e2e2ea;
+  border-radius: 3px;
+}
+
 .container {
-  padding: 10px;
+  padding-top: calc(5px + (15 - 5) * (100vw - 280px) / (2560 - 280));
+  padding-bottom: calc(5px + (15 - 5) * (100vw - 280px) / (2560 - 280));
+  padding-left: calc(11px + (17 - 11) * (100vw - 280px) / (2560 - 280));
+  padding-right: calc(11px + (17 - 11) * (100vw - 280px) / (2560 - 280));
   display: flex;
   justify-content: space-between;
-  background: #ffffff;
-  border: 1.19506px solid #e2e2ea;
-  border-radius: 7.93819px;
+  border-bottom: 1px solid #e2e2ea;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
   cursor: pointer;
 
   .switchHeader {
     display: flex;
     align-items: center;
     span {
-      font-family: 'Poppins';
-      font-style: normal;
-      font-weight: 500;
-      font-size: 13px;
-      line-height: 20px;
+      @include font16;
       color: #2d2d32 !important;
     }
   }
 }
 
 .body {
-  padding: 10px;
+  padding-left: calc(14px + (38 - 14) * (100vw - 280px) / (2560 - 280));
+  padding-right: calc(11px + (17 - 11) * (100vw - 280px) / (2560 - 280));
   background: #ffffff;
+  padding-top: 10px;
   cursor: pointer;
+  &:last-child {
+    padding-bottom: 10px;
+  }
   .bodySwitch {
     display: flex;
     justify-content: space-between;
-    padding: 0px 10px;
     span {
-      font-family: 'Poppins';
-      font-style: normal;
-      font-weight: 400;
-      font-size: 12px;
-      line-height: 18px;
+      @include font14;
       color: #2d2d32 !important;
     }
   }
 }
 
 .switchContainer {
-  margin-left: 10px;
+  margin-left: 5px;
 }
 
 .tableHeaderClass {

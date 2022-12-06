@@ -7,7 +7,6 @@ export const recurrenceTypes = [
   { value: 'Daily', label: 'Daily' },
   { value: 'Weekly', label: 'Weekly' },
   { value: 'Monthly', label: 'Monthly' },
-  { value: 'Yearly', label: 'Yearly' },
   { value: 'No Recurrence', label: 'No Recurrence' },
 ]
 export const options = [
@@ -73,7 +72,7 @@ export const category = [
 ]
 
 export const eventName = [
-  { name: 'This Event' },
-  { name: 'This and following events' },
-  { name: 'All Event' },
+  { name: 'This Event', value: 'specific' },
+  { name: 'This and following events', value: 'future' },
+  { name: 'All Event', value: 'all' },
 ]

@@ -1,6 +1,8 @@
 export const SelectionStyle = {
   control: (styles: any, state: any) => ({
     ...styles,
+    // ...backStyle,
+
     backgroundColor: '#ffffff',
     borderRadius: 6,
     boxShadow: 'none',
@@ -13,10 +15,14 @@ export const SelectionStyle = {
     paddingRight:
       'calc(2px + (7 - 2) * (100vw - 280px) / (2560 - 280)) !important',
     borderColor: 'none !important',
+    cursor: 'pointer',
+    height:
+      'calc(30px + (55 - 30) * (100vw - 280px) / (2560 - 280)) !important',
     '&:hover': {
       outline: state.isFocused ? 0 : 0,
     },
   }),
+
   option: (styles: any, { data, isDisabled, isFocused, isSelected }: any) => {
     return {
       ...styles,
@@ -28,6 +34,7 @@ export const SelectionStyle = {
         ? 'white'
         : 'white',
       color: isDisabled ? '#ccc' : isSelected ? 'red  !important' : data.color,
+      fontSize: 'calc(12px + (18 - 12) * (100vw - 280px) / (2560 - 280))',
       cursor: isDisabled ? 'not-allowed' : 'default',
       '&:active': {
         backgroundColor: 'white',

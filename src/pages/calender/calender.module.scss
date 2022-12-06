@@ -8,7 +8,6 @@
     border: none !important;
   }
 }
-
 .description {
   font-family: 'Poppins';
   font-style: normal;
@@ -229,4 +228,9 @@
 }
 .modalClass {
   max-width: 600px !important;
+}
+.titleClass {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

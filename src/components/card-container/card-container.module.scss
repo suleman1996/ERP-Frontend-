@@ -4,9 +4,10 @@
 
 .mainContainer {
   background: #ffffff;
-  border: 1.19506px solid #e2e2ea;
-  border-radius: 7.93819px;
+  border: 1px solid #e2e2ea;
+  border-radius: 4px;
   display: flex;
+  height: calc(100vh - 120px);
   overflow-y: scroll;
   position: relative;
   flex-direction: column;

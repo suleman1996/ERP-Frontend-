@@ -303,18 +303,17 @@ const Table = ({
                     </div>
                   </>
                 ))}
+                {newUser && (
+                  <AddUser
+                    setNewUser={setNewUser}
+                    setBtnHideShow={setBtnHideShow}
+                    customRoles={customRoles}
+                    allIDs={allIDs}
+                    getAllUsers={getAllUsers}
+                  />
+                )}
               </div>
             </div>
-
-            {newUser && (
-              <AddUser
-                setNewUser={setNewUser}
-                setBtnHideShow={setBtnHideShow}
-                customRoles={customRoles}
-                allIDs={allIDs}
-                getAllUsers={getAllUsers}
-              />
-            )}
           </div>
         </div>
       )}
