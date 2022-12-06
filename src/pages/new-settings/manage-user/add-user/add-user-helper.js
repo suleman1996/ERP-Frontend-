@@ -82,6 +82,7 @@ export const AddUserHelper = ({
         if (res.status === 200) {
           setEditIndex(-1)
           getAllUsers()
+          createNotification('success', 'Success', res?.data?.msg)
         }
       } else {
         const res = await SettingsService.addUser(userData)

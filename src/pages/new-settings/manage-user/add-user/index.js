@@ -2,6 +2,7 @@ import Switch from 'components/switch'
 import Button from 'components/button'
 import Input from 'components/textfield'
 import Selection from 'components/selection'
+import Loading from 'components/loading'
 
 import { AddUserHelper } from './add-user-helper'
 
@@ -16,6 +17,7 @@ const AddUser = ({
   singleUser,
   getAllUsers,
   setBtnHideShow,
+  loader,
 }) => {
   const {
     register,
@@ -38,7 +40,12 @@ const AddUser = ({
   })
 
   return (
-    <>
+    <div style={{ position: 'relative' }}>
+      {loader && (
+        <div className={style.loaderDiv}>
+          <Loading loaderClass={style.loadingStyle} />
+        </div>
+      )}
       <form
         onSubmit={(e) => {
           clearErrors()
@@ -139,7 +146,7 @@ const AddUser = ({
           />
         </div>
       </form>
-    </>
+    </div>
   )
 }
 

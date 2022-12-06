@@ -3,7 +3,6 @@ import { useForm } from 'react-hook-form'
 
 import Table from 'components/table'
 import Modal from 'components/modal'
-import AddUser from './add-user/index'
 import Switch from 'components/switch'
 import Button from 'components/button'
 import TextField from 'components/textfield'
@@ -37,6 +36,7 @@ const ManageUser = ({ newUser, setNewUser, setBtnHideShow }) => {
   const [allIDs, setAllIDs] = useState()
   const [allUsers, setAllUsers] = useState([])
   const [singleUser, setSingleUser] = useState()
+  const [loader, setLoader] = useState(false)
 
   useEffect(() => {
     getCustomRoles()
@@ -60,8 +60,10 @@ const ManageUser = ({ newUser, setNewUser, setBtnHideShow }) => {
   }
 
   const editHandler = async (id) => {
+    setLoader(true)
     const res = await SettingsService.getUserById(id)
     setSingleUser(res?.data?.user)
+    setLoader(false)
   }
 
   const handleDeleteClick = async () => {
@@ -96,6 +98,7 @@ const ManageUser = ({ newUser, setNewUser, setBtnHideShow }) => {
       if (res.status === 200) {
         setResetPopUp(false)
         getAllUsers()
+        createNotification('success', 'Success', res?.data?.msg)
       }
     } catch (err) {
       if (err.response?.data?.error) {
@@ -135,6 +138,9 @@ const ManageUser = ({ newUser, setNewUser, setBtnHideShow }) => {
     <CardContainer className={style.card}>
       <div style={{ padding: '0 10px', paddingBottom: '60px' }}>
         <Table
+          loader={loader}
+          newUser={newUser}
+          setBtnHideShow={setBtnHideShow}
           onSubmit={filterSubmit}
           getAllUsers={getAllUsers}
           allUsers={allUsers}
@@ -191,15 +197,6 @@ const ManageUser = ({ newUser, setNewUser, setBtnHideShow }) => {
             setResetId(id)
           }}
         />
-        {newUser && (
-          <AddUser
-            setNewUser={setNewUser}
-            setBtnHideShow={setBtnHideShow}
-            customRoles={customRoles}
-            allIDs={allIDs}
-            getAllUsers={getAllUsers}
-          />
-        )}
         <DeletePopup
           open={deletePopUp}
           setOpen={setDeletePopUp}
@@ -251,6 +248,7 @@ const ManageUser = ({ newUser, setNewUser, setBtnHideShow }) => {
                   type="submit"
                   text="Save Password"
                   btnClass={style.saveBtn}
+                  isLoading={btnLoader}
                 />
               </div>
             </div>
