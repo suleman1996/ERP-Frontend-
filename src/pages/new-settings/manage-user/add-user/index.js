@@ -2,12 +2,12 @@ import Switch from 'components/switch'
 import Button from 'components/button'
 import Input from 'components/textfield'
 import Selection from 'components/selection'
+import Loading from 'components/loading'
 
 import { AddUserHelper } from './add-user-helper'
 
 import cam from 'assets/whiteCam.svg'
 import style from './add-user.module.scss'
-import Loading from 'components/loading'
 
 const AddUser = ({
   setNewUser,
