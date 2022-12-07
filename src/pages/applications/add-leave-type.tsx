@@ -41,10 +41,20 @@ const AddLeaveType = ({
         maxCarryForward: data?.maxCarryForward,
         carryForward: data?.carryForward?.value,
       }
-      const response = await LeaveService.AddLeave(transformData)
-      if (response?.status === 200) {
-        createNotification('success', 'success', response?.data?.msg)
-        setOpenAddTypeModal(!openAddTypeModal)
+      if (transformData.carryForward === 'true') {
+        const response = await LeaveService.AddLeave(transformData)
+        if (response?.status === 200) {
+          createNotification('success', 'success', response?.data?.msg)
+          setOpenAddTypeModal(!openAddTypeModal)
+        }
+        setBtnLoader(false)
+      } else {
+        delete transformData?.maxCarryForward
+        const response = await LeaveService.AddLeave(transformData)
+        if (response?.status === 200) {
+          createNotification('success', 'success', response?.data?.msg)
+          setOpenAddTypeModal(!openAddTypeModal)
+        }
       }
       setBtnLoader(false)
     } catch (err: any) {
