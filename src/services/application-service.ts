@@ -59,4 +59,9 @@ export default class ApplicationService {
     )
     return res
   }
+
+  static async addLeaveQuotaApi(obj: any) {
+    const res = await ApiService.post('leave-quota', obj)
+    return res
+  }
 }
