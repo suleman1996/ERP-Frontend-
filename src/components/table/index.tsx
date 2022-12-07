@@ -196,6 +196,15 @@ const Table = ({
 
             <div style={{ maxHeight: '600px', overflowY: 'auto' }}>
               <div style={{ height: '700px' }}>
+                {newUser && (
+                  <AddUser
+                    setNewUser={setNewUser}
+                    setBtnHideShow={setBtnHideShow}
+                    customRoles={customRoles}
+                    allIDs={allIDs}
+                    getAllUsers={getAllUsers}
+                  />
+                )}
                 {rows?.map((row, index) => (
                   <>
                     <div
@@ -313,15 +322,6 @@ const Table = ({
                     </div>
                   </>
                 ))}
-                {newUser && (
-                  <AddUser
-                    setNewUser={setNewUser}
-                    setBtnHideShow={setBtnHideShow}
-                    customRoles={customRoles}
-                    allIDs={allIDs}
-                    getAllUsers={getAllUsers}
-                  />
-                )}
               </div>
             </div>
           </div>

@@ -169,7 +169,7 @@ const ManageUser = ({ newUser, setNewUser, setBtnHideShow }) => {
               <div
                 style={{
                   display: 'flex',
-                  justifyContent: 'center',
+                  justifyContent: 'flex-start',
                   alignItems: 'center',
                 }}
               >
