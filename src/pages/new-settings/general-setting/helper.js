@@ -24,7 +24,7 @@ export const departmentColumn = [
     width: '100px',
   },
   { key: 'actions', name: 'Actions', alignText: 'center', width: '100px' },
-];
+]
 
 export const designationColumn = [
   {
@@ -47,7 +47,7 @@ export const designationColumn = [
     width: '100px',
   },
   { key: 'actions', name: 'Actions', alignText: 'center', width: '100px' },
-];
+]
 
 export const employeeIdColumn = [
   {
@@ -64,7 +64,7 @@ export const employeeIdColumn = [
     width: '100px',
   },
   { key: 'actions', name: 'Actions', alignText: 'center', width: '100px' },
-];
+]
 
 export const genderColumn = [
   {
@@ -81,7 +81,7 @@ export const genderColumn = [
     width: '100px',
   },
   { key: 'actions', name: 'Actions', alignText: 'center', width: '100px' },
-];
+]
 
 export const genderRows = [
   {
@@ -90,7 +90,7 @@ export const genderRows = [
   {
     gender: 'male',
   },
-];
+]
 
 export const employeeIdRows = [
   {
@@ -102,7 +102,7 @@ export const employeeIdRows = [
   {
     id: 'SPX',
   },
-];
+]
 
 export const tagsColumn = [
   {
@@ -125,7 +125,7 @@ export const tagsColumn = [
     width: '100px',
   },
   { key: 'actions', name: 'Actions', alignText: 'center', width: '100px' },
-];
+]
 
 export const tagsRows = [
   {
@@ -140,7 +140,7 @@ export const tagsRows = [
     tagCategory: 'short time',
     tagCondition: 'Checkin < St. Checkin',
   },
-];
+]
 
 export const leaveColumn = [
   {
@@ -163,7 +163,7 @@ export const leaveColumn = [
     width: '100px',
   },
   { key: 'actions', name: 'Actions', alignText: 'center', width: '100px' },
-];
+]
 
 export const leaveRows = [
   {
@@ -178,7 +178,7 @@ export const leaveRows = [
     name: 'sick',
     balance: 'Available',
   },
-];
+]
 
 export const allowenceColumn = [
   {
@@ -194,7 +194,7 @@ export const allowenceColumn = [
     width: '100px',
   },
   { key: 'actions', name: 'Actions', alignText: 'center', width: '100px' },
-];
+]
 
 export const allowenceRows = [
   {
@@ -206,12 +206,12 @@ export const allowenceRows = [
   {
     type: 'medical',
   },
-];
+]
 
 export const documentsColumn = [
   {
-    key: 'category',
-    name: 'Category',
+    key: 'name',
+    name: 'Name',
     alignText: 'center',
     width: '100px',
   },
@@ -222,7 +222,7 @@ export const documentsColumn = [
     width: '100px',
   },
   { key: 'actions', name: 'Actions', alignText: 'center', width: '100px' },
-];
+]
 
 export const documentsRows = [
   {
@@ -234,7 +234,7 @@ export const documentsRows = [
   {
     category: 'category',
   },
-];
+]
 
 export const departmentRows = [
   {
@@ -265,4 +265,4 @@ export const departmentRows = [
     id: 'SPX0021',
     status: 'switch component',
   },
-];
+]

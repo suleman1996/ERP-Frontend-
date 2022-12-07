@@ -7,7 +7,7 @@ import Selection from 'components/selection'
 import Switch from 'components/switch'
 import DeletePopup from 'components/delete-modal'
 import Table from 'components/table'
-import CardContainer from 'components/card-container'
+// import CardContainer from 'components/card-container'
 import Button from 'components/button'
 import Tags from 'components/tags'
 import Modal from 'components/modal'
@@ -18,6 +18,7 @@ import SettingsService from 'services/settings-service'
 import statusIcon from 'assets/status.svg'
 import arrow from 'assets/arrowup.svg'
 import style from './accordian.module.scss'
+import { createNotification } from 'common/create-notification'
 
 const AccordianSwitch = ({
   title,
@@ -33,7 +34,9 @@ const AccordianSwitch = ({
   getAllDepartments,
   departmentRows,
   designationRows,
+  policyRow,
   getAllDesignations,
+  getAllPolicies,
   titleClass,
 }: any) => {
   const [checkAll, setCheckAll] = useState(false)
@@ -52,7 +55,13 @@ const AccordianSwitch = ({
 
   const { register, handleSubmit, errors, control, reset } = useForm({
     resolver: yupResolver(
-      title === 'Department' ? departmentSchema : designationSchema
+      title === 'Department'
+        ? departmentSchema
+        : title === 'Designation'
+        ? designationSchema
+        : title === 'Policy Category'
+        ? PolicySchema
+        : ''
     ),
   })
 
@@ -71,7 +80,8 @@ const AccordianSwitch = ({
       setGenderModal(true)
     } else if (title === 'Allowance Types') {
       setAllowenceTypeModal(true)
-    } else if (title === 'Documents Category') {
+    } else if (title === 'Policy Category') {
+      reset({})
       setDocumenModal(true)
     }
   }
@@ -100,6 +110,7 @@ const AccordianSwitch = ({
   }
 
   const handleEdit = (id: string | number) => {
+    console.log('edit', id)
     if (title === 'Department') {
       setDepartmentModal(true)
       setDepId(id)
@@ -114,6 +125,14 @@ const AccordianSwitch = ({
           label: data?.departmentSettingId?.name,
           value: data?.departmentSettingId?._id,
         },
+      })
+    } else if (title === 'Policy Category') {
+      setDepId(id)
+      setDocumenModal(true)
+      const data = policyRow?.find((item) => item._id === id)
+      console.log('edit mode')
+      reset({
+        policy: data?.name,
       })
     }
   }
@@ -132,6 +151,12 @@ const AccordianSwitch = ({
       const res = await SettingsService.deleteDesignation(depId)
       if (res.status === 200) {
         getAllDesignations()
+        setDeletePopUp(false)
+      }
+    } else if (title === 'Policy Category') {
+      const res = await SettingsService.deletePolicy(depId)
+      if (res.status === 200) {
+        getAllPolicies()
         setDeletePopUp(false)
       }
     }
@@ -156,6 +181,30 @@ const AccordianSwitch = ({
         getAllDesignations()
         reset({})
       }
+    }
+  }
+
+  const policySubmit = async (data) => {
+    try {
+      if (depId) {
+        const res = await SettingsService.updatePolicy(
+          { name: data?.policy },
+          depId
+        )
+        if (res?.status === 200) {
+          getAllPolicies()
+          setDocumenModal(false)
+          setDepId('')
+        }
+      } else {
+        const res = await SettingsService.addPolicy({ name: data?.policy })
+        if (res?.status === 200) {
+          getAllPolicies()
+          setDocumenModal(false)
+        }
+      }
+    } catch (err) {
+      createNotification('error', 'Error', err?.response?.data?.msg)
     }
   }
 
@@ -196,89 +245,86 @@ const AccordianSwitch = ({
           })
         ) : (
           <>
-            <CardContainer className={style.card}>
-              <div style={{ paddingBottom: '15px' }}>
-                <Table
-                  tableHeaderClass={style.tableHeaderClass}
-                  columns={
-                    ColumnsData &&
-                    ColumnsData?.map((item: any) => ({
-                      ...item,
-                      name:
-                        item.name !== 'Status' ? (
-                          item.name
-                        ) : (
-                          <div>
-                            {' '}
-                            <div
-                              style={{
-                                display: 'flex',
-                                justifyContent: 'center',
-                              }}
-                            >
-                              <span style={{ marginRight: '5px' }}>Status</span>
-                              <div className={style.tooltip}>
-                                <img
-                                  className={style.tooltip}
-                                  src={statusIcon}
-                                  style={{ marginTop: '5px' }}
-                                />
-                                <span className={style.tooltiptext}>
-                                  If you want to hide any option from the
-                                  dropdowns, you can hide it by doing Inactive
-                                  it
-                                </span>
-                              </div>
+            <div style={{ padding: '15px' }}>
+              <Table
+                tableHeaderClass={style.tableHeaderClass}
+                columns={
+                  ColumnsData &&
+                  ColumnsData?.map((item: any) => ({
+                    ...item,
+                    name:
+                      item.name !== 'Status' ? (
+                        item.name
+                      ) : (
+                        <div>
+                          {' '}
+                          <div
+                            style={{
+                              display: 'flex',
+                              justifyContent: 'center',
+                            }}
+                          >
+                            <span style={{ marginRight: '5px' }}>Status</span>
+                            <div className={style.tooltip}>
+                              <img
+                                className={style.tooltip}
+                                src={statusIcon}
+                                style={{ marginTop: '5px' }}
+                              />
+                              <span className={style.tooltiptext}>
+                                If you want to hide any option from the
+                                dropdowns, you can hide it by doing Inactive it
+                              </span>
                             </div>
                           </div>
-                        ),
-                    }))
-                  }
-                  rows={RowsData.map((row) => ({
-                    ...row,
-                    image: <div className={style.image}></div>,
-                    tagCategory: (
-                      <Tags
-                        text={row?.tagCategory}
-                        boxColor={'#FACCCC'}
-                        textColor={'#e92424'}
+                        </div>
+                      ),
+                  }))
+                }
+                rows={RowsData?.map((row) => ({
+                  ...row,
+                  image: <div className={style.image}></div>,
+                  tagCategory: (
+                    <Tags
+                      text={row?.tagCategory}
+                      boxColor={'#FACCCC'}
+                      textColor={'#e92424'}
+                    />
+                  ),
+                  status: (
+                    <div
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                      }}
+                    >
+                      <Switch
+                        title={'Active'}
+                        name={'active'}
+                        control={control}
                       />
-                    ),
-                    status: (
-                      <div
-                        style={{
-                          display: 'flex',
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                        }}
-                      >
-                        <Switch
-                          title={'Active'}
-                          name={'active'}
-                          control={control}
-                        />
-                      </div>
-                    ),
-                  }))}
-                  headingText={style.headingText}
-                  rowText={style.rowText}
-                  minWidth="700px"
-                  handleDelete={(id) => {
-                    setDepId(id)
-                    setDeletePopUp(true)
-                  }}
-                  handleEdit={(id) => handleEdit(id)}
-                />
-                <div className={style.btnDiv}>
-                  <Button text={btnText} handleClick={handleClickBtn} />
-                </div>
-                <DeletePopup
-                  open={deletePopUp}
-                  setOpen={setDeletePopUp}
-                  handleDelete={handleDelete}
-                />
+                    </div>
+                  ),
+                }))}
+                headingText={style.headingText}
+                rowText={style.rowText}
+                minWidth="700px"
+                handleDelete={(id) => {
+                  setDepId(id)
+                  setDeletePopUp(true)
+                }}
+                handleEdit={(id) => handleEdit(id)}
+              />
+              <div className={style.btnDiv}>
+                <Button text={btnText} handleClick={handleClickBtn} />
               </div>
-            </CardContainer>
+              <DeletePopup
+                open={deletePopUp}
+                setOpen={setDeletePopUp}
+                handleDelete={handleDelete}
+              />
+            </div>
           </>
         ))}
 
@@ -491,25 +537,34 @@ const AccordianSwitch = ({
 
       <Modal
         open={documentModal}
-        handleClose={() => setDocumenModal(false)}
-        title={'Add New Document'}
+        handleClose={() => {
+          setDepId('')
+          setDocumenModal(false)
+          reset({})
+        }}
+        title={'Add New Policy'}
       >
-        <div>
-          <Input
-            label="Document"
-            placeholder="Enter document"
-            containerClass={style.containerClass}
-          />
-        </div>
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'flex-end',
-            marginTop: '15px',
-          }}
-        >
-          <Button text="Add Document " />
-        </div>
+        <form onSubmit={handleSubmit(policySubmit)}>
+          <div>
+            <Input
+              name={'policy'}
+              label="Policy Name"
+              placeholder="Enter Policy Name"
+              register={register}
+              errorMessage={errors?.policy?.message}
+              containerClass={style.containerClass}
+            />
+          </div>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+              marginTop: '15px',
+            }}
+          >
+            <Button text="Add Document " type="submit" />
+          </div>
+        </form>
       </Modal>
     </div>
   )
@@ -548,4 +603,8 @@ export const departmentSchema = yup.object().shape({
 export const designationSchema = yup.object().shape({
   name: yup.string().required('Designation name  is a required field'),
   departmentId: yup.object().required('Department name  is a required field'),
+})
+
+export const PolicySchema = yup.object().shape({
+  policy: yup.string().required('Policy name  is a required field'),
 })

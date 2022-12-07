@@ -1,34 +1,37 @@
-import { memo, useEffect, useState } from 'react';
-import { Navigate, Route, Routes as Switch } from 'react-router-dom';
+import { memo, useEffect, useState } from 'react'
+import { Navigate, Route, Routes as Switch } from 'react-router-dom'
 
-import AppLoader from 'components/app-loader';
+import AppLoader from 'components/app-loader'
 
-import { routes, publicRoute, RouteInterface } from './helper';
-import Layout from 'components/layout';
+import { routes, publicRoute, RouteInterface, allRoute } from './helper'
+import Layout from 'components/layout'
 
 interface Props {
-  token: string;
-  role: string;
-  loader: boolean;
+  token: string
+  role: string
+  loader: boolean
 }
 
 const Routes = ({ token, role, loader }: Props) => {
-  const [routesArr, setRoutesArr] = useState<RouteInterface[] | []>([]);
+  const [routesArr, setRoutesArr] = useState<RouteInterface[] | []>([])
 
   useEffect(() => {
     if (token && role) {
-      let tempRoutes = [...routes];
-      tempRoutes = tempRoutes.filter((ele) => ele.role?.includes(role));
-      setRoutesArr([...tempRoutes]);
+      let tempRoutes = [...routes]
+      tempRoutes = tempRoutes.filter((ele) => ele.role?.includes(role))
+      setRoutesArr([...tempRoutes])
     }
-  }, [token, role]);
+  }, [token, role])
 
   return (
     <>
       {!token && !role && (
         <Switch>
           {publicRoute?.map(({ path, component }, index: number) => {
-            return <Route key={index} path={path} element={component} />;
+            return <Route key={index} path={path} element={component} />
+          })}
+          {allRoute?.map(({ path, component }, index: number) => {
+            return <Route key={index} path={path} element={component} />
           })}
           <Route path="*" element={<Navigate to="/login" />} />
         </Switch>
@@ -38,7 +41,16 @@ const Routes = ({ token, role, loader }: Props) => {
           {token && role && routesArr?.length > 0 && (
             <Switch>
               {routesArr?.map(({ path, component }, index: number) => {
-                return <Route key={index} path={path} element={<Layout>{component}</Layout>} />;
+                return (
+                  <Route
+                    key={index}
+                    path={path}
+                    element={<Layout>{component}</Layout>}
+                  />
+                )
+              })}
+              {allRoute?.map(({ path, component }, index: number) => {
+                return <Route key={index} path={path} element={component} />
               })}
               <Route path="*" element={<Navigate to="/" />} />
             </Switch>
@@ -48,7 +60,7 @@ const Routes = ({ token, role, loader }: Props) => {
         <AppLoader />
       )}
     </>
-  );
-};
+  )
+}
 
-export default memo(Routes);
+export default memo(Routes)
