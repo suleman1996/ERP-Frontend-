@@ -18,6 +18,8 @@ const CreateApplicationModal = ({
   defaultLeaveType,
   setRender,
   editData,
+  type,
+  value,
 }: {
   openModal: boolean
   setOpenModal?: any
@@ -25,9 +27,12 @@ const CreateApplicationModal = ({
   defaultLeaveType?: any
   setRender?: any
   editData?: any
+  type?: any
+  value?: any
 }) => {
   const [selectedFileName, setSelectedFileName] = useState<any>()
   const [btnLoader, setBtnLoader] = useState(false)
+  const [disabled] = useState(value?.approverStatus == 'Pending' ? true : false)
   const {
     control,
     register,
@@ -65,6 +70,31 @@ const CreateApplicationModal = ({
     }
   }, [editData])
 
+  useEffect(() => {
+    if (value) {
+      if (value.attachment) {
+        setSelectedFileName('Attached Document')
+      }
+      reset({
+        leaveType: {
+          value: value.leaveType._id,
+          label: value.leaveType.name,
+        },
+        approvedBy: {
+          value: value.employee._id,
+          label: value.employee.fullName,
+        },
+        hrBy: {
+          value: value?.hr?._id,
+          label: value?.hr?.fullName,
+        },
+        dateFrom: new Date(value.dateFrom),
+        dateTo: new Date(value.dateTo),
+        reason: value.reason,
+      })
+    }
+  }, [value])
+
   const submitHandler = async (data: any) => {
     setBtnLoader(true)
     try {
@@ -83,6 +113,13 @@ const CreateApplicationModal = ({
           reason: data?.reason,
           hrBy: data?.hrBy?.value,
         })
+      } else if (value?.approverStatus == 'Pending') {
+        await ApplicationService.approveApplication(value?._id, {
+          ...(data?.managerRemarks && {
+            approverRemarks: data?.managerRemarks,
+          }),
+        })
+        setRender((prev: any) => !prev)
       } else {
         await ApplicationService.applyApplication({
           leaveType: data?.leaveType?.value,
@@ -144,6 +181,7 @@ const CreateApplicationModal = ({
           control={control}
           defaultValue={defaultLeaveType}
           placeHolderStyle={{ color: '#2D2D32' }}
+          isDisabled={disabled}
         />
         <Selection
           classNameLabel={style.classNameLabel}
@@ -157,6 +195,7 @@ const CreateApplicationModal = ({
           name="approvedBy"
           errorMessage={errors?.approvedBy?.message}
           control={control}
+          isDisabled={disabled}
         />
         <Selection
           classNameLabel={style.classNameLabel}
@@ -170,6 +209,7 @@ const CreateApplicationModal = ({
           name="hrBy"
           errorMessage={errors?.hrBy?.message}
           control={control}
+          isDisabled={disabled}
         />
         <ProfileUpload
           label="Attachment"
@@ -191,6 +231,7 @@ const CreateApplicationModal = ({
           showTimeInput={true}
           errorMessage={errors?.dateFrom?.message}
           placeholder={'Select Date and Time'}
+          isDisable={disabled}
         />
         <DatePicker
           label={'To'}
@@ -199,6 +240,7 @@ const CreateApplicationModal = ({
           showTimeInput={true}
           errorMessage={errors?.dateTo?.message}
           placeholder={'Select Date and Time'}
+          isDisable={disabled}
         />
         <TextArea
           className={style.textAreaGrid}
@@ -207,7 +249,20 @@ const CreateApplicationModal = ({
           register={register}
           name="reason"
           errorMessage={errors?.reason?.message}
+          row={2}
+          isDisable={disabled}
         />
+        {type?.name == 'approvalManager' && (
+          <TextArea
+            className={style.textAreaGrid}
+            label="Manager Remarks"
+            placeholder="Enter REmarks"
+            register={register}
+            name="managerRemarks"
+            errorMessage={errors?.remarks?.message}
+            row={2}
+          />
+        )}
       </form>
     </Modal>
   )

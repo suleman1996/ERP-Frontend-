@@ -139,19 +139,17 @@ const RenderPolicy = ({
         <div className={style.rightCircle} />
       </div>
 
-      <div
-        className={`${style.policyButton}`}
-        style={{
-          cursor: data?.fileId[0]?.file ? 'pointer' : 'no-drop',
-        }}
-      >
+      <div className={`${style.policyButton}`}>
         <a
           className={style.viewPolicyBtn}
           rel="noreferrer"
           target={'_blank'}
           href={data?.fileId[0]?.file}
         >
-          <Button text="View Policy" />
+          <Button
+            btnClass={data?.fileId[0]?.file ? style.cursor : style.cursoeNone}
+            text="View Policy"
+          />
         </a>
       </div>
     </div>

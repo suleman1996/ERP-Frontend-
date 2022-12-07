@@ -1,18 +1,31 @@
-import { useEffect, useState } from 'react'
 import moment from 'moment'
+import { useEffect, useState } from 'react'
 
+import CreateApplicationModal from 'pages/applications/my-leaves/create-applications'
 import Button from 'components/button'
 
-import image from 'assets/imgs/person.png'
 import style from './application-approval-card.module.scss'
+import image from 'assets/imgs/person.png'
+
 interface props {
   className?: string
   data?: any
   history?: any
+  formData?: any
+  getPendingLeaves?: any
 }
 
-const ApplicationApprovalCard = ({ className, data, history }: props) => {
+const ApplicationApprovalCard = ({
+  className,
+  data,
+  history,
+  formData,
+  getPendingLeaves,
+}: props) => {
   const [remaining, setRemaining] = useState<any>({})
+  const [renderState, setRenderState] = useState(false)
+  const [openModal, setOpenModal] = useState(false)
+
   useEffect(() => {
     if (Object.keys(history).length > 0) {
       const responseHistory = history?.filter(
@@ -21,6 +34,10 @@ const ApplicationApprovalCard = ({ className, data, history }: props) => {
       setRemaining(responseHistory[0])
     }
   }, [history, data])
+
+  useEffect(() => {
+    getPendingLeaves()
+  }, [renderState])
 
   return (
     <div className={`${className} ${style.applicationCard}`}>
@@ -67,6 +84,7 @@ const ApplicationApprovalCard = ({ className, data, history }: props) => {
           type="button"
           btnClass={style.approve}
           className={style.approveText}
+          handleClick={() => setOpenModal(true)}
         />
         <Button
           text="Reject"
@@ -81,6 +99,16 @@ const ApplicationApprovalCard = ({ className, data, history }: props) => {
           className={style.updateText}
         />
       </div>
+      {openModal && (
+        <CreateApplicationModal
+          value={data}
+          openModal={openModal}
+          setOpenModal={setOpenModal}
+          data={formData}
+          setRender={setRenderState}
+          type={{ name: 'approvalManager' }}
+        />
+      )}
     </div>
   )
 }
