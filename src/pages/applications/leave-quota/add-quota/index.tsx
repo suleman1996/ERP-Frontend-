@@ -1,22 +1,23 @@
+import moment from 'moment'
+import { useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
+
 import Modal from 'components/modal'
 import Selection from 'components/selection'
 import DatePicker from 'components/date-picker'
-import { useForm } from 'react-hook-form'
-import style from './add-quota.module.scss'
-import { useEffect, useState } from 'react'
-
-import { setErrors } from 'helper'
 import { createNotification } from 'common/create-notification'
 import TextField from 'components/textfield'
+
+import { setErrors } from 'helper'
 import SettingsService from 'services/settings-service'
 import ApplicationService from 'services/application-service'
-import moment from 'moment'
+
+import style from './add-quota.module.scss'
 
 const AddQuotaModal = ({
   openModal,
   setOpenModal,
-}: // setRender,
-{
+}: {
   openModal: boolean
   setOpenModal?: any
   defaultLeaveType?: any
@@ -107,7 +108,6 @@ const AddQuotaModal = ({
       setBtnLoader(false)
       setOpenModal(false)
       createNotification('success', 'success', 'Application Submitted')
-      // setRender((prev: any) => !prev)
     } catch (err: any) {
       console.log('catch error ', err)
       if (err?.response?.status == 422) {

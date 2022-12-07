@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
-import style from './approvals.module.scss'
+
 import ApprovalRecords from './approval-records'
 import PendingApproval from './pending-approvals'
+
+import style from './approvals.module.scss'
 
 const Approvals = ({ data }: any) => {
   const [active, setActive] = useState(1)

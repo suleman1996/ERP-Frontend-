@@ -1,6 +1,9 @@
-import ApplicationApprovalCard from 'components/application-approval-card'
 import { useEffect, useState } from 'react'
+
+import ApplicationApprovalCard from 'components/application-approval-card'
+
 import ApplicationService from 'services/application-service'
+
 import style from './pending-approval.module.scss'
 
 const PendingApproval = ({ formData }: any) => {

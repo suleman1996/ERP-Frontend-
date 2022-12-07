@@ -1,9 +1,11 @@
-import style from './application-approval-card.module.scss'
-import image from 'assets/imgs/person.png'
-import Button from 'components/button'
 import moment from 'moment'
 import { useEffect, useState } from 'react'
+
 import CreateApplicationModal from 'pages/applications/my-leaves/create-applications'
+import Button from 'components/button'
+
+import style from './application-approval-card.module.scss'
+import image from 'assets/imgs/person.png'
 
 interface props {
   className?: string
