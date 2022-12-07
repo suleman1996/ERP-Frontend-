@@ -251,6 +251,7 @@ const AccordianSwitch = ({
                           display: 'flex',
                           justifyContent: 'center',
                           alignItems: 'center',
+                          transition: 'all 0.5s',
                         }}
                       >
                         <Switch
