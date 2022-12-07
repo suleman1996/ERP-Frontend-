@@ -38,8 +38,8 @@ const AddLeaveType = ({
         paid: data?.paid?.value,
         balance: data?.balance?.value,
         encashment: data?.encashment?.value,
-        carryForward: data?.carryForward?.value,
         maxCarryForward: data?.maxCarryForward,
+        carryForward: data?.carryForward?.value,
       }
       const response = await LeaveService.AddLeave(transformData)
       if (response?.status === 200) {
