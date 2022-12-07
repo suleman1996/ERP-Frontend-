@@ -17,19 +17,23 @@ const AddQuotaModal = ({
   defaultLeaveType,
   setRender,
   editData,
+  btnText,
+  title,
 }: {
   openModal: boolean
   setOpenModal?: any
-  data: any
+  data?: any
   defaultLeaveType?: any
   setRender?: any
   editData?: any
+  btnText?: string
+  title?: string
 }) => {
   const [, setSelectedFileName] = useState<any>()
   const [btnLoader, setBtnLoader] = useState(false)
   const {
     control,
-    // register,
+    register,
     errors,
     setError,
     clearErrors,
@@ -110,15 +114,13 @@ const AddQuotaModal = ({
   return (
     <Modal
       open={openModal}
-      text="Add Quota"
-      title={'Add Leave Quota'}
+      text={btnText ? btnText : 'Add Quota'}
+      title={title ? title : 'Add Leave Quota'}
       handleClose={() => setOpenModal(false)}
       type="submit"
       form="createLeave"
-      btnClass={style.btnClass}
-      className={style.modelContainer}
       loader={btnLoader}
-      customHeader={style.customHeader}
+      btnClass={style.btnClass}
     >
       <form
         onSubmit={(e) => {
@@ -131,14 +133,12 @@ const AddQuotaModal = ({
         <TextField
           label="Quota Name"
           container={style.textAreaGrid}
-          // classNameLabel={style.classNameLabel}
           placeholder="Enter Quota Name"
           name="quotaName"
           errorMessage={errors?.leaveType?.message}
-          // control={control}
+          register={register}
         />
         <Selection
-          classNameLabel={style.classNameLabel + style.textAreaGrid}
           label="Renew"
           placeholder="Select"
           options={data?.leaves?.map((el: any) => ({
@@ -149,7 +149,6 @@ const AddQuotaModal = ({
           errorMessage={errors?.leaveType?.message}
           control={control}
           defaultValue={defaultLeaveType}
-          placeHolderStyle={{ color: '#2D2D32', fontSize: '16px' }}
         />
         <DatePicker
           label={'Effective Date'}
@@ -160,8 +159,6 @@ const AddQuotaModal = ({
           placeholder={'Select Date'}
         />
         <Selection
-          classNameLabel={style.classNameLabel}
-          wraperSelect={style.wraperSelect}
           label="Leave Start"
           placeholder="Select"
           options={data?.employeeOnlyName?.map((el: any) => ({
@@ -173,8 +170,6 @@ const AddQuotaModal = ({
           control={control}
         />
         <Selection
-          classNameLabel={style.classNameLabel}
-          wraperSelect={style.wraperSelect}
           label="Leave End"
           placeholder="Select"
           options={data?.employeeOnlyName?.map((el: any) => ({
