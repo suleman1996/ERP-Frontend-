@@ -86,7 +86,7 @@ const Applications = () => {
       )}
       <CardContainer className={style.cardContainer}>
         <div className={style.headContainer}>
-          <div>
+          <div className={style.mainTopper}>
             <div className={style.topper}>
               <p
                 className={active === 1 ? style.active : ''}
