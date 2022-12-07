@@ -64,7 +64,8 @@ const WebLogin = ({ openNotification, setOpenNotification }: any) => {
       if (err?.response?.status === 404) {
         if (
           err?.response?.data?.msg?.includes('Invalid') ||
-          err?.response?.data?.msg?.includes('email')
+          err?.response?.data?.msg?.includes('email') ||
+          err?.response?.data?.msg?.includes('exists')
         ) {
           createNotification('error', 'Error', err?.response?.data?.msg)
         } else {

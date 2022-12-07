@@ -28,9 +28,11 @@ export const AddUserHelper = ({
   const [base64, setBase64] = useState()
   const [btnLoader, setBtnLoader] = useState(false)
   const [btnToggle, setBtnToggle] = useState(false)
+  const [singleStatus, setSingleStatus] = useState()
 
   useEffect(() => {
     setImgBlob(singleUser?.img?.file)
+    setSingleStatus(singleUser?.status)
     reset({
       ...singleUser,
       roleId: { value: singleUser?.role?._id, label: singleUser?.role?.name },
@@ -94,12 +96,13 @@ export const AddUserHelper = ({
       }
     } catch (err) {
       if (err?.response?.status === 400) {
+        setBtnHideShow && setBtnHideShow(false)
         setImgBlob('')
         setBase64('')
       }
       if (err?.response?.data?.error) {
         setErrors(err?.response?.data?.error, setError)
-        setBtnHideShow(false)
+        setBtnHideShow && setBtnHideShow(false)
       } else {
         createNotification(
           'error',
@@ -126,5 +129,6 @@ export const AddUserHelper = ({
     btnToggle,
     setBtnToggle,
     handleChange,
+    singleStatus,
   }
 }
