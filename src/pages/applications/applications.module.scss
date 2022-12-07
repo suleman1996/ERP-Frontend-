@@ -60,10 +60,9 @@
   display: flex;
   align-items: center;
   cursor: pointer;
-  @media (max-width: 402px) {
-    max-width: 402px;
-    overflow-y: auto;
-  }
+  // @media (max-width: 420px) {
+  //   width: 430px;
+  // }
 }
 .buttonClass {
   @media (max-width: $tab) {
@@ -72,4 +71,10 @@
     justify-content: flex-end;
     margin-bottom: 10px;
   }
+}
+.mainTopper {
+  // @media (max-width: 420px) {
+  //   max-width: 425px;
+  //   overflow-y: auto;
+  // }
 }

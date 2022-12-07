@@ -247,6 +247,16 @@ const Table = ({
                                 !column?.eyeIcon &&
                                 (row?.isActive !== false ? (
                                   <>
+                                    {column?.editView && (
+                                      <img
+                                        src={eye}
+                                        alt=""
+                                        className={style.pencilIcon}
+                                        onClick={() => {
+                                          handleView && handleView(row.id)
+                                        }}
+                                      />
+                                    )}
                                     <img
                                       className={style.pencilIcon}
                                       data-testid="edit-element"

@@ -10,6 +10,10 @@
   .leftFlex {
     display: flex;
     align-items: center;
+    position: fixed;
+    bottom: 0;
+    background-color: #fafafa;
+    padding: 10px 0px;
     p {
       font-weight: 400;
       @include font16;
@@ -29,6 +33,11 @@
   .rightFlex {
     display: flex;
     align-items: center;
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    background-color: #fafafa;
+    padding: 10px 0px;
     span {
       display: flex;
       align-items: center;

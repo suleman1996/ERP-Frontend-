@@ -2,31 +2,25 @@ import { Dispatch, SetStateAction, useState } from 'react'
 import { Document, Page, pdfjs } from 'react-pdf'
 import { useNavigate } from 'react-router-dom'
 import Modal from 'components/modal'
-
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css'
-
 import arrow from 'assets/arrow-left.svg'
 import style from './employee-dropdown.module.scss'
 import Button from 'components/button'
 import { useSelector } from 'react-redux'
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`
-
 interface Props {
   setOpenModal?: Dispatch<SetStateAction<boolean>>
   setOpenModalProfile?: Dispatch<SetStateAction<boolean>>
   handleClick?: () => any
   id?: string
 }
-
 const EmployeeDropdown = ({ id, handleClick }: Props) => {
   const navigate = useNavigate()
   const authToken = useSelector((state) => state?.app?.token)
-
   const [numPages, setNumPages] = useState(null)
   const [pageNumber, setPageNumber] = useState(1)
   const [open, setOpen] = useState(false)
   const [openCvModal, setOpenCvModal] = useState(false)
-
   const profile = [
     {
       text: 'Profile View ',
@@ -46,23 +40,18 @@ const EmployeeDropdown = ({ id, handleClick }: Props) => {
       click: () => navigate(`/employee/${id}`),
     },
   ]
-
   function onDocumentLoadSuccess({ numPages }: any) {
     setNumPages(numPages)
   }
-
   const changePage = (offset: any) => {
     setPageNumber((prevPageNumber) => prevPageNumber + offset)
   }
-
   const previousPage = () => {
     changePage(-1)
   }
-
   const nextPage = () => {
     changePage(1)
   }
-
   return (
     <div>
       <div
@@ -76,7 +65,6 @@ const EmployeeDropdown = ({ id, handleClick }: Props) => {
           </div>
         ))}
       </div>
-
       <Modal
         open={open}
         text="Close"
@@ -122,7 +110,6 @@ const EmployeeDropdown = ({ id, handleClick }: Props) => {
         </div>
       </Modal>
       {/* )} */}
-
       <Modal
         open={openCvModal}
         text="Close"
@@ -169,5 +156,4 @@ const EmployeeDropdown = ({ id, handleClick }: Props) => {
     </div>
   )
 }
-
 export default EmployeeDropdown

@@ -66,107 +66,114 @@ const EmployeeProfileDetails = () => {
   }
 
   return (
-    <Container>
-      {loading && (
-        <div className={style.loaderDiv}>
-          <Loading loaderClass={style.loadingStyle} />
-        </div>
-      )}
-      <div className={style.main}>
-        <div className={style.headerFlex}>
-          <p className={style.employeeTitle}>
-            Employees
-            <span>320</span>
-          </p>
-          <div className={style.innerFlex}>
-            <img
-              src={filter}
-              alt=""
-              className={style.img}
-              onClick={() => setOpenFilter(!openFilter)}
-            />
-
-            <Button
-              text="Add Employee"
-              type="button"
-              handleClick={() => navigate('/employee/add')}
-              iconStart={plus}
-            />
+    <>
+      <Container>
+        {loading && (
+          <div className={style.loaderDiv}>
+            <Loading loaderClass={style.loadingStyle} />
           </div>
-        </div>
-        <div>
-          <EmployeeFilter
-            open={openFilter}
-            setOpen={setOpenFilter}
-            setEmployees={setEmployees}
-            getEmployeesData={getEmployeesData}
-          />
-        </div>
-        {employees?.length > 0 ? (
-          <div className={style.cardSection}>
-            {employees?.map(
-              ({
-                profilePicture,
-                firstName,
-                lastName,
-                companyInformation,
-                phone,
-                employeeId,
-                _id,
-              }: Employee) => (
-                <>
-                  <div key={employeeId} style={{ position: 'relative' }}>
-                    <EmployeeProfileCard
-                      img={profilePicture}
-                      name={`${firstName} ${lastName}`}
-                      designation={
-                        companyInformation?.designationInformation?.name
-                      }
-                      department={
-                        companyInformation?.departmentInformation?.name
-                      }
-                      phone={phone}
-                      id={employeeId}
-                      handleClick={() =>
-                        setOpen((prev) =>
-                          prev === employeeId ? null : employeeId
-                        )
-                      }
-                    />
-                    {open === employeeId && (
-                      <div
-                        style={{
-                          position: 'absolute',
-                          top: '85%',
-                          padding: '15px',
-                          zIndex: 2000,
-                        }}
-                      >
-                        <div
-                          onClick={() => setOpen(null)}
-                          className={style.absoluteClass}
-                        ></div>
-                        <div style={{ zIndex: 2600, width: '145px' }}>
-                          <EmployeeDropdown
-                            setOpenModal={setOpenModal}
-                            setOpenModalProfile={setOpenModalProfile}
-                            id={_id}
-                          />
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </>
-              )
-            )}
-          </div>
-        ) : (
-          <h1 style={{ textAlign: 'center', marginTop: '20px' }}>
-            No Record Found
-          </h1>
         )}
-      </div>
-      <div className={style.position}>
+        <div className={style.main}>
+          <div className={style.headerFlex}>
+            <p className={style.employeeTitle}>
+              Employees
+              <span>320</span>
+            </p>
+            <div className={style.innerFlex}>
+              <img
+                src={filter}
+                alt=""
+                className={style.img}
+                onClick={() => setOpenFilter(!openFilter)}
+              />
+
+              <Button
+                text="Add Employee"
+                type="button"
+                handleClick={() => navigate('/employee/add')}
+                iconStart={plus}
+              />
+            </div>
+          </div>
+          <div>
+            <EmployeeFilter
+              open={openFilter}
+              setOpen={setOpenFilter}
+              setEmployees={setEmployees}
+              getEmployeesData={getEmployeesData}
+            />
+          </div>
+          {employees?.length > 0 ? (
+            <div className={style.cardSection}>
+              {employees?.map(
+                ({
+                  profilePicture,
+                  firstName,
+                  lastName,
+                  companyInformation,
+                  phone,
+                  employeeId,
+                  _id,
+                }: Employee) => (
+                  <>
+                    <div key={employeeId}>
+                      <EmployeeProfileCard
+                        img={profilePicture}
+                        name={`${firstName} ${lastName}`}
+                        designation={
+                          companyInformation?.designationInformation?.name
+                        }
+                        department={
+                          companyInformation?.departmentInformation?.name
+                        }
+                        phone={phone}
+                        id={employeeId}
+                        handleClick={() =>
+                          setOpen((prev) =>
+                            prev === employeeId ? null : employeeId
+                          )
+                        }
+                      />
+                      {open === employeeId && (
+                        <div
+                          style={{
+                            position: 'absolute',
+                            top: '85%',
+                            padding: '15px',
+                            zIndex: 2000,
+                          }}
+                        >
+                          <div
+                            onClick={() => setOpen(null)}
+                            className={style.absoluteClass}
+                          ></div>
+                          <div style={{ zIndex: 2600, width: '145px' }}>
+                            <EmployeeDropdown
+                              setOpenModal={setOpenModal}
+                              setOpenModalProfile={setOpenModalProfile}
+                              id={_id}
+                            />
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </>
+                )
+              )}
+            </div>
+          ) : (
+            <h1 style={{ textAlign: 'center', marginTop: '20px' }}>
+              No Record Found
+            </h1>
+          )}
+        </div>
+
+        <CvView openModal={openModal} setOpenModal={setOpenModal} id={open} />
+        <ProfileView
+          openModalProfile={openModalProfile}
+          setOpenModalProfile={setOpenModalProfile}
+          id={open}
+        />
         <Pagination
           setCount={setPageSize}
           count={pageSize}
@@ -175,14 +182,8 @@ const EmployeeProfileDetails = () => {
           page={page}
           control={control}
         />
-      </div>
-      <CvView openModal={openModal} setOpenModal={setOpenModal} id={open} />
-      <ProfileView
-        openModalProfile={openModalProfile}
-        setOpenModalProfile={setOpenModalProfile}
-        id={open}
-      />
-    </Container>
+      </Container>
+    </>
   )
 }
 
