@@ -141,3 +141,10 @@
   @include font10;
   color: #2d2d32;
 }
+
+.cursor {
+  cursor: pointer;
+}
+.cursoeNone {
+  cursor: no-drop;
+}

@@ -67,10 +67,7 @@ const ProfileUpload = ({
   return (
     <div>
       {label && (
-        <label
-          className={`${style.label} ${classNameLabel}`}
-          style={{ color: errorMessage ? '#ff5050' : '#2d2d32' }}
-        >
+        <label className={`${style.label} ${classNameLabel}`}>
           {label}
           <b style={{ color: '#ff5050' }}>{star}</b>
         </label>

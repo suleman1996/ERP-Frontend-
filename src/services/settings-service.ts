@@ -232,4 +232,12 @@ export default class SettingsService {
     )
     return res
   }
+
+  static async getLeaveTypesApi() {
+    const res = await ApiService.get(
+      `${SettingsService.baseUrl[0]}/leaveTypes`,
+      { params: { balance: true } }
+    )
+    return res
+  }
 }

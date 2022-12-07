@@ -20,11 +20,17 @@
   top: 0px;
   background: #fff;
   z-index: 90;
+  @media (max-width: $tab) {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    max-height: 100%;
+  }
   p {
     font-weight: 500;
     @include font24;
     color: #cacaca;
     margin-right: calc(10px + (35 - 10) * (100vw - 280px) / (2560 - 280));
+    white-space: nowrap;
   }
   .active {
     font-weight: 600;
@@ -35,6 +41,10 @@
     padding-bottom: calc(5px + (10 - 5) * (100vw - 280px) / (2560 - 280));
     padding-left: calc(11px + (30 - 11) * (100vw - 280px) / (2560 - 280));
     padding-right: calc(11px + (30 - 11) * (100vw - 280px) / (2560 - 280));
+    @media (max-width: $tab) {
+      flex-direction: column-reverse;
+      align-items: flex-start;
+    }
   }
 }
 .footerDiv {
@@ -46,4 +56,28 @@
 .grid {
   @include gridTwo(20, 20);
   margin-bottom: calc(12px + (25 - 12) * (100vw - 280px) / (2560 - 280));
+}
+.topper {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  @media (max-width: 420px) {
+    overflow-x: scroll;
+    max-width: calc(100vw - 26px);
+  }
+  &::-webkit-scrollbar {
+    width: 1px; /* Remove scrollbar space */
+    background: #e6e7e8; /* Optional: just make scrollbar invisible */
+    height: 1px;
+    border-radius: 8px;
+    display: none;
+  }
+}
+.buttonClass {
+  @media (max-width: $tab) {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+  }
 }

@@ -89,9 +89,10 @@
   grid-template-columns: repeat(5, 1fr);
   grid-gap: $gap_y + px $gap_x + px;
   grid-auto-rows: auto;
-  @media (max-width: 1700px) {
+  @media (max-width: $xl) {
     grid-template-columns: repeat(4, 1fr);
   }
+
   @media (max-width: $lg) {
     grid-template-columns: repeat(3, 1fr);
   }

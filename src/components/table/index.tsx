@@ -195,7 +195,7 @@ const Table = ({
             </div>
 
             <div style={{ maxHeight: '600px', overflowY: 'auto' }}>
-              <div style={{ height: '700px' }}>
+              <div>
                 {newUser && (
                   <AddUser
                     setNewUser={setNewUser}
@@ -247,6 +247,16 @@ const Table = ({
                                 !column?.eyeIcon &&
                                 (row?.isActive !== false ? (
                                   <>
+                                    {column?.editView && (
+                                      <img
+                                        src={eye}
+                                        alt=""
+                                        className={style.pencilIcon}
+                                        onClick={() => {
+                                          handleView && handleView(row.id)
+                                        }}
+                                      />
+                                    )}
                                     <img
                                       className={style.pencilIcon}
                                       data-testid="edit-element"

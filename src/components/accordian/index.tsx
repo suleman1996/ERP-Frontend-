@@ -234,6 +234,7 @@ const AccordianSwitch = ({
           style={{
             transform: !arrowRotate && 'rotate(180deg)',
             transition: 'all 0.5s ease-out',
+            marginRight: '8px',
           }}
         />
       </div>
