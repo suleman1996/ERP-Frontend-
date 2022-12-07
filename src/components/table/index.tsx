@@ -195,7 +195,7 @@ const Table = ({
             </div>
 
             <div style={{ maxHeight: '600px', overflowY: 'auto' }}>
-              <div style={{ height: '700px' }}>
+              <div>
                 {newUser && (
                   <AddUser
                     setNewUser={setNewUser}

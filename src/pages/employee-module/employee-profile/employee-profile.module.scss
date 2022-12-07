@@ -44,18 +44,6 @@
     @include gridFive(15, 15);
     height: 100%;
     margin-top: calc(12px + (44 - 12) * (100vw - 280px) / (2560 - 280));
-    @media (max-width: $xl) {
-      grid-template-columns: repeat(4, 1fr);
-    }
-    @media (max-width: 1500px) {
-      grid-template-columns: repeat(3, 1fr);
-    }
-    @media (max-width: 1024px) {
-      grid-template-columns: repeat(2, 1fr);
-    }
-    @media (max-width: 500px) {
-      grid-template-columns: repeat(1, 1fr);
-    }
   }
 }
 
@@ -155,4 +143,9 @@
 }
 .employeeFilterCard {
   padding: 0px;
+}
+
+.position {
+  position: sticky;
+  bottom: 0;
 }
