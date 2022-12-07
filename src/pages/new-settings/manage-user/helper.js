@@ -38,7 +38,7 @@ export const ColumnsData = [
   {
     key: 'status',
     name: 'Status',
-    alignText: 'center',
+    alignText: 'left',
     width: '100px',
   },
   {

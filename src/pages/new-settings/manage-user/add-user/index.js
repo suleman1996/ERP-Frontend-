@@ -31,6 +31,7 @@ const AddUser = ({
     btnToggle,
     setBtnToggle,
     handleChange,
+    singleStatus,
   } = AddUserHelper({
     setNewUser,
     singleUser,
@@ -40,7 +41,7 @@ const AddUser = ({
   })
 
   return (
-    <div style={{ position: 'relative' }}>
+    <div>
       {loader && (
         <div className={style.loaderDiv}>
           <Loading loaderClass={style.loadingStyle} />
@@ -115,7 +116,7 @@ const AddUser = ({
               <label>Status</label>
               <div>
                 <Switch
-                  title={btnToggle ? 'Active' : 'Inactive'}
+                  title={btnToggle || singleStatus ? 'Active' : 'Inactive'}
                   handleClick={(e) => {
                     setBtnToggle(e.target.checked)
                   }}
@@ -139,7 +140,7 @@ const AddUser = ({
             }}
           />
           <Button
-            text="Add"
+            text={singleUser ? 'Update' : 'Add'}
             type="submit"
             btnClass={style.addBtn}
             isLoading={btnLoader}
