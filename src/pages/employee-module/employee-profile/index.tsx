@@ -118,7 +118,7 @@ const EmployeeProfileDetails = () => {
                     _id,
                   }: Employee) => (
                     <>
-                      <div key={employeeId}>
+                      <div key={employeeId} style={{ position: 'relative' }}>
                         <EmployeeProfileCard
                           img={profilePicture}
                           name={`${firstName} ${lastName}`}
