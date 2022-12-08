@@ -64,4 +64,9 @@ export default class ApplicationService {
     const res = await ApiService.post('leave-quota', obj)
     return res
   }
+
+  static async getAllQuotaLeavesApi() {
+    const res = await ApiService.get('leave-quota')
+    return res
+  }
 }
