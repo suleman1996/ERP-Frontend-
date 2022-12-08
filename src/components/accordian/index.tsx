@@ -7,7 +7,6 @@ import Selection from 'components/selection'
 import Switch from 'components/switch'
 import DeletePopup from 'components/delete-modal'
 import Table from 'components/table'
-// import CardContainer from 'components/card-container'
 import Button from 'components/button'
 import Tags from 'components/tags'
 import Modal from 'components/modal'
@@ -52,6 +51,7 @@ const AccordianSwitch = ({
   const [documentModal, setDocumenModal] = useState(false)
   const [arrowRotate, setArrowRotate] = useState(false)
   const [depId, setDepId] = useState()
+  const [isLoading, setIsLoading] = useState(false)
 
   const { register, handleSubmit, errors, control, reset } = useForm({
     resolver: yupResolver(
@@ -138,6 +138,7 @@ const AccordianSwitch = ({
   }
 
   const handleDelete = async () => {
+    setIsLoading(true)
     if (title === 'Department') {
       setLoading(true)
       const res = await SettingsService.deleteDepartment(depId)
@@ -158,11 +159,14 @@ const AccordianSwitch = ({
       if (res.status === 200) {
         getAllPolicies()
         setDeletePopUp(false)
+        setIsLoading(false)
       }
     }
+    setIsLoading(false)
   }
 
   const designationSubmit = async (data: any) => {
+    setIsLoading(true)
     const newData = {
       name: data?.name,
       departmentId: data?.departmentId?.value,
@@ -182,10 +186,12 @@ const AccordianSwitch = ({
         reset({})
       }
     }
+    setIsLoading(false)
   }
 
   const policySubmit = async (data) => {
     try {
+      setIsLoading(true)
       if (depId) {
         const res = await SettingsService.updatePolicy(
           { name: data?.policy },
@@ -203,8 +209,10 @@ const AccordianSwitch = ({
           setDocumenModal(false)
         }
       }
+      setIsLoading(false)
     } catch (err) {
       createNotification('error', 'Error', err?.response?.data?.msg)
+      setIsLoading(false)
     }
   }
 
@@ -321,6 +329,7 @@ const AccordianSwitch = ({
                 <Button text={btnText} handleClick={handleClickBtn} />
               </div>
               <DeletePopup
+                isLoading={isLoading}
                 open={deletePopUp}
                 setOpen={setDeletePopUp}
                 handleDelete={handleDelete}
@@ -563,7 +572,7 @@ const AccordianSwitch = ({
               marginTop: '15px',
             }}
           >
-            <Button text="Add Document " type="submit" />
+            <Button text="Add Policy " type="submit" isLoading={isLoading} />
           </div>
         </form>
       </Modal>
