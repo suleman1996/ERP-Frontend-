@@ -10,4 +10,24 @@ export default class LeaveService {
     )
     return res
   }
+
+  static async getAllLeaves() {
+    const res = await ApiService.get(`${LeaveService.baseUrl[0]}/leaveTypes`)
+    return res
+  }
+
+  static async deleteLeave(id: string) {
+    const res = await ApiService.delete(
+      `${LeaveService.baseUrl[0]}/leaveTypes/${id}`
+    )
+    return res
+  }
+
+  static async updateLeave(id: string, data: any) {
+    const res = await ApiService.put(
+      `${LeaveService.baseUrl[0]}/leaveTypes/${id}`,
+      data
+    )
+    return res
+  }
 }
