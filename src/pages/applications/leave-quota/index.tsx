@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import moment from 'moment'
 
 import Table from 'components/table'
 import ApplicationService from 'services/application-service'
@@ -8,7 +9,6 @@ import editIcon from 'assets/newEdit.svg'
 import revisionHistoryIcon from 'assets/revision-icon.svg'
 import reviseIcon from 'assets/revise-icon.svg'
 import deleteIcon from 'assets/table-delete.svg'
-import moment from 'moment'
 
 const ColumnsData = [
   {
