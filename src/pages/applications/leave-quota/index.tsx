@@ -28,7 +28,7 @@ const LeaveQuota = ({ parentRenderState }: any) => {
   const getAllQuotaLeaves = async () => {
     try {
       const result = await ApplicationService.getAllQuotaLeavesApi()
-      console.log(result.data)
+
       setRowsData(
         result?.data?.leaveQuotas?.map((item) => ({
           quota: item?.name,
@@ -42,7 +42,7 @@ const LeaveQuota = ({ parentRenderState }: any) => {
         }))
       )
     } catch (error) {
-      console.log(error)
+      console.error(error)
     }
   }
 
