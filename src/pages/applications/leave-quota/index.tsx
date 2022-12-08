@@ -1,9 +1,14 @@
-import style from './leave-quota.module.scss'
+import { useEffect, useState } from 'react'
+
 import Table from 'components/table'
+import ApplicationService from 'services/application-service'
+
+import style from './leave-quota.module.scss'
 import editIcon from 'assets/newEdit.svg'
 import revisionHistoryIcon from 'assets/revision-icon.svg'
 import reviseIcon from 'assets/revise-icon.svg'
 import deleteIcon from 'assets/table-delete.svg'
+import moment from 'moment'
 
 const ColumnsData = [
   {
@@ -56,309 +61,34 @@ const ColumnsData = [
   },
 ]
 
-const RowsData = [
-  {
-    quota: 'a',
-    effectiveDate: 'a',
-    start: 'a',
-    end: 'v',
-    sick: 'sa',
-    casual: 'as',
-    annual: 'qw',
-    action: 'qw',
-  },
-  {
-    quota: 'a',
-    effectiveDate: 'a',
-    start: 'a',
-    end: 'v',
-    sick: 'sa',
-    casual: 'as',
-    annual: 'qw',
-    action: 'qw',
-  },
-  {
-    quota: 'a',
-    effectiveDate: 'a',
-    start: 'a',
-    end: 'v',
-    sick: 'sa',
-    casual: 'as',
-    annual: 'qw',
-    action: 'qw',
-  },
-  {
-    quota: 'a',
-    effectiveDate: 'a',
-    start: 'a',
-    end: 'v',
-    sick: 'sa',
-    casual: 'as',
-    annual: 'qw',
-    action: 'qw',
-  },
-  {
-    quota: 'a',
-    effectiveDate: 'a',
-    start: 'a',
-    end: 'v',
-    sick: 'sa',
-    casual: 'as',
-    annual: 'qw',
-    action: 'qw',
-  },
-  {
-    quota: 'a',
-    effectiveDate: 'a',
-    start: 'a',
-    end: 'v',
-    sick: 'sa',
-    casual: 'as',
-    annual: 'qw',
-    action: 'qw',
-  },
-  {
-    quota: 'a',
-    effectiveDate: 'a',
-    start: 'a',
-    end: 'v',
-    sick: 'sa',
-    casual: 'as',
-    annual: 'qw',
-    action: 'qw',
-  },
-  {
-    quota: 'a',
-    effectiveDate: 'a',
-    start: 'a',
-    end: 'v',
-    sick: 'sa',
-    casual: 'as',
-    annual: 'qw',
-    action: 'qw',
-  },
-  {
-    quota: 'a',
-    effectiveDate: 'a',
-    start: 'a',
-    end: 'v',
-    sick: 'sa',
-    casual: 'as',
-    annual: 'qw',
-    action: 'qw',
-  },
-  {
-    quota: 'a',
-    effectiveDate: 'a',
-    start: 'a',
-    end: 'v',
-    sick: 'sa',
-    casual: 'as',
-    annual: 'qw',
-    action: 'qw',
-  },
-  {
-    quota: 'a',
-    effectiveDate: 'a',
-    start: 'a',
-    end: 'v',
-    sick: 'sa',
-    casual: 'as',
-    annual: 'qw',
-    action: 'qw',
-  },
-  {
-    quota: 'a',
-    effectiveDate: 'a',
-    start: 'a',
-    end: 'v',
-    sick: 'sa',
-    casual: 'as',
-    annual: 'qw',
-    action: 'qw',
-  },
-  {
-    quota: 'a',
-    effectiveDate: 'a',
-    start: 'a',
-    end: 'v',
-    sick: 'sa',
-    casual: 'as',
-    annual: 'qw',
-    action: 'qw',
-  },
-  {
-    quota: 'a',
-    effectiveDate: 'a',
-    start: 'a',
-    end: 'v',
-    sick: 'sa',
-    casual: 'as',
-    annual: 'qw',
-    action: 'qw',
-  },
-  {
-    quota: 'a',
-    effectiveDate: 'a',
-    start: 'a',
-    end: 'v',
-    sick: 'sa',
-    casual: 'as',
-    annual: 'qw',
-    action: 'qw',
-  },
-  {
-    quota: 'a',
-    effectiveDate: 'a',
-    start: 'a',
-    end: 'v',
-    sick: 'sa',
-    casual: 'as',
-    annual: 'qw',
-    action: 'qw',
-  },
-  {
-    quota: 'a',
-    effectiveDate: 'a',
-    start: 'a',
-    end: 'v',
-    sick: 'sa',
-    casual: 'as',
-    annual: 'qw',
-    action: 'qw',
-  },
-  {
-    quota: 'a',
-    effectiveDate: 'a',
-    start: 'a',
-    end: 'v',
-    sick: 'sa',
-    casual: 'as',
-    annual: 'qw',
-    action: 'qw',
-  },
-  {
-    quota: 'a',
-    effectiveDate: 'a',
-    start: 'a',
-    end: 'v',
-    sick: 'sa',
-    casual: 'as',
-    annual: 'qw',
-    action: 'qw',
-  },
-  {
-    quota: 'a',
-    effectiveDate: 'a',
-    start: 'a',
-    end: 'v',
-    sick: 'sa',
-    casual: 'as',
-    annual: 'qw',
-    action: 'qw',
-  },
-  {
-    quota: 'a',
-    effectiveDate: 'a',
-    start: 'a',
-    end: 'v',
-    sick: 'sa',
-    casual: 'as',
-    annual: 'qw',
-    action: 'qw',
-  },
-  {
-    quota: 'a',
-    effectiveDate: 'a',
-    start: 'a',
-    end: 'v',
-    sick: 'sa',
-    casual: 'as',
-    annual: 'qw',
-    action: 'qw',
-  },
-  {
-    quota: 'a',
-    effectiveDate: 'a',
-    start: 'a',
-    end: 'v',
-    sick: 'sa',
-    casual: 'as',
-    annual: 'qw',
-    action: 'qw',
-  },
-  {
-    quota: 'a',
-    effectiveDate: 'a',
-    start: 'a',
-    end: 'v',
-    sick: 'sa',
-    casual: 'as',
-    annual: 'qw',
-    action: 'qw',
-  },
-  {
-    quota: 'a',
-    effectiveDate: 'a',
-    start: 'a',
-    end: 'v',
-    sick: 'sa',
-    casual: 'as',
-    annual: 'qw',
-    action: 'qw',
-  },
-  {
-    quota: 'a',
-    effectiveDate: 'a',
-    start: 'a',
-    end: 'v',
-    sick: 'sa',
-    casual: 'as',
-    annual: 'qw',
-    action: 'qw',
-  },
-  {
-    quota: 'a',
-    effectiveDate: 'a',
-    start: 'a',
-    end: 'v',
-    sick: 'sa',
-    casual: 'as',
-    annual: 'qw',
-    action: 'qw',
-  },
-  {
-    quota: 'a',
-    effectiveDate: 'a',
-    start: 'a',
-    end: 'v',
-    sick: 'sa',
-    casual: 'as',
-    annual: 'qw',
-    action: 'qw',
-  },
-  {
-    quota: 'a',
-    effectiveDate: 'a',
-    start: 'a',
-    end: 'v',
-    sick: 'sa',
-    casual: 'as',
-    annual: 'qw',
-    action: 'qw',
-  },
-  {
-    quota: 'a',
-    effectiveDate: 'a',
-    start: 'a',
-    end: 'v',
-    sick: 'sa',
-    casual: 'as',
-    annual: 'qw',
-    action: 'qw',
-  },
-]
-const LeaveQuota = () => {
+const LeaveQuota = ({ parentRenderState }: any) => {
+  const [rowData, setRowsData] = useState<any>([])
+
+  useEffect(() => {
+    getAllQuotaLeaves()
+  }, [parentRenderState])
+
+  const getAllQuotaLeaves = async () => {
+    try {
+      const result = await ApplicationService.getAllQuotaLeavesApi()
+      console.log(result.data)
+      setRowsData(
+        result?.data?.leaveQuotas?.map((item) => ({
+          quota: item?.name,
+          effectiveDate: moment(item?.name?.effectiveDate).format('MMM YYYY'),
+          start: moment(item?.name?.leaveStart).format('DD MMM YYYY'),
+          end: moment(item?.name?.leaveEnd).format('DD MMM YYYY'),
+          sick: 'sa',
+          casual: 'as',
+          annual: 'qw',
+          action: 'qw',
+        }))
+      )
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <div className={style.mainDiv}>
       <Table
@@ -368,7 +98,7 @@ const LeaveQuota = () => {
         columns={ColumnsData}
         tableHeight={style.tableMaxHight}
         minWidth="840px"
-        rows={RowsData?.map((row: any) => ({
+        rows={rowData?.map((row: any) => ({
           ...row,
           action: (
             <div style={{ display: 'flex', justifyContent: 'center' }}>
