@@ -5,6 +5,8 @@ import { Controller } from 'react-hook-form'
 import Tags from 'components/tags'
 import TextField from 'components/textfield'
 
+import icon from 'assets/Vector.svg'
+
 import { SelectionStyle } from './custom-styles'
 
 import style from './select.module.scss'
@@ -54,9 +56,12 @@ interface Props {
   setMarkVal?: any
   marksVal?: any
   backStyle?: any
+  imgStyle?: any
+  valuePag?: any
 }
 
 const Selection = ({
+  backStyle,
   label,
   options,
   errorMessage,
@@ -91,6 +96,8 @@ const Selection = ({
   marksType,
   backClass,
   marksVal,
+  imgStyle,
+  valuePag,
 }: Props) => {
   const [customErr, setCustomErr] = useState<string | undefined>()
   useEffect(() => {
@@ -181,6 +188,14 @@ const Selection = ({
               <>
                 <Select
                   components={{
+                    DropdownIndicator: () => (
+                      <img
+                        src={icon}
+                        alt=""
+                        style={imgStyle}
+                        className={style.imgDropDown}
+                      />
+                    ),
                     GroupHeading: (e) => (
                       <div
                         onClick={() => {
@@ -268,7 +283,79 @@ const Selection = ({
                     handleChange(e)
                   }}
                   options={options}
-                  styles={CustomStyle}
+                  styles={{
+                    control: (styles: any, state: any) => ({
+                      ...styles,
+                      backgroundColor: '#ffffff',
+                      borderRadius: 6,
+                      boxShadow: 'none',
+                      border: 'transparent !important',
+                      fontSize:
+                        'calc(12px + (18 - 12) * (100vw - 280px) / (2560 - 280))',
+                      minHeight:
+                        'calc(30px + (55 - 30) * (100vw - 280px) / (2560 - 280)) !important',
+                      paddingLeft:
+                        'calc(2px + (7 - 2) * (100vw - 280px) / (2560 - 280)) !important',
+                      paddingRight:
+                        'calc(2px + (7 - 2) * (100vw - 280px) / (2560 - 280)) !important',
+                      borderColor: 'none !important',
+                      cursor: 'pointer',
+                      height:
+                        'calc(30px + (55 - 30) * (100vw - 280px) / (2560 - 280)) !important',
+                      ...backStyle,
+
+                      '&:hover': {
+                        outline: state.isFocused ? 0 : 0,
+                      },
+                    }),
+
+                    option: (
+                      styles: any,
+                      { data, isDisabled, isFocused, isSelected }: any
+                    ) => {
+                      return {
+                        ...styles,
+                        backgroundColor: isDisabled
+                          ? 'black'
+                          : isSelected
+                          ? '#57B894'
+                          : isFocused
+                          ? 'white'
+                          : 'white',
+                        color: isDisabled
+                          ? '#ccc'
+                          : isSelected
+                          ? 'red  !important'
+                          : data.color,
+                        fontSize:
+                          'calc(12px + (18 - 12) * (100vw - 280px) / (2560 - 280))',
+                        cursor: isDisabled ? 'not-allowed' : 'default',
+                        '&:active': {
+                          backgroundColor: 'white',
+                        },
+                      }
+                    },
+                    placeholder: (styles: any) => ({
+                      ...styles,
+                      fontSize:
+                        'calc(12px + (18 - 12) * (100vw - 280px) / (2560 - 280))',
+                      color: '#cacaca',
+                      fontWeight: '500 !important',
+                      textTransform: 'capitalize',
+                    }),
+
+                    valueContainer: (provided) => ({
+                      ...provided,
+                      ...valuePag,
+                      whiteSpace: 'nowrap',
+                      overflow: 'hidden',
+                      flexWrap: 'wrap',
+                    }),
+                    input: (provided) => ({
+                      ...provided,
+                      minWidth: '20%',
+                    }),
+                  }}
                   placeholder={placeholder}
                   isDisabled={isDisabled || false}
                   formatOptionLabel={(data, metaData) =>

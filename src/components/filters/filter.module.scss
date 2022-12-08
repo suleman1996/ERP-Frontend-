@@ -13,6 +13,7 @@
     justify-content: space-between;
     align-items: center;
     border-bottom: 0.5px solid #f2f4f3;
+    cursor: pointer;
     p {
       font-weight: 400;
       font-size: 13px;
@@ -190,9 +191,9 @@
   overflow-y: auto;
 }
 
-.backDrop{
+.backDrop {
   inset: 0;
   background-color: transparent;
-  position:fixed;
+  position: fixed;
   z-index: 100;
 }

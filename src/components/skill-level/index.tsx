@@ -28,10 +28,7 @@ const SkillLevel = ({
 
   return (
     <div className={style.skillLevel}>
-      <label
-        className={style.label}
-        style={{ color: errors ? '#ff5050' : '#2d2d32' }}
-      >
+      <label className={style.label}>
         Skill Level
         <b style={{ color: 'red' }}>{star}</b>
       </label>

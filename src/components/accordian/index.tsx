@@ -271,6 +271,7 @@ const AccordianSwitch = ({
                             style={{
                               display: 'flex',
                               justifyContent: 'center',
+                              alignItems: 'center',
                             }}
                           >
                             <span style={{ marginRight: '5px' }}>Status</span>
