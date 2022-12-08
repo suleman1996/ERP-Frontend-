@@ -33,9 +33,9 @@ interface Props {
   handleEducation?: (index: number) => void
   handleDeleteIndex?: (id: number) => void
   handleDelete?: (id: string) => void
-  handleEdit?: (id: string) => void
+  handleEdit?: (id: string, index: number) => void
   handleResetIconClick?: (id: string, index: number) => void
-  handleView?: (id: string) => void
+  handleView?: (id: string, index: number) => void
   onPrint?: (id: string) => void
   handleModalOpen?: () => void
   colWidth?: string
@@ -101,7 +101,7 @@ const Table = ({
   const [tblScroll, setTblScroll] = useState(false)
 
   const handlePencilIcon = ({ id, index }: { id: string; index: number }) => {
-    handleEdit && handleEdit(id)
+    handleEdit && handleEdit(id, index)
     handleEducation && handleEducation(index)
   }
 
@@ -253,7 +253,8 @@ const Table = ({
                                         alt=""
                                         className={style.pencilIcon}
                                         onClick={() => {
-                                          handleView && handleView(row.id)
+                                          handleView &&
+                                            handleView(row?._id, index)
                                         }}
                                       />
                                     )}
