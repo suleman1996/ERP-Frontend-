@@ -30,14 +30,32 @@ const Pagination = ({
     <>
       <div className={style.pagination}>
         <div className={style.leftFlex}>
-          <p style={{ marginLeft: '0px' }}>View</p>
+          <p style={{ marginLeft: '0px', marginRight: '10px' }}>View</p>
           <div style={{ maxWidth: '100px' }}>
             <Selection
               control={control}
               name={'pagination'}
+              defaultValue={{
+                label: selectOptions[0]?.value,
+                value: selectOptions[0]?.value,
+              }}
               options={selectOptions}
               placeholder=""
               changeHandler={setCount}
+              backClass={style.back}
+              backStyle={{
+                height: '30px !important',
+                minHeight: '30px !important',
+                borderRadius: '0px !important',
+                alignItems: 'flex-start !important',
+              }}
+              imgStyle={{
+                marginTop: '-1px ',
+                marginRight: '1px',
+              }}
+              valuePag={{
+                padding: '0px 3px',
+              }}
             />
           </div>
           <p>user per page</p>

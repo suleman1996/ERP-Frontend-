@@ -35,9 +35,10 @@ export const useEmployeeFilter = ({
     setLoading(true)
     const filterData = {
       ...data,
-      department: data?.department?.name,
-      designation: data?.designation?.name,
+      department: data?.department?.label,
+      designation: data?.designation?.label,
     }
+
     const res = await EmployeeService.getAllEmployees(filterData)
     if (res?.status === 200) {
       setEmployees && setEmployees(res?.data?.employees[0]?.data)

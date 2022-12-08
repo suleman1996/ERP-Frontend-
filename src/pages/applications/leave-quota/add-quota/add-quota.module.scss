@@ -6,27 +6,12 @@
   @include gridTwo(22, 22);
 }
 
-.modelContainer {
-}
-
 .textAreaGrid {
   grid-column: 1 / -1;
 }
 
-.fileUpload {
-  margin-top: 0 !important;
-}
-
-.classNameLabel {
-  display: inline-block;
-  margin-bottom: 12px;
-}
-
 .btnClass {
   margin-top: 24px;
-}
-
-.customHeader {
 }
 
 .dottedBorder {

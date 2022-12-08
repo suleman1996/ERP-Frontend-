@@ -1,16 +1,16 @@
-import Button from 'components/button';
+import Button from 'components/button'
 
-import style from './employee-card.module.scss';
-import profile from 'assets/avatar.jfif';
+import style from './employee-card.module.scss'
+import profile from 'assets/avatar.jfif'
 
 interface Props {
-  handleClick?: any;
-  img?: string;
-  name?: string;
-  designation?: string;
-  department?: string;
-  phone?: string;
-  id?: string | undefined;
+  handleClick?: any
+  img?: string
+  name?: string
+  designation?: string
+  department?: string
+  phone?: string
+  id?: string | undefined
 }
 
 const EmployeeProfileCard = ({
@@ -30,13 +30,15 @@ const EmployeeProfileCard = ({
           <Button text="More" handleClick={() => handleClick()} />
         </div>
         <div className={style.rightGrid}>
-          <h1>
-            {name}
+          <div className={style.ellipse}>
+            <h1>
+              {name}
 
-            <div className={style.tooltip}>
-              <p>{name}</p>
-            </div>
-          </h1>
+              <div className={style.tooltip}>
+                <p>{name}</p>
+              </div>
+            </h1>
+          </div>
           <h6>{designation}</h6>
           <div className={style.innerPara}>
             <p>
@@ -52,7 +54,7 @@ const EmployeeProfileCard = ({
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default EmployeeProfileCard;
+export default EmployeeProfileCard

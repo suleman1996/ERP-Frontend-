@@ -30,6 +30,7 @@
     @include font24;
     color: #cacaca;
     margin-right: calc(10px + (35 - 10) * (100vw - 280px) / (2560 - 280));
+    white-space: nowrap;
   }
   .active {
     font-weight: 600;
@@ -60,9 +61,17 @@
   display: flex;
   align-items: center;
   cursor: pointer;
-  // @media (max-width: 420px) {
-  //   width: 430px;
-  // }
+  @media (max-width: 420px) {
+    overflow-x: scroll;
+    max-width: calc(100vw - 26px);
+  }
+  &::-webkit-scrollbar {
+    width: 1px; /* Remove scrollbar space */
+    background: #e6e7e8; /* Optional: just make scrollbar invisible */
+    height: 1px;
+    border-radius: 8px;
+    display: none;
+  }
 }
 .buttonClass {
   @media (max-width: $tab) {
@@ -71,10 +80,4 @@
     justify-content: flex-end;
     margin-bottom: 10px;
   }
-}
-.mainTopper {
-  // @media (max-width: 420px) {
-  //   max-width: 425px;
-  //   overflow-y: auto;
-  // }
 }

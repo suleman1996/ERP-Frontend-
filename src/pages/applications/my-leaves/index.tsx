@@ -1,6 +1,4 @@
-import { useEffect, useState } from 'react'
-import { useForm } from 'react-hook-form'
-import moment from 'moment'
+/* eslint-disable @typescript-eslint/no-unused-vars */
 
 import Table from 'components/table'
 import Button from 'components/button'
@@ -17,6 +15,9 @@ import cancel from 'assets/cancel.svg'
 import view from 'assets/viewIconnew.svg'
 
 import style from './index.module.scss'
+import moment from 'moment'
+import { useForm } from 'react-hook-form'
+import { useEffect, useState } from 'react'
 
 const ColumnsData = [
   {

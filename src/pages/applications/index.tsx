@@ -56,9 +56,9 @@ const Applications = () => {
       case 1:
         return <MyLeaves data={data} parentRenderState={renderState} />
       case 2:
-        return <Approvals />
+        return <Approvals data={data} />
       case 3:
-        return <LeaveQuota />
+        return <LeaveQuota parentRenderState={renderState} />
       case 4:
         return <LeaveBalance />
       default:
@@ -81,7 +81,7 @@ const Applications = () => {
           openModal={openModalQuota}
           setOpenModal={setOpenModalQuota}
           data={data}
-          setRender={setRenderState}
+          setRenderState={setRenderState}
         />
       )}
       <CardContainer className={style.cardContainer}>

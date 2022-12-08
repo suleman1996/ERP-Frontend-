@@ -1,0 +1,9 @@
+.img {
+  cursor: pointer;
+  height: calc(20px + (37 - 20) * (100vw - 280px) / (2560 - 280));
+  width: calc(25px + (44 - 25) * (100vw - 280px) / (2560 - 280));
+  margin: 0px 5px;
+}
+.wrapperModal {
+  max-width: 1000px !important;
+}

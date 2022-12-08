@@ -23,8 +23,8 @@
   right: 0;
   bottom: 0;
   background-color: #ccc;
-  -webkit-transition: 0.4s;
-  transition: 0.4s;
+  -webkit-transition: all 0.4s;
+  transition: all 0.4s;
   border-radius: 6px;
 }
 
@@ -36,16 +36,18 @@
   left: 2px;
   top: 3px;
   background-color: white;
-  -webkit-transition: 0.4s;
-  transition: 0.4s;
+  -webkit-transition: all 0.4s;
+  transition: all 0.4s;
 }
 
 input:checked + .slider {
   background-color: #57b894;
+  transition: all 0.4s;
 }
 
 input:focus + .slider {
   box-shadow: none;
+  transition: all 0.4s;
 }
 
 input:checked + .slider:before {
@@ -53,6 +55,7 @@ input:checked + .slider:before {
   -ms-transform: translateX(10px);
   transform: translateX(10px);
   left: 6px;
+  transition: all 0.4s;
 }
 
 /* Rounded sliders */

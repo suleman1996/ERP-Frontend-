@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useForm } from 'react-hook-form'
 
 import Button from 'components/button'
 import CardContainer from 'components/card-container'
@@ -22,6 +23,8 @@ export interface AttendanceInt {
   totalHours: string
 }
 const Attendance = () => {
+  const { control } = useForm()
+
   const [openMenu, setOpenMenu] = useState(false)
   const [active, setActive] = useState<number>(1)
 
@@ -96,7 +99,7 @@ const Attendance = () => {
 
         {active === 2 && (
           <div className={style.pagination}>
-            <Pagination />
+            <Pagination control={control} />
           </div>
         )}
       </CardContainer>

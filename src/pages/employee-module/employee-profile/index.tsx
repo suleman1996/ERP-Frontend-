@@ -105,61 +105,63 @@ const EmployeeProfileDetails = () => {
           </div>
           {employees?.length > 0 ? (
             <div className={style.cardSection}>
-              {employees?.map(
-                ({
-                  profilePicture,
-                  firstName,
-                  lastName,
-                  companyInformation,
-                  phone,
-                  employeeId,
-                  _id,
-                }: Employee) => (
-                  <>
-                    <div key={employeeId}>
-                      <EmployeeProfileCard
-                        img={profilePicture}
-                        name={`${firstName} ${lastName}`}
-                        designation={
-                          companyInformation?.designationInformation?.name
-                        }
-                        department={
-                          companyInformation?.departmentInformation?.name
-                        }
-                        phone={phone}
-                        id={employeeId}
-                        handleClick={() =>
-                          setOpen((prev) =>
-                            prev === employeeId ? null : employeeId
-                          )
-                        }
-                      />
-                      {open === employeeId && (
-                        <div
-                          style={{
-                            position: 'absolute',
-                            top: '85%',
-                            padding: '15px',
-                            zIndex: 2000,
-                          }}
-                        >
+              {employees
+                // .slice(0, 2)
+                ?.map(
+                  ({
+                    profilePicture,
+                    firstName,
+                    lastName,
+                    companyInformation,
+                    phone,
+                    employeeId,
+                    _id,
+                  }: Employee) => (
+                    <>
+                      <div key={employeeId} style={{ position: 'relative' }}>
+                        <EmployeeProfileCard
+                          img={profilePicture}
+                          name={`${firstName} ${lastName}`}
+                          designation={
+                            companyInformation?.designationInformation?.name
+                          }
+                          department={
+                            companyInformation?.departmentInformation?.name
+                          }
+                          phone={phone}
+                          id={employeeId}
+                          handleClick={() =>
+                            setOpen((prev) =>
+                              prev === employeeId ? null : employeeId
+                            )
+                          }
+                        />
+                        {open === employeeId && (
                           <div
-                            onClick={() => setOpen(null)}
-                            className={style.absoluteClass}
-                          ></div>
-                          <div style={{ zIndex: 2600, width: '145px' }}>
-                            <EmployeeDropdown
-                              setOpenModal={setOpenModal}
-                              setOpenModalProfile={setOpenModalProfile}
-                              id={_id}
-                            />
+                            style={{
+                              position: 'absolute',
+                              top: '85%',
+                              padding: '15px',
+                              zIndex: 2000,
+                            }}
+                          >
+                            <div
+                              onClick={() => setOpen(null)}
+                              className={style.absoluteClass}
+                            ></div>
+                            <div style={{ zIndex: 2600, width: '145px' }}>
+                              <EmployeeDropdown
+                                setOpenModal={setOpenModal}
+                                setOpenModalProfile={setOpenModalProfile}
+                                id={_id}
+                              />
+                            </div>
                           </div>
-                        </div>
-                      )}
-                    </div>
-                  </>
-                )
-              )}
+                        )}
+                      </div>
+                    </>
+                  )
+                )}
             </div>
           ) : (
             <h1 style={{ textAlign: 'center', marginTop: '20px' }}>
@@ -174,14 +176,16 @@ const EmployeeProfileDetails = () => {
           setOpenModalProfile={setOpenModalProfile}
           id={open}
         />
-        <Pagination
-          setCount={setPageSize}
-          count={pageSize}
-          totalCount={totalCount}
-          setPage={setPage}
-          page={page}
-          control={control}
-        />
+        <div className={style.position}>
+          <Pagination
+            setCount={setPageSize}
+            count={pageSize}
+            totalCount={totalCount}
+            setPage={setPage}
+            page={page}
+            control={control}
+          />
+        </div>
       </Container>
     </>
   )
