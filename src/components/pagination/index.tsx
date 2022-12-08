@@ -35,6 +35,10 @@ const Pagination = ({
             <Selection
               control={control}
               name={'pagination'}
+              defaultValue={{
+                label: selectOptions[0]?.value,
+                value: selectOptions[0]?.value,
+              }}
               options={selectOptions}
               placeholder=""
               changeHandler={setCount}
