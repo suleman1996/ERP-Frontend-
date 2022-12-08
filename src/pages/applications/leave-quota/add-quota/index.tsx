@@ -18,6 +18,8 @@ const AddQuotaModal = ({
   openModal,
   setOpenModal,
   setRenderState,
+  btnText,
+  title,
 }: {
   openModal: boolean
   setOpenModal?: any
@@ -25,6 +27,8 @@ const AddQuotaModal = ({
   setRender?: any
   editData?: any
   setRenderState?: any
+  btnText?: string
+  title?: string
 }) => {
   const [btnLoader, setBtnLoader] = useState(false)
   const [leaves, setLeaves] = useState({})
@@ -128,15 +132,13 @@ const AddQuotaModal = ({
   return (
     <Modal
       open={openModal}
-      text="Add Quota"
-      title={'Add Leave Quota'}
+      text={btnText ? btnText : 'Add Quota'}
+      title={title ? title : 'Add Leave Quota'}
       handleClose={() => setOpenModal(false)}
       type="submit"
       form="quotaForm"
-      btnClass={style.btnClass}
-      className={style.modelContainer}
       loader={btnLoader}
-      customHeader={style.customHeader}
+      btnClass={style.btnClass}
     >
       <form
         onSubmit={(e) => {
@@ -157,14 +159,13 @@ const AddQuotaModal = ({
         />
         <Selection
           star={' *'}
-          classNameLabel={style.classNameLabel + style.textAreaGrid}
           label="Renew"
           placeholder="Select"
           options={month.map((item) => ({ label: item, value: item }))}
           name="renew"
           errorMessage={errors?.renew?.message}
           control={control}
-          placeHolderStyle={{ color: '#2D2D32', fontSize: '16px' }}
+          // defaultValue={defaultLeaveType}
         />
         <DatePicker
           star={' *'}
@@ -177,8 +178,6 @@ const AddQuotaModal = ({
         />
         <Selection
           star={' *'}
-          classNameLabel={style.classNameLabel}
-          wraperSelect={style.wraperSelect}
           label="Leave Start"
           placeholder="Select"
           options={[
@@ -191,8 +190,6 @@ const AddQuotaModal = ({
         />
         <Selection
           star={' *'}
-          classNameLabel={style.classNameLabel}
-          wraperSelect={style.wraperSelect}
           label="Leave End"
           placeholder="Select"
           options={['Last Working Day', 'Notice Period'].map((item) => ({
