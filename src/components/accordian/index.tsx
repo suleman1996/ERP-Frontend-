@@ -13,11 +13,11 @@ import Modal from 'components/modal'
 import Input from 'components/textfield'
 
 import SettingsService from 'services/settings-service'
+import { createNotification } from 'common/create-notification'
 
 import statusIcon from 'assets/status.svg'
 import arrow from 'assets/arrowup.svg'
 import style from './accordian.module.scss'
-import { createNotification } from 'common/create-notification'
 
 const AccordianSwitch = ({
   title,
@@ -110,7 +110,6 @@ const AccordianSwitch = ({
   }
 
   const handleEdit = (id: string | number) => {
-    console.log('edit', id)
     if (title === 'Department') {
       setDepartmentModal(true)
       setDepId(id)
@@ -130,7 +129,6 @@ const AccordianSwitch = ({
       setDepId(id)
       setDocumenModal(true)
       const data = policyRow?.find((item) => item._id === id)
-      console.log('edit mode')
       reset({
         policy: data?.name,
       })
