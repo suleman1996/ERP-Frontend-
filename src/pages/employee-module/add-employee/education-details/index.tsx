@@ -129,6 +129,10 @@ const EducationalDetails = () => {
             register={register}
             errorMessage={errors?.marks?.message}
             control={control}
+            defaultValue={{
+              label: selectOptions[1].label,
+              value: selectOptions[1].value,
+            }}
             options={selectOptions}
           />
           <div>

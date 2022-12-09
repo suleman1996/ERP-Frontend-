@@ -160,7 +160,7 @@ const CompanyInformation = () => {
               placeholder={
                 watch().joiningDate &&
                 moment(watch().joiningDate)
-                  .add(watch().probationDurationDays / 30, 'M')
+                  .add(watch().probationDurationDays?.value / 30, 'M')
                   .format('MM/DD/YYYY')
               }
               control={control}
@@ -175,6 +175,10 @@ const CompanyInformation = () => {
             name="employmentType"
             name1="type"
             star={' *'}
+            defaultValue={{
+              label: employmentTypeData[1]?.label,
+              value: employmentTypeData[1]?.value,
+            }}
             control={control}
             errorMessage={errors?.employmentType?.message}
             options={employmentTypeData}
