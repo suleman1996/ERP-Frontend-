@@ -132,10 +132,6 @@ export const useEducationDetail = ({
             filename: newEducations[educationIndex.current]?.filename || '',
             transcript: newEducations[educationIndex.current]?.transcript || '',
           }),
-      // ...(marksType === 'percentage' && { percentage: marksVal?.value?.toString() }),
-      // ...(marksType === 'cgpa' && {
-      //   cgpa: marksType === 'cgpa' && marksVal?.value?.toString(),
-      // }),
       marksType: data?.marksType?.value,
     }
     !transcript && removeKeys(tempObj, ['transcript'])
@@ -166,12 +162,16 @@ export const useEducationDetail = ({
     educationIndex.current = index
     const data = educations.find((data, i) => i === index)
 
+    const newMarkType = selectOptions?.find(
+      (item) => item?.value == data?.marksType
+    )
+
     data?.transcript && setSelectedFileName('transcript')
     reset({
       institute: data?.institute,
       degree: data?.degree,
       description: data?.description,
-      marksType: data?.marksType?.value,
+      marksType: { label: newMarkType?.label, value: newMarkType?.value },
       startDate: moment(data?.startDate, 'YYYY-MM-DD').toDate(),
       ...(!data?.ongoing && {
         endDate: moment(data?.endDate, 'YYYY-MM-DD').toDate(),
