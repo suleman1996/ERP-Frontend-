@@ -10,8 +10,7 @@ import right from 'assets/right.svg'
 import logoImg2 from 'assets/sidebar-logo.svg'
 import smallImg from 'assets/onlyX.svg'
 import logoutImg from 'assets/logout-sidebar.svg'
-import profileImg from 'assets/profileImg.png'
-import profileImg2 from 'assets/profileImg2.svg'
+import profile from 'assets/avatar.jfif'
 import style from './sidebar.module.scss'
 
 interface Props {
@@ -90,13 +89,13 @@ const Sidebar = ({ open, setOpen }: Props) => {
             <div className={style.profileImgDiv}>
               {!open ? (
                 <img
-                  src={currentUser?.img ? currentUser?.img : profileImg}
+                  src={currentUser?.img ? currentUser?.img : profile}
                   alt="!error"
                   className={style.imgLarge}
                 />
               ) : (
                 <img
-                  src={currentUser?.img ? currentUser?.img : profileImg2}
+                  src={currentUser?.img ? currentUser?.img : profile}
                   alt="!error"
                   className={style.imgSmall}
                 />

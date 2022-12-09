@@ -122,6 +122,7 @@ export const useCompanyInfo = ({
     setCheck(formData?.companyInformation?.workingDaysInWeek)
     setProbation(formData?.companyInformation?.probation)
     setType(formData?.companyInformation?.workingHoursType?.value)
+    setType(watch()?.selectHours?.value)
   }
   useEffect(() => {
     init()
@@ -251,7 +252,7 @@ export const useCompanyInfo = ({
         companyInformation: {
           ...data,
           workingDaysInWeek: check,
-          workingHoursType: user?.employmentInfo?.workingHoursType,
+          workingHoursType: user?.employmentInfo?.workingHoursType.value,
         },
       })
 

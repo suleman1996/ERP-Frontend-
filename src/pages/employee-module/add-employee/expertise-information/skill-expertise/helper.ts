@@ -35,7 +35,7 @@ export const useSkill = ({ formData, setFormData, setSkillData }: Props) => {
   const skillIndex = useRef(-1)
   const [toggle, setToggle] = useState<number>()
 
-  const [setUpdateEdu] = useState({
+  const [, setUpdateEdu] = useState({
     update: false,
     editInd: -1,
   })

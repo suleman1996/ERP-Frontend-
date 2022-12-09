@@ -30,8 +30,6 @@ const CustomTimePicker = ({
 }: Props) => {
   const { field } = useController({ control, name, defaultValue: 'HH:MM' })
 
-  // console.log('inner type', type)
-
   useEffect(() => {
     if (type === 'per-day') {
       if (field.value.split(':')[0] > 23 || field.value.split(':')[1] > 59) {
@@ -64,9 +62,14 @@ const CustomTimePicker = ({
       <div className={style.wraper} style={{ border: ' 1.2px solid #e2e2ea' }}>
         <Selection
           name={'selectHours'}
+          label={'Working hours'}
           control={control}
           value={type && type}
           setType={setType}
+          defaultValue={{
+            label: selectHoursDuration[0]?.label,
+            value: selectHoursDuration[0]?.value,
+          }}
           options={selectHoursDuration}
         />
 
@@ -88,7 +91,6 @@ const CustomTimePicker = ({
           }
         />
       </div>
-      {/* {customErr && <p className={style.error}>{customErr}</p>} */}
       {errorMessage && <p className={style.error}>{errorMessage}</p>}
     </div>
   )

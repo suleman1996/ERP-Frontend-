@@ -64,7 +64,7 @@ export const useLanguage = ({ formData, setFormData, setLanguage }: Props) => {
     const tempObj = {
       ...data,
       skillLevel: data?.skills,
-      language: data?.language?.valueOf,
+      language: data?.language?.value,
       ...(fileBase64
         ? { file: fileBase64 }
         : {
