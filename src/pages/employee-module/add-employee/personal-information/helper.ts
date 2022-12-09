@@ -30,8 +30,8 @@ interface Props {
   setFormData: Dispatch<SetStateAction<any>>
   formData: any[]
   employeeDocId: string
-  setEmployeeDocId: Dispatch<SetStateAction<string>>
   setEmployeeId: Dispatch<SetStateAction<string>>
+  setEmployeeDocId: Dispatch<SetStateAction<string>>
 }
 
 export const usePersonalInfo = ({
