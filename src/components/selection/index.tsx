@@ -173,6 +173,7 @@ const Selection = ({
         style={{
           border: errorMessage ? '1px solid #ff5050' : '1px solid #E2E2EA',
           borderRadius: '6px',
+          textAlign: 'left',
           marginTop: ' calc(5px + (12 - 5) * (100vw - 280px) / (2560 - 280))',
         }}
         className={`${backClass} ${

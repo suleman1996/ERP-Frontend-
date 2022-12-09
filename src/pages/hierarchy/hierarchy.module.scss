@@ -1,0 +1,66 @@
+@import 'styles/_breakpoints.scss';
+@import 'styles/_colors.scss';
+@import 'styles/_mixin.scss';
+
+.container {
+  padding: 0px;
+  position: relative;
+  .headContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: calc(12px + (25 - 12) * (100vw - 280px) / (2560 - 280));
+    padding-right: calc(12px + (25 - 12) * (100vw - 280px) / (2560 - 280));
+    padding-top: calc(12px + (25 - 12) * (100vw - 280px) / (2560 - 280));
+    padding-bottom: calc(12px + (25 - 12) * (100vw - 280px) / (2560 - 280));
+    border-bottom: 1px solid #e2e2ea;
+    .mainDiv {
+      max-width: 200px;
+      width: 100%;
+      .backClass {
+        margin-top: 0px !important;
+      }
+    }
+  }
+  .bodyDiv {
+    padding-left: calc(12px + (25 - 12) * (100vw - 280px) / (2560 - 280));
+    padding-right: calc(12px + (25 - 12) * (100vw - 280px) / (2560 - 280));
+    padding-top: calc(12px + (25 - 12) * (100vw - 280px) / (2560 - 280));
+    padding-bottom: calc(12px + (25 - 12) * (100vw - 280px) / (2560 - 280));
+    .container {
+      overflow-y: auto;
+      background: #ffffff;
+      border: 1px solid #e2e2ea;
+      padding-left: calc(12px + (25 - 12) * (100vw - 280px) / (2560 - 280));
+      padding-right: calc(12px + (25 - 12) * (100vw - 280px) / (2560 - 280));
+      padding-top: calc(12px + (25 - 12) * (100vw - 280px) / (2560 - 280));
+      padding-bottom: calc(12px + (25 - 12) * (100vw - 280px) / (2560 - 280));
+    }
+    .grid {
+      gap: 20px;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      @media (max-width: $tab) {
+        flex-direction: column;
+      }
+      .mainCard {
+        max-width: 49%;
+        width: 100%;
+        @media (max-width: $tab) {
+          max-width: 100%;
+        }
+      }
+
+      .heading {
+        @include font24;
+        margin-bottom: 5px;
+      }
+    }
+  }
+  .btnDiv {
+    position: absolute;
+    bottom: calc(12px + (25 - 12) * (100vw - 280px) / (2560 - 280));
+    right: calc(12px + (25 - 12) * (100vw - 280px) / (2560 - 280));
+  }
+}
