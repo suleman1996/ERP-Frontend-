@@ -58,7 +58,12 @@ const Applications = () => {
       case 2:
         return <Approvals data={data} />
       case 3:
-        return <LeaveQuota parentRenderState={renderState} />
+        return (
+          <LeaveQuota
+            setParentRenderState={setRenderState}
+            parentRenderState={renderState}
+          />
+        )
       case 4:
         return <LeaveBalance />
       default:

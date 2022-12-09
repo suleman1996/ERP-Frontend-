@@ -14,12 +14,13 @@ import revisionHistoryIcon from 'assets/revision-icon.svg'
 import reviseIcon from 'assets/revise-icon.svg'
 import deleteIcon from 'assets/table-delete.svg'
 
-const LeaveQuota = ({ parentRenderState }: any) => {
+const LeaveQuota = ({ parentRenderState, setParentRenderState }: any) => {
   const [rowData, setRowsData] = useState<any>([])
   const [editLeaveQuota, setEditLeaveQuota] = useState(false)
   const [delLeaveQuota, setDelLeaveQuota] = useState(false)
   const [renewLeaveQuota, setRenewLeaveQuota] = useState(false)
   const [historyQuota, setHistoryQuota] = useState(false)
+  const [selectedLeaveQuota, setSelectedLeaveQuota] = useState({})
 
   useEffect(() => {
     getAllQuotaLeaves()
@@ -32,15 +33,28 @@ const LeaveQuota = ({ parentRenderState }: any) => {
       setRowsData(
         result?.data?.leaveQuotas?.map((item) => ({
           quota: item?.name,
+          renew: item?.renew,
           effectiveDate: moment(item?.name?.effectiveDate).format('MMM YYYY'),
-          start: moment(item?.name?.leaveStart).format('DD MMM YYYY'),
-          end: moment(item?.name?.leaveEnd).format('DD MMM YYYY'),
+          start: item?.leaveStart,
+          end: item?.leaveEnd,
           sick: 'sa',
           casual: 'as',
           annual: 'qw',
           action: 'qw',
+          leavesQuota: item?.leaves,
+          _id: item?._id,
         }))
       )
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  const handleDeleteQouta = async () => {
+    try {
+      await ApplicationService.deleteQuotaLeavesApi(selectedLeaveQuota?._id)
+      setParentRenderState((prev) => !prev)
+      setDelLeaveQuota(false)
     } catch (error) {
       console.error(error)
     }
@@ -75,6 +89,7 @@ const LeaveQuota = ({ parentRenderState }: any) => {
                 width={30}
                 onClick={() => {
                   setEditLeaveQuota(true)
+                  setSelectedLeaveQuota(row)
                 }}
               />
               <img
@@ -82,7 +97,9 @@ const LeaveQuota = ({ parentRenderState }: any) => {
                 alt=""
                 src={deleteIcon}
                 width={30}
-                onClick={() => setDelLeaveQuota(true)}
+                onClick={() => {
+                  setDelLeaveQuota(true), setSelectedLeaveQuota(row)
+                }}
               />
               <img
                 className={style.img}
@@ -97,19 +114,30 @@ const LeaveQuota = ({ parentRenderState }: any) => {
           ),
         }))}
       />
-      <AddQuotaModal
-        openModal={editLeaveQuota}
-        setOpenModal={setEditLeaveQuota}
-        btnText="Save"
-        title="Edit Leave Quota"
-      />
-      <DeleteModal open={delLeaveQuota} setOpen={setDelLeaveQuota} />
-      <AddQuotaModal
-        openModal={renewLeaveQuota}
-        setOpenModal={setRenewLeaveQuota}
-        btnText="Save"
-        title="Renew Leave Quota"
-      />
+      {editLeaveQuota && (
+        <AddQuotaModal
+          openModal={editLeaveQuota}
+          setOpenModal={setEditLeaveQuota}
+          btnText="Save"
+          title="Edit Leave Quota"
+          selectedLeaveQuota={selectedLeaveQuota}
+        />
+      )}
+      {delLeaveQuota && (
+        <DeleteModal
+          handleDelete={handleDeleteQouta}
+          open={delLeaveQuota}
+          setOpen={setDelLeaveQuota}
+        />
+      )}
+      {renewLeaveQuota && (
+        <AddQuotaModal
+          openModal={renewLeaveQuota}
+          setOpenModal={setRenewLeaveQuota}
+          btnText="Save"
+          title="Renew Leave Quota"
+        />
+      )}
       <LeaveQuotaHistory
         historyLeaveQuota={historyQuota}
         setHistoryLeaveQuota={setHistoryQuota}
