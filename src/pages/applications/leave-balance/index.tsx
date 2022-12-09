@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState, useEffect } from 'react'
 
 import Table from 'components/table'
@@ -49,13 +50,11 @@ const LeaveBalance = () => {
         rows={aLLLeave.map((row: any) => ({
           ...row,
           name: <span>{row?.name}</span>,
-          paid: <span>{row?.paid === true ? 'true' : 'false'}</span>,
-          balance: <span>{row?.balance === true ? 'true' : 'false'}</span>,
-          encashment: (
-            <span>{row?.encashment === true ? 'true' : 'false'}</span>
-          ),
+          paid: <span>{row?.paid === true ? 'Yes' : 'No'}</span>,
+          balance: <span>{row?.balance === true ? 'Yes' : 'No'}</span>,
+          encashment: <span>{row?.encashment === true ? 'Yes' : 'No'}</span>,
           carryForward: (
-            <span>{row?.carryForward === true ? 'true' : 'false'}</span>
+            <span>{row?.carryForward === true ? 'Yes' : 'No'}</span>
           ),
           maxCarryForward: (
             <span>{row?.maxCarryForward ? row?.maxCarryForward : '-'}</span>
@@ -78,7 +77,7 @@ const LeaveBalance = () => {
         leaveData={editIndex >= 0 ? aLLLeave[editIndex] : null}
         setOpenAddTypeModal={setOpenViewTypeModal}
         openAddTypeModal={openViewTypeModal}
-        title="Leave Type"
+        title={!close ? 'Edit Leave Type' : 'Leave Type'}
         getAllLeaveType={getAllLeaveType}
         close={close}
       />
