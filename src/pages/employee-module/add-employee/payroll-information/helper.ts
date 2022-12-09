@@ -6,6 +6,7 @@ import EmployeeService from 'services/employee-service'
 import { setErrors } from 'helper'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAllAllowence } from 'store/actions'
+
 interface Props {
   employeeId?: string
   employeeDocId: string
@@ -48,7 +49,7 @@ export const usePayrollDetail = ({ employeeDocId }: Props) => {
           accountNumber: accountNumber.toString(),
           payType: data?.payrollDetails?.payType?.value,
           payRollType: data?.payrollDetails?.payRollType?.value
-            ? data?.payrollDetails?.payRollType?.value
+            ? data?.payrollDetails?.payRollType?.label
             : '',
           overtimeApplicable: overtimeApplicable,
           roaster: roaster?.value,
@@ -62,7 +63,7 @@ export const usePayrollDetail = ({ employeeDocId }: Props) => {
       }
 
       if (id) {
-        const res = await EmployeeService.addPostPayroll(userData, id)
+        const res = await EmployeeService.addPostPayroll({ ...userData }, id)
         if (res?.response?.data?.error && res?.response?.status === 422) {
           setErrors(res.response.data.error, setError)
         }
