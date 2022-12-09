@@ -40,7 +40,7 @@ const AccountSetting = () => {
   useEffect(() => {
     setImg(userData?.img)
     reset({ name: userData?.name, email: userData.email })
-  }, [])
+  }, [userData])
 
   const onSubmit = async (data) => {
     setBtnLoader(true)

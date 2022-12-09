@@ -14,6 +14,7 @@ import TaxSlab from 'pages/tax'
 import Calender from 'pages/calender'
 import Applications from 'pages/applications'
 import Hierarchy from 'pages/hierarchy'
+import VerifyEmail from 'pages/verify-email/index'
 
 export interface RouteInterface {
   path: string
@@ -126,5 +127,12 @@ export const publicRoute: RouteInterface[] = [
   {
     path: '/verification',
     component: <MobileForgotVerification />,
+  },
+]
+
+export const allRoute: RouteInterface[] = [
+  {
+    path: '/verifyEmail/:id',
+    component: <VerifyEmail />,
   },
 ]

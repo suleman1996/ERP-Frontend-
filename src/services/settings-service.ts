@@ -29,9 +29,25 @@ export default class SettingsService {
     return res
   }
 
+  static async addPolicy(data: any) {
+    const res = await ApiService.post(
+      `${SettingsService.baseUrl[0]}/policyCategory`,
+      data
+    )
+    return res
+  }
+
   static async updateDepartment(data: any, id: string | number) {
     const res = await ApiService.put(
       `${SettingsService.baseUrl[0]}/department-setting/${id}`,
+      data
+    )
+    return res
+  }
+
+  static async updatePolicy(data: any, id: string | number) {
+    const res = await ApiService.put(
+      `${SettingsService.baseUrl[0]}/policyCategory/${id}`,
       data
     )
     return res
@@ -44,9 +60,24 @@ export default class SettingsService {
     return res
   }
 
+  static async emailVerify(id: string | number) {
+    const res = await ApiService.put(
+      `${SettingsService.baseUrl[0]}/verifyEmailLink/${id}`,
+      {}
+    )
+    return res
+  }
+
   static async getDepartments() {
     const res = await ApiService.get(
       `${SettingsService.baseUrl[0]}/department-setting`
+    )
+    return res
+  }
+
+  static async getAllPolicies() {
+    const res = await ApiService.get(
+      `${SettingsService.baseUrl[0]}/policyCategory`
     )
     return res
   }
@@ -100,6 +131,13 @@ export default class SettingsService {
   static async deleteDesignation(id: string | number) {
     const res = await ApiService.delete(
       `${SettingsService.baseUrl[0]}/designation-setting/${id}`
+    )
+    return res
+  }
+
+  static async deletePolicy(id: string | number) {
+    const res = await ApiService.delete(
+      `${SettingsService.baseUrl[0]}/policyCategory/${id}`
     )
     return res
   }

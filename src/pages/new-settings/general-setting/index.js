@@ -18,7 +18,6 @@ import {
   allowenceColumn,
   allowenceRows,
   documentsColumn,
-  documentsRows,
 } from './helper'
 
 import style from './general.module.scss'
@@ -27,10 +26,12 @@ const GeneralSetting = () => {
   const [openAccordian, setOpenAccordian] = useState(-1)
   const [departmentRows, setDepartmentRows] = useState([])
   const [designationRows, setDesignationRow] = useState([])
+  const [policyRow, setPolicyRows] = useState([])
 
   useEffect(() => {
     getAllDepartments()
     getAllDesignations()
+    getAllPolicies()
   }, [])
 
   const getAllDepartments = async () => {
@@ -45,6 +46,13 @@ const GeneralSetting = () => {
     }
   }
 
+  const getAllPolicies = async () => {
+    const res = await SettingsService.getAllPolicies()
+    if (res?.status === 200) {
+      setPolicyRows(res?.data?.policyCategory)
+    }
+  }
+
   return (
     <CardContainer className={style.card}>
       {totalAccordian?.map(({ id, title, btnText }, index) => {
@@ -55,10 +63,12 @@ const GeneralSetting = () => {
             titleClass={style.titleClass}
             btnText={btnText}
             id={id}
+            getAllPolicies={getAllPolicies}
             getAllDepartments={getAllDepartments}
             getAllDesignations={getAllDesignations}
             departmentRows={departmentRows}
             designationRows={designationRows}
+            policyRow={policyRow}
             RowsData={
               title === 'Designation'
                 ? designationRows?.map((item) => {
@@ -76,8 +86,8 @@ const GeneralSetting = () => {
                 ? genderRows
                 : title === 'Allowance Types'
                 ? allowenceRows
-                : title === 'Documents Category'
-                ? documentsRows
+                : title === 'Policy Category'
+                ? policyRow
                 : departmentRows
             }
             ColumnsData={
@@ -95,7 +105,7 @@ const GeneralSetting = () => {
                 ? leaveColumn
                 : title === 'Allowance Types'
                 ? allowenceColumn
-                : title === 'Documents Category'
+                : title === 'Policy Category'
                 ? documentsColumn
                 : ''
             }
@@ -118,5 +128,5 @@ const totalAccordian = [
   { id: 5, title: 'Attendance Tags', btnText: 'Add New Tag' },
   { id: 6, title: 'Leave Type', btnText: 'Add New Leave' },
   { id: 7, title: 'Allowance Types', btnText: 'Add New Allowance' },
-  { id: 8, title: 'Documents Category', btnText: 'Add New Document' },
+  { id: 8, title: 'Policy Category', btnText: 'Add New Policy' },
 ]

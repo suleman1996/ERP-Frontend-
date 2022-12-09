@@ -1,20 +1,50 @@
-import style from './leave-quota.module.scss'
+import { useEffect, useState } from 'react'
+import moment from 'moment'
+
+import { ColumnsData } from './helper'
 import Table from 'components/table'
-import editIcon from 'assets/newEdit.svg'
-import revisionHistoryIcon from 'assets/revision-icon.svg'
-import reviseIcon from 'assets/revise-icon.svg'
-import deleteIcon from 'assets/table-delete.svg'
-import { ColumnsData, RowsData } from './helper'
-import { useState } from 'react'
+import ApplicationService from 'services/application-service'
 import AddQuotaModal from './add-quota'
 import DeleteModal from 'components/delete-modal'
 import LeaveQuotaHistory from './quota-history'
 
-const LeaveQuota = () => {
+import style from './leave-quota.module.scss'
+import editIcon from 'assets/newEdit.svg'
+import revisionHistoryIcon from 'assets/revision-icon.svg'
+import reviseIcon from 'assets/revise-icon.svg'
+import deleteIcon from 'assets/table-delete.svg'
+
+const LeaveQuota = ({ parentRenderState }: any) => {
+  const [rowData, setRowsData] = useState<any>([])
   const [editLeaveQuota, setEditLeaveQuota] = useState(false)
   const [delLeaveQuota, setDelLeaveQuota] = useState(false)
   const [renewLeaveQuota, setRenewLeaveQuota] = useState(false)
   const [historyQuota, setHistoryQuota] = useState(false)
+
+  useEffect(() => {
+    getAllQuotaLeaves()
+  }, [parentRenderState])
+
+  const getAllQuotaLeaves = async () => {
+    try {
+      const result = await ApplicationService.getAllQuotaLeavesApi()
+
+      setRowsData(
+        result?.data?.leaveQuotas?.map((item) => ({
+          quota: item?.name,
+          effectiveDate: moment(item?.name?.effectiveDate).format('MMM YYYY'),
+          start: moment(item?.name?.leaveStart).format('DD MMM YYYY'),
+          end: moment(item?.name?.leaveEnd).format('DD MMM YYYY'),
+          sick: 'sa',
+          casual: 'as',
+          annual: 'qw',
+          action: 'qw',
+        }))
+      )
+    } catch (error) {
+      console.error(error)
+    }
+  }
 
   return (
     <div className={style.mainDiv}>
@@ -25,7 +55,7 @@ const LeaveQuota = () => {
         columns={ColumnsData}
         tableHeight={style.tableMaxHight}
         minWidth="840px"
-        rows={RowsData?.map((row: any) => ({
+        rows={rowData?.map((row: any) => ({
           ...row,
           action: (
             <div style={{ display: 'flex', justifyContent: 'center' }}>

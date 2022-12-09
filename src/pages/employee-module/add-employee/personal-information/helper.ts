@@ -68,7 +68,7 @@ export const usePersonalInfo = ({
 
   const getEmployeeID = async () => {
     const res = await EmployeeService.getAllEmployeesID(
-      watch().employeeId?.value
+      watch().employeeId?.label
     )
     if (res.status === 200) {
       !userId && setUserId(res?.data?.newEmployeeId)
@@ -186,7 +186,7 @@ export const usePersonalInfo = ({
         lastName: data?.lastName,
         firstName: data?.firstName,
         ...(img && { profilePicture: img }),
-        dob: dob && moment(dob).format('YYYY-MM-DD'),
+        ...(dob && { dob: dob && moment(dob).format('YYYY-MM-DD') }),
         cnic: cnic.toString(),
         employeeId: data?.employeeId?.label + userId,
         gender: data?.gender?.value,
@@ -232,7 +232,8 @@ export const usePersonalInfo = ({
     } catch (err: any) {
       if (err?.response?.data?.error) {
         setErrors(err?.response?.data?.error, setError)
-      } else {
+      }
+      if (err?.response?.status === 400) {
         createNotification('error', 'Error', err?.response?.data?.message)
       }
       setBtnLoader(false)

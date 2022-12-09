@@ -17,6 +17,7 @@ import style from './add-quota.module.scss'
 const AddQuotaModal = ({
   openModal,
   setOpenModal,
+  setRenderState,
   btnText,
   title,
 }: {
@@ -25,6 +26,7 @@ const AddQuotaModal = ({
   defaultLeaveType?: any
   setRender?: any
   editData?: any
+  setRenderState?: any
   btnText?: string
   title?: string
 }) => {
@@ -44,7 +46,6 @@ const AddQuotaModal = ({
     'October',
     'November',
     'December',
-    'Date of Joining',
   ]
 
   const leavesNameMap: any = leaves?.leaveTypes?.reduce((acc: any, curr) => {
@@ -108,7 +109,7 @@ const AddQuotaModal = ({
       }
       const result = await ApplicationService.addLeaveQuotaApi(obj)
       console.log('data quota api ', result)
-
+      setRenderState((prev: any) => !prev)
       setBtnLoader(false)
       setOpenModal(false)
       createNotification('success', 'success', 'Application Submitted')
