@@ -13,6 +13,7 @@ import SingleEmployee from 'pages/employee-module/single-employee'
 import TaxSlab from 'pages/tax'
 import Calender from 'pages/calender'
 import Applications from 'pages/applications'
+import Hierarchy from 'pages/hierarchy'
 
 export interface RouteInterface {
   path: string
@@ -97,6 +98,11 @@ export const routes: RouteInterface[] = [
     path: '/settings/edit/:id',
     component: <Settings />,
     role: [...roles.adminHr],
+  },
+  {
+    path: '/hierarchy',
+    component: <Hierarchy />,
+    role: [...roles.all],
   },
 ]
 
