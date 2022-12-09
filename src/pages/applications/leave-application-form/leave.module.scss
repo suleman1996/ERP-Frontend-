@@ -1,0 +1,73 @@
+@import 'styles/_colors.scss';
+@import 'styles/_mixin.scss';
+@import 'styles/_breakpoints.scss';
+
+.main {
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid $gray;
+    padding: 15px 25px;
+    .heading {
+      color: $black;
+      font-size: 18px;
+      font-weight: 600;
+      span {
+        font-weight: 400;
+      }
+    }
+    .img {
+      width: 130px;
+      height: 75px;
+    }
+  }
+  .body {
+    padding: 0px 25px;
+    .margin {
+      margin-top: 15px;
+      span {
+        text-transform: uppercase;
+      }
+    }
+    .table {
+      border-left: 1px solid $black;
+      border-top: 1px solid $black;
+      margin-top: 12px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: auto;
+      .p1 {
+        font-size: 14px;
+        color: $black;
+        font-weight: 600;
+        text-transform: capitalize;
+        border-right: 1px solid $black;
+        border-bottom: 1px solid $black;
+        padding: 10px 15px;
+      }
+      .p2 {
+        font-size: 14px;
+        color: $black;
+        font-weight: 400;
+        text-transform: capitalize;
+        border-bottom: 1px solid $black;
+        border-right: 1px solid $black;
+        padding: 10px 15px;
+      }
+    }
+    .note {
+      margin-top: 15px;
+      .pa {
+        font-size: 14px;
+        font-weight: 600;
+        color: $black;
+      }
+      .para {
+        font-size: 13px;
+        font-weight: 400;
+        color: $black;
+      }
+    }
+  }
+}
