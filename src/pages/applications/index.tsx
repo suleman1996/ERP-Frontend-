@@ -1,4 +1,6 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
+
+import { useReactToPrint } from 'react-to-print'
 
 import CardContainer from 'components/card-container'
 import Button from 'components/button'
@@ -9,12 +11,30 @@ import CreateApplicationModal from './my-leaves/create-applications'
 import LeaveQuota from './leave-quota'
 import AddQuotaModal from './leave-quota/add-quota'
 import AddLeaveType from './add-leave-type'
+import LeaveApplicationForm from './leave-application-form'
 
 import EmployeeService from 'services/employee-service'
 
 import style from './applications.module.scss'
 
 const Applications = () => {
+  const [print, setPrint] = useState(false)
+
+  const componentRef: any = useRef()
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  })
+
+  const onPrint = () => {
+    setPrint(true)
+    setTimeout(() => {
+      handlePrint()
+    }, 100)
+    setTimeout(() => {
+      setPrint(false)
+    }, 1000)
+  }
+
   const [active, setActive] = useState(1)
   const [data, setData] = useState({})
   const [renderState, setRenderState] = useState(false)
@@ -68,6 +88,9 @@ const Applications = () => {
 
   return (
     <>
+      <p onClick={() => onPrint()}>Leave application form</p>
+      <div ref={componentRef}>{print && <LeaveApplicationForm />}</div>
+
       {openModal && (
         <CreateApplicationModal
           openModal={openModal}
