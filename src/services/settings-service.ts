@@ -13,6 +13,14 @@ export default class SettingsService {
     return res
   }
 
+  static async switchUserPolicy(id, data) {
+    const res = await ApiService.put(
+      `${SettingsService.baseUrl[0]}/policyCategory/toggle/${id}`,
+      data
+    )
+    return res
+  }
+
   static async resetPasswordAdmin(id, data) {
     const res = await ApiService.put(
       `${SettingsService.baseUrl[1]}/users/reset/${id}`,
