@@ -68,7 +68,6 @@ const AddQuotaModal = ({
   })
 
   useEffect(() => {
-    console.log('Here we go ', selectedLeaveQuota)
     title && handleEdit(selectedLeaveQuota)
     getLeaveTypes()
   }, [])
@@ -85,7 +84,7 @@ const AddQuotaModal = ({
 
   const handleEdit = async (data: any) => {
     const { quota, renew, effectiveDate, start, end } = data
-    console.log('checking edit ', data)
+
     const leavesQuota = data?.leavesQuota?.reduce((acc: any, curr: any) => {
       acc[curr?.leaveType?.name] = curr?.count
       return acc
@@ -142,7 +141,6 @@ const AddQuotaModal = ({
             selectedLeaveQuota?._id,
             obj
           )
-
       setRenderState((prev: any) => !prev)
       setBtnLoader(false)
       setOpenModal(false)
@@ -177,7 +175,6 @@ const AddQuotaModal = ({
       <form
         onSubmit={(e) => {
           clearErrors()
-
           handleSubmit(submitHandler)(e)
         }}
         id="quotaForm"
