@@ -97,6 +97,14 @@ export const adminListArr = [
     img2: gSettingsImg,
     role: [...roles.all],
   },
+  {
+    path: '/hierarchy',
+    active: 'hierarchy',
+    title: 'Hierarchy',
+    img1: settingsImg,
+    img2: gSettingsImg,
+    role: [...roles.all],
+  },
 ]
 
 export const employeeListArr = [

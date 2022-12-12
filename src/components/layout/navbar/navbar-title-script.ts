@@ -59,4 +59,8 @@ export const navbarTitleList = [
     path: '/applications',
     title: 'Applications',
   },
-];
+  {
+    path: '/hierarchy',
+    title: 'Hierarchy',
+  },
+]
