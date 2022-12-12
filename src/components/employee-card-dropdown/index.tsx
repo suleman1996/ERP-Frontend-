@@ -16,9 +16,10 @@ interface Props {
   setOpenModal?: Dispatch<SetStateAction<boolean>>
   setOpenModalProfile?: Dispatch<SetStateAction<boolean>>
   handleClick?: () => any
+  getEmployeesData?: any
   id?: string
 }
-const EmployeeDropdown = ({ id, handleClick }: Props) => {
+const EmployeeDropdown = ({ id, handleClick, getEmployeesData }: Props) => {
   const navigate = useNavigate()
   const authToken = useSelector((state) => state?.app?.token)
   const [numPages, setNumPages] = useState(null)
@@ -34,7 +35,7 @@ const EmployeeDropdown = ({ id, handleClick }: Props) => {
       await EmployeeService.deleteEmployee(id)
       setIsLoading(false)
       setOpenDelModal(false)
-      window.location.reload()
+      getEmployeesData()
     } catch (error) {
       setIsLoading(false)
       console.error(error)
