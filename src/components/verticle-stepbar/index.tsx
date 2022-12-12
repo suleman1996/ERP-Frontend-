@@ -1,0 +1,70 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { Dispatch, Fragment, SetStateAction } from 'react'
+
+import style from './verticleStepbar.module.scss'
+
+interface Props {
+  activeTab: any
+  setStepBarActive: Dispatch<SetStateAction<string[]>>
+  setActive: Dispatch<SetStateAction<any>>
+  controlWidth: string
+  tabs: any
+}
+
+const VerticleStepBar = ({
+  activeTab,
+  controlWidth,
+  setActive,
+  tabs = {},
+}: Props) => {
+  return (
+    <div className={style.wrapper}>
+      <ul className={style.ul}>
+        {tabs?.map(({ key }: any, index: number) => {
+          const isActive = activeTab?.includes(key)
+          return (
+            <Fragment key={key}>
+              {/* <div
+                style={{ width: `${controlWidth}%` }}
+                className={style.afterDiv}
+              ></div>
+              <li className={style.li}>
+                <div
+                  className={style.round}
+                  style={{
+                    background: isActive ? '#57B894' : '#EBEBEB',
+                    cursor: 'pointer',
+                  }}
+                  onClick={() => {
+                    if (isActive) {
+                      setActive && setActive(index)
+                    }
+                  }}
+                >
+                  <span
+                    style={{
+                      color: isActive ? '#ffffff' : '#CACACA',
+                    }}
+                  >
+                    {index + 1}
+                  </span>
+                </div>
+                <p
+                  style={{
+                    color: isActive ? '#57B894' : '#CACACA',
+                    fontWeight: isActive ? 600 : 500,
+                  }}
+                >
+                  {key}
+                </p>
+              </li> */}
+              <span>{key}</span>
+            </Fragment>
+          )
+        })}
+      </ul>
+    </div>
+  )
+}
+
+export default VerticleStepBar

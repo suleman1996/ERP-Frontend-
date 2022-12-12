@@ -154,6 +154,7 @@ const EmployeeProfileDetails = () => {
                                 setOpenModal={setOpenModal}
                                 setOpenModalProfile={setOpenModalProfile}
                                 id={_id}
+                                getEmployeesData={getEmployeesData}
                               />
                             </div>
                           </div>
