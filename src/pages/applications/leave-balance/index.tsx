@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState, useEffect } from 'react'
 
 import Table from 'components/table'
@@ -46,21 +47,25 @@ const LeaveBalance = () => {
     <div>
       <Table
         columns={columns}
-        rows={aLLLeave.map((row: any) => ({
-          ...row,
-          name: <span>{row?.name}</span>,
-          paid: <span>{row?.paid === true ? 'true' : 'false'}</span>,
-          balance: <span>{row?.balance === true ? 'true' : 'false'}</span>,
-          encashment: (
-            <span>{row?.encashment === true ? 'true' : 'false'}</span>
-          ),
-          carryForward: (
-            <span>{row?.carryForward === true ? 'true' : 'false'}</span>
-          ),
-          maxCarryForward: (
-            <span>{row?.maxCarryForward ? row?.maxCarryForward : '-'}</span>
-          ),
-        }))}
+        rows={aLLLeave
+          ?.sort((a, b) =>
+            (a['name'] || '')
+              .toString()
+              .localeCompare((b['name'] || '').toString())
+          )
+          ?.map((row: any) => ({
+            ...row,
+            name: <span>{row?.name}</span>,
+            paid: <span>{row?.paid === true ? 'Yes' : 'No'}</span>,
+            balance: <span>{row?.balance === true ? 'Yes' : 'No'}</span>,
+            encashment: <span>{row?.encashment === true ? 'Yes' : 'No'}</span>,
+            carryForward: (
+              <span>{row?.carryForward === true ? 'Yes' : 'No'}</span>
+            ),
+            maxCarryForward: (
+              <span>{row?.maxCarryForward ? row?.maxCarryForward : '-'}</span>
+            ),
+          }))}
         minWidth="1150px"
         handleEdit={(_, index) => {
           setOpenViewTypeModal(true)
@@ -75,11 +80,11 @@ const LeaveBalance = () => {
         }}
       />
       <AddLeaveType
+        setAllLeave={setAllLeave}
         leaveData={editIndex >= 0 ? aLLLeave[editIndex] : null}
         setOpenAddTypeModal={setOpenViewTypeModal}
         openAddTypeModal={openViewTypeModal}
-        title="Leave Type"
-        getAllLeaveType={getAllLeaveType}
+        title={!close ? 'Edit Leave Type' : 'Leave Type'}
         close={close}
       />
       <DeleteModal
@@ -87,6 +92,7 @@ const LeaveBalance = () => {
         setOpen={setOpenDelModal}
         handleDelete={() => handleDeleteLeave()}
         isLoading={btnLoader}
+        heading="Are you sure you want to delete this leave type?"
       />
     </div>
   )

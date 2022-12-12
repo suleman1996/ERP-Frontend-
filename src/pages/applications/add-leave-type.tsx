@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Dispatch, SetStateAction, useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 
@@ -41,6 +42,7 @@ const AddLeaveType = ({
     setError,
     clearErrors,
     reset,
+    watch,
   } = useForm({ mode: 'all' })
 
   useEffect(() => {
@@ -52,22 +54,16 @@ const AddLeaveType = ({
       leaveData || {}
     reset({
       name: name ? name : '',
-      paid:
-        paid === undefined
-          ? ''
-          : { label: paid ? 'Yes' : 'No', value: `${paid}` },
-      balance:
-        balance === undefined
-          ? ''
-          : { label: balance ? 'Yes' : 'No', value: `${balance}` },
-      encashment:
-        encashment === undefined
-          ? ''
-          : { label: encashment ? 'Yes' : 'No', value: `${encashment}` },
-      carryForward:
-        carryForward === undefined
-          ? ''
-          : { label: carryForward ? 'Yes' : 'No', value: `${carryForward}` },
+      paid: paid ? { label: paid ? 'Yes' : 'No', value: `${paid}` } : undefined,
+      balance: balance
+        ? { label: balance ? 'Yes' : 'No', value: `${balance}` }
+        : undefined,
+      encashment: encashment
+        ? { label: encashment ? 'Yes' : 'No', value: `${encashment}` }
+        : undefined,
+      carryForward: carryForward
+        ? { label: carryForward ? 'Yes' : 'No', value: `${carryForward}` }
+        : undefined,
       maxCarryForward: maxCarryForward ? maxCarryForward : '',
     })
   }
@@ -84,48 +80,28 @@ const AddLeaveType = ({
         carryForward: data?.carryForward?.value,
       }
       if (leaveData) {
-        if (transformData.carryForward === 'true') {
-          const res = await LeaveService.updateLeave(
-            leaveData?._id,
-            transformData
-          )
-          if (res?.status === 200) {
-            createNotification('success', 'success', res?.data?.msg)
-            getAllLeaveType()
-            setOpenAddTypeModal(!openAddTypeModal)
-          }
-          setBtnLoader(false)
-        } else {
+        if (transformData.carryForward !== 'true')
           delete transformData?.maxCarryForward
-          const res = await LeaveService.updateLeave(
-            leaveData?._id,
-            transformData
-          )
-          if (res?.status === 200) {
-            createNotification('success', 'success', res?.data?.msg)
-            getAllLeaveType()
-            setOpenAddTypeModal(!openAddTypeModal)
-          }
-          setBtnLoader(false)
+        const res = await LeaveService.updateLeave(
+          leaveData?._id,
+          transformData
+        )
+        if (res?.status === 200) {
+          createNotification('success', 'success', res?.data?.msg)
+          getAllLeaveType()
+          setOpenAddTypeModal(!openAddTypeModal)
         }
       } else {
-        if (transformData.carryForward === 'true') {
-          const response = await LeaveService.AddLeave(transformData)
-          if (response?.status === 200) {
-            createNotification('success', 'success', response?.data?.msg)
-            setOpenAddTypeModal(false)
-          }
-          setBtnLoader(false)
-        } else {
+        if (transformData.carryForward !== 'true')
           delete transformData?.maxCarryForward
-          const response = await LeaveService.AddLeave(transformData)
-          if (response?.status === 200) {
-            createNotification('success', 'success', response?.data?.msg)
-            setOpenAddTypeModal(false)
-          }
+        const res = await LeaveService.AddLeave(transformData)
+        if (res?.status === 200) {
+          createNotification('success', 'success', res?.data?.msg)
+          getAllLeaveType()
+          setOpenAddTypeModal(false)
         }
-        setBtnLoader(false)
       }
+      setBtnLoader(false)
     } catch (err: any) {
       setBtnLoader(false)
       if (err?.response?.data?.error) {
@@ -176,6 +152,10 @@ const AddLeaveType = ({
               errorMessage={errors?.paid?.message}
               star="*"
               isDisabled={close && true}
+              defaultValue={{
+                value: 'false',
+                label: 'No',
+              }}
             />
             <Selection
               label="Balance"
@@ -186,6 +166,10 @@ const AddLeaveType = ({
               errorMessage={errors?.balance?.message}
               star="*"
               isDisabled={close && true}
+              defaultValue={{
+                value: 'false',
+                label: 'No',
+              }}
             />
             <Selection
               label="Encashment"
@@ -196,6 +180,10 @@ const AddLeaveType = ({
               errorMessage={errors?.encashment?.message}
               star="*"
               isDisabled={close && true}
+              defaultValue={{
+                value: 'false',
+                label: 'No',
+              }}
             />
             <Selection
               label="Carry Forward"
@@ -206,6 +194,10 @@ const AddLeaveType = ({
               errorMessage={errors?.carryForward?.message}
               star="*"
               isDisabled={close && true}
+              defaultValue={{
+                value: 'false',
+                label: 'No',
+              }}
             />
             <TextField
               label="Max Carry Forward"
@@ -213,7 +205,9 @@ const AddLeaveType = ({
               name="maxCarryForward"
               register={register}
               errorMessage={errors?.maxCarryForward?.message}
-              isDisable={close && true}
+              isDisable={
+                watch('carryForward')?.value === 'false' || close ? true : false
+              }
             />
           </div>
         </form>
