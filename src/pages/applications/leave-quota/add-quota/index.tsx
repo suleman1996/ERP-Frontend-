@@ -20,6 +20,7 @@ const AddQuotaModal = ({
   setRenderState,
   btnText,
   title,
+  selectedLeaveQuota,
 }: {
   openModal: boolean
   setOpenModal?: any
@@ -29,6 +30,7 @@ const AddQuotaModal = ({
   setRenderState?: any
   btnText?: string
   title?: string
+  selectedLeaveQuota?: any
 }) => {
   const [btnLoader, setBtnLoader] = useState(false)
   const [leaves, setLeaves] = useState({})
@@ -53,12 +55,20 @@ const AddQuotaModal = ({
     return acc
   }, {})
 
-  const { control, register, errors, setError, clearErrors, handleSubmit } =
-    useForm({
-      mode: 'all',
-    })
+  const {
+    control,
+    register,
+    errors,
+    setError,
+    clearErrors,
+    handleSubmit,
+    reset,
+  } = useForm({
+    mode: 'all',
+  })
 
   useEffect(() => {
+    title && handleEdit(selectedLeaveQuota)
     getLeaveTypes()
   }, [])
 
@@ -68,8 +78,26 @@ const AddQuotaModal = ({
 
       setLeaves(result?.data)
     } catch (error) {
-      console.log(error)
+      console.error(error)
     }
+  }
+
+  const handleEdit = async (data: any) => {
+    const { quota, renew, effectiveDate, start, end } = data
+
+    const leavesQuota = data?.leavesQuota?.reduce((acc: any, curr: any) => {
+      acc[curr?.leaveType?.name] = curr?.count
+      return acc
+    }, {})
+
+    reset({
+      quotaName: quota,
+      renew: { label: renew, value: renew },
+      effectiveDate: new Date(effectiveDate),
+      leaveStart: { label: start, value: start },
+      leaveEnd: { label: end, value: end },
+      ...leavesQuota,
+    })
   }
 
   const submitHandler = async (data: any) => {
@@ -107,8 +135,12 @@ const AddQuotaModal = ({
         ...(data?.leaveEnd && { leaveEnd: data?.leaveEnd?.value }),
         leaves: dynamic,
       }
-      const result = await ApplicationService.addLeaveQuotaApi(obj)
-      console.log('data quota api ', result)
+      !title
+        ? await ApplicationService.addLeaveQuotaApi(obj)
+        : await ApplicationService.editLeaveQuotaApi(
+            selectedLeaveQuota?._id,
+            obj
+          )
       setRenderState((prev: any) => !prev)
       setBtnLoader(false)
       setOpenModal(false)
