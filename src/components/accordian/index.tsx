@@ -214,353 +214,220 @@ const AccordianSwitch = ({
     }
   }
 
-  return (
-    <div className={style.mainCard}>
-      <div
-        className={`${style.container} ${accordianContainer} `}
-        onClick={() => {
-          setOpenAccordian((prev) => (prev === id ? -1 : id))
-          setArrowRotate(!arrowRotate)
-        }}
-        style={{ marginTop: !switchBtn && '10px' }}
-      >
-        <div className={style.switchHeader}>
-          <span className={titleClass}>{title}</span>
-          {switchBtn && (
-            <Switch
-              switchContainer={style.switchContainer}
-              name={'parent'}
-              control={control}
-              onChange={() => setCheckAll(!checkAll)}
-            />
-          )}
-        </div>
-        <img
-          src={arrow}
-          style={{
-            transform: !arrowRotate && 'rotate(180deg)',
-            transition: 'all 0.5s ease-out',
-            marginRight: '8px',
-          }}
-        />
-      </div>
+  const handleSwitchPolicy = async (id, item) => {
+    const res = await SettingsService.switchUserPolicy(id, item)
+    if (res.status === 200) {
+      getAllPolicies()
+    }
+  }
 
-      {openAccordian === id &&
-        (switchBtn ? (
-          bodyData?.map((data: any, index: any) => {
-            return <Comp name={data?.name} checkAll={checkAll} key={index} />
-          })
-        ) : (
-          <>
-            <div style={{ padding: '15px' }}>
-              <Table
-                tableHeaderClass={style.tableHeaderClass}
-                columns={
-                  ColumnsData &&
-                  ColumnsData?.map((item: any) => ({
-                    ...item,
-                    name:
-                      item.name !== 'Status' ? (
-                        item.name
-                      ) : (
-                        <div>
-                          {' '}
-                          <div
-                            style={{
-                              display: 'flex',
-                              justifyContent: 'center',
-                              alignItems: 'center',
-                            }}
-                          >
-                            <span style={{ marginRight: '5px' }}>Status</span>
-                            <div className={style.tooltip}>
-                              <img
-                                className={style.tooltip}
-                                src={statusIcon}
-                                style={{ marginTop: '5px' }}
-                              />
-                              <span className={style.tooltiptext}>
-                                If you want to hide any option from the
-                                dropdowns, you can hide it by doing Inactive it
-                              </span>
+  return (
+    <>
+      <div className={style.mainCard}>
+        <div
+          className={`${style.container} ${accordianContainer} `}
+          onClick={() => {
+            setOpenAccordian((prev) => (prev === id ? -1 : id))
+            setArrowRotate(!arrowRotate)
+          }}
+          style={{ marginTop: !switchBtn && '10px' }}
+        >
+          <div className={style.switchHeader}>
+            <span className={titleClass}>{title}</span>
+            {switchBtn && (
+              <Switch
+                switchContainer={style.switchContainer}
+                name={'parent'}
+                control={control}
+                onChange={() => setCheckAll(!checkAll)}
+              />
+            )}
+          </div>
+          <img
+            src={arrow}
+            style={{
+              transform: !arrowRotate && 'rotate(180deg)',
+              transition: 'all 0.5s ease-out',
+              marginRight: '8px',
+            }}
+          />
+        </div>
+
+        {openAccordian === id &&
+          (switchBtn ? (
+            bodyData?.map((data: any, index: any) => {
+              return <Comp name={data?.name} checkAll={checkAll} key={index} />
+            })
+          ) : (
+            <>
+              <div style={{ padding: '15px' }}>
+                <Table
+                  tableHeaderClass={style.tableHeaderClass}
+                  columns={
+                    ColumnsData &&
+                    ColumnsData?.map((item: any) => ({
+                      ...item,
+                      name:
+                        item.name !== 'Status' ? (
+                          item.name
+                        ) : (
+                          <div>
+                            {' '}
+                            <div
+                              style={{
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                              }}
+                            >
+                              <span style={{ marginRight: '5px' }}>Status</span>
+                              <div className={style.tooltip}>
+                                <img
+                                  className={style.tooltip}
+                                  src={statusIcon}
+                                  style={{ marginTop: '5px' }}
+                                />
+                                <span className={style.tooltiptext}>
+                                  If you want to hide any option from the
+                                  dropdowns, you can hide it by doing Inactive
+                                  it
+                                </span>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      ),
-                  }))
-                }
-                rows={RowsData?.map((row) => ({
-                  ...row,
-                  image: <div className={style.image}></div>,
-                  tagCategory: (
-                    <Tags
-                      text={row?.tagCategory}
-                      boxColor={'#FACCCC'}
-                      textColor={'#e92424'}
-                    />
-                  ),
-                  status: (
-                    <div
-                      style={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                      }}
-                    >
-                      <Switch
-                        title={'Active'}
-                        name={'active'}
-                        control={control}
+                        ),
+                    }))
+                  }
+                  rows={RowsData?.map((row) => ({
+                    ...row,
+                    image: <div className={style.image}></div>,
+                    tagCategory: (
+                      <Tags
+                        text={row?.tagCategory}
+                        boxColor={'#FACCCC'}
+                        textColor={'#e92424'}
                       />
-                    </div>
-                  ),
-                }))}
-                headingText={style.headingText}
-                rowText={style.rowText}
-                minWidth="700px"
-                handleDelete={(id) => {
-                  setDepId(id)
-                  setDeletePopUp(true)
-                }}
-                handleEdit={(id) => handleEdit(id)}
-              />
-              <div className={style.btnDiv}>
-                <Button text={btnText} handleClick={handleClickBtn} />
+                    ),
+                    status: (
+                      <div
+                        style={{
+                          display: 'flex',
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                        }}
+                      >
+                        <Switch
+                          title={'Active'}
+                          name={'active'}
+                          control={control}
+                          checked={row?.status}
+                          handleClick={() => handleSwitchPolicy(row?._id, row)}
+                        />
+                      </div>
+                    ),
+                  }))}
+                  headingText={style.headingText}
+                  rowText={style.rowText}
+                  minWidth="700px"
+                  handleDelete={(id) => {
+                    setDepId(id)
+                    setDeletePopUp(true)
+                  }}
+                  handleEdit={(id) => handleEdit(id)}
+                />
+                <div className={style.btnDiv}>
+                  <Button text={btnText} handleClick={handleClickBtn} />
+                </div>
+                <DeletePopup
+                  isLoading={isLoading}
+                  open={deletePopUp}
+                  setOpen={setDeletePopUp}
+                  handleDelete={handleDelete}
+                />
               </div>
-              <DeletePopup
-                isLoading={isLoading}
-                open={deletePopUp}
-                setOpen={setDeletePopUp}
-                handleDelete={handleDelete}
+            </>
+          ))}
+
+        <Modal
+          open={departmentModal}
+          handleClose={() => {
+            setDepartmentModal(false)
+            setDepId('')
+          }}
+          title={'Add New Department'}
+        >
+          <form onSubmit={handleSubmit(departmentSubmit)}>
+            <div className={style.modalContainer}>
+              <Input
+                name={'name'}
+                label="Department Name"
+                placeholder="Enter Department Name"
+                register={register}
+                errorMessage={errors?.name?.message}
+                containerClass={style.containerClass}
               />
             </div>
-          </>
-        ))}
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'flex-end',
+                marginTop: '15px',
+              }}
+            >
+              <Button text="Add Department" type="submit" isLoading={loading} />
+            </div>
+          </form>
+        </Modal>
 
-      <Modal
-        open={departmentModal}
-        handleClose={() => {
-          setDepartmentModal(false)
-          setDepId('')
-        }}
-        title={'Add New Department'}
-      >
-        <form onSubmit={handleSubmit(departmentSubmit)}>
-          <div className={style.modalContainer}>
-            <Input
-              name={'name'}
-              label="Department Name"
-              placeholder="Enter Department Name"
-              register={register}
-              errorMessage={errors?.name?.message}
-              containerClass={style.containerClass}
-            />
-          </div>
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'flex-end',
-              marginTop: '15px',
-            }}
-          >
-            <Button text="Add Department" type="submit" isLoading={loading} />
-          </div>
-        </form>
-      </Modal>
-
-      <Modal
-        open={designationModal}
-        handleClose={() => {
-          setDesignationModal(false)
-          setDepId('')
-        }}
-        title={'Add New Designation'}
-      >
-        <form onSubmit={handleSubmit(designationSubmit)}>
-          <div className={style.modalContainer}>
-            <Input
-              name={'name'}
-              label="Designation Name"
-              placeholder="Enter Designation Name"
-              containerClass={style.containerClass}
-              register={register}
-              errorMessage={errors?.name?.message}
-            />
-            <Selection
-              label="Department Name"
-              name={'departmentId'}
-              control={control}
-              options={departmentRows?.map((item) => {
-                return { label: item?.name, value: item?._id }
-              })}
-              errorMessage={errors?.departmentId?.message}
-            />
-          </div>
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'flex-end',
-              marginTop: '15px',
-            }}
-          >
-            <Button text="Add Designation" />
-          </div>
-        </form>
-      </Modal>
-
-      <Modal
-        open={idSeriesModal}
-        handleClose={() => setIdSeriesModal(false)}
-        title={'Add New Department'}
-      >
-        <div>
-          <Input
-            label="Employee ID Series"
-            placeholder="SPX"
-            containerClass={style.containerClass}
-          />
-        </div>
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'flex-end',
-            marginTop: '15px',
+        <Modal
+          open={designationModal}
+          handleClose={() => {
+            setDesignationModal(false)
+            setDepId('')
           }}
+          title={'Add New Designation'}
         >
-          <Button text="Add Series " />
-        </div>
-      </Modal>
-
-      <Modal
-        open={advanceTagModal}
-        handleClose={() => setAdvanceTagModal(false)}
-        title={'Add Attendance Tag'}
-      >
-        <div className={style.modalContainer} style={{ marginBottom: '10px' }}>
-          <Input
-            label="Tag Name"
-            placeholder="Enter Tag Name"
-            containerClass={style.containerClass}
-          />
-          <div>
-            <span>Category</span>
-            <div style={{ display: 'flex', marginTop: '10px' }}>
-              <Button
-                text="Good"
-                btnClass={style.btnClass}
-                className={style.btnText}
+          <form onSubmit={handleSubmit(designationSubmit)}>
+            <div className={style.modalContainer}>
+              <Input
+                name={'name'}
+                label="Designation Name"
+                placeholder="Enter Designation Name"
+                containerClass={style.containerClass}
+                register={register}
+                errorMessage={errors?.name?.message}
               />
-              <Button
-                text="Bad"
-                btnClass={style.btnClassRed}
-                className={style.btnTextRed}
-              />
-              <Button
-                text="Neutral"
-                btnClass={style.btnClassPruple}
-                className={style.btnTextpurple}
+              <Selection
+                label="Department Name"
+                name={'departmentId'}
+                control={control}
+                options={departmentRows?.map((item) => {
+                  return { label: item?.name, value: item?._id }
+                })}
+                errorMessage={errors?.departmentId?.message}
               />
             </div>
-          </div>
-        </div>
-        <div className={style.fiveGrid}></div>
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'flex-end',
-            marginTop: '15px',
-          }}
-        >
-          <Button text="Add Tag" />
-        </div>
-      </Modal>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'flex-end',
+                marginTop: '15px',
+              }}
+            >
+              <Button text="Add Designation" />
+            </div>
+          </form>
+        </Modal>
 
-      <Modal
-        open={leaveTypeModal}
-        handleClose={() => setLeaveTypeModal(false)}
-        title={'Add New Leave'}
-      >
-        <div className={style.modalContainer}>
-          <Input
-            label="Leave Type"
-            placeholder="Enter Leave Type"
-            containerClass={style.containerClass}
-          />
-        </div>
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'flex-end',
-            marginTop: '15px',
-          }}
+        <Modal
+          open={idSeriesModal}
+          handleClose={() => setIdSeriesModal(false)}
+          title={'Add New Department'}
         >
-          <Button text="Add Leave" />
-        </div>
-      </Modal>
-
-      <Modal
-        open={genderModal}
-        handleClose={() => setGenderModal(false)}
-        title={'Add New Gender'}
-      >
-        <div>
-          <Input
-            label="Gender"
-            placeholder="Enter gender"
-            containerClass={style.containerClass}
-          />
-        </div>
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'flex-end',
-            marginTop: '15px',
-          }}
-        >
-          <Button text="Add Gender " />
-        </div>
-      </Modal>
-
-      <Modal
-        open={allowenceTypeModal}
-        handleClose={() => setAllowenceTypeModal(false)}
-        title={'Add New Allowance'}
-      >
-        <div>
-          <Input
-            label="Allowence"
-            placeholder="Enter allowence"
-            containerClass={style.containerClass}
-          />
-        </div>
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'flex-end',
-            marginTop: '15px',
-          }}
-        >
-          <Button text="Add Allowence " />
-        </div>
-      </Modal>
-
-      <Modal
-        open={documentModal}
-        handleClose={() => {
-          setDepId('')
-          setDocumenModal(false)
-          reset({})
-        }}
-        title={'Add New Policy'}
-      >
-        <form onSubmit={handleSubmit(policySubmit)}>
           <div>
             <Input
-              name={'policy'}
-              label="Policy Name"
-              placeholder="Enter Policy Name"
-              register={register}
-              errorMessage={errors?.policy?.message}
+              label="Employee ID Series"
+              placeholder="SPX"
               containerClass={style.containerClass}
             />
           </div>
@@ -571,11 +438,159 @@ const AccordianSwitch = ({
               marginTop: '15px',
             }}
           >
-            <Button text="Add Policy " type="submit" isLoading={isLoading} />
+            <Button text="Add Series " />
           </div>
-        </form>
-      </Modal>
-    </div>
+        </Modal>
+
+        <Modal
+          open={advanceTagModal}
+          handleClose={() => setAdvanceTagModal(false)}
+          title={'Add Attendance Tag'}
+        >
+          <div
+            className={style.modalContainer}
+            style={{ marginBottom: '10px' }}
+          >
+            <Input
+              label="Tag Name"
+              placeholder="Enter Tag Name"
+              containerClass={style.containerClass}
+            />
+            <div>
+              <span>Category</span>
+              <div style={{ display: 'flex', marginTop: '10px' }}>
+                <Button
+                  text="Good"
+                  btnClass={style.btnClass}
+                  className={style.btnText}
+                />
+                <Button
+                  text="Bad"
+                  btnClass={style.btnClassRed}
+                  className={style.btnTextRed}
+                />
+                <Button
+                  text="Neutral"
+                  btnClass={style.btnClassPruple}
+                  className={style.btnTextpurple}
+                />
+              </div>
+            </div>
+          </div>
+          <div className={style.fiveGrid}></div>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+              marginTop: '15px',
+            }}
+          >
+            <Button text="Add Tag" />
+          </div>
+        </Modal>
+
+        <Modal
+          open={leaveTypeModal}
+          handleClose={() => setLeaveTypeModal(false)}
+          title={'Add New Leave'}
+        >
+          <div className={style.modalContainer}>
+            <Input
+              label="Leave Type"
+              placeholder="Enter Leave Type"
+              containerClass={style.containerClass}
+            />
+          </div>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+              marginTop: '15px',
+            }}
+          >
+            <Button text="Add Leave" />
+          </div>
+        </Modal>
+
+        <Modal
+          open={genderModal}
+          handleClose={() => setGenderModal(false)}
+          title={'Add New Gender'}
+        >
+          <div>
+            <Input
+              label="Gender"
+              placeholder="Enter gender"
+              containerClass={style.containerClass}
+            />
+          </div>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+              marginTop: '15px',
+            }}
+          >
+            <Button text="Add Gender " />
+          </div>
+        </Modal>
+
+        <Modal
+          open={allowenceTypeModal}
+          handleClose={() => setAllowenceTypeModal(false)}
+          title={'Add New Allowance'}
+        >
+          <div>
+            <Input
+              label="Allowence"
+              placeholder="Enter allowence"
+              containerClass={style.containerClass}
+            />
+          </div>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+              marginTop: '15px',
+            }}
+          >
+            <Button text="Add Allowence " />
+          </div>
+        </Modal>
+
+        <Modal
+          open={documentModal}
+          handleClose={() => {
+            setDepId('')
+            setDocumenModal(false)
+            reset({})
+          }}
+          title={'Add New Policy'}
+        >
+          <form onSubmit={handleSubmit(policySubmit)}>
+            <div>
+              <Input
+                name={'policy'}
+                label="Policy Name"
+                placeholder="Enter Policy Name"
+                register={register}
+                errorMessage={errors?.policy?.message}
+                containerClass={style.containerClass}
+              />
+            </div>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'flex-end',
+                marginTop: '15px',
+              }}
+            >
+              <Button text="Add Policy " type="submit" isLoading={isLoading} />
+            </div>
+          </form>
+        </Modal>
+      </div>
+    </>
   )
 }
 

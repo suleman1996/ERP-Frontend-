@@ -8,6 +8,7 @@ import Button from 'components/button'
 import TextField from 'components/textfield'
 import DeletePopup from 'components/delete-modal'
 import CardContainer from 'components/card-container'
+import Loading from 'components/loading'
 
 import { ColumnsData } from './helper'
 import { setErrors } from 'helper'
@@ -85,10 +86,12 @@ const ManageUser = ({ newUser, setNewUser, setBtnHideShow }) => {
   }
 
   const handleSwitch = async (id, item) => {
+    setLoader(true)
     const res = await SettingsService.switchUser(id, item)
     if (res.status === 200) {
       getAllUsers()
     }
+    setLoader(false)
   }
 
   const onSubmit = async (data) => {
@@ -110,6 +113,7 @@ const ManageUser = ({ newUser, setNewUser, setBtnHideShow }) => {
   }
 
   const filterSubmit = async (data) => {
+    setLoader(true)
     const result = await SettingsService.getUsers({
       sortBy:
         isFilter === 1
@@ -132,130 +136,138 @@ const ManageUser = ({ newUser, setNewUser, setBtnHideShow }) => {
       setIsFilter(-1)
       setAllUsers(result?.data?.users)
     }
+    setLoader(false)
   }
 
   return (
-    <CardContainer className={style.card}>
-      <div style={{ padding: '0 10px', paddingBottom: '60px' }}>
-        <Table
-          loader={loader}
-          newUser={newUser}
-          setBtnHideShow={setBtnHideShow}
-          onSubmit={filterSubmit}
-          getAllUsers={getAllUsers}
-          allUsers={allUsers}
-          singleUser={singleUser}
-          setNewUser={setNewUser}
-          customRoles={customRoles}
-          allIDs={allIDs}
-          columns={ColumnsData}
-          editIndex={editIndex}
-          isFilter={isFilter}
-          setIsFilter={setIsFilter}
-          setEditIndex={setEditIndex}
-          rows={allUsers?.map((row) => ({
-            ...row,
-            rolee: row.role[0].name,
-            id: row?.employeeId ? row?.employeeId : '---',
-            image: (
-              <div className={style.image}>
-                <img
-                  src={row?.img[0]?.file ? row?.img[0]?.file : dummy}
-                  style={{ borderRadius: '50%' }}
-                />
-              </div>
-            ),
-            status: (
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'flex-start',
-                  alignItems: 'center',
-                }}
-              >
-                <Switch
-                  title={row?.status ? 'Active' : 'Inactive'}
-                  name={'active'}
-                  control={control}
-                  checked={row?.status}
-                  handleClick={() => handleSwitch(row?._id, row)}
-                />
-              </div>
-            ),
-          }))}
-          minWidth="1300px"
-          headingText={style.columnText}
-          handleEducation={(index) => setEditIndex(index)}
-          handleDelete={(id) => setEditIndex(id)}
-          handleEdit={(id) => {
-            setEditIndex(id)
-            editHandler(id)
-          }}
-          handleModalOpen={() => setDeletePopUp(true)}
-          handleResetIconClick={(id) => {
-            setResetPopUp(true)
-            setResetId(id)
-          }}
-        />
-        <DeletePopup
-          open={deletePopUp}
-          setOpen={setDeletePopUp}
-          handleDelete={() => handleDeleteClick()}
-          isLoading={btnLoader}
-        />
-        <Modal
-          open={resetPopUp}
-          handleClose={() => setResetPopUp(false)}
-          className={style.modalParent}
-        >
-          <form
-            onSubmit={(e) => {
-              clearErrors()
-              handleSubmit(onSubmit)(e)
+    <>
+      {loader && (
+        <div className={style.loaderDiv}>
+          <Loading loaderClass={style.loadingStyle} />
+        </div>
+      )}
+      <CardContainer className={style.card}>
+        <div style={{ padding: '0 10px', paddingBottom: '60px' }}>
+          <Table
+            loader={loader}
+            newUser={newUser}
+            setBtnHideShow={setBtnHideShow}
+            onSubmit={filterSubmit}
+            getAllUsers={getAllUsers}
+            allUsers={allUsers}
+            singleUser={singleUser}
+            setNewUser={setNewUser}
+            customRoles={customRoles}
+            allIDs={allIDs}
+            columns={ColumnsData}
+            editIndex={editIndex}
+            isFilter={isFilter}
+            setIsFilter={setIsFilter}
+            setEditIndex={setEditIndex}
+            rows={allUsers?.map((row) => ({
+              ...row,
+              rolee: row.role[0].name,
+              id: row?.employeeId ? row?.employeeId : '---',
+              image: (
+                <div className={style.image}>
+                  <img
+                    src={row?.img[0]?.file ? row?.img[0]?.file : dummy}
+                    style={{ borderRadius: '50%' }}
+                  />
+                </div>
+              ),
+              status: (
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'flex-start',
+                    alignItems: 'center',
+                  }}
+                >
+                  <Switch
+                    title={row?.status ? 'Active' : 'Inactive'}
+                    name={'active'}
+                    control={control}
+                    checked={row?.status}
+                    handleClick={() => handleSwitch(row?._id, row)}
+                  />
+                </div>
+              ),
+            }))}
+            minWidth="1300px"
+            headingText={style.columnText}
+            handleEducation={(index) => setEditIndex(index)}
+            handleDelete={(id) => setEditIndex(id)}
+            handleEdit={(id) => {
+              setEditIndex(id)
+              editHandler(id)
             }}
+            handleModalOpen={() => setDeletePopUp(true)}
+            handleResetIconClick={(id) => {
+              setResetPopUp(true)
+              setResetId(id)
+            }}
+          />
+          <DeletePopup
+            open={deletePopUp}
+            setOpen={setDeletePopUp}
+            handleDelete={() => handleDeleteClick()}
+            isLoading={btnLoader}
+          />
+          <Modal
+            open={resetPopUp}
+            handleClose={() => setResetPopUp(false)}
+            className={style.modalParent}
           >
-            <div className={style.modalWraper}>
-              <h2>Reset Password</h2>
-              <TextField
-                placeholder="Enter new password"
-                label="New Password"
-                name={'password'}
-                errorMessage={errors?.password?.message}
-                register={register}
-                type={newPasswordEye ? 'text' : 'password'}
-                icon={newPasswordEye ? eye : eyeClose}
-                onClick={() => setNewPasswordEye(!newPasswordEye)}
-              />
-              <TextField
-                placeholder="Enter confirm password"
-                label="Confirm Password"
-                name={'confirmPassword'}
-                errorMessage={errors?.confirmPassword?.message}
-                register={register}
-                type={confirmPasswordEye ? 'text' : 'password'}
-                icon={confirmPasswordEye ? eye : eyeClose}
-                onClick={() => setConfirmPasswordEye(!confirmPasswordEye)}
-              />
-              <div className={style.modalBtnSection}>
-                <Button
-                  type="button"
-                  text="Cancel"
-                  btnClass={style.cancelBtn}
-                  btnTextClass={style.CancelBtnText}
-                  handleClick={() => setResetPopUp(false)}
+            <form
+              onSubmit={(e) => {
+                clearErrors()
+                handleSubmit(onSubmit)(e)
+              }}
+            >
+              <div className={style.modalWraper}>
+                <h2>Reset Password</h2>
+                <TextField
+                  placeholder="Enter new password"
+                  label="New Password"
+                  name={'password'}
+                  errorMessage={errors?.password?.message}
+                  register={register}
+                  type={newPasswordEye ? 'text' : 'password'}
+                  icon={newPasswordEye ? eye : eyeClose}
+                  onClick={() => setNewPasswordEye(!newPasswordEye)}
                 />
-                <Button
-                  type="submit"
-                  text="Save Password"
-                  btnClass={style.saveBtn}
-                  isLoading={btnLoader}
+                <TextField
+                  placeholder="Enter confirm password"
+                  label="Confirm Password"
+                  name={'confirmPassword'}
+                  errorMessage={errors?.confirmPassword?.message}
+                  register={register}
+                  type={confirmPasswordEye ? 'text' : 'password'}
+                  icon={confirmPasswordEye ? eye : eyeClose}
+                  onClick={() => setConfirmPasswordEye(!confirmPasswordEye)}
                 />
+                <div className={style.modalBtnSection}>
+                  <Button
+                    type="button"
+                    text="Cancel"
+                    btnClass={style.cancelBtn}
+                    btnTextClass={style.CancelBtnText}
+                    handleClick={() => setResetPopUp(false)}
+                  />
+                  <Button
+                    type="submit"
+                    text="Save Password"
+                    btnClass={style.saveBtn}
+                    isLoading={btnLoader}
+                  />
+                </div>
               </div>
-            </div>
-          </form>
-        </Modal>
-      </div>
-    </CardContainer>
+            </form>
+          </Modal>
+        </div>
+      </CardContainer>
+    </>
   )
 }
 
