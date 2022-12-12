@@ -129,6 +129,8 @@ const LeaveQuota = ({ parentRenderState, setParentRenderState }: any) => {
           handleDelete={handleDeleteQouta}
           open={delLeaveQuota}
           setOpen={setDelLeaveQuota}
+          heading="Are you sure you want to delete this Quota?"
+          description="If you delete this you can't recover it."
         />
       )}
       {renewLeaveQuota && (
