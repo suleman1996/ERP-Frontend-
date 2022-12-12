@@ -47,7 +47,7 @@ const LeaveBalance = () => {
     <div>
       <Table
         columns={columns}
-        rows={aLLLeave.map((row: any) => ({
+        rows={aLLLeave?.map((row: any) => ({
           ...row,
           name: <span>{row?.name}</span>,
           paid: <span>{row?.paid === true ? 'Yes' : 'No'}</span>,
@@ -86,6 +86,7 @@ const LeaveBalance = () => {
         setOpen={setOpenDelModal}
         handleDelete={() => handleDeleteLeave()}
         isLoading={btnLoader}
+        heading="Are you sure you want to delete this leave type?"
       />
     </div>
   )

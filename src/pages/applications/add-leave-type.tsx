@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Dispatch, SetStateAction, useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 
@@ -41,6 +42,7 @@ const AddLeaveType = ({
     setError,
     clearErrors,
     reset,
+    watch,
   } = useForm({ mode: 'all' })
 
   useEffect(() => {
@@ -84,45 +86,26 @@ const AddLeaveType = ({
         carryForward: data?.carryForward?.value,
       }
       if (leaveData) {
-        if (transformData.carryForward === 'true') {
-          const res = await LeaveService.updateLeave(
-            leaveData?._id,
-            transformData
-          )
-          if (res?.status === 200) {
-            createNotification('success', 'success', res?.data?.msg)
-            getAllLeaveType()
-            setOpenAddTypeModal(!openAddTypeModal)
-          }
-          setBtnLoader(false)
-        } else {
+        if (transformData.carryForward !== 'true')
           delete transformData?.maxCarryForward
-          const res = await LeaveService.updateLeave(
-            leaveData?._id,
-            transformData
-          )
-          if (res?.status === 200) {
-            createNotification('success', 'success', res?.data?.msg)
-            getAllLeaveType()
-            setOpenAddTypeModal(!openAddTypeModal)
-          }
-          setBtnLoader(false)
+        const res = await LeaveService.updateLeave(
+          leaveData?._id,
+          transformData
+        )
+        if (res?.status === 200) {
+          createNotification('success', 'success', res?.data?.msg)
+          getAllLeaveType()
+          setOpenAddTypeModal(!openAddTypeModal)
         }
+        setBtnLoader(false)
       } else {
-        if (transformData.carryForward === 'true') {
-          const response = await LeaveService.AddLeave(transformData)
-          if (response?.status === 200) {
-            createNotification('success', 'success', response?.data?.msg)
-            setOpenAddTypeModal(false)
-          }
-          setBtnLoader(false)
-        } else {
+        if (transformData.carryForward !== 'true')
           delete transformData?.maxCarryForward
-          const response = await LeaveService.AddLeave(transformData)
-          if (response?.status === 200) {
-            createNotification('success', 'success', response?.data?.msg)
-            setOpenAddTypeModal(false)
-          }
+        const res = await LeaveService.AddLeave(transformData)
+        if (res?.status === 200) {
+          setOpenAddTypeModal(false)
+          createNotification('success', 'success', res?.data?.msg)
+          getAllLeaveType()
         }
         setBtnLoader(false)
       }
@@ -176,6 +159,7 @@ const AddLeaveType = ({
               errorMessage={errors?.paid?.message}
               star="*"
               isDisabled={close && true}
+              // defaultValue={{ label: 'Yes', value: 'true' }}
             />
             <Selection
               label="Balance"
