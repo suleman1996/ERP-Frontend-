@@ -2,6 +2,7 @@
 import { Dispatch, Fragment, SetStateAction } from 'react'
 
 import style from './verticleStepbar.module.scss'
+import miniClock from 'assets/icons/miniClock.svg'
 
 interface Props {
   activeTab: any
@@ -19,50 +20,22 @@ const VerticleStepBar = ({
 }: Props) => {
   return (
     <div className={style.wrapper}>
-      <ul className={style.ul}>
-        {tabs?.map(({ key }: any, index: number) => {
-          const isActive = activeTab?.includes(key)
-          return (
-            <Fragment key={key}>
-              {/* <div
-                style={{ width: `${controlWidth}%` }}
-                className={style.afterDiv}
-              ></div>
-              <li className={style.li}>
-                <div
-                  className={style.round}
-                  style={{
-                    background: isActive ? '#57B894' : '#EBEBEB',
-                    cursor: 'pointer',
-                  }}
-                  onClick={() => {
-                    if (isActive) {
-                      setActive && setActive(index)
-                    }
-                  }}
-                >
-                  <span
-                    style={{
-                      color: isActive ? '#ffffff' : '#CACACA',
-                    }}
-                  >
-                    {index + 1}
-                  </span>
-                </div>
-                <p
-                  style={{
-                    color: isActive ? '#57B894' : '#CACACA',
-                    fontWeight: isActive ? 600 : 500,
-                  }}
-                >
-                  {key}
+      {tabs?.map(({ key }: any, index: number) => {
+        const isActive = activeTab?.includes(key)
+        return (
+          <Fragment key={key}>
+            <div className={style.timelineWrapper}>
+              <div className={style.node}>
+                <span>{key}</span>
+                <p>
+                  <img src={miniClock} alt="" />
+                  10:00 AM
                 </p>
-              </li> */}
-              <span>{key}</span>
-            </Fragment>
-          )
-        })}
-      </ul>
+              </div>
+            </div>
+          </Fragment>
+        )
+      })}
     </div>
   )
 }

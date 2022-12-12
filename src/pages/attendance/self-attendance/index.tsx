@@ -1,20 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { SetStateAction, useState } from 'react'
 
-import Table from 'components/table'
-import Tags from 'components/tags'
-import DeletePopup from 'components/delete-modal'
-
-import { ColumnsData } from '../columns-data'
-import { Colors } from '../columns-data'
-import { RowsData } from '../columns-data'
 import checkinLogo from 'assets/icons/checkinLogo.svg'
-
 import style from './self-attendance.module.scss'
 import TimeProgress from 'components/time-progress'
 import Button from 'components/button'
-import StepBar from 'components/stepbar'
 import VerticleStepBar from 'components/verticle-stepbar'
+// import { Steps } from 'rsuite'
 
 export interface AttendanceInt {
   id: string
@@ -85,19 +76,19 @@ const SelfAttendance = () => {
 export default SelfAttendance
 const tabs: any = [
   {
-    key: 'Personal',
-    title: 'Personal Information',
+    key: 'Checkin',
+    title: 'Checkin',
   },
   {
-    key: 'Address',
-    title: 'Personal Information',
+    key: 'Break Start',
+    title: 'Break Start',
   },
   {
-    key: 'Company',
-    title: 'Personal Information',
+    key: 'Break End',
+    title: 'Break End',
   },
   {
-    key: 'Education',
-    title: 'Personal Information',
+    key: 'Checkout',
+    title: 'Checkout',
   },
 ]
