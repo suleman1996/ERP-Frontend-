@@ -85,6 +85,11 @@ const AddQuotaModal = ({
 
   const handleEdit = async (data: any) => {
     const { quota, renew, effectiveDate, start, end } = data
+    console.log('checking edit ', data)
+    const leavesQuota = data?.leavesQuota?.reduce((acc: any, curr: any) => {
+      acc[curr?.leaveType?.name] = curr?.count
+      return acc
+    }, {})
 
     reset({
       quotaName: quota,
@@ -92,6 +97,7 @@ const AddQuotaModal = ({
       effectiveDate: new Date(effectiveDate),
       leaveStart: { label: start, value: start },
       leaveEnd: { label: end, value: end },
+      ...leavesQuota,
     })
   }
 
@@ -130,7 +136,12 @@ const AddQuotaModal = ({
         ...(data?.leaveEnd && { leaveEnd: data?.leaveEnd?.value }),
         leaves: dynamic,
       }
-      await ApplicationService.addLeaveQuotaApi(obj)
+      !title
+        ? await ApplicationService.addLeaveQuotaApi(obj)
+        : await ApplicationService.editLeaveQuotaApi(
+            selectedLeaveQuota?._id,
+            obj
+          )
 
       setRenderState((prev: any) => !prev)
       setBtnLoader(false)
@@ -152,10 +163,6 @@ const AddQuotaModal = ({
     }
   }
 
-  const submitEditHandler = async (data: any) => {
-    console.log('updated for data ', data)
-  }
-
   return (
     <Modal
       open={openModal}
@@ -170,9 +177,8 @@ const AddQuotaModal = ({
       <form
         onSubmit={(e) => {
           clearErrors()
-          title
-            ? handleSubmit(submitEditHandler)(e)
-            : handleSubmit(submitHandler)(e)
+
+          handleSubmit(submitHandler)(e)
         }}
         id="quotaForm"
         className={style.gridView}

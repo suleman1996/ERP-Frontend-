@@ -116,6 +116,7 @@ const LeaveQuota = ({ parentRenderState, setParentRenderState }: any) => {
       />
       {editLeaveQuota && (
         <AddQuotaModal
+          setRenderState={setParentRenderState}
           openModal={editLeaveQuota}
           setOpenModal={setEditLeaveQuota}
           btnText="Save"
