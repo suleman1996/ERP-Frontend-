@@ -54,22 +54,16 @@ const AddLeaveType = ({
       leaveData || {}
     reset({
       name: name ? name : '',
-      paid:
-        paid === undefined
-          ? ''
-          : { label: paid ? 'Yes' : 'No', value: `${paid}` },
-      balance:
-        balance === undefined
-          ? ''
-          : { label: balance ? 'Yes' : 'No', value: `${balance}` },
-      encashment:
-        encashment === undefined
-          ? ''
-          : { label: encashment ? 'Yes' : 'No', value: `${encashment}` },
-      carryForward:
-        carryForward === undefined
-          ? ''
-          : { label: carryForward ? 'Yes' : 'No', value: `${carryForward}` },
+      paid: paid ? { label: paid ? 'Yes' : 'No', value: `${paid}` } : undefined,
+      balance: balance
+        ? { label: balance ? 'Yes' : 'No', value: `${balance}` }
+        : undefined,
+      encashment: encashment
+        ? { label: encashment ? 'Yes' : 'No', value: `${encashment}` }
+        : undefined,
+      carryForward: carryForward
+        ? { label: carryForward ? 'Yes' : 'No', value: `${carryForward}` }
+        : undefined,
       maxCarryForward: maxCarryForward ? maxCarryForward : '',
     })
   }
@@ -97,18 +91,17 @@ const AddLeaveType = ({
           getAllLeaveType()
           setOpenAddTypeModal(!openAddTypeModal)
         }
-        setBtnLoader(false)
       } else {
         if (transformData.carryForward !== 'true')
           delete transformData?.maxCarryForward
         const res = await LeaveService.AddLeave(transformData)
         if (res?.status === 200) {
-          setOpenAddTypeModal(false)
           createNotification('success', 'success', res?.data?.msg)
           getAllLeaveType()
+          setOpenAddTypeModal(false)
         }
-        setBtnLoader(false)
       }
+      setBtnLoader(false)
     } catch (err: any) {
       setBtnLoader(false)
       if (err?.response?.data?.error) {
@@ -159,7 +152,10 @@ const AddLeaveType = ({
               errorMessage={errors?.paid?.message}
               star="*"
               isDisabled={close && true}
-              // defaultValue={{ label: 'Yes', value: 'true' }}
+              defaultValue={{
+                value: 'false',
+                label: 'No',
+              }}
             />
             <Selection
               label="Balance"
@@ -170,6 +166,10 @@ const AddLeaveType = ({
               errorMessage={errors?.balance?.message}
               star="*"
               isDisabled={close && true}
+              defaultValue={{
+                value: 'false',
+                label: 'No',
+              }}
             />
             <Selection
               label="Encashment"
@@ -180,6 +180,10 @@ const AddLeaveType = ({
               errorMessage={errors?.encashment?.message}
               star="*"
               isDisabled={close && true}
+              defaultValue={{
+                value: 'false',
+                label: 'No',
+              }}
             />
             <Selection
               label="Carry Forward"
@@ -190,6 +194,10 @@ const AddLeaveType = ({
               errorMessage={errors?.carryForward?.message}
               star="*"
               isDisabled={close && true}
+              defaultValue={{
+                value: 'false',
+                label: 'No',
+              }}
             />
             <TextField
               label="Max Carry Forward"
@@ -197,7 +205,9 @@ const AddLeaveType = ({
               name="maxCarryForward"
               register={register}
               errorMessage={errors?.maxCarryForward?.message}
-              isDisable={close && true}
+              isDisable={
+                watch('carryForward')?.value === 'false' || close ? true : false
+              }
             />
           </div>
         </form>
