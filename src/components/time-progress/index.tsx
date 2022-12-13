@@ -28,7 +28,7 @@ const TimeProgress = () => {
             text: {
               fill: '#2D2D32',
               fontSize:
-                'calc(13px + (18 - 13) * (100vw - 280px) / (2560 - 280))',
+                'calc(13px + (14 - 13) * (100vw - 280px) / (2560 - 280))',
               fontWeight: 600,
             },
           }}

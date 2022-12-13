@@ -8,13 +8,12 @@
   border-radius: 4px;
   display: flex;
   height: calc(100vh - 120px);
-  overflow-y: scroll;
   position: relative;
   flex-direction: column;
+  padding-left: calc(12px + (25 - 12) * (100vw - 280px) / (2560 - 280));
+  padding-right: calc(12px + (25 - 12) * (100vw - 280px) / (2560 - 280));
   padding-top: calc(12px + (25 - 12) * (100vw - 280px) / (2560 - 280));
   padding-bottom: calc(12px + (25 - 12) * (100vw - 280px) / (2560 - 280));
-  padding-left: calc(15px + (45 - 15) * (100vw - 280px) / (2560 - 280));
-  padding-right: calc(15px + (45 - 15) * (100vw - 280px) / (2560 - 280));
 
   &::-webkit-scrollbar:vertical {
     display: none;

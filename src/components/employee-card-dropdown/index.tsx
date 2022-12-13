@@ -1,4 +1,5 @@
-import { Dispatch, SetStateAction, useState } from 'react'
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import React, { Dispatch, SetStateAction, useState } from 'react'
 import { Document, Page, pdfjs } from 'react-pdf'
 import { useNavigate } from 'react-router-dom'
 import Modal from 'components/modal'
@@ -7,20 +8,40 @@ import arrow from 'assets/arrow-left.svg'
 import style from './employee-dropdown.module.scss'
 import Button from 'components/button'
 import { useSelector } from 'react-redux'
+import EmployeeService from 'services/employee-service'
+import { Deletepopup } from 'stories/delete-modal/delete-modal.stories'
+import { createNotification } from 'common/create-notification'
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`
 interface Props {
   setOpenModal?: Dispatch<SetStateAction<boolean>>
   setOpenModalProfile?: Dispatch<SetStateAction<boolean>>
   handleClick?: () => any
+  getEmployeesData?: any
   id?: string
 }
-const EmployeeDropdown = ({ id, handleClick }: Props) => {
+const EmployeeDropdown = ({ id, handleClick, getEmployeesData }: Props) => {
   const navigate = useNavigate()
   const authToken = useSelector((state) => state?.app?.token)
   const [numPages, setNumPages] = useState(null)
   const [pageNumber, setPageNumber] = useState(1)
   const [open, setOpen] = useState(false)
   const [openCvModal, setOpenCvModal] = useState(false)
+  const [openDelModal, setOpenDelModal] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+
+  const handleDelete = async () => {
+    try {
+      setIsLoading(true)
+      await EmployeeService.deleteEmployee(id)
+      setIsLoading(false)
+      setOpenDelModal(false)
+      getEmployeesData()
+    } catch (error) {
+      setIsLoading(false)
+      console.error(error)
+    }
+  }
+
   const profile = [
     {
       text: 'Profile View ',
@@ -34,10 +55,17 @@ const EmployeeDropdown = ({ id, handleClick }: Props) => {
         setOpenCvModal(true)
       },
     },
+
     {
       text: 'More Details',
       icon: arrow,
       click: () => navigate(`/employee/${id}`),
+    },
+    {
+      text: 'Delete',
+      click: async () => {
+        setOpenDelModal(true)
+      },
     },
   ]
   function onDocumentLoadSuccess({ numPages }: any) {
@@ -153,6 +181,13 @@ const EmployeeDropdown = ({ id, handleClick }: Props) => {
           </div>
         </div>
       </Modal>
+      <Deletepopup
+        heading="Are you sure you want to delete this employee?"
+        handleDelete={() => handleDelete()}
+        setOpen={setOpenDelModal}
+        open={openDelModal}
+        isLoading={isLoading}
+      />
     </div>
   )
 }

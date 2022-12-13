@@ -47,10 +47,6 @@ const Calender = () => {
   const [customTooltip, setCustomTooltip] = useState<
     number | string | undefined | boolean
   >()
-  const [dateRange, setDateRange] = useState({
-    startDate: '',
-    endDate: '',
-  })
   const [selectedFileNameBack, setSelectedFileNameBack] = useState<any>()
   const [btnLoader, setBtnLoader] = useState(false)
   const [allEvent, setAllEvent] = useState([])
@@ -64,6 +60,7 @@ const Calender = () => {
   const [radioValue, setRadioValue] = useState('')
   const [specificEvent, setSpecificEvent] = useState('')
   const [noRecurrence, setNoRecurrence] = useState('')
+  const [date, setDate] = useState<any>()
 
   const {
     register,
@@ -89,11 +86,14 @@ const Calender = () => {
     $('.fc-dayGridMonth-button').click(function () {
       setView('Monthly')
     })
+    $('.fc-listWeek-button').click(function () {
+      setView('Events')
+    })
   }, [])
 
   useEffect(() => {
     getAllEvents()
-  }, [dateRange, view])
+  }, [date, view])
 
   useEffect(() => {
     updateEventData()
@@ -119,10 +119,11 @@ const Calender = () => {
 
   const getAllEvents = async () => {
     const res = await CalenderService.getAllEvents({
-      view: view,
+      view: view === 'Events' ? 'Weekly' : view,
       year: year,
-      startDate: dateRange.startDate,
-      endDate: dateRange.endDate,
+      date: view === 'Daily' ? date : null,
+      month:
+        view === 'Weekly' ? moment(date).add(25, 'days').format('MMMM') : null,
     })
     setAllEvent(res?.data?.events)
   }
@@ -428,11 +429,8 @@ const Calender = () => {
                 allDaySlot={true}
                 allDayText="all-day"
                 datesSet={(e) => {
-                  setYear(e?.start?.toString()?.split(' ')[3]),
-                    setDateRange({
-                      startDate: e?.startStr,
-                      endDate: e?.endStr,
-                    })
+                  setYear(e?.start?.toString()?.split(' ')[3])
+                  setDate(moment(e?.startStr).format('YYYY-MM-DD'))
                 }}
               />
             </div>
