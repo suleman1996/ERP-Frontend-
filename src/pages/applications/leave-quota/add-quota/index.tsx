@@ -241,6 +241,9 @@ const AddQuotaModal = ({
             key={item?.name}
             label={item?.name + ' Leave'}
             placeholder={`Enter ${item?.name} Leave`}
+            onKeyDown={(e) => {
+              if (e?.key === '-' || e?.key === '0') e?.preventDefault()
+            }}
             name={item?.name}
           />
         ))}
