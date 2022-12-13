@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import moment from 'moment'
 
-import { ColumnsData } from './helper'
 import Table from 'components/table'
 import ApplicationService from 'services/application-service'
 import AddQuotaModal from './add-quota'
@@ -13,8 +12,35 @@ import editIcon from 'assets/new-edit.svg'
 import revisionHistoryIcon from 'assets/revision-icon.svg'
 import reviseIcon from 'assets/revise-icon.svg'
 import deleteIcon from 'assets/table-delete.svg'
+import SettingsService from 'services/settings-service'
 
 const LeaveQuota = ({ parentRenderState, setParentRenderState }: any) => {
+  const [ColumnsData, setColumnsData] = useState<any>([
+    {
+      key: 'quota',
+      name: 'Quota',
+      alignText: 'center',
+      width: '60px',
+    },
+    {
+      key: 'effectiveDate',
+      name: 'Effective Date',
+      alignText: 'center',
+      width: '150px',
+    },
+    {
+      key: 'start',
+      name: 'Start',
+      alignText: 'center',
+      width: '100px',
+    },
+    {
+      key: 'end',
+      name: 'End',
+      alignText: 'center',
+      width: '100px',
+    },
+  ])
   const [rowData, setRowsData] = useState<any>([])
   const [editLeaveQuota, setEditLeaveQuota] = useState(false)
   const [delLeaveQuota, setDelLeaveQuota] = useState(false)
@@ -26,25 +52,63 @@ const LeaveQuota = ({ parentRenderState, setParentRenderState }: any) => {
     getAllQuotaLeaves()
   }, [parentRenderState])
 
+  useEffect(() => {
+    getLeaveTypes()
+  }, [])
+
+  const getLeaveTypes = async () => {
+    try {
+      const result = await SettingsService.getLeaveTypesApi()
+
+      setColumnsData([
+        ...ColumnsData,
+        ...result?.data?.leaveTypes?.map((item) => ({
+          key: item?.name,
+          name: item?.name,
+          alignText: 'center',
+          width: '60px',
+        })),
+        {
+          key: 'action',
+          name: 'Action',
+          alignText: 'center',
+          width: '200px',
+        },
+      ])
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   const getAllQuotaLeaves = async () => {
     try {
       const result = await ApplicationService.getAllQuotaLeavesApi()
 
-      setRowsData(
-        result?.data?.leaveQuotas?.map((item) => ({
-          quota: item?.name,
-          renew: item?.renew,
-          effectiveDate: moment(item?.name?.effectiveDate).format('MMM YYYY'),
-          start: item?.leaveStart,
-          end: item?.leaveEnd,
-          sick: 'sa',
-          casual: 'as',
-          annual: 'qw',
-          action: 'qw',
-          leavesQuota: item?.leaves,
-          _id: item?._id,
-        }))
-      )
+      const tempRowsData = []
+      for (let i = 0; i < result?.data?.leaveQuotas?.length; i++) {
+        tempRowsData?.push({
+          quota: result?.data?.leaveQuotas[i]?.name,
+          renew: result?.data?.leaveQuotas[i]?.renew,
+          effectiveDate: moment(
+            result?.data?.leaveQuotas[i]?.effectiveDate
+          ).format('MMM YYYY'),
+          start: result?.data?.leaveQuotas[i]?.leaveStart,
+          end: result?.data?.leaveQuotas[i]?.leaveEnd,
+          leavesQuota: result?.data?.leaveQuotas[i]?.leaves,
+          _id: result?.data?.leaveQuotas[i]?._id,
+
+          ...result?.data?.leaveQuotas[i]?.leaves.reduce(
+            (acc: any, curr: any) => {
+              acc[curr?.leaveType?.name] = curr?.count
+              return acc
+            },
+            {}
+          ),
+        })
+      }
+      console.log({ tempRowsData })
+
+      setRowsData(tempRowsData)
     } catch (error) {
       console.error(error)
     }

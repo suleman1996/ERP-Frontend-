@@ -265,7 +265,7 @@ const Table = ({
                                 style={{ overflowWrap: 'anywhere' }}
                                 className={`${rowText}`}
                               >
-                                {row[column.key]}
+                                {row[column.key] || '-'}
                               </span>
                               {column.key === 'actions' &&
                                 !column?.eyeIcon &&
