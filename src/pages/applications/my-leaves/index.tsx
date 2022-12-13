@@ -10,9 +10,9 @@ import CreateApplicationModal from './create-applications'
 import ApplicationService from 'services/application-service'
 import { createNotification } from 'common/create-notification'
 
-import editIcon from 'assets/newEdit.svg'
 import cancel from 'assets/cancel.svg'
-import view from 'assets/viewIconnew.svg'
+import editIcon from 'assets/new-edit.svg'
+import view from 'assets/table-view.svg'
 
 import style from './index.module.scss'
 import moment from 'moment'
@@ -50,43 +50,43 @@ const ColumnsData1 = [
     key: 'leaveType',
     name: 'Leave Type',
     alignText: 'center',
-    width: '100px',
+    width: '150px',
   },
   {
     key: 'appliedOn',
     name: 'Applied On',
     alignText: 'center',
-    width: '100px',
+    width: '150px',
   },
   {
     key: 'from',
     name: 'From',
     alignText: 'center',
-    width: '100px',
+    width: '130px',
   },
   {
     key: 'to',
     name: 'To',
     alignText: 'center',
-    width: '100px',
+    width: '120px',
   },
   {
     key: 'duration',
     name: 'Duration',
     alignText: 'center',
-    width: '100px',
+    width: '200px',
   },
   {
     key: 'status1',
     name: 'Status',
     alignText: 'center',
-    width: '100px',
+    width: '200px',
   },
   {
     key: 'action',
     name: 'Action',
     alignText: 'center',
-    width: '100px',
+    width: '200px',
   },
 ]
 
@@ -158,6 +158,7 @@ const MyLeaves = ({
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
+                width: 'fitContent',
                 color:
                   el.status === 'Pending'
                     ? '#E0AD00'
@@ -172,7 +173,6 @@ const MyLeaves = ({
                     : el.status === 'Accepted'
                     ? '#5DC224'
                     : '',
-                fontWeight: '500',
                 backgroundColor:
                   el.status === 'Pending'
                     ? '#FFE48A'
@@ -187,10 +187,8 @@ const MyLeaves = ({
                     : el.status === 'Accepted'
                     ? '#B3EB94'
                     : '',
-                width: '100%',
-                height: '32px',
-                fontSize: '16px',
-                borderRadius: '1.55086px',
+                padding: '3px 12px',
+                borderRadius: '3px',
               }}
             >
               {el.status}
@@ -252,85 +250,70 @@ const MyLeaves = ({
           editData={editData}
         />
       )}
-      <div className={style.container}>
-        <div className={style.historyTable}>
-          <Table
-            tableClass={style.tableHight}
-            tableHeaderClass={style.tableHeaderClass}
-            headingText={style.headingText}
-            columns={ColumnsData}
-            rows={RowsData?.map((row: any) => ({
-              ...row,
-              action: (
-                <div style={{ display: 'flex', justifyContent: 'center' }}>
-                  <Button
-                    text="Apply Now"
-                    btnClass={style.btnClass}
-                    btnTextClass={style.btnTitle}
-                    handleClick={() => {
-                      setDefaultLeaveType({
-                        value: row.leaveId,
-                        label: row.leaveType,
-                      })
-                      setOpenModal(true)
-                    }}
-                  />
-                </div>
-              ),
-            }))}
-          />
-        </div>
-        <div className={style.historyTable}>
-          <Table
-            tableClass={style.tableHight}
-            tableHeaderClass={style.tableHeaderClass}
-            headingText={style.headingText}
-            columns={ColumnsData1}
-            rows={leaveRowsData?.map((row: any) => ({
-              ...row,
-              action: (
-                <div style={{ display: 'flex', justifyContent: 'center' }}>
-                  <div style={{ marginRight: '10px' }}>
-                    <img alt="" src={view} width={30} />
-                  </div>
-                  <div style={{ marginRight: '10px' }}>
-                    <img
-                      alt=""
-                      src={editIcon}
-                      width={30}
-                      onClick={() => {
-                        setEditData(row)
-                        setOpenModal(true)
-                      }}
-                    />
-                  </div>
-                  <div style={{ marginRight: '10px' }}>
-                    <img
-                      alt=""
-                      src={cancel}
-                      width={30}
-                      onClick={() => {
-                        setCancelModal(true)
-                        setSelectedId(row?.id)
-                      }}
-                    />
-                  </div>
-                </div>
-              ),
-            }))}
-          />
-        </div>
-        <div className={style.position}>
-          <Pagination
-            hide={false}
-            setCount={setPageSize}
-            count={pageSize}
-            totalCount={totalCount}
-            setPage={setPage}
-            page={page}
-            control={control}
-          />
-        </div>
+      <Table
+        columns={ColumnsData}
+        rows={RowsData?.map((row: any) => ({
+          ...row,
+          action: (
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <Button
+                text="Apply Now"
+                handleClick={() => {
+                  setDefaultLeaveType({
+                    value: row.leaveId,
+                    label: row.leaveType,
+                  })
+                  setOpenModal(true)
+                }}
+              />
+            </div>
+          ),
+        }))}
+      />
+      <div style={{ marginTop: '20px' }}>
+        <Table
+          columns={ColumnsData1}
+          minWidth="1150px"
+          rows={leaveRowsData?.map((row: any) => ({
+            ...row,
+            action: (
+              <div
+                className={style.imgDiv}
+                style={{ display: 'flex', justifyContent: 'center' }}
+              >
+                <img alt="" src={view} />
+                <img
+                  alt=""
+                  src={editIcon}
+                  onClick={() => {
+                    setEditData(row)
+                    setOpenModal(true)
+                  }}
+                />
+                <img
+                  alt=""
+                  src={cancel}
+                  onClick={() => {
+                    setCancelModal(true)
+                    setSelectedId(row?.id)
+                  }}
+                />
+              </div>
+            ),
+          }))}
+        />
+      </div>
+
+      <div className={style.position}>
+        <Pagination
+          hide={false}
+          setCount={setPageSize}
+          count={pageSize}
+          totalCount={totalCount}
+          setPage={setPage}
+          page={page}
+          control={control}
+        />
       </div>
     </>
   )

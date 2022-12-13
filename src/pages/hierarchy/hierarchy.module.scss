@@ -21,6 +21,14 @@
         margin-top: 0px !important;
       }
     }
+    .flexInner {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      img {
+        cursor: pointer;
+      }
+    }
   }
   .bodyDiv {
     padding-left: calc(12px + (25 - 12) * (100vw - 280px) / (2560 - 280));
@@ -37,7 +45,6 @@
       padding-bottom: calc(12px + (25 - 12) * (100vw - 280px) / (2560 - 280));
     }
     .grid {
-      gap: 20px;
       width: 100%;
       display: flex;
       justify-content: center;
@@ -56,11 +63,17 @@
         @include font24;
         margin-bottom: 5px;
       }
+      .arrowLong {
+        margin: 0px 10px;
+        @media (max-width: $tab) {
+          display: none;
+        }
+      }
     }
   }
   .btnDiv {
-    position: absolute;
-    bottom: calc(12px + (25 - 12) * (100vw - 280px) / (2560 - 280));
-    right: calc(12px + (25 - 12) * (100vw - 280px) / (2560 - 280));
+    position: fixed;
+    bottom: 30px;
+    right: 40px;
   }
 }

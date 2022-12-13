@@ -30,12 +30,10 @@ const RowsData = [
             justifyContent: 'center',
             alignItems: 'center',
             color: '#57B894',
-            fontWeight: '500',
             backgroundColor: '#B0DECD',
-            width: '60%',
-            height: '32px',
-            fontSize: '16px',
-            borderRadius: '1.55086px',
+            width: 'max-content',
+            padding: '3px 12px',
+            borderRadius: '3px',
           }}
         >
           Approved
@@ -63,12 +61,10 @@ const RowsData = [
             justifyContent: 'center',
             alignItems: 'center',
             color: '#E92424',
-            fontWeight: '500',
             backgroundColor: '#F7B0B0',
-            width: '60%',
-            height: '32px',
-            fontSize: '16px',
-            borderRadius: '1.55086px',
+            width: 'max-content',
+            padding: '3px 12px',
+            borderRadius: '3px',
           }}
         >
           Rejected
@@ -96,12 +92,10 @@ const RowsData = [
             justifyContent: 'center',
             alignItems: 'center',
             color: '#6E6E6E',
-            fontWeight: '500',
             backgroundColor: '#BBBBBB',
-            width: '60%',
-            height: '32px',
-            fontSize: '16px',
-            borderRadius: '1.55086px',
+            width: 'max-content',
+            padding: '3px 12px',
+            borderRadius: '3px',
           }}
         >
           Canceled
@@ -129,12 +123,10 @@ const RowsData = [
             justifyContent: 'center',
             alignItems: 'center',
             color: '#57B894',
-            fontWeight: '500',
             backgroundColor: '#B0DECD',
-            width: '60%',
-            height: '32px',
-            fontSize: '16px',
-            borderRadius: '1.55086px',
+            width: 'max-content',
+            padding: '3px 12px',
+            borderRadius: '3px',
           }}
         >
           Approved
@@ -162,12 +154,10 @@ const RowsData = [
             justifyContent: 'center',
             alignItems: 'center',
             color: '#5DC124',
-            fontWeight: '500',
             backgroundColor: '#B3EB94',
-            width: '60%',
-            height: '32px',
-            fontSize: '16px',
-            borderRadius: '1.55086px',
+            width: 'max-content',
+            padding: '3px 12px',
+            borderRadius: '3px',
           }}
         >
           Updated
@@ -195,12 +185,10 @@ const RowsData = [
             justifyContent: 'center',
             alignItems: 'center',
             color: '#5DC124',
-            fontWeight: '500',
             backgroundColor: '#B3EB94',
-            width: '60%',
-            height: '32px',
-            fontSize: '16px',
-            borderRadius: '1.55086px',
+            width: 'max-content',
+            padding: '3px 12px',
+            borderRadius: '3px',
           }}
         >
           Updated
@@ -228,12 +216,10 @@ const RowsData = [
             justifyContent: 'center',
             alignItems: 'center',
             color: '#5DC124',
-            fontWeight: '500',
             backgroundColor: '#B3EB94',
-            width: '60%',
-            height: '32px',
-            fontSize: '16px',
-            borderRadius: '1.55086px',
+            width: 'max-content',
+            padding: '3px 12px',
+            borderRadius: '3px',
           }}
         >
           Updated
@@ -261,12 +247,10 @@ const RowsData = [
             justifyContent: 'center',
             alignItems: 'center',
             color: '#5DC124',
-            fontWeight: '500',
             backgroundColor: '#B3EB94',
-            width: '60%',
-            height: '32px',
-            fontSize: '16px',
-            borderRadius: '1.55086px',
+            width: 'max-content',
+            padding: '3px 12px',
+            borderRadius: '3px',
           }}
         >
           Updated
@@ -294,12 +278,10 @@ const RowsData = [
             justifyContent: 'center',
             alignItems: 'center',
             color: '#5DC124',
-            fontWeight: '500',
             backgroundColor: '#B3EB94',
-            width: '60%',
-            height: '32px',
-            fontSize: '16px',
-            borderRadius: '1.55086px',
+            width: 'max-content',
+            padding: '3px 12px',
+            borderRadius: '3px',
           }}
         >
           Updated
@@ -360,22 +342,19 @@ const ApprovalRecords = () => {
   const { control } = useForm()
 
   return (
-    <div className={style.approvalRecordsContainer}>
+    <>
       <div className={style.historyTable}>
         <Table
-          tableClass={style.tableHight}
-          tableHeaderClass={style.tableHeaderClass}
-          headingText={style.headingText}
           columns={ColumnsData}
           rows={RowsData.map((row) => ({
             ...row,
             action: (
               <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <div style={{ marginRight: '10px' }}>
-                  <img src={deleteIcon} width={30} />
+                <div className={style.imgDiv}>
+                  <img src={deleteIcon} />
                 </div>
-                <div style={{ marginRight: '10px' }}>
-                  <img src={view} width={30} />
+                <div className={style.imgDiv}>
+                  <img src={view} />
                 </div>
               </div>
             ),
@@ -392,7 +371,7 @@ const ApprovalRecords = () => {
           control={control}
         />
       </div>
-    </div>
+    </>
   )
 }
 

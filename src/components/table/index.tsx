@@ -5,9 +5,9 @@ import FiltersComponent from 'components/filters'
 import AddUser from 'pages/new-settings/manage-user/add-user'
 
 import editIcon from 'assets/new-edit.svg'
+import eye from 'assets/table-view.svg'
 import reloadIcon from 'assets/reset.png'
 import deleteIcon from 'assets/table-delete.svg'
-import eye from 'assets/table-view.svg'
 import pdf from 'assets/employee-page/print.svg'
 import style from './table.module.scss'
 

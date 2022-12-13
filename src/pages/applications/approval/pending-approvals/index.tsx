@@ -24,7 +24,7 @@ const PendingApproval = ({ formData }: any) => {
   }, [])
 
   return (
-    <div className={style.container}>
+    <>
       <div className={style.cardsWrapper}>
         {data?.msg?.map((el: any) => (
           <ApplicationApprovalCard
@@ -36,7 +36,7 @@ const PendingApproval = ({ formData }: any) => {
           />
         ))}
       </div>
-    </div>
+    </>
   )
 }
 
