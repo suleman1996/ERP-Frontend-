@@ -19,9 +19,10 @@
   border: none;
   box-shadow: none;
 
-  &:hover {
-    background-color: $btn;
-  }
+// may be use in future
+  // &:hover {
+  //   background-color: $btn;
+  // }
 
   .img {
     margin-left: calc(6px + (19 - 6) * (100vw - 280px) / (2560 - 280));

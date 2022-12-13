@@ -1,6 +1,6 @@
-@use 'styles/_colors.scss' as c;
-@import 'styles/_mixin.scss';
 @import 'styles/_breakpoints.scss';
+@import 'styles/_colors.scss';
+@import 'styles/_mixin.scss';
 
 .card {
   margin: 15px 10px;
@@ -100,14 +100,36 @@
   }
 
   .containerClassInput {
-    width: 70%;
     margin-top: 0px !important;
+    padding: 10px 40px;
+
+    @media (max-width: $md) {
+      padding: 10px 10px;
+    }
   }
   .btnClass {
     display: flex;
     flex: 1;
     margin-top: 10px;
-    border-radius: 0%;
+    border-radius: 5px;
+  }
+  .btnClassCancel {
+    display: flex;
+    flex: 1;
+    margin-top: 10px;
+    border-radius: 5px;
+    margin-right: 10px;
+    background-color: #fff;
+    border: 0.5px solid #57b894;
+    &:hover{
+      background-color: #fff !important;
+    }
+  }
+  .btnTextClassCancel {
+    color: #57b894;
+      &:hover{
+      background-color: #fff !important;
+    }
   }
 
   .accessHeader {
@@ -125,4 +147,67 @@
 
 .submitBtn {
   margin-top: 20px;
+}
+
+.newUserParent {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border: 1.19506px solid #e2e2ea;
+}
+
+.btnSection {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 20px;
+  margin-bottom: 20px;
+}
+
+.modalRoleDiv {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  align-content: center;
+  width: 100%;
+  justify-content: space-around;
+  margin-top: 30px;
+  border-bottom: 1.19506px solid #e2e2ea;
+  padding-bottom: 10px;
+}
+
+.modalButton {
+  margin: 50px 0px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.roundDiv {
+  width: 50px;
+  height: 35px;
+  border-radius: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid;
+  margin: 0px 10px;
+}
+
+.innerDiv {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.parentDiv{
+  @media (max-width :$tab ) {
+      max-width: 800px;
+  overflow-y: auto;
+  }
+
+}
+
+.childDiv{
+    @media (max-width :$tab) {
+      width: 900px;
+  }
+
 }
