@@ -44,16 +44,6 @@ export const useCompanyInfo = ({
   setFormData,
   employeeDocId,
 }: Props) => {
-  const { id } = useParams()
-  const dispatch = useDispatch()
-  const [type, setType] = useState('per-day')
-  const [customErr, setCustomErr] = useState()
-
-  const [probation, setProbation] = useState(false)
-  const [designation, setDesignation] = useState<any>()
-  const [check, setCheck] = useState<number[]>([])
-  const [btnLoader, setBtnLoader] = useState(false)
-  let test = {}
   const {
     register,
     handleSubmit,
@@ -64,6 +54,17 @@ export const useCompanyInfo = ({
     setError,
     clearErrors,
   } = useForm()
+  const { id } = useParams()
+  const dispatch = useDispatch()
+
+  const [type, setType] = useState('per-day')
+  const [customErr, setCustomErr] = useState()
+  const [probation, setProbation] = useState(false)
+  const [designation, setDesignation] = useState<any>()
+  const [check, setCheck] = useState<number[]>([])
+  const [btnLoader, setBtnLoader] = useState(false)
+  const [endDatePlaceHolder, setEndDatePlaceHlder] = useState()
+  let test = {}
 
   const state = useSelector((state) => state.app)
   const { departments, leaves } = state
@@ -128,6 +129,15 @@ export const useCompanyInfo = ({
     init()
   }, [])
 
+  useEffect(() => {
+    setEndDatePlaceHlder(
+      moment(watch()?.joiningDate).add(
+        watch()?.probationDurationDays?.value / 30,
+        'M'
+      )
+    )
+  }, [watch()])
+
   const getSingleEmployeeData = async () => {
     const res = await EmployeeService.getCompanyEmployee(id || employeeDocId)
 
@@ -162,6 +172,13 @@ export const useCompanyInfo = ({
 
       test = designationObj
     }
+
+    setEndDatePlaceHlder(
+      moment(res?.data?.company?.joiningDate).add(
+        res?.data?.company?.probation?.probationDurationDays / 30,
+        'M'
+      )
+    )
 
     setTimeout(() => {
       reset({
@@ -327,5 +344,7 @@ export const useCompanyInfo = ({
     probationDurationData,
     employmentTypeData,
     selectHoursDuration,
+    endDatePlaceHolder,
+    id,
   }
 }

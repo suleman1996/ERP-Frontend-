@@ -1,4 +1,4 @@
-import { Dispatch, Fragment, SetStateAction, useState } from 'react'
+import { Dispatch, Fragment, SetStateAction, useEffect, useState } from 'react'
 
 import TextField from 'components/textfield'
 import Checkbox from 'components/checkbox'
@@ -11,24 +11,47 @@ import clearFilter from 'assets/clear-filter.svg'
 import style from './filter.module.scss'
 
 interface FiltersComponentProps {
-  onSubmit: (data: string[]) => void
   names: string[]
-  setIsFilter?: Dispatch<SetStateAction<number>>
+  selected: string[]
   isFilter?: boolean
+  onSubmit: (data: string[]) => void
+  setIsFilter?: Dispatch<SetStateAction<number>>
 }
+
 const FiltersComponent = ({
-  onSubmit,
   names,
-  setIsFilter,
+  selected,
+  onSubmit,
   isFilter,
+  setIsFilter,
 }: FiltersComponentProps) => {
   const [asc, setAsc] = useState()
   const [value, setValue] = useState('')
-  const list = [...new Set([...names])]?.map((name) => ({
+  const list = [...new Set([...names.filter((name) => name)])].map((name) => ({
     name,
     checked: false,
   }))
   const [selectedFilters, setSelectedFilters] = useState([...list] || [])
+
+  useEffect(() => {
+    console.log({ names, selected })
+    if (names.length === selected.length) return
+
+    const list = [...new Set([...names.filter((name) => name)])].map(
+      (name) => ({
+        name,
+        checked: false,
+      })
+    )
+
+    for (let i = 0; i < list.length; i++) {
+      const { name } = list[i]
+      if (selected.includes(name)) list[i].checked = true
+    }
+
+    setSelectedFilters(list)
+  }, [names, selected])
+
   const clearFilters = () => {
     setAsc('')
     const copy = [...selectedFilters]
@@ -38,6 +61,7 @@ const FiltersComponent = ({
     setValue('')
     setSelectedFilters(copy)
   }
+
   const selectAll = (e: React.ChangeEvent<HTMLInputElement>) => {
     const copy = [...selectedFilters]
     for (let i = 0; i < copy.length; i++) {
@@ -46,6 +70,7 @@ const FiltersComponent = ({
     }
     setSelectedFilters(copy)
   }
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     index: number
@@ -54,6 +79,7 @@ const FiltersComponent = ({
     copy[index].checked = e.target.checked
     setSelectedFilters(copy)
   }
+
   const applyFilters = () => {
     const data = selectedFilters
       .filter(
@@ -65,6 +91,7 @@ const FiltersComponent = ({
     const newData = { name: [...data], asc }
     onSubmit?.(newData)
   }
+
   return (
     isFilter && (
       <div className={style.filterMain}>
@@ -137,4 +164,5 @@ const FiltersComponent = ({
     )
   )
 }
+
 export default FiltersComponent

@@ -20,15 +20,17 @@ const App = () => {
   }, [])
 
   useEffect(() => {
-    const fetchUserData = async (id: string | number) => {
-      setLoader(true)
-      const res = await AuthService.getUserData?.(id)
-      dispatch(setCurrentUser(res?.data))
-      setLoader(false)
-    }
     if (token && user_id) {
-      fetchUserData(user_id)
-      fetchNotificationsData()
+      const fetchUserData = async (id: string | number) => {
+        setLoader(true)
+        const res = await AuthService.getUserData?.(id)
+        dispatch(setCurrentUser(res?.data))
+        setLoader(false)
+      }
+      if (token && user_id) {
+        fetchUserData(user_id)
+        fetchNotificationsData()
+      }
     }
   }, [dispatch, token, user_id])
 
