@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from 'react'
+import { Dispatch, Fragment, SetStateAction } from 'react'
 
 import NoData from 'components/no-data-found-card'
 import FiltersComponent from 'components/filters'
@@ -114,7 +114,7 @@ const Table = ({
   }
   return (
     <>
-      {rows?.length >= 1 && (
+      {rows?.length >= 1 ? (
         <div
           className={`${style.tableWrapper} ${tableHeight}`}
           style={{
@@ -202,7 +202,7 @@ const Table = ({
                   />
                 )}
                 {rows?.map((row, index) => (
-                  <>
+                  <Fragment key={index}>
                     <div
                       className={style.tr}
                       style={{ display: 'flex', alignItems: 'center' }}
@@ -317,14 +317,13 @@ const Table = ({
                         </>
                       )}
                     </div>
-                  </>
+                  </Fragment>
                 ))}
               </div>
             </div>
           </div>
         </div>
-      )}
-      {!rows && (
+      ) : (
         <div
           style={{
             display: 'flex',

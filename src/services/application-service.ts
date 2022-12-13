@@ -65,8 +65,18 @@ export default class ApplicationService {
     return res
   }
 
+  static async editLeaveQuotaApi(id: string, obj: any) {
+    const res = await ApiService.put(`leave-quota/${id}`, obj)
+    return res
+  }
+
   static async getAllQuotaLeavesApi() {
     const res = await ApiService.get('leave-quota')
+    return res
+  }
+
+  static async deleteQuotaLeavesApi(id: string) {
+    const res = await ApiService.delete(`leave-quota/${id}`)
     return res
   }
 }

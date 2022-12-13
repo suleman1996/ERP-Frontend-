@@ -7,6 +7,7 @@ import MenuPopup from 'components/menu-popup'
 import Pagination from 'components/pagination'
 import AttendanceDetail from './attendance-detail'
 import AddAttendance from './add-attendance'
+import SelfAttendance from './self-attendance'
 
 import exportIcon from 'assets/export.svg'
 
@@ -34,8 +35,10 @@ const Attendance = () => {
 
   const ActiveView = () => {
     switch (active) {
-      case 1:
+      case 0:
         return <p>Summary</p>
+      case 1:
+        return <SelfAttendance />
       case 2:
         return <AttendanceDetail setActive={setActive} />
       case 3:
@@ -55,10 +58,17 @@ const Attendance = () => {
           <div style={{ display: 'flex' }}>
             <p
               className={style.p}
+              onClick={() => handleTab(0)}
+              style={{ color: active === 0 ? '#000000' : '#cacaca' }}
+            >
+              Summary
+            </p>
+            <p
+              className={style.p}
               onClick={() => handleTab(1)}
               style={{ color: active === 1 ? '#000000' : '#cacaca' }}
             >
-              Summary
+              Self Attendence
             </p>
             <p
               className={style.p}

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Dispatch, SetStateAction, useState } from 'react'
+import React, { Dispatch, SetStateAction, useState } from 'react'
 import { Document, Page, pdfjs } from 'react-pdf'
 import { useNavigate } from 'react-router-dom'
 import Modal from 'components/modal'
@@ -16,9 +16,10 @@ interface Props {
   setOpenModal?: Dispatch<SetStateAction<boolean>>
   setOpenModalProfile?: Dispatch<SetStateAction<boolean>>
   handleClick?: () => any
+  getEmployeesData?: any
   id?: string
 }
-const EmployeeDropdown = ({ id, handleClick }: Props) => {
+const EmployeeDropdown = ({ id, handleClick, getEmployeesData }: Props) => {
   const navigate = useNavigate()
   const authToken = useSelector((state) => state?.app?.token)
   const [numPages, setNumPages] = useState(null)
@@ -26,14 +27,18 @@ const EmployeeDropdown = ({ id, handleClick }: Props) => {
   const [open, setOpen] = useState(false)
   const [openCvModal, setOpenCvModal] = useState(false)
   const [openDelModal, setOpenDelModal] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleDelete = async () => {
-    const res = await EmployeeService.deleteEmployee(id)
-
-    if (res?.status === 200) {
-      createNotification('success', 'Success', 'User Deleted Successfully')
-      console.log('res', res)
+    try {
+      setIsLoading(true)
+      await EmployeeService.deleteEmployee(id)
+      setIsLoading(false)
       setOpenDelModal(false)
+      getEmployeesData()
+    } catch (error) {
+      setIsLoading(false)
+      console.error(error)
     }
   }
 
@@ -178,10 +183,10 @@ const EmployeeDropdown = ({ id, handleClick }: Props) => {
       </Modal>
       <Deletepopup
         heading="Are you sure you want to delete this employee?"
-        handleDelete={handleDelete}
+        handleDelete={() => handleDelete()}
         setOpen={setOpenDelModal}
         open={openDelModal}
-        // isLoading={isLoading}
+        isLoading={isLoading}
       />
     </div>
   )
