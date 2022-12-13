@@ -6,8 +6,8 @@ import {
   useNavigate,
 } from 'react-router-dom'
 
-import Layout from 'components/layout'
 import AppLoader from 'components/app-loader'
+import Layout from 'components/layout'
 
 import { setLogout } from 'store'
 import { useAppDispatch } from 'store/hooks'
