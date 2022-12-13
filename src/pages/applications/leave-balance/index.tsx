@@ -80,12 +80,12 @@ const LeaveBalance = () => {
         }}
       />
       <AddLeaveType
-        setAllLeave={setAllLeave}
         leaveData={editIndex >= 0 ? aLLLeave[editIndex] : null}
         setOpenAddTypeModal={setOpenViewTypeModal}
         openAddTypeModal={openViewTypeModal}
         title={!close ? 'Edit Leave Type' : 'Leave Type'}
         close={close}
+        getAllLeaveType={getAllLeaveType}
       />
       <DeleteModal
         open={openDelModal}

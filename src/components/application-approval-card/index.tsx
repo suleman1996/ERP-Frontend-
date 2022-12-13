@@ -20,8 +20,8 @@ const ApplicationApprovalCard = ({
   data,
   history,
   formData,
-  getPendingLeaves,
-}: props) => {
+}: // getPendingLeaves,
+props) => {
   const [remaining, setRemaining] = useState<any>({})
   const [renderState, setRenderState] = useState(false)
   const [openModal, setOpenModal] = useState(false)
@@ -36,13 +36,16 @@ const ApplicationApprovalCard = ({
   }, [history, data])
 
   useEffect(() => {
-    getPendingLeaves()
+    // getPendingLeaves()
   }, [renderState])
 
   return (
     <div className={`${className} ${style.applicationCard}`}>
       <div className={style.headBorder}>
-        <p className={style.heading}>{data.leaveType.name} Leave Request</p>
+        <p className={style.heading}>
+          {data.leaveType.name}
+          Leave Request
+        </p>
         <div>
           <img src={image} alt="" />
           <span>
