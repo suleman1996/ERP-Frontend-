@@ -9,7 +9,7 @@ import DeleteModal from 'components/delete-modal'
 import LeaveQuotaHistory from './quota-history'
 
 import style from './leave-quota.module.scss'
-import editIcon from 'assets/newEdit.svg'
+import editIcon from 'assets/new-edit.svg'
 import revisionHistoryIcon from 'assets/revision-icon.svg'
 import reviseIcon from 'assets/revise-icon.svg'
 import deleteIcon from 'assets/table-delete.svg'

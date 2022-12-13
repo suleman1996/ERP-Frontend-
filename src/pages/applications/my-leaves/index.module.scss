@@ -2,66 +2,18 @@
 @import 'styles/_mixin.scss';
 @import 'styles/_breakpoints.scss';
 
-.container {
-  margin: 40px 40px 0 40px;
-  overflow: scroll;
-  height: 100vh;
-  @media (max-width: $md) {
-    margin: 20px 20px 0 20px;
+.position {
+  position: sticky;
+  bottom: 0;
+  background-color: #ffffff;
+  padding: 5px 0px;
+  margin-top: 10px;
+}
+.imgDiv {
+  img {
+    cursor: pointer;
+    height: calc(20px + (37 - 20) * (100vw - 280px) / (2560 - 280));
+    width: calc(25px + (44 - 25) * (100vw - 280px) / (2560 - 280));
+    margin: 0px 5px;
   }
-}
-
-.historyTable {
-  background: #ffffff;
-  opacity: 0.9;
-  border: 0.800512px solid #e2e2ea;
-  border-radius: 5.97311px;
-  padding: 14px 11px 0 11px;
-  margin-bottom: 22px;
-  @media (max-width: $md) {
-    padding: 7px 6px 0 6px;
-    margin-bottom: 11px;
-  }
-}
-
-.tableHight {
-  padding: 0 !important;
-}
-
-.btnClass {
-  width: 65% !important;
-  height: 34px !important;
-  @media (max-width: $md) {
-    width: 70% !important;
-    height: 25px !important;
-  }
-}
-
-.btnTitle {
-  font-size: 15px !important;
-}
-
-@media (max-width: $md) {
-  .btnTitle {
-    font-size: 12px !important;
-  }
-}
-
-.headingText {
-  font-weight: 600 !important;
-  font-size: 17px !important;
-  line-height: 160% !important;
-  color: #2d2d32 !important;
-}
-
-@media (max-width: $md) {
-  .headingText {
-    font-weight: 500 !important;
-    font-size: 15px !important;
-    line-height: 160% !important;
-  }
-}
-
-.tableHeaderClass {
-  background-color: #fafafa !important;
 }

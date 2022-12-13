@@ -4,30 +4,9 @@
 
 .gridView {
   @include gridTwo(22, 22);
-}
-
-.modelContainer {
-  padding-top: 35px !important;
+  padding-bottom: calc(10px + 10 * (100vw - 280px) / 2280);
 }
 
 .textAreaGrid {
   grid-column: 1 / -1;
-}
-
-.fileUpload {
-  margin-top: 0 !important;
-}
-
-.classNameLabel {
-  display: inline-block;
-  margin-bottom: 12px;
-}
-
-.btnClass {
-  margin-top: 24px;
-  margin-bottom: -24px;
-}
-
-.customHeader {
-  padding: 0px 47px 20px 47px !important;
 }
