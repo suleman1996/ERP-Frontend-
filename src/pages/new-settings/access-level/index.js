@@ -1,5 +1,5 @@
+import { useState } from 'react'
 import CardContainer from 'components/card-container'
-import React, { useState } from 'react'
 
 import AccordianSwitch from 'components/accordian'
 
@@ -23,7 +23,7 @@ const AccessLevel = () => {
             <div className={style.rolesAddText}>
               <div className={style.rolesDiv}>
                 <p>Roles</p>
-                <span>{roles.length}</span>
+                <span style={{ marginLeft: '10px' }}>{roles.length}</span>
               </div>
               <div className={style.iconDiv} onClick={() => setNewUser(true)}>
                 <img src={addIcon} />
