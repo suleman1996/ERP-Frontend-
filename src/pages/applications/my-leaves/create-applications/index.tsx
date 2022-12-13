@@ -155,10 +155,7 @@ const CreateApplicationModal = ({
       handleClose={() => setOpenModal(false)}
       type="submit"
       form="createLeave"
-      btnClass={style.btnClass}
-      className={style.modelContainer}
       loader={btnLoader}
-      customHeader={style.customHeader}
     >
       <form
         onSubmit={(e) => {
@@ -169,7 +166,6 @@ const CreateApplicationModal = ({
         className={style.gridView}
       >
         <Selection
-          classNameLabel={style.classNameLabel}
           label="Leave Type"
           placeholder="Select"
           options={data?.leaves?.map((el: any) => ({
@@ -180,12 +176,9 @@ const CreateApplicationModal = ({
           errorMessage={errors?.leaveType?.message}
           control={control}
           defaultValue={defaultLeaveType}
-          placeHolderStyle={{ color: '#2D2D32' }}
           isDisabled={disabled}
         />
         <Selection
-          classNameLabel={style.classNameLabel}
-          wraperSelect={style.wraperSelect}
           label="Approval By"
           placeholder="Select"
           options={data?.employeeOnlyName?.map((el: any) => ({
@@ -198,8 +191,6 @@ const CreateApplicationModal = ({
           isDisabled={disabled}
         />
         <Selection
-          classNameLabel={style.classNameLabel}
-          wraperSelect={style.wraperSelect}
           label="HR By"
           placeholder="Select"
           options={data?.employeeOnlyName?.map((el: any) => ({
@@ -219,8 +210,6 @@ const CreateApplicationModal = ({
           id={'file'}
           placeholder="Upload a file"
           errorMessage={errors?.attachment?.message}
-          className={style.fileUpload}
-          classNameLabel={style.classNameLabel}
           selectedFileName={selectedFileName}
           setSelectedFileName={setSelectedFileName}
         />
@@ -243,24 +232,22 @@ const CreateApplicationModal = ({
           isDisable={disabled}
         />
         <TextArea
-          className={style.textAreaGrid}
           label="Reason"
           placeholder="Enter Reason"
           register={register}
           name="reason"
           errorMessage={errors?.reason?.message}
-          row={2}
           isDisable={disabled}
+          className={style.textAreaGrid}
         />
         {type?.name == 'approvalManager' && (
           <TextArea
-            className={style.textAreaGrid}
             label="Manager Remarks"
             placeholder="Enter REmarks"
             register={register}
             name="managerRemarks"
+            className={style.textAreaGrid}
             errorMessage={errors?.remarks?.message}
-            row={2}
           />
         )}
       </form>

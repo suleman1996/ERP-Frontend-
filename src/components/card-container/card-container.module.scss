@@ -10,6 +10,7 @@
   height: calc(100vh - 120px);
   position: relative;
   flex-direction: column;
+  overflow-y: auto;
   padding-left: calc(12px + (25 - 12) * (100vw - 280px) / (2560 - 280));
   padding-right: calc(12px + (25 - 12) * (100vw - 280px) / (2560 - 280));
   padding-top: calc(12px + (25 - 12) * (100vw - 280px) / (2560 - 280));

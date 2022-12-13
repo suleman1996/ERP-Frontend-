@@ -1,36 +1,21 @@
 @import 'styles/_colors.scss';
 @import 'styles/_mixin.scss';
 @import 'styles/_breakpoints.scss';
-
-.approvalRecordsContainer {
-  margin: 40px 40px 0 40px;
-  overflow: scroll;
-  height: 100vh;
-}
-
-@media (max-width: $xxs) {
-  .approvalRecordsContainer {
-    margin: 10px 10px 0 10px;
+.imgDiv {
+  img {
+    cursor: pointer;
+    height: calc(20px + (37 - 20) * (100vw - 280px) / (2560 - 280));
+    width: calc(25px + (44 - 25) * (100vw - 280px) / (2560 - 280));
+    margin: 0px 5px;
   }
 }
-
+.historyTable {
+  margin-top: 10px;
+}
 .position {
-  position: fixed;
-  bottom: 7px;
-  left: 418px;
-  right: 7px;
+  position: sticky;
+  bottom: 0;
   background-color: #ffffff;
-  @media (max-width: $xl) {
-    left: 315px;
-  }
-  @media (max-width: $lg) {
-    left: 300px;
-  }
-  @media (max-width: $md) {
-    left: 220px;
-  }
-  @media (max-width: $tab) {
-    left: 0px;
-    right: 0px;
-  }
+  padding: 5px 0px;
+  margin-top: 10px;
 }
