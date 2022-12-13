@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import moment from 'moment'
 
-// import { ColumnsData } from './helper'
 import Table from 'components/table'
 import ApplicationService from 'services/application-service'
 import AddQuotaModal from './add-quota'
