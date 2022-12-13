@@ -155,7 +155,7 @@ export const useLanguage = ({ formData, setFormData, setLanguage }: Props) => {
 }
 
 export const schema = yup.object().shape({
-  language: yup.object().required('Language  is a required field'),
+  language: yup.object().nullable().required('Language  is a required field'),
   year: yup
     .number()
     .required('Year is a required field')

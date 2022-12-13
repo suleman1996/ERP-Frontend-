@@ -25,7 +25,9 @@ const Settings = () => {
                 <p
                   key={setting}
                   onClick={() => setIndex(i)}
-                  className={i === index ? style.activeClass : ''}
+                  className={`${i === index ? style.activeClass : ''}  ${
+                    style.paragraphDiv
+                  } `}
                 >
                   {setting}
                 </p>

@@ -1,10 +1,17 @@
 import { memo, useEffect, useState } from 'react'
-import { Navigate, Route, Routes as Switch } from 'react-router-dom'
+import {
+  Navigate,
+  Route,
+  Routes as Switch,
+  useNavigate,
+} from 'react-router-dom'
 
 import AppLoader from 'components/app-loader'
-
-import { routes, publicRoute, RouteInterface, allRoute } from './helper'
 import Layout from 'components/layout'
+
+import { setLogout } from 'store'
+import { useAppDispatch } from 'store/hooks'
+import { routes, publicRoute, RouteInterface, allRoute } from './helper'
 
 interface Props {
   token: string
@@ -13,6 +20,8 @@ interface Props {
 }
 
 const Routes = ({ token, role, loader }: Props) => {
+  const navigate = useNavigate()
+  const dispatch = useAppDispatch()
   const [routesArr, setRoutesArr] = useState<RouteInterface[] | []>([])
 
   useEffect(() => {
@@ -20,6 +29,13 @@ const Routes = ({ token, role, loader }: Props) => {
       let tempRoutes = [...routes]
       tempRoutes = tempRoutes.filter((ele) => ele.role?.includes(role))
       setRoutesArr([...tempRoutes])
+    }
+  }, [token, role])
+
+  useEffect(() => {
+    if (!role) {
+      dispatch(setLogout(''))
+      navigate('/login')
     }
   }, [token, role])
 

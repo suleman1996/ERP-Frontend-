@@ -127,7 +127,7 @@ export const useExperience = ({
     setEducations([...sortedEducations])
 
     setFormData({ ...formData, experienceDetails: [...newEducations] })
-    reset({ country: '', city: '', jobStartDate: null, jobEndDate: null })
+    reset({ country: null, city: null, jobStartDate: null, jobEndDate: null })
     clearErrors()
     educationIndex.current = -1
     setOnGoing(false)
@@ -301,8 +301,8 @@ export const rows = [
 
 export const schema = yup.object().shape({
   company: yup.string().required('Company is required'),
-  country: yup.object().required('Country is required'),
-  city: yup.object().required('City is required'),
+  country: yup.object().nullable().required('Country is required'),
+  city: yup.object().nullable().required('City is required'),
   jobTitle: yup.string().required('Job is required'),
   jobStartDate: yup.string().nullable().required('Start date is required'),
   jobEndDate: yup

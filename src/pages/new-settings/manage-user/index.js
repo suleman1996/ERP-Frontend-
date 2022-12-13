@@ -129,7 +129,7 @@ const ManageUser = ({ newUser, setNewUser, setBtnHideShow }) => {
       ...(isFilter === 2 && { email: data?.name && data?.name }),
       ...(isFilter === 3 && { role: data?.name && data?.name }),
       ...(isFilter === 4 && { employeeId: data?.name && data?.name }),
-      ...(data?.asc != undefined || (data?.asc && { sort: data?.asc })),
+      ...(data?.asc && { sort: data?.asc }),
     })
 
     if (result.status === 200) {

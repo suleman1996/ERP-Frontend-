@@ -158,6 +158,7 @@ const AccordianSwitch = ({
         getAllPolicies()
         setDeletePopUp(false)
         setIsLoading(false)
+        setDepId('')
       }
     }
     setIsLoading(false)
@@ -561,9 +562,9 @@ const AccordianSwitch = ({
         <Modal
           open={documentModal}
           handleClose={() => {
-            setDepId('')
             setDocumenModal(false)
             reset({})
+            setDepId('')
           }}
           title={'Add New Policy'}
         >

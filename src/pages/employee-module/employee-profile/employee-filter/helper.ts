@@ -23,7 +23,6 @@ export const useEmployeeFilter = ({
   })
 
   const [loading, setLoading] = useState()
-
   const [departments, setDepartments] = useState<any>()
   const [designation, setDesignation] = useState<any>()
 
