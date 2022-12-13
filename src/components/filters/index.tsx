@@ -34,7 +34,6 @@ const FiltersComponent = ({
   const [selectedFilters, setSelectedFilters] = useState([...list] || [])
 
   useEffect(() => {
-    console.log({ names, selected })
     if (names.length === selected.length) return
 
     const list = [...new Set([...names.filter((name) => name)])].map(
