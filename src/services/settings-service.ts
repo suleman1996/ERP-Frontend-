@@ -82,6 +82,12 @@ export default class SettingsService {
     )
     return res
   }
+  static async getAllAccessLevels() {
+    const res = await ApiService.get(
+      `${SettingsService.baseUrl[0]}/accessLevels`
+    )
+    return res
+  }
 
   static async getAllPolicies() {
     const res = await ApiService.get(
@@ -236,6 +242,14 @@ export default class SettingsService {
   static async addUser(data: any) {
     const res = await ApiService.post(
       `${SettingsService.baseUrl[1]}/users`,
+      data
+    )
+    return res
+  }
+
+  static async addCustomRole(data: any) {
+    const res = await ApiService.post(
+      `${SettingsService.baseUrl[0]}/customRoles`,
       data
     )
     return res

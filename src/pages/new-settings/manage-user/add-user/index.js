@@ -95,6 +95,7 @@ const AddUser = ({
             <Selection
               label="Role"
               name={'roleId'}
+              placeholder={'asd'}
               errorMessage={errors?.roleId?.message}
               control={control}
               options={customRoles?.map((item) => {
