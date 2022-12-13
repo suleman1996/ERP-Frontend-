@@ -2,9 +2,9 @@ import { memo, useEffect, useState } from 'react'
 import { Navigate, Route, Routes as Switch } from 'react-router-dom'
 
 import AppLoader from 'components/app-loader'
+import Layout from 'components/layout'
 
 import { routes, publicRoute, RouteInterface, allRoute } from './helper'
-import Layout from 'components/layout'
 
 interface Props {
   token: string
