@@ -14,11 +14,11 @@
   padding-bottom: calc(12px + (25 - 12) * (100vw - 280px) / (2560 - 280));
   padding-top: calc(12px + (25 - 12) * (100vw - 280px) / (2560 - 280));
   text-transform: capitalize;
-  
-   &:hover{
-      overflow-x: auto;
-  overflow-y: auto;
-   }
+
+  &:hover {
+    overflow-x: auto;
+    overflow-y: auto;
+  }
 
   &::-webkit-scrollbar:vertical {
     display: none;
@@ -48,7 +48,8 @@
         }
 
         .sortIcon {
-          width: 15px;
+          height: 12px;
+          width: 12px;
           cursor: pointer;
         }
       }

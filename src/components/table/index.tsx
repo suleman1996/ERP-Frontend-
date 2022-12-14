@@ -9,6 +9,8 @@ import eye from 'assets/table-view.svg'
 import reloadIcon from 'assets/reset.png'
 import deleteIcon from 'assets/table-delete.svg'
 import pdf from 'assets/employee-page/print.svg'
+import clearFilter from 'assets/clear-filter.svg'
+
 import style from './table.module.scss'
 
 interface Props {
@@ -150,7 +152,7 @@ const Table = ({
                         onClick={() => {
                           setIsFilter(index)
                         }}
-                        src={column.icon}
+                        src={column.icon ? column.icon : clearFilter}
                         className={style.sortIcon}
                         alt=""
                         style={{
