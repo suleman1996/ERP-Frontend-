@@ -62,6 +62,9 @@
       .heading {
         @include font24;
         margin-bottom: 5px;
+        @media (max-width: $tab) {
+          margin-top: 5px;
+        }
       }
       .arrowLong {
         margin: 0px 10px;
