@@ -1,18 +1,19 @@
 import { useEffect, useState } from 'react'
-import CardContainer from 'components/card-container'
+import { useForm } from 'react-hook-form'
 
+import CardContainer from 'components/card-container'
 import AccordianSwitch from 'components/accordian'
 import Button from 'components/button'
 import Modal from 'components/modal'
+import AddRole from './add-role'
+import Selection from 'components/selection'
+
+import SettingsService from 'services/settings-service'
 
 import addIcon from 'assets/add.svg'
 import longArrowIcon from 'assets/long-arrow.svg'
 import threeDots from 'assets/three.svg'
 import style from './access.module.scss'
-import Selection from 'components/selection'
-import { useForm } from 'react-hook-form'
-import SettingsService from 'services/settings-service'
-import AddRole from './add-role'
 
 const AccessLevel = () => {
   const { errors, control } = useForm()
@@ -77,6 +78,7 @@ const AccessLevel = () => {
                             <div
                               className={style.optionBorder}
                               onClick={() => {
+                                setRoleId(role?._id)
                                 setEditIndex(index)
                                 setMenu(false)
                               }}
@@ -86,7 +88,6 @@ const AccessLevel = () => {
                             <div
                               className={style.optionWithoutBorder}
                               onClick={() => {
-                                setRoleId(role?._id)
                                 setDelModal(true)
                                 setMenu(false)
                               }}
@@ -97,16 +98,16 @@ const AccessLevel = () => {
                         )}
                       </div>
                     </div>
-                    {/* //////////////////// Edit Role ////////////////////// */}
                     {editIndex === index && (
                       <AddRole
                         setNewUser={setNewUser}
                         setEditIndex={setEditIndex}
                         getAllCustomRoles={getAllCustomRoles}
                         roleId={roleId}
+                        setRoleId={setRoleId}
+                        allCustomRoles={allCustomRoles}
                       />
                     )}
-                    {/* ///////////////////////////////////////////////////// */}
                   </>
                 )
               })}
@@ -176,9 +177,7 @@ const AccessLevel = () => {
                     control={control}
                     name={'role'}
                     errorMessage={errors?.employeeId?.message}
-                    options={series.map((item) => {
-                      return { label: item?.name, value: item?._id }
-                    })}
+                    options={series}
                   />
                 </div>
               </div>
@@ -203,30 +202,4 @@ const series = [
   { label: 'hello', value: 4 },
 ]
 
-// const roles = [
-//   'CEO',
-//   'Director',
-//   'CTO',
-//   'Operational Manager',
-//   'Human Resource Manager',
-//   'Frontend Developer',
-//   'Backend Developer',
-//   'UX | UI Designer',
-//   'SQA Engineer',
-//   'SQA Engineer',
-// ]
-
-const addProfileData = [
-  { name: 'Add Employeeeeeee' },
-  // { name: 'Edit Employee' },
-  // { name: 'View Employee' },
-  // { name: 'Delete Employee' },
-  // { name: 'CV View' },
-  // { name: 'Profile View' },
-]
-
-// const totalAccordian = [
-//   { name: '1', id: 1 },
-//   { name: '1', id: 2 },
-//   { name: '1', id: 3 },
-// ]
+const addProfileData = [{ name: 'Add Employeeeeeee' }]

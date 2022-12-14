@@ -21,6 +21,14 @@ export default class SettingsService {
     return res
   }
 
+  static async updateRole(id, data) {
+    const res = await ApiService.put(
+      `${SettingsService.baseUrl[0]}/customRoles/${id}`,
+      data
+    )
+    return res
+  }
+
   static async resetPasswordAdmin(id, data) {
     const res = await ApiService.put(
       `${SettingsService.baseUrl[1]}/users/reset/${id}`,

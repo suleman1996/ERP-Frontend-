@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useState } from 'react'
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 import Input from 'components/textfield'
@@ -13,7 +13,9 @@ import style from './role.module.scss'
 interface Props {
   setNewUser?: Dispatch<SetStateAction<boolean>>
   setEditIndex?: Dispatch<SetStateAction<number>>
+  setRoleId?: Dispatch<SetStateAction<number | undefined>>
   getAllCustomRoles?: () => void | undefined
+  allCustomRoles?: () => void | undefined
   roleId?: string | number
 }
 
@@ -22,24 +24,41 @@ const AddRole = ({
   setEditIndex,
   getAllCustomRoles,
   roleId,
+  setRoleId,
+  allCustomRoles,
 }: Props) => {
-  console.log('role id  : ', roleId)
-  const { register, handleSubmit, errors, setError, clearErrors } = useForm()
+  const { register, handleSubmit, errors, setError, clearErrors, reset } =
+    useForm()
 
   const [btnLoader, setBtnLoader] = useState(false)
+
+  useEffect(() => {
+    const result = allCustomRoles?.find((item) => item?._id === roleId)
+    reset({ name: result?.name })
+  }, [roleId])
 
   const onSubmit = async (data: { name: string }) => {
     try {
       setBtnLoader(true)
-      console.log(data)
       const newData = {
         ...data,
         accessLevelId: ['636521f2313a951a49f7d594'],
       }
-      const res = await SettingsService.addCustomRole(newData)
-      if (res?.status === 200) {
-        getAllCustomRoles()
+      if (roleId) {
+        const res = await SettingsService.updateRole(roleId, newData)
+        if (res?.status === 200) {
+          getAllCustomRoles && getAllCustomRoles()
+          setRoleId && setRoleId(-1)
+          setEditIndex && setEditIndex(-1)
+        }
+      } else {
+        const res = await SettingsService.addCustomRole(newData)
+        if (res?.status === 200) {
+          getAllCustomRoles && getAllCustomRoles()
+          setEditIndex && setEditIndex(-1)
+        }
       }
+
       setNewUser && setNewUser(false)
       setBtnLoader(false)
     } catch (err: any) {
@@ -47,7 +66,7 @@ const AddRole = ({
       if (err?.response?.data?.error) {
         setErrors(err?.response?.data?.error, setError)
       } else {
-        createNotification('error', 'Error', err?.response?.msg)
+        createNotification('error', 'Error', err?.response?.data?.msg)
       }
     }
     setBtnLoader(false)
