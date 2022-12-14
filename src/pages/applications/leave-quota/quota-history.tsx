@@ -3,7 +3,7 @@ import { Dispatch, SetStateAction } from 'react'
 import Modal from 'components/modal'
 
 import style from './leave-quota.module.scss'
-import { ColumnsData, RowsData } from './helper'
+import { ColumnsData1, RowsData } from './helper'
 import Table from 'components/table'
 
 interface Props {
@@ -28,7 +28,7 @@ const LeaveQuotaHistory = ({
           tableClass={style.tableHight}
           tableHeaderClass={style.tableHeaderClass}
           headingText={style.headingText}
-          columns={ColumnsData}
+          columns={ColumnsData1}
           rows={RowsData}
           tableHeight={style.tableMaxHight}
           minWidth="900px"
