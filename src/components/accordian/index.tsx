@@ -15,8 +15,8 @@ import Input from 'components/textfield'
 import SettingsService from 'services/settings-service'
 import { createNotification } from 'common/create-notification'
 
-import statusIcon from 'assets/status.svg'
 import arrow from 'assets/arrowup.svg'
+import statusIcon from 'assets/status.svg'
 import style from './accordian.module.scss'
 
 const AccordianSwitch = ({
