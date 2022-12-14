@@ -173,7 +173,7 @@ const AddAttendance = ({
         taxGroupName: newSlabUpdate?.groupName,
         category: {
           label: newSlabUpdate?.category,
-          value: newSlabUpdate.category,
+          value: newSlabUpdate?.category,
         },
         financialYearStart:
           newSlabUpdate?.financialYearStart &&
