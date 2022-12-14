@@ -7,7 +7,8 @@ import Button from 'components/button'
 import search from 'assets/search-icon.svg'
 import sortLower from 'assets/sort-lower.svg'
 import sortUpper from 'assets/sort-uppar.svg'
-import clearFilter from 'assets/clear-filter.svg'
+import clearFilter from 'assets/clear-filter.png'
+
 import style from './filter.module.scss'
 
 interface FiltersComponentProps {
@@ -112,8 +113,11 @@ const FiltersComponent = ({
         </div>
         <div
           className={style.sortingDiv}
-          style={{ borderBottom: 'none' }}
           onClick={clearFilters}
+          style={{
+            backgroundColor: asc === '' ? 'lightgray' : '',
+            borderBottom: 'none',
+          }}
         >
           <p>Clear Filters</p>
           <img src={clearFilter} alt="" />

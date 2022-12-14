@@ -1,4 +1,4 @@
-import filterIcon from 'assets/filterIcon.svg'
+import filterIcon from 'assets/clear-filter.png'
 
 export const ColumnsData = [
   {
