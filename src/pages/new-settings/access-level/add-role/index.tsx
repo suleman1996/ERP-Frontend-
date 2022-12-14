@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
+import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 import Input from 'components/textfield'
@@ -9,7 +9,6 @@ import SettingsService from 'services/settings-service'
 import { createNotification } from 'common/create-notification'
 
 import style from './role.module.scss'
-
 interface Props {
   setNewUser?: Dispatch<SetStateAction<boolean>>
   setEditIndex?: Dispatch<SetStateAction<number>>

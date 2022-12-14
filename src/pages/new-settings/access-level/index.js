@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 import CardContainer from 'components/card-container'
@@ -15,8 +15,24 @@ import threeDots from 'assets/three.svg'
 import longArrowIcon from 'assets/long-arrow.svg'
 import style from './access.module.scss'
 
+function useOutsideAlerter(ref, callback) {
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (ref.current && !ref.current.contains(event.target)) {
+        callback()
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [ref])
+}
+
 const AccessLevel = () => {
   const { errors, control } = useForm()
+  const ref = useRef()
   const [toggle, setToggle] = useState(0)
   const [newUser, setNewUser] = useState(false)
   const [menu, setMenu] = useState(false)
@@ -41,6 +57,8 @@ const AccessLevel = () => {
     const res = await SettingsService.getAllAccessLevels()
     setAllAccessLevels(res?.data?.accessLevels)
   }
+
+  useOutsideAlerter(ref, () => setMenu(false))
 
   return (
     <div>
@@ -73,8 +91,9 @@ const AccessLevel = () => {
                       {role?.name}
                       <div>
                         <img src={threeDots} onClick={() => setMenu(!menu)} />
+
                         {menu && toggle === index && (
-                          <div className={style.menuOptions}>
+                          <div className={style.menuOptions} ref={ref}>
                             <div
                               className={style.optionBorder}
                               onClick={() => {
