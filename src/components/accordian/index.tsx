@@ -15,8 +15,8 @@ import Input from 'components/textfield'
 import SettingsService from 'services/settings-service'
 import { createNotification } from 'common/create-notification'
 
-import statusIcon from 'assets/status.svg'
 import arrow from 'assets/arrowup.svg'
+import statusIcon from 'assets/status.svg'
 import style from './accordian.module.scss'
 
 const AccordianSwitch = ({
@@ -160,6 +160,7 @@ const AccordianSwitch = ({
         setDeletePopUp(false)
         setIsLoading(false)
         setDepId('')
+        createNotification('success', 'Success', res?.data?.msg)
       }
     }
     setIsLoading(false)
@@ -201,12 +202,14 @@ const AccordianSwitch = ({
           getAllPolicies()
           setDocumenModal(false)
           setDepId('')
+          createNotification('success', 'Success', res?.data?.msg)
         }
       } else {
         const res = await SettingsService.addPolicy({ name: data?.policy })
         if (res?.status === 200) {
           getAllPolicies()
           setDocumenModal(false)
+          createNotification('success', 'Success', res?.data?.msg)
         }
       }
       setIsLoading(false)
