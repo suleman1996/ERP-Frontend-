@@ -97,8 +97,8 @@ const AddLeaveType = ({
         const res = await LeaveService.AddLeave(transformData)
         if (res?.status === 200) {
           createNotification('success', 'success', res?.data?.msg)
-          getAllLeaveType()
           setOpenAddTypeModal(false)
+          getAllLeaveType()
         }
       }
       setBtnLoader(false)

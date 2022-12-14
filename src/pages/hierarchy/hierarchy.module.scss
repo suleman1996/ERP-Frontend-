@@ -27,9 +27,10 @@
     .flexInner {
       display: flex;
       align-items: center;
-      gap: 10px;
       img {
         cursor: pointer;
+        margin-left: 10px;
+        height: calc(25px + (40 - 25) * (100vw - 280px) / (2560 - 280));
       }
     }
   }
@@ -71,6 +72,7 @@
       }
       .arrowLong {
         margin: 0px 10px;
+        width: calc(25px + (40 - 25) * (100vw - 280px) / (2560 - 280));
         @media (max-width: $tab) {
           display: none;
         }

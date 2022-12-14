@@ -123,7 +123,9 @@ const Calender = () => {
       year: year,
       date: view === 'Daily' ? date : null,
       month:
-        view === 'Weekly' ? moment(date).add(25, 'days').format('MMMM') : null,
+        view === 'Weekly' || view === 'Monthly'
+          ? moment(date).add(25, 'days').format('MMMM')
+          : null,
     })
     setAllEvent(res?.data?.events)
   }
@@ -149,9 +151,12 @@ const Calender = () => {
         setCustomTooltip(false)
         setDelRecurring(false)
         setDelModal(false)
+      } else {
+        console.log('res')
       }
       setBtnLoader(false)
     } catch (err) {
+      console.log({ err })
       setBtnLoader(false)
     }
   }
