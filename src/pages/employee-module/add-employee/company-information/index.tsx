@@ -6,15 +6,15 @@ import DatePicker from 'components/date-picker'
 import TimePicker from 'components/time-picker'
 import Checkbox from 'components/checkbox'
 import CustomTimePicker from 'components/custom-time-picker'
+import WeekDay from 'components/week-day'
+import Selection from 'components/selection'
 
 import { useCompanyInfo } from './helper'
+import { useEmployeeForms } from '../context'
 
 import arrowRight from 'assets/arrowBtnRight.svg'
 import arrowLeft from 'assets/backBtn.svg'
 import style from './company-information.module.scss'
-import WeekDay from 'components/week-day'
-import { useEmployeeForms } from '../context'
-import Selection from 'components/selection'
 
 const CompanyInformation = () => {
   const {
@@ -50,6 +50,8 @@ const CompanyInformation = () => {
     probationDurationData,
     employmentTypeData,
     selectHoursDuration,
+    endDatePlaceHolder,
+    id,
   } = useCompanyInfo({
     handleBack,
     handleNext,
@@ -152,16 +154,18 @@ const CompanyInformation = () => {
               errorMessage={errors?.startDate?.message}
               readOnly
             />
+
             <DatePicker
               label="End Date"
               name="endDate"
               star={' *'}
               id="100"
               placeholder={
-                watch().joiningDate &&
-                moment(watch().joiningDate)
-                  .add(watch().probationDurationDays?.value / 30, 'M')
-                  .format('MM/DD/YYYY')
+                !id
+                  ? moment(watch().joiningDate)
+                      .add(watch().probationDurationDays?.value / 30, 'M')
+                      .format('MM/DD/YYYY')
+                  : moment(endDatePlaceHolder).format('MM/DD/YYYY')
               }
               control={control}
               errorMessage={errors?.endDate?.message}

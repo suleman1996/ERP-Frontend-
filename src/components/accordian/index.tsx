@@ -21,7 +21,8 @@ import style from './accordian.module.scss'
 
 const AccordianSwitch = ({
   title,
-  bodyData,
+  bodyDataName,
+  index,
   id,
   openAccordian,
   setOpenAccordian,
@@ -158,6 +159,7 @@ const AccordianSwitch = ({
         getAllPolicies()
         setDeletePopUp(false)
         setIsLoading(false)
+        setDepId('')
       }
     }
     setIsLoading(false)
@@ -255,9 +257,7 @@ const AccordianSwitch = ({
 
         {openAccordian === id &&
           (switchBtn ? (
-            bodyData?.map((data: any, index: any) => {
-              return <Comp name={data?.name} checkAll={checkAll} key={index} />
-            })
+            <Comp name={bodyDataName} checkAll={checkAll} key={index} />
           ) : (
             <>
               <div style={{ padding: '15px' }}>
@@ -561,9 +561,9 @@ const AccordianSwitch = ({
         <Modal
           open={documentModal}
           handleClose={() => {
-            setDepId('')
             setDocumenModal(false)
             reset({})
+            setDepId('')
           }}
           title={'Add New Policy'}
         >

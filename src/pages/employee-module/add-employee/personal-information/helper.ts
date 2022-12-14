@@ -79,7 +79,7 @@ export const usePersonalInfo = ({
     if (!employeeDocId) {
       watch().employeeId?.value && getEmployeeID()
     }
-  }, [watch()?.employeeId?.label])
+  }, [watch()?.employeeId?.label, userId])
 
   useEffect(() => {
     if (employeeDocId || id) getSingleEmployeeData()
@@ -152,13 +152,19 @@ export const usePersonalInfo = ({
             .join('')
       )
 
+      const newSeries = series?.find(
+        (item) =>
+          item?.name ===
+          res?.data?.employeePersonalInformation?.employeeId.substring(0, 3)
+      )
+
       reset({
         firstName: res?.data?.employeePersonalInformation?.firstName,
         lastName: res?.data?.employeePersonalInformation?.lastName,
         fullName: res?.data?.employeePersonalInformation?.fullName,
         employeeId: {
-          label: watch().employeeId.label,
-          value: watch()?.employeeId?.value,
+          label: newSeries?.name,
+          value: newSeries?._id,
         },
         phone: res?.data?.employeePersonalInformation?.phone.toString(),
         email: res?.data?.employeePersonalInformation?.email,
@@ -169,7 +175,7 @@ export const usePersonalInfo = ({
           label: gender.find(
             (item) =>
               item?._id === res?.data?.employeePersonalInformation?.gender
-          ).name,
+          )?.name,
         },
       })
     }
@@ -234,6 +240,9 @@ export const usePersonalInfo = ({
         setErrors(err?.response?.data?.error, setError)
       }
       if (err?.response?.status === 400) {
+        createNotification('error', 'Error', err?.response?.data?.message)
+      }
+      if (err?.response?.status === 500) {
         createNotification('error', 'Error', err?.response?.data?.message)
       }
       setBtnLoader(false)

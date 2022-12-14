@@ -1,4 +1,4 @@
-import { Dispatch, Fragment, SetStateAction } from 'react'
+import { Dispatch, SetStateAction, Fragment, useEffect, useState } from 'react'
 
 import NoData from 'components/no-data-found-card'
 import FiltersComponent from 'components/filters'
@@ -98,6 +98,12 @@ const Table = ({
   newUser,
   setBtnHideShow,
 }: Props) => {
+  const [first, setFirst] = useState<any>(null)
+
+  useEffect(() => {
+    if (!first || first?.length === 0) setFirst(allUsers)
+  }, [first, allUsers])
+
   const handlePencilIcon = ({ id, index }: { id: string; index: number }) => {
     handleEdit && handleEdit(id, index)
     handleEducation && handleEducation(index)
@@ -115,14 +121,7 @@ const Table = ({
   return (
     <>
       {rows?.length >= 1 ? (
-        <div
-          className={`${style.tableWrapper} ${tableHeight}`}
-          style={{
-            textTransform: 'capitalize',
-            overflowX: 'auto',
-            overflowY: 'auto',
-          }}
-        >
+        <div className={`${style.tableWrapper} ${tableHeight}`}>
           <div
             className={`${style.table} ${tableClass}`}
             style={{ minWidth: minWidth || '1200px' }}
@@ -162,14 +161,43 @@ const Table = ({
                       />
                     )}
                   </p>
+
                   {isFilter === index && (
                     <div
-                      style={{ position: 'absolute', top: '50px', zIndex: 200 }}
+                      style={{
+                        backgroundColor: 'transparent',
+                        inset: 0,
+                        position: 'fixed',
+                        zIndex: 1000,
+                      }}
+                      onClick={() => setIsFilter(-1)}
+                    ></div>
+                  )}
+                  {isFilter === index && (
+                    <div
+                      style={{
+                        position: 'absolute',
+                        top: '50px',
+                        zIndex: 2000,
+                      }}
                     >
                       <FiltersComponent
                         isFilter={isFilter}
                         setIsFilter={setIsFilter}
                         names={
+                          first?.map(({ name, role, employeeId, email }: any) =>
+                            isFilter === 1
+                              ? name
+                              : isFilter === 2
+                              ? email
+                              : isFilter === 3
+                              ? role[0].name
+                              : employeeId
+                              ? employeeId
+                              : ''
+                          ) || []
+                        }
+                        selected={
                           allUsers?.map(({ name, role, employeeId, email }) =>
                             isFilter === 1
                               ? name
@@ -237,7 +265,7 @@ const Table = ({
                                 style={{ overflowWrap: 'anywhere' }}
                                 className={`${rowText}`}
                               >
-                                {row[column.key]}
+                                {row[column.key] || '-'}
                               </span>
                               {column.key === 'actions' &&
                                 !column?.eyeIcon &&
