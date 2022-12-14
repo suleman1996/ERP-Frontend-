@@ -9,7 +9,7 @@ import eye from 'assets/table-view.svg'
 import reloadIcon from 'assets/reset.png'
 import deleteIcon from 'assets/table-delete.svg'
 import pdf from 'assets/employee-page/print.svg'
-import clearFilter from 'assets/clear-filter.svg'
+import clearFilter from 'assets/clear-filter.png'
 
 import style from './table.module.scss'
 
