@@ -99,7 +99,7 @@ const AddRole = ({
             }}
           />
           <Button
-            text="Add Role"
+            text={roleId ? 'Save' : 'Add Role'}
             type="submit"
             btnClass={style.btnClass}
             isLoading={btnLoader}
