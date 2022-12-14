@@ -11,8 +11,8 @@ import Selection from 'components/selection'
 import SettingsService from 'services/settings-service'
 
 import addIcon from 'assets/add.svg'
-import longArrowIcon from 'assets/long-arrow.svg'
 import threeDots from 'assets/three.svg'
+import longArrowIcon from 'assets/long-arrow.svg'
 import style from './access.module.scss'
 
 const AccessLevel = () => {
