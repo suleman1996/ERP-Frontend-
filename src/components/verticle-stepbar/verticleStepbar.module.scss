@@ -1,36 +1,49 @@
 @use 'styles/_colors.scss' as c;
 @import 'styles/_breakpoints.scss';
+@import 'styles/_mixin.scss';
 
 .wrapper {
 }
 .timelineWrapper {
   margin-left: 1.5rem;
   border-left: 0.981761px solid #e2e2ea;
+  padding-bottom: 100px;
+  @media (max-width: 1700px) {
+    padding-bottom: 90px;
+  }
+  @media (max-width: 1000px) {
+    padding-bottom: 80px;
+  }
+}
+.timelineWrapper:nth-last-child(1) {
+  border-left: 0 !important;
+  padding-bottom: 10px;
+  height: 20px;
 }
 .node {
   padding-left: 0.5rem;
-  padding-bottom: 50px;
   position: relative;
 }
 .node span {
+  margin-left: 9px;
   top: -7px;
   position: relative;
   font-family: 'Poppins';
   font-style: normal;
-  font-weight: 500;
-  font-size: 12px;
+  @include font18;
   line-height: 18px;
   color: #2d2d32;
 }
 
 .node p {
   font-family: 'Poppins';
+  position: relative;
+  top: -7px;
+  margin-left: 10px;
   font-style: normal;
-  font-weight: 500;
-  font-size: 11px;
+  @include font16;
   line-height: 16px;
   color: #696974;
-  margin: 0;
   display: flex;
   align-items: center;
   img {
