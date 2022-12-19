@@ -81,9 +81,8 @@ const TaxSlab = ({
   }
 
   const handleClick = (item) => {
-    setOpen(true)
-    handleEdit(item?._id)
     setSingleId(item?._id)
+    handleEdit(item?._id)
     setViewModal(true)
   }
 
@@ -119,7 +118,7 @@ const TaxSlab = ({
                         <img
                           src={view}
                           width={30}
-                          onClick={(item) => handleClick(item)}
+                          onClick={() => handleClick(item)}
                         />
                       </div>
 

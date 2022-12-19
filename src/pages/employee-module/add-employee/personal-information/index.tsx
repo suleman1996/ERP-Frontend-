@@ -22,6 +22,7 @@ const PersonalInformation = () => {
     setEmployeeId,
     setEmployeeDocId,
   } = useEmployeeForms()
+
   const {
     onSubmit,
     register,

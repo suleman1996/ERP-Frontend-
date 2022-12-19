@@ -5,6 +5,9 @@
 .container {
   padding: 0px;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   .headContainer {
     display: flex;
     align-items: center;
@@ -63,6 +66,9 @@
       .heading {
         @include font24;
         margin-bottom: 5px;
+        @media (max-width: $tab) {
+          margin-top: 5px;
+        }
       }
       .arrowLong {
         margin: 0px 10px;
@@ -74,8 +80,10 @@
     }
   }
   .btnDiv {
-    position: fixed;
-    bottom: 30px;
-    right: 40px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: calc(12px + (25 - 12) * (100vw - 280px) / (2560 - 280));
+    padding-bottom: calc(12px + (25 - 12) * (100vw - 280px) / (2560 - 280));
   }
 }

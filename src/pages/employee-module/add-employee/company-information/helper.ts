@@ -136,7 +136,7 @@ export const useCompanyInfo = ({
         'M'
       )
     )
-  }, [watch()])
+  }, [watch()?.joiningDate])
 
   const getSingleEmployeeData = async () => {
     const res = await EmployeeService.getCompanyEmployee(id || employeeDocId)
