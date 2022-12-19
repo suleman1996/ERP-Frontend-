@@ -423,6 +423,12 @@ const Calender = () => {
                       ),
                       duration: e?.duration,
                     }),
+                    start:
+                      e?.recurrence == 'No Recurrence' &&
+                      e?.start?.replace('Z', ''),
+                    end:
+                      e?.recurrence == 'No Recurrence' &&
+                      e?.end?.replace('Z', ''),
                   }
                 })}
                 handleWindowResize={true}

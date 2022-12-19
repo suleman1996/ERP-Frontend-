@@ -11,7 +11,6 @@ import { createNotification } from 'common/create-notification'
 
 const LeaveBalance = () => {
   const [editIndex, setEditIndex] = useState(-1)
-
   const [btnLoader, setBtnLoader] = useState(false)
   const [openViewTypeModal, setOpenViewTypeModal] = useState(false)
   const [openDelModal, setOpenDelModal] = useState(false)
@@ -48,7 +47,7 @@ const LeaveBalance = () => {
       <Table
         columns={columns}
         rows={aLLLeave
-          ?.sort((a, b) =>
+          ?.sort((a: any, b: any) =>
             (a['name'] || '')
               .toString()
               .localeCompare((b['name'] || '').toString())
